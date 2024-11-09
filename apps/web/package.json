@@ -1,27 +1,30 @@
 {
-  "name": "web",
+  "name": "@this/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
     "build": "next build",
+    "check": "biome check --write src",
+    "dev": "next dev --turbo",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
     "start": "next start",
-    "lint": "next lint"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@repo/ui": "*",
-    "next": "14.2.6",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "@this/ui": "workspace:*",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.6",
-    "typescript": "5.5.4"
+    "@this/tailwind": "workspace:*",
+    "@this/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
   }
 }

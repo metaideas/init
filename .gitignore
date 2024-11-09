@@ -3,30 +3,31 @@
 # Dependencies
 node_modules
 .pnp
-.pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # Local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
 
 # Testing
 coverage
 
 # Turbo
 .turbo
+.cache
 
 # Vercel
 .vercel
 
 # Build Outputs
-.next/
-out/
+.next
+out
 build
 dist
-
 
 # Debug
 npm-debug.log*
@@ -36,3 +37,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+
+    "lib": ["ES2022"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "checkJs": true,
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
+    "disableSourceOfProjectReferenceRedirect": true
+  },
+  "exclude": ["node_modules"]
+}
