@@ -1,43 +1,4 @@
 {
-  "name": "@this/ui",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "exports": {
-    "./blocks/*": {
-      "types": "./src/blocks/*.tsx",
-      "default": "./dist/blocks/*.js"
-    },
-    "./components/*": {
-      "types": "./src/components/*.tsx",
-      "default": "./dist/components/*.js"
-    },
-    "./hooks/*": {
-      "types": "./src/hooks/*.ts",
-      "default": "./dist/hooks/*.js"
-    },
-    "./utils": {
-      "types": "./src/utils.ts",
-      "default": "./dist/utils.js"
-    }
-  },
-  "license": "MIT",
-  "scripts": {
-    "build": "tsup src --format esm,cjs",
-    "check": "biome check --write src",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "tsup src --format esm --watch",
-    "format": "biome format --write src",
-    "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
-  },
-  "devDependencies": {
-    "@this/tailwind": "workspace:*",
-    "@this/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "shadcn": "^2.1.6",
-    "typescript": "catalog:"
-  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "^1.2.1",
@@ -83,8 +44,36 @@
     "tailwind-merge": "^2.5.4",
     "vaul": "^1.1.1"
   },
+  "devDependencies": {
+    "@this/tailwind": "workspace:*",
+    "@this/tsconfig": "workspace:*",
+    "@types/react": "catalog:react18",
+    "shadcn": "^2.1.6",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./blocks/*": "./src/blocks/*.tsx",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./utils": "./src/utils.ts"
+  },
+  "imports": {
+    "#*": "./src/*"
+  },
+  "license": "MIT",
+  "name": "@this/ui",
   "peerDependencies": {
-    "react": "catalog:",
+    "react": "catalog:react18",
     "zod": "catalog:"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "type": "module",
+  "version": "0.1.0"
 }
