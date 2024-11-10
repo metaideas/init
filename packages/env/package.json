@@ -1,0 +1,30 @@
+{
+  "name": "@this/env",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "^0.11.1",
+    "@t3-oss/env-nextjs": "^0.11.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@this/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

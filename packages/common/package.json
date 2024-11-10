@@ -1,0 +1,35 @@
+{
+  "name": "@this/common",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./constants": "./src/constants.ts",
+    "./helpers/*": "./src/helpers/*.ts",
+    "./types": "./src/types.ts",
+    "./utils/*": "./src/utils/*.ts",
+    "./variables": "./src/variables.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "nanoid": "5.0.8"
+  },
+  "devDependencies": {
+    "@this/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@vercel/functions": "catalog:",
+    "next": "catalog:"
+  }
+}

@@ -5,12 +5,20 @@ packages:
 
 catalog:
   '@types/node': 22.9.0
-  '@types/react': ^18.3.12
-  '@types/react-dom': ^18.3.1
+  '@vercel/functions': 1.5.0
   next: 15.0.3
   postcss: ^8.4.47
   react: 19.0.0-rc-66855b96-20241106
   react-dom: 19.0.0-rc-66855b96-20241106
   tailwindcss: ^3.4.14
+  '@types/react': npm:types-react@19.0.0-rc.1
+  '@types/react-dom': npm:types-react@19.0.0-rc.1
   typescript: 5.6.3
   zod: 3.23.8
+
+catalogs:
+  react18:
+    '@types/react': 18.3.12
+    '@types/react-dom': 18.3.12
+    react: 18.3.12
+    react-dom: 18.3.12

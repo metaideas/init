@@ -11,7 +11,8 @@
       "dependsOn": ["^check"]
     },
     "clean": {
-      "dependsOn": ["^clean"]
+      "dependsOn": ["^clean"],
+      "cache": false
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -26,5 +27,6 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalEnv": ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]
 }

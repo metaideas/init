@@ -1,5 +1,5 @@
 {
-  "name": "@this/web",
+  "name": "web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,8 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@this/env": "workspace:*",
+    "@this/supabase": "workspace:^",
     "@this/ui": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",

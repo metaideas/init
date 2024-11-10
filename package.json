@@ -3,27 +3,31 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
-    "dev:web": "turbo dev --filter=web",
-    "lint": "turbo lint",
     "check": "turbo check",
-    "format": "turbo format",
-    "typecheck": "turbo typecheck",
     "clean": "turbo clean",
     "deps:check": "taze -rl",
-    "deps:update": "taze -rlw"
+    "deps:update": "taze -rlw",
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=web",
+    "format": "turbo format",
+    "gen": "turbo gen",
+    "lint": "turbo lint",
+    "lint:repo": "sherif --fix",
+    "sort-package-json": "sort-package-json '**/package.json' '!**/node_modules/**'",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@turbo/gen": "^2.2.3",
     "sherif": "^1.0.1",
+    "sort-package-json": "^2.10.1",
     "taze": "^0.18.0",
-    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
     "turbo": "^2.2.3",
     "typescript": "catalog:"
   },
+  "packageManager": "pnpm@9.12.3",
   "engines": {
     "node": ">=20"
-  },
-  "packageManager": "pnpm@9.12.3"
+  }
 }

@@ -10,5 +10,10 @@
   },
   "features": {
     "inline_completion_provider": "supermaven"
+  },
+  "lsp": {
+    "typos": {
+      "config": ".typos.toml"
+    }
   }
 }

@@ -1,7 +1,8 @@
 {
   "name": "@this/tailwind",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
     "./base": "./base.ts",
@@ -9,7 +10,6 @@
     "./postcss": "./postcss.config.mjs",
     "./globals.css": "./globals.css"
   },
-  "license": "MIT",
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",

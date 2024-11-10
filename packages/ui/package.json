@@ -1,4 +1,25 @@
 {
+  "name": "@this/ui",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./blocks/*": "./src/blocks/*.tsx",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./utils": "./src/utils.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "^1.2.1",
@@ -30,7 +51,7 @@
     "@radix-ui/react-tooltip": "^1.1.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "cmdk": "1.0.0",
+    "cmdk": "1.0.4",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.3.1",
     "input-otp": "^1.4.1",
@@ -47,33 +68,14 @@
   "devDependencies": {
     "@this/tailwind": "workspace:*",
     "@this/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
+    "@types/react": "catalog:",
+    "react": "catalog:",
     "shadcn": "^2.1.6",
-    "typescript": "catalog:"
-  },
-  "exports": {
-    "./blocks/*": "./src/blocks/*.tsx",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts",
-    "./utils": "./src/utils.ts"
-  },
-  "imports": {
-    "#*": "./src/*"
-  },
-  "license": "MIT",
-  "name": "@this/ui",
-  "peerDependencies": {
-    "react": "catalog:react18",
+    "typescript": "catalog:",
     "zod": "catalog:"
   },
-  "private": true,
-  "scripts": {
-    "check": "biome check --write src",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "format": "biome format --write src",
-    "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
-  },
-  "type": "module",
-  "version": "0.1.0"
+  "peerDependencies": {
+    "react": "catalog:",
+    "zod": "catalog:"
+  }
 }

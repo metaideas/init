@@ -12,6 +12,7 @@ node_modules
 
 # Local env files
 .env*
+!.env.example
 
 # Testing
 coverage
@@ -41,3 +42,8 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Supabase
+.branches
+.temp
+.snaplet

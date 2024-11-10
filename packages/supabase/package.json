@@ -1,0 +1,65 @@
+{
+  "name": "@this/supabase",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./db": "./src/db/index.ts",
+    "./db/helpers": "./src/db/helpers.ts",
+    "./middleware": "./src/client/middleware.ts",
+    "./mobile": "./src/client/mobile.ts",
+    "./server": "./src/client/server.ts",
+    "./types": "./src/types/index.ts",
+    "./web": "./src/client/web.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "db:check": "drizzle-kit check",
+    "db:drop": "drizzle-kit drop",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:pull": "drizzle-kit pull",
+    "db:push": "drizzle-kit push",
+    "db:seed:generate": "tsx seed.ts",
+    "db:seed:sync": "snaplet-seed sync",
+    "db:studio": "drizzle-kit studio",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "seed:generate": "tsx seed.ts",
+    "supabase:link": "supabase link",
+    "supabase:migration:list": "supabase migration list",
+    "supabase:push": "supabase db push",
+    "supabase:reset": "supabase db reset",
+    "supabase:seed": "supabase seed",
+    "supabase:start": "supabase start",
+    "supabase:status": "supabase status",
+    "supabase:stop": "supabase stop",
+    "supabase:typegen": "supabase gen types --local --lang typescript > src/types/database.ts",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.1",
+    "@supabase/supabase-js": "^2.46.1",
+    "@this/common": "workspace:*",
+    "@this/env": "workspace:*",
+    "@vercel/postgres": "^0.10.0",
+    "drizzle-orm": "^0.36.1",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@snaplet/copycat": "^5.1.0",
+    "@snaplet/seed": "^0.98.0",
+    "@this/tsconfig": "workspace:*",
+    "drizzle-kit": "^0.28.0",
+    "supabase": "^1.219.2",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "catalog:"
+  }
+}
