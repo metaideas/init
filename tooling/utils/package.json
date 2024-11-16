@@ -1,0 +1,13 @@
+{
+  "name": "@tooling/utils",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:"
+  }
+}

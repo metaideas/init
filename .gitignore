@@ -10,9 +10,10 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 
-# Local env files
-.env*
+# Environment variables
 !.env.example
+.env
+.dev.vars
 
 # Testing
 coverage
@@ -47,3 +48,13 @@ next-env.d.ts
 .branches
 .temp
 .snaplet
+
+
+# Wrangler
+.wrangler
+
+# Logs
+logs/
+*.log
+pnpm-debug.log*
+lerna-debug.log*

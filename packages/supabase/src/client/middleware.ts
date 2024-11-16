@@ -1,5 +1,5 @@
 import { createServerClient } from "@supabase/ssr"
-import env from "@this/env/supabase.server"
+import env from "@this/env/supabase/server"
 import type { NextRequest, NextResponse } from "next/server"
 
 import type { Database } from "#types/database.ts"

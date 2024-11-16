@@ -12,16 +12,22 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@this/db": "workspace:^",
+    "@this/email": "workspace:^",
     "@this/env": "workspace:*",
+    "@this/observability": "workspace:^",
     "@this/supabase": "workspace:^",
     "@this/ui": "workspace:*",
+    "@vercel/functions": "catalog:",
     "next": "catalog:",
+    "next-axiom": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "server-only": "catalog:"
   },
   "devDependencies": {
-    "@this/tailwind": "workspace:*",
-    "@this/tsconfig": "workspace:*",
+    "@tooling/tailwind": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

@@ -8,7 +8,12 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./*": "./src/*.ts"
+    "./axiom": "./src/services/axiom.ts",
+    "./db": "./src/db.ts",
+    "./posthog/*": "./src/services/posthog/*.ts",
+    "./resend": "./src/services/resend.ts",
+    "./supabase/*": "./src/services/supabase/*.ts",
+    "./shared": "./src/shared.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -23,8 +28,11 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@this/tsconfig": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "hono": "catalog:"
   }
 }

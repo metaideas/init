@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import { withLogger } from "@this/observability/logger/nextjs/server"
+import type { NextConfig } from "next"
 
-const nextConfig: NextConfig = {
+let nextConfig: NextConfig = {
   /* config options here */
-};
+}
 
-export default nextConfig;
+nextConfig = withLogger(nextConfig)
+
+export default nextConfig

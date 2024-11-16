@@ -1,8 +1,8 @@
 {
-  "extends": "@this/tsconfig/internal-package.json",
+  "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": ["*.ts", "src"],
+  "include": ["*.ts", "src", "scripts"],
   "exclude": ["node_modules"]
 }

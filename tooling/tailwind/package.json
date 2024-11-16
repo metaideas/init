@@ -1,5 +1,5 @@
 {
-  "name": "@this/tailwind",
+  "name": "@tooling/tailwind",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -18,12 +18,12 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "postcss": "^8.4.47",
+    "postcss": "^8.4.49",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@this/tsconfig": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"
   }
 }
