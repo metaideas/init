@@ -10,6 +10,9 @@ export default createEnv({
     NODE_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
+    ENVIRONMENT: z
+      .enum(["development", "production", "test"])
+      .default("development"),
     IS_DEVELOPMENT: z.boolean().default(true),
     IS_PRODUCTION: z.boolean().default(false),
     IS_TEST: z.boolean().default(false),

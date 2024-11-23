@@ -10,7 +10,7 @@
   "exports": {
     "./client": "./src/client.ts",
     "./helpers": "./src/helpers.ts",
-    "./types": "./src/types.ts"
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -21,29 +21,27 @@
     "db:migrate": "drizzle-kit migrate",
     "db:pull": "drizzle-kit pull",
     "db:push": "drizzle-kit push",
-    "db:reset": "supabase db reset",
+    "db:reset": "tsx ./scripts/reset.ts",
     "db:seed": "tsx ./scripts/seed.ts",
-    "db:seed:generate": "tsx ./scripts/seed.ts --dry-run > ./scripts/seed.sql",
-    "db:seed:sync": "snaplet-seed sync",
     "db:studio": "drizzle-kit studio",
+    "dev": "turso dev --db-file=local.db",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:^",
-    "@vercel/postgres": "^0.10.0",
-    "drizzle-orm": "^0.36.3"
+    "drizzle-orm": "^0.36.4"
   },
   "devDependencies": {
-    "@snaplet/copycat": "^5.1.0",
-    "@snaplet/seed": "^0.98.0",
     "@tooling/tsconfig": "workspace:*",
     "@tooling/utils": "workspace:^",
+    "@types/ws": "^8.5.13",
     "drizzle-kit": "^0.28.1",
-    "postgres": "^3.4.5",
+    "drizzle-seed": "^0.1.1",
     "typescript": "catalog:"
   }
 }

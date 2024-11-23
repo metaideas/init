@@ -113,22 +113,13 @@
   },
   "overrides": [
     {
-      "include": ["packages/supabase/src/**"],
-      "linter": {
-        "rules": {
-          "performance": {
-            "noBarrelFile": "off",
-            "noReExportAll": "off"
-          }
-        }
-      }
-    },
-    {
-      "include": ["packages/supabase/functions/**"],
+      "include": ["packages/auth/src/**"],
       "linter": {
         "rules": {
           "correctness": {
-            "noUndeclaredVariables": "off"
+            // We allow Node.js modules in this package since this should only
+            // be used in a server environment
+            "noNodejsModules": "off"
           }
         }
       }
@@ -142,9 +133,13 @@
       }
     },
     {
-      "include": ["tooling/utils/**"],
+      "include": ["tooling/**"],
       "linter": {
         "rules": {
+          "correctness": {
+            // Allow node modules in tooling
+            "noNodejsModules": "off"
+          },
           "suspicious": {
             // Allow console to be used in tooling (but not console.log)
             "noConsole": "off"

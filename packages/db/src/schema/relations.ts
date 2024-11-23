@@ -1,12 +1,25 @@
 import { relations } from "drizzle-orm"
 
-import { users } from "#schema/auth.ts"
+import { passwords, profiles, users } from "#schema/auth.ts"
 import {
   accounts,
   activityLogs,
   organizationInvitations,
   organizations,
-} from "#schema/core.ts"
+} from "#schema/organizations.ts"
+
+export const userRelations = relations(users, ({ one, many }) => ({
+  password: one(passwords, {
+    fields: [users.id],
+    references: [passwords.userId],
+  }),
+
+  profile: one(profiles, {
+    fields: [users.id],
+    references: [profiles.userId],
+  }),
+  accounts: many(accounts),
+}))
 
 export const accountRelations = relations(accounts, ({ one, many }) => ({
   user: one(users, {

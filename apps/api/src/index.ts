@@ -1,35 +1,32 @@
 import type { db } from "@this/db/client"
-import type { SupabaseClient } from "@this/supabase/types"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
-
-import { withDb, withSupabase } from "~/middleware"
+import { withDb } from "./middleware"
 
 const app = new Hono<{
   Bindings: CloudflareBindings
-  Variables: { supabase: SupabaseClient; db: typeof db }
+  Variables: { db: typeof db }
 }>()
 
-app.use(async (c, next) => {
-  process.env = c.env
-  await next()
-})
-
+// We use Hono's context storage to allow our packages access to Cloudflare's
+// environment variables. Make sure to run this before any middleware that
+// needs access to the environment variables.
 app.use(contextStorage())
 
-app.use(withDb)
-app.use(withSupabase)
-
-app
-  .get("/", async c => {
-    const { data } = await c.var.supabase.from("organizations").select("*")
-    const orgs = await c.var.db.query.organizations.findMany()
-
-    return c.json({
-      supabase: data?.map(data => data.public_id),
-      db: orgs.map(org => org.publicId),
-    })
-  })
+const test = new Hono()
   .get("/ping", c => c.text("pong"))
+  .get("/users", withDb, async c => {
+    const users = await c.var.db.query.users.findMany({
+      columns: {
+        email: true,
+        createdAt: true,
+        publicId: true,
+      },
+    })
+
+    return c.json(users)
+  })
+
+export const router = app.route("/", test)
 
 export default app

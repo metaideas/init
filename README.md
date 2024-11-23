@@ -1,81 +1,142 @@
-# Turborepo starter
+# init
 
-This is an official starter Turborepo.
-
-## Using this example
-
-Run the following command:
+## Project structure
 
 ```sh
-npx create-turbo@latest
+root
+  ├── apps                # Applications
+  │   ├── web               # Web application, built with Next.js
+  │   ├── mobile            # Mobile application, built with Expo
+  │   ├── desktop           # Desktop application, built with Tauri
+  │   ├── api               # API (+ RPC client), built with Hono and deployed to Cloudflare Workers
+  │   ├── docs              # Documentation, built with Nextra
+  │   └── extensions        # Extensions, built with Plasmo
+  │
+  ├── packages            # Internal packages to be used in apps
+  │   ├── analytics         # Web and product analytics
+  │   ├── auth              # Authentication helpers
+  │   ├── common            # Shared utilities, helper, assets and types
+  │   ├── db                # Database client using Drizzle ORM
+  │   ├── email             # Email templates and service
+  │   ├── env               # Environment variables
+  │   ├── queue             # Serverless job queue and workflows
+  │   ├── kv                # Redis client and vector database
+  │   ├── observability     # Logging, error tracking and monitoring
+  │   ├── security          # Security helpers
+  │   ├── ui                # UI components and blocks
+  │   └── validation        # Shared validation schemas
+  │
+  ├── tooling             # Shared tooling for packages and apps
+  │   ├── tailwind          # Tailwind config
+  │   ├── tsconfig          # Typescript config
+  │   └── utils             # Utility functions
+  │
+  └── turbo               # Turbo config
+      └── generators        # Package and tooling generators
 ```
 
-## What's inside?
+## App structure
 
-This Turborepo includes the following packages/apps:
+### Web
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```sh
+apps/web
+  ├── src/                    # Source code
+  │   ├── app                   # App router
+  │   ├── assets                # Static assets shared across the app
+  │   ├── components            # Shared components used across the entire app
+  │   ├── lib                   # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── safe-action.ts      # Safe action client and middleware
+  │   │   ├── hooks.ts            # Shared hooks
+  │   │   ├── stores.ts           # Global state stores
+  │   │   ├── types.ts            # Shared types
+  │   │   └── utils.ts            # Shared utilities for the app
+  │   │
+  │   ├── server                  # Server-side code
+  │   │   ├── data.ts               # Data-layer for the application
+  │   │   ├── loaders.ts            # Shared data loaders
+  │   │   └── actions.ts          # Shared server actions
+  │   │
+  │   ├── styles                  # Global styles
+  │   ├── config                  # Application configuration
+  │   │   ├── i18n.ts             # Internationalization
+  │   │   └── consts.ts           # Constant values
+  │   │
+  │   ├── middleware              # Middleware
+  │   ├── instrumentation         # Instrumentation
+  │   └── features                # Feature based modules
+  │       └──[feature name]        # Specific feature
+  │           ├── actions.ts        # Specific feature actions
+  │           ├── assets            # Specific feature assets
+  │           ├── components        # Specific feature components
+  │           ├── hooks.ts          # Specific feature hooks
+  │           ├── loaders.ts        # Specific feature loaders
+  │           ├── stores.ts         # Specific feature global state stores
+  │           ├── types.ts          # Specific feature types
+  │           └── utils.ts          # Specific feature utilities
+  │
+  ├── translations              # Translations files
+  └── globals.d.ts              # Global types
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Mobile
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
+```sh
+apps/mobile
+  ├── src/                  # Source code
+  │   ├── app                 # App router
+  │   ├── assets              # Static assets shared across the app
+  │   ├── components          # Shared components used across the entire app
+  │   ├── lib                 # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── hooks.ts          # Shared hooks
+  │   │   ├── stores.ts         # Global state stores
+  │   │   ├── types.ts          # Shared types
+  │   │   └── utils.ts          # Shared utilities for the app
+  │   │
+  │   ├── api                 # Global API client
+  │   ├── styles              # Global styles
+  │   ├── config              # Application configuration
+  │   │   ├── i18n.ts           # Internationalization
+  │   │   └── consts.ts         # Constant values
+  │   │
+  │   ├── middleware            # Middleware
+  │   └── features              # Feature based modules
+  │       └──[feature name]      # Specific feature
+  │           ├── api.ts            # Specific feature API client
+  │           ├── assets            # Specific feature assets
+  │           ├── components        # Specific feature components
+  │           ├── hooks.ts          # Specific feature hooks
+  │           ├── stores.ts         # Specific feature global state stores
+  │           ├── types.ts          # Specific feature types
+  │           └── utils.ts          # Specific feature utilities
+  │
+  └── translations          # Translations files
 ```
-npx turbo link
+
+### API
+
+```sh
+apps/api
+  └── src/                 # Source code
+      ├── routes             # API routes
+      ├── middleware         # API middleware
+      └── features           # API features
 ```
 
-## Useful Links
+### Desktop
 
-Learn more about the power of Turborepo:
+```sh
+apps/desktop
+```
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+### Docs
+
+```sh
+apps/docs
+```
+
+### Extensions
+
+```sh
+apps/extensions
+```

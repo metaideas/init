@@ -21,9 +21,9 @@
   "dependencies": {
     "@this/env": "workspace:*",
     "next-plausible": "^3.12.4",
-    "react": "catalog:",
     "posthog-js": "^1.187.2",
-    "posthog-node": "^4.2.2"
+    "posthog-node": "^4.2.2",
+    "react": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -19,6 +19,12 @@ export class DatabaseError extends CustomError {
   }
 }
 
+export class InternalError extends CustomError {
+  constructor(message: string, cause?: unknown) {
+    super("InternalError", message, cause)
+  }
+}
+
 export class NotFoundError extends CustomError {
   constructor(message: string, cause?: unknown) {
     super("NotFoundError", message, cause)

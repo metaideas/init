@@ -1,17 +1,10 @@
+import type { db } from "@this/db/client"
 import { createMiddleware } from "hono/factory"
 
-export const withSupabase = createMiddleware(async (c, next) => {
-  const { createClient } = await import("@this/supabase/web")
-  const supabase = await createClient()
-
-  c.set("supabase", supabase)
-
-  await next()
-})
-
-export const withDb = createMiddleware(async (c, next) => {
-  const { createDatabase } = await import("@this/db/client")
-  const db = await createDatabase()
+export const withDb = createMiddleware<{
+  Variables: { db: typeof db }
+}>(async (c, next) => {
+  const { db } = await import("@this/db/client")
 
   c.set("db", db)
 

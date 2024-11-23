@@ -6,7 +6,7 @@ import { getRuntimeEnv } from "#utils.ts"
 const runtimeEnv = await getRuntimeEnv()
 
 /**
- * Supabase environment variables to be used in a web context.
+ * Posthog environment variables to be used in a Next.js project.
  */
 export default createEnv({
   client: {

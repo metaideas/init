@@ -1,17 +1,13 @@
 import { defineConfig } from "drizzle-kit"
 
 export default defineConfig({
-  schema: "./src/db/schema/index.ts",
+  schema: "./src/schema/index.ts",
   out: "./migrations",
-  dialect: "postgresql",
-  entities: {
-    roles: {
-      provider: "supabase",
-    },
+  dialect: "turso",
+  dbCredentials: {
+    url: process.env.DATABASE_URL as string,
+    authToken: process.env.DATABASE_AUTH_TOKEN as string,
   },
-  schemaFilter: ["public"],
-
-  dbCredentials: { url: process.env.POSTGRES_URL as string },
   casing: "snake_case",
   breakpoints: true,
   strict: true,

@@ -1,43 +1,27 @@
-/**
- * ! Executing this script will delete all data in your database and seed it with 10 users.
- * ! Make sure to adjust the script to your needs.
- * Use any TypeScript runner to run this script, for example: `npx tsx seed.ts`
- * Learn more about the Seed Client by following our guide: https://docs.snaplet.dev/seed/getting-started
- */
-
-import { copycat } from "@snaplet/copycat"
-import { createSeedClient } from "@snaplet/seed"
-import { logger } from "@this/observability/logger"
-import { runScript } from "@tooling/utils"
+import env from "@this/env/db"
+import { drizzle } from "drizzle-orm/libsql"
+import { seed } from "drizzle-seed"
+import * as schema from "#schema/index.ts"
 
 async function main() {
-  const args = process.argv.slice(2)
-  const dryRun = args.includes("--dry-run")
+  const db = drizzle(env.DATABASE_URL)
 
-  logger.info("Starting seed...")
+  await seed(db, schema).refine(f => ({
+    users: {
+      columns: {
+        email: f.email(),
+      },
 
-  logger.info("Creating seed client...")
-  const seed = await createSeedClient({ dryRun })
+      count: 20,
+    },
+    organizations: {
+      columns: {
+        name: f.companyName(),
+      },
 
-  if (!dryRun) {
-    logger.info("Truncating all tables in the database...")
-    // Truncate all tables in the database
-    await seed.$resetDatabase()
-  }
-
-  logger.info("Seeding users...")
-  // Seed the database with 10 users
-  await seed.users(x =>
-    x(10, {
-      email: ctx => copycat.email(ctx.seed),
-    })
-  )
-
-  logger.info("Seeding organizations...")
-  await seed.organizations(x => x(1))
-
-  // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
-  logger.info("Seed completed")
+      count: 20,
+    },
+  }))
 }
 
-runScript(main)
+main()
