@@ -1,7 +1,8 @@
 import { createEnv } from "@t3-oss/env-core"
+import { getRuntimeEnv } from "@this/common/utils/runtime"
 import { z } from "zod"
 
-import { getRuntimeEnv } from "#utils.ts"
+import shared from "#shared.ts"
 
 const runtimeEnv = await getRuntimeEnv()
 
@@ -10,6 +11,7 @@ export default createEnv({
     AXIOM_DATASET: z.string(),
     AXIOM_TOKEN: z.string(),
   },
+  extends: [shared],
   runtimeEnv,
 
   skipValidation:

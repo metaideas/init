@@ -1,8 +1,8 @@
 import { createEnv } from "@t3-oss/env-core"
+import { getRuntimeEnv } from "@this/common/utils/runtime"
 import { z } from "zod"
 
 import envShared from "#shared.ts"
-import { getRuntimeEnv } from "#utils.ts"
 
 const runtimeEnv = await getRuntimeEnv()
 

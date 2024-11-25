@@ -27,6 +27,10 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "^22.9.3",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "hono": "catalog:"
   }
 }

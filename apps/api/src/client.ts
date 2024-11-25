@@ -1,5 +1,5 @@
 import { hc } from "hono/client"
-import type { router } from "~/index"
+import type { router } from "~/app"
 
 const client = hc<typeof router>("")
 

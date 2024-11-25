@@ -1,10 +1,10 @@
 import env from "@this/env/axiom"
-import envShared from "@this/env/shared"
+
 import pino from "pino"
 import pretty from "pino-pretty"
 
 function createLogger() {
-  if (envShared.IS_DEVELOPMENT) {
+  if (env.IS_DEVELOPMENT) {
     return pino(pretty())
   }
 

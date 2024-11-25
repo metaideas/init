@@ -20,6 +20,7 @@
     "@this/email": "workspace:^",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:^",
+    "@this/queue": "workspace:^",
     "@this/ui": "workspace:*",
     "@this/validation": "workspace:*",
     "@vercel/functions": "catalog:",

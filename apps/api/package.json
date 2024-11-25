@@ -1,7 +1,7 @@
 {
   "name": "api",
   "scripts": {
-    "build:watch": "tsc -p tsconfig.build.json --watch",
+    "build:watch": "pnpm run build --watch",
     "build": "tsc -p tsconfig.build.json",
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -23,6 +23,8 @@
     "@this/auth": "workspace:^",
     "@this/common": "workspace:^",
     "@this/db": "workspace:^",
+    "@this/observability": "workspace:^",
+    "@this/queue": "workspace:^",
     "hono": "catalog:"
   },
   "devDependencies": {

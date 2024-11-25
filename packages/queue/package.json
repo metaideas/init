@@ -1,5 +1,5 @@
 {
-  "name": "@this/env",
+  "name": "@this/queue",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -8,28 +8,25 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./axiom": "./src/services/axiom.ts",
-    "./db": "./src/db.ts",
-    "./posthog/*": "./src/services/posthog/*.ts",
-    "./resend": "./src/services/resend.ts",
-    "./shared": "./src/shared.ts"
+    ".": "./src/index.ts",
+    "./hono": "./src/serve/hono.ts",
+    "./nextjs": "./src/serve/nextjs.ts"
   },
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "inngest dev",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@t3-oss/env-core": "^0.11.1",
-    "@t3-oss/env-nextjs": "^0.11.1",
-    "@this/common": "workspace:*",
-    "zod": "catalog:"
+    "@this/common": "workspace:^",
+    "inngest": "^3.26.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
+    "inngest-cli": "^1.3.0",
     "typescript": "catalog:"
   }
 }
