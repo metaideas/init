@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
-    "@this/auth": "workspace:^",
+    "@this/auth": "workspace:*",
     "@this/common": "workspace:*",
     "@this/db": "workspace:^",
     "@this/email": "workspace:^",

@@ -24,6 +24,10 @@ export function getRuntime(): Runtime {
 export async function getRuntimeEnv(): Promise<
   Record<string, string | undefined>
 > {
+  if (isNodeRuntime) {
+    return process.env
+  }
+
   if (isWorkerRuntime) {
     const { getContext } = await import("hono/context-storage")
     const ctx = getContext()

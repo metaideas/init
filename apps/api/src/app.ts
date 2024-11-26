@@ -3,7 +3,8 @@ import { client, createFunction, nameFunction } from "@this/queue"
 import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
-import { withDb } from "./middleware"
+import { cors } from "hono/cors"
+import { withDb } from "~/middleware"
 
 const app = new Hono<{
   Bindings: CloudflareBindings
@@ -14,6 +15,7 @@ const app = new Hono<{
 // environment variables. Make sure to run this before any middleware that
 // needs access to the environment variables.
 app.use(contextStorage())
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
 
 const helloWorld = createFunction(
   nameFunction("Hello World"),
@@ -34,6 +36,11 @@ app.on(
     functions: [helloWorld],
   })
 )
+
+app.on(["POST", "GET"], "/api/auth/**", async c => {
+  const { auth } = await import("@this/auth")
+  return auth.handler(c.req.raw)
+})
 
 const test = new Hono()
   .get("/ping", c => c.text("pong"))

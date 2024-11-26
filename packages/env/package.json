@@ -8,6 +8,7 @@
     "#*": "./src/*"
   },
   "exports": {
+    "./auth/*": "./src/auth/*.ts",
     "./axiom": "./src/services/axiom.ts",
     "./db": "./src/db.ts",
     "./posthog/*": "./src/services/posthog/*.ts",

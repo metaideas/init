@@ -1,6 +1,9 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
     "rootDir": "."
   },
   "include": ["*.ts", "src", "__tests__"],

@@ -1,5 +1,3 @@
-import { DEFAULT_LOCALE } from "@this/common/constants"
-import { LOCALES } from "@this/common/constants"
 import type { Brand } from "@this/common/types"
 
 import { createPublicId, createTable, timestamps } from "#schema/helpers.ts"
@@ -21,12 +19,15 @@ export const users = createTable("users", t => ({
     .notNull()
     .default("user"),
 
-  email: t.text().notNull().unique(),
-  emailVerifiedAt: t.integer({ mode: "timestamp" }),
+  name: t.text(),
+  image: t.text(),
 
-  // OAuth accounts
-  googleId: t.text().unique(),
-  githubId: t.text().unique(),
+  email: t.text().notNull().unique(),
+  emailVerified: t.integer({ mode: "boolean" }).notNull().default(false),
+
+  banned: t.integer({ mode: "boolean" }).notNull().default(false),
+  banReason: t.text(),
+  banExpiresAt: t.integer({ mode: "timestamp" }),
 
   ...timestamps,
 }))
@@ -35,38 +36,84 @@ export type NewUser = typeof users.$inferInsert
 export type UserId = User["id"]
 export type UserRole = User["role"]
 
-export const passwords = createTable("passwords", t => ({
+export const accounts = createTable("accounts", t => ({
+  id: t
+    .integer()
+    .primaryKey({ autoIncrement: true })
+    .$type<Brand<number, "AccountId">>(),
+
   userId: t
     .integer()
-    .unique()
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
     })
     .$type<Brand<number, "UserId">>(),
-  hashString: t.text().notNull(),
+
+  accountId: t.text().notNull(),
+  providerId: t.text().notNull(),
+
+  accessToken: t.text(),
+  refreshToken: t.text(),
+
+  accessTokenExpiresAt: t.integer({ mode: "timestamp" }),
+  refreshTokenExpiresAt: t.integer({ mode: "timestamp" }),
+
+  scope: t.text(),
+  password: t.text(),
 
   ...timestamps,
 }))
+export type Account = typeof accounts.$inferSelect
+export type NewAccount = typeof accounts.$inferInsert
 
-export type Password = typeof passwords.$inferSelect
-export type NewPassword = typeof passwords.$inferInsert
+export const sessions = createTable("sessions", t => ({
+  id: t
+    .integer()
+    .primaryKey({ autoIncrement: true })
+    .$type<Brand<number, "SessionId">>(),
 
-export const profiles = createTable("profiles", t => ({
   userId: t
     .integer()
     .notNull()
-    .unique()
-    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
     .$type<Brand<number, "UserId">>(),
 
-  name: t.text(),
-  avatarUrl: t.text(),
-  phoneNumber: t.text(),
-  preferredLocale: t.text({ enum: LOCALES }).default(DEFAULT_LOCALE),
+  token: t.text().notNull().unique(),
+  expiresAt: t.integer({ mode: "timestamp" }).notNull(),
+
+  impersonatedBy: t
+    .integer()
+    .references(() => users.id, {
+      onDelete: "set null",
+      onUpdate: "cascade",
+    })
+    .$type<Brand<number, "UserId">>(),
+
+  ipAddress: t.text(),
+  userAgent: t.text(),
 
   ...timestamps,
 }))
-export type Profile = typeof profiles.$inferSelect
-export type NewProfile = typeof profiles.$inferInsert
+export type Session = typeof sessions.$inferSelect
+export type NewSession = typeof sessions.$inferInsert
+
+export const verifications = createTable("verifications", t => ({
+  id: t
+    .integer()
+    .primaryKey({ autoIncrement: true })
+    .$type<Brand<number, "VerificationId">>(),
+
+  identifier: t.text().notNull(),
+  value: t.text().notNull(),
+
+  expiresAt: t.integer({ mode: "timestamp" }).notNull(),
+
+  ...timestamps,
+}))
+export type Verification = typeof verifications.$inferSelect
+export type NewVerification = typeof verifications.$inferInsert

@@ -1,37 +1,57 @@
-import { getRandomValues, scryptSync, timingSafeEqual } from "node:crypto"
-import { encodeHexLowerCase } from "@oslojs/encoding"
-
+import { getRandomValues, timingSafeEqual } from "node:crypto"
+import { scryptAsync } from "@noble/hashes/scrypt"
+import { decodeHex, encodeHexLowerCase } from "@oslojs/encoding"
 import { InternalError } from "@this/common/errors"
 
-const ALGORITHM = "scrypt"
-const MEMORY_COST = 2 ** 14
-const BLOCK_SIZE = 8
-const PARALLELISM = 5
-
-const SALT_LENGTH = 16
-const DERIVED_KEY_LENGTH = 64
-
-function createSalt(): Buffer {
-  const bytes = new Uint8Array(SALT_LENGTH)
-  getRandomValues(bytes)
-
-  return Buffer.from(bytes)
-}
-
-function constructHashString(hash: string, salt: string): string {
-  const algorithm = `${ALGORITHM}`
-  const params = `N=${MEMORY_COST},r=${BLOCK_SIZE},p=${PARALLELISM}`
-
-  return `$${algorithm}$${params}$${salt}$${hash}`
-}
-
-function deconstructHashString(hashString: string): {
+type PasswordConfig = {
   algorithm: string
   params: {
     memoryCost: number
     blockSize: number
     parallelism: number
   }
+}
+
+const config: PasswordConfig = {
+  algorithm: "scrypt",
+  params: {
+    memoryCost: 2 ** 14,
+    blockSize: 16,
+    parallelism: 1,
+  },
+}
+
+const DERIVED_KEY_LENGTH = 64
+const SALT_LENGTH = 16
+
+function generateSalt(): Buffer {
+  const bytes = new Uint8Array(SALT_LENGTH)
+  getRandomValues(bytes)
+
+  return Buffer.from(bytes)
+}
+
+async function generateKey(
+  password: string,
+  salt: string,
+  params: PasswordConfig["params"]
+): Promise<Uint8Array> {
+  return await scryptAsync(password, salt, {
+    dkLen: DERIVED_KEY_LENGTH,
+    N: params.memoryCost,
+    r: params.blockSize,
+    p: params.parallelism,
+    maxmem: 128 * params.memoryCost * params.blockSize * 2,
+  })
+}
+
+function constructHashString(hash: string, salt: string): string {
+  const params = `N=${config.params.memoryCost},r=${config.params.blockSize},p=${config.params.parallelism}`
+
+  return `$${config.algorithm}$${params}$${salt}$${hash}`
+}
+
+function deconstructHashString(hashString: string): PasswordConfig & {
   salt: string
   hash: string
 } {
@@ -63,33 +83,26 @@ function deconstructHashString(hashString: string): {
   }
 }
 
-export function hashPassword(password: string): string {
-  const salt = createSalt()
-  const hash = scryptSync(password, salt, DERIVED_KEY_LENGTH, {
-    N: MEMORY_COST,
-    r: BLOCK_SIZE,
-    p: PARALLELISM,
-  })
+export async function hashPassword(password: string): Promise<string> {
+  const salt = encodeHexLowerCase(generateSalt())
+  const hash = await generateKey(password, salt, config.params)
 
-  return constructHashString(encodeHexLowerCase(hash), encodeHexLowerCase(salt))
+  return constructHashString(encodeHexLowerCase(hash), salt)
 }
 
-export function verifyPassword(password: string, hashString: string): boolean {
+export async function verifyPassword(
+  password: string,
+  hashString: string
+): Promise<boolean> {
   const { algorithm, params, salt, hash } = deconstructHashString(hashString)
 
   // For now we only support one algorithm (scrypt), but we can extend this to
   // support other algorithms in the future and migrate users if needed.
-  if (algorithm !== ALGORITHM) {
+  if (algorithm !== config.algorithm) {
     throw new InternalError("Invalid hash algorithm")
   }
 
-  const saltBuffer = Buffer.from(salt, "hex")
-  const computedHash = scryptSync(password, saltBuffer, DERIVED_KEY_LENGTH, {
-    N: params.memoryCost,
-    r: params.blockSize,
-    p: params.parallelism,
-  })
-  const hashBuffer = Buffer.from(hash, "hex")
+  const targetKey = await generateKey(password, salt, params)
 
-  return timingSafeEqual(hashBuffer, computedHash)
+  return timingSafeEqual(decodeHex(hash), targetKey)
 }

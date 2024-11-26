@@ -46,16 +46,18 @@ apps/web
   │   ├── assets                # Static assets shared across the app
   │   ├── components            # Shared components used across the entire app
   │   ├── lib                   # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── auth                # Authentication client and helpers
   │   │   ├── safe-action.ts      # Safe action client and middleware
   │   │   ├── hooks.ts            # Shared hooks
   │   │   ├── stores.ts           # Global state stores
   │   │   ├── types.ts            # Shared types
+  │   │   ├── validation.ts       # Shared validation schemas
   │   │   └── utils.ts            # Shared utilities for the app
   │   │
   │   ├── server                  # Server-side code
   │   │   ├── data.ts               # Data-layer for the application
   │   │   ├── loaders.ts            # Shared data loaders
-  │   │   └── actions.ts          # Shared server actions
+  │   │   └── actions.ts            # Shared server actions
   │   │
   │   ├── styles                  # Global styles
   │   ├── config                  # Application configuration
@@ -73,6 +75,7 @@ apps/web
   │           ├── loaders.ts        # Specific feature loaders
   │           ├── stores.ts         # Specific feature global state stores
   │           ├── types.ts          # Specific feature types
+  │           ├── validation.ts     # Specific feature validation schemas
   │           └── utils.ts          # Specific feature utilities
   │
   ├── translations              # Translations files
@@ -118,9 +121,12 @@ apps/mobile
 ```sh
 apps/api
   └── src/                 # Source code
+      ├── index.ts           # Entry point to the worker
+      ├── app.ts             # API app
+      ├── client.ts          # RPC client to be used in other apps
       ├── routes             # API routes
       ├── middleware         # API middleware
-      └── features           # API features
+      └── features           # Feature based modules
 ```
 
 ### Desktop
