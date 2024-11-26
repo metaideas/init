@@ -31,6 +31,15 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "hono": "catalog:"
+    "hono": "catalog:",
+    "next": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "hono": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
   }
 }

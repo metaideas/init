@@ -7,6 +7,16 @@ export const isNodeRuntime =
 
 export const isEdgeRuntime = typeof navigator === "undefined"
 
+export type Runtime = "nodejs" | "edge" | "worker"
+
+export function getRuntime(): Runtime {
+  if (isWorkerRuntime) {
+    return "worker"
+  }
+
+  return isNodeRuntime ? "nodejs" : "edge"
+}
+
 /**
  * Get the runtime environment variables. Uses Hono's Context Storage Middleware
  * to access the environment variables in Cloudflare Workers.
