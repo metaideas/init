@@ -1,1 +1,1 @@
-export { default } from "@this/tailwind/postcss"
+export { default } from "@tooling/tailwind/postcss"

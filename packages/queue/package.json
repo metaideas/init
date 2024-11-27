@@ -1,0 +1,32 @@
+{
+  "name": "@this/queue",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./hono": "./src/serve/hono.ts",
+    "./nextjs": "./src/serve/nextjs.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "inngest dev",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@this/common": "workspace:^",
+    "inngest": "^3.26.2"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "inngest-cli": "^1.3.0",
+    "typescript": "catalog:"
+  }
+}

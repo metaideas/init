@@ -1,0 +1,36 @@
+{
+  "name": "api",
+  "scripts": {
+    "build:watch": "pnpm run build --watch",
+    "build": "tsc -p tsconfig.build.json",
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "deploy": "wrangler deploy --minify",
+    "dev": "wrangler dev",
+    "format": "biome format --write src",
+    "typecheck": "tsc --noEmit",
+    "typegen:cloudflare": "wrangler types --env-interface CloudflareBindings"
+  },
+  "exports": {
+    "./client": {
+      "import": {
+        "default": "./dist/client.js",
+        "types": "./dist/client.d.ts"
+      }
+    }
+  },
+  "dependencies": {
+    "@this/auth": "workspace:^",
+    "@this/common": "workspace:^",
+    "@this/db": "workspace:^",
+    "@this/observability": "workspace:^",
+    "@this/queue": "workspace:^",
+    "hono": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241112.0",
+    "@tooling/tsconfig": "workspace:^",
+    "@types/node": "catalog:",
+    "wrangler": "^3.90.0"
+  }
+}

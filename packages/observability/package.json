@@ -1,0 +1,58 @@
+{
+  "name": "@this/observability",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./error": "./src/error.ts",
+    "./headers": "./src/headers.ts",
+    "./logger": "./src/logger/index.ts",
+    "./logger/server": "./src/logger/server.ts",
+    "./logger/web": "./src/logger/web.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@axiomhq/pino": "^1.2.0",
+    "@sentry/nextjs": "^8.39.0",
+    "@this/common": "workspace:^",
+    "@this/env": "workspace:^",
+    "http-status-codes": "^2.3.0",
+    "pino": "^9.5.0",
+    "pino-pretty": "^13.0.0"
+  },
+  "devDependencies": {
+    "@this/validation": "workspace:^",
+    "@tooling/tsconfig": "workspace:*",
+    "next": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@vercel/functions": "catalog:",
+    "next-axiom": "catalog:",
+    "server-only": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@vercel/functions": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    },
+    "next-axiom": {
+      "optional": true
+    },
+    "server-only": {
+      "optional": true
+    }
+  }
+}

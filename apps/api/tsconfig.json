@@ -1,0 +1,8 @@
+{
+  "extends": "@tooling/tsconfig/api.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src/**/*.ts", "worker-configuration.d.ts"],
+  "exclude": ["node_modules"]
+}

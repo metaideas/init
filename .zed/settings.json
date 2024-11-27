@@ -8,9 +8,6 @@
     "source.fixAll.biome": true,
     "source.organizeImports.biome": true
   },
-  "features": {
-    "inline_completion_provider": "supermaven"
-  },
   "lsp": {
     "typos": {
       "config": ".typos.toml"

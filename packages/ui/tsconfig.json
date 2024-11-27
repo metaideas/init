@@ -1,7 +1,7 @@
 {
-  "extends": "@this/tsconfig/internal-package.json",
+  "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "rootDir": "."
   },

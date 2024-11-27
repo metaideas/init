@@ -1,0 +1,47 @@
+{
+  "name": "@this/db",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./client": "./src/client.ts",
+    "./helpers": "./src/helpers.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "db:check": "drizzle-kit check",
+    "db:drop": "drizzle-kit drop",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:pull": "drizzle-kit pull",
+    "db:push": "drizzle-kit push",
+    "db:reset": "tsx ./scripts/reset.ts",
+    "db:seed": "tsx ./scripts/seed.ts",
+    "db:studio": "drizzle-kit studio",
+    "dev": "turso dev --db-file=local.db",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "@this/common": "workspace:*",
+    "@this/env": "workspace:*",
+    "@this/observability": "workspace:^",
+    "drizzle-orm": "^0.36.4"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "@tooling/utils": "workspace:^",
+    "@types/ws": "^8.5.13",
+    "drizzle-kit": "^0.28.1",
+    "drizzle-seed": "^0.1.1",
+    "typescript": "catalog:"
+  }
+}

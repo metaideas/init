@@ -10,9 +10,10 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 
-# Local env files
-.env*
+# Environment variables
 !.env.example
+.env
+.dev.vars
 
 # Testing
 coverage
@@ -43,7 +44,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Supabase
-.branches
-.temp
-.snaplet
+
+# Wrangler
+.wrangler
+
+# Logs
+logs/
+*.log
+pnpm-debug.log*
+lerna-debug.log*
+
+# Docker
+.data
+
+# SQLite
+local.db
+local.db-*

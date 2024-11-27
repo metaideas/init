@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "next dev --turbo",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
@@ -12,16 +13,28 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "@this/auth": "workspace:*",
+    "@this/common": "workspace:*",
+    "@this/db": "workspace:^",
+    "@this/email": "workspace:^",
     "@this/env": "workspace:*",
-    "@this/supabase": "workspace:^",
+    "@this/observability": "workspace:^",
+    "@this/queue": "workspace:^",
     "@this/ui": "workspace:*",
+    "@this/validation": "workspace:*",
+    "@vercel/functions": "catalog:",
+    "api": "workspace:*",
     "next": "catalog:",
+    "next-axiom": "catalog:",
+    "next-safe-action": "^7.9.9",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "server-only": "catalog:"
   },
   "devDependencies": {
-    "@this/tailwind": "workspace:*",
-    "@this/tsconfig": "workspace:*",
+    "@tooling/tailwind": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

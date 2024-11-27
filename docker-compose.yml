@@ -1,0 +1,20 @@
+name: init
+
+services:
+  redis:
+    image: redis:7.4.0
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.data/redis-data:/data
+
+  serverless-redis-http:
+    ports:
+      - "8079:80"
+    image: hiett/serverless-redis-http:0.0.10
+    environment:
+      SRH_MODE: env
+      SRH_TOKEN: "my-redis-rest-token"
+      SRH_CONNECTION_STRING: "redis://redis:6379"
+    depends_on:
+      - redis

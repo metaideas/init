@@ -9,7 +9,8 @@
   },
   "exports": {
     "./constants": "./src/constants.ts",
-    "./helpers/*": "./src/helpers/*.ts",
+    "./errors": "./src/errors.ts",
+    "./hooks/*": "./src/hooks/*.ts",
     "./types": "./src/types.ts",
     "./utils/*": "./src/utils/*.ts",
     "./variables": "./src/variables.ts"
@@ -25,11 +26,20 @@
     "nanoid": "5.0.8"
   },
   "devDependencies": {
-    "@this/tsconfig": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
+    "@types/node": "^22.9.3",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@vercel/functions": "catalog:",
+    "hono": "catalog:",
     "next": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "hono": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
   }
 }

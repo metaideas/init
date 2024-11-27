@@ -1,5 +1,5 @@
 {
-  "extends": "@this/tsconfig/base.json",
+  "extends": "@tooling/tsconfig/base.json",
   "compilerOptions": {
     "rootDir": "."
   },
