@@ -32,10 +32,10 @@
   "dependencies": {
     "@noble/hashes": "^1.6.1",
     "@oslojs/encoding": "^1.1.0",
-    "@this/common": "workspace:^",
-    "@this/db": "workspace:^",
-    "@this/env": "workspace:^",
-    "better-auth": "^1.0.5",
+    "@this/common": "workspace:*",
+    "@this/db": "workspace:*",
+    "@this/env": "workspace:*",
+    "better-auth": "^1.0.7",
     "server-only": "catalog:"
   }
 }

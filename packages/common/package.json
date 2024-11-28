@@ -23,11 +23,11 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "nanoid": "5.0.8"
+    "nanoid": "5.0.9"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.10.1",
     "typescript": "catalog:"
   },
   "peerDependencies": {

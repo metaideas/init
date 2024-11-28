@@ -22,13 +22,13 @@
   "dependencies": {
     "@react-email/components": "0.0.28",
     "@react-email/render": "^1.0.2",
-    "@this/common": "workspace:^",
-    "@this/env": "workspace:^",
-    "@this/observability": "workspace:^",
+    "@this/common": "workspace:*",
+    "@this/env": "workspace:*",
+    "@this/observability": "workspace:*",
     "chalk": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "resend": "4.0.1-alpha.0"
+    "resend": "4.0.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

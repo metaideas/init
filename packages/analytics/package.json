@@ -21,8 +21,8 @@
   "dependencies": {
     "@this/env": "workspace:*",
     "next-plausible": "^3.12.4",
-    "posthog-js": "^1.187.2",
-    "posthog-node": "^4.2.2",
+    "posthog-js": "^1.192.1",
+    "posthog-node": "^4.3.1",
     "react": "catalog:"
   },
   "devDependencies": {

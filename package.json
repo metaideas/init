@@ -7,10 +7,10 @@
     "clean": "turbo clean",
     "deps:check": "taze -rl",
     "deps:update": "taze -rlw",
-    "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down",
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=web",
+    "docker:down": "docker compose down",
+    "docker:up": "docker compose up -d",
     "format": "turbo format",
     "gen": "turbo gen",
     "lint": "turbo lint",
@@ -20,17 +20,17 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@turbo/gen": "^2.3.0",
+    "@turbo/gen": "^2.3.3",
     "dotenv": "^16.4.5",
-    "sherif": "^1.0.1",
-    "sort-package-json": "^2.10.1",
+    "sherif": "^1.0.2",
+    "sort-package-json": "^2.12.0",
     "taze": "^0.18.0",
     "tsx": "^4.19.2",
-    "turbo": "^2.3.0",
+    "turbo": "^2.3.3",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@9.13.2",
+  "packageManager": "pnpm@9.14.2",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }
