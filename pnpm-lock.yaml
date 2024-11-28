@@ -254,6 +254,9 @@ importers:
       '@this/env':
         specifier: workspace:*
         version: link:../env
+      '@this/kv':
+        specifier: workspace:*
+        version: link:../kv
       better-auth:
         specifier: ^1.0.7
         version: 1.0.7
@@ -397,6 +400,28 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.10.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.6.3
+
+  packages/kv:
+    dependencies:
+      '@this/env':
+        specifier: workspace:*
+        version: link:../env
+      '@upstash/ratelimit':
+        specifier: ^2.0.4
+        version: 2.0.4
+      '@upstash/redis':
+        specifier: ^1.34.3
+        version: 1.34.3
+      '@upstash/vector':
+        specifier: ^1.1.7
+        version: 1.1.7
+    devDependencies:
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/tsconfig
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3734,6 +3759,19 @@ packages:
   '@types/ws@8.5.13':
     resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
 
+  '@upstash/core-analytics@0.0.10':
+    resolution: {integrity: sha512-7qJHGxpQgQr9/vmeS1PktEwvNAF7TI4iJDi8Pu2CFZ9YUGHZH4fOP5TfYlZ4aVxfopnELiE4BS4FBjyK7V1/xQ==}
+    engines: {node: '>=16.0.0'}
+
+  '@upstash/ratelimit@2.0.4':
+    resolution: {integrity: sha512-rKZWlZXXK93Xv1cz5/eCbGN4ZbvN3dWbjT2V6Of/3vqQGzd3TnD/xS3Okxp8EoG7L4MeLpy6UsRuMKGnuDZFAQ==}
+
+  '@upstash/redis@1.34.3':
+    resolution: {integrity: sha512-VT25TyODGy/8ljl7GADnJoMmtmJ1F8d84UXfGonRRF8fWYJz7+2J6GzW+a6ETGtk4OyuRTt7FRSvFG5GvrfSdQ==}
+
+  '@upstash/vector@1.1.7':
+    resolution: {integrity: sha512-yxgXdH/Z2uX8XUVrLeo6ZNci2Z8EzXGwjIZ8EZwctF5+oiBIKwz8tsh/yUesyGrbuQ+ViBPGtZWV5vLFbp649w==}
+
   '@vercel/functions@1.5.0':
     resolution: {integrity: sha512-ub3ptVeOsx8UPgiTv9+rpQJqmF7VG8QIzguBZo0E0VRAyJliB8bt1ooB9Wrh3333dKzMNS8NMe3iFtf6OPUP3A==}
     engines: {node: '>= 16'}
@@ -4251,6 +4289,9 @@ packages:
   cross-spawn@7.0.5:
     resolution: {integrity: sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==}
     engines: {node: '>= 8'}
+
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -9950,6 +9991,20 @@ snapshots:
     dependencies:
       '@types/node': 22.10.1
 
+  '@upstash/core-analytics@0.0.10':
+    dependencies:
+      '@upstash/redis': 1.34.3
+
+  '@upstash/ratelimit@2.0.4':
+    dependencies:
+      '@upstash/core-analytics': 0.0.10
+
+  '@upstash/redis@1.34.3':
+    dependencies:
+      crypto-js: 4.2.0
+
+  '@upstash/vector@1.1.7': {}
+
   '@vercel/functions@1.5.0': {}
 
   '@vercel/postgres@0.10.0':
@@ -10543,6 +10598,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  crypto-js@4.2.0: {}
 
   cssesc@3.0.0: {}
 

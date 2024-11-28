@@ -84,6 +84,7 @@ apps/web
   │
   ├── translations              # Internationalization translation files
   └── globals.d.ts              # Global TypeScript declarations
+```
 
 ### Mobile
 

@@ -1,7 +1,7 @@
 import type { Brand } from "@this/common/types"
 
 import { users } from "#schema/auth.ts"
-import { createTable, timestamps } from "#schema/helpers.ts"
+import { createTable, publicId, timestamps } from "#schema/helpers.ts"
 import { organizations } from "#schema/organizations.ts"
 
 export const sessions = createTable("sessions", t => ({
@@ -9,7 +9,6 @@ export const sessions = createTable("sessions", t => ({
     .integer()
     .primaryKey({ autoIncrement: true })
     .$type<Brand<number, "SessionId">>(),
-
   userId: t
     .integer()
     .notNull()
@@ -42,6 +41,7 @@ export const sessions = createTable("sessions", t => ({
     .$type<Brand<number, "OrganizationId">>(),
 
   ...timestamps,
+  ...publicId<"PublicSessionId">("ses"),
 }))
 export type Session = typeof sessions.$inferSelect
 export type NewSession = typeof sessions.$inferInsert

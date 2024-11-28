@@ -2,6 +2,7 @@ import { db } from "@this/db/client"
 import { sendEmail } from "@this/email"
 import OrganizationInvitation from "@this/email/organization-invitation"
 import env from "@this/env/auth/server"
+import { kv } from "@this/kv"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { admin, organization } from "better-auth/plugins"
@@ -45,6 +46,14 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 30,
     updateAge: 60 * 60 * 24 * 15,
+    additionalFields: {
+      publicId: {
+        type: "string",
+        required: false,
+        input: false,
+        fieldName: "public_id",
+      },
+    },
   },
   databaseHooks: {
     account: {
@@ -70,6 +79,7 @@ export const auth = betterAuth({
         admin: adminRole,
         owner: ownerRole,
       },
+      invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
       async sendInvitationEmail(data, _request) {
         const inviteLink = `${env.BETTER_AUTH_URL}/accept-invitation/${data.id}`
 
@@ -84,9 +94,18 @@ export const auth = betterAuth({
           })
         )
       },
-      invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
     }),
   ],
+  secondaryStorage: {
+    get: key => kv.get(key),
+    set: (key, value, ttl) =>
+      ttl
+        ? kv.set(key, JSON.stringify(value), { ex: ttl })
+        : kv.set(key, JSON.stringify(value)),
+    delete: async key => {
+      await kv.del(key)
+    },
+  },
 })
 
 export type Auth = typeof auth

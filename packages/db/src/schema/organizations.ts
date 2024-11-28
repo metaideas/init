@@ -2,7 +2,7 @@ import { unique } from "drizzle-orm/sqlite-core"
 
 import type { Brand } from "@this/common/types"
 import { users } from "#schema/auth.ts"
-import { createPublicId, createTable, timestamps } from "#schema/helpers.ts"
+import { createTable, publicId, timestamps } from "#schema/helpers.ts"
 
 const ORGANIZATION_ROLES = ["member", "admin", "owner"] as const
 
@@ -11,12 +11,6 @@ export const organizations = createTable("organizations", t => ({
     .integer()
     .primaryKey({ autoIncrement: true })
     .$type<Brand<number, "OrganizationId">>(),
-  publicId: t
-    .text()
-    .notNull()
-    .unique()
-    .$defaultFn(createPublicId("org"))
-    .$type<Brand<string, "OrganizationPublicId">>(),
 
   name: t.text().notNull(),
   slug: t.text().notNull(),
@@ -25,6 +19,7 @@ export const organizations = createTable("organizations", t => ({
   metadata: t.text({ mode: "json" }),
 
   ...timestamps,
+  ...publicId<"OrganizationPublicId">("org"),
 }))
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
@@ -38,12 +33,6 @@ export const members = createTable(
       .integer()
       .primaryKey({ autoIncrement: true })
       .$type<Brand<bigint, "MemberId">>(),
-    publicId: t
-      .text()
-      .notNull()
-      .unique()
-      .$defaultFn(createPublicId("org-mem"))
-      .$type<Brand<string, "MemberPublicId">>(),
 
     userId: t
       .integer()
@@ -62,6 +51,7 @@ export const members = createTable(
     role: t.text({ enum: ORGANIZATION_ROLES }).notNull().default("member"),
 
     ...timestamps,
+    ...publicId<"MemberPublicId">("org-mem"),
   }),
   t => ({
     userOrganizationUnique: unique("user_organization_unique").on(
@@ -83,12 +73,6 @@ export const invitations = createTable(
       .integer()
       .primaryKey({ autoIncrement: true })
       .$type<Brand<number, "InvitationId">>(),
-    publicId: t
-      .text()
-      .notNull()
-      .unique()
-      .$defaultFn(createPublicId("invite"))
-      .$type<Brand<string, "InvitationPublicId">>(),
 
     organizationId: t
       .integer()
@@ -115,6 +99,7 @@ export const invitations = createTable(
       .default("pending"),
     expiresAt: t.integer({ mode: "timestamp" }).notNull(),
 
+    ...publicId<"InvitationPublicId">("invite"),
     ...timestamps,
   }),
   t => ({
@@ -134,12 +119,6 @@ export const activityLogs = createTable("activity_logs", t => ({
     .integer()
     .primaryKey({ autoIncrement: true })
     .$type<Brand<number, "ActivityLogId">>(),
-  publicId: t
-    .text()
-    .notNull()
-    .unique()
-    .$defaultFn(createPublicId("act"))
-    .$type<Brand<string, "ActivityLogPublicId">>(),
 
   createdAt: t
     .integer({ mode: "timestamp" })
@@ -158,16 +137,15 @@ export const activityLogs = createTable("activity_logs", t => ({
   type: t
     .text({
       enum: [
-        "accepted_organization_invitation",
+        "accepted_invitation",
         "created_asset",
         "created_organization",
-        "declined_organization_invitation",
+        "declined_invitation",
         "deleted_account",
-        "deleted_email_verification_codes",
-        "invited_member_to_organization",
+        "invited_member",
         "marked_asset_as_uploaded",
         "marked_email_as_verified",
-        "removed_organization_member",
+        "removed_member",
         "requested_email_verification",
         "requested_password_reset",
         "requested_sign_in_code",
@@ -186,6 +164,8 @@ export const activityLogs = createTable("activity_logs", t => ({
     .notNull(),
   ipAddress: t.text(),
   userAgent: t.text(),
+
+  ...publicId<"ActivityLogPublicId">("act"),
 }))
 export type ActivityLog = typeof activityLogs.$inferSelect
 export type NewActivityLog = typeof activityLogs.$inferInsert

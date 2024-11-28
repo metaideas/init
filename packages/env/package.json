@@ -13,7 +13,8 @@
     "./db": "./src/db.ts",
     "./posthog/*": "./src/services/posthog/*.ts",
     "./resend": "./src/services/resend.ts",
-    "./shared": "./src/shared.ts"
+    "./shared": "./src/shared.ts",
+    "./upstash": "./src/services/upstash.ts"
   },
   "scripts": {
     "check": "biome check --write src",

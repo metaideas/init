@@ -1,18 +1,12 @@
 import type { Brand } from "@this/common/types"
 
-import { createPublicId, createTable, timestamps } from "#schema/helpers.ts"
+import { createTable, publicId, timestamps } from "#schema/helpers.ts"
 
 export const users = createTable("users", t => ({
   id: t
     .integer()
     .primaryKey({ autoIncrement: true })
     .$type<Brand<number, "UserId">>(),
-  publicId: t
-    .text()
-    .notNull()
-    .unique()
-    .$defaultFn(createPublicId("usr"))
-    .$type<Brand<string, "PublicUserId">>(),
 
   role: t
     .text({ enum: ["user", "admin"] })
@@ -30,11 +24,13 @@ export const users = createTable("users", t => ({
   banExpiresAt: t.integer({ mode: "timestamp" }),
 
   ...timestamps,
+  ...publicId<"UserPublicId">("usr"),
 }))
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type UserId = User["id"]
 export type UserRole = User["role"]
+export type UserPublicId = User["publicId"]
 
 export const accounts = createTable("accounts", t => ({
   id: t
@@ -63,10 +59,13 @@ export const accounts = createTable("accounts", t => ({
   scope: t.text(),
   password: t.text(),
 
+  ...publicId<"AccountPublicId">("acc"),
   ...timestamps,
 }))
 export type Account = typeof accounts.$inferSelect
 export type NewAccount = typeof accounts.$inferInsert
+export type AccountId = Account["id"]
+export type AccountPublicId = Account["publicId"]
 
 export const verifications = createTable("verifications", t => ({
   id: t

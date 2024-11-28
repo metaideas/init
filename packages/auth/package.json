@@ -35,6 +35,7 @@
     "@this/db": "workspace:*",
     "@this/email": "workspace:^",
     "@this/env": "workspace:*",
+    "@this/kv": "workspace:*",
     "better-auth": "^1.0.7",
     "server-only": "catalog:"
   }
