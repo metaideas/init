@@ -7,7 +7,11 @@ const SERVER_URLS = [
   "http://localhost:8787/api/inngest",
 ]
 
-// Build the command
-const command = `inngest dev --no-discovery --poll-interval ${POLL_INTERVAL_SECONDS} -u ${SERVER_URLS.join(" -u ")}`
-
-runProcess(command, { stdio: "inherit" })
+runProcess("inngest", [
+  "dev",
+  "--no-discovery",
+  "--poll-interval",
+  POLL_INTERVAL_SECONDS.toString(),
+  "-u",
+  SERVER_URLS.join(" -u "),
+])

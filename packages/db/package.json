@@ -33,15 +33,15 @@
     "@libsql/client": "^0.14.0",
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
-    "@this/observability": "workspace:^",
+    "@this/observability": "workspace:*",
     "drizzle-orm": "^0.36.4"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@tooling/utils": "workspace:^",
-    "@types/ws": "^8.5.13",
+    "@tooling/utils": "workspace:*",
+    "@types/node": "catalog:",
     "drizzle-kit": "^0.28.1",
-    "drizzle-seed": "^0.1.1",
+    "drizzle-seed": "^0.1.2",
     "typescript": "catalog:"
   }
 }

@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { execSync } from "node:child_process"
+import { type ExecSyncOptions, execSync } from "node:child_process"
 
 /**
  * Run a script and log the execution time. Make sure to import this at the top
@@ -15,8 +15,13 @@ export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
   process.exit()
 }
 
-export function runProcess(command: string, options: { stdio: "inherit" }) {
-  console.info(`Running command: ${command}`)
+export function runProcess(
+  command: string,
+  args: string[] = [],
+  options: Omit<ExecSyncOptions, "stdio"> = {}
+) {
+  const commandWithArgs = `${command} ${args.join(" ")}`
+  console.info(`Running command: ${commandWithArgs}`)
 
-  execSync(command, options)
+  execSync(commandWithArgs, { ...options, stdio: "inherit" })
 }
