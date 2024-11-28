@@ -133,7 +133,12 @@
       }
     },
     {
-      "include": ["tooling/**"],
+      "include": [
+        "tooling/**",
+        "scripts/**",
+        "packages/**/scripts/**",
+        "apps/**/scripts/**"
+      ],
       "linter": {
         "rules": {
           "correctness": {

@@ -1,5 +1,5 @@
 import type { db } from "@this/db/client"
-import { client, createFunction, nameFunction } from "@this/queue"
+
 import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
@@ -17,25 +17,25 @@ const app = new Hono<{
 app.use(contextStorage())
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
 
-const helloWorld = createFunction(
-  nameFunction("Hello World"),
-  { event: "test/helloWorld" },
-  async ({ step }) => {
-    const { logger } = await import("@this/observability/logger")
+app.on(["GET", "PUT", "POST"], "/api/inngest", async c => {
+  const { client, nameFunction } = await import("@this/queue")
 
-    logger.info("Hello from Cloudflare Worker!!!")
-    step.run("test", () => console.log("Hello from Cloudflare Worker"))
-  }
-)
+  const helloWorld = client.createFunction(
+    nameFunction("Hello World"),
+    { event: "test/helloWorld" },
+    async ({ step, logger }) => {
+      logger.info("Hello from Cloudflare Worker!!!")
+      step.run("test", () => console.log("Hello from Cloudflare Worker"))
+    }
+  )
 
-app.on(
-  ["GET", "PUT", "POST"],
-  "/api/inngest",
-  serve({
+  const handler = serve({
     client,
     functions: [helloWorld],
   })
-)
+
+  return handler(c)
+})
 
 app.on(["POST", "GET"], "/api/auth/**", async c => {
   const { auth } = await import("@this/auth")

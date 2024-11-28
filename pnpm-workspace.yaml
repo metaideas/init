@@ -11,6 +11,7 @@ catalog:
   hono: 4.6.10
   next-axiom: 1.5.1
   next: 15.0.3
+  pino: 9.5.0
   postcss: ^8.4.49
   react-dom: 19.0.0-rc.1
   react: 19.0.0-rc.1

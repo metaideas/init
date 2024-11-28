@@ -14,7 +14,7 @@
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "email dev --dir src/templates",
+    "dev": "email dev --dir src/templates --port 3001",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"

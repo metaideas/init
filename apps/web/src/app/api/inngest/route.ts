@@ -1,11 +1,10 @@
-import { logger } from "@this/observability/logger"
-import { client, createFunction, nameFunction } from "@this/queue"
+import { client, nameFunction } from "@this/queue"
 import { serve } from "@this/queue/nextjs"
 
-const helloWorld = createFunction(
+const helloWorld = client.createFunction(
   nameFunction("Hello World"),
   { event: "test/helloWorld" },
-  ({ step }) => {
+  ({ step, logger }) => {
     logger.info("Hello from NextJS route")
     step.run("test", () => console.log("Hello from NextJS route"))
   }

@@ -1,20 +1,25 @@
 import { APP_ID } from "@this/common/constants"
+import { logger } from "@this/observability/logger"
 import { Inngest, slugify } from "inngest"
 
 import { schemas } from "#events.ts"
 
-export { slugify } from "inngest"
-
 export const client = new Inngest({
   id: APP_ID,
   schemas,
+  logger,
 })
 
-export const createFunction = client.createFunction
-
 /**
- * This is a helper function to create a function name and id.
+ * Create a function object with a name and ID
  */
 export function nameFunction(name: string) {
-  return { name, id: slugify(name) }
+  return { name, id: createId(name) }
+}
+
+/**
+ * Create an ID for a function based on it's name
+ */
+export function createId(name: string) {
+  return slugify(name)
 }

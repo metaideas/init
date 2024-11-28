@@ -11,6 +11,6 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "src/**/*.ts",
-    "functions/**/*.ts"
+    "src/**/*.tsx"
   ]
 }

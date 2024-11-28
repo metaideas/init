@@ -15,17 +15,20 @@
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "inngest dev",
+    "dev": "tsx ./scripts/dev.ts",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@this/common": "workspace:^",
-    "inngest": "^3.26.2"
+    "@this/observability": "workspace:^",
+    "inngest": "^3.26.2",
+    "pino": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@tooling/utils": "workspace:^",
     "inngest-cli": "^1.3.0",
     "typescript": "catalog:"
   }

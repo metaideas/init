@@ -4,35 +4,38 @@
 
 ```sh
 root
-  ├── apps                # Applications
-  │   ├── web               # Web application, built with Next.js
-  │   ├── mobile            # Mobile application, built with Expo
-  │   ├── desktop           # Desktop application, built with Tauri
-  │   ├── api               # API (+ RPC client), built with Hono and deployed to Cloudflare Workers
-  │   ├── docs              # Documentation, built with Nextra
-  │   └── extensions        # Extensions, built with Plasmo
+  ├── apps                # Cross-platform applications
+  │   ├── web               # Next.js web application
+  │   ├── mobile            # Expo mobile application
+  │   ├── desktop           # Tauri desktop application
+  │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
+  │   ├── docs              # Nextra documentation site
+  │   ├── blog              # Payload CMS blog
+  │   └── extensions        # Plasmo browser extensions
   │
-  ├── packages            # Internal packages to be used in apps
+  ├── packages            # Shared internal packages for use across apps
   │   ├── analytics         # Web and product analytics
-  │   ├── auth              # Authentication helpers
-  │   ├── common            # Shared utilities, helper, assets and types
-  │   ├── db                # Database client using Drizzle ORM
-  │   ├── email             # Email templates and service
-  │   ├── env               # Environment variables
-  │   ├── queue             # Serverless job queue and workflows
-  │   ├── kv                # Redis client and vector database
-  │   ├── observability     # Logging, error tracking and monitoring
-  │   ├── security          # Security helpers
-  │   ├── ui                # UI components and blocks
-  │   └── validation        # Shared validation schemas
+  │   ├── auth              # Authentication utilities
+  │   ├── common            # Shared utilities, helpers, assets, and type definitions
+  │   ├── db                # Database client and ORM using Drizzle
+  │   ├── email             # Email templating and sending service using Resend
+  │   ├── env               # Environment variable management and validation
+  │   ├── queue             # Serverless job queue and workflow management using Inngest and Upstash Qstash
+  │   ├── kv                # Redis client and vector database integration using Upstash
+  │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
+  │   ├── security          # Security utilities and best practices using Arcjet
+  │   ├── ui                # Reusable UI components and design system using Shadcn/UI
+  │   └── validation        # Shared data validation schemas using Zod
   │
-  ├── tooling             # Shared tooling for packages and apps
-  │   ├── tailwind          # Tailwind config
-  │   ├── tsconfig          # Typescript config
-  │   └── utils             # Utility functions
+  ├── tooling             # Shared development and build tools
+  │   ├── tailwind          # Tailwind CSS configuration
+  │   ├── tsconfig          # TypeScript configuration
+  │   └── utils             # Common utility functions for tooling and scripts
   │
-  └── turbo               # Turbo config
-      └── generators        # Package and tooling generators
+  ├── scripts             # Common scripts for tooling
+  │
+  └── turbo               # Turborepo configuration for monorepo management
+      └── generators        # Code generators for packages and tooling
 ```
 
 ## App structure
@@ -42,45 +45,45 @@ root
 ```sh
 apps/web
   ├── src/                    # Source code
-  │   ├── app                   # App router
-  │   ├── assets                # Static assets shared across the app
-  │   ├── components            # Shared components used across the entire app
-  │   ├── lib                   # Reusable libraries (e.g. hooks, utils)
+  │   ├── app                   # App router for Next.js
+  │   ├── assets                # Static assets shared across the app (images, icons, etc.)
+  │   ├── components            # Reusable components
+  │   ├── lib                   # Shared utilities and helpers
   │   │   ├── auth                # Authentication client and helpers
-  │   │   ├── safe-action.ts      # Safe action client and middleware
-  │   │   ├── hooks.ts            # Shared hooks
-  │   │   ├── stores.ts           # Global state stores
-  │   │   ├── types.ts            # Shared types
-  │   │   ├── validation.ts       # Shared validation schemas
-  │   │   └── utils.ts            # Shared utilities for the app
+  │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
+  │   │   ├── hooks.ts            # Custom React hooks
+  │   │   ├── stores.ts           # Global state management stores
+  │   │   ├── atoms.ts            # Global atoms for state management
+  │   │   ├── types.ts            # TypeScript type definitions
+  │   │   ├── validation.ts       # Form and data validation schemas
+  │   │   └── utils.ts            # General utility functions
   │   │
   │   ├── server                  # Server-side code
-  │   │   ├── data.ts               # Data-layer for the application
-  │   │   ├── loaders.ts            # Shared data loaders
-  │   │   └── actions.ts            # Shared server actions
+  │   │   ├── data                  # Data access layer (e.g., database queries)
+  │   │   ├── loaders.ts            # Data fetching functions for server components
+  │   │   └── actions.ts            # Server actions for handling form submissions and mutations
   │   │
-  │   ├── styles                  # Global styles
+  │   ├── styles                  # Global styles and Tailwind CSS configuration
   │   ├── config                  # Application configuration
-  │   │   ├── i18n.ts             # Internationalization
-  │   │   └── consts.ts           # Constant values
+  │   │   ├── i18n.ts             # Internationalization setup
+  │   │   └── consts.ts           # Constant values and enums
   │   │
-  │   ├── middleware              # Middleware
-  │   ├── instrumentation         # Instrumentation
-  │   └── features                # Feature based modules
-  │       └──[feature name]        # Specific feature
-  │           ├── actions.ts        # Specific feature actions
-  │           ├── assets            # Specific feature assets
-  │           ├── components        # Specific feature components
-  │           ├── hooks.ts          # Specific feature hooks
-  │           ├── loaders.ts        # Specific feature loaders
-  │           ├── stores.ts         # Specific feature global state stores
-  │           ├── types.ts          # Specific feature types
-  │           ├── validation.ts     # Specific feature validation schemas
-  │           └── utils.ts          # Specific feature utilities
+  │   ├── middleware              # Next.js middleware for request/response modification
+  │   ├── instrumentation         # Monitoring and analytics instrumentation
+  │   └── features                # Feature-based modules
+  │       └──[feature name]        # Specific feature (e.g., auth, dashboard, settings)
+  │           ├── actions.ts        # Feature-specific server actions
+  │           ├── assets            # Feature-specific assets
+  │           ├── components        # Feature-specific components
+  │           ├── hooks.ts          # Feature-specific custom hooks
+  │           ├── loaders.ts        # Feature-specific data loaders
+  │           ├── stores.ts         # Feature-specific state stores
+  │           ├── types.ts          # Feature-specific type definitions
+  │           ├── validation.ts     # Feature-specific validation schemas
+  │           └── utils.ts          # Feature-specific utility functions
   │
-  ├── translations              # Translations files
-  └── globals.d.ts              # Global types
-```
+  ├── translations              # Internationalization translation files
+  └── globals.d.ts              # Global TypeScript declarations
 
 ### Mobile
 
@@ -139,6 +142,12 @@ apps/desktop
 
 ```sh
 apps/docs
+```
+
+### Blog
+
+```sh
+apps/blog
 ```
 
 ### Extensions
