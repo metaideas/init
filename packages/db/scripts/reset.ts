@@ -1,5 +1,5 @@
-import { access, readdir, unlink } from "node:fs/promises"
-import { runProcess, runScript } from "@tooling/utils"
+import { access, readdir, unlink, writeFile } from "node:fs/promises"
+import { runScript } from "@tooling/utils"
 
 async function reset() {
   const files = await readdir(".")
@@ -15,8 +15,9 @@ async function reset() {
     }
   }
 
-  // Create the database and push the schema
-  await runProcess("turso", ["dev", "--db-file=local.db"])
+  // Create an empty database file
+  console.info("Creating empty database file...")
+  await writeFile("local.db", "")
 }
 
 runScript(reset)
