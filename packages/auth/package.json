@@ -9,14 +9,13 @@
   "exports": {
     ".": "./src/index.ts",
     "./client": "./src/client.ts",
-    "./password": "./src/password.ts",
-    "./nextjs": "./src/nextjs.ts"
+    "./nextjs": "./src/nextjs.ts",
+    "./permissions": "./src/permissions.ts"
   },
   "license": "MIT",
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "generate": "pnpx @better-auth/cli generate --config src/index.ts --output ../db/src/schema/auth2.ts",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "secret": "pnpx @better-auth/cli@latest secret",
@@ -34,6 +33,7 @@
     "@oslojs/encoding": "^1.1.0",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
+    "@this/email": "workspace:^",
     "@this/env": "workspace:*",
     "better-auth": "^1.0.7",
     "server-only": "catalog:"

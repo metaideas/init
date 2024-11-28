@@ -1,6 +1,6 @@
 import { InternalError } from "@this/common/errors"
 import { describe, expect, it } from "vitest"
-import { hashPassword, verifyPassword } from "#password.ts"
+import { hashPassword, verifyPassword } from "#utils/password.ts"
 
 const HASH_STRING_REGEX = /^\$scrypt\$N=\d+,r=\d+,p=\d+\$[a-f0-9]+\$[a-f0-9]+$/
 

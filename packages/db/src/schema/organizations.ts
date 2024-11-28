@@ -4,6 +4,8 @@ import type { Brand } from "@this/common/types"
 import { users } from "#schema/auth.ts"
 import { createPublicId, createTable, timestamps } from "#schema/helpers.ts"
 
+const ORGANIZATION_ROLES = ["member", "admin", "owner"] as const
+
 export const organizations = createTable("organizations", t => ({
   id: t
     .integer()
@@ -17,6 +19,10 @@ export const organizations = createTable("organizations", t => ({
     .$type<Brand<string, "OrganizationPublicId">>(),
 
   name: t.text().notNull(),
+  slug: t.text().notNull(),
+
+  logo: t.text(),
+  metadata: t.text({ mode: "json" }),
 
   ...timestamps,
 }))
@@ -25,19 +31,19 @@ export type NewOrganization = typeof organizations.$inferInsert
 export type OrganizationId = Organization["id"]
 export type OrganizationPublicId = Organization["publicId"]
 
-export const accounts = createTable(
-  "accounts",
+export const members = createTable(
+  "members",
   t => ({
     id: t
       .integer()
       .primaryKey({ autoIncrement: true })
-      .$type<Brand<bigint, "AccountId">>(),
+      .$type<Brand<bigint, "MemberId">>(),
     publicId: t
       .text()
       .notNull()
       .unique()
-      .$defaultFn(createPublicId("acc"))
-      .$type<Brand<string, "AccountPublicId">>(),
+      .$defaultFn(createPublicId("org-mem"))
+      .$type<Brand<string, "MemberPublicId">>(),
 
     userId: t
       .integer()
@@ -53,10 +59,7 @@ export const accounts = createTable(
       })
       .$type<Brand<number, "OrganizationId">>(),
 
-    role: t
-      .text({ enum: ["member", "admin", "owner"] })
-      .notNull()
-      .default("member"),
+    role: t.text({ enum: ORGANIZATION_ROLES }).notNull().default("member"),
 
     ...timestamps,
   }),
@@ -67,25 +70,25 @@ export const accounts = createTable(
     ),
   })
 )
-export type Account = typeof accounts.$inferSelect
-export type NewAccount = typeof accounts.$inferInsert
-export type AccountId = Account["id"]
-export type AccountPublicId = Account["publicId"]
-export type AccountRole = Account["role"]
+export type Member = typeof members.$inferSelect
+export type NewMember = typeof members.$inferInsert
+export type MemberId = Member["id"]
+export type MemberPublicId = Member["publicId"]
+export type MemberRole = Member["role"]
 
-export const organizationInvitations = createTable(
-  "organization_invitations",
+export const invitations = createTable(
+  "invitations",
   t => ({
     id: t
       .integer()
       .primaryKey({ autoIncrement: true })
-      .$type<Brand<number, "OrganizationInvitationId">>(),
+      .$type<Brand<number, "InvitationId">>(),
     publicId: t
       .text()
       .notNull()
       .unique()
-      .$defaultFn(createPublicId("org-invite"))
-      .$type<Brand<string, "OrganizationInvitationPublicId">>(),
+      .$defaultFn(createPublicId("invite"))
+      .$type<Brand<string, "InvitationPublicId">>(),
 
     organizationId: t
       .integer()
@@ -95,21 +98,21 @@ export const organizationInvitations = createTable(
         onUpdate: "cascade",
       })
       .$type<Brand<number, "OrganizationId">>(),
+
     inviterId: t
       .integer()
-      .notNull()
-      .references(() => accounts.id, {
+      .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<number, "AccountId">>(),
+      .$type<Brand<number, "MemberId">>(),
 
     email: t.text().notNull(),
-    role: t
-      .text({ enum: ["member", "admin", "owner"] })
+    role: t.text({ enum: ORGANIZATION_ROLES }).notNull().default("member"),
+    status: t
+      .text({ enum: ["pending", "accepted", "rejected", "canceled"] })
       .notNull()
-      .default("member"),
-    token: t.text().notNull().unique(),
+      .default("pending"),
     expiresAt: t.integer({ mode: "timestamp" }).notNull(),
 
     ...timestamps,
@@ -121,11 +124,10 @@ export const organizationInvitations = createTable(
     ),
   })
 )
-export type OrganizationInvitation = typeof organizationInvitations.$inferSelect
-export type NewOrganizationInvitation =
-  typeof organizationInvitations.$inferInsert
-export type OrganizationInvitationId = OrganizationInvitation["id"]
-export type OrganizationInvitationPublicId = OrganizationInvitation["publicId"]
+export type Invitation = typeof invitations.$inferSelect
+export type NewInvitation = typeof invitations.$inferInsert
+export type InvitationId = Invitation["id"]
+export type InvitationPublicId = Invitation["publicId"]
 
 export const activityLogs = createTable("activity_logs", t => ({
   id: t
@@ -148,10 +150,10 @@ export const activityLogs = createTable("activity_logs", t => ({
     .integer()
     .references(() => organizations.id)
     .$type<Brand<number, "OrganizationId">>(),
-  accountId: t
+  memberId: t
     .integer()
-    .references(() => accounts.id)
-    .$type<Brand<number, "AccountId">>(),
+    .references(() => members.id)
+    .$type<Brand<number, "MemberId">>(),
 
   type: t
     .text({

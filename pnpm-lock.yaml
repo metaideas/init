@@ -248,6 +248,9 @@ importers:
       '@this/db':
         specifier: workspace:*
         version: link:../db
+      '@this/email':
+        specifier: workspace:^
+        version: link:../email
       '@this/env':
         specifier: workspace:*
         version: link:../env

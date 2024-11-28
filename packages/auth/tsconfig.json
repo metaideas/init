@@ -4,6 +4,8 @@
     "declaration": false,
     "declarationMap": false,
     "emitDeclarationOnly": false,
+    "noEmit": true,
+    "jsx": "preserve",
     "rootDir": "."
   },
   "include": ["*.ts", "src", "__tests__"],

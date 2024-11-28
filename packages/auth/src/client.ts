@@ -1,2 +1,6 @@
 export { createAuthClient } from "better-auth/react"
-export { inferAdditionalFields, adminClient } from "better-auth/client/plugins"
+export {
+  inferAdditionalFields,
+  adminClient,
+  organizationClient,
+} from "better-auth/client/plugins"

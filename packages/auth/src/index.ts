@@ -1,9 +1,18 @@
 import { db } from "@this/db/client"
+import { sendEmail } from "@this/email"
+import OrganizationInvitation from "@this/email/organization-invitation"
 import env from "@this/env/auth/server"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
-import { admin } from "better-auth/plugins"
-import { hashPassword, verifyPassword } from "#password.ts"
+import { admin, organization } from "better-auth/plugins"
+
+import {
+  accessControl,
+  adminRole,
+  memberRole,
+  ownerRole,
+} from "#permissions.ts"
+import { hashPassword, verifyPassword } from "#utils/password.ts"
 
 export const auth = betterAuth({
   baseUrl: env.BETTER_AUTH_URL,
@@ -52,7 +61,32 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: env.BETTER_AUTH_TRUSTED_ORIGINS,
-  plugins: [admin()],
+  plugins: [
+    admin(),
+    organization({
+      ac: accessControl,
+      roles: {
+        member: memberRole,
+        admin: adminRole,
+        owner: ownerRole,
+      },
+      async sendInvitationEmail(data, _request) {
+        const inviteLink = `${env.BETTER_AUTH_URL}/accept-invitation/${data.id}`
+
+        await sendEmail(
+          data.email,
+          "Accept Invitation",
+          OrganizationInvitation({
+            organizationName: data.organization.name,
+            inviterName: data.inviter.user.name,
+            inviterEmail: data.inviter.user.email,
+            invitationUrl: inviteLink,
+          })
+        )
+      },
+      invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
+    }),
+  ],
 })
 
 export type Auth = typeof auth
