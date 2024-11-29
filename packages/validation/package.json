@@ -8,7 +8,8 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./actions": "./src/actions.ts"
+    "./actions": "./src/actions.ts",
+    "./jobs": "./src/jobs.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "stripe": "^17.4.0",
     "typescript": "catalog:"
   }
 }

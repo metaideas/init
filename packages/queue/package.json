@@ -10,7 +10,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./hono": "./src/serve/hono.ts",
-    "./nextjs": "./src/serve/nextjs.ts"
+    "./nextjs": "./src/serve/nextjs.ts",
+    "./jobs": "./src/jobs.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -22,7 +23,11 @@
   },
   "dependencies": {
     "@this/common": "workspace:*",
+    "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
+    "@this/validation": "workspace:*",
+    "@upstash/qstash": "^2.7.17",
+    "chalk": "catalog:",
     "inngest": "^3.27.0",
     "pino": "catalog:"
   },

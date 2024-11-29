@@ -82,7 +82,8 @@
         "useComponentExportOnlyModules": "off",
         "useExplicitType": "off",
         "useImportRestrictions": "off",
-        "useSortedClasses": "error"
+        "useSortedClasses": "error",
+        "noSecrets": "info"
       },
       "performance": {
         "noBarrelFile": "off",

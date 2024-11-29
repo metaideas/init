@@ -13,6 +13,12 @@ class CustomError extends Error {
   }
 }
 
+export class AssertionError extends CustomError {
+  constructor(message: string, cause?: unknown) {
+    super("AssertionError", message, cause)
+  }
+}
+
 export class DatabaseError extends CustomError {
   constructor(message: string, cause?: unknown) {
     super("DatabaseError", message, cause)
@@ -41,5 +47,11 @@ export class SendEmailError extends CustomError {
       `Error sending email to ${email}. ${name}: ${message}`,
       cause
     )
+  }
+}
+
+export class VerificationError extends CustomError {
+  constructor(message: string, cause?: unknown) {
+    super("VerificationError", message, cause)
   }
 }
