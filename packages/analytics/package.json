@@ -23,19 +23,13 @@
     "next-plausible": "^3.12.4",
     "posthog-js": "^1.192.1",
     "posthog-node": "^4.3.1",
-    "react": "catalog:"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "react": "catalog:"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
   }
 }
