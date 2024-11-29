@@ -11,7 +11,7 @@
     "./error": "./src/error.ts",
     "./headers": "./src/headers.ts",
     "./logger": "./src/logger/index.ts",
-    "./logger/server": "./src/logger/server.ts",
+    "./logger/nextjs": "./src/logger/nextjs.ts",
     "./logger/web": "./src/logger/web.ts"
   },
   "scripts": {

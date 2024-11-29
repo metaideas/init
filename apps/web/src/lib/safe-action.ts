@@ -2,7 +2,7 @@ import { reportError } from "@this/observability/error"
 import {
   type Logger,
   createActionLogger,
-} from "@this/observability/logger/server"
+} from "@this/observability/logger/nextjs"
 import { ActionMetadataSchema } from "@this/validation/actions"
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,

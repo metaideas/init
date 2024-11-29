@@ -2,9 +2,8 @@ import type { ActionMetadata } from "@this/validation/actions"
 import { geolocation, ipAddress, waitUntil } from "@vercel/functions"
 import { StatusCodes } from "http-status-codes"
 import { LogLevel, Logger } from "next-axiom"
+import { headers } from "next/headers"
 import type { NextFetchEvent, NextRequest, NextResponse } from "next/server"
-
-import { getGeolocation, getIpAddress } from "#headers.ts"
 
 // We re-export the withAxiom configuration to use it Next.js without installing next-a
 export { withAxiom as withLogger } from "next-axiom"
@@ -39,8 +38,9 @@ export function createActionLogger(metadata: ActionMetadata) {
     log,
     flush: async (success: boolean) => {
       const endTime = Date.now()
-      const ipAddress = await getIpAddress()
-      const geolocation = await getGeolocation()
+      const headersList = await headers()
+      const ip = await ipAddress({ headers: headersList })
+      const geo = await geolocation({ headers: headersList })
 
       const report = {
         metadata,
@@ -48,8 +48,8 @@ export function createActionLogger(metadata: ActionMetadata) {
         endTime,
         durationMs: endTime - startTime,
         requestId,
-        ip: ipAddress,
-        ...geolocation,
+        ip,
+        ...geo,
       }
 
       logger.logHttpRequest(
@@ -178,8 +178,9 @@ export function createComponentLogger(componentName: string) {
     log,
     flush: async () => {
       const endTime = Date.now()
-      const ipAddress = await getIpAddress()
-      const geolocation = await getGeolocation()
+      const headersList = await headers()
+      const ip = await ipAddress({ headers: headersList })
+      const geo = await geolocation({ headers: headersList })
 
       const report = {
         componentName,
@@ -187,8 +188,8 @@ export function createComponentLogger(componentName: string) {
         endTime,
         durationMs: endTime - startTime,
         requestId,
-        ip: ipAddress,
-        ...geolocation,
+        ip,
+        ...geo,
       }
 
       logger.logHttpRequest(

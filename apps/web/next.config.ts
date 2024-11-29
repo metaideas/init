@@ -1,4 +1,4 @@
-import { withLogger } from "@this/observability/logger/server"
+import { withLogger } from "@this/observability/logger/nextjs"
 import type { NextConfig } from "next"
 
 let nextConfig: NextConfig = {
