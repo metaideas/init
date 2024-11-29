@@ -6,8 +6,8 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "noEmit": false,
-    "allowImportingTsExtensions": true,
     "outDir": "${configDir}/dist",
+    "skipLibCheck": true,
 
     "paths": {
       "~/*": ["./src/*"]

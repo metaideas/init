@@ -13,9 +13,9 @@ export async function sendEmail(
   body: ReactElement,
   sendAt?: Date | string
 ) {
-  const content = await render(body, { plainText: env.MOCK_RESEND })
-
   if (env.MOCK_RESEND) {
+    const content = await render(body)
+
     logger.warn(chalk.bold.yellowBright("📪 env.MOCK_RESEND is set!"))
     logger.info(chalk.green("📫 Sending email to", email))
     logger.info(chalk.green("📝 Email content:"))
@@ -30,7 +30,7 @@ export async function sendEmail(
     from: env.EMAIL_FROM,
     to: email,
     subject,
-    html: content,
+    react: body,
     scheduledAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
   })
 

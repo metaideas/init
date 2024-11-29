@@ -14,6 +14,7 @@ root
   │   └── extensions        # Plasmo browser extensions
   │
   ├── packages            # Shared internal packages for use across apps
+  │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
   │   ├── auth              # Authentication utilities
   │   ├── common            # Shared utilities, helpers, assets, and type definitions
@@ -66,7 +67,7 @@ apps/web
   │   ├── styles                  # Global styles and Tailwind CSS configuration
   │   ├── config                  # Application configuration
   │   │   ├── i18n.ts             # Internationalization setup
-  │   │   └── consts.ts           # Constant values and enums
+  │   │   └── constants.ts        # Constant values and enums
   │   │
   │   ├── middleware              # Next.js middleware for request/response modification
   │   ├── instrumentation         # Monitoring and analytics instrumentation
@@ -104,7 +105,7 @@ apps/mobile
   │   ├── styles              # Global styles
   │   ├── config              # Application configuration
   │   │   ├── i18n.ts           # Internationalization
-  │   │   └── consts.ts         # Constant values
+  │   │   └── constants.ts      # Constant values
   │   │
   │   ├── middleware            # Middleware
   │   └── features              # Feature based modules

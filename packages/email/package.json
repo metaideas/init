@@ -2,7 +2,6 @@
   "name": "@this/email",
   "version": "0.1.0",
   "private": true,
-  "license": "MIT",
   "type": "module",
   "imports": {
     "#*": "./src/*"
@@ -12,9 +11,11 @@
     "./*": "./src/templates/*.tsx"
   },
   "scripts": {
+    "build": "email build --dir src/templates",
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "email dev --dir src/templates --port 3001",
+    "export": "email export --dir src/templates",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "react-email": "3.0.2",
     "typescript": "catalog:"
   }

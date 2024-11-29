@@ -16,7 +16,7 @@
     "lint": "turbo lint",
     "lint:repo": "sherif --fix",
     "sort:package-json": "sort-package-json '**/package.json' '!**/node_modules/**'",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck --continue"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

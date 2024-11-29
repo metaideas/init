@@ -1,8 +1,7 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
+    "jsx": "preserve",
     "rootDir": "."
   },
   "include": ["src"],

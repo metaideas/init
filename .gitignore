@@ -60,3 +60,6 @@ lerna-debug.log*
 # SQLite
 local.db
 local.db-*
+
+# React Email
+*.react-email

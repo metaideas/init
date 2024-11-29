@@ -2,5 +2,14 @@
   "name": "@tooling/tsconfig",
   "version": "0.1.0",
   "private": true,
-  "files": ["*.json"]
+  "files": [
+    "*.json"
+  ],
+  "devDependencies": {
+    "@tsconfig/next": "^2.0.3",
+    "@tsconfig/recommended": "^1.0.8"
+  },
+  "dependencies": {
+    "@tsconfig/react-native": "3.0.5"
+  }
 }

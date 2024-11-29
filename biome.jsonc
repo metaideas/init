@@ -126,14 +126,6 @@
       }
     },
     {
-      "include": ["packages/email/src/**"],
-      "javascript": {
-        // Enable this to avoid linting errors when importing the React
-        // namespace
-        "jsxRuntime": "reactClassic"
-      }
-    },
-    {
       "include": [
         "tooling/**",
         "scripts/**",

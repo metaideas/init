@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "module": "preserve"
+  },
+  "extends": ["./base.json", "@tsconfig/react-native/tsconfig.json"]
+}
