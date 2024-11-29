@@ -21,6 +21,7 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
+    "@this/security": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/validation": "workspace:*",
     "@vercel/functions": "catalog:",

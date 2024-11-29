@@ -1,0 +1,33 @@
+{
+  "name": "@this/security",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./nextjs": "./src/nextjs.ts",
+    "./hono": "./src/hono.ts",
+    "./redact": "./src/redact.ts",
+    "./rules": "./src/rules.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@arcjet/next": "1.0.0-alpha.32",
+    "@arcjet/node": "1.0.0-alpha.32",
+    "@arcjet/redact": "1.0.0-alpha.32",
+    "@this/env": "workspace:*"
+  }
+}
