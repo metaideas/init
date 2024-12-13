@@ -8,10 +8,12 @@
     "#*": "./src/*"
   },
   "exports": {
+    "./anthropic": "./src/services/anthropic.ts",
     "./arcjet": "./src/services/arcjet.ts",
     "./auth/*": "./src/auth/*.ts",
     "./axiom": "./src/services/axiom.ts",
     "./db": "./src/db.ts",
+    "./openai": "./src/services/openai.ts",
     "./posthog/*": "./src/services/posthog/*.ts",
     "./resend": "./src/services/resend.ts",
     "./shared": "./src/shared.ts",

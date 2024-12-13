@@ -1,0 +1,36 @@
+{
+  "name": "@this/ai",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./providers/*": "./src/providers/*",
+    "./react": "./src/react.ts",
+    "./vector": "./src/vector.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^1.0.5",
+    "@ai-sdk/openai": "^1.0.8",
+    "@this/env": "workspace:^",
+    "@upstash/semantic-cache": "^1.0.5",
+    "@upstash/vector": "^1.1.7",
+    "ai": "^4.0.16",
+    "zod": "^3.24.1"
+  }
+}
