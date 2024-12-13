@@ -28,7 +28,7 @@
     "api": "workspace:*",
     "next": "catalog:",
     "next-axiom": "catalog:",
-    "next-safe-action": "^7.9.9",
+    "next-safe-action": "^7.10.1",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

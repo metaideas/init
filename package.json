@@ -21,15 +21,15 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@turbo/gen": "^2.3.3",
-    "dotenv": "^16.4.5",
-    "sherif": "^1.0.2",
+    "dotenv": "^16.4.7",
+    "sherif": "^1.1.1",
     "sort-package-json": "^2.12.0",
     "taze": "^0.18.0",
     "tsx": "^4.19.2",
     "turbo": "^2.3.3",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=22"
   }

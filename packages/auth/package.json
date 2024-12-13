@@ -29,7 +29,7 @@
     "@this/email": "workspace:^",
     "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
-    "better-auth": "^1.0.7",
+    "better-auth": "^1.0.18",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

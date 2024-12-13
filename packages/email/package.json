@@ -21,8 +21,8 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@react-email/components": "0.0.28",
-    "@react-email/render": "^1.0.2",
+    "@react-email/components": "0.0.31",
+    "@react-email/render": "^1.0.3",
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
@@ -36,7 +36,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "react-email": "3.0.2",
+    "react-email": "3.0.4",
     "typescript": "catalog:"
   }
 }
