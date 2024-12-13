@@ -7,10 +7,10 @@
     "#*": "./src/*"
   },
   "exports": {
-    ".": "./src/index.ts",
     "./client": "./src/client.ts",
     "./nextjs": "./src/nextjs.ts",
-    "./permissions": "./src/permissions.ts"
+    "./permissions": "./src/permissions.ts",
+    "./server": "./src/server.ts"
   },
   "scripts": {
     "check": "biome check --write src",

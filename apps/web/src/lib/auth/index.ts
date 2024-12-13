@@ -1,4 +1,3 @@
-import type { Auth } from "@this/auth"
 import {
   adminClient,
   createAuthClient,
@@ -11,6 +10,7 @@ import {
   memberRole,
   ownerRole,
 } from "@this/auth/permissions"
+import type { Auth } from "@this/auth/server"
 import env from "@this/env/auth/web"
 
 export const authClient = createAuthClient({

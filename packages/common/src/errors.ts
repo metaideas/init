@@ -39,12 +39,16 @@ export class NotFoundError extends CustomError {
 
 export class SendEmailError extends CustomError {
   constructor(
-    { email, name, message }: { email: string; name: string; message: string },
+    {
+      emails,
+      name,
+      message,
+    }: { emails: string[]; name: string; message: string },
     cause?: unknown
   ) {
     super(
       "SendEmailError",
-      `Error sending email to ${email}. ${name}: ${message}`,
+      `Error sending email to ${emails.join(", ")}.\n${name}: ${message}`,
       cause
     )
   }

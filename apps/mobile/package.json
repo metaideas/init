@@ -24,6 +24,7 @@
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/native": "^7.0.0",
     "@this/common": "workspace:^",
+    "@tooling/tsconfig": "workspace:^",
     "expo": "~52.0.11",
     "expo-blur": "~14.0.1",
     "expo-constants": "~17.0.3",

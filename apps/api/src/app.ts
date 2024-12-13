@@ -38,7 +38,7 @@ app.on(["GET", "PUT", "POST"], "/api/inngest", async c => {
 })
 
 app.on(["POST", "GET"], "/api/auth/**", async c => {
-  const { auth } = await import("@this/auth")
+  const { auth } = await import("@this/auth/server")
   return auth.handler(c.req.raw)
 })
 
