@@ -23,7 +23,7 @@
     "@expo/vector-icons": "^14.0.4",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
-    "@this/common": "workspace:^",
+    "@this/common": "workspace:*",
     "@tooling/tsconfig": "workspace:^",
     "expo": "~52.0.18",
     "expo-blur": "~14.0.1",

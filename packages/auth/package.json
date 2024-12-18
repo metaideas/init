@@ -26,7 +26,7 @@
     "@oslojs/encoding": "^1.1.0",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
-    "@this/email": "workspace:^",
+    "@this/email": "workspace:*",
     "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
     "better-auth": "^1.0.18",
