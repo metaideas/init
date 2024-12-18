@@ -26,6 +26,7 @@
     "@this/validation": "workspace:*",
     "@vercel/functions": "catalog:",
     "api": "workspace:*",
+    "client-only": "^0.0.1",
     "next": "catalog:",
     "next-axiom": "catalog:",
     "next-safe-action": "^7.10.1",

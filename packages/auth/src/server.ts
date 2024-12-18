@@ -25,7 +25,7 @@ export const auth = betterAuth({
     enabled: true,
     password: {
       hash: hashPassword,
-      verify: verifyPassword,
+      verify: async ({ hash, password }) => verifyPassword(password, hash),
     },
   },
   advanced: {
