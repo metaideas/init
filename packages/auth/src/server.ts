@@ -11,7 +11,7 @@ import {
   memberRole,
   ownerRole,
 } from "#permissions.ts"
-import { sendInvitationEmail } from "#utils/email.tsx"
+import { sendInvitationEmail } from "#utils/email.ts"
 import { hashPassword, verifyPassword } from "#utils/password.ts"
 
 export const auth = betterAuth({
@@ -23,6 +23,8 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    // We use our own custom password hashing and verification functions to
+    // allow portability into another hashing algorithm if needed.
     password: {
       hash: hashPassword,
       verify: async ({ hash, password }) => verifyPassword(password, hash),

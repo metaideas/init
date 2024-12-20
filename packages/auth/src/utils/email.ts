@@ -10,13 +10,11 @@ export const sendInvitationEmail: OrganizationOptions["sendInvitationEmail"] =
     await sendEmail({
       emails: [data.email],
       subject: "Accept Invitation",
-      body: (
-        <OrganizationInvitation
-          organizationName={data.organization.name}
-          inviterName={data.inviter.user.name}
-          inviterEmail={data.inviter.user.email}
-          invitationUrl={inviteLink}
-        />
-      ),
+      body: OrganizationInvitation({
+        organizationName: data.organization.name,
+        inviterName: data.inviter.user.name,
+        inviterEmail: data.inviter.user.email,
+        invitationUrl: inviteLink,
+      }),
     })
   }

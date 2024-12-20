@@ -1,5 +1,4 @@
 import type { db } from "@this/db/client"
-
 import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
@@ -15,6 +14,7 @@ const app = new Hono<{
 // environment variables. Make sure to run this before any middleware that
 // needs access to the environment variables.
 app.use(contextStorage())
+
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
 
 app.on(["GET", "PUT", "POST"], "/api/inngest", async c => {
@@ -54,6 +54,18 @@ const test = new Hono()
     })
 
     return c.json(users)
+  })
+  .post("/email-test", async c => {
+    const { sendEmail } = await import("@this/email")
+    const { default: TestEmail } = await import("@this/email/test-email")
+
+    await sendEmail({
+      emails: ["delivered@resend.dev"],
+      subject: "Test",
+      body: TestEmail(),
+    })
+
+    return c.json({ message: "Email sent" })
   })
 
 export const router = app.route("/", test)

@@ -27,7 +27,6 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
-    "chalk": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "resend": "4.0.1"

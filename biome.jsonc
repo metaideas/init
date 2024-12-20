@@ -147,6 +147,13 @@
       }
     },
     {
+      "include": ["packages/email/**"],
+      "javascript": {
+        // Allow React import to be present in email templates
+        "jsxRuntime": "reactClassic"
+      }
+    },
+    {
       "include": ["apps/api/**"],
       "javascript": {
         "globals": ["CloudflareBindings"]

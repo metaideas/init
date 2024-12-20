@@ -1,9 +1,7 @@
 import { render } from "@react-email/render"
 import { SendEmailError } from "@this/common/errors"
 import env from "@this/env/email.server"
-import { logger } from "@this/observability/logger"
-import { publishJob, resend } from "@this/queue/jobs"
-import chalk from "chalk"
+import { logger, styles } from "@this/observability/logger"
 import type { ReactElement } from "react"
 
 import client from "#client.ts"
@@ -17,14 +15,15 @@ export async function sendEmail({
 }: {
   emails: string[]
   subject: string
-  body: ReactElement
+  // Setting the body as unknown and then casting it later to a ReactElement to
+  // allow for any type of ReactElement, since Hono's JSX leads to type errors.
+  body: unknown
   sendAt?: Date | string
   from?: string
 }) {
-  const html = await render(body)
-
   if (env.MOCK_RESEND) {
-    mockEmail(emails, html)
+    const text = await render(body as ReactElement, { plainText: true })
+    mockEmail(emails, text)
 
     return
   }
@@ -32,7 +31,7 @@ export async function sendEmail({
   const { error } = await client.emails.send({
     from,
     to: emails,
-    html,
+    react: body as ReactElement,
     subject,
     scheduledAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
   })
@@ -54,15 +53,17 @@ export async function queueEmail({
   emails: string[]
   subject: string
   from?: string
-  body: ReactElement
+  body: unknown
 }) {
-  const html = await render(body)
-
   if (env.MOCK_RESEND) {
-    mockEmail(emails, html)
+    const text = await render(body as ReactElement, { plainText: true })
+
+    mockEmail(emails, text, true)
 
     return
   }
+
+  const { publishJob, resend } = await import("@this/queue/jobs")
 
   await publishJob({
     api: {
@@ -73,16 +74,22 @@ export async function queueEmail({
       from,
       to: emails,
       subject,
-      html,
+      react: body as ReactElement,
     },
   })
 }
 
-function mockEmail(emails: string[], html: string) {
-  logger.warn(chalk.bold.yellowBright("📪 env.MOCK_RESEND is set!"))
-  logger.info(chalk.green("📫 Queuing email to", emails))
-  logger.info(chalk.green("📝 Email content:"))
-  logger.info(chalk.gray("----------------------------------------"))
-  logger.info(chalk.gray.italic(html))
-  logger.info(chalk.gray("----------------------------------------"))
+function mockEmail(emails: string[], html: string, isQueued = false) {
+  logger.warn(styles.bold.yellowBright("📪 env.MOCK_RESEND is set!"))
+
+  if (isQueued) {
+    logger.info(styles.green("📫 Queueing email to", emails.join(", ")))
+  } else {
+    logger.info(styles.green("📫 Sending email to", emails.join(", ")))
+  }
+
+  logger.info(styles.green("📝 Email content:"))
+  logger.info(styles.gray("----------------------------------------"))
+  logger.info(styles.gray.italic(html))
+  logger.info(styles.gray("----------------------------------------"))
 }
