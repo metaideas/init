@@ -8,11 +8,10 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./error": "./src/error.ts",
-    "./headers": "./src/headers.ts",
     "./logger": "./src/logger/index.ts",
-    "./logger/nextjs": "./src/logger/nextjs.ts",
-    "./logger/web": "./src/logger/web.ts"
+    "./logger/*": "./src/logger/*.ts",
+    "./sentry": "./src/sentry/index.ts",
+    "./sentry/*": "./src/sentry/*.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -40,7 +39,8 @@
   "peerDependencies": {
     "@vercel/functions": "catalog:",
     "next-axiom": "catalog:",
-    "server-only": "catalog:"
+    "server-only": "catalog:",
+    "react": "catalog:"
   },
   "peerDependenciesMeta": {
     "@vercel/functions": {
@@ -53,6 +53,9 @@
       "optional": true
     },
     "server-only": {
+      "optional": true
+    },
+    "react": {
       "optional": true
     }
   }
