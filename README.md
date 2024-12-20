@@ -1,5 +1,17 @@
 # init
 
+A monorepo for building everywhere.
+
+Contains:
+
+- Web application using Next.js
+- Mobile application using Expo
+- APIs using Hono & Cloudflare Workers
+- Desktop application using Tauri (coming soon)
+- Documentation site using Nextra (coming soon)
+- Blog powered by Payload CMS (coming soon)
+- Browser extensions using Plasmo (coming soon)
+
 ## Project structure
 
 ```sh
