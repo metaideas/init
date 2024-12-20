@@ -27,3 +27,5 @@ function createLogger() {
  * use the respective logger for the environment.
  */
 export const logger = createLogger()
+
+export { default as styles } from "chalk"

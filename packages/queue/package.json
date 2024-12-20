@@ -27,7 +27,6 @@
     "@this/observability": "workspace:*",
     "@this/validation": "workspace:*",
     "@upstash/qstash": "^2.7.19",
-    "chalk": "catalog:",
     "inngest": "^3.28.0",
     "pino": "catalog:"
   },
