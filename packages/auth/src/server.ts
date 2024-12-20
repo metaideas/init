@@ -1,5 +1,5 @@
 import { db } from "@this/db/client"
-import env from "@this/env/auth/server"
+import env from "@this/env/auth.server"
 import { kv } from "@this/kv"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"

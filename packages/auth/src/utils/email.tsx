@@ -1,6 +1,6 @@
 import { sendEmail } from "@this/email"
 import OrganizationInvitation from "@this/email/organization-invitation"
-import env from "@this/env/auth/server"
+import env from "@this/env/auth.server"
 import type { OrganizationOptions } from "better-auth/plugins"
 
 export const sendInvitationEmail: OrganizationOptions["sendInvitationEmail"] =

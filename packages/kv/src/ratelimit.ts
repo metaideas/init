@@ -1,4 +1,4 @@
-import env from "@this/env/upstash"
+import env from "@this/env/kv.server"
 import type { Duration } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"

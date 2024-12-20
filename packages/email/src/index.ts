@@ -1,6 +1,6 @@
 import { render } from "@react-email/render"
 import { SendEmailError } from "@this/common/errors"
-import env from "@this/env/resend"
+import env from "@this/env/email.server"
 import { logger } from "@this/observability/logger"
 import { publishJob, resend } from "@this/queue/jobs"
 import chalk from "chalk"

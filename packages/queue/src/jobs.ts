@@ -1,4 +1,4 @@
-import env from "@this/env/upstash"
+import env from "@this/env/queue.server"
 import {
   type JobPayload,
   JobSchemaMap,

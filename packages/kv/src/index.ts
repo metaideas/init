@@ -1,4 +1,4 @@
-import env from "@this/env/upstash"
+import env from "@this/env/kv.server"
 import { Redis } from "@upstash/redis"
 
 export const kv = new Redis({

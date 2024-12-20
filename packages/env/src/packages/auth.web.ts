@@ -8,7 +8,4 @@ export default createEnv({
   runtimeEnv: {
     NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
   },
-  skipValidation:
-    process.env.SKIP_ENV_VALIDATION === "true" || process.env.CI === "true",
-  emptyStringAsUndefined: process.env.NODE_ENV === "production",
 })

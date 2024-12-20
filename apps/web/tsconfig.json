@@ -9,6 +9,7 @@
   "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
+    "next.config.ts",
     ".next/types/**/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",

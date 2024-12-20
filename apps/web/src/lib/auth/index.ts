@@ -13,7 +13,7 @@ import {
   ownerRole,
 } from "@this/auth/permissions"
 import type { Auth } from "@this/auth/server"
-import env from "@this/env/auth/web"
+import env from "@this/env/auth.web"
 
 export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,

@@ -1,7 +1,7 @@
 "use client"
 
-import envMobile from "@this/env/posthog/expo"
-import envWeb from "@this/env/posthog/web"
+import envMobile from "@this/env/analytics.mobile"
+import envWeb from "@this/env/analytics.web"
 import posthogBase from "posthog-js"
 import { PostHogProvider as BasePostHogProvider } from "posthog-js/react"
 import type { ReactNode } from "react"

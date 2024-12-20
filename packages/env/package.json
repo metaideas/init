@@ -8,16 +8,10 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./anthropic": "./src/services/anthropic.ts",
-    "./arcjet": "./src/services/arcjet.ts",
-    "./auth/*": "./src/auth/*.ts",
-    "./axiom": "./src/services/axiom.ts",
-    "./db": "./src/db.ts",
-    "./openai": "./src/services/openai.ts",
-    "./posthog/*": "./src/services/posthog/*.ts",
-    "./resend": "./src/services/resend.ts",
-    "./shared": "./src/shared.ts",
-    "./upstash": "./src/services/upstash.ts"
+    ".": "./src/index.ts",
+    "./*": "./src/packages/*.ts",
+    "./core": "./src/core.ts",
+    "./presets": "./src/presets.ts"
   },
   "scripts": {
     "check": "biome check --write src",
@@ -35,6 +29,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
+    "next": "catalog:",
     "typescript": "catalog:"
   }
 }

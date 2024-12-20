@@ -1,4 +1,4 @@
-import env from "@this/env/db"
+import env from "@this/env/db.server"
 import { runProcess, runScript } from "@tooling/utils"
 import { drizzle } from "drizzle-orm/libsql"
 import { seed } from "drizzle-seed"

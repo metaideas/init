@@ -1,9 +1,10 @@
-import env from "@this/env/axiom"
+import envCore from "@this/env/core"
+import env from "@this/env/observability.server"
 import pino from "pino"
 import pretty from "pino-pretty"
 
 function createLogger() {
-  if (env.IS_DEVELOPMENT) {
+  if (envCore.IS_DEVELOPMENT) {
     return pino(pretty())
   }
 

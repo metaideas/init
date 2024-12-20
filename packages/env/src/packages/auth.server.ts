@@ -1,11 +1,6 @@
 import { createEnv } from "@t3-oss/env-core"
-import { getRuntimeEnv } from "@this/common/utils/runtime"
+import { getWorkerEnv, isNodeRuntime } from "@this/common/utils/runtime"
 import { z } from "zod"
-
-import envDb from "#db.ts"
-import envShared from "#shared.ts"
-
-const runtimeEnv = await getRuntimeEnv()
 
 export default createEnv({
   server: {
@@ -18,6 +13,5 @@ export default createEnv({
       )
       .optional(),
   },
-  runtimeEnv,
-  extends: [envShared, envDb],
+  runtimeEnv: isNodeRuntime ? process.env : await getWorkerEnv(),
 })

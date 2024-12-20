@@ -29,11 +29,15 @@ export async function getRuntimeEnv(): Promise<
   }
 
   if (isWorkerRuntime) {
-    const { getContext } = await import("hono/context-storage")
-    const ctx = getContext()
-
-    return (ctx.env ?? {}) as Record<string, string | undefined>
+    return await getWorkerEnv()
   }
 
   return process.env
+}
+
+export async function getWorkerEnv() {
+  const { getContext } = await import("hono/context-storage")
+  const ctx = getContext()
+
+  return (ctx.env ?? {}) as Record<string, string | undefined>
 }

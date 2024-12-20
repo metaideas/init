@@ -1,4 +1,4 @@
-import env from "@this/env/upstash"
+import env from "@this/env/ai.server"
 import { SemanticCache } from "@upstash/semantic-cache"
 import { Index } from "@upstash/vector"
 

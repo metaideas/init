@@ -1,4 +1,4 @@
-import env from "@this/env/posthog/web"
+import env from "@this/env/analytics.web"
 import { PostHog } from "posthog-node"
 
 export const posthog = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
