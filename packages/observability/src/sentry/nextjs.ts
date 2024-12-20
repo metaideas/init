@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/nextjs"
+import { withSentryConfig } from "@sentry/nextjs"
 import envCore from "@this/env/core"
 import envServer from "@this/env/observability.server"
 import envWeb from "@this/env/observability.web"
-
-export { withSentryConfig } from "@sentry/nextjs"
+import type { NextConfig } from "next"
 
 export function initializeSentry(runtime: "client" | "server" | "edge") {
   if (runtime === "client") {
@@ -57,4 +57,21 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
       debug: envServer.SENTRY_DEBUG,
     })
   }
+}
+
+export function withSentry(config: NextConfig) {
+  return withSentryConfig(config, {
+    org: envServer.SENTRY_ORG,
+    project: envServer.SENTRY_PROJECT,
+    debug: envServer.SENTRY_DEBUG,
+
+    // An auth token is required for uploading source maps
+    authToken: envServer.SENTRY_AUTH_TOKEN,
+
+    silent: !process.env.CI,
+
+    widenClientFileUpload: true,
+
+    tunnelRoute: "/monitoring",
+  })
 }

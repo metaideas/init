@@ -1,6 +1,6 @@
 "use client"
 
-import { useReportError } from "@this/observability/sentry"
+import { useReportError } from "@this/observability/sentry/react"
 import NextError from "next/error"
 
 export default function GlobalError({

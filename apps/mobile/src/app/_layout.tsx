@@ -3,6 +3,8 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native"
+import * as Sentry from "@sentry/react-native"
+import { initializeSentry } from "@this/observability/sentry/expo"
 import { useFonts } from "expo-font"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
@@ -10,14 +12,16 @@ import { StatusBar } from "expo-status-bar"
 import { useEffect } from "react"
 import "react-native-reanimated"
 
-import "~/config/styles/global.css"
-
 import { useColorScheme } from "~/lib/hooks"
+import "~/config/styles/global.css"
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+// Initialize Sentry
+initializeSentry()
+
+function RootLayout() {
   const colorScheme = useColorScheme()
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -43,3 +47,5 @@ export default function RootLayout() {
     </ThemeProvider>
   )
 }
+
+export default Sentry.wrap(RootLayout)

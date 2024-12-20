@@ -1,5 +1,4 @@
-import { captureException } from "@sentry/nextjs"
-import { useEffect } from "react"
+import { captureException } from "@sentry/core"
 import { logger } from "#logger/index.ts"
 
 export function reportError(error: unknown): {
@@ -27,10 +26,4 @@ export function reportError(error: unknown): {
   }
 
   return { sentryId, message }
-}
-
-export function useReportError(error: unknown) {
-  useEffect(() => {
-    reportError(error)
-  }, [error])
 }
