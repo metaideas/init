@@ -6,9 +6,9 @@
   "type": "module",
   "exports": {
     "./base": "./base.ts",
+    "./mobile": "./mobile.ts",
     "./web": "./web.ts",
-    "./postcss": "./postcss.config.mjs",
-    "./globals.css": "./globals.css"
+    "./postcss": "./postcss.config.mjs"
   },
   "scripts": {
     "check": "biome check --write .",

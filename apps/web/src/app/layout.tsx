@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
-import "@tooling/tailwind/globals.css"
+import "~/config/styles/global.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 

@@ -1,4 +1,4 @@
-import { Image, Platform, StyleSheet } from "react-native"
+import { Image, Platform, StyleSheet, Text } from "react-native"
 
 import { APP_ID, APP_NAME } from "@this/common/constants"
 import { HelloWave } from "~/components/HelloWave"
@@ -54,6 +54,7 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app</ThemedText> to
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
+        <Text className="text-blue-600">Hello world!!</Text>
       </ThemedView>
     </ParallaxScrollView>
   )

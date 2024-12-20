@@ -130,7 +130,8 @@
         "tooling/**",
         "scripts/**",
         "packages/**/scripts/**",
-        "apps/**/scripts/**"
+        "apps/**/scripts/**",
+        "apps/**/*.config.*"
       ],
       "linter": {
         "rules": {

@@ -1,6 +1,7 @@
 const { getDefaultConfig } = require("expo/metro-config")
 const { FileStore } = require("metro-cache")
 const path = require("node:path")
+const { withNativeWind } = require("nativewind/metro")
 
 const config = withTurborepoManagedCache(
   withMonorepoPaths(getDefaultConfig(__dirname))
@@ -9,8 +10,6 @@ const config = withTurborepoManagedCache(
 // XXX: Resolve our exports in workspace packages
 // https://github.com/expo/expo/issues/26926
 config.resolver.unstable_enablePackageExports = true
-
-module.exports = config
 
 /**
  * Add the monorepo paths to the Metro config.
@@ -50,3 +49,7 @@ function withTurborepoManagedCache(config) {
   ]
   return config
 }
+
+module.exports = withNativeWind(config, {
+  input: "./src/config/styles/global.css",
+})
