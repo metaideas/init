@@ -64,26 +64,26 @@ apps/web
   │   ├── lib                   # Shared utilities and helpers
   │   │   ├── auth                # Authentication client and helpers
   │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
-  │   │   ├── hooks.ts            # Custom React hooks
-  │   │   ├── stores.ts           # Global state management stores
-  │   │   ├── atoms.ts            # Global atoms for state management
-  │   │   ├── types.ts            # TypeScript type definitions
-  │   │   ├── validation.ts       # Form and data validation schemas
-  │   │   └── utils.ts            # General utility functions
+  │   │   ├── hooks               # Custom React hooks
+  │   │   ├── stores              # Global state management stores
+  │   │   ├── types               # TypeScript type definitions
+  │   │   ├── validation          # Form and data validation schemas
+  │   │   └── utils               # General utility functions
   │   │
-  │   ├── server                  # Server-side code
-  │   │   ├── data                  # Data access layer (e.g., database queries)
-  │   │   ├── loaders.ts            # Data fetching functions for server components
-  │   │   └── actions.ts            # Server actions for handling form submissions and mutations
+  │   ├── server                # Server-side code
+  │   │   ├── data                # Data access layer (e.g., database queries)
+  │   │   ├── loaders             # Data fetching functions for server components
+  │   │   └── actions             # Server actions for handling form submissions and mutations
   │   │
-  │   ├── styles                  # Global styles and Tailwind CSS configuration
-  │   ├── config                  # Application configuration
-  │   │   ├── i18n.ts             # Internationalization setup
-  │   │   └── constants.ts        # Constant values and enums
+  │   ├── config                # Application configuration
+  │   │   ├── styles              # Global styles and Tailwind CSS configuration
+  │   │   ├── env                 # Environment variable configuration
+  │   │   ├── i18n                # Internationalization setup
+  │   │   └── constants           # Constant values and enums
   │   │
-  │   ├── middleware              # Next.js middleware for request/response modification
-  │   ├── instrumentation         # Monitoring and analytics instrumentation
-  │   └── features                # Feature-based modules
+  │   ├── middleware            # Next.js middleware for request/response modification
+  │   ├── instrumentation       # Monitoring and analytics instrumentation
+  │   └── features              # Feature-based modules
   │       └──[feature name]        # Specific feature (e.g., auth, dashboard, settings)
   │           ├── actions.ts        # Feature-specific server actions
   │           ├── assets            # Feature-specific assets
