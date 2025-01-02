@@ -3,6 +3,5 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "worker-configuration.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "worker-configuration.d.ts"]
 }

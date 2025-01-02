@@ -1,8 +1,7 @@
-import { hc } from "hono/client"
 import type { router } from "~/app"
 
-const client = hc<typeof router>("")
-
-export function createClient(...args: Parameters<typeof hc>): typeof client {
-  return hc<typeof router>(...args)
-}
+/**
+ * This is the type of the client that is exported from the API to use with
+ * `hono/client` to have a type-safe client.
+ */
+export type AppClient = typeof router

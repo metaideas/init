@@ -4,11 +4,12 @@
   "compilerOptions": {
     "types": ["@cloudflare/workers-types"],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
+    "jsxImportSource": "react",
     "module": "ESNext",
 
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

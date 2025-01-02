@@ -3,7 +3,8 @@ import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
-import { withDb } from "~/middleware"
+
+import testRouter from "~/routes/test"
 
 const app = new Hono<{
   Bindings: CloudflareBindings
@@ -17,7 +18,7 @@ app.use(contextStorage())
 
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
 
-app.on(["GET", "PUT", "POST"], "/api/inngest", async c => {
+app.on(["GET", "PUT", "POST"], "/api/inngest", async context => {
   const { client, nameFunction } = await import("@this/queue")
 
   const helloWorld = client.createFunction(
@@ -34,40 +35,15 @@ app.on(["GET", "PUT", "POST"], "/api/inngest", async c => {
     functions: [helloWorld],
   })
 
-  return handler(c)
+  return handler(context)
 })
 
 app.on(["POST", "GET"], "/api/auth/**", async c => {
   const { auth } = await import("@this/auth/server")
+
   return auth.handler(c.req.raw)
 })
 
-const test = new Hono()
-  .get("/ping", c => c.text("pong"))
-  .get("/users", withDb, async c => {
-    const users = await c.var.db.query.users.findMany({
-      columns: {
-        email: true,
-        createdAt: true,
-        publicId: true,
-      },
-    })
-
-    return c.json(users)
-  })
-  .post("/email-test", async c => {
-    const { sendEmail } = await import("@this/email")
-    const { default: TestEmail } = await import("@this/email/test-email")
-
-    await sendEmail({
-      emails: ["delivered@resend.dev"],
-      subject: "Test",
-      body: TestEmail(),
-    })
-
-    return c.json({ message: "Email sent" })
-  })
-
-export const router = app.route("/", test)
+export const router = app.route("/test", testRouter)
 
 export default app

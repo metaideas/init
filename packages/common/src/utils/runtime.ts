@@ -5,7 +5,7 @@ export const isWorkerRuntime =
 export const isNodeRuntime =
   typeof navigator !== "undefined" && navigator.userAgent.includes("Node.js")
 
-export const isEdgeRuntime = typeof navigator === "undefined"
+export const isEdgeRuntime = !isWorkerRuntime && !isNodeRuntime
 
 export type Runtime = "nodejs" | "edge" | "worker"
 

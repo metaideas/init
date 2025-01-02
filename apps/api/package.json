@@ -1,8 +1,8 @@
 {
   "name": "api",
   "scripts": {
-    "build:watch": "pnpm run build --watch",
-    "build": "tsc -p tsconfig.build.json",
+    "build:types:watch": "pnpm run build:types --watch",
+    "build:types": "tsup src/client.ts --dts-only",
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deploy": "wrangler deploy --minify",
@@ -14,7 +14,6 @@
   "exports": {
     "./client": {
       "import": {
-        "default": "./dist/client.js",
         "types": "./dist/client.d.ts"
       }
     }
@@ -32,6 +31,7 @@
     "@cloudflare/workers-types": "^4.20241218.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "wrangler": "^3.99.0"
+    "wrangler": "^3.99.0",
+    "typescript": "catalog:"
   }
 }
