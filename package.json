@@ -20,7 +20,9 @@
     "lint": "turbo lint",
     "lint:repo": "sherif --fix",
     "sort:package-json": "sort-package-json '**/package.json' '!**/node_modules/**'",
-    "typecheck": "turbo typecheck --continue"
+    "typecheck": "turbo typecheck --continue",
+    "workspace:add": "tsx scripts/add-workspace.ts",
+    "workspace:remove": "tsx scripts/remove-workspace.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
