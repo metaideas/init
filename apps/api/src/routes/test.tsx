@@ -1,7 +1,8 @@
 import { Hono } from "hono"
-import { withDb } from "~/middleware"
+import withDb from "~/lib/middlewares/db"
+import type { AppContext } from "~/lib/types"
 
-const test = new Hono()
+const test = new Hono<AppContext>()
   .get("/ping", c => c.text("pong"))
   .get("/users", withDb, async c => {
     const users = await c.var.db.query.users.findMany({

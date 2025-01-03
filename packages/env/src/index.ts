@@ -5,18 +5,22 @@ import type { NextConfig } from "next"
 export function ensureEnv(
   packages: ReturnType<typeof createEnv>[],
   options: {
-    env: Record<string, string>
+    env: Record<string, string | undefined>
     clientPrefix?: string
   }
 ) {
-  createEnv({
-    extends: packages,
-    server: {},
-    client: {},
-    shared: {},
-    runtimeEnv: options.env,
-    clientPrefix: options.clientPrefix,
-  })
+  return {
+    withEnv: () => {
+      createEnv({
+        extends: packages,
+        server: {},
+        client: {},
+        shared: {},
+        runtimeEnv: options.env,
+        clientPrefix: options.clientPrefix,
+      })
+    },
+  }
 }
 
 /**

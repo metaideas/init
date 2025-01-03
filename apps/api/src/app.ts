@@ -1,15 +1,11 @@
-import type { db } from "@this/db/client"
 import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
-
+import type { AppContext } from "~/lib/types"
 import testRouter from "~/routes/test"
 
-const app = new Hono<{
-  Bindings: CloudflareBindings
-  Variables: { db: typeof db }
-}>()
+const app = new Hono<AppContext>()
 
 // We use Hono's context storage to allow our packages access to Cloudflare's
 // environment variables. Make sure to run this before any middleware that

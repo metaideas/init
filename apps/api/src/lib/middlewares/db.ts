@@ -1,7 +1,7 @@
 import type { db } from "@this/db/client"
 import { createMiddleware } from "hono/factory"
 
-export const withDb = createMiddleware<{
+export default createMiddleware<{
   Variables: { db: typeof db }
 }>(async (c, next) => {
   const { db } = await import("@this/db/client")

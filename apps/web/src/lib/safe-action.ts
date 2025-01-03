@@ -16,9 +16,7 @@ export const actionClient = createSafeActionClient({
 
     const { sentryId, message } = reportError(e)
 
-    ctx.log.error(message, {
-      sentryId,
-    })
+    ctx.log.error(message, { sentryId })
 
     return DEFAULT_SERVER_ERROR_MESSAGE
   },

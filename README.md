@@ -17,10 +17,10 @@ Contains:
 ```sh
 root
   ├── apps                # Cross-platform applications
+  │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
   │   ├── web               # Next.js web application
   │   ├── mobile            # Expo mobile application
   │   ├── desktop           # Tauri desktop application
-  │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
   │   ├── docs              # Nextra documentation site
   │   ├── blog              # Payload CMS blog
   │   └── extensions        # Plasmo browser extensions
@@ -58,45 +58,47 @@ root
 ```sh
 apps/web
   ├── src/                    # Source code
-  │   ├── app                   # App router for Next.js
-  │   ├── assets                # Static assets shared across the app (images, icons, etc.)
-  │   ├── components            # Reusable components
-  │   ├── lib                   # Shared utilities and helpers
-  │   │   ├── auth                # Authentication client and helpers
+  │   ├── app/                  # App router for Next.js
+  │   ├── assets/                # Static assets shared across the app (images, icons, etc.)
+  │   ├── components/            # Reusable components
+  │   ├── lib/                   # Shared utilities and helpers
+  │   │   ├── auth/               # Authentication client and helpers
+  │   │   ├── hooks/              # Custom React hooks
+  │   │   ├── i18n/               # Internationalization setup
+  │   │   ├── middlewares/        # Global middleware to be imported into middleware.ts
+  │   │   ├── stores/             # Global state management stores
+  │   │   ├── constants.ts        # Constant values and enums
   │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
-  │   │   ├── hooks               # Custom React hooks
-  │   │   ├── stores              # Global state management stores
-  │   │   ├── types               # TypeScript type definitions
-  │   │   ├── validation          # Form and data validation schemas
-  │   │   └── utils               # General utility functions
+  │   │   ├── types.ts            # TypeScript type definitions
+  │   │   ├── utils.ts            # General utility functions
+  │   │   └── validation.ts       # Form and data validation schemas
   │   │
-  │   ├── server                # Server-side code
-  │   │   ├── data                # Data access layer (e.g., database queries)
-  │   │   ├── loaders             # Data fetching functions for server components
-  │   │   └── actions             # Server actions for handling form submissions and mutations
+  │   ├── server/               # Server-side code
+  │   │   ├── data/               # Data access layer (e.g., database queries)
+  │   │   ├── loaders.ts          # Shared data fetching functions for server components
+  │   │   └── actions.ts          # Shared server actions for handling form submissions and mutations
   │   │
-  │   ├── config                # Application configuration
-  │   │   ├── styles              # Global styles and Tailwind CSS configuration
-  │   │   ├── env                 # Environment variable configuration
-  │   │   ├── i18n                # Internationalization setup
-  │   │   └── constants           # Constant values and enums
+  │   ├── config/               # Application configuration
+  │   │   ├── styles/             # Global styles and Tailwind CSS configuration
+  │   │   └── env.ts              # Environment variable configuration
   │   │
-  │   ├── middleware            # Next.js middleware for request/response modification
-  │   ├── instrumentation       # Monitoring and analytics instrumentation
-  │   └── features              # Feature-based modules
-  │       └──[feature name]        # Specific feature (e.g., auth, dashboard, settings)
-  │           ├── actions.ts        # Feature-specific server actions
-  │           ├── assets            # Feature-specific assets
-  │           ├── components        # Feature-specific components
-  │           ├── hooks.ts          # Feature-specific custom hooks
-  │           ├── loaders.ts        # Feature-specific data loaders
-  │           ├── stores.ts         # Feature-specific state stores
-  │           ├── types.ts          # Feature-specific type definitions
-  │           ├── validation.ts     # Feature-specific validation schemas
-  │           └── utils.ts          # Feature-specific utility functions
+  │   ├── features/             # Feature-based modules
+  │   │   └──[feature]/           # Specific feature (e.g., auth, dashboard, settings)
+  │   │       ├── assets/           # Feature-specific assets
+  │   │       ├── components/       # Feature-specific components
+  │   │       ├── actions.ts        # Feature-specific server actions
+  │   │       ├── hooks.ts          # Feature-specific custom hooks
+  │   │       ├── loaders.ts        # Feature-specific data loaders
+  │   │       ├── stores.ts         # Feature-specific state stores
+  │   │       ├── types.ts          # Feature-specific type definitions
+  │   │       ├── utils.ts          # Feature-specific utility functions
+  │   │       └── validation.ts     # Feature-specific validation schemas
+  │   │
+  │   ├── middleware.ts         # Next.js middleware for request/response modification
+  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
   │
   ├── translations              # Internationalization translation files
-  └── globals.d.ts              # Global TypeScript declarations
+  └── global.d.ts              # Global TypeScript declarations
 ```
 
 ### Mobile
@@ -104,31 +106,35 @@ apps/web
 ```sh
 apps/mobile
   ├── src/                  # Source code
-  │   ├── app                 # App router
-  │   ├── assets              # Static assets shared across the app
-  │   ├── components          # Shared components used across the entire app
-  │   ├── lib                 # Reusable libraries (e.g. hooks, utils)
+  │   ├── app/                # App router
+  │   ├── assets/             # Static assets shared across the app
+  │   ├── components/         # Shared components used across the entire app
+  │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── stores/           # Global state stores
+  │   │   ├── api.ts            # Global API and query client
+  │   │   ├── auth.ts           # Authentication client and helpers
+  │   │   ├── constants.ts      # Constant values and enums
   │   │   ├── hooks.ts          # Shared hooks
-  │   │   ├── stores.ts         # Global state stores
-  │   │   ├── types.ts          # Shared types
-  │   │   └── utils.ts          # Shared utilities for the app
-  │   │
-  │   ├── api                 # Global API client
-  │   ├── styles              # Global styles
-  │   ├── config              # Application configuration
   │   │   ├── i18n.ts           # Internationalization
-  │   │   └── constants.ts      # Constant values
+  │   │   ├── types.ts          # Shared types
+  │   │   ├── utils.ts          # Shared utilities for the app
+  │   │   └── validation.ts     # Shared validation schemas
   │   │
-  │   ├── middleware            # Middleware
-  │   └── features              # Feature based modules
-  │       └──[feature name]      # Specific feature
-  │           ├── api.ts            # Specific feature API client
-  │           ├── assets            # Specific feature assets
-  │           ├── components        # Specific feature components
-  │           ├── hooks.ts          # Specific feature hooks
-  │           ├── stores.ts         # Specific feature global state stores
-  │           ├── types.ts          # Specific feature types
-  │           └── utils.ts          # Specific feature utilities
+  │   ├── config              # Application configuration
+  │   │   ├── env.ts            # Environment variables
+  │   │   └── styles/           # Global styles
+  │   │
+  │   └── features            # Feature based modules
+  │       └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
+  │           ├── assets/         # Feature-specific assets
+  │           ├── components/     # Feature-specific components
+  │           ├── hooks.ts        # Feature-specific hooks
+  │           ├── mutations.ts    # Feature-specific mutations
+  │           ├── queries.ts      # Feature-specific queries
+  │           ├── stores.ts       # Feature-specific global state stores
+  │           ├── types.ts        # Feature-specific types
+  │           ├── utils.ts        # Feature-specific utilities
+  │           └── validation.ts   # Feature-specific validation schemas
   │
   └── translations          # Translations files
 ```
@@ -137,13 +143,26 @@ apps/mobile
 
 ```sh
 apps/api
-  └── src/                 # Source code
-      ├── index.ts           # Entry point to the worker
-      ├── app.ts             # API app
-      ├── client.ts          # RPC client to be used in other apps
-      ├── routes             # API routes
-      ├── middleware         # API middleware
-      └── features           # Feature based modules
+  └── src/                  # Source code
+      ├── index.ts            # Entry point to the worker
+      ├── app.ts              # Main Hono app setup
+      ├── client.ts           # RPC client type to be used in other apps
+      ├── lib/                # Reusable libraries (e.g. middleware, utils)
+      │   ├── middlewares/      # Shared middleware
+      │   │   ├── auth.ts       # Authentication middleware
+      │   │   ├── db.ts         # Database middleware
+      │   │   └── ...           # Other shared middleware
+      │   ├── constants.ts      # Constant values and enums
+      │   ├── types.ts          # Shared types
+      │   └── utils.ts          # General utility functions
+      │
+      └── features/           # Feature based modules
+          └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
+              ├── router.ts       # Feature-specific router
+              ├── controllers.ts  # Feature-specific controllers
+              ├── types.ts        # Feature-specific types
+              ├── utils.ts        # Feature-specific utilities
+              └── validation.ts   # Feature-specific validation schemas
 ```
 
 ### Desktop
@@ -169,3 +188,16 @@ apps/blog
 ```sh
 apps/extensions
 ```
+
+## Development
+
+To start the development server, run `pnpm dev` on the root directory.
+
+### Ports
+
+- Web: 3000
+- Email: 3100
+- Mobile: 8081
+- Database: 8080
+- Queue: 8288
+- API: 8787
