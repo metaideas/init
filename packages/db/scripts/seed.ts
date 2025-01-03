@@ -1,3 +1,6 @@
+import "dotenv/config"
+
+import { log } from "@clack/prompts"
 import env from "@this/env/db.server"
 import { runProcess, runScript } from "@tooling/utils"
 import { drizzle } from "drizzle-orm/libsql"
@@ -5,11 +8,12 @@ import { seed } from "drizzle-seed"
 import * as schema from "#schema/index.ts"
 
 async function main() {
+  log.info("Seeding database...")
+
   const db = drizzle(env.DATABASE_URL, { casing: "snake_case" })
 
   await runProcess("drizzle-kit", ["push"])
 
-  console.info("Seeding database...")
   console.time("Seeded database")
   await seed(db, schema).refine(f => ({
     users: {
@@ -31,6 +35,8 @@ async function main() {
     },
   }))
   console.timeEnd("Seeded database")
+
+  log.info("Database seeded!")
 }
 
 runScript(main)
