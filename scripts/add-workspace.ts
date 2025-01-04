@@ -22,6 +22,10 @@ const APPS = [
     value: "mobile",
     label: "mobile - Expo application deployed with EAS",
   },
+  {
+    value: "desktop",
+    label: "desktop - Tauri desktop application with Vite and Tanstack Router",
+  },
 ]
 
 const PACKAGES = [
