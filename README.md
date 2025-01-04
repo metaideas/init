@@ -7,7 +7,7 @@ Contains:
 - Web application using Next.js
 - Mobile application using Expo
 - APIs using Hono & Cloudflare Workers
-- Desktop application using Tauri (coming soon)
+- Desktop application using Tauri, Vite and Tanstack Router
 - Documentation site using Nextra (coming soon)
 - Blog powered by Payload CMS (coming soon)
 - Browser extensions using Plasmo (coming soon)
@@ -173,7 +173,8 @@ apps/api
 ```sh
 apps/desktop
   ├── src/                  # Source code
-  │   ├── app/                # App router
+  │   ├── main.tsx            # Entry point to the desktop app
+  │   ├── routes/             # Routing
   │   ├── assets/             # Static assets shared across the app
   │   ├── components/         # Shared components used across the entire app
   │   ├── config/             # Application configuration

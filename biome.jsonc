@@ -14,7 +14,7 @@
     }
   },
   "files": {
-    "ignore": [],
+    "ignore": ["apps/desktop/src/routeTree.gen.ts"],
     "ignoreUnknown": false
   },
   "formatter": {
