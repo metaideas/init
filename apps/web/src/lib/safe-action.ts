@@ -14,7 +14,7 @@ export const actionClient = createSafeActionClient({
   handleServerError(e, utils) {
     const ctx = utils.ctx as { log: Logger }
 
-    const { sentryId, message } = reportError(e)
+    const { sentryId, message } = reportError(e, ctx.log)
 
     ctx.log.error(message, { sentryId })
 

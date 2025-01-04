@@ -59,9 +59,9 @@ root
 apps/web
   ├── src/                    # Source code
   │   ├── app/                  # App router for Next.js
-  │   ├── assets/                # Static assets shared across the app (images, icons, etc.)
-  │   ├── components/            # Reusable components
-  │   ├── lib/                   # Shared utilities and helpers
+  │   ├── assets/               # Static assets shared across the app (images, icons, etc.)
+  │   ├── components/           # Reusable components
+  │   ├── lib/                  # Shared utilities and helpers
   │   │   ├── auth/               # Authentication client and helpers
   │   │   ├── hooks/              # Custom React hooks
   │   │   ├── i18n/               # Internationalization setup
@@ -98,7 +98,7 @@ apps/web
   │   └── instrumentation.ts    # Monitoring and analytics instrumentation
   │
   ├── translations              # Internationalization translation files
-  └── global.d.ts              # Global TypeScript declarations
+  └── global.d.ts               # Global TypeScript declarations
 ```
 
 ### Mobile
@@ -147,6 +147,9 @@ apps/api
       ├── index.ts            # Entry point to the worker
       ├── app.ts              # Main Hono app setup
       ├── client.ts           # RPC client type to be used in other apps
+      ├── config/             # Configuration
+      │   └── env.ts            # Environment variables
+      │
       ├── lib/                # Reusable libraries (e.g. middleware, utils)
       │   ├── middlewares/      # Shared middleware
       │   │   ├── auth.ts       # Authentication middleware
@@ -169,6 +172,38 @@ apps/api
 
 ```sh
 apps/desktop
+  ├── src/                  # Source code
+  │   ├── app/                # App router
+  │   ├── assets/             # Static assets shared across the app
+  │   ├── components/         # Shared components used across the entire app
+  │   ├── config/             # Application configuration
+  │   │   ├── styles/           # Global styles
+  │   │   └── env.ts            # Environment variables
+  │   │
+  │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── stores/           # Global state stores
+  │   │   ├── api.ts            # Global API and query client
+  │   │   ├── auth.ts           # Authentication client and helpers
+  │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── hooks.ts          # Shared hooks
+  │   │   ├── i18n.ts           # Internationalization
+  │   │   ├── types.ts          # Shared types
+  │   │   ├── utils.ts          # Shared utilities for the app
+  │   │   └── validation.ts     # Shared validation schemas
+  │   │
+  │   └── features            # Feature based modules
+  │       └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
+  │           ├── assets/         # Feature-specific assets
+  │           ├── components/     # Feature-specific components
+  │           ├── hooks.ts        # Feature-specific hooks
+  │           ├── mutations.ts    # Feature-specific mutations
+  │           ├── queries.ts      # Feature-specific queries
+  │           ├── stores.ts       # Feature-specific global state stores
+  │           ├── types.ts        # Feature-specific types
+  │           ├── utils.ts        # Feature-specific utilities
+  │           └── validation.ts   # Feature-specific validation schemas
+  │
+  └── translations          # Translations files
 ```
 
 ### Docs
@@ -195,9 +230,13 @@ To start the development server, run `pnpm dev` on the root directory.
 
 ### Ports
 
+Apps run in the 3000-3999 range. Packages run in the 8000-8999 range.
+
 - Web: 3000
-- Email: 3100
-- Mobile: 8081
+- API: 3001
+- Mobile: 3002
+- Desktop: 3003
+
 - Database: 8080
+- Email: 8081
 - Queue: 8288
-- API: 8787

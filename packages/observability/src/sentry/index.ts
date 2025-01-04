@@ -1,7 +1,10 @@
 import { captureException } from "@sentry/core"
-import { logger } from "#logger/index.ts"
+import type { Logger } from "next-axiom"
 
-export function reportError(error: unknown): {
+export function reportError(
+  error: unknown,
+  logger: Logger
+): {
   sentryId: string | undefined
   message: string
 } {

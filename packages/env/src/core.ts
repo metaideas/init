@@ -1,8 +1,5 @@
 import { createEnv } from "@t3-oss/env-core"
-import { getRuntimeEnv } from "@this/common/utils/runtime"
 import { z } from "zod"
-
-const runtimeEnv = await getRuntimeEnv()
 
 export default createEnv({
   shared: {
@@ -18,12 +15,12 @@ export default createEnv({
   },
   server: {},
   runtimeEnv: {
-    ...runtimeEnv,
-    IS_DEVELOPMENT: runtimeEnv.NODE_ENV === "development",
-    IS_PRODUCTION: runtimeEnv.NODE_ENV === "production",
-    IS_TEST: runtimeEnv.NODE_ENV === "test",
+    ...process.env,
+    IS_DEVELOPMENT: process.env.ENVIRONMENT === "development",
+    IS_PRODUCTION: process.env.ENVIRONMENT === "production",
+    IS_TEST: process.env.ENVIRONMENT === "test",
   },
   skipValidation:
-    runtimeEnv.SKIP_ENV_VALIDATION === "true" || runtimeEnv.CI === "true",
-  emptyStringAsUndefined: runtimeEnv.NODE_ENV === "production",
+    process.env.SKIP_ENV_VALIDATION === "true" || process.env.CI === "true",
+  emptyStringAsUndefined: process.env.ENVIRONMENT === "production",
 })

@@ -14,7 +14,7 @@
     "build": "email build --dir src/templates",
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "email dev --dir src/templates --port 3100",
+    "dev": "email dev --dir src/templates --port 8081",
     "export": "email export --dir src/templates",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",

@@ -6,7 +6,7 @@
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deploy": "wrangler deploy --minify",
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --port 3001",
     "format": "biome format --write src",
     "typecheck": "tsc --noEmit",
     "typegen:cloudflare": "wrangler types --env-interface CloudflareBindings"

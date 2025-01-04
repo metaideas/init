@@ -1,8 +1,5 @@
 import { createEnv } from "@t3-oss/env-core"
-import { getWorkerEnv, isNodeRuntime } from "@this/common/utils/runtime"
 import { z } from "zod"
-
-import envCore from "#core.ts"
 
 export default createEnv({
   server: {
@@ -15,6 +12,6 @@ export default createEnv({
     SENTRY_DEBUG: z.boolean(),
     SENTRY_AUTH_TOKEN: z.string(),
   },
-  runtimeEnv: isNodeRuntime ? process.env : await getWorkerEnv(),
-  skipValidation: envCore.IS_DEVELOPMENT,
+  runtimeEnv: process.env,
+  skipValidation: process.env.SKIP_VALIDATION_OBSERVABILITY_SERVER === "true",
 })
