@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     "./base": "./base.ts",
+    "./desktop": "./desktop.ts",
     "./mobile": "./mobile.ts",
     "./web": "./web.ts",
     "./postcss": "./postcss.config.mjs"
