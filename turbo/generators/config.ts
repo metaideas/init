@@ -29,12 +29,14 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       {
         type: "add",
         path: "packages/{{ name }}/package.json",
-        templateFile: "templates/internal-package/package.package.json.hbs",
+        templateFile:
+          "templates/packages/internal-package/package.package.json.hbs",
       },
       {
         type: "add",
         path: "packages/{{ name }}/tsconfig.json",
-        templateFile: "templates/internal-package/package.tsconfig.json.hbs",
+        templateFile:
+          "templates/packages/internal-package/package.tsconfig.json.hbs",
       },
       {
         type: "add",
@@ -83,7 +85,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
   })
 
   plop.setGenerator("web-feature", {
-    description: "Generate a new feature for the web app",
+    description: "Generate a new feature for a web app",
     prompts: [
       {
         type: "input",
@@ -101,47 +103,219 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/actions.ts",
-        templateFile: "templates/web/feature/actions.ts.hbs",
+        templateFile: "templates/apps/web-feature/actions.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
-        templateFile: "templates/web/feature/assets/.gitkeep.hbs",
+        templateFile: "templates/apps/web-feature/assets/.gitkeep.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
-        templateFile: "templates/web/feature/components/.gitkeep.hbs",
+        templateFile: "templates/apps/web-feature/components/.gitkeep.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/hooks.ts",
-        templateFile: "templates/web/feature/hooks.ts.hbs",
+        templateFile: "templates/apps/web-feature/hooks.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/loaders.ts",
-        templateFile: "templates/web/feature/loaders.ts.hbs",
+        templateFile: "templates/apps/web-feature/loaders.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/stores.ts",
-        templateFile: "templates/web/feature/stores.ts.hbs",
+        templateFile: "templates/apps/web-feature/stores.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/types.ts",
-        templateFile: "templates/web/feature/types.ts.hbs",
+        templateFile: "templates/apps/web-feature/types.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/validation.ts",
-        templateFile: "templates/web/feature/validation.ts.hbs",
+        templateFile: "templates/apps/web-feature/validation.ts.hbs",
       },
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/utils.ts",
-        templateFile: "templates/web/feature/utils.ts.hbs",
+        templateFile: "templates/apps/web-feature/utils.ts.hbs",
+      },
+    ],
+  })
+
+  plop.setGenerator("mobile-feature", {
+    description: "Generate a new feature for the mobile app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app?",
+        default: "mobile",
+      },
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the feature?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
+        templateFile: "templates/apps/mobile-feature/assets/.gitkeep.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
+        templateFile: "templates/apps/mobile-feature/components/.gitkeep.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/hooks.ts",
+        templateFile: "templates/apps/mobile-feature/hooks.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/mutations.ts",
+        templateFile: "templates/apps/mobile-feature/mutations.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/queries.ts",
+        templateFile: "templates/apps/mobile-feature/queries.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/stores.ts",
+        templateFile: "templates/apps/mobile-feature/stores.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/types.ts",
+        templateFile: "templates/apps/mobile-feature/types.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/utils.ts",
+        templateFile: "templates/apps/mobile-feature/utils.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/validation.ts",
+        templateFile: "templates/apps/mobile-feature/validation.ts.hbs",
+      },
+    ],
+  })
+
+  plop.setGenerator("api-feature", {
+    description: "Generate a new feature for the API",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app?",
+        default: "api",
+      },
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the feature?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/router.ts",
+        templateFile: "templates/apps/api-feature/router.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/procedures.ts",
+        templateFile: "templates/apps/api-feature/procedures.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/types.ts",
+        templateFile: "templates/apps/api-feature/types.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/utils.ts",
+        templateFile: "templates/apps/api-feature/utils.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/validation.ts",
+        templateFile: "templates/apps/api-feature/validation.ts.hbs",
+      },
+    ],
+  })
+
+  plop.setGenerator("desktop-feature", {
+    description: "Generate a new feature for the desktop app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app?",
+        default: "desktop",
+      },
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the feature?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
+        templateFile: "templates/apps/desktop-feature/assets/.gitkeep",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
+        templateFile: "templates/apps/desktop-feature/components/.gitkeep",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/hooks.ts",
+        templateFile: "templates/apps/desktop-feature/hooks.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/mutations.ts",
+        templateFile: "templates/apps/desktop-feature/mutations.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/queries.ts",
+        templateFile: "templates/apps/desktop-feature/queries.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/stores.ts",
+        templateFile: "templates/apps/desktop-feature/stores.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/types.ts",
+        templateFile: "templates/apps/desktop-feature/types.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/utils.ts",
+        templateFile: "templates/apps/desktop-feature/utils.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/validation.ts",
+        templateFile: "templates/apps/desktop-feature/validation.ts.hbs",
       },
     ],
   })

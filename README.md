@@ -162,7 +162,7 @@ apps/api
       └── features/           # Feature based modules
           └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
               ├── router.ts       # Feature-specific router
-              ├── controllers.ts  # Feature-specific controllers
+              ├── procedures.ts   # Feature-specific procedures
               ├── types.ts        # Feature-specific types
               ├── utils.ts        # Feature-specific utilities
               └── validation.ts   # Feature-specific validation schemas
