@@ -1,6 +1,6 @@
 import "dotenv/config"
 import { type ExecSyncOptions, execSync } from "node:child_process"
-import { intro, outro } from "@clack/prompts"
+import { intro, log, outro } from "@clack/prompts"
 /**
  * Run a script and log the execution time. Make sure to import this at the top
  * of your script to load environment variables before loading other dependencies.
@@ -9,9 +9,11 @@ import { intro, outro } from "@clack/prompts"
 export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
   intro("Starting script execution...")
 
-  console.time("Script executed")
+  const startTime = performance.now()
   await fn()
-  console.timeEnd("Script executed")
+  const endTime = performance.now()
+  const executionTime = endTime - startTime
+  log.message(`Script executed in ${executionTime.toFixed(2)}ms`)
 
   outro("Script execution complete!")
 
@@ -24,7 +26,7 @@ export function runProcess(
   options: Omit<ExecSyncOptions, "stdio"> = {}
 ) {
   const commandWithArgs = `${command} ${args.join(" ")}`
-  console.info(`Running command: ${commandWithArgs}`)
+  log.message(`Running command: ${commandWithArgs}`)
 
   execSync(commandWithArgs, { ...options, stdio: "inherit" })
 }

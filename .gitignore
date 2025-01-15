@@ -63,3 +63,6 @@ local.db-*
 
 # React Email
 *.react-email
+
+# Dependency Graph
+dependency-graph.svg
