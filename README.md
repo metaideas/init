@@ -221,10 +221,33 @@ apps/blog
 
 ### Extensions
 
-TODO
 
 ```sh
 apps/extensions
+  ├── src/                  # Source code
+  │   ├── assets/             # Assets processed by WXT
+  │   ├── components/         # Shared components used across the entire extension
+  │   ├── config/             # Application configuration
+  │   │   ├── env.ts            # Environment variables
+  │   │   └── styles/           # Global styles
+  │   │
+  │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── stores/           # Global state stores
+  │   │   ├── api.ts            # Global API and query client
+  │   │   ├── auth.ts           # Authentication client and helpers
+  │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── hooks.ts          # Shared hooks
+  │   │   ├── i18n.ts           # Internationalization
+  │   │   ├── types.ts          # Shared types
+  │   │   ├── utils.ts          # Shared utilities for the app
+  │   │   └── validation.ts     # Shared validation schemas
+  │   │
+  │   ├── entrypoints/        # Entrypoints
+  │   │   ├── popup/            # Popup entrypoint
+  │   │   ├── background/       # Background script entrypoint
+  │   │   └── ...               # Other entrypoints
+  │   └── static/             # Static assets not processed by WXT. Includes the extension icon.
+  └── wxt.config.ts         # WXT configuration
 ```
 
 ## Development
