@@ -8,9 +8,9 @@ Contains:
 - Mobile application using Expo
 - APIs using Hono & Cloudflare Workers
 - Desktop application using Tauri, Vite and Tanstack Router
-- Documentation site using Nextra (coming soon)
-- Blog powered by Payload CMS (coming soon)
-- Browser extensions using Plasmo (coming soon)
+- Browser extension using WXT
+- Documentation site using Starlight (coming soon)
+- Blog using Astro (coming soon)
 
 ## Project structure
 
@@ -220,6 +220,8 @@ apps/blog
 ```
 
 ### Extensions
+
+TODO
 
 ```sh
 apps/extensions

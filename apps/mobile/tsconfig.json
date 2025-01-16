@@ -1,14 +1,10 @@
 {
-  "extends": [
-    "expo/tsconfig.base"
-  ],
+  "extends": ["expo/tsconfig.base", "@tooling/tsconfig/mobile.json"],
   "compilerOptions": {
     "moduleResolution": "Bundler",
     "strict": true,
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
