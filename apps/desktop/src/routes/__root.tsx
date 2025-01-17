@@ -1,7 +1,7 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 
-import "~/config/styles/global.css"
+import "~/assets/styles/tailwind.css"
 
 export const Route = createRootRoute({
   component: () => (

@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss"
 import base from "./base"
 
 export default {
-  content: base.content,
+  content: [...base.content, "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   presets: [base],
   theme: {},
 } satisfies Config

@@ -13,7 +13,7 @@ config = withTurborepoManagedCache(config)
 config = withMonorepoPaths(config)
 
 config = withNativeWind(config, {
-  input: "./src/config/styles/global.css",
+  input: "./src/assets/styles/tailwind.css",
   configPath: "./tailwind.config.ts",
 })
 

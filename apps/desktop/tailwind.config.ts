@@ -1,10 +1,10 @@
 import type { Config } from "tailwindcss"
 
-import baseConfig from "@tooling/tailwind/desktop"
+import base from "@tooling/tailwind/desktop"
 
 export default {
-  content: [...baseConfig.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [baseConfig],
+  content: [...base.content, "../../packages/ui/src/**/*.{ts,tsx}"],
+  presets: [base],
   theme: {
     extend: {},
   },

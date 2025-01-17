@@ -16,7 +16,7 @@ catalog:
   react-dom: 18.3.1
   react: 18.3.1
   server-only: 0.0.1
-  tailwindcss: ^3.4.16
+  tailwindcss: 3.4.17
   typescript: 5.7.2
   vitest: ^2.1.8
   zod: 3.24.1

@@ -1,9 +1,9 @@
-import baseConfig from "@tooling/tailwind/mobile"
+import base from "@tooling/tailwind/mobile"
 // @ts-expect-error - Nativewind preset is not typed
 import nativewind from "nativewind/preset"
 import type { Config } from "tailwindcss"
 
 export default {
-  content: [...baseConfig.content],
-  presets: [baseConfig, nativewind],
+  content: base.content,
+  presets: [base, nativewind],
 } satisfies Config

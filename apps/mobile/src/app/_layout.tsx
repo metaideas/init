@@ -13,7 +13,8 @@ import { useEffect } from "react"
 import "react-native-reanimated"
 
 import { useColorScheme } from "~/lib/hooks"
-import "~/config/styles/global.css"
+
+import "~/assets/styles/tailwind.css"
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()

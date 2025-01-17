@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import withDb from "~/lib/middlewares/db"
+import { withDb } from "~/lib/middlewares"
 import type { AppContext } from "~/lib/types"
 
 const test = new Hono<AppContext>()

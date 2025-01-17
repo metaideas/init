@@ -5,11 +5,12 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./base": "./base.ts",
-    "./desktop": "./desktop.ts",
-    "./mobile": "./mobile.ts",
-    "./web": "./web.ts",
-    "./postcss": "./postcss.config.mjs"
+    "./base": "./src/base.ts",
+    "./desktop": "./src/desktop.ts",
+    "./extension": "./src/extension.ts",
+    "./mobile": "./src/mobile.ts",
+    "./web": "./src/web.ts",
+    "./postcss": "./src/postcss.config.mjs"
   },
   "scripts": {
     "check": "biome check --write .",
