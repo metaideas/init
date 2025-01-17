@@ -36,7 +36,9 @@ root
   │   ├── queue             # Serverless job queue and workflow management using Inngest and Upstash Qstash
   │   ├── kv                # Redis client and vector database integration using Upstash
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
+  │   ├── payments          # Payment processing utilities using Stripe
   │   ├── security          # Security utilities and best practices using Arcjet
+  │   ├── storage           # Shared storage utilities using UploadThing
   │   ├── ui                # Reusable UI components and design system using Shadcn/UI
   │   └── validation        # Shared data validation schemas using Zod
   │
@@ -45,7 +47,7 @@ root
   │   ├── tsconfig          # TypeScript configuration
   │   └── utils             # Common utility functions for tooling and scripts
   │
-  ├── scripts             # Common scripts for tooling
+  ├── scripts             # Scripts for random tasks
   │
   └── turbo               # Turborepo configuration for monorepo management
       └── generators        # Code generators for packages and tooling
@@ -67,6 +69,7 @@ apps/web
   │   │   ├── i18n/               # Internationalization setup
   │   │   ├── middlewares/        # Global middleware to be imported into middleware.ts
   │   │   ├── stores/             # Global state management stores
+  │   │   ├── env.ts              # Environment variable configuration
   │   │   ├── constants.ts        # Constant values and enums
   │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
   │   │   ├── types.ts            # TypeScript type definitions
@@ -77,10 +80,6 @@ apps/web
   │   │   ├── data/               # Data access layer (e.g., database queries)
   │   │   ├── loaders.ts          # Shared data fetching functions for server components
   │   │   └── actions.ts          # Shared server actions for handling form submissions and mutations
-  │   │
-  │   ├── config/               # Application configuration
-  │   │   ├── styles/             # Global styles and Tailwind CSS configuration
-  │   │   └── env.ts              # Environment variable configuration
   │   │
   │   ├── features/             # Feature-based modules
   │   │   └──[feature]/           # Specific feature (e.g., auth, dashboard, settings)
@@ -108,21 +107,20 @@ apps/mobile
   ├── src/                  # Source code
   │   ├── app/                # App router
   │   ├── assets/             # Static assets shared across the app
+  │   │   └── styles/           # Global styles
+  │   │
   │   ├── components/         # Shared components used across the entire app
   │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
   │   │   ├── stores/           # Global state stores
   │   │   ├── api.ts            # Global API and query client
   │   │   ├── auth.ts           # Authentication client and helpers
   │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── env.ts            # Environment variables
   │   │   ├── hooks.ts          # Shared hooks
   │   │   ├── i18n.ts           # Internationalization
   │   │   ├── types.ts          # Shared types
   │   │   ├── utils.ts          # Shared utilities for the app
   │   │   └── validation.ts     # Shared validation schemas
-  │   │
-  │   ├── config              # Application configuration
-  │   │   ├── env.ts            # Environment variables
-  │   │   └── styles/           # Global styles
   │   │
   │   └── features            # Feature based modules
   │       └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
@@ -147,15 +145,11 @@ apps/api
       ├── index.ts            # Entry point to the worker
       ├── app.ts              # Main Hono app setup
       ├── client.ts           # RPC client type to be used in other apps
-      ├── config/             # Configuration
-      │   └── env.ts            # Environment variables
       │
       ├── lib/                # Reusable libraries (e.g. middleware, utils)
-      │   ├── middlewares/      # Shared middleware
-      │   │   ├── auth.ts       # Authentication middleware
-      │   │   ├── db.ts         # Database middleware
-      │   │   └── ...           # Other shared middleware
       │   ├── constants.ts      # Constant values and enums
+      │   ├── env.ts            # Environment variables
+      │   ├── middlewares.ts    # Shared middlewares
       │   ├── types.ts          # Shared types
       │   └── utils.ts          # General utility functions
       │
@@ -176,16 +170,16 @@ apps/desktop
   │   ├── main.tsx            # Entry point to the desktop app
   │   ├── routes/             # Routing
   │   ├── assets/             # Static assets shared across the app
+  │   │   └── styles/           # Global styles
+  │   │
   │   ├── components/         # Shared components used across the entire app
-  │   ├── config/             # Application configuration
-  │   │   ├── styles/           # Global styles
-  │   │   └── env.ts            # Environment variables
   │   │
   │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
   │   │   ├── stores/           # Global state stores
   │   │   ├── api.ts            # Global API and query client
   │   │   ├── auth.ts           # Authentication client and helpers
   │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── env.ts            # Environment variables
   │   │   ├── hooks.ts          # Shared hooks
   │   │   ├── i18n.ts           # Internationalization
   │   │   ├── types.ts          # Shared types
@@ -221,21 +215,21 @@ apps/blog
 
 ### Extensions
 
-
 ```sh
 apps/extensions
   ├── src/                  # Source code
   │   ├── assets/             # Assets processed by WXT
-  │   ├── components/         # Shared components used across the entire extension
-  │   ├── config/             # Application configuration
-  │   │   ├── env.ts            # Environment variables
   │   │   └── styles/           # Global styles
   │   │
+  │   ├── components/         # Shared components used across the entire extension
+  │   │
   │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── services/         # Shared services
   │   │   ├── stores/           # Global state stores
   │   │   ├── api.ts            # Global API and query client
   │   │   ├── auth.ts           # Authentication client and helpers
   │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── env.ts            # Environment variables
   │   │   ├── hooks.ts          # Shared hooks
   │   │   ├── i18n.ts           # Internationalization
   │   │   ├── types.ts          # Shared types
@@ -246,7 +240,22 @@ apps/extensions
   │   │   ├── popup/            # Popup entrypoint
   │   │   ├── background/       # Background script entrypoint
   │   │   └── ...               # Other entrypoints
+  │   │
+  │   ├── features            # Feature based modules
+  │   │   └──[feature]/         # Specific feature (e.g. auth, dashboard, settings)
+  │   │       ├── assets/         # Feature-specific assets
+  │   │       ├── components/     # Feature-specific components
+  │   │       ├── hooks.ts        # Feature-specific hooks
+  │   │       ├── mutations.ts    # Feature-specific mutations
+  │   │       ├── queries.ts      # Feature-specific queries
+  │   │       ├── services.ts     # Feature-specific services
+  │   │       ├── stores.ts       # Feature-specific global state stores
+  │   │       ├── types.ts        # Feature-specific types
+  │   │       ├── utils.ts        # Feature-specific utilities
+  │   │       └── validation.ts   # Feature-specific validation schemas
+  │   │
   │   └── static/             # Static assets not processed by WXT. Includes the extension icon.
+  │
   └── wxt.config.ts         # WXT configuration
 ```
 

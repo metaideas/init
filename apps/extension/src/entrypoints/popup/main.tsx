@@ -1,10 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './style.css';
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "~/entrypoints/popup/App.tsx"
+import "~/assets/styles/tailwind.css"
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const rootElement = document.getElementById("root") as HTMLElement
+
+if (!rootElement.innerHTML) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
+}

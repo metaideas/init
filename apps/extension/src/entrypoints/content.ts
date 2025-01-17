@@ -1,6 +1,8 @@
+import { defineContentScript } from "wxt/sandbox"
+
 export default defineContentScript({
-  matches: ['*://*.google.com/*'],
+  matches: ["*://*.google.com/*"],
   main() {
-    console.log('Hello content.');
+    console.log("Hello content.")
   },
-});
+})

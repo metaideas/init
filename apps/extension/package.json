@@ -1,29 +1,35 @@
 {
-  "name": "wxt-react-starter",
-  "description": "manifest.json description",
-  "private": true,
+  "name": "extension",
   "version": "0.0.0",
+  "private": true,
+  "description": "manifest.json description",
   "type": "module",
   "scripts": {
-    "dev": "wxt",
-    "dev:firefox": "wxt -b firefox",
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
-    "zip": "wxt zip",
-    "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "postinstall": "wxt prepare",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox"
   },
   "dependencies": {
+    "@this/ui": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@tooling/tailwind": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "^0.0.280",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "@wxt-dev/module-react": "^1.1.2",
-    "typescript": "^5.6.3",
+    "autoprefixer": "catalog:",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
     "wxt": "^0.19.13"
   }
 }
