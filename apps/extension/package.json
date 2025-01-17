@@ -11,15 +11,20 @@
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "postinstall": "wxt prepare",
+    "routegen": "tsx scripts/generate-routes.ts",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.95.0",
     "@this/ui": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@tanstack/router-devtools": "^1.95.0",
+    "@tanstack/router-generator": "^1.97.1",
+    "@tanstack/router-plugin": "^1.95.0",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "^0.0.280",
