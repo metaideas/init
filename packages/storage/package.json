@@ -1,0 +1,29 @@
+{
+  "name": "@this/storage",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@uploadthing/expo": "^7.1.5",
+    "@uploadthing/react": "^7.1.5",
+    "uploadthing": "^7.4.4"
+  }
+}
