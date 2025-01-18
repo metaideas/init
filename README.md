@@ -21,9 +21,9 @@ root
   │   ├── web               # Next.js web application
   │   ├── mobile            # Expo mobile application
   │   ├── desktop           # Tauri desktop application
-  │   ├── docs              # Nextra documentation site
-  │   ├── blog              # Payload CMS blog
-  │   └── extensions        # Plasmo browser extensions
+  │   ├── docs              # Astro documentation site with Starlight
+  │   ├── marketing         # Astro Marketing site
+  │   └── extensions        # WXT browser extensions
   │
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                # AI utilities
@@ -254,9 +254,16 @@ apps/extensions
   │   │       ├── utils.ts        # Feature-specific utilities
   │   │       └── validation.ts   # Feature-specific validation schemas
   │   │
-  │   └── static/             # Static assets not processed by WXT. Includes the extension icon.
+  │   ├── routes/             # Routing shared by all entrypoints
+  │   │   ├── __root.tsx        # Root route
+  │   │   └── ...               # Other routes
+  │   │
+  │   ├── static/             # Static assets not processed by WXT. Includes the extension icon.
+  │   │
+  │   ├── router.ts           # Router instance
+  │   └── routeTree.gen.ts    # Auto-generated route tree
   │
-  └── wxt.config.ts         # WXT configuration
+  └── wxt.config.ts           # WXT configuration
 ```
 
 ## Development

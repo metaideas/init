@@ -1,28 +1,10 @@
-import {
-  RouterProvider,
-  createMemoryHistory,
-  createRouter,
-} from "@tanstack/react-router"
+import { RouterProvider } from "@tanstack/react-router"
 import React from "react"
 import ReactDOM from "react-dom/client"
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen"
 
-import "~/assets/styles/tailwind.css"
+import { createRouter } from "~/router"
 
-const history = createMemoryHistory({
-  initialEntries: ["/"],
-})
-
-// Create a new router instance
-const router = createRouter({ routeTree, history })
-
-// Register the router instance for type safety
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router
-  }
-}
+const router = createRouter(["/popup"])
 
 const rootElement = document.getElementById("root") as HTMLElement
 

@@ -5,7 +5,11 @@ import { fontFamily } from "tailwindcss/defaultTheme"
 import base from "./base"
 
 export default {
-  content: [...base.content, "./src/entrypoints/**/*.{js,ts,jsx,tsx,mdx,html}"],
+  content: [
+    ...base.content,
+    "./src/entrypoints/**/*.{js,ts,jsx,tsx,mdx,html}",
+    "./src/routes/**/*.{js,ts,jsx,tsx,mdx,html}",
+  ],
   presets: [base],
   darkMode: ["class"],
   theme: {

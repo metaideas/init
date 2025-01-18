@@ -12,15 +12,6 @@ export default defineConfig({
   publicDir: "static",
   srcDir: "src",
   vite: () => ({
-    plugins: [
-      TanStackRouterVite({
-        routesDirectory: "./src/entrypoints/popup/routes",
-        generatedRouteTree: "./src/entrypoints/popup/routeTree.gen.ts",
-      }),
-      TanStackRouterVite({
-        routesDirectory: "./src/entrypoints/options/routes",
-        generatedRouteTree: "./src/entrypoints/options/routeTree.gen.ts",
-      }),
-    ],
+    plugins: [TanStackRouterVite()],
   }),
 })
