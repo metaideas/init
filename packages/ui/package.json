@@ -68,14 +68,14 @@
   "devDependencies": {
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "react": "catalog:",
+    "@types/react": "catalog:react18",
+    "react": "catalog:react18",
     "shadcn": "^2.1.8",
     "typescript": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:",
+    "react": "catalog:react18",
     "zod": "catalog:"
   }
 }

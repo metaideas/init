@@ -27,14 +27,14 @@
     "@this/env": "workspace:^",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
-    "react": "catalog:",
-    "react-dom": "catalog:",
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
     "resend": "4.1.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
     "react-email": "3.0.6",
     "typescript": "catalog:"
   }

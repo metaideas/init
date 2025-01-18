@@ -18,8 +18,8 @@
   "dependencies": {
     "@tanstack/react-router": "catalog:",
     "@this/ui": "workspace:^",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "catalog:",

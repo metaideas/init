@@ -41,7 +41,7 @@
     "@sentry/react-native": "^6.4.0",
     "@vercel/functions": "catalog:",
     "next-axiom": "catalog:",
-    "react": "catalog:",
+    "react": "catalog:react18",
     "server-only": "catalog:"
   },
   "peerDependenciesMeta": {

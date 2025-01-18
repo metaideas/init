@@ -19,8 +19,8 @@
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2.2.4",
     "@this/ui": "workspace:^",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "catalog:",
@@ -28,8 +28,8 @@
     "@tauri-apps/cli": "^2.2.4",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "catalog:",
     "postcss": "catalog:",
