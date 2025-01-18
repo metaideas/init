@@ -3,6 +3,7 @@ import { createEnv as createNextjsEnv } from "@t3-oss/env-nextjs"
 import type { NextConfig } from "next"
 
 export function ensureEnv(
+  local: ReturnType<typeof createEnv>,
   packages: ReturnType<typeof createEnv>[],
   options: {
     env: Record<string, string | undefined>
@@ -12,7 +13,7 @@ export function ensureEnv(
   return {
     withEnv: () => {
       createEnv({
-        extends: packages,
+        extends: [local, ...packages],
         server: {},
         client: {},
         shared: {},
@@ -28,11 +29,14 @@ export function ensureEnv(
  * during build time. Exports a `withEnv` function that is used to check
  * environment variables in your Next.js config.
  */
-export function ensureNextjsEnv(packages: ReturnType<typeof createEnv>[]) {
+export function ensureNextjsEnv(
+  local: ReturnType<typeof createNextjsEnv>,
+  packages: ReturnType<typeof createEnv>[]
+) {
   return {
     withEnv: (config: NextConfig) => {
       createNextjsEnv({
-        extends: packages,
+        extends: [local, ...packages],
         server: {},
         client: {},
         shared: {},
@@ -43,3 +47,6 @@ export function ensureNextjsEnv(packages: ReturnType<typeof createEnv>[]) {
     },
   }
 }
+
+export { createEnv } from "@t3-oss/env-core"
+export { createEnv as createNextjsEnv } from "@t3-oss/env-nextjs"

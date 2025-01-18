@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { validateRequest } from "~/lib/auth/helpers"
+import { validateRequest } from "~/lib/auth/server"
 
 export async function AdminOnly({
   children,

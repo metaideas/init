@@ -32,7 +32,8 @@
     "next-safe-action": "^7.10.2",
     "react": "catalog:react18",
     "react-dom": "catalog:react18",
-    "server-only": "catalog:"
+    "server-only": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@tooling/tailwind": "workspace:*",

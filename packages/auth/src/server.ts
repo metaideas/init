@@ -5,6 +5,7 @@ import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { admin, organization } from "better-auth/plugins"
 
+import { nextCookies } from "better-auth/next-js"
 import {
   accessControl,
   adminRole,
@@ -83,6 +84,8 @@ export const auth = betterAuth({
       invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
       sendInvitationEmail,
     }),
+    // Make sure this is the last plugin included
+    ...(env.BETTER_AUTH_SERVER_ACTIONS ? [nextCookies()] : []),
   ],
   secondaryStorage: {
     get: key => kv.get(key),

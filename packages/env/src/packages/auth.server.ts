@@ -11,6 +11,13 @@ export default createEnv({
         z.array(z.string().url())
       )
       .optional(),
+    /**
+     * This is used to enable the auth server to handle cookies in Next.js
+     * server actions (used for sign in/out, sign up, etc).
+     */
+    BETTER_AUTH_SERVER_ACTIONS: z
+      .preprocess(val => val === "true", z.boolean())
+      .optional(),
   },
   runtimeEnv: process.env,
 })
