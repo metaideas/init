@@ -1,7 +1,10 @@
 import { createEnv, ensureEnv } from "@this/env"
+import { z } from "zod"
 
 const local = createEnv({
-  client: {},
+  client: {
+    EXPO_PUBLIC_API_URL: z.string().url(),
+  },
   runtimeEnv: process.env,
   clientPrefix: "EXPO_PUBLIC_",
 })

@@ -1,6 +1,5 @@
-import { hc } from "hono/client"
-
 import type { AppClient } from "api/client"
+import { hc } from "hono/client"
+import env from "~/lib/env"
 
-// TODO(adelrodriguez): Switch to using an environment variable for the API URL
-export const client = hc<AppClient>("http://localhost:8787")
+export const client = hc<AppClient>(env.EXPO_PUBLIC_API_URL)
