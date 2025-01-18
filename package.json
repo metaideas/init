@@ -11,9 +11,9 @@
     "deps:list": "syncpack list",
     "deps:mismatched": "syncpack list-mismatches",
     "deps:mismatched:fix": "syncpack fix-mismatches",
+    "deps:mismatched:update": "syncpack prompt",
     "deps:update": "taze -rlw",
     "dev": "turbo dev",
-    "dev:web": "turbo dev --filter=web",
     "docker:down": "docker compose down",
     "docker:up": "docker compose up -d",
     "format": "turbo format",
@@ -27,20 +27,20 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@clack/prompts": "^0.9.0",
+    "@clack/prompts": "^0.9.1",
     "@turbo/gen": "^2.3.3",
     "dependency-cruiser": "^16.9.0",
     "dotenv": "^16.4.7",
     "sherif": "^1.1.1",
-    "sort-package-json": "^2.12.0",
+    "sort-package-json": "^2.14.0",
     "syncpack": "^13.0.0",
-    "taze": "^0.18.0",
+    "taze": "^18.2.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "turbo": "^2.3.3",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=22"
   }

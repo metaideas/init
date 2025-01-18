@@ -22,14 +22,14 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@noble/hashes": "^1.6.1",
+    "@noble/hashes": "^1.7.0",
     "@oslojs/encoding": "^1.1.0",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
-    "@this/email": "workspace:*",
-    "@this/env": "workspace:*",
+    "@this/email": "workspace:^",
+    "@this/env": "workspace:^",
     "@this/kv": "workspace:*",
-    "better-auth": "^1.0.18",
+    "better-auth": "^1.1.14",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

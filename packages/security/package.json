@@ -25,9 +25,9 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@arcjet/next": "1.0.0-alpha.34",
-    "@arcjet/node": "1.0.0-alpha.34",
-    "@arcjet/redact": "1.0.0-alpha.34",
-    "@this/env": "workspace:*"
+    "@arcjet/next": "1.0.0-beta.1",
+    "@arcjet/node": "1.0.0-beta.1",
+    "@arcjet/redact": "1.0.0-beta.1",
+    "@this/env": "workspace:^"
   }
 }

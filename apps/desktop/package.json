@@ -15,17 +15,17 @@
     "vite:preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-router": "^1.95.0",
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2",
+    "@tanstack/react-router": "catalog:",
+    "@tauri-apps/api": "^2.2.0",
+    "@tauri-apps/plugin-opener": "^2.2.4",
     "@this/ui": "workspace:^",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.95.0",
-    "@tanstack/router-plugin": "^1.95.0",
-    "@tauri-apps/cli": "^2",
+    "@tanstack/router-devtools": "catalog:",
+    "@tanstack/router-plugin": "catalog:",
+    "@tauri-apps/cli": "^2.2.4",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
@@ -35,6 +35,6 @@
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "vite": "^6.0.3"
+    "vite": "^6.0.7"
   }
 }

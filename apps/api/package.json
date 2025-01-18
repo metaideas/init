@@ -28,10 +28,10 @@
     "hono": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241218.0",
+    "@cloudflare/workers-types": "^4.20250109.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "wrangler": "^3.99.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "wrangler": "^3.103.1"
   }
 }

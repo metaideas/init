@@ -23,17 +23,17 @@
   },
   "dependencies": {
     "@this/common": "workspace:*",
-    "@this/env": "workspace:*",
+    "@this/env": "workspace:^",
     "@this/observability": "workspace:*",
     "@this/validation": "workspace:*",
-    "@upstash/qstash": "^2.7.19",
-    "inngest": "^3.28.0",
+    "@upstash/qstash": "^2.7.20",
+    "inngest": "^3.30.0",
     "pino": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@tooling/utils": "workspace:*",
-    "inngest-cli": "^1.3.2",
+    "inngest-cli": "^1.3.3",
     "typescript": "catalog:"
   },
   "peerDependencies": {

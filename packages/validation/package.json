@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "stripe": "^17.4.0",
+    "stripe": "^17.5.0",
     "typescript": "catalog:"
   }
 }
