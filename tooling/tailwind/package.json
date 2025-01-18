@@ -10,7 +10,8 @@
     "./extension": "./src/extension.ts",
     "./mobile": "./src/mobile.ts",
     "./web": "./src/web.ts",
-    "./postcss": "./src/postcss.config.mjs"
+    "./postcss": "./src/postcss.config.mjs",
+    "./marketing": "./src/marketing.ts"
   },
   "scripts": {
     "check": "biome check --write .",

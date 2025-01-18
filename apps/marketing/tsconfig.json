@@ -1,0 +1,10 @@
+{
+  "extends": "@tooling/tsconfig/marketing.json",
+  "include": [".astro/types.d.ts", "**/*"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
+}
