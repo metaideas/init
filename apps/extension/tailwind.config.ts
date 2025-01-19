@@ -1,9 +1,9 @@
-import base from "@tooling/tailwind/extension"
+import wxt from "@tooling/tailwind/wxt"
 import type { Config } from "tailwindcss"
 
 export default {
-  content: [...base.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [base],
+  content: [...wxt.content, "../../packages/ui/src/**/*.{ts,tsx}"],
+  presets: [wxt],
   theme: {
     extend: {},
   },

@@ -278,7 +278,7 @@ Apps run in the 3000-3999 range. Packages run in the 8000-8999 range.
 - API: 3001
 - Mobile: 3002
 - Desktop: 3003
-- Blog: 3004
+- Marketing: 3004
 - Docs: 3005
 - Extension: 3006
 

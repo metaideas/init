@@ -1,12 +1,11 @@
 import type { Config } from "tailwindcss"
+import animate from "tailwindcss-animate"
 import { fontFamily } from "tailwindcss/defaultTheme"
-import base from "./base"
+
+import base from "#config/base.ts"
 
 export default {
-  content: [
-    ...base.content,
-    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-  ],
+  content: [...base.content, "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   presets: [base],
   darkMode: ["class"],
   theme: {
@@ -95,4 +94,5 @@ export default {
       },
     },
   },
+  plugins: [animate],
 } satisfies Config

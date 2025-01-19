@@ -4,14 +4,12 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
-    "./base": "./src/base.ts",
-    "./desktop": "./src/desktop.ts",
-    "./extension": "./src/extension.ts",
-    "./mobile": "./src/mobile.ts",
-    "./web": "./src/web.ts",
-    "./postcss": "./src/postcss.config.mjs",
-    "./marketing": "./src/marketing.ts"
+    "./*": "./src/config/*.ts",
+    "./postcss": "./src/postcss.config.mjs"
   },
   "scripts": {
     "check": "biome check --write .",

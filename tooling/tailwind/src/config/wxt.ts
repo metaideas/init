@@ -2,10 +2,14 @@ import type { Config } from "tailwindcss"
 import animate from "tailwindcss-animate"
 import { fontFamily } from "tailwindcss/defaultTheme"
 
-import base from "./base"
+import base from "#config/base.ts"
 
 export default {
-  content: [...base.content, "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    ...base.content,
+    "./src/entrypoints/**/*.{js,ts,jsx,tsx,mdx,html}",
+    "./src/routes/**/*.{js,ts,jsx,tsx,mdx,html}",
+  ],
   presets: [base],
   darkMode: ["class"],
   theme: {

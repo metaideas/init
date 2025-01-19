@@ -1,10 +1,10 @@
-import baseConfig from "@tooling/tailwind/marketing"
+import astro from "@tooling/tailwind/astro"
 import type { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
 
 export default {
-  content: [...baseConfig.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [baseConfig],
+  content: [...astro.content, "../../packages/ui/src/**/*.{ts,tsx}"],
+  presets: [astro],
   theme: {
     extend: {
       fontFamily: {
