@@ -319,4 +319,73 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
     ],
   })
+
+  plop.setGenerator("extension-feature", {
+    description: "Generate a new feature for the extension app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app?",
+        default: "extension",
+      },
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the feature?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
+        templateFile: "templates/apps/extension-feature/assets/.gitkeep",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
+        templateFile: "templates/apps/extension-feature/components/.gitkeep",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/hooks.ts",
+        templateFile: "templates/apps/extension-feature/hooks.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/mutations.ts",
+        templateFile: "templates/apps/extension-feature/mutations.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/queries.ts",
+        templateFile: "templates/apps/extension-feature/queries.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/services.ts",
+        templateFile: "templates/apps/extension-feature/services.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/stores.ts",
+        templateFile: "templates/apps/extension-feature/stores.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/types.ts",
+        templateFile: "templates/apps/extension-feature/types.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/utils.ts",
+        templateFile: "templates/apps/extension-feature/utils.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/validation.ts",
+        templateFile: "templates/apps/extension-feature/validation.ts.hbs",
+      },
+    ],
+  })
 }

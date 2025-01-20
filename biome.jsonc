@@ -134,7 +134,8 @@
         "scripts/**",
         "packages/**/scripts/**",
         "apps/**/scripts/**",
-        "apps/**/*.config.*"
+        "apps/**/*.config.*",
+        "turbo/generators/**"
       ],
       "linter": {
         "rules": {
