@@ -18,6 +18,9 @@
   "dependencies": {
     "@tanstack/react-router": "catalog:",
     "@this/ui": "workspace:^",
+    "@webext-core/isolated-element": "^1.1.2",
+    "@webext-core/job-scheduler": "^1.0.0",
+    "@webext-core/proxy-service": "^1.2.1",
     "react": "catalog:react18",
     "react-dom": "catalog:react18"
   },
