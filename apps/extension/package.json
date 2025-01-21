@@ -7,11 +7,16 @@
   "scripts": {
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "compile": "tsc --noEmit",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
+    "format": "biome format --write src",
     "postinstall": "wxt prepare",
+    "lint": "biome lint --fix --unsafe src",
     "routegen": "tsx scripts/generate-routes.ts",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
   },

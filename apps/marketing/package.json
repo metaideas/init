@@ -1,12 +1,17 @@
 {
   "name": "marketing",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev --port 3004",
+    "astro": "astro",
     "build": "astro build",
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "astro dev --port 3004",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
     "preview": "astro preview",
-    "astro": "astro"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.6",
