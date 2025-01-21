@@ -8,7 +8,7 @@ export default defineConfig({
     server: { port: 3006 },
   },
   imports: false,
-  modules: ["@wxt-dev/module-react"],
+  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
   publicDir: "static",
   srcDir: "src",
   vite: () => ({
