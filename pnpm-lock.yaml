@@ -821,6 +821,9 @@ importers:
 
   packages/kv:
     dependencies:
+      '@this/common':
+        specifier: workspace:*
+        version: link:../common
       '@this/env':
         specifier: workspace:^
         version: link:../env
@@ -908,7 +911,7 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0
       '@this/kv':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../kv
     devDependencies:
       '@tooling/tsconfig':

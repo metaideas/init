@@ -40,7 +40,8 @@ export type SubscriptionCache =
 export async function syncSubscription(
   customerId: string
 ): Promise<SubscriptionCache> {
-  const { kv } = await import("@this/kv")
+  const { kv, generateCacheKey } = await import("@this/kv")
+  const cacheKey = generateCacheKey("stripe", "customer", customerId)
 
   // Fetch latest subscription data from Stripe
   const subscriptions = await stripe.subscriptions.list({
@@ -53,7 +54,7 @@ export async function syncSubscription(
   if (subscriptions.data.length === 0) {
     const data: SubscriptionCache = { status: "none" }
 
-    await kv.set(`stripe:customer:${customerId}`, data)
+    await kv.set(cacheKey, data)
 
     return data
   }
@@ -79,7 +80,7 @@ export async function syncSubscription(
   }
 
   // Store the data in your KV
-  await kv.set(`stripe:customer:${customerId}`, data)
+  await kv.set(cacheKey, data)
 
   return data
 }
