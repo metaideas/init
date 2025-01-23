@@ -1,11 +1,12 @@
 import { db } from "@this/db/client"
-import { users } from "@this/db/schema"
 import { AdminOnly, UserOnly } from "~/components/auth/roles"
 import { validateRequest } from "~/lib/auth/server"
 
 export default async function Home() {
   const session = await validateRequest()
-  const existingUsers = await db.select().from(users)
+  const existingUsers = await db.query.users.findMany({
+    columns: { publicId: true },
+  })
 
   return (
     <div>

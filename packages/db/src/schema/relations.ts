@@ -63,9 +63,9 @@ export const invitationRelations = relations(invitations, ({ one }) => ({
     fields: [invitations.organizationId],
     references: [organizations.id],
   }),
-  inviter: one(accounts, {
+  inviter: one(members, {
     fields: [invitations.inviterId],
-    references: [accounts.id],
+    references: [members.id],
   }),
 }))
 

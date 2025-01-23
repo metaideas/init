@@ -1,9 +1,7 @@
+import env from "@this/env/db.server"
 import { defineConfig } from "drizzle-kit"
 
-if (
-  process.env.DATABASE_URL?.includes("https") &&
-  process.env.RUN_PRODUCTION_MIGRATIONS !== "true"
-) {
+if (env.DATABASE_URL?.includes("neon") && !env.RUN_PRODUCTION_MIGRATIONS) {
   throw new Error(
     "DATABASE_URL is not allowed to be a remote URL when RUN_PRODUCTION_MIGRATIONS is not true"
   )
@@ -12,10 +10,9 @@ if (
 export default defineConfig({
   schema: "./src/schema/index.ts",
   out: "./migrations",
-  dialect: "turso",
+  dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL as string,
-    authToken: process.env.TURSO_AUTH_TOKEN as string,
+    url: env.DATABASE_URL,
   },
   casing: "snake_case",
   breakpoints: true,

@@ -7,8 +7,6 @@ const test = new Hono<AppContext>()
   .get("/users", withDb, async c => {
     const users = await c.var.db.query.users.findMany({
       columns: {
-        email: true,
-        createdAt: true,
         publicId: true,
       },
     })

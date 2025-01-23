@@ -9,8 +9,8 @@ Contains:
 - APIs using Hono & Cloudflare Workers
 - Desktop application using Tauri, Vite and Tanstack Router
 - Browser extension using WXT
-- Documentation site using Starlight (coming soon)
-- Blog using Astro (coming soon)
+- Documentation site using Astro + Starlight
+- Marketing site using Astro
 
 ## Project structure
 

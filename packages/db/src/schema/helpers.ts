@@ -1,27 +1,25 @@
 import type { Brand } from "@this/common/types"
-import { generateNoLookalikeId } from "@this/common/utils/id"
-import { integer, sqliteTableCreator, text } from "drizzle-orm/sqlite-core"
+import { generatePrefixedId } from "@this/common/utils/id"
+import { pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core"
 
 // You can add a prefix to table names to host multiple projects on the same
 // database
-export const createTable = sqliteTableCreator(name => name)
+export const createTable = pgTableCreator(name => name)
 
 export function publicId<T extends string>(prefix: string) {
   return {
-    publicId: text("public_id")
+    publicId: varchar("public_id", { length: 256 })
       .notNull()
       .unique()
-      .$defaultFn(() => `${prefix}_${generateNoLookalikeId(24)}`)
+      .$defaultFn(() => generatePrefixedId(prefix, 24))
       .$type<Brand<string, T>>(),
   }
 }
 
 export const timestamps = {
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp({ mode: "date" })
     .notNull()
-    .$defaultFn(() => new Date()),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
-    .$defaultFn(() => new Date())
-    .$onUpdateFn(() => new Date())
-    .notNull(),
+    .defaultNow()
+    .$onUpdateFn(() => new Date()),
 }

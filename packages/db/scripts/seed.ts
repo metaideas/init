@@ -1,16 +1,12 @@
-import "dotenv/config"
-
 import { log } from "@clack/prompts"
-import env from "@this/env/db.server"
 import { runProcess, runScript } from "@tooling/utils"
-import { drizzle } from "drizzle-orm/libsql"
 import { seed } from "drizzle-seed"
 import * as schema from "#schema/index.ts"
 
 async function main() {
-  log.info("Seeding database...")
+  const { db } = await import("#client.ts")
 
-  const db = drizzle(env.DATABASE_URL, { casing: "snake_case" })
+  log.info("Seeding database...")
 
   await runProcess("drizzle-kit", ["push"])
 
@@ -19,7 +15,6 @@ async function main() {
     users: {
       columns: {
         name: f.fullName(),
-
         role: f.valuesFromArray({
           values: ["admin", "user"],
         }),
@@ -30,8 +25,16 @@ async function main() {
         accounts: 1,
       },
     },
+    organizations: {
+      columns: {
+        name: f.companyName(),
+      },
+      count: 10,
+    },
     verifications: {
-      id: f.intPrimaryKey(),
+      columns: {
+        id: f.intPrimaryKey(),
+      },
     },
   }))
   console.timeEnd("Seeded database")

@@ -4,7 +4,10 @@ import { z } from "zod"
 export default createEnv({
   server: {
     DATABASE_URL: z.string().url(),
-    TURSO_AUTH_TOKEN: z.string(),
+    RUN_PRODUCTION_MIGRATIONS: z
+      .string()
+      .transform(val => val === "true")
+      .default("false"),
   },
   runtimeEnv: process.env,
 })
