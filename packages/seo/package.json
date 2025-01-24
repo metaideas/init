@@ -1,0 +1,34 @@
+{
+  "name": "@this/seo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "exports": {
+    "./json-ld": "./src/json-ld.tsx",
+    "./metadata": "./src/metadata.ts",
+    "./og": "./src/og.ts"
+  },
+  "scripts": {
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write src",
+    "lint": "biome lint --fix --unsafe src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@vercel/og": "^0.6.5",
+    "lodash.merge": "^4.6.2",
+    "react": "^19.0.0",
+    "schema-dts": "^1.1.2"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "@types/lodash.merge": "^4.6.9",
+    "next": "catalog:",
+    "typescript": "catalog:"
+  }
+}
