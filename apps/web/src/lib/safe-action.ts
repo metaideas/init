@@ -1,8 +1,8 @@
+import { reportError } from "@this/observability/instrumentation"
 import {
   type Logger,
   createActionLogger,
 } from "@this/observability/logger/nextjs"
-import { reportError } from "@this/observability/sentry"
 import { ActionMetadataSchema } from "@this/validation/actions"
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,

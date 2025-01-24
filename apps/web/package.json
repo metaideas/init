@@ -29,6 +29,7 @@
     "@vercel/functions": "catalog:",
     "api": "workspace:*",
     "client-only": "^0.0.1",
+    "next": "catalog:",
     "next-axiom": "catalog:",
     "next-safe-action": "^7.10.2",
     "react": "catalog:react18",
@@ -44,7 +45,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
-    "next": "catalog:",
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"
