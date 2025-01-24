@@ -1,5 +1,5 @@
+import { withSentry } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
-import { withSentry } from "@this/observability/sentry/nextjs"
 import type { NextConfig } from "next"
 
 import { withEnv } from "~/lib/env"

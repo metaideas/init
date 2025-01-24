@@ -1,3 +1,3 @@
-import { initializeSentry } from "@this/observability/sentry/nextjs"
+import { initializeSentry } from "@this/observability/instrumentation/nextjs"
 
 initializeSentry("client")

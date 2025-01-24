@@ -5,17 +5,26 @@ import envServer from "@this/env/observability.server"
 import envWeb from "@this/env/observability.web"
 import type { NextConfig } from "next"
 
+const options = {
+  dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
+  tracesSampleRate: 1,
+  debug: envServer.SENTRY_DEBUG,
+}
+
+export function registerSentry() {
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    initializeSentry("server")
+  }
+
+  if (process.env.NEXT_RUNTIME === "edge") {
+    initializeSentry("edge")
+  }
+}
+
 export function initializeSentry(runtime: "client" | "server" | "edge") {
   if (runtime === "client") {
     Sentry.init({
-      dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
-
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
-
-      // Setting this option to true will print useful information to the console while you're setting up Sentry.
-      debug: envCore.IS_DEVELOPMENT,
-
+      ...options,
       replaysOnErrorSampleRate: 1.0,
 
       // This sets the sample rate to be 10%. You may want this to be 100% while
@@ -35,13 +44,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
 
   if (runtime === "server") {
     Sentry.init({
-      dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
-
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
-
-      // Setting this option to true will print useful information to the console while you're setting up Sentry.
-      debug: envServer.SENTRY_DEBUG,
+      ...options,
 
       // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
       spotlight: envCore.IS_DEVELOPMENT,
@@ -50,11 +53,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
 
   if (runtime === "edge") {
     Sentry.init({
-      dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
-
-      tracesSampleRate: 1,
-
-      debug: envServer.SENTRY_DEBUG,
+      ...options,
     })
   }
 }

@@ -1,9 +1,10 @@
 import { captureException } from "@sentry/core"
-import type { Logger } from "next-axiom"
+import { type Logger, useLogger } from "next-axiom"
+import { useEffect } from "react"
 
 export function reportError(
   error: unknown,
-  logger: Logger
+  logger?: Logger
 ): {
   sentryId: string | undefined
   message: string
@@ -22,11 +23,19 @@ export function reportError(
 
   try {
     sentryId = captureException(error)
-    logger.error(`Parsing error: ${message}`)
+    logger?.error(`Parsing error: ${message}`)
   } catch (e) {
     // biome-ignore lint/suspicious/noConsole: Need console here
     console.error("Error parsing error:", e)
   }
 
   return { sentryId, message }
+}
+
+export function useReportError(error: unknown) {
+  const logger = useLogger()
+
+  useEffect(() => {
+    reportError(error, logger)
+  }, [error, logger])
 }

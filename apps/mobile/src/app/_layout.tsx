@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native"
 import * as Sentry from "@sentry/react-native"
-import { initializeSentry } from "@this/observability/sentry/expo"
+import { initializeSentry } from "@this/observability/instrumentation/expo"
 import { useFonts } from "expo-font"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"

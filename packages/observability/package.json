@@ -10,8 +10,8 @@
   "exports": {
     "./logger": "./src/logger/index.ts",
     "./logger/*": "./src/logger/*.ts",
-    "./sentry": "./src/sentry/index.ts",
-    "./sentry/*": "./src/sentry/*.ts"
+    "./instrumentation": "./src/instrumentation/index.ts",
+    "./instrumentation/*": "./src/instrumentation/*.ts"
   },
   "scripts": {
     "check": "biome check --write src",
