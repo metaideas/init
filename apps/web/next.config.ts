@@ -1,4 +1,5 @@
-import { withSentry } from "@this/observability/instrumentation/nextjs"
+import { withContentCollections } from "@content-collections/next"
+import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
 import type { NextConfig } from "next"
 
@@ -9,7 +10,8 @@ let nextConfig: NextConfig = {
 }
 
 nextConfig = withEnv(nextConfig)
-nextConfig = withSentry(nextConfig)
+nextConfig = withInstrumentation(nextConfig)
 nextConfig = withLogger(nextConfig)
+nextConfig = withContentCollections(nextConfig)
 
 export default nextConfig

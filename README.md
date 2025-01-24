@@ -197,19 +197,8 @@ apps/desktop
   │           ├── utils.ts        # Feature-specific utilities
   │           └── validation.ts   # Feature-specific validation schemas
   │
-  └── translations          # Translations files
-```
-
-### Docs
-
-```sh
-apps/docs
-```
-
-### Blog
-
-```sh
-apps/blog
+  ├── translations          # Translations files
+  └── content               # Blog and other static content
 ```
 
 ### Extensions
@@ -263,6 +252,24 @@ apps/extensions
   │   └── routeTree.gen.ts    # Auto-generated route tree
   │
   └── wxt.config.ts           # WXT configuration
+```
+
+### Docs
+
+```sh
+apps/docs
+  ├── src/                  # Source code
+  │   ├── app/                # App router for Next.js
+  │   ├── assets/             # Static assets shared across the app
+  │   ├── lib/                # Reusable libraries (e.g. hooks, utils)
+  │   │   ├── constants.ts      # Constant values and enums
+  │   │   ├── env.ts            # Environment variables
+  │   │   ├── source.ts         # Documentation source
+  │   │   └── utils.ts          # Shared utilities for the app
+  │   │
+  │   └── instrumentation.ts  # Monitoring and analytics instrumentation
+  │
+  └── content/              # Documentation content in MDX format
 ```
 
 ## Development

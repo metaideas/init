@@ -9,6 +9,7 @@
     "dev": "next dev --turbo",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
+    "prebuild": "content-collections build",
     "start": "next start",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
@@ -27,7 +28,6 @@
     "@vercel/functions": "catalog:",
     "api": "workspace:*",
     "client-only": "^0.0.1",
-    "next": "catalog:",
     "next-axiom": "catalog:",
     "next-safe-action": "^7.10.2",
     "react": "catalog:react18",
@@ -36,11 +36,16 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@content-collections/cli": "^0.1.6",
+    "@content-collections/core": "^0.8.0",
+    "@content-collections/mdx": "^0.2.0",
+    "@content-collections/next": "^0.2.4",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
+    "next": "catalog:",
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"

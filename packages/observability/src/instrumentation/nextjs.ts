@@ -64,7 +64,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
   }
 }
 
-export function withSentry(config: NextConfig) {
+export function withInstrumentation(config: NextConfig) {
   return withSentryConfig(config, {
     org: envServer.SENTRY_ORG,
     project: envServer.SENTRY_PROJECT,

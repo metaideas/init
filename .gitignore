@@ -66,3 +66,7 @@ local.db-*
 
 # Dependency Graph
 dependency-graph.svg
+
+
+# Content Collections
+.content-collections

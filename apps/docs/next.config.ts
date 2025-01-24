@@ -1,4 +1,4 @@
-import { withSentry } from "@this/observability/instrumentation/nextjs"
+import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
 import { createMDX } from "fumadocs-mdx/next"
 import type { NextConfig } from "next"
@@ -12,7 +12,7 @@ let nextConfig: NextConfig = {
 }
 
 nextConfig = withEnv(nextConfig)
-nextConfig = withSentry(nextConfig)
+nextConfig = withInstrumentation(nextConfig)
 nextConfig = withLogger(nextConfig)
 nextConfig = withMDX(nextConfig)
 
