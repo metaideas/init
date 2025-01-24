@@ -8,8 +8,8 @@
     "#*": "./src/*"
   },
   "exports": {
+    ".": "./src/index.ts",
     "./actions": "./src/actions.ts",
-    "./env": "./src/env.ts",
     "./jobs": "./src/jobs.ts"
   },
   "scripts": {
@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "zod": "catalog:"
+    "zod": "3.24.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

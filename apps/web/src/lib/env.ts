@@ -3,7 +3,7 @@ import db from "@this/env/db.server"
 import kv from "@this/env/kv.server"
 import observabilityServer from "@this/env/observability.server"
 import observabilityWeb from "@this/env/observability.web"
-import { z } from "zod"
+import * as z from "@this/validation"
 
 const local = createNextjsEnv({
   shared: {

@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@content-collections/mdx": "^0.2.0",
     "@libsql/client": "^0.14.0",
     "@this/auth": "workspace:*",
     "@this/common": "workspace:*",
@@ -32,13 +33,11 @@
     "next-safe-action": "^7.10.2",
     "react": "catalog:react18",
     "react-dom": "catalog:react18",
-    "server-only": "catalog:",
-    "zod": "catalog:"
+    "server-only": "catalog:"
   },
   "devDependencies": {
     "@content-collections/cli": "^0.1.6",
     "@content-collections/core": "^0.8.0",
-    "@content-collections/mdx": "^0.2.0",
     "@content-collections/next": "^0.2.4",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",

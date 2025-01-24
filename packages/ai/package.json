@@ -27,10 +27,9 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.9",
     "@ai-sdk/openai": "^1.0.20",
-    "@this/env": "workspace:^",
+    "@this/env": "workspace:*",
     "@upstash/semantic-cache": "^1.0.5",
     "@upstash/vector": "^1.2.0",
-    "ai": "^4.0.39",
-    "zod": "catalog:"
+    "ai": "^4.0.39"
   }
 }

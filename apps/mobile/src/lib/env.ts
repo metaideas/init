@@ -1,5 +1,5 @@
 import { createEnv, ensureEnv } from "@this/env"
-import { z } from "zod"
+import * as z from "@this/validation"
 
 const local = createEnv({
   client: {

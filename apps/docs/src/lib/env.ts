@@ -1,11 +1,11 @@
 import { createNextjsEnv, ensureNextjsEnv } from "@this/env"
 import observabilityServer from "@this/env/observability.server"
 import observabilityWeb from "@this/env/observability.web"
-import { z } from "zod"
+import * as z from "@this/validation"
 
 const local = createNextjsEnv({
   shared: {
-    NEXT_PUBLIC_DOMAIN: z.string(),
+    NEXT_PUBLIC_DOMAIN: z.string().url(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,

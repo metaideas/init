@@ -51,9 +51,6 @@ catalogs:
     vitest:
       specifier: ^3.0.1
       version: 3.0.1
-    zod:
-      specifier: 3.24.1
-      version: 3.24.1
   react18:
     '@types/react':
       specifier: ^18.3.11
@@ -218,6 +215,9 @@ importers:
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@this/validation':
+        specifier: workspace:*
+        version: link:../../packages/validation
       fumadocs-core:
         specifier: 14.7.7
         version: 14.7.7(@types/react@18.3.16)(next@15.1.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -236,9 +236,6 @@ importers:
       react-dom:
         specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
     devDependencies:
       '@tooling/tailwind':
         specifier: workspace:*
@@ -361,6 +358,9 @@ importers:
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@this/validation':
+        specifier: workspace:^
+        version: link:../../packages/validation
       '@tooling/tsconfig':
         specifier: workspace:^
         version: link:../../tooling/tsconfig
@@ -433,9 +433,6 @@ importers:
       react-native-webview:
         specifier: 13.13.1
         version: 13.13.1(react-native@0.76.6(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.16)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
     devDependencies:
       '@babel/core':
         specifier: ^7.26.0
@@ -479,6 +476,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@content-collections/mdx':
+        specifier: ^0.2.0
+        version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@libsql/client':
         specifier: ^0.14.0
         version: 0.14.0(bufferutil@4.0.8)
@@ -536,9 +536,6 @@ importers:
       server-only:
         specifier: 'catalog:'
         version: 0.0.1
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
     devDependencies:
       '@content-collections/cli':
         specifier: ^0.1.6
@@ -546,9 +543,6 @@ importers:
       '@content-collections/core':
         specifier: ^0.8.0
         version: 0.8.0(typescript@5.7.3)
-      '@content-collections/mdx':
-        specifier: ^0.2.0
-        version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@content-collections/next':
         specifier: ^0.2.4
         version: 0.2.4(@content-collections/core@0.8.0(typescript@5.7.3))(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))
@@ -589,7 +583,7 @@ importers:
         specifier: ^1.0.20
         version: 1.0.20(zod@3.24.1)
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@upstash/semantic-cache':
         specifier: ^1.0.5
@@ -600,9 +594,6 @@ importers:
       ai:
         specifier: ^4.0.39
         version: 4.0.39(react@19.0.0)(zod@3.24.1)
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -822,9 +813,6 @@ importers:
       '@this/validation':
         specifier: workspace:*
         version: link:../validation
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -1136,6 +1124,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.6
         version: 1.1.6(@types/react-dom@19.0.3(@types/react@18.3.16))(@types/react@18.3.16)(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
+      '@this/validation':
+        specifier: workspace:*
+        version: link:../validation
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1200,14 +1191,11 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.1
 
   packages/validation:
     dependencies:
       zod:
-        specifier: 'catalog:'
+        specifier: 3.24.1
         version: 3.24.1
     devDependencies:
       '@tooling/tsconfig':

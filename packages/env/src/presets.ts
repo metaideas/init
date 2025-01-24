@@ -1,1 +1,1 @@
-export { vercel, fly, railway } from "@t3-oss/env-core/presets"
+export * from "@t3-oss/env-core/presets"

@@ -1,6 +1,5 @@
 import { createEnv } from "@t3-oss/env-core"
-import { parseStringToBoolean } from "@this/validation/env"
-import { z } from "zod"
+import * as z from "@this/validation"
 
 export default createEnv({
   server: {
@@ -10,7 +9,7 @@ export default createEnv({
     SENTRY_DSN: z.string(),
     SENTRY_ORG: z.string(),
     SENTRY_PROJECT: z.string(),
-    SENTRY_DEBUG: parseStringToBoolean,
+    SENTRY_DEBUG: z.booleanLike().optional().default(false),
     SENTRY_AUTH_TOKEN: z.string(),
   },
   runtimeEnv: process.env,
