@@ -22,7 +22,26 @@ export function registerSentry() {
 }
 
 export function initializeSentry(runtime: "client" | "server" | "edge") {
-  if (runtime === "client") {
+  if (runtime === "server") {
+    Sentry.init({
+      ...options,
+
+      // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
+      spotlight: envCore.IS_DEVELOPMENT,
+    })
+
+    return
+  }
+
+  if (runtime === "edge") {
+    Sentry.init({
+      ...options,
+    })
+
+    return
+  }
+
+  if (runtime === "client" && typeof window !== "undefined") {
     Sentry.init({
       ...options,
       replaysOnErrorSampleRate: 1.0,
@@ -40,21 +59,8 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
         }),
       ],
     })
-  }
 
-  if (runtime === "server") {
-    Sentry.init({
-      ...options,
-
-      // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
-      spotlight: envCore.IS_DEVELOPMENT,
-    })
-  }
-
-  if (runtime === "edge") {
-    Sentry.init({
-      ...options,
-    })
+    return
   }
 }
 

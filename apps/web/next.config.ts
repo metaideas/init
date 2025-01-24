@@ -5,11 +5,11 @@ import type { NextConfig } from "next"
 import { withEnv } from "~/lib/env"
 
 let nextConfig: NextConfig = {
-  /* config options here */
+  // Your config options here
 }
 
-nextConfig = withSentry(nextConfig)
 nextConfig = withEnv(nextConfig)
+nextConfig = withSentry(nextConfig)
 nextConfig = withLogger(nextConfig)
 
 export default nextConfig
