@@ -26,6 +26,14 @@ const APPS = [
     value: "desktop",
     label: "desktop - Tauri desktop application with Vite and Tanstack Router",
   },
+  {
+    value: "extension",
+    label: "extension - Browser extension using WXT",
+  },
+  {
+    value: "docs",
+    label: "docs - Documentation site using Fumadocs",
+  },
 ]
 
 const PACKAGES = [
@@ -58,11 +66,6 @@ const PACKAGES = [
     label: "env - Environment variable management and validation",
   },
   {
-    value: "queue",
-    label:
-      "queue - Serverless job queue and workflow management using Inngest and Upstash Qstash",
-  },
-  {
     value: "kv",
     label: "kv - Redis client and vector database integration using Upstash",
   },
@@ -72,8 +75,21 @@ const PACKAGES = [
       "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
   },
   {
+    value: "payments",
+    label: "payments - Payment processing utilities using Stripe",
+  },
+  {
+    value: "queue",
+    label:
+      "queue - Serverless job queue and workflow management using Inngest and Upstash Qstash",
+  },
+  {
     value: "security",
     label: "security - Security utilities and best practices using Arcjet",
+  },
+  {
+    value: "storage",
+    label: "storage - Shared storage utilities using UploadThing",
   },
   {
     value: "ui",
