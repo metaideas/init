@@ -1,4 +1,5 @@
 import { createEnv } from "@t3-oss/env-core"
+import { parseStringToBoolean } from "@this/validation/env"
 import { z } from "zod"
 
 export default createEnv({
@@ -13,11 +14,9 @@ export default createEnv({
       .optional(),
     /**
      * This is used to enable the auth server to handle cookies in Next.js
-     * server actions (used for sign in/out, sign up, etc).
+     * server actions (used for sign in, sign out, sign up, etc).
      */
-    BETTER_AUTH_SERVER_ACTIONS: z
-      .preprocess(val => val === "true", z.boolean())
-      .optional(),
+    BETTER_AUTH_SERVER_ACTIONS: parseStringToBoolean,
   },
   runtimeEnv: process.env,
 })

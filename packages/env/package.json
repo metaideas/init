@@ -24,6 +24,7 @@
     "@t3-oss/env-core": "^0.11.1",
     "@t3-oss/env-nextjs": "^0.11.1",
     "@this/common": "workspace:*",
+    "@this/validation": "workspace:^",
     "zod": "catalog:"
   },
   "devDependencies": {

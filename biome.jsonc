@@ -77,7 +77,8 @@
       "correctness": {
         "noUndeclaredDependencies": "off",
         "noUnusedImports": "error",
-        "useImportExtensions": "off"
+        "useImportExtensions": "off",
+        "noNodejsModules": "off"
       },
       "nursery": {
         "all": true,
@@ -116,18 +117,6 @@
     "enabled": true
   },
   "overrides": [
-    {
-      "include": ["packages/auth/src/**"],
-      "linter": {
-        "rules": {
-          "correctness": {
-            // We allow Node.js modules in this package since this should only
-            // be used in a server environment
-            "noNodejsModules": "off"
-          }
-        }
-      }
-    },
     {
       "include": [
         "tooling/**",

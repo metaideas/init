@@ -9,6 +9,7 @@
   },
   "exports": {
     "./actions": "./src/actions.ts",
+    "./env": "./src/env.ts",
     "./jobs": "./src/jobs.ts"
   },
   "scripts": {
