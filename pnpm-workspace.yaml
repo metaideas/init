@@ -10,7 +10,7 @@ catalog:
   "@vercel/functions": 1.5.2
   autoprefixer: 10.4.20
   hono: 4.6.16
-  next: 15.1.4
+  next: 15.1.6
   next-axiom: 1.9.1
   pino: 9.6.0
   postcss: ^8.5.1

@@ -5,7 +5,7 @@ import { defineConfig } from "wxt"
 export default defineConfig({
   extensionApi: "chrome",
   dev: {
-    server: { port: 3006 },
+    server: { port: 3004 },
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],

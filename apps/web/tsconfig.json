@@ -1,9 +1,10 @@
 {
-  "extends": "@tooling/tsconfig/web.json",
+  "extends": "@tooling/tsconfig/web",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"]
     }
   },
   "exclude": ["node_modules"],

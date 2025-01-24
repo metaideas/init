@@ -1,6 +1,6 @@
-import { getTestService } from "@/lib/services"
 import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@this/ui/components/button"
+import { getTestService } from "~/lib/services"
 
 const testService = getTestService()
 

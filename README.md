@@ -9,8 +9,7 @@ Contains:
 - APIs using Hono & Cloudflare Workers
 - Desktop application using Tauri, Vite and Tanstack Router
 - Browser extension using WXT
-- Documentation site using Astro + Starlight
-- Marketing site using Astro
+- Documentation site using Next.js + Fumadocs
 
 ## Project structure
 
@@ -278,10 +277,8 @@ Apps run in the 3000-3999 range. Packages run in the 8000-8999 range.
 - API: 3001
 - Mobile: 3002
 - Desktop: 3003
-- Marketing: 3004
+- Extension: 3004
 - Docs: 3005
-- Extension: 3006
 
-- Database: 8080
 - Email: 8081
 - Queue: 8288

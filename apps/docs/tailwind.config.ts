@@ -1,17 +1,12 @@
-import starlight from "@astrojs/starlight-tailwind"
-import astro from "@tooling/tailwind/astro"
+import nextjs from "@tooling/tailwind/nextjs"
+import { createPreset } from "fumadocs-ui/tailwind-plugin"
 import type { Config } from "tailwindcss"
-import { fontFamily } from "tailwindcss/defaultTheme"
 
 export default {
-  content: [...astro.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [astro],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["var(--font-inter)", ...fontFamily.sans],
-      },
-    },
-  },
-  plugins: [starlight()],
+  content: [
+    ...nextjs.content,
+    "./mdx-components.{ts,tsx}",
+    "../../node_modules/fumadocs-ui/dist/**/*.js",
+  ],
+  presets: [nextjs, createPreset({ preset: "neutral" })],
 } satisfies Config
