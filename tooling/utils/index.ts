@@ -1,5 +1,6 @@
 import "dotenv/config"
-import { type ExecSyncOptions, execSync } from "node:child_process"
+import { type ExecSyncOptions, exec, execSync } from "node:child_process"
+import { promisify } from "node:util"
 import { intro, log, outro } from "@clack/prompts"
 /**
  * Run a script and log the execution time. Make sure to import this at the top
@@ -29,4 +30,11 @@ export function runProcess(
   log.message(`Running command: ${commandWithArgs}`)
 
   execSync(commandWithArgs, { ...options, stdio: "inherit" })
+}
+
+const execAsync = promisify(exec)
+
+export async function executeCommand(command: string): Promise<string> {
+  const { stdout } = await execAsync(command)
+  return stdout
 }
