@@ -10,7 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@this/env": "workspace:^",
+    "@this/common": "workspace:*",
+    "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/validation": "workspace:*",
     "fumadocs-core": "14.7.7",

@@ -209,6 +209,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@this/common':
+        specifier: workspace:^
+        version: link:../../packages/common
       '@this/env':
         specifier: workspace:^
         version: link:../../packages/env

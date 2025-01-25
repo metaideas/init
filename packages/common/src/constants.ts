@@ -1,5 +1,10 @@
 export const APP_NAME = "Init"
 export const APP_ID = "init"
 
-export const LOCALES = ["en", "es"] as const
-export const DEFAULT_LOCALE = "en" as const
+export const Locales = {
+  EN: "en",
+  ES: "es",
+} as const
+export type Locale = (typeof Locales)[keyof typeof Locales]
+export const DEFAULT_LOCALE = Locales.EN
+export const LOCALES = [Locales.EN, Locales.ES] as const

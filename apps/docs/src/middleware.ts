@@ -1,4 +1,4 @@
-import { i18nMiddleware } from "~/lib/i18n/routing"
+import { i18nMiddleware } from "~/lib/i18n/middleware"
 
 const middleware = i18nMiddleware
 
