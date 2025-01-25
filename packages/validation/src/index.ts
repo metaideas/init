@@ -10,3 +10,10 @@ export function booleanLike() {
 export function env() {
   return z.enum(["development", "production", "test"])
 }
+
+export function conditional<T extends z.ZodTypeAny>(
+  condition: boolean,
+  schema: T
+) {
+  return z.lazy(() => (condition ? schema.optional() : schema))
+}
