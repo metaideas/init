@@ -8,7 +8,6 @@ import type { NextConfig } from "next"
 const options = {
   dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
   tracesSampleRate: 1,
-  debug: envServer.SENTRY_DEBUG,
 }
 
 export function registerSentry() {
@@ -25,6 +24,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
   if (runtime === "server") {
     Sentry.init({
       ...options,
+      debug: envServer.SENTRY_DEBUG,
 
       // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
       spotlight: envCore.IS_DEVELOPMENT,
@@ -36,6 +36,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
   if (runtime === "edge") {
     Sentry.init({
       ...options,
+      debug: envServer.SENTRY_DEBUG,
     })
 
     return
@@ -44,6 +45,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
   if (runtime === "client" && typeof window !== "undefined") {
     Sentry.init({
       ...options,
+
       replaysOnErrorSampleRate: 1.0,
 
       // This sets the sample rate to be 10%. You may want this to be 100% while
