@@ -10,6 +10,7 @@
     ".": "./src/index.ts",
     "./providers/*": "./src/providers/*",
     "./react": "./src/react.ts",
+    "./rsc": "./src/rsc.ts",
     "./vector": "./src/vector.ts"
   },
   "license": "MIT",
