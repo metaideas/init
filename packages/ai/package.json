@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.9",
+    "@ai-sdk/deepseek": "^0.1.3",
     "@ai-sdk/openai": "^1.0.20",
     "@this/env": "workspace:*",
     "@upstash/semantic-cache": "^1.0.5",
