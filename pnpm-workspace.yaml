@@ -4,6 +4,7 @@ packages:
   - tooling/*
 catalog:
   "@next/bundle-analyzer": 15.1.6
+  "@sentry/react-native": "6.5.0"
   "@tanstack/react-router": 1.97.1
   "@tanstack/router-devtools": 1.97.1
   "@tanstack/router-plugin": 1.97.1
@@ -11,8 +12,8 @@ catalog:
   "@vercel/functions": 1.5.2
   autoprefixer: 10.4.20
   hono: 4.6.16
-  next: 15.1.6
   next-axiom: 1.9.1
+  next: 15.1.6
   pino: 9.6.0
   postcss: ^8.5.1
   server-only: 0.0.1

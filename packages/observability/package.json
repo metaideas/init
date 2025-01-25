@@ -38,7 +38,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@sentry/react-native": "^6.4.0",
+    "@sentry/react-native": "catalog:",
     "@vercel/functions": "catalog:",
     "next-axiom": "catalog:",
     "react": "catalog:react18",
