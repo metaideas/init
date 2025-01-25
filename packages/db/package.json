@@ -23,7 +23,6 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@libsql/client": "^0.14.0",
     "@neondatabase/serverless": "^0.10.4",
     "@this/common": "workspace:*",
     "@this/env": "workspace:^",

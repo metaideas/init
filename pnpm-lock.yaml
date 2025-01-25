@@ -482,9 +482,6 @@ importers:
       '@content-collections/mdx':
         specifier: ^0.2.0
         version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@libsql/client':
-        specifier: ^0.14.0
-        version: 0.14.0(bufferutil@4.0.8)
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -718,9 +715,6 @@ importers:
 
   packages/db:
     dependencies:
-      '@libsql/client':
-        specifier: ^0.14.0
-        version: 0.14.0(bufferutil@4.0.8)
       '@neondatabase/serverless':
         specifier: ^0.10.4
         version: 0.10.4
@@ -16091,10 +16085,12 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/core@0.14.0':
     dependencies:
       js-base64: 3.7.7
+    optional: true
 
   '@libsql/darwin-arm64@0.4.7':
     optional: true
@@ -16111,8 +16107,10 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
-  '@libsql/isomorphic-fetch@0.3.1': {}
+  '@libsql/isomorphic-fetch@0.3.1':
+    optional: true
 
   '@libsql/isomorphic-ws@0.1.5(bufferutil@4.0.8)':
     dependencies:
@@ -16121,6 +16119,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/linux-arm64-gnu@0.4.7':
     optional: true
@@ -16181,7 +16180,8 @@ snapshots:
       - acorn
       - supports-color
 
-  '@neon-rs/load@0.0.4': {}
+  '@neon-rs/load@0.0.4':
+    optional: true
 
   '@neondatabase/serverless@0.10.4':
     dependencies:
@@ -19131,6 +19131,7 @@ snapshots:
   '@types/ws@8.5.13':
     dependencies:
       '@types/node': 22.10.7
+    optional: true
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -20797,7 +20798,8 @@ snapshots:
 
   detect-libc@1.0.3: {}
 
-  detect-libc@2.0.2: {}
+  detect-libc@2.0.2:
+    optional: true
 
   detect-libc@2.0.3: {}
 
@@ -23280,7 +23282,8 @@ snapshots:
 
   joycon@3.1.1: {}
 
-  js-base64@3.7.7: {}
+  js-base64@3.7.7:
+    optional: true
 
   js-beautify@1.15.1:
     dependencies:
@@ -23475,6 +23478,7 @@ snapshots:
       '@libsql/linux-x64-gnu': 0.4.7
       '@libsql/linux-x64-musl': 0.4.7
       '@libsql/win32-x64-msvc': 0.4.7
+    optional: true
 
   lie@3.3.0:
     dependencies:
@@ -25571,7 +25575,8 @@ snapshots:
 
   progress@2.0.3: {}
 
-  promise-limit@2.7.0: {}
+  promise-limit@2.7.0:
+    optional: true
 
   promise-toolbox@0.21.0:
     dependencies:
