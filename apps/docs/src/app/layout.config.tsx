@@ -19,4 +19,6 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
   ],
+  // Enable this to display the language switcher
+  // i18n: true,
 }

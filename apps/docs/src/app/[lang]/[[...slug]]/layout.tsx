@@ -3,9 +3,14 @@ import type { ReactNode } from "react"
 import { baseOptions } from "~/app/layout.config"
 import { source } from "~/lib/source"
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({
+  children,
+  params,
+}: { children: ReactNode; params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+
   return (
-    <DocsLayout tree={source.pageTree} {...baseOptions}>
+    <DocsLayout tree={source.pageTree[lang]} {...baseOptions}>
       {children}
     </DocsLayout>
   )

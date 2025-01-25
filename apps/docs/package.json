@@ -5,8 +5,9 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --port 3005",
-    "start": "next start",
-    "postinstall": "fumadocs-mdx"
+    "fumadocs": "fumadocs",
+    "postinstall": "fumadocs-mdx",
+    "start": "next start"
   },
   "dependencies": {
     "@this/env": "workspace:^",
@@ -20,6 +21,7 @@
     "react-dom": "catalog:react18"
   },
   "devDependencies": {
+    "@fumadocs/cli": "^0.0.7",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "^2.0.13",
