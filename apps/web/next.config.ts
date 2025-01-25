@@ -1,5 +1,6 @@
 import { withContentCollections } from "@content-collections/next"
 import bundleAnalyzer from "@next/bundle-analyzer"
+import { rewrites as analyticsRewrites } from "@this/analytics/posthog/nextjs"
 import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
 import type { NextConfig } from "next"
@@ -13,7 +14,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const withIntl = createNextIntlPlugin("./src/lib/i18n/request.ts")
 
 let nextConfig: NextConfig = {
-  // Your config options here
+  rewrites: async () => [...analyticsRewrites],
 }
 
 nextConfig = withEnv(nextConfig)

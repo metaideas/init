@@ -30,6 +30,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "next": "catalog:"
   }
 }

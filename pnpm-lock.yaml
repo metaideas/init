@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@next/bundle-analyzer':
+      specifier: 15.1.6
+      version: 15.1.6
     '@tanstack/react-router':
       specifier: 1.97.1
       version: 1.97.1
@@ -29,7 +32,7 @@ catalogs:
       version: 4.6.16
     next:
       specifier: 15.1.6
-      version: 15.1.5
+      version: 15.1.6
     next-axiom:
       specifier: 1.9.1
       version: 1.9.1
@@ -209,6 +212,12 @@ importers:
 
   apps/docs:
     dependencies:
+      '@next/bundle-analyzer':
+        specifier: 'catalog:'
+        version: 15.1.6(bufferutil@4.0.8)
+      '@this/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@this/common':
         specifier: workspace:*
         version: link:../../packages/common
@@ -489,8 +498,11 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@next/bundle-analyzer':
-        specifier: ^15.1.6
+        specifier: 'catalog:'
         version: 15.1.6(bufferutil@4.0.8)
+      '@this/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -624,7 +636,7 @@ importers:
         version: link:../env
       next-plausible:
         specifier: ^3.12.4
-        version: 3.12.4(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.12.4(next@15.1.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       posthog-js:
         specifier: ^1.207.0
         version: 1.207.0
@@ -647,6 +659,9 @@ importers:
       '@types/react-dom':
         specifier: catalog:react18
         version: 18.3.5(@types/react@18.3.16)
+      next:
+        specifier: 'catalog:'
+        version: 15.1.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -24931,9 +24946,9 @@ snapshots:
       react: 18.3.1
       use-intl: 3.26.3(react@18.3.1)
 
-  next-plausible@3.12.4(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next-plausible@3.12.4(next@15.1.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      next: 15.1.6(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1)
+      next: 15.1.5(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.83.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 

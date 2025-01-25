@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "catalog:",
+    "@this/analytics": "workspace:*",
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
