@@ -3,6 +3,7 @@ packages:
   - packages/*
   - tooling/*
 catalog:
+  "@next/bundle-analyzer": 15.1.6
   "@tanstack/react-router": 1.97.1
   "@tanstack/router-devtools": 1.97.1
   "@tanstack/router-plugin": 1.97.1

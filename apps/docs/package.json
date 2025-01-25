@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "analyze": "ANALYZE=true next build",
     "build": "next build",
     "dev": "next dev --port 3005",
     "fumadocs": "fumadocs",
@@ -10,6 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "catalog:",
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
