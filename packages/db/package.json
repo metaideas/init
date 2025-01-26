@@ -25,8 +25,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "@this/common": "workspace:*",
-    "@this/env": "workspace:^",
-    "@this/observability": "workspace:*",
+    "@this/env": "workspace:*",
     "drizzle-orm": "^0.38.4"
   },
   "devDependencies": {

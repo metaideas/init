@@ -69,7 +69,6 @@
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
-    "react": "catalog:react18",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },

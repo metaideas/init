@@ -29,17 +29,5 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "hono": "catalog:",
-    "next": "catalog:"
-  },
-  "peerDependenciesMeta": {
-    "hono": {
-      "optional": true
-    },
-    "next": {
-      "optional": true
-    }
   }
 }

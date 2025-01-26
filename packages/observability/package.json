@@ -34,12 +34,13 @@
   "devDependencies": {
     "@this/validation": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "next": "catalog:",
+    "@types/react": "catalog:react18",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "@sentry/react-native": "catalog:",
     "@vercel/functions": "catalog:",
+    "next": "catalog:",
     "next-axiom": "catalog:",
     "react": "catalog:react18",
     "server-only": "catalog:"
@@ -57,10 +58,10 @@
     "next-axiom": {
       "optional": true
     },
-    "server-only": {
+    "react": {
       "optional": true
     },
-    "react": {
+    "server-only": {
       "optional": true
     }
   }
