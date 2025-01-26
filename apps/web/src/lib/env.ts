@@ -1,4 +1,5 @@
 import { createNextjsEnv, ensureNextjsEnv } from "@this/env"
+import authServer from "@this/env/auth.server"
 import db from "@this/env/db.server"
 import kv from "@this/env/kv.server"
 import observabilityServer from "@this/env/observability.server"
@@ -18,6 +19,7 @@ const local = createNextjsEnv({
 
 export const { withEnv } = ensureNextjsEnv(local, [
   // Import environment variables for all the packages you are using
+  authServer,
   db,
   kv,
   observabilityWeb,

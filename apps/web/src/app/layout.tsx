@@ -1,9 +1,10 @@
 import { cn } from "@this/ui/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import type { ReactNode } from "react"
 
 import "~/assets/styles/tailwind.css"
+
+import Providers from "~/components/providers"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
@@ -16,14 +17,16 @@ export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
   params: Promise<{ locale: string }>
 }>) {
   const { locale } = await params
 
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
-      <body className={cn("font-sans", inter.variable)}>{children}</body>
+      <body className={cn("font-sans", inter.variable)}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

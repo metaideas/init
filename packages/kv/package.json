@@ -8,7 +8,8 @@
     "#*": "./src/*"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./ratelimit": "./src/ratelimit.ts"
   },
   "scripts": {
     "check": "biome check --write src",

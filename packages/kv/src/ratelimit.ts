@@ -1,24 +1,26 @@
-import env from "@this/env/kv.server"
-import type { Duration } from "@upstash/ratelimit"
+import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
-import { Redis } from "@upstash/redis"
 
-const ephemeralCache = new Map<string, number>()
+import { kv } from "#index.ts"
 
 export function createRateLimiter(
-  prefix: string,
-  limit: number,
-  interval: Duration
+  name: string,
+  options: Omit<
+    RatelimitConfig,
+    "redis" | "ephemeralCache" | "analytics" | "prefix" | "enableProtection"
+  >
 ) {
+  const ephemeralCache = new Map<string, number>()
+
   return new Ratelimit({
-    limiter: Ratelimit.slidingWindow(limit, interval),
+    ...options,
     analytics: true,
     ephemeralCache,
-    redis: new Redis({
-      url: env.UPSTASH_REDIS_REST_URL,
-      token: env.UPSTASH_REDIS_REST_TOKEN,
-    }),
-    prefix: `ratelimit:${prefix}`,
+    redis: kv,
+    prefix: `ratelimit:${name}`,
     enableProtection: true,
   })
 }
+
+export const { slidingWindow, cachedFixedWindow, fixedWindow, tokenBucket } =
+  Ratelimit

@@ -5,13 +5,13 @@ import { headers } from "next/headers"
 import { cache } from "react"
 
 export const validateRequest = cache(async (): Promise<Session | null> => {
-  const session = await auth.api.getSession({
+  const result = await auth.api.getSession({
     headers: await headers(),
   })
 
-  if (!session) {
+  if (!result) {
     return null
   }
 
-  return session
+  return result
 })

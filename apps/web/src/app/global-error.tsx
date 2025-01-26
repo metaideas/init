@@ -1,7 +1,7 @@
 "use client"
 
-import { useReportError } from "@this/observability/instrumentation"
 import NextError from "next/error"
+import { useReportError } from "~/lib/hooks/use-report-error"
 
 export default function GlobalError({
   error,

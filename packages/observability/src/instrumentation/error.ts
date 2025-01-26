@@ -1,6 +1,5 @@
 import { captureException } from "@sentry/core"
-import { type Logger, useLogger } from "next-axiom"
-import { useEffect } from "react"
+import type { Logger } from "next-axiom"
 
 export function reportError(
   error: unknown,
@@ -30,12 +29,4 @@ export function reportError(
   }
 
   return { sentryId, message }
-}
-
-export function useReportError(error: unknown) {
-  const logger = useLogger()
-
-  useEffect(() => {
-    reportError(error, logger)
-  }, [error, logger])
 }

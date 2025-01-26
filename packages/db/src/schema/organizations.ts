@@ -105,7 +105,10 @@ export const activityLogs = createTable("activity_logs", {
     .references(() => organizations.id)
     .$type<Brand<string, "OrganizationId">>(),
   memberId: varchar({ length: 255 })
-    .references(() => members.id)
+    .references(() => members.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
     .$type<Brand<string, "MemberId">>(),
 
   type: activityType().notNull(),

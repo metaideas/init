@@ -63,6 +63,8 @@ export const accounts = createTable(
     refreshTokenExpiresAt: timestamp({ mode: "date" }),
 
     scope: varchar({ length: 1024 }),
+    idToken: text(),
+
     password: text(),
 
     ...timestamps,

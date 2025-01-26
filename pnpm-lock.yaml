@@ -33,6 +33,9 @@ catalogs:
     hono:
       specifier: 4.6.16
       version: 4.6.16
+    lucide-react:
+      specifier: 0.471.1
+      version: 0.471.1
     next:
       specifier: 15.1.6
       version: 15.1.6
@@ -513,6 +516,12 @@ importers:
       '@content-collections/mdx':
         specifier: ^0.2.0
         version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@hookform/resolvers':
+        specifier: ^3.10.0
+        version: 3.10.0(react-hook-form@7.54.2(react@19.0.0))
+      '@next-safe-action/adapter-react-hook-form':
+        specifier: ^1.0.13
+        version: 1.0.13(@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.1.6(bufferutil@4.0.8)
@@ -534,6 +543,9 @@ importers:
       '@this/env':
         specifier: workspace:^
         version: link:../../packages/env
+      '@this/kv':
+        specifier: workspace:*
+        version: link:../../packages/kv
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -558,6 +570,9 @@ importers:
       client-only:
         specifier: ^0.0.1
         version: 0.0.1
+      lucide-react:
+        specifier: 'catalog:'
+        version: 0.471.1(react@19.0.0)
       next:
         specifier: 'catalog:'
         version: 15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1)
@@ -570,12 +585,18 @@ importers:
       next-safe-action:
         specifier: ^7.10.2
         version: 7.10.2(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1)
+      next-themes:
+        specifier: ^0.4.4
+        version: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react:
         specifier: catalog:react19
         version: 19.0.0
       react-dom:
         specifier: catalog:react19
         version: 19.0.0(react@19.0.0)
+      react-hook-form:
+        specifier: ^7.54.2
+        version: 7.54.2(react@19.0.0)
       server-only:
         specifier: 'catalog:'
         version: 0.0.1
@@ -1156,7 +1177,7 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
       lucide-react:
-        specifier: ^0.471.1
+        specifier: 'catalog:'
         version: 0.471.1(react@18.3.1)
       next-themes:
         specifier: ^0.4.4
@@ -3706,6 +3727,16 @@ packages:
 
   '@neondatabase/serverless@0.9.5':
     resolution: {integrity: sha512-siFas6gItqv6wD/pZnvdu34wEqgG3nSE6zWZdq5j2DEsa+VvX8i/5HXJOo06qrw5axPXn+lGCxeR+NLaSPIXug==}
+
+  '@next-safe-action/adapter-react-hook-form@1.0.13':
+    resolution: {integrity: sha512-J1zfdiVWcs6w388fKwdm0V/2UojU3KkqSQb4dx428HMujuF23UKaZ7v+R10I+AQrkR3yH7RIMIhYOdNwZN33DA==}
+    peerDependencies:
+      '@hookform/resolvers': '>= 3.0.0'
+      next: '>= 14.0.0'
+      next-safe-action: '>= 7.6.0'
+      react: '>= 18.2.0'
+      react-dom: '>= 18.2.0'
+      react-hook-form: '>= 7.0.0'
 
   '@next/bundle-analyzer@15.1.6':
     resolution: {integrity: sha512-hGzQyDqJzFHcHNCyTqM3o05BpVq5tGnRODccZBVJDBf5Miv/26UJPMB0wh9L9j3ylgHC+0/v8BaBnBBek1rC6Q==}
@@ -15897,6 +15928,10 @@ snapshots:
     dependencies:
       react-hook-form: 7.54.2(react@18.3.1)
 
+  '@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@19.0.0))':
+    dependencies:
+      react-hook-form: 7.54.2(react@19.0.0)
+
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.0.4
@@ -16330,6 +16365,15 @@ snapshots:
     dependencies:
       '@types/pg': 8.11.6
     optional: true
+
+  '@next-safe-action/adapter-react-hook-form@1.0.13(@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@hookform/resolvers': 3.10.0(react-hook-form@7.54.2(react@19.0.0))
+      next: 15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1)
+      next-safe-action: 7.10.2(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.83.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-hook-form: 7.54.2(react@19.0.0)
 
   '@next/bundle-analyzer@15.1.6(bufferutil@4.0.8)':
     dependencies:
@@ -23981,6 +24025,10 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  lucide-react@0.471.1(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+
   lucide-react@0.473.0(react@19.0.0):
     dependencies:
       react: 19.0.0
@@ -26111,6 +26159,10 @@ snapshots:
   react-hook-form@7.54.2(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  react-hook-form@7.54.2(react@19.0.0):
+    dependencies:
+      react: 19.0.0
 
   react-is@16.13.1: {}
 

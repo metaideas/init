@@ -15,7 +15,15 @@ export default createEnv({
      * This is used to enable the auth server to handle cookies in Next.js
      * server actions (used for sign in, sign out, sign up, etc).
      */
-    BETTER_AUTH_SERVER_ACTIONS: z.booleanLike(),
+    BETTER_AUTH_SERVER_ACTIONS: z.booleanLike().default(false),
+
+    // Google
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+
+    // GitHub
+    GITHUB_CLIENT_ID: z.string(),
+    GITHUB_CLIENT_SECRET: z.string(),
   },
   runtimeEnv: process.env,
 })

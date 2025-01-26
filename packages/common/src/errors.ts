@@ -19,6 +19,12 @@ export class AssertionError extends CustomError {
   }
 }
 
+export class AuthError extends CustomError {
+  constructor(message: string, cause?: unknown) {
+    super("AuthError", message, cause)
+  }
+}
+
 export class DatabaseError extends CustomError {
   constructor(message: string, cause?: unknown) {
     super("DatabaseError", message, cause)
@@ -34,6 +40,12 @@ export class InternalError extends CustomError {
 export class NotFoundError extends CustomError {
   constructor(message: string, cause?: unknown) {
     super("NotFoundError", message, cause)
+  }
+}
+
+export class RateLimitError extends CustomError {
+  constructor(message: string, cause?: unknown) {
+    super("RateLimitError", message, cause)
   }
 }
 

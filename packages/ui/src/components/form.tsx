@@ -2,6 +2,7 @@
 
 import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
+import { Loader2Icon } from "lucide-react"
 import * as React from "react"
 import {
   Controller,
@@ -10,8 +11,10 @@ import {
   type FieldValues,
   FormProvider,
   useFormContext,
+  useFormState,
 } from "react-hook-form"
 
+import { Button } from "#components/button.tsx"
 import { Label } from "#components/label.tsx"
 import { cn } from "#utils.ts"
 
@@ -164,13 +167,43 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = "FormMessage"
 
+const FormSubmit = React.forwardRef<
+  HTMLButtonElement,
+  Omit<React.ComponentPropsWithoutRef<typeof Button>, "type"> & {
+    submittingMessage: string
+  }
+>(({ children, submittingMessage = "Submitting...", ...props }, ref) => {
+  const { isSubmitting } = useFormState()
+
+  return (
+    <Button
+      ref={ref}
+      type="submit"
+      disabled={isSubmitting}
+      aria-disabled={isSubmitting}
+      {...props}
+    >
+      {isSubmitting ? (
+        <>
+          <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+          {submittingMessage}
+        </>
+      ) : (
+        children
+      )}
+    </Button>
+  )
+})
+FormSubmit.displayName = "FormSubmit"
+
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormSubmit,
+  useFormField,
 }
