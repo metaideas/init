@@ -1,10 +1,11 @@
 import { Toaster } from "@this/ui/components/sonner"
 import { TooltipProvider } from "@this/ui/components/tooltip"
 import { ThemeProvider } from "next-themes"
+import type { ReactNode } from "react"
 
 export default function Providers({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <ThemeProvider
       attribute="class"

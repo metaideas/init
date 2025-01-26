@@ -1,6 +1,7 @@
 import { cn } from "@this/ui/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import type { ReactNode } from "react"
 
 import "~/assets/styles/tailwind.css"
 
@@ -17,7 +18,7 @@ export default async function RootLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
   params: Promise<{ locale: string }>
 }>) {
   const { locale } = await params
