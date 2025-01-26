@@ -22,9 +22,7 @@
     "@this/env": "workspace:^",
     "next-plausible": "^3.12.4",
     "posthog-js": "^1.207.0",
-    "posthog-node": "^4.4.0",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18"
+    "posthog-node": "^4.4.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
@@ -32,5 +30,13 @@
     "@types/react-dom": "catalog:react18",
     "typescript": "catalog:",
     "next": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }

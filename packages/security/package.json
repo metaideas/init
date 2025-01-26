@@ -1,7 +1,8 @@
 {
   "name": "@this/security",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "imports": {
     "#*": "./src/*"
@@ -12,7 +13,6 @@
     "./redact": "./src/redact.ts",
     "./rules": "./src/rules.ts"
   },
-  "license": "MIT",
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -20,14 +20,14 @@
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
-  "devDependencies": {
-    "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
-  },
   "dependencies": {
     "@arcjet/next": "1.0.0-beta.1",
     "@arcjet/node": "1.0.0-beta.1",
     "@arcjet/redact": "1.0.0-beta.1",
     "@this/env": "workspace:^"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
   }
 }

@@ -31,7 +31,6 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@tooling/utils": "workspace:*",
-    "@types/node": "catalog:",
     "drizzle-kit": "^0.30.2",
     "drizzle-seed": "^0.3.0",
     "typescript": "catalog:"

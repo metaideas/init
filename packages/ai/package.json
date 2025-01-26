@@ -1,7 +1,8 @@
 {
   "name": "@this/ai",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "imports": {
     "#*": "./src/*"
@@ -13,17 +14,12 @@
     "./rsc": "./src/rsc.ts",
     "./vector": "./src/vector.ts"
   },
-  "license": "MIT",
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
-  },
-  "devDependencies": {
-    "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.9",
@@ -33,5 +29,17 @@
     "@upstash/semantic-cache": "^1.0.5",
     "@upstash/vector": "^1.2.0",
     "ai": "^4.0.39"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }

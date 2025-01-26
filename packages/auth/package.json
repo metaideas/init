@@ -30,15 +30,11 @@
     "@this/env": "workspace:^",
     "@this/kv": "workspace:*",
     "better-auth": "^1.1.14",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
     "server-only": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

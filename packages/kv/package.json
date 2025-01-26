@@ -1,7 +1,8 @@
 {
   "name": "@this/kv",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "imports": {
     "#*": "./src/*"
@@ -9,7 +10,6 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "license": "MIT",
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -17,14 +17,14 @@
     "lint": "biome lint --fix --unsafe src",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
-  "devDependencies": {
-    "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
-  },
   "dependencies": {
     "@this/common": "workspace:*",
     "@this/env": "workspace:^",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.34.3"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "catalog:"
   }
 }

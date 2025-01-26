@@ -73,7 +73,6 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@this/validation": "workspace:*",
     "react": "catalog:react18"
   }
 }
