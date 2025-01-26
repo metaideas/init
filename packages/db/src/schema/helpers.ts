@@ -6,11 +6,11 @@ import { pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core"
 // database
 export const createTable = pgTableCreator(name => name)
 
-export function publicId<T extends string>(prefix: string) {
+export function id<T extends string>(prefix: string) {
   return {
-    publicId: varchar("public_id", { length: 256 })
+    id: varchar("id", { length: 255 })
       .notNull()
-      .unique()
+      .primaryKey()
       .$defaultFn(() => generatePrefixedId(prefix, 24))
       .$type<Brand<string, T>>(),
   }

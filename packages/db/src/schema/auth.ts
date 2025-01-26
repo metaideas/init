@@ -1,5 +1,4 @@
 import {
-  bigint,
   boolean,
   index,
   text,
@@ -10,15 +9,12 @@ import {
 
 import type { Brand } from "@this/common/types"
 import { userRoles } from "#schema/enums.ts"
-import { createTable, publicId, timestamps } from "#schema/helpers.ts"
+import { createTable, id, timestamps } from "#schema/helpers.ts"
 
 export const users = createTable(
   "users",
   {
-    id: bigint({ mode: "bigint" })
-      .generatedAlwaysAsIdentity({ startWith: 1 })
-      .primaryKey()
-      .$type<Brand<bigint, "UserId">>(),
+    ...id<"UserId">("usr"),
 
     role: userRoles().notNull().default("user"),
 
@@ -33,7 +29,6 @@ export const users = createTable(
     banExpiresAt: timestamp({ mode: "date" }),
 
     ...timestamps,
-    ...publicId<"UserPublicId">("usr"),
   },
   table => [
     index("users_email_idx").on(table.email),
@@ -44,23 +39,19 @@ export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type UserId = User["id"]
 export type UserRole = User["role"]
-export type UserPublicId = User["publicId"]
 
 export const accounts = createTable(
   "accounts",
   {
-    id: bigint({ mode: "bigint" })
-      .generatedAlwaysAsIdentity({ startWith: 1 })
-      .primaryKey()
-      .$type<Brand<bigint, "AccountId">>(),
+    ...id<"AccountId">("acc"),
 
-    userId: bigint({ mode: "bigint" })
+    userId: varchar({ length: 255 })
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<bigint, "UserId">>(),
+      .$type<Brand<string, "UserId">>(),
 
     accountId: varchar({ length: 255 }).notNull(),
     providerId: varchar({ length: 255 }).notNull(),
@@ -74,7 +65,6 @@ export const accounts = createTable(
     scope: varchar({ length: 1024 }),
     password: text(),
 
-    ...publicId<"AccountPublicId">("acc"),
     ...timestamps,
   },
   table => [
@@ -89,15 +79,11 @@ export const accounts = createTable(
 export type Account = typeof accounts.$inferSelect
 export type NewAccount = typeof accounts.$inferInsert
 export type AccountId = Account["id"]
-export type AccountPublicId = Account["publicId"]
 
 export const verifications = createTable(
   "verifications",
   {
-    id: bigint({ mode: "bigint" })
-      .generatedAlwaysAsIdentity({ startWith: 1 })
-      .primaryKey()
-      .$type<Brand<bigint, "VerificationId">>(),
+    ...id<"VerificationId">("ver"),
 
     identifier: varchar({ length: 255 }).notNull(),
     value: varchar({ length: 255 }).notNull(),
