@@ -35,8 +35,8 @@
     "next-axiom": "catalog:",
     "next-intl": "^3.26.3",
     "next-safe-action": "^7.10.2",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "server-only": "catalog:"
   },
   "devDependencies": {
@@ -46,8 +46,8 @@
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"
