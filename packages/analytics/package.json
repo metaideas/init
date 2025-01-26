@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@this/env": "workspace:^",
+    "@this/env": "workspace:*",
     "next-plausible": "^3.12.4",
     "posthog-js": "^1.207.0",
     "posthog-node": "^4.4.0"

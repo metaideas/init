@@ -24,7 +24,7 @@
     "@arcjet/next": "1.0.0-beta.1",
     "@arcjet/node": "1.0.0-beta.1",
     "@arcjet/redact": "1.0.0-beta.1",
-    "@this/env": "workspace:^"
+    "@this/env": "workspace:*"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

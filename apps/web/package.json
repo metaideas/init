@@ -24,7 +24,7 @@
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:^",
-    "@this/env": "workspace:^",
+    "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",

@@ -9,7 +9,7 @@
     "deps:check": "taze -rl",
     "deps:graph": "tsx scripts/graph-dependencies.ts",
     "deps:list": "syncpack list",
-    "deps:mismatched": "syncpack list-mismatches",
+    "deps:mismatch": "syncpack list-mismatches",
     "deps:sync": "syncpack fix-mismatches",
     "deps:sync:prompt": "syncpack prompt",
     "deps:update": "taze -rlw",

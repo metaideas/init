@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@this/common": "workspace:*",
-    "@this/env": "workspace:^",
+    "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/validation": "workspace:*",
     "@upstash/qstash": "^2.7.20",
