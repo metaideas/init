@@ -1,43 +1,56 @@
-import { serve } from "@this/queue/hono"
+import { ensureEnv } from "@this/env/helpers"
 import { Hono } from "hono"
+import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
-import { loadEnv } from "~/lib/middlewares"
+import { logger } from "hono/logger"
 import type { AppContext } from "~/lib/types"
+
+// Routers
+import authRouter from "~/routes/auth"
+import queuesRouter from "~/routes/queues"
 import testRouter from "~/routes/test"
 
 const app = new Hono<AppContext>()
 
-// Load environment variables so they are available to our packages
-app.use(loadEnv)
-
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
+app.use(logger())
+app.use(contextStorage())
 
-app.on(["GET", "PUT", "POST"], "/api/inngest", async context => {
-  const { client, nameFunction } = await import("@this/queue")
-
-  const helloWorld = client.createFunction(
-    nameFunction("Hello World"),
-    { event: "test/helloWorld" },
-    async ({ step, logger }) => {
-      logger.info("Hello from Cloudflare Worker!!!")
-      step.run("test", () => console.log("Hello from Cloudflare Worker"))
+app.use(async (c, next) => {
+  // Copy environment variables from c.env to process.env, since `@this/env`
+  // expects process.env to be set
+  for (const [key, value] of Object.entries(c.env)) {
+    // If value is not a string, it's not an environment variable
+    if (typeof value !== "string") {
+      continue
     }
-  )
 
-  const handler = serve({
-    client,
-    functions: [helloWorld],
-  })
+    // Only set the environment variable if it's not already set
+    process.env[key] ??= value
+  }
 
-  return handler(context)
-})
+  // Ensure environment variables are set
+  const { default: authServer } = await import("@this/env/auth.server")
+  const { default: dbServer } = await import("@this/env/db.server")
 
-app.on(["POST", "GET"], "/api/auth/**", async c => {
+  ensureEnv([authServer, dbServer], { env: c.env })
+
+  // Load dependencies into the application context
   const { auth } = await import("@this/auth/server")
+  const { db } = await import("@this/db/client")
+  const { queue } = await import("@this/queue/client")
 
-  return auth.handler(c.req.raw)
+  c.set("auth", auth)
+  c.set("db", db)
+  c.set("queue", queue)
+
+  await next()
 })
 
-export const router = app.route("/test", testRouter)
+export const router = app
+  .get("/ping", c => c.text("pong"))
+  .route("/auth", authRouter)
+  .route("/queues", queuesRouter)
+  .route("/test", testRouter)
 
 export default app

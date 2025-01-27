@@ -1,10 +1,11 @@
 import { Hono } from "hono"
-import { withDb } from "~/lib/middlewares"
+import { requireSession } from "~/lib/middlewares"
+
 import type { AppContext } from "~/lib/types"
 
 const test = new Hono<AppContext>()
   .get("/ping", c => c.text("pong"))
-  .get("/users", withDb, async c => {
+  .get("/users", requireSession, async c => {
     const users = await c.var.db.query.users.findMany()
 
     return c.json(users)

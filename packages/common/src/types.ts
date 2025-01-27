@@ -30,3 +30,16 @@ export type UnionToIntersection<U> = (
 ) extends (k: infer I) => void
   ? I
   : never
+
+/**
+ * Merges two types, deeply merging objects.
+ */
+export type DeepMerge<T, U> = Omit<T, keyof U> & {
+  [K in keyof U]: K extends keyof T
+    ? T[K] extends Record<string, unknown>
+      ? U[K] extends Record<string, unknown>
+        ? DeepMerge<T[K], U[K]>
+        : U[K]
+      : U[K]
+    : U[K]
+}
