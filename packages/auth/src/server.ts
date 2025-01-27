@@ -17,7 +17,8 @@ import { hashPassword, verifyPassword } from "#utils/password.ts"
 
 export const auth = betterAuth({
   appName: APP_NAME,
-  baseUrl: env.BETTER_AUTH_URL,
+  basePath: env.BETTER_AUTH_BASE_PATH,
+  baseURL: env.BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: "pg",
