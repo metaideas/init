@@ -1,7 +1,6 @@
 import { AuthError, RateLimitError } from "@this/common/errors"
 import { createRateLimiter, slidingWindow } from "@this/kv/ratelimit"
 import { reportError } from "@this/observability/instrumentation/error"
-import { logger } from "@this/observability/logger"
 import {
   type Logger,
   createActionLogger,
@@ -22,7 +21,6 @@ export const actionClient = createSafeActionClient({
 
     const { sentryId, message } = reportError(e, ctx.log)
 
-    logger.error(message)
     ctx.log.error(message, { sentryId })
 
     return e.message || DEFAULT_SERVER_ERROR_MESSAGE
