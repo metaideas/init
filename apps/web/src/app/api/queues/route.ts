@@ -1,7 +1,7 @@
-import { client, nameFunction } from "@this/queue"
+import { nameFunction, queue } from "@this/queue/client"
 import { serve } from "@this/queue/nextjs"
 
-const helloWorld = client.createFunction(
+const helloWorld = queue.createFunction(
   nameFunction("Hello World"),
   { event: "test/helloWorld" },
   ({ step, logger }) => {
@@ -11,6 +11,6 @@ const helloWorld = client.createFunction(
 )
 
 export const { POST, GET, PUT } = serve({
-  client,
+  client: queue,
   functions: [helloWorld],
 })

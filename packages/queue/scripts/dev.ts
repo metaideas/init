@@ -3,8 +3,8 @@ import { runProcess } from "@tooling/utils"
 const POLL_INTERVAL_SECONDS = 20
 
 const SERVER_URLS = [
-  "http://localhost:3000/api/inngest",
-  "http://localhost:8787/api/inngest",
+  "http://localhost:3000/api/queues",
+  "http://localhost:3001/queues",
 ]
 
 runProcess("inngest", [

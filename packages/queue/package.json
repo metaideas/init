@@ -8,7 +8,7 @@
     "#*": "./src/*"
   },
   "exports": {
-    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
     "./hono": "./src/serve/hono.ts",
     "./nextjs": "./src/serve/nextjs.ts",
     "./jobs": "./src/jobs.ts"

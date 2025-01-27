@@ -4,7 +4,7 @@ import { Inngest, slugify } from "inngest"
 
 import { schemas } from "#events.ts"
 
-export const client = new Inngest({
+export const queue = new Inngest({
   id: APP_ID,
   schemas,
   logger,
