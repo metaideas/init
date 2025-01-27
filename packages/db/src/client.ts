@@ -1,12 +1,11 @@
 import { neon, neonConfig } from "@neondatabase/serverless"
-import envCore from "@this/env/core"
+import envCore from "@this/env/core.server"
 import env from "@this/env/db.server"
 import { drizzle } from "drizzle-orm/neon-http"
-
 import * as schema from "./schema"
 
 // Configuring Neon for local development
-if (envCore.IS_DEVELOPMENT) {
+if (envCore.NODE_ENV === "development") {
   neonConfig.fetchEndpoint = host => {
     const [protocol, port] =
       host === "db.localtest.me" ? ["http", 4444] : ["https", 443]

@@ -1,11 +1,11 @@
-import { createNextjsEnv, ensureNextjsEnv } from "@this/env"
-import observabilityServer from "@this/env/observability.server"
-import observabilityWeb from "@this/env/observability.web"
+import { createNextjsEnv } from "@this/env/helpers"
 import * as z from "@this/validation"
 
-const local = createNextjsEnv({
-  shared: {
+export default createNextjsEnv({
+  client: {
     NEXT_PUBLIC_DOMAIN: z.string().url(),
+  },
+  server: {
     ANALYZE: z.booleanLike().default(false),
   },
   runtimeEnv: {
@@ -13,12 +13,3 @@ const local = createNextjsEnv({
     ANALYZE: process.env.ANALYZE,
   },
 })
-
-export const { withEnv } = ensureNextjsEnv(local, [
-  // Import environment variables for all the packages you are using
-  observabilityWeb,
-  observabilityServer,
-])
-
-// Export the local environment variables for use in other files
-export default local

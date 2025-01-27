@@ -8,9 +8,9 @@
     "#*": "./src/*"
   },
   "exports": {
-    ".": "./src/index.ts",
     "./*": "./src/packages/*.ts",
-    "./core": "./src/core.ts",
+    "./core.server": "./src/core.server.ts",
+    "./helpers": "./src/helpers.ts",
     "./presets": "./src/presets.ts"
   },
   "scripts": {
@@ -23,6 +23,7 @@
   "dependencies": {
     "@t3-oss/env-core": "^0.11.1",
     "@t3-oss/env-nextjs": "^0.11.1",
+    "@this/common": "workspace:*",
     "@this/validation": "workspace:*"
   },
   "devDependencies": {

@@ -19,3 +19,14 @@ export type RestArgs<Args extends string[]> = Args extends [
 export type JoinedRest<Rest extends string[]> = Rest extends []
   ? ""
   : `:${Rest[number]}`
+
+/**
+ * Converts a union to an intersection.
+ */
+export type UnionToIntersection<U> = (
+  U extends unknown
+    ? (k: U) => void
+    : never
+) extends (k: infer I) => void
+  ? I
+  : never

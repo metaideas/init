@@ -23,6 +23,7 @@
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:^",
+    "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
     "hono": "catalog:"

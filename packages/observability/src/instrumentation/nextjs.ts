@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs"
 import { withSentryConfig } from "@sentry/nextjs"
-import envCore from "@this/env/core"
+import { isProduction } from "@this/common/variables"
 import envServer from "@this/env/observability.server"
 import envWeb from "@this/env/observability.web"
 import type { NextConfig } from "next"
@@ -27,7 +27,7 @@ export function initializeSentry(runtime: "client" | "server" | "edge") {
       debug: envServer.SENTRY_DEBUG,
 
       // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
-      spotlight: envCore.IS_DEVELOPMENT,
+      spotlight: isProduction,
     })
 
     return

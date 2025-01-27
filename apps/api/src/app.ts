@@ -1,14 +1,14 @@
 import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
 import { cors } from "hono/cors"
-import { withEnv } from "~/lib/middlewares"
+import { loadEnv } from "~/lib/middlewares"
 import type { AppContext } from "~/lib/types"
 import testRouter from "~/routes/test"
 
 const app = new Hono<AppContext>()
 
 // Load environment variables so they are available to our packages
-app.use(withEnv)
+app.use(loadEnv)
 
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
 
@@ -36,10 +36,6 @@ app.on(["POST", "GET"], "/api/auth/**", async c => {
   const { auth } = await import("@this/auth/server")
 
   return auth.handler(c.req.raw)
-})
-
-app.get("/env", c => {
-  return c.json(process.env)
 })
 
 export const router = app.route("/test", testRouter)

@@ -1,7 +1,7 @@
-import { createEnv, ensureEnv } from "@this/env"
+import { createEnv, ensureEnv } from "@this/env/helpers"
 import * as z from "@this/validation"
 
-const local = createEnv({
+const app = createEnv({
   client: {
     EXPO_PUBLIC_SERVER_URL: z.string().url(),
   },
@@ -9,9 +9,9 @@ const local = createEnv({
   clientPrefix: "EXPO_PUBLIC_",
 })
 
-export const { withEnv } = ensureEnv(
-  local,
+ensureEnv(
   [
+    app,
     // Import environment variables for all the packages you are using
   ],
   {
@@ -20,4 +20,4 @@ export const { withEnv } = ensureEnv(
   }
 )
 
-export default local
+export default app

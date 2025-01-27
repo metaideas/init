@@ -129,6 +129,9 @@ importers:
       '@this/email':
         specifier: workspace:^
         version: link:../../packages/email
+      '@this/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -528,7 +531,7 @@ importers:
         specifier: workspace:^
         version: link:../../packages/email
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/env
       '@this/kv':
         specifier: workspace:*
@@ -659,7 +662,7 @@ importers:
   packages/analytics:
     dependencies:
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       next-plausible:
         specifier: ^3.12.4
@@ -708,7 +711,7 @@ importers:
         specifier: workspace:^
         version: link:../email
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@this/kv':
         specifier: workspace:*
@@ -789,7 +792,7 @@ importers:
         specifier: workspace:*
         version: link:../common
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@this/observability':
         specifier: workspace:*
@@ -831,6 +834,9 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.11.1
         version: 0.11.1(typescript@5.7.3)(zod@3.24.1)
+      '@this/common':
+        specifier: workspace:*
+        version: link:../common
       '@this/validation':
         specifier: workspace:*
         version: link:../validation
@@ -851,7 +857,7 @@ importers:
         specifier: workspace:*
         version: link:../common
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@upstash/ratelimit':
         specifier: ^2.0.5
@@ -881,8 +887,11 @@ importers:
       '@sentry/react-native':
         specifier: 'catalog:'
         version: 6.5.0(expo@52.0.25(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@expo/metro-runtime@4.0.0(react-native@0.76.6(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.18)(bufferutil@4.0.8)(react@18.3.1)))(bufferutil@4.0.8)(graphql@15.9.0)(react-native-webview@13.13.1(react-native@0.76.6(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.18)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.18)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.18)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)
+      '@this/common':
+        specifier: workspace:*
+        version: link:../common
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@vercel/functions':
         specifier: 'catalog:'
@@ -953,7 +962,7 @@ importers:
         specifier: workspace:*
         version: link:../common
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
       '@this/observability':
         specifier: workspace:*
@@ -999,7 +1008,7 @@ importers:
         specifier: 1.0.0-beta.1
         version: 1.0.0-beta.1
       '@this/env':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../env
     devDependencies:
       '@tooling/tsconfig':

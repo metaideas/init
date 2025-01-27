@@ -5,11 +5,7 @@ import type { AppContext } from "~/lib/types"
 const test = new Hono<AppContext>()
   .get("/ping", c => c.text("pong"))
   .get("/users", withDb, async c => {
-    const users = await c.var.db.query.users.findMany({
-      columns: {
-        publicId: true,
-      },
-    })
+    const users = await c.var.db.query.users.findMany()
 
     return c.json(users)
   })

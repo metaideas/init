@@ -1,10 +1,10 @@
-import envCore from "@this/env/core"
+import envCore from "@this/env/core.server"
 import env from "@this/env/observability.server"
 import pino from "pino"
 import pretty from "pino-pretty"
 
 function createLogger() {
-  if (envCore.IS_DEVELOPMENT) {
+  if (envCore.NODE_ENV === "development") {
     return pino(pretty())
   }
 
