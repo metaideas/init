@@ -23,7 +23,9 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "nanoid": "5.0.9"
+    "devalue": "^5.1.1",
+    "nanoid": "5.0.9",
+    "superjson": "^2.2.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

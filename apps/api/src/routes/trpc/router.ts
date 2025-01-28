@@ -4,7 +4,7 @@ import { publicProcedure } from "~/lib/trpc"
 // Normally this would inside a `features/users` folder, but for this example
 // we'll just keep it here.
 const usersRouter = router({
-  getUsers: publicProcedure.query(async ({ ctx }) => {
+  list: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.users.findMany()
   }),
 })

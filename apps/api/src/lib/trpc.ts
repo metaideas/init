@@ -1,3 +1,4 @@
+import { transformer } from "@this/common/utils/trpc"
 import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
@@ -21,7 +22,9 @@ export function createContext(
   }
 }
 
-export const t = initTRPC.context<TRPCContext>().create()
+export const t = initTRPC.context<TRPCContext>().create({
+  transformer,
+})
 
 export const middleware = t.middleware
 export const router = t.router

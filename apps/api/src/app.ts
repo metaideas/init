@@ -49,7 +49,7 @@ app.use(async (c, next) => {
 })
 
 export const appRouter = app
-  .get("/ping", c => c.text("pong"))
+  .get("/ping", c => c.text(Date.now().toString()))
   .route("/auth", authRouter)
   .route("/queues", queuesRouter)
   .route("/test", testRouter)

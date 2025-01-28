@@ -27,7 +27,7 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
-    "@trpc/server": "^10.45.2",
+    "@trpc/server": "11.0.0-rc.730",
     "hono": "catalog:"
   },
   "devDependencies": {
