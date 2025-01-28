@@ -9,6 +9,7 @@ import type { AppContext } from "~/lib/types"
 import authRouter from "~/routes/auth"
 import queuesRouter from "~/routes/queues"
 import testRouter from "~/routes/test"
+import trpcRouter from "~/routes/trpc"
 
 const app = new Hono<AppContext>()
 
@@ -47,10 +48,11 @@ app.use(async (c, next) => {
   await next()
 })
 
-export const router = app
+export const appRouter = app
   .get("/ping", c => c.text("pong"))
   .route("/auth", authRouter)
   .route("/queues", queuesRouter)
   .route("/test", testRouter)
+  .route("/trpc", trpcRouter)
 
 export default app

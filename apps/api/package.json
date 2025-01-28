@@ -1,8 +1,15 @@
 {
   "name": "api",
+  "exports": {
+    "./client": {
+      "import": {
+        "types": "./dist/client.d.ts"
+      }
+    }
+  },
   "scripts": {
-    "build:types:watch": "pnpm run build:types --watch",
     "build:types": "tsup src/client.ts --dts-only",
+    "build:types:watch": "pnpm run build:types --watch",
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deploy": "wrangler deploy --minify",
@@ -11,14 +18,8 @@
     "typecheck": "tsc --noEmit",
     "typegen:cloudflare": "wrangler types --env-interface CloudflareBindings"
   },
-  "exports": {
-    "./client": {
-      "import": {
-        "types": "./dist/client.d.ts"
-      }
-    }
-  },
   "dependencies": {
+    "@hono/trpc-server": "^0.3.4",
     "@this/auth": "workspace:*",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
@@ -26,6 +27,7 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
+    "@trpc/server": "^10.45.2",
     "hono": "catalog:"
   },
   "devDependencies": {
