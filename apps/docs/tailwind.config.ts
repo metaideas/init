@@ -6,7 +6,7 @@ export default {
   content: [
     ...nextjs.content,
     "./mdx-components.{ts,tsx}",
-    "../../node_modules/fumadocs-ui/dist/**/*.js",
+    "./node_modules/fumadocs-ui/dist/**/*.js",
   ],
-  presets: [nextjs, createPreset({ preset: "neutral" })],
+  presets: [createPreset({ preset: "neutral" })],
 } satisfies Config

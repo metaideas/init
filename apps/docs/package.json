@@ -5,10 +5,15 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
+    "check": "biome check --write src",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "next dev --port 3005",
+    "format": "biome format --write src",
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
-    "start": "next start"
+    "lint": "biome lint --fix --unsafe src",
+    "start": "next start",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@next/bundle-analyzer": "catalog:",
