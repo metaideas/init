@@ -40,10 +40,12 @@ app.use(async (c, next) => {
   const { auth } = await import("@this/auth/server")
   const { db } = await import("@this/db/client")
   const { queue } = await import("@this/queue/client")
+  const { logger } = await import("@this/observability/logger")
 
   c.set("auth", auth)
   c.set("db", db)
   c.set("queue", queue)
+  c.set("logger", logger)
 
   await next()
 })

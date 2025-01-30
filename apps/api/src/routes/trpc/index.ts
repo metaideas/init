@@ -12,8 +12,10 @@ const trpc = new Hono<AppContext>().use(
       auth: c.var.auth,
       db: c.var.db,
       queue: c.var.queue,
+      logger: c.var.logger,
       req: opts.req,
       resHeaders: opts.resHeaders,
+      info: opts.info,
     }),
   })
 )

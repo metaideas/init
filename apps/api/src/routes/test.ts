@@ -17,7 +17,7 @@ const test = new Hono<AppContext>()
     await sendEmail({
       emails: ["delivered@resend.dev"],
       subject: "Test",
-      body: <TestEmail />,
+      body: TestEmail(),
     })
 
     return c.json({ message: "Email sent" })

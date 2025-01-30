@@ -1,8 +1,14 @@
 import type { auth } from "@this/auth/server"
 import type { db } from "@this/db/client"
+import type { logger } from "@this/observability/logger"
 import type { queue } from "@this/queue/client"
 
 export type AppContext = {
   Bindings: CloudflareBindings
-  Variables: { queue: typeof queue; auth: typeof auth; db: typeof db }
+  Variables: {
+    auth: typeof auth
+    db: typeof db
+    logger: typeof logger
+    queue: typeof queue
+  }
 }

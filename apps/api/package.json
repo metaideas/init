@@ -28,7 +28,8 @@
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
     "@trpc/server": "11.0.0-rc.730",
-    "hono": "catalog:"
+    "hono": "catalog:",
+    "pino": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
