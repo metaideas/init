@@ -22,8 +22,17 @@ mode = "smart"
 # - https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/workers/configuration/secrets/
-# [vars]
-# MY_VARIABLE = "production_value"
+[env.development.vars]
+BETTER_AUTH_URL = "http://localhost:3001"
+BETTER_AUTH_BASE_PATH = "/auth"
+NODE_ENV = "development"
+EMAIL_FROM = "test@mail.startline.dev"
+
+[env.production.vars]
+BETTER_AUTH_URL = "https://api.adelrodriguez.workers.dev"
+BETTER_AUTH_BASE_PATH = "/auth"
+NODE_ENV = "production"
+EMAIL_FROM = "test@mail.startline.dev"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai

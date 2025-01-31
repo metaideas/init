@@ -1,4 +1,3 @@
-import { ensureEnv } from "@this/env/helpers"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
@@ -7,13 +6,14 @@ import type { AppContext } from "~/lib/types"
 
 // Routers
 import authRouter from "~/routes/auth"
+import healthRouter from "~/routes/health"
 import queuesRouter from "~/routes/queues"
 import testRouter from "~/routes/test"
 import trpcRouter from "~/routes/trpc"
 
 const app = new Hono<AppContext>()
 
-app.use(cors({ origin: ["http://localhost:3000"], credentials: true }))
+app.use(cors({ origin: "*", credentials: true }))
 app.use(logger())
 app.use(contextStorage())
 
@@ -30,22 +30,15 @@ app.use(async (c, next) => {
     process.env[key] ??= value
   }
 
-  // Ensure environment variables are set
-  const { default: authServer } = await import("@this/env/auth.server")
-  const { default: dbServer } = await import("@this/env/db.server")
-
-  ensureEnv([authServer, dbServer], { env: c.env })
-
   // Load dependencies into the application context
-  const { auth } = await import("@this/auth/server")
-  const { db } = await import("@this/db/client")
-  const { queue } = await import("@this/queue/client")
-  const { logger } = await import("@this/observability/logger")
-
-  c.set("auth", auth)
-  c.set("db", db)
-  c.set("queue", queue)
-  c.set("logger", logger)
+  await Promise.all([
+    import("@this/auth/server").then(({ auth }) => c.set("auth", auth)),
+    import("@this/db/client").then(({ db }) => c.set("db", db)),
+    import("@this/queue/client").then(({ queue }) => c.set("queue", queue)),
+    import("@this/observability/logger").then(({ logger }) =>
+      c.set("logger", logger)
+    ),
+  ])
 
   await next()
 })
@@ -53,6 +46,7 @@ app.use(async (c, next) => {
 export const appRouter = app
   .get("/ping", c => c.text(Date.now().toString()))
   .route("/auth", authRouter)
+  .route("/health", healthRouter)
   .route("/queues", queuesRouter)
   .route("/test", testRouter)
   .route("/trpc", trpcRouter)
