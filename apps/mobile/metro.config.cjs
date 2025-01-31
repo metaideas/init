@@ -1,12 +1,11 @@
 const { FileStore } = require("metro-cache")
 const path = require("node:path")
-const { withNativeWind } = require("nativewind/metro")
 const { getSentryExpoConfig } = require("@sentry/react-native/metro")
 
-let config = getSentryExpoConfig(__dirname)
+const config = getSentryExpoConfig(__dirname)
 
-// XXX: Resolve our exports in workspace packages
-// https://github.com/expo/expo/issues/26926
+// Allows us to resolve exports in workspace packages and dependencies symlinked
+// by pnpm
 config.resolver.unstable_enableSymlinks = true
 config.resolver.unstable_enablePackageExports = true
 
@@ -16,10 +15,5 @@ config.resolver.unstable_enablePackageExports = true
 config.cacheStores = [
   new FileStore({ root: path.join(__dirname, ".cache/metro") }),
 ]
-
-config = withNativeWind(config, {
-  input: "./src/assets/styles/tailwind.css",
-  configPath: "./tailwind.config.ts",
-})
 
 module.exports = config
