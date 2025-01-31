@@ -6,7 +6,7 @@
   "scripts": {
     "android": "expo start --android",
     "check": "biome check --write src",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
     "dev": "expo start --dev-client --port 3002",
     "format": "biome format --write src",
     "ios": "expo start --ios",
