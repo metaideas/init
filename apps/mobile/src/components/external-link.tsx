@@ -3,7 +3,10 @@ import { openBrowserAsync } from "expo-web-browser"
 import type { ComponentProps } from "react"
 import { Platform } from "react-native"
 
-export function ExternalLink({ href, ...rest }: ComponentProps<typeof Link>) {
+export default function ExternalLink({
+  href,
+  ...rest
+}: ComponentProps<typeof Link>) {
   return (
     <Link
       {...rest}

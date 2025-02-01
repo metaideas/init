@@ -1,19 +1,31 @@
-import { useColorScheme } from "react-native"
+import { useColorScheme as useNativewindColorScheme } from "nativewind"
 
-import { Colors } from "~/lib/constants"
+import { COLORS } from "~/lib/constants"
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+  colorName: keyof typeof COLORS.light & keyof typeof COLORS.dark
 ) {
-  const theme = useColorScheme() ?? "light"
+  const { colorScheme } = useNativewindColorScheme()
+  const theme = colorScheme ?? "light"
   const colorFromProps = props[theme]
 
   if (colorFromProps) {
     return colorFromProps
   }
 
-  return Colors[theme][colorName]
+  return COLORS[theme][colorName]
 }
 
-export { useColorScheme } from "react-native"
+export function useColorScheme() {
+  const { colorScheme, setColorScheme, toggleColorScheme } =
+    useNativewindColorScheme()
+
+  return {
+    colorScheme: colorScheme ?? "dark",
+    isDarkColorScheme: colorScheme === "dark",
+    isLightColorScheme: colorScheme === "light",
+    setColorScheme,
+    toggleColorScheme,
+  }
+}
