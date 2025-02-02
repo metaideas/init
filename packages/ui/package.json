@@ -11,6 +11,7 @@
     "./blocks/*": "./src/blocks/*.tsx",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
+    "./native-components/*": "./src/native-components/*.tsx",
     "./utils": "./src/utils.ts"
   },
   "scripts": {
@@ -49,6 +50,8 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
+    "@rn-primitives/slot": "^1.1.0",
+    "@rn-primitives/types": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
@@ -63,16 +66,20 @@
     "recharts": "^2.15.0",
     "sonner": "^1.7.2",
     "tailwind-merge": "^2.6.0",
+    "twrnc": "^4.6.1",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18"
+    "react": "catalog:react18",
+    "react-native": "0.76.3"
   }
+
 }
