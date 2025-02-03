@@ -3,8 +3,8 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@this/ui/components/card"
-import { Separator } from "@this/ui/components/separator"
+} from "@this/ui/web/components/card"
+import { Separator } from "@this/ui/web/components/separator"
 
 import SignInWithPasswordForm from "~/features/auth/components/sign-in-with-password-form"
 import {

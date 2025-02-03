@@ -4,14 +4,26 @@ const { getSentryExpoConfig } = require("@sentry/react-native/metro")
 
 const config = getSentryExpoConfig(__dirname)
 
-// Allows us to resolve exports in workspace packages and dependencies symlinked
-// by pnpm
+// Enable package exports and symlinks for workspace packages
 config.resolver.unstable_enableSymlinks = true
 config.resolver.unstable_enablePackageExports = true
 
-// Move the Metro cache to the `.cache/metro` folder. If you have any
-// environment variables, you can configure Turborepo to invalidate it when
-// needed. See: https://turbo.build/repo/docs/reference/configuration#env
+// Enable resolving workspace packages
+config.resolver.disableHierarchicalLookup = false
+config.resolver.enableGlobalPackages = true
+
+const projectRoot = __dirname
+const workspaceRoot = path.resolve(projectRoot, "../..")
+
+// Add workspace root to watch folders
+config.watchFolders = [workspaceRoot]
+
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, "node_modules"),
+  path.resolve(workspaceRoot, "node_modules"),
+]
+
+// Configure cache location
 config.cacheStores = [
   new FileStore({ root: path.join(__dirname, ".cache/metro") }),
 ]

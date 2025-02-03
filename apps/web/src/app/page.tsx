@@ -1,11 +1,11 @@
-import { Button } from "@this/ui/components/button"
+import { Button } from "@this/ui/web/components/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@this/ui/components/tooltip"
-import { TypographyH1 } from "@this/ui/components/typography"
-import { TypographyLead } from "@this/ui/components/typography"
+} from "@this/ui/web/components/tooltip"
+import { TypographyH1 } from "@this/ui/web/components/typography"
+import { TypographyLead } from "@this/ui/web/components/typography"
 import { RocketIcon } from "lucide-react"
 import Link from "next/link"
 import { ModeToggle } from "~/components/theme"
