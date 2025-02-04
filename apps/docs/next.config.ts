@@ -24,6 +24,8 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 let nextConfig: NextConfig = {
   rewrites: async () => [...analyticsRewrites],
+
+  transpilePackages: ["@this/env", "@this/observability"],
 }
 
 nextConfig = withBundleAnalyzer(nextConfig)

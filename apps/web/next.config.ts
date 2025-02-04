@@ -23,6 +23,14 @@ const withIntl = createNextIntlPlugin("./src/lib/i18n/request.ts")
 
 let nextConfig: NextConfig = {
   rewrites: async () => [...analyticsRewrites],
+
+  transpilePackages: [
+    "@this/db",
+    "@this/env",
+    "@this/observability",
+    "@this/ui",
+    "@this/validation",
+  ],
 }
 
 nextConfig = withBundleAnalyzer(nextConfig)
