@@ -14,7 +14,7 @@ catalog:
   hono: 4.6.16
   lucide-react: 0.471.1
   next-axiom: 1.9.1
-  next: 15.1.6
+  next: 15.1.5
   pino: 9.6.0
   postcss: ^8.5.1
   server-only: 0.0.1

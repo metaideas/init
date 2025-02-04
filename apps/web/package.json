@@ -6,7 +6,7 @@
     "analyze": "ANALYZE=true next build",
     "build": "next build",
     "check": "biome check --write src",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "clean": "git clean -xdf .cache .turbo .next dist node_modules",
     "dev": "next dev --turbo",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",

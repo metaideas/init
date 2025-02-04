@@ -1,7 +1,12 @@
+import { Button } from "@this/ui/native/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@this/ui/native/collapsible"
+import { Text } from "@this/ui/native/text"
 import { Link } from "expo-router"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Button } from "~/components/ui/button"
-import { Text } from "~/components/ui/text"
 
 export default function Page() {
   return (
@@ -10,6 +15,15 @@ export default function Page() {
       <Button>
         <Text>Click me</Text>
       </Button>
+
+      <Collapsible>
+        <CollapsibleTrigger>
+          <Text>Toggle</Text>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <Text>Content</Text>
+        </CollapsibleContent>
+      </Collapsible>
 
       <Link href="/+not-found" asChild>
         <Button variant="link">
