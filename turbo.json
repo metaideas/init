@@ -28,5 +28,11 @@
       "persistent": true
     }
   },
-  "globalEnv": []
+  "globalEnv": [
+    "SENTRY_DSN",
+    "SENTRY_ORG",
+    "SENTRY_PROJECT",
+    "SENTRY_AUTH_TOKEN",
+    "SKIP_VALIDATION_OBSERVABILITY_SERVER"
+  ]
 }
