@@ -9,7 +9,7 @@
   },
   "exports": {
     "./blocks/*": "./src/blocks/*.tsx",
-    "./components/*": "./src/components/*.tsx",
+    "./web/*": "./src/web/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./utils": "./src/utils.ts",
     "./native/*": "./src/native/*.tsx"

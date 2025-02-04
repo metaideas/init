@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
-import { Button } from "@this/ui/components/button"
+import { Button } from "@this/ui/web/button"
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormLabel,
   FormMessage,
   FormSubmit,
-} from "@this/ui/components/form"
-import { Input } from "@this/ui/components/input"
+} from "@this/ui/web/form"
+import { Input } from "@this/ui/web/input"
 import Link from "next/link"
 
 import { signInWithPassword } from "~/features/auth/actions"

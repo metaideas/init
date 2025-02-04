@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router"
 import { invoke } from "@tauri-apps/api/core"
-import { Button } from "@this/ui/components/button"
-import { Input } from "@this/ui/components/input"
+import { Button } from "@this/ui/web/button"
+import { Input } from "@this/ui/web/input"
 import { useState } from "react"
 
 export const Route = createLazyFileRoute("/")({

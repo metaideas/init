@@ -14,9 +14,9 @@ import {
   useFormState,
 } from "react-hook-form"
 
-import { Button } from "#components/button.tsx"
-import { Label } from "#components/label.tsx"
 import { cn } from "#utils.ts"
+import { Button } from "#web/button.tsx"
+import { Label } from "#web/label.tsx"
 
 const Form = FormProvider
 

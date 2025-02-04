@@ -11,9 +11,9 @@ import {
   FormLabel,
   FormMessage,
   FormSubmit,
-} from "@this/ui/components/form"
-import { Input } from "@this/ui/components/input"
-import { toast } from "@this/ui/components/sonner"
+} from "@this/ui/web/form"
+import { Input } from "@this/ui/web/input"
+import { toast } from "@this/ui/web/sonner"
 
 import { signUp } from "~/features/auth/actions"
 import { SignUpSchema } from "~/features/auth/validation"

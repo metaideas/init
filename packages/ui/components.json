@@ -1,8 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "aliases": {
-    "components": "#components",
-    "ui": "#components",
+    "components": "#web",
+    "ui": "#web",
     "hooks": "#hooks",
     "lib": "#utils",
     "utils": "#utils"

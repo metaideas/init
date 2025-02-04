@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@this/ui/components/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@this/ui/web/avatar"
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@this/ui/components/card"
+} from "@this/ui/web/card"
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
 import { getCurrentUser } from "~/server/loaders"

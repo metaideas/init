@@ -1,7 +1,7 @@
 "use client"
 
-import { Button } from "@this/ui/components/button"
-import { toast } from "@this/ui/components/sonner"
+import { Button } from "@this/ui/web/button"
+import { toast } from "@this/ui/web/sonner"
 import { Loader2Icon } from "lucide-react"
 import { useState } from "react"
 
