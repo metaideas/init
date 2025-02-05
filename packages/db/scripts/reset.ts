@@ -5,7 +5,7 @@ import { sql } from "drizzle-orm"
 async function reset() {
   intro("Resetting database...")
 
-  const { db } = await import("../src/client")
+  const { db } = await import("../src")
   const { default: env } = await import("@this/env/db.server")
 
   if (env.DATABASE_URL?.includes("neon")) {

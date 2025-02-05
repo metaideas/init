@@ -4,7 +4,7 @@ import { seed } from "drizzle-seed"
 import * as schema from "../src/schema"
 
 async function main() {
-  const { db } = await import("../src/client")
+  const { db } = await import("../src")
 
   log.info("Seeding database...")
 

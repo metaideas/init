@@ -1,5 +1,5 @@
 import { APP_ID, APP_NAME } from "@this/common/constants"
-import { db } from "@this/db/client"
+import { db } from "@this/db"
 import env from "@this/env/auth.server"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"

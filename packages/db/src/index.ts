@@ -1,7 +1,8 @@
-import { neon, neonConfig } from "@neondatabase/serverless"
+import { Pool, neonConfig } from "@neondatabase/serverless"
 import envCore from "@this/env/core.server"
 import env from "@this/env/db.server"
-import { drizzle } from "drizzle-orm/neon-http"
+import { drizzle } from "drizzle-orm/neon-serverless"
+import { WebSocket } from "ws"
 
 import * as schema from "./schema"
 
@@ -22,6 +23,9 @@ if (envCore.NODE_ENV === "development") {
     host === "db.localtest.me" ? `${host}:4444/v2` : `${host}/v2`
 }
 
-const sql = neon(env.DATABASE_URL)
+neonConfig.webSocketConstructor = WebSocket
+neonConfig.poolQueryViaFetch = true
 
-export const db = drizzle(sql, { schema, casing: "snake_case" })
+const pool = new Pool({ connectionString: env.DATABASE_URL })
+
+export const db = drizzle(pool, { schema, casing: "snake_case" })
