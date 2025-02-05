@@ -4,9 +4,6 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     "./nextjs": "./src/nextjs.ts",
     "./hono": "./src/hono.ts",
@@ -18,12 +15,12 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/next": "1.0.0-beta.1",
-    "@arcjet/node": "1.0.0-beta.1",
-    "@arcjet/redact": "1.0.0-beta.1",
+    "@arcjet/next": "1.0.0-beta.2",
+    "@arcjet/node": "1.0.0-beta.2",
+    "@arcjet/redact": "1.0.0-beta.2",
     "@this/env": "workspace:*"
   },
   "devDependencies": {
