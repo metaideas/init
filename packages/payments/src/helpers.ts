@@ -1,7 +1,7 @@
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 import env from "@this/env/payments.server"
 
-import { type Stripe, stripe } from "#index.ts"
+import { type Stripe, stripe } from "./"
 
 export const agentToolkit = new StripeAgentToolkit({
   secretKey: env.STRIPE_SECRET_KEY,
@@ -40,8 +40,8 @@ export type SubscriptionCache =
 export async function syncSubscription(
   customerId: string
 ): Promise<SubscriptionCache> {
-  const { kv, generateCacheKey } = await import("@this/kv")
-  const cacheKey = generateCacheKey("stripe", "customer", customerId)
+  const { kv, generateKey } = await import("@this/kv")
+  const cacheKey = generateKey("stripe", "customer", customerId)
 
   // Fetch latest subscription data from Stripe
   const subscriptions = await stripe.subscriptions.list({
