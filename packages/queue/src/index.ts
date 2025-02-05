@@ -2,7 +2,7 @@ import { APP_ID } from "@this/common/constants"
 import { logger } from "@this/observability/logger"
 import { Inngest, slugify } from "inngest"
 
-import { schemas } from "#events.ts"
+import { schemas } from "./events"
 
 export const queue = new Inngest({
   id: APP_ID,
