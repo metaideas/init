@@ -4,26 +4,36 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
-    ".": "./src/index.ts"
+    "./expo": "./src/expo.ts",
+    "./nextjs": "./src/nextjs.ts",
+    "./react": "./src/react.ts",
+    "./server": "./src/server.ts",
+    "./ssr": "./src/ssr.ts",
+    "./tailwind": "./src/tailwind.ts"
   },
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uploadthing/expo": "^7.1.5",
-    "@uploadthing/react": "^7.1.5",
-    "uploadthing": "^7.4.4"
+    "@uploadthing/expo": "7.1.5",
+    "@uploadthing/react": "7.1.5",
+    "uploadthing": "7.4.4"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
