@@ -4,9 +4,6 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     ".": "./src/index.ts",
     "./ratelimit": "./src/ratelimit.ts"
@@ -16,16 +13,17 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@upstash/ratelimit": "^2.0.5",
-    "@upstash/redis": "^1.34.3"
+    "@upstash/redis": "^1.34.4"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "typescript": "catalog:"
   }
 }

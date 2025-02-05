@@ -1,7 +1,7 @@
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 
-import { kv } from "#index.ts"
+import { kv } from "./"
 
 export function createRateLimiter(
   name: string,
