@@ -6,14 +6,8 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { nextCookies } from "better-auth/next-js"
 import { admin, organization } from "better-auth/plugins"
 
-import {
-  accessControl,
-  adminRole,
-  memberRole,
-  ownerRole,
-} from "#permissions.ts"
-import { sendInvitationEmail } from "#utils/email.ts"
-import { hashPassword, verifyPassword } from "#utils/password.ts"
+import { sendInvitationEmail } from "./emails"
+import { accessControl, adminRole, memberRole, ownerRole } from "./permissions"
 
 export const auth = betterAuth({
   appName: APP_NAME,
@@ -26,12 +20,6 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    // We use our own custom password hashing and verification functions to
-    // allow portability into another hashing algorithm if needed.
-    password: {
-      hash: hashPassword,
-      verify: async ({ hash, password }) => verifyPassword(password, hash),
-    },
     autoSignIn: true,
   },
   socialProviders: {

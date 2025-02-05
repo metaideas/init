@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-
   "exports": {
     "./client": "./src/client.ts",
     "./nextjs": "./src/nextjs.ts",
@@ -17,17 +16,15 @@
     "lint": "biome lint --fix --unsafe src",
     "secret": "pnpx @better-auth/cli@latest secret",
     "test": "vitest",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@noble/hashes": "^1.7.0",
-    "@oslojs/encoding": "^1.1.0",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
-    "@this/email": "workspace:^",
+    "@this/email": "workspace:*",
     "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
-    "better-auth": "^1.1.14",
+    "better-auth": "1.1.16",
     "server-only": "catalog:"
   },
   "devDependencies": {
