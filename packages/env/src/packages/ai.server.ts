@@ -22,4 +22,5 @@ export default createEnv({
     UPSTASH_VECTOR_REST_TOKEN: z.string(),
   },
   runtimeEnv: process.env,
+  skipValidation: process.env.SKIP_VALIDATION_AI_SERVER === "true",
 })

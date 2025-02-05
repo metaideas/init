@@ -9,4 +9,5 @@ export default createEnv({
     QSTASH_NEXT_SIGNING_KEY: z.string(),
   },
   runtimeEnv: process.env,
+  skipValidation: process.env.SKIP_VALIDATION_QUEUE_SERVER === "true",
 })

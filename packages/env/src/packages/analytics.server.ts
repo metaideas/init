@@ -3,9 +3,9 @@ import * as z from "@this/validation"
 
 export default createEnv({
   server: {
-    STRIPE_SECRET_KEY: z.string(),
-    STRIPE_WEBHOOK_SECRET: z.string(),
+    POSTHOG_HOST: z.string().url(),
+    POSTHOG_API_KEY: z.string(),
   },
   runtimeEnv: process.env,
-  skipValidation: process.env.SKIP_VALIDATION_PAYMENTS_SERVER === "true",
+  skipValidation: process.env.SKIP_VALIDATION_ANALYTICS_SERVER === "true",
 })

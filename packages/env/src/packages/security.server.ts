@@ -6,4 +6,5 @@ export default createEnv({
     ARCJET_KEY: z.string(),
   },
   runtimeEnv: process.env,
+  skipValidation: process.env.SKIP_VALIDATION_SECURITY_SERVER === "true",
 })
