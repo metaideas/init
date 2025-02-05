@@ -1,10 +1,10 @@
 import { log } from "@clack/prompts"
 import { runProcess, runScript } from "@tooling/utils"
 import { seed } from "drizzle-seed"
-import * as schema from "#schema/index.ts"
+import * as schema from "../src/schema"
 
 async function main() {
-  const { db } = await import("#client.ts")
+  const { db } = await import("../src/client")
 
   log.info("Seeding database...")
 

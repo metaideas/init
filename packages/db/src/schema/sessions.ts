@@ -1,8 +1,9 @@
 import type { Brand } from "@this/common/types"
 import { timestamp, varchar } from "drizzle-orm/pg-core"
-import { users } from "#schema/auth.ts"
-import { createTable, id, timestamps } from "#schema/helpers.ts"
-import { organizations } from "#schema/organizations.ts"
+
+import { users } from "./auth"
+import { createTable, id, timestamps } from "./helpers"
+import { organizations } from "./organizations"
 
 export const sessions = createTable("sessions", {
   ...id<"SessionId">("ses"),

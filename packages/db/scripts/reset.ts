@@ -1,12 +1,11 @@
 import { intro, log, outro } from "@clack/prompts"
 import { runScript } from "@tooling/utils"
-
-import { sql } from "#helpers.ts"
+import { sql } from "drizzle-orm"
 
 async function reset() {
   intro("Resetting database...")
 
-  const { db } = await import("#client.ts")
+  const { db } = await import("../src/client")
   const { default: env } = await import("@this/env/db.server")
 
   if (env.DATABASE_URL?.includes("neon")) {

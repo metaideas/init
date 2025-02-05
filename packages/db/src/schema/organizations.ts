@@ -1,13 +1,9 @@
 import type { Brand } from "@this/common/types"
 import { jsonb, timestamp, unique, varchar } from "drizzle-orm/pg-core"
 
-import { users } from "#schema/auth.ts"
-import {
-  activityType,
-  invitationStatus,
-  organizationRoles,
-} from "#schema/enums.ts"
-import { createTable, id, timestamps } from "#schema/helpers.ts"
+import { users } from "./auth"
+import { activityType, invitationStatus, organizationRoles } from "./enums"
+import { createTable, id, timestamps } from "./helpers"
 
 export const organizations = createTable("organizations", {
   ...id<"OrganizationId">("org"),

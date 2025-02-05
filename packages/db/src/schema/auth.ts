@@ -1,3 +1,4 @@
+import type { Brand } from "@this/common/types"
 import {
   boolean,
   index,
@@ -7,9 +8,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
-import type { Brand } from "@this/common/types"
-import { userRoles } from "#schema/enums.ts"
-import { createTable, id, timestamps } from "#schema/helpers.ts"
+import { userRoles } from "./enums"
+import { createTable, id, timestamps } from "./helpers"
 
 export const users = createTable(
   "users",
