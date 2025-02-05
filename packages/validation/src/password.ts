@@ -1,4 +1,4 @@
-import * as z from "#index.ts"
+import { z } from "zod"
 
 export const PasswordSchema = z
   .string({ required_error: "Password is required" })

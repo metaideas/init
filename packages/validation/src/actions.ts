@@ -1,4 +1,4 @@
-import * as z from "#index.ts"
+import { z } from "zod"
 
 export const ActionMetadataSchema = z.object({
   actionName: z.string(),

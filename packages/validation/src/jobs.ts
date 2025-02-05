@@ -1,5 +1,5 @@
 import type Stripe from "stripe"
-import * as z from "#index.ts"
+import { z } from "zod"
 
 export const StripeProcessWebhookEventPayloadSchema = z.object({
   /**
