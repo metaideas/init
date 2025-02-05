@@ -4,35 +4,36 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     "./plausible": "./src/plausible.ts",
-    "./posthog/*": "./src/posthog/*.ts"
+    "./posthog/client": "./src/posthog/client.ts",
+    "./posthog/nextjs": "./src/posthog/nextjs.tsx",
+    "./posthog/expo": "./src/posthog/expo.tsx",
+    "./posthog/server": "./src/posthog/server.ts"
   },
   "scripts": {
     "check": "biome check --write src",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@this/env": "workspace:*",
     "next-plausible": "^3.12.4",
     "posthog-js": "^1.207.0",
-    "posthog-node": "^4.4.0"
+    "posthog-node": "^4.4.0",
+    "posthog-react-native": "^3.6.4"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
-    "typescript": "catalog:",
-    "next": "catalog:"
+    "next": "catalog:",
+    "react": "catalog:react18",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18"
+    "react": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {

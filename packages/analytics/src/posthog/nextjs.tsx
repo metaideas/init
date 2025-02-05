@@ -1,7 +1,8 @@
+import env from "@this/env/analytics.web"
 import type { Rewrite } from "next/dist/lib/load-custom-routes"
 import { usePathname, useSearchParams } from "next/navigation"
-import { usePostHog } from "posthog-js/react"
-import { useEffect, useRef } from "react"
+import { PostHogProvider, usePostHog } from "posthog-js/react"
+import { type ComponentProps, useEffect, useRef } from "react"
 
 export const rewrites: Rewrite[] = [
   {
@@ -17,6 +18,23 @@ export const rewrites: Rewrite[] = [
     destination: "https://us.i.posthog.com/decide",
   },
 ]
+
+export function AnalyticsProvider(
+  props: Pick<ComponentProps<typeof PostHogProvider>, "children">
+) {
+  return (
+    <PostHogProvider
+      {...props}
+      apiKey={env.NEXT_PUBLIC_POSTHOG_API_KEY}
+      options={{
+        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+        person_profiles: "identified_only",
+        capture_pageview: false,
+        capture_pageleave: true,
+      }}
+    />
+  )
+}
 
 export function TrackPageview() {
   const pathname = usePathname()
@@ -46,3 +64,19 @@ export function TrackPageview() {
 
   return null
 }
+
+export function IdentifyUser({
+  user,
+}: { user: { id: string; email: string } }) {
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog.identify(user.id.toString(), {
+      email: user.email,
+    })
+  }, [posthog, user.id, user.email])
+
+  return null
+}
+
+export { usePostHog as useAnalytics } from "posthog-js/react"
