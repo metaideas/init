@@ -46,6 +46,7 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
+    "@rn-primitives/accordion": "^1.1.0",
     "@rn-primitives/collapsible": "^1.1.0",
     "@rn-primitives/slot": "^1.1.0",
     "@rn-primitives/types": "^1.1.0",
@@ -57,10 +58,13 @@
     "embla-carousel-react": "^8.5.2",
     "input-otp": "^1.4.2",
     "lucide-react": "catalog:",
+    "lucide-react-native": "^0.474.0",
     "next-themes": "^0.4.4",
     "react-day-picker": "9.5.0",
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.6",
+    "react-native-reanimated": "catalog:",
+    "react-native-svg": "^15.11.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.0",
     "sonner": "^1.7.2",
@@ -71,12 +75,23 @@
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
-    "nativewind": "^4.1.23",
     "react": "catalog:react18",
+    "react-native": "catalog:",
+    "nativewind": "catalog:",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18"
+    "nativewind": ">=4.1.23",
+    "react": ">=18.0.0",
+    "react-native": ">=0.76.6"
+  },
+  "peerDependenciesMeta": {
+    "nativewind": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
   }
 }
