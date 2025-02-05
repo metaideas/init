@@ -8,3 +8,6 @@ export const Locales = {
 export type Locale = (typeof Locales)[keyof typeof Locales]
 export const DEFAULT_LOCALE = Locales.EN
 export const LOCALES = [Locales.EN, Locales.ES] as const
+
+// Breakpoints
+export const MOBILE_BREAKPOINT = 768

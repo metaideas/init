@@ -4,6 +4,6 @@
     "rootDir": ".",
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": ["*.ts", "src"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

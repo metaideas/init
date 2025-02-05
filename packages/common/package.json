@@ -4,13 +4,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     "./constants": "./src/constants.ts",
     "./errors": "./src/errors.ts",
-    "./hooks/*": "./src/hooks/*.ts",
     "./types": "./src/types.ts",
     "./utils/*": "./src/utils/*.ts",
     "./variables": "./src/variables.ts"
@@ -23,12 +19,15 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "devalue": "^5.1.1",
     "nanoid": "5.0.9",
-    "superjson": "^2.2.2"
+    "superjson": "^2.2.2",
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "typescript": "catalog:"
   }
 }

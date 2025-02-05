@@ -2,6 +2,9 @@ export type StrictOmit<T, K extends keyof T> = Omit<T, K>
 
 export type Brand<T, B> = T & { readonly __brand__: B }
 
+/**
+ * Returns the first argument of an array.
+ */
 export type FirstArg<Args extends string[]> = Args extends [
   infer First extends string,
   ...unknown[],
@@ -9,6 +12,9 @@ export type FirstArg<Args extends string[]> = Args extends [
   ? First
   : never
 
+/**
+ * Returns the rest of an array.
+ */
 export type RestArgs<Args extends string[]> = Args extends [
   unknown,
   ...infer Rest extends string[],
@@ -16,6 +22,9 @@ export type RestArgs<Args extends string[]> = Args extends [
   ? Rest
   : never
 
+/**
+ * Joins the rest of an array into a string.
+ */
 export type JoinedRest<Rest extends string[]> = Rest extends []
   ? ""
   : `:${Rest[number]}`
