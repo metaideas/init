@@ -1,12 +1,12 @@
 "use client"
 
-import { Button } from "@this/ui/web/button"
+import { Button } from "@this/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@this/ui/web/dropdown-menu"
+} from "@this/ui/dropdown-menu"
 import { MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 

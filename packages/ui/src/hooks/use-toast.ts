@@ -1,9 +1,9 @@
 "use client"
 
-// Inspired by react-hot-toast library
+import { assertUnreachable } from "@this/common/utils/assert"
 import * as React from "react"
 
-import type { ToastActionElement, ToastProps } from "#web/toast.tsx"
+import type { ToastActionElement, ToastProps } from "../toast"
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -72,7 +72,6 @@ const addToRemoveQueue = (toastId: string) => {
 }
 
 export const reducer = (state: State, action: Action): State => {
-  // biome-ignore lint/style/useDefaultSwitchClause: <explanation>
   switch (action.type) {
     case "ADD_TOAST":
       return {
@@ -120,11 +119,14 @@ export const reducer = (state: State, action: Action): State => {
           toasts: [],
         }
       }
+
       return {
         ...state,
         toasts: state.toasts.filter(t => t.id !== action.toastId),
       }
     }
+    default:
+      assertUnreachable(action)
   }
 }
 
@@ -134,7 +136,6 @@ let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
-
   for (const listener of listeners) {
     listener(memoryState)
   }
@@ -159,9 +160,7 @@ function toast({ ...props }: Toast) {
       id,
       open: true,
       onOpenChange: open => {
-        if (!open) {
-          dismiss()
-        }
+        if (!open) { dismiss() }
       },
     },
   })

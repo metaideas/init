@@ -10,4 +10,7 @@ export const {
   useActiveOrganization,
   useActiveMember,
   useListOrganizations,
+  signIn,
+  signOut,
+  signUp,
 } = authClient

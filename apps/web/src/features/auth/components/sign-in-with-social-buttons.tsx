@@ -1,11 +1,12 @@
 "use client"
 
-import { Button } from "@this/ui/web/button"
-import { toast } from "@this/ui/web/sonner"
+import { Button } from "@this/ui/button"
+import { toast } from "@this/ui/sonner"
 import { Loader2Icon } from "lucide-react"
 import { useState } from "react"
 
-import { authClient } from "~/lib/auth/client"
+import { signIn } from "~/lib/auth/client"
+import { AUTHORIZED_PATHNAME } from "~/lib/constants"
 
 export function SignInWithGoogleButton() {
   const [loading, setLoading] = useState(false)
@@ -16,8 +17,9 @@ export function SignInWithGoogleButton() {
       className="flex w-full gap-3"
       onClick={() => {
         setLoading(true)
-        authClient.signIn.social({
+        signIn.social({
           provider: "google",
+          callbackURL: AUTHORIZED_PATHNAME,
           fetchOptions: {
             onError() {
               setLoading(false)
@@ -66,8 +68,9 @@ export function SignInWithGitHubButton() {
       className="flex w-full gap-3"
       onClick={() => {
         setLoading(true)
-        authClient.signIn.social({
+        signIn.social({
           provider: "github",
+          callbackURL: AUTHORIZED_PATHNAME,
           fetchOptions: {
             onError() {
               setLoading(false)

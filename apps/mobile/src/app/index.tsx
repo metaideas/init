@@ -6,22 +6,24 @@ import {
 } from "@this/ui/native/collapsible"
 import { Text } from "@this/ui/native/text"
 import { Link } from "expo-router"
+import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 export default function Page() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-y-4">
       <Text className="font-bold text-4xl">Init Mobile</Text>
-      <Button>
-        <Text>Click me</Text>
-      </Button>
 
       <Collapsible>
-        <CollapsibleTrigger>
-          <Text>Toggle</Text>
+        <CollapsibleTrigger asChild>
+          <Button>
+            <Text>Click me</Text>
+          </Button>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <Text>Content</Text>
+          <View className="my-4 flex items-center justify-center">
+            <Text>Hello world!</Text>
+          </View>
         </CollapsibleContent>
       </Collapsible>
 

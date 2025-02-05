@@ -1,4 +1,4 @@
-import { cn } from "@this/ui/utils"
+import { cn } from "@this/common/utils/cn"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"

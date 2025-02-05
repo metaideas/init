@@ -1,5 +1,5 @@
-import { Toaster } from "@this/ui/web/sonner"
-import { TooltipProvider } from "@this/ui/web/tooltip"
+import { Toaster } from "@this/ui/sonner"
+import { TooltipProvider } from "@this/ui/tooltip"
 import { ThemeProvider } from "next-themes"
 import type { ReactNode } from "react"
 

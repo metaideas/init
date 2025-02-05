@@ -4,14 +4,10 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
+    "./*": "./src/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
-    "./web/*": "./src/web/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
-    "./utils": "./src/utils.ts",
     "./native/*": "./src/native/*.tsx"
   },
   "scripts": {
@@ -53,6 +49,7 @@
     "@rn-primitives/collapsible": "^1.1.0",
     "@rn-primitives/slot": "^1.1.0",
     "@rn-primitives/types": "^1.1.0",
+    "@this/common": "workspace:^",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
@@ -76,7 +73,6 @@
     "@types/react": "catalog:react18",
     "nativewind": "^4.1.23",
     "react": "catalog:react18",
-    "react-dom": "catalog:react18",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },
