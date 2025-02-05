@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     ".": "./src/index.ts",
     "./*": "./src/templates/*.tsx"
@@ -18,7 +15,7 @@
     "export": "email export --dir src/templates",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@react-email/components": "0.0.32",
@@ -27,15 +24,16 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
     "resend": "4.1.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:react19",
+    "react": "catalog:react19",
     "react-email": "3.0.6",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
   }
 }

@@ -4,7 +4,7 @@ import env from "@this/env/email.server"
 import { logger, styles } from "@this/observability/logger"
 import type { ReactElement } from "react"
 
-import client from "#client.ts"
+import client from "./client"
 
 export async function sendEmail({
   body,
@@ -44,6 +44,9 @@ export async function sendEmail({
   }
 }
 
+/**
+ * Queues an email to be sent later using Upstash.
+ */
 export async function queueEmail({
   emails,
   subject,
