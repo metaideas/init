@@ -4,9 +4,6 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     "./json-ld": "./src/json-ld.tsx",
     "./metadata": "./src/metadata.ts",
@@ -17,21 +14,21 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vercel/og": "^0.6.5",
-    "lodash.merge": "^4.6.2",
-    "schema-dts": "^1.1.2"
+    "lodash.merge": "4.6.2",
+    "schema-dts": "1.1.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/lodash.merge": "^4.6.9",
-    "@types/react": "catalog:react18",
+    "@types/react": "catalog:react19",
+    "react": "catalog:react19",
     "next": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18"
+    "react": ">=18.0.0"
   }
 }

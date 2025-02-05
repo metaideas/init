@@ -4,6 +4,6 @@
     "rootDir": ".",
     "jsx": "preserve"
   },
-  "include": ["*.ts", "src"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
