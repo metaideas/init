@@ -4,9 +4,6 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     ".": "./src/index.ts",
     "./providers/*": "./src/providers/*",
@@ -32,14 +29,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "react": "catalog:react18"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
   }
 }
