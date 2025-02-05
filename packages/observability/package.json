@@ -4,9 +4,6 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
     "./logger": "./src/logger/index.ts",
     "./logger/*": "./src/logger/*.ts",
@@ -18,7 +15,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@sentry/core": "^8.50.0",
@@ -33,15 +30,13 @@
   "devDependencies": {
     "@this/validation": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "@sentry/react-native": "catalog:",
     "@vercel/functions": "catalog:",
     "next": "catalog:",
-    "next-axiom": "catalog:",
-    "react": "catalog:react18"
+    "next-axiom": "catalog:"
   },
   "peerDependenciesMeta": {
     "@sentry/react-native": {
@@ -54,9 +49,6 @@
       "optional": true
     },
     "next-axiom": {
-      "optional": true
-    },
-    "react": {
       "optional": true
     }
   }
