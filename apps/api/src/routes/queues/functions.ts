@@ -1,4 +1,4 @@
-import { nameFunction } from "@this/queue/client"
+import { nameFunction } from "@this/queue"
 import { getContext } from "hono/context-storage"
 import type { AppContext } from "~/lib/types"
 

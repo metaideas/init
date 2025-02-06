@@ -11,11 +11,12 @@ const trpc = new Hono<AppContext>().use(
     createContext: (opts, c: Context<AppContext>): TRPCContext => ({
       auth: c.var.auth,
       db: c.var.db,
-      queue: c.var.queue,
+      info: opts.info,
+      kv: c.var.kv,
       logger: c.var.logger,
+      queue: c.var.queue,
       req: opts.req,
       resHeaders: opts.resHeaders,
-      info: opts.info,
     }),
   })
 )

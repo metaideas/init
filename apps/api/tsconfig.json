@@ -1,7 +1,13 @@
 {
   "extends": "@tooling/tsconfig/api.json",
   "compilerOptions": {
+    "types": ["@cloudflare/workers-types"],
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "worker-configuration.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "worker-configuration.d.ts",
+    "global.d.ts"
+  ]
 }

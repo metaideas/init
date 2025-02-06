@@ -26,6 +26,7 @@
     "@this/db": "workspace:*",
     "@this/email": "workspace:^",
     "@this/env": "workspace:*",
+    "@this/kv": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
     "@trpc/server": "11.0.0-rc.730",
