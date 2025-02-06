@@ -46,10 +46,6 @@
   },
   "pnpm": {
     "overrides": {
-      "react": "18.3.1",
-      "react-dom": "18.3.1",
-      "@types/react": "18.3.18",
-      "@types/react-dom": "18.3.5",
       "vite": "catalog:"
     },
     "peerDependencyRules": {

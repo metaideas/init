@@ -40,8 +40,8 @@
     "next-intl": "^3.26.3",
     "next-safe-action": "^7.10.2",
     "next-themes": "^0.4.4",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "react-hook-form": "^7.54.2",
     "server-only": "catalog:"
   },
@@ -53,8 +53,8 @@
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
     "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
