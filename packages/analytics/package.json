@@ -9,6 +9,7 @@
     "./posthog/client": "./src/posthog/client.ts",
     "./posthog/nextjs": "./src/posthog/nextjs.tsx",
     "./posthog/expo": "./src/posthog/expo.tsx",
+    "./posthog/rewrites": "./src/posthog/rewrites.ts",
     "./posthog/server": "./src/posthog/server.ts"
   },
   "scripts": {

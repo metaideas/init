@@ -1,23 +1,7 @@
 import env from "@this/env/analytics.web"
-import type { Rewrite } from "next/dist/lib/load-custom-routes"
 import { usePathname, useSearchParams } from "next/navigation"
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import { type ComponentProps, useEffect, useRef } from "react"
-
-export const rewrites: Rewrite[] = [
-  {
-    source: "/ingest/static/:path*",
-    destination: "https://us-assets.i.posthog.com/static/:path*",
-  },
-  {
-    source: "/ingest/:path*",
-    destination: "https://us.i.posthog.com/:path*",
-  },
-  {
-    source: "/ingest/decide",
-    destination: "https://us.i.posthog.com/decide",
-  },
-]
 
 export function AnalyticsProvider(
   props: Pick<ComponentProps<typeof PostHogProvider>, "children">

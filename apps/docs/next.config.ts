@@ -1,5 +1,5 @@
 import bundleAnalyzer from "@next/bundle-analyzer"
-import { rewrites as analyticsRewrites } from "@this/analytics/posthog/nextjs"
+import rewrites from "@this/analytics/posthog/rewrites"
 import { ensureEnv } from "@this/env/helpers"
 import observabilityServer from "@this/env/observability.server"
 import observabilityWeb from "@this/env/observability.web"
@@ -23,7 +23,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 let nextConfig: NextConfig = {
-  rewrites: async () => [...analyticsRewrites],
+  rewrites: async () => [...rewrites],
 
   transpilePackages: ["@this/env", "@this/observability"],
 }
