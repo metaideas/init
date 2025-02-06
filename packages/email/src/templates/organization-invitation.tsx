@@ -11,7 +11,6 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components"
-import * as React from "react"
 
 export default function OrganizationInvitation({
   organizationName,
@@ -46,7 +45,7 @@ export default function OrganizationInvitation({
             </Heading>
 
             <Text className="mb-4 text-center text-base text-gray-600">
-              {inviterName} ({inviterEmail}) has invited you to join the{" "}
+              {inviterName} ({inviterEmail}) has invited you to join the
               {organizationName} organization on our platform.
             </Text>
 
