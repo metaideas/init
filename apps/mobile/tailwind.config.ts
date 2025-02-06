@@ -6,7 +6,11 @@ import type { Config } from "tailwindcss"
 
 export default {
   darkMode: "class",
-  content: [...base.content, "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    ...base.content,
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   presets: [base, nativewind],
   theme: {
     extend: {
