@@ -1,4 +1,4 @@
-import nextjs from "@tooling/tailwind/nextjs"
+import base from "@tooling/tailwind/config"
 import type { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
 
@@ -6,11 +6,12 @@ export default {
   // We need to append the path to the UI package to the content array so that
   // those classes are included correctly.
   content: [
-    ...nextjs.content,
+    ...base.content,
+    "./src/app/**/*.{js,ts,md,jsx,tsx,mdx}",
     "./content/**/*.{md,mdx}",
     "../../packages/ui/src/**/*.{ts,tsx}",
   ],
-  presets: [nextjs],
+  presets: [base],
   theme: {
     extend: {
       fontFamily: {

@@ -1,9 +1,14 @@
-import wxt from "@tooling/tailwind/wxt"
+import base from "@tooling/tailwind/config"
 import type { Config } from "tailwindcss"
 
 export default {
-  content: [...wxt.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [wxt],
+  content: [
+    ...base.content,
+    "./src/entrypoints/**/*.{js,ts,jsx,tsx,mdx,html}",
+    "./src/routes/**/*.{js,ts,jsx,tsx,mdx,html}",
+    "../../packages/ui/src/**/*.{ts,tsx}",
+  ],
+  presets: [base],
   theme: {
     extend: {},
   },

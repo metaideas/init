@@ -1,9 +1,14 @@
-import tauri from "@tooling/tailwind/tauri"
+import base from "@tooling/tailwind/config"
 import type { Config } from "tailwindcss"
 
 export default {
-  content: [...tauri.content, "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [tauri],
+  content: [
+    ...base.content,
+    "./src/routes/**/*.{js,ts,jsx,tsx,mdx}",
+    "./index.html",
+    "../../packages/ui/src/**/*.{ts,tsx}",
+  ],
+  presets: [base],
   theme: {
     extend: {},
   },

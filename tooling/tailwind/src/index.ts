@@ -1,15 +1,16 @@
+import aspectRatio from "@tailwindcss/aspect-ratio"
+import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
+import animate from "tailwindcss-animate"
 import { fontFamily } from "tailwindcss/defaultTheme"
-
-import base from "#config/base.ts"
 
 export default {
   content: [
-    ...base.content,
-    "./src/routes/**/*.{js,ts,jsx,tsx,mdx}",
-    "./index.html",
+    "./src/assets/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  presets: [base],
+  darkMode: "class",
   theme: {
     container: {
       center: true,
@@ -96,4 +97,5 @@ export default {
       },
     },
   },
+  plugins: [animate, typography, aspectRatio],
 } satisfies Config

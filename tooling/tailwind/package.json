@@ -4,10 +4,8 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "imports": {
-    "#*": "./src/*"
-  },
   "exports": {
+    "./config": "./src/index.ts",
     "./*": "./src/config/*.ts",
     "./postcss": "./src/postcss.config.mjs"
   },
@@ -16,15 +14,18 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
     "lint": "biome lint --fix --unsafe .",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "postcss": "^8.5.1",
-    "tailwindcss": "catalog:",
-    "tailwindcss-animate": "^1.0.7"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.16",
     "@tooling/tsconfig": "workspace:*",
+    "tailwindcss-animate": "^1.0.7",
+    "postcss": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3.4.0"
   }
 }
