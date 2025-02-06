@@ -16,7 +16,7 @@
     "dev": "tsx ./scripts/dev.ts",
     "format": "biome format --write src",
     "lint": "biome lint --fix --unsafe src",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@this/common": "workspace:*",

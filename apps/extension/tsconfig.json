@@ -1,3 +1,12 @@
 {
-  "extends": ["./.wxt/tsconfig.json", "@tooling/tsconfig/extension.json"]
+  "extends": ["./.wxt/tsconfig.json", "@tooling/tsconfig/extension.json"],
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"]
+    }
+  },
+  "include": ["src", "tailwind.config.ts", "wxt.config.ts"]
 }

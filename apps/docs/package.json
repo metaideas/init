@@ -13,7 +13,7 @@
     "postinstall": "fumadocs-mdx",
     "lint": "biome lint --fix --unsafe src",
     "start": "next start",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@next/bundle-analyzer": "catalog:",

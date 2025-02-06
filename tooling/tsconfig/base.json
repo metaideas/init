@@ -6,7 +6,6 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
 
     "lib": ["ESNext"],

@@ -1,4 +1,4 @@
-import { nameFunction, queue } from "@this/queue/client"
+import { nameFunction, queue } from "@this/queue"
 import { serve } from "@this/queue/nextjs"
 
 const helloWorld = queue.createFunction(

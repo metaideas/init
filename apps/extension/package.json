@@ -16,7 +16,7 @@
     "postinstall": "wxt prepare",
     "lint": "biome lint --fix --unsafe src",
     "routegen": "tsx scripts/generate-routes.ts",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "typecheck": "tsc --noEmit",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
   },
@@ -43,6 +43,6 @@
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "wxt": "^0.19.24"
+    "wxt": "0.19.26"
   }
 }

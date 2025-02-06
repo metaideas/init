@@ -13,7 +13,7 @@
     "lint": "biome lint --fix --unsafe src",
     "start": "expo start",
     "test": "jest --watchAll",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "typecheck": "tsc --noEmit",
     "web": "expo start --web"
   },
   "jest": {
@@ -53,9 +53,9 @@
     "nativewind": "^4.1.23",
     "react": "catalog:react18",
     "react-dom": "catalog:react18",
-    "react-native": "0.76.6",
+    "react-native": "catalog:",
     "react-native-gesture-handler": "~2.22.0",
-    "react-native-reanimated": "~3.16.7",
+    "react-native-reanimated": "catalog:",
     "react-native-safe-area-context": "5.1.0",
     "react-native-screens": "~4.5.0",
     "react-native-web": "~0.19.13",
