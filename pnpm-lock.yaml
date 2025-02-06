@@ -159,7 +159,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       '@this/email':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/email
       '@this/env':
         specifier: workspace:*
@@ -211,7 +211,7 @@ importers:
         specifier: ^2.2.4
         version: 2.2.5
       '@this/ui':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/ui
       react:
         specifier: catalog:react18
@@ -336,7 +336,7 @@ importers:
         specifier: 'catalog:'
         version: 1.99.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@this/ui':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/ui
       '@webext-core/isolated-element':
         specifier: ^1.1.2
@@ -433,7 +433,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/observability
       '@this/ui':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/ui
       '@this/validation':
         specifier: workspace:*
@@ -596,7 +596,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       '@this/email':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/email
       '@this/env':
         specifier: workspace:*
@@ -614,7 +614,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/security
       '@this/ui':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/ui
       '@this/validation':
         specifier: workspace:*

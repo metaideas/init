@@ -32,7 +32,7 @@
     "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
-    "@this/ui": "workspace:^",
+    "@this/ui": "workspace:*",
     "@this/validation": "workspace:*",
     "@trpc/client": "11.0.0-rc.730",
     "@trpc/react-query": "11.0.0-rc.730",
