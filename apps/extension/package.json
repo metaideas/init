@@ -30,6 +30,7 @@
     "react-dom": "catalog:react18"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.0.3",
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@tooling/tailwind": "workspace:*",
@@ -39,9 +40,7 @@
     "@types/react-dom": "catalog:react18",
     "@wxt-dev/auto-icons": "^1.0.2",
     "@wxt-dev/module-react": "^1.1.3",
-    "autoprefixer": "catalog:",
-    "postcss": "catalog:",
-    "tailwindcss": "catalog:",
+    "tailwindcss": "^4.0.0",
     "typescript": "catalog:",
     "wxt": "0.19.26"
   }

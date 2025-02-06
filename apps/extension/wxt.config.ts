@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import { defineConfig } from "wxt"
 
@@ -12,6 +13,6 @@ export default defineConfig({
   publicDir: "static",
   srcDir: "src",
   vite: () => ({
-    plugins: [TanStackRouterVite()],
+    plugins: [TanStackRouterVite(), tailwindcss()],
   }),
 })
