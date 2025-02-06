@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./client": "./src/client.ts",
+    "./client": "./src/client/index.ts",
+    "./client/plugins": "./src/client/plugins.ts",
     "./nextjs": "./src/nextjs.ts",
     "./permissions": "./src/permissions.ts",
     "./server": "./src/server.ts"
@@ -19,6 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/expo": "^1.1.16",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",

@@ -6,7 +6,7 @@ import {
 } from "better-auth/client/plugins"
 import { createAuthClient as createBetterAuthClient } from "better-auth/react"
 
-import { accessControl, adminRole, memberRole, ownerRole } from "./permissions"
+import { accessControl, adminRole, memberRole, ownerRole } from "../permissions"
 
 /**
  * Create a BetterAuth client.
