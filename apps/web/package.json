@@ -49,13 +49,13 @@
     "@content-collections/cli": "^0.1.6",
     "@content-collections/core": "^0.8.0",
     "@content-collections/next": "^0.2.4",
+    "@tailwindcss/postcss": "catalog:",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
-    "postcss": "catalog:",
-    "tailwindcss": "catalog:",
+    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
 }

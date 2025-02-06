@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@fumadocs/cli": "^0.0.7",
-    "@tailwindcss/postcss": "^4.0.0",
+    "@tailwindcss/postcss": "catalog:",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "^2.0.13",
@@ -39,7 +39,7 @@
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "postcss": "catalog:",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
 }

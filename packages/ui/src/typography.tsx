@@ -68,7 +68,7 @@ const TypographyP = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
+    className={cn("not-first:mt-6 leading-7", className)}
     {...props}
   />
 ))
