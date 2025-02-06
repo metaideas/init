@@ -5,9 +5,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./config": "./src/index.ts",
-    "./*": "./src/config/*.ts",
-    "./postcss": "./src/postcss.config.mjs"
+    "./config": "./index.ts",
+    "./postcss": "./postcss.config.mjs"
   },
   "scripts": {
     "check": "biome check --write .",

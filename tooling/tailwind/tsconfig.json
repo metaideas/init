@@ -3,6 +3,6 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": ["src/**/*.ts"],
+  "include": ["index.ts", "postcss.config.mjs"],
   "exclude": ["node_modules"]
 }
