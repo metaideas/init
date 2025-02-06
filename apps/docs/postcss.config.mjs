@@ -1,1 +1,6 @@
-export { default } from "@tooling/tailwind/postcss"
+/** @type {import('postcss-load-config').Config} */
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+}

@@ -22,24 +22,24 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/validation": "workspace:*",
-    "fumadocs-core": "14.7.7",
-    "fumadocs-mdx": "11.3.1",
-    "fumadocs-ui": "14.7.7",
+    "fumadocs-core": "15.0.3",
+    "fumadocs-mdx": "11.5.1",
+    "fumadocs-ui": "15.0.3",
     "next": "catalog:",
     "react": "catalog:react18",
     "react-dom": "catalog:react18"
   },
   "devDependencies": {
     "@fumadocs/cli": "^0.0.7",
+    "@tailwindcss/postcss": "^4.0.0",
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "catalog:",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
-    "autoprefixer": "catalog:",
     "postcss": "catalog:",
-    "tailwindcss": "catalog:",
+    "tailwindcss": "^4.0.0",
     "typescript": "catalog:"
   }
 }
