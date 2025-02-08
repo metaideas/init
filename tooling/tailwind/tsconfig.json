@@ -1,8 +1,0 @@
-{
-  "extends": "@tooling/tsconfig/base.json",
-  "compilerOptions": {
-    "rootDir": "."
-  },
-  "include": ["index.ts", "postcss.config.mjs"],
-  "exclude": ["node_modules"]
-}

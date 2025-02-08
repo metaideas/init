@@ -60,7 +60,6 @@
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/runtime": "^7.26.7",
-    "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/react": "catalog:react18",

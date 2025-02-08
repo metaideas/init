@@ -62,7 +62,6 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",

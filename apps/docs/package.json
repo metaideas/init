@@ -31,7 +31,6 @@
   "devDependencies": {
     "@fumadocs/cli": "^0.0.7",
     "@tailwindcss/postcss": "catalog:",
-    "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "catalog:",
