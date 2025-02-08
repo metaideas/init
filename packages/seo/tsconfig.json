@@ -1,9 +1,0 @@
-{
-  "extends": "@tooling/tsconfig/internal-package.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "jsx": "preserve"
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
-}
