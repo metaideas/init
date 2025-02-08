@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": ["VERCEL_URL"],
+      "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts", ".source"]
+    }
+  }
+}

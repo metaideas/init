@@ -1,43 +1,58 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
+  "globalEnv": [
+    "AXIOM_DATASET",
+    "AXIOM_TOKEN",
+
+    "BETTER_AUTH_BASE_PATH",
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_TRUSTED_ORIGINS",
+    "BETTER_AUTH_URL",
+
+    "DATABASE_URL",
+
+    "EMAIL_FROM",
+
+    "GITHUB_CLIENT_ID",
+    "GITHUB_CLIENT_SECRET",
+
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+
+    "INNGEST_SIGNING_KEY",
+
+    "QSTASH_CURRENT_SIGNING_KEY",
+    "QSTASH_NEXT_SIGNING_KEY",
+    "QSTASH_TOKEN",
+    "QSTASH_URL",
+
+    "RESEND_API_KEY",
+
+    "SENTRY_AUTH_TOKEN",
+    "SENTRY_DSN",
+    "SENTRY_ORG",
+    "SENTRY_PROJECT",
+
+    "UPSTASH_REDIS_REST_TOKEN",
+    "UPSTASH_REDIS_REST_URL"
+  ],
+  "globalPassThroughEnv": ["NODE_ENV", "CI"],
   "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "apps/**/.env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
+    "build": {},
     "check": {
       "dependsOn": ["^check"]
     },
     "clean": {
-      "dependsOn": ["^clean"],
-      "cache": false
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "format": {
-      "dependsOn": ["^format"]
-    },
-    "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "cache": false,
+      "dependsOn": ["^clean"]
     },
     "dev": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "format": {},
+    "lint": {},
+    "typecheck": {}
   },
-  "globalEnv": [
-    "EXPO_PUBLIC_SENTRY_ORGANIZATION",
-    "EXPO_PUBLIC_SENTRY_PROJECT",
-    "EXPO_PUBLIC_SENTRY_URL",
-    "SENTRY_DSN",
-    "SENTRY_ORG",
-    "SENTRY_PROJECT",
-    "SENTRY_AUTH_TOKEN",
-    "SKIP_VALIDATION_OBSERVABILITY_SERVER",
-    "TAURI_DEV_HOST"
-  ],
-  "globalPassThroughEnv": ["ANALYZE"]
+  "ui": "tui"
 }

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build:types": {
+      "outputs": ["dist/**"]
+    },
+    "deploy": {
+      "dependsOn": ["^format", "^lint", "^typecheck"],
+      "env": []
+    }
+  }
+}

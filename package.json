@@ -30,6 +30,7 @@
     "@biomejs/biome": "1.9.4",
     "@clack/prompts": "0.9.1",
     "@turbo/gen": "2.3.4",
+    "@types/node": "catalog:",
     "dependency-cruiser": "16.9.0",
     "dotenv": "16.4.7",
     "sherif": "1.1.1",

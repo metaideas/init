@@ -3,11 +3,13 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
-    },
-    "dev": {
-      "persistent": true
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "next-env.d.ts",
+        ".content-collections/**"
+      ],
+      "env": ["VERCEL_URL"]
     }
   }
 }

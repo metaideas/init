@@ -4,6 +4,8 @@ import * as z from "@this/validation"
 
 export default createEnv({
   server: {
+    INNGEST_SIGNING_KEY: z.string(),
+
     QSTASH_URL: z.string().url(),
     QSTASH_TOKEN: z.string(),
     QSTASH_CURRENT_SIGNING_KEY: z.string(),

@@ -1,10 +1,9 @@
 import "client-only"
 
 import { createAuthClient } from "@this/auth/client"
+import { buildApiUrl } from "~/lib/utils"
 
-import { buildUrl } from "~/lib/utils"
-
-export const authClient = createAuthClient(buildUrl("/api/auth"))
+export const authClient = createAuthClient(buildApiUrl("/auth"))
 
 export const {
   useSession,
