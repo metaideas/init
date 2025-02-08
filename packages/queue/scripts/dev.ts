@@ -1,4 +1,4 @@
-import { runProcess } from "@tooling/utils"
+import { runProcess } from "@tooling/helpers"
 
 const POLL_INTERVAL_SECONDS = 20
 

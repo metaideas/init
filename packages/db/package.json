@@ -13,10 +13,10 @@
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "drizzle": "drizzle-kit",
-    "reset": "tsx ./scripts/reset.ts",
-    "seed": "tsx ./scripts/seed.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
+    "reset": "tsx ./scripts/reset.ts",
+    "seed": "tsx ./scripts/seed.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -27,8 +27,8 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@tooling/utils": "workspace:*",
     "@types/ws": "^8.5.14",
     "drizzle-kit": "^0.30.2",
     "drizzle-seed": "^0.3.0",

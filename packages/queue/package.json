@@ -28,8 +28,8 @@
     "pino": "catalog:"
   },
   "devDependencies": {
+    "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@tooling/utils": "workspace:*",
     "inngest-cli": "1.4.6",
     "typescript": "catalog:"
   },

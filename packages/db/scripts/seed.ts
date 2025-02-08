@@ -1,7 +1,7 @@
 import { log } from "@clack/prompts"
 import { seed } from "drizzle-seed"
 
-import { runProcess, runScript } from "@tooling/utils"
+import { runProcess, runScript } from "@tooling/helpers"
 
 import * as schema from "../src/schema"
 
