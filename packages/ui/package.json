@@ -7,8 +7,7 @@
   "exports": {
     "./*": "./src/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts",
-    "./native/*": "./src/native/*.tsx"
+    "./hooks/*": "./src/hooks/*.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -46,53 +45,32 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
-    "@rn-primitives/accordion": "^1.1.0",
-    "@rn-primitives/collapsible": "^1.1.0",
-    "@rn-primitives/slot": "^1.1.0",
-    "@rn-primitives/types": "^1.1.0",
     "@this/utils": "workspace:*",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
+    "class-variance-authority": "catalog:",
     "cmdk": "1.0.4",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.2",
     "input-otp": "^1.4.2",
     "lucide-react": "catalog:",
-    "lucide-react-native": "^0.474.0",
     "next-themes": "^0.4.4",
     "react-day-picker": "9.5.0",
     "react-hook-form": "^7.54.2",
-    "react-native": "0.76.6",
-    "react-native-reanimated": "catalog:",
-    "react-native-svg": "^15.11.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.0",
     "sonner": "^1.7.2",
-    "tailwind-merge": "^2.6.0",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
-    "nativewind": "catalog:",
-    "react": "catalog:react18",
-    "react-native": "catalog:",
+    "@types/react-dom": "catalog:react18",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "nativewind": ">=4.1.23",
-    "react": ">=18.0.0",
-    "react-native": ">=0.76.6",
-    "tailwindcss": ">=3.4.11"
-  },
-  "peerDependenciesMeta": {
-    "nativewind": {
-      "optional": true
-    },
-    "react-native": {
-      "optional": true
-    }
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
+    "tailwindcss": "catalog:tailwind4"
   }
 }

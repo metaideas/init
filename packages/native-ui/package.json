@@ -1,0 +1,45 @@
+{
+  "name": "@this/native-ui",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.tsx",
+    "./icons/*": "./src/icons/*.tsx",
+    "./blocks/*": "./src/blocks/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts"
+  },
+  "scripts": {
+    "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rn-primitives/accordion": "^1.1.0",
+    "@rn-primitives/collapsible": "^1.1.0",
+    "@rn-primitives/slot": "^1.1.0",
+    "@rn-primitives/types": "^1.1.0",
+    "@this/utils": "workspace:*",
+    "class-variance-authority": "catalog:",
+    "lucide-react-native": "^0.474.0",
+    "react-native": "catalog:",
+    "react-native-reanimated": "catalog:",
+    "react-native-svg": "^15.11.1"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "@types/react": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
+    "nativewind": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
+    "react-native": "catalog:",
+    "tailwindcss": "catalog:tailwind3"
+  }
+}

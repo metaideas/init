@@ -12,6 +12,7 @@ catalog:
   "@types/node": 22.13.1
   "@vercel/functions": 1.5.2
   autoprefixer: 10.4.20
+  class-variance-authority: 0.7.1
   hono: 4.6.16
   lucide-react: 0.471.1
   nativewind: 4.1.23

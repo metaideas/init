@@ -2,13 +2,13 @@ import { Link } from "expo-router"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { Button } from "@this/ui/native/button"
+import { Button } from "@this/native-ui/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@this/ui/native/collapsible"
-import { Text } from "@this/ui/native/text"
+} from "@this/native-ui/collapsible"
+import { Text } from "@this/native-ui/text"
 
 export default function Page() {
   return (

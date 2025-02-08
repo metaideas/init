@@ -6,8 +6,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@this/ui/native/accordion"
-import { Text } from "@this/ui/native/text"
+} from "@this/native-ui/accordion"
+import { Text } from "@this/native-ui/text"
 
 export default function Screen() {
   return (
