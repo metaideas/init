@@ -72,7 +72,7 @@
     "jest-expo": "~52.0.3",
     "react-native-css-interop": "^0.1.22",
     "react-test-renderer": "^18.2.0",
-    "tailwindcss": "catalog:",
+    "tailwindcss": "catalog:tailwind3",
     "typescript": "catalog:"
   }
 }

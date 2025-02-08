@@ -8,7 +8,8 @@
     "./*": "./src/*.tsx",
     "./icons/*": "./src/icons/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./hooks/*": "./src/hooks/*.ts",
+    "./tailwind.config": "./tailwind.config.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -30,10 +31,13 @@
     "react-native-svg": "^15.11.1"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.16",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "nativewind": "catalog:",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "catalog:"
   },
   "peerDependencies": {

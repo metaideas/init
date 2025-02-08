@@ -23,7 +23,8 @@
     "nanoid": "5.0.9",
     "schema-dts": "1.1.2",
     "superjson": "2.2.2",
-    "tailwind-merge": "2.6.0",
+    "tailwind-merge": "3.0.1",
+    "tailwind-merge2": "npm:tailwind-merge@2.6.0",
     "zod": "3.24.1"
   },
   "devDependencies": {
