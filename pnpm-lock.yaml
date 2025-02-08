@@ -63,6 +63,9 @@ catalogs:
     server-only:
       specifier: 0.0.1
       version: 0.0.1
+    tailwindcss-animate:
+      specifier: 1.0.7
+      version: 1.0.7
     typescript:
       specifier: 5.7.3
       version: 5.7.3
@@ -657,9 +660,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.0.0
-      '@tooling/tailwind':
-        specifier: workspace:*
-        version: link:../../tooling/tailwind
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -975,7 +975,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.23(react-native-reanimated@3.16.7(@babel/core@7.26.7)(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-svg@15.11.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
       tailwindcss-animate:
-        specifier: ^1.0.7
+        specifier: 'catalog:'
         version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
       typescript:
         specifier: 'catalog:'
@@ -1292,6 +1292,9 @@ importers:
       shadcn:
         specifier: ^2.1.8
         version: 2.3.0(typescript@5.7.3)
+      tailwindcss-animate:
+        specifier: 'catalog:'
+        version: 1.0.7(tailwindcss@4.0.0)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -27169,6 +27172,10 @@ snapshots:
   tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3))):
     dependencies:
       tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3))
+
+  tailwindcss-animate@1.0.7(tailwindcss@4.0.0):
+    dependencies:
+      tailwindcss: 4.0.0
 
   tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)):
     dependencies:

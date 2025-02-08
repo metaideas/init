@@ -49,7 +49,6 @@
     "@content-collections/core": "^0.8.0",
     "@content-collections/next": "^0.2.4",
     "@tailwindcss/postcss": "catalog:",
-    "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",

@@ -11,7 +11,7 @@
   "style": "default",
   "tailwind": {
     "baseColor": "neutral",
-    "config": "./tailwind.config.ts",
+    "config": "./unused.ts",
     "css": "./tailwind.css",
     "cssVariables": true,
     "prefix": ""

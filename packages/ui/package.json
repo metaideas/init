@@ -7,7 +7,8 @@
   "exports": {
     "./*": "./src/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./hooks/*": "./src/hooks/*.ts",
+    "./styles": "./src/styles/index.css"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -66,6 +67,7 @@
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "shadcn": "^2.1.8",
+    "tailwindcss-animate": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

@@ -42,7 +42,7 @@ export default function Page() {
       </header>
       <main className="flex-1">
         <section className="w-full pt-12 md:pt-24 lg:pt-32">
-          <div className="container space-y-10 xl:space-y-16">
+          <div className="container mx-auto space-y-10 xl:space-y-16">
             <div className="flex flex-col items-center gap-4 text-center">
               <TypographyH1>Init Web</TypographyH1>
 
