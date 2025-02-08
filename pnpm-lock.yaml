@@ -155,9 +155,6 @@ importers:
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@this/common':
-        specifier: workspace:*
-        version: link:../../packages/common
       '@this/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -176,6 +173,9 @@ importers:
       '@this/queue':
         specifier: workspace:*
         version: link:../../packages/queue
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@trpc/server':
         specifier: 11.0.0-rc.730
         version: 11.0.0-rc.730(typescript@5.7.3)
@@ -268,18 +268,15 @@ importers:
       '@this/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
-      '@this/common':
-        specifier: workspace:*
-        version: link:../../packages/common
       '@this/env':
         specifier: workspace:*
         version: link:../../packages/env
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
-      '@this/validation':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../../packages/validation
+        version: link:../../packages/utils
       fumadocs-core:
         specifier: 15.0.3
         version: 15.0.3(@types/react@18.3.18)(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -411,12 +408,6 @@ importers:
       '@react-navigation/native':
         specifier: ^7.0.14
         version: 7.0.14(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
-      '@rn-primitives/slot':
-        specifier: ^1.1.0
-        version: 1.1.0(react-native-web@0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
-      '@rn-primitives/types':
-        specifier: ^1.1.0
-        version: 1.1.0(react-native-web@0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
       '@sentry/react-native':
         specifier: 'catalog:'
         version: 6.5.0(expo@52.0.28(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@expo/metro-runtime@4.0.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)))(react-native-webview@13.13.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -426,9 +417,6 @@ importers:
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@this/common':
-        specifier: workspace:*
-        version: link:../../packages/common
       '@this/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -438,18 +426,15 @@ importers:
       '@this/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@this/validation':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../../packages/validation
+        version: link:../../packages/utils
       '@trpc/client':
         specifier: 11.0.0-rc.730
         version: 11.0.0-rc.730(@trpc/server@11.0.0-rc.730(typescript@5.7.3))(typescript@5.7.3)
       '@trpc/react-query':
         specifier: 11.0.0-rc.730
         version: 11.0.0-rc.730(@tanstack/react-query@5.66.0(react@18.3.1))(@trpc/client@11.0.0-rc.730(@trpc/server@11.0.0-rc.730(typescript@5.7.3))(typescript@5.7.3))(@trpc/server@11.0.0-rc.730(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
-      class-variance-authority:
-        specifier: ^0.7.1
-        version: 0.7.1
       expo:
         specifier: ~52.0.25
         version: 52.0.28(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@expo/metro-runtime@4.0.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)))(react-native-webview@13.13.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -592,9 +577,6 @@ importers:
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@this/common':
-        specifier: workspace:*
-        version: link:../../packages/common
       '@this/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -619,9 +601,9 @@ importers:
       '@this/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@this/validation':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../../packages/validation
+        version: link:../../packages/utils
       '@vercel/functions':
         specifier: 'catalog:'
         version: 1.5.2
@@ -699,26 +681,26 @@ importers:
   packages/ai:
     dependencies:
       '@ai-sdk/anthropic':
-        specifier: ^1.0.9
-        version: 1.1.6(zod@3.24.1)
+        specifier: 1.0.9
+        version: 1.0.9(zod@3.24.1)
       '@ai-sdk/deepseek':
-        specifier: ^0.1.3
-        version: 0.1.8(zod@3.24.1)
+        specifier: 0.1.3
+        version: 0.1.3(zod@3.24.1)
       '@ai-sdk/openai':
-        specifier: ^1.0.20
-        version: 1.1.9(zod@3.24.1)
+        specifier: 1.0.20
+        version: 1.0.20(zod@3.24.1)
       '@this/env':
         specifier: workspace:*
         version: link:../env
       '@upstash/semantic-cache':
-        specifier: ^1.0.5
+        specifier: 1.0.5
         version: 1.0.5
       '@upstash/vector':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0
       ai:
-        specifier: ^4.0.39
-        version: 4.1.17(react@19.0.0)(zod@3.24.1)
+        specifier: 4.0.39
+        version: 4.0.39(react@19.0.0)(zod@3.24.1)
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -769,9 +751,6 @@ importers:
       '@better-auth/expo':
         specifier: 1.1.16
         version: 1.1.16(better-auth@1.1.16)
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/db':
         specifier: workspace:*
         version: link:../db
@@ -784,6 +763,9 @@ importers:
       '@this/kv':
         specifier: workspace:*
         version: link:../kv
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../utils
       better-auth:
         specifier: 1.1.16
         version: 1.1.16
@@ -837,12 +819,12 @@ importers:
       '@neondatabase/serverless':
         specifier: ^0.10.4
         version: 0.10.4
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/env':
         specifier: workspace:*
         version: link:../env
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../utils
       drizzle-orm:
         specifier: ^0.38.4
         version: 0.38.4(@cloudflare/workers-types@4.20250129.0)(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@19.0.8)(kysely@0.27.5)(react@19.0.0)
@@ -850,12 +832,12 @@ importers:
         specifier: ^8.18.0
         version: 8.18.0
     devDependencies:
+      '@tooling/helpers':
+        specifier: workspace:*
+        version: link:../../tooling/helpers
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@tooling/utils':
-        specifier: workspace:*
-        version: link:../../tooling/utils
       '@types/ws':
         specifier: ^8.5.14
         version: 8.5.14
@@ -877,9 +859,6 @@ importers:
       '@react-email/render':
         specifier: ^1.0.4
         version: 1.0.4(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/env':
         specifier: workspace:*
         version: link:../env
@@ -889,6 +868,9 @@ importers:
       '@this/queue':
         specifier: workspace:*
         version: link:../queue
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../utils
       resend:
         specifier: 4.1.1
         version: 4.1.1(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
@@ -917,12 +899,9 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: 0.12.0
         version: 0.12.0(typescript@5.7.3)(zod@3.24.1)
-      '@this/common':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../common
-      '@this/validation':
-        specifier: workspace:*
-        version: link:../validation
+        version: link:../utils
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -939,12 +918,12 @@ importers:
 
   packages/kv:
     dependencies:
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/env':
         specifier: workspace:*
         version: link:../env
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@upstash/ratelimit':
         specifier: ^2.0.5
         version: 2.0.5(@upstash/redis@1.34.4)
@@ -973,12 +952,12 @@ importers:
       '@sentry/react-native':
         specifier: 'catalog:'
         version: 6.5.0(expo@52.0.28(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@expo/metro-runtime@4.0.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@19.0.0)))(react-native-webview@13.13.1(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@19.0.0))(react@19.0.0))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@19.0.0))(react@19.0.0))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@19.0.0))(react@19.0.0)
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/env':
         specifier: workspace:*
         version: link:../env
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@vercel/functions':
         specifier: 'catalog:'
         version: 1.5.2
@@ -1001,9 +980,6 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
     devDependencies:
-      '@this/validation':
-        specifier: workspace:*
-        version: link:../validation
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -1041,37 +1017,37 @@ importers:
 
   packages/queue:
     dependencies:
-      '@this/common':
-        specifier: workspace:*
-        version: link:../common
       '@this/env':
         specifier: workspace:*
         version: link:../env
       '@this/observability':
         specifier: workspace:*
         version: link:../observability
-      '@this/validation':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../validation
+        version: link:../utils
       '@upstash/qstash':
         specifier: ^2.7.20
         version: 2.7.20
       hono:
         specifier: 'catalog:'
-        version: 4.6.16
+        version: 4.7.0
       inngest:
         specifier: ^3.30.0
-        version: 3.31.3(hono@4.6.16)(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3)
+        version: 3.31.3(hono@4.7.0)(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3)
       pino:
         specifier: 'catalog:'
         version: 9.6.0
     devDependencies:
+      '@this/payments':
+        specifier: workspace:^
+        version: link:../payments
+      '@tooling/helpers':
+        specifier: workspace:*
+        version: link:../../tooling/helpers
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@tooling/utils':
-        specifier: workspace:*
-        version: link:../../tooling/utils
       inngest-cli:
         specifier: 1.4.6
         version: 1.4.6
@@ -1249,9 +1225,9 @@ importers:
       '@rn-primitives/types':
         specifier: ^1.1.0
         version: 1.1.0(react-native-web@0.19.13(react-dom@19.0.0(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
-      '@this/common':
+      '@this/utils':
         specifier: workspace:*
-        version: link:../common
+        version: link:../utils
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1335,6 +1311,46 @@ importers:
         specifier: 'catalog:'
         version: 5.7.3
 
+  packages/utils:
+    dependencies:
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      devalue:
+        specifier: 5.1.1
+        version: 5.1.1
+      lodash.merge:
+        specifier: 4.6.2
+        version: 4.6.2
+      nanoid:
+        specifier: 5.0.9
+        version: 5.0.9
+      schema-dts:
+        specifier: 1.1.2
+        version: 1.1.2(typescript@5.7.3)
+      superjson:
+        specifier: 2.2.2
+        version: 2.2.2
+      tailwind-merge:
+        specifier: 2.6.0
+        version: 2.6.0
+      zod:
+        specifier: 3.24.1
+        version: 3.24.1
+    devDependencies:
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/tsconfig
+      '@types/lodash.merge':
+        specifier: ^4.6.9
+        version: 4.6.9
+      next:
+        specifier: 'catalog:'
+        version: 15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
+
   packages/validation:
     dependencies:
       zod:
@@ -1350,6 +1366,15 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
+
+  tooling/helpers:
+    devDependencies:
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.1
 
   tooling/tailwind:
     dependencies:
@@ -1391,15 +1416,6 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
 
-  tooling/utils:
-    devDependencies:
-      '@tooling/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.13.1
-
 packages:
 
   '@0no-co/graphql.web@1.0.13':
@@ -1413,29 +1429,47 @@ packages:
   '@1natsu/wait-element@4.1.2':
     resolution: {integrity: sha512-qWxSJD+Q5b8bKOvESFifvfZ92DuMsY+03SBNjTO34ipJLP6mZ9yK4bQz/vlh48aEQXoJfaZBqUwKL5BdI5iiWw==}
 
-  '@ai-sdk/anthropic@1.1.6':
-    resolution: {integrity: sha512-4TZBg2VoU/F58DmnyfPPGU9wMUTwLP15XyAFSrUqk9sSdjszwcojXw3LE7YbxifZ+RK7wT7lTkuyK1k2UdfFng==}
+  '@ai-sdk/anthropic@1.0.9':
+    resolution: {integrity: sha512-gYKZu+lT0yw/St62YC+ZsQ9IR/PC8G7ssZtnGsht2Im4Ix8MWr1dQHMq9h9Sedulxom+IbdAjAUCgNfqy7F7ZQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/deepseek@0.1.8':
-    resolution: {integrity: sha512-ZnugEqmkscB0an46I0Z6Ppor8YwOC2bIhWXkivkGbVdpQgpx43cPBrD3lyOyNEHIFwHtcrJF13S+4FNPzR0Gng==}
+  '@ai-sdk/deepseek@0.1.3':
+    resolution: {integrity: sha512-cj0uYgFk0TWWtHKtwB8v17frttquLll9hCpRWtKpiZO69SbiZOwNSjENaoyZvN1sHMLQoQkw+hnbMGtWuU2yOg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/openai-compatible@0.1.8':
-    resolution: {integrity: sha512-o2WeZmkOgaaEHAIZfAdlAASotNemhWBzupUp7ql/vBKIrPDctbQS4K7XOvG7EZ1dshn0TxB+Ur7Q8HoWSeWPmA==}
+  '@ai-sdk/openai-compatible@0.1.3':
+    resolution: {integrity: sha512-3dr81jVNTd7Tg4i6JwGKHX47DnQ+jn3zOuxLvu6bM2hFylchtIFn/ut3Et7VfsdMWf4gj9tXp/9rUiQ0JokkrQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/openai@1.1.9':
-    resolution: {integrity: sha512-t/CpC4TLipdbgBJTMX/otzzqzCMBSPQwUOkYPGbT/jyuC86F+YO9o+LS0Ty2pGUE1kyT+B3WmJ318B16ZCg4hw==}
+  '@ai-sdk/openai@1.0.20':
+    resolution: {integrity: sha512-824Eyqn83GxjUiErX9J0S8ffSVw1JKh8iYJNVSFxPvOVzA02KNEIakOhcQHWxb65aTOYxytD+6YR7m/ppHY6IQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
+
+  '@ai-sdk/provider-utils@2.0.8':
+    resolution: {integrity: sha512-R/wsIqx7Lwhq+ogzkqSOek8foj2wOnyBSGW/CH8IPBla0agbisIE9Ug7R9HDTNiBbIIKVhduB54qQSMPFw0MZA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
+
+  '@ai-sdk/provider-utils@2.1.2':
+    resolution: {integrity: sha512-ezpQT6kzy/2O4yyn/2YigMqynBYjZIOam3/EMNVzju+Ogj+Z+pf27c/Th78ce0A2ltgrXx6xN14sal/HHZNOOw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
 
   '@ai-sdk/provider-utils@2.1.6':
     resolution: {integrity: sha512-Pfyaj0QZS22qyVn5Iz7IXcJ8nKIKlu2MeSAdKJzTwkAks7zdLaKVB+396Rqcp1bfQnxl7vaduQVMQiXUrgK8Gw==}
@@ -1446,9 +1480,29 @@ packages:
       zod:
         optional: true
 
+  '@ai-sdk/provider@1.0.4':
+    resolution: {integrity: sha512-lJi5zwDosvvZER3e/pB8lj1MN3o3S7zJliQq56BRr4e9V3fcRyFtwP0JRxaRS5vHYX3OJ154VezVoQNrk0eaKw==}
+    engines: {node: '>=18'}
+
+  '@ai-sdk/provider@1.0.6':
+    resolution: {integrity: sha512-hwj/gFNxpDgEfTaYzCYoslmw01IY9kWLKl/wf8xuPvHtQIzlfXWmmUwc8PnCwxyt8cKzIuV0dfUghCf68HQ0SA==}
+    engines: {node: '>=18'}
+
   '@ai-sdk/provider@1.0.7':
     resolution: {integrity: sha512-q1PJEZ0qD9rVR+8JFEd01/QM++csMT5UVwYXSN2u54BrVw/D8TZLTeg2FEfKK00DgAx0UtWd8XOhhwITP9BT5g==}
     engines: {node: '>=18'}
+
+  '@ai-sdk/react@1.0.12':
+    resolution: {integrity: sha512-vh4CVgZWNYECK49eV2NJpWL7Am9DlMAYD8Z2kauXYmTT2Ktjng0rLQFtUGYyyJqgYUqXTODOGg6t8w8liWhsbw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^18 || ^19 || ^19.0.0-rc
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      zod:
+        optional: true
 
   '@ai-sdk/react@1.1.8':
     resolution: {integrity: sha512-buHm7hP21xEOksnRQtJX9fKbi7cAUwanEBa5niddTDibCDKd+kIXP2vaJGy8+heB3rff+XSW3BWlA8pscK+n1g==}
@@ -1459,6 +1513,15 @@ packages:
     peerDependenciesMeta:
       react:
         optional: true
+      zod:
+        optional: true
+
+  '@ai-sdk/ui-utils@1.0.11':
+    resolution: {integrity: sha512-hbC3eSw42zbl+sRUxuvxGr9Tzx4MY7Ln3s2FTU2t4s4rcl546Xdq36pzM7k8ZQUDFMzfVfjLYqtM4Gfnno2MlQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+    peerDependenciesMeta:
       zod:
         optional: true
 
@@ -6540,6 +6603,18 @@ packages:
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
     engines: {node: '>=8'}
+
+  ai@4.0.39:
+    resolution: {integrity: sha512-Iari2vMHROKs/ul3PToaza4JEIE56oecbJdS8mFFVrB5uOxNqJY1CHfRBX24HNiXYA+nXJunZujCSOzfcwBqbg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^18 || ^19 || ^19.0.0-rc
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      zod:
+        optional: true
 
   ai@4.1.17:
     resolution: {integrity: sha512-5SW15tXDuxE/wlEOjRKxLxTOUIGD4C9bIee+FCFvXHTTAZhHiQjViC2s7RtMUW+hbFtGya302jUHY1Pe8A/YuQ==}
@@ -13792,29 +13867,47 @@ snapshots:
       defu: 6.1.4
       many-keys-map: 2.0.1
 
-  '@ai-sdk/anthropic@1.1.6(zod@3.24.1)':
+  '@ai-sdk/anthropic@1.0.9(zod@3.24.1)':
     dependencies:
-      '@ai-sdk/provider': 1.0.7
-      '@ai-sdk/provider-utils': 2.1.6(zod@3.24.1)
+      '@ai-sdk/provider': 1.0.4
+      '@ai-sdk/provider-utils': 2.0.8(zod@3.24.1)
       zod: 3.24.1
 
-  '@ai-sdk/deepseek@0.1.8(zod@3.24.1)':
+  '@ai-sdk/deepseek@0.1.3(zod@3.24.1)':
     dependencies:
-      '@ai-sdk/openai-compatible': 0.1.8(zod@3.24.1)
-      '@ai-sdk/provider': 1.0.7
-      '@ai-sdk/provider-utils': 2.1.6(zod@3.24.1)
+      '@ai-sdk/openai-compatible': 0.1.3(zod@3.24.1)
+      '@ai-sdk/provider': 1.0.6
+      '@ai-sdk/provider-utils': 2.1.2(zod@3.24.1)
       zod: 3.24.1
 
-  '@ai-sdk/openai-compatible@0.1.8(zod@3.24.1)':
+  '@ai-sdk/openai-compatible@0.1.3(zod@3.24.1)':
     dependencies:
-      '@ai-sdk/provider': 1.0.7
-      '@ai-sdk/provider-utils': 2.1.6(zod@3.24.1)
+      '@ai-sdk/provider': 1.0.6
+      '@ai-sdk/provider-utils': 2.1.2(zod@3.24.1)
       zod: 3.24.1
 
-  '@ai-sdk/openai@1.1.9(zod@3.24.1)':
+  '@ai-sdk/openai@1.0.20(zod@3.24.1)':
     dependencies:
-      '@ai-sdk/provider': 1.0.7
-      '@ai-sdk/provider-utils': 2.1.6(zod@3.24.1)
+      '@ai-sdk/provider': 1.0.4
+      '@ai-sdk/provider-utils': 2.0.8(zod@3.24.1)
+      zod: 3.24.1
+
+  '@ai-sdk/provider-utils@2.0.8(zod@3.24.1)':
+    dependencies:
+      '@ai-sdk/provider': 1.0.4
+      eventsource-parser: 3.0.0
+      nanoid: 3.3.8
+      secure-json-parse: 2.7.0
+    optionalDependencies:
+      zod: 3.24.1
+
+  '@ai-sdk/provider-utils@2.1.2(zod@3.24.1)':
+    dependencies:
+      '@ai-sdk/provider': 1.0.6
+      eventsource-parser: 3.0.0
+      nanoid: 3.3.8
+      secure-json-parse: 2.7.0
+    optionalDependencies:
       zod: 3.24.1
 
   '@ai-sdk/provider-utils@2.1.6(zod@3.24.1)':
@@ -13826,9 +13919,27 @@ snapshots:
     optionalDependencies:
       zod: 3.24.1
 
+  '@ai-sdk/provider@1.0.4':
+    dependencies:
+      json-schema: 0.4.0
+
+  '@ai-sdk/provider@1.0.6':
+    dependencies:
+      json-schema: 0.4.0
+
   '@ai-sdk/provider@1.0.7':
     dependencies:
       json-schema: 0.4.0
+
+  '@ai-sdk/react@1.0.12(react@19.0.0)(zod@3.24.1)':
+    dependencies:
+      '@ai-sdk/provider-utils': 2.0.8(zod@3.24.1)
+      '@ai-sdk/ui-utils': 1.0.11(zod@3.24.1)
+      swr: 2.3.0(react@19.0.0)
+      throttleit: 2.1.0
+    optionalDependencies:
+      react: 19.0.0
+      zod: 3.24.1
 
   '@ai-sdk/react@1.1.8(react@19.0.0)(zod@3.24.1)':
     dependencies:
@@ -13838,6 +13949,14 @@ snapshots:
       throttleit: 2.1.0
     optionalDependencies:
       react: 19.0.0
+      zod: 3.24.1
+
+  '@ai-sdk/ui-utils@1.0.11(zod@3.24.1)':
+    dependencies:
+      '@ai-sdk/provider': 1.0.4
+      '@ai-sdk/provider-utils': 2.0.8(zod@3.24.1)
+      zod-to-json-schema: 3.24.1(zod@3.24.1)
+    optionalDependencies:
       zod: 3.24.1
 
   '@ai-sdk/ui-utils@1.1.8(zod@3.24.1)':
@@ -18191,26 +18310,12 @@ snapshots:
       react-native: 0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)
       react-native-web: 0.19.13(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
 
-  '@rn-primitives/slot@1.1.0(react-native-web@0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
-    optionalDependencies:
-      react-native: 0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)
-      react-native-web: 0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-
   '@rn-primitives/slot@1.1.0(react-native-web@0.19.13(react-dom@19.0.0(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
     optionalDependencies:
       react-native: 0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)
       react-native-web: 0.19.13(react-dom@19.0.0(react@18.3.1))(react@18.3.1)
-
-  '@rn-primitives/types@1.1.0(react-native-web@0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
-    optionalDependencies:
-      react-native: 0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1)
-      react-native-web: 0.19.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@rn-primitives/types@1.1.0(react-native-web@0.19.13(react-dom@19.0.0(react@18.3.1))(react@18.3.1))(react-native@0.76.6(@babel/core@7.26.7)(@babel/preset-env@7.26.7(@babel/core@7.26.7))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -19662,6 +19767,18 @@ snapshots:
     dependencies:
       clean-stack: 2.2.0
       indent-string: 4.0.0
+
+  ai@4.0.39(react@19.0.0)(zod@3.24.1):
+    dependencies:
+      '@ai-sdk/provider': 1.0.4
+      '@ai-sdk/provider-utils': 2.0.8(zod@3.24.1)
+      '@ai-sdk/react': 1.0.12(react@19.0.0)(zod@3.24.1)
+      '@ai-sdk/ui-utils': 1.0.11(zod@3.24.1)
+      '@opentelemetry/api': 1.9.0
+      jsondiffpatch: 0.6.0
+    optionalDependencies:
+      react: 19.0.0
+      zod: 3.24.1
 
   ai@4.1.17(react@19.0.0)(zod@3.24.1):
     dependencies:
@@ -22711,7 +22828,7 @@ snapshots:
       - encoding
       - supports-color
 
-  inngest@3.31.3(hono@4.6.16)(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3):
+  inngest@3.31.3(hono@4.7.0)(next@15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3):
     dependencies:
       '@bufbuild/protobuf': 2.2.3
       '@inngest/ai': 0.0.0
@@ -22729,7 +22846,7 @@ snapshots:
       ulid: 2.3.0
       zod: 3.22.5
     optionalDependencies:
-      hono: 4.6.16
+      hono: 4.7.0
       next: 15.1.6(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       typescript: 5.7.3
     transitivePeerDependencies:

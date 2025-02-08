@@ -15,16 +15,15 @@
     "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {},
+  "peerDependencies": {
+    "tailwindcss": ">=3.4.0"
+  },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tooling/tsconfig": "workspace:*",
-    "tailwindcss-animate": "^1.0.7",
     "postcss": "catalog:",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "tailwindcss": ">=3.4.0"
   }
 }

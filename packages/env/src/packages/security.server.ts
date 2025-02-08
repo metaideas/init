@@ -1,6 +1,6 @@
 import { createEnv } from "@t3-oss/env-core"
 
-import * as z from "@this/validation"
+import * as z from "@this/utils/schema"
 
 export default createEnv({
   server: {

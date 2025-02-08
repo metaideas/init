@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import type * as React from "react"
 import { DayPicker } from "react-day-picker"
 
-import { cn } from "@this/common/utils/cn"
+import { cn } from "@this/utils/classname"
 
 import { buttonVariants } from "./button"
 

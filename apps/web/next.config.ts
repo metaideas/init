@@ -30,7 +30,7 @@ let nextConfig: NextConfig = {
     "@this/env",
     "@this/observability",
     "@this/ui",
-    "@this/validation",
+    "@this/utils",
   ],
 }
 

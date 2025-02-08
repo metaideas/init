@@ -4,7 +4,7 @@ import { LogLevel, Logger } from "next-axiom"
 import { headers } from "next/headers"
 import type { NextFetchEvent, NextRequest, NextResponse } from "next/server"
 
-import type { ActionMetadata } from "@this/validation/actions"
+import type { ActionMetadata } from "@this/utils/server-action"
 
 // We re-export the withAxiom configuration to use it Next.js without installing next-a
 export { withAxiom as withLogger } from "next-axiom"

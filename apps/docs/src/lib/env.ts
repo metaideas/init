@@ -1,6 +1,6 @@
 import { createNextjsEnv } from "@this/env/helpers"
 import { vercel } from "@this/env/presets"
-import * as z from "@this/validation"
+import * as z from "@this/utils/schema"
 
 export default createNextjsEnv({
   client: {

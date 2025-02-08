@@ -24,8 +24,8 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/lodash.merge": "^4.6.9",
     "@types/react": "catalog:react19",
-    "react": "catalog:react19",
     "next": "catalog:",
+    "react": "catalog:react19",
     "typescript": "catalog:"
   },
   "peerDependencies": {

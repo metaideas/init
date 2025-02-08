@@ -2,7 +2,7 @@ import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 
 import type { Session } from "@this/auth/server"
-import type { DeepMerge } from "@this/common/types"
+import type { DeepMerge } from "@this/utils/type"
 
 import type { AppContext } from "~/lib/types"
 

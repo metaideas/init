@@ -18,7 +18,7 @@ import {
   Tooltip,
 } from "recharts"
 
-import { cn } from "@this/common/utils/cn"
+import { cn } from "@this/utils/classname"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const

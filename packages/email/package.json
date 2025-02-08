@@ -20,10 +20,10 @@
   "dependencies": {
     "@react-email/components": "0.0.32",
     "@react-email/render": "^1.0.4",
-    "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
+    "@this/utils": "workspace:*",
     "resend": "4.1.1"
   },
   "devDependencies": {

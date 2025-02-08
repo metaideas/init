@@ -50,7 +50,7 @@
     "@rn-primitives/collapsible": "^1.1.0",
     "@rn-primitives/slot": "^1.1.0",
     "@rn-primitives/types": "^1.1.0",
-    "@this/common": "workspace:*",
+    "@this/utils": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
@@ -75,17 +75,17 @@
     "@tooling/tailwind": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:react18",
+    "nativewind": "catalog:",
     "react": "catalog:react18",
     "react-native": "catalog:",
-    "nativewind": "catalog:",
     "shadcn": "^2.1.8",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "nativewind": ">=4.1.23",
-    "tailwindcss": ">=3.4.11",
     "react": ">=18.0.0",
-    "react-native": ">=0.76.6"
+    "react-native": ">=0.76.6",
+    "tailwindcss": ">=3.4.11"
   },
   "peerDependenciesMeta": {
     "nativewind": {

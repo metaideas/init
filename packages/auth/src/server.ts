@@ -3,9 +3,9 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { nextCookies } from "better-auth/next-js"
 import { admin, organization } from "better-auth/plugins"
 
-import { APP_ID, APP_NAME } from "@this/common/constants"
 import { db } from "@this/db"
 import env from "@this/env/auth.server"
+import { APP_ID, APP_NAME } from "@this/utils/constants"
 
 import { sendInvitationEmail } from "./emails"
 import { accessControl, adminRole, memberRole, ownerRole } from "./permissions"

@@ -35,7 +35,7 @@ Error Handling and Validation:
 - Prioritize error handling: handle errors and edge cases early
 - Use early returns and guard clauses
 - Implement proper error logging and user-friendly messages
-- Use Zod for form validation. Add the schemas to the `@this/validation` package.
+- Use Zod for form validation. Add the schemas to the `@this/utils/schema` package.
 - Return errors from Server Actions to be handled by the UI. Map the errors to the fields.
 - Use error boundaries for unexpected errors
 

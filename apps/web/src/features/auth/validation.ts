@@ -1,5 +1,5 @@
-import { z } from "@this/validation"
-import { PasswordSchema, matchPasswords } from "@this/validation/password"
+import { PasswordSchema, matchPasswords } from "@this/auth/schema"
+import * as z from "@this/utils/schema"
 
 export const SignUpSchema = z
   .object({

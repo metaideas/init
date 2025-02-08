@@ -19,15 +19,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@this/common": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
-    "@this/validation": "workspace:*",
+    "@this/utils": "workspace:*",
     "@upstash/qstash": "^2.7.20",
     "inngest": "^3.30.0",
     "pino": "catalog:"
   },
   "devDependencies": {
+    "@this/payments": "workspace:^",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "inngest-cli": "1.4.6",

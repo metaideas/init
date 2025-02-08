@@ -1,9 +1,9 @@
 import { render } from "@react-email/render"
 import type { ReactElement } from "react"
 
-import { SendEmailError } from "@this/common/errors"
 import env from "@this/env/email.server"
 import { logger, styles } from "@this/observability/logger"
+import { SendEmailError } from "@this/utils/error"
 
 import client from "./client"
 

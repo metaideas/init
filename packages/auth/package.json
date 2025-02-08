@@ -8,6 +8,7 @@
     "./client/plugins": "./src/client/plugins.ts",
     "./nextjs": "./src/nextjs.ts",
     "./permissions": "./src/permissions.ts",
+    "./schema": "./src/schema.ts",
     "./server": "./src/server.ts"
   },
   "scripts": {
@@ -21,11 +22,11 @@
   },
   "dependencies": {
     "@better-auth/expo": "1.1.16",
-    "@this/common": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",
     "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
+    "@this/utils": "workspace:*",
     "better-auth": "1.1.16",
     "server-only": "catalog:"
   },

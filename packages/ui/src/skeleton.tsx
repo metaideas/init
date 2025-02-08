@@ -1,4 +1,4 @@
-import { cn } from "@this/common/utils/cn"
+import { cn } from "@this/utils/classname"
 
 function Skeleton({
   className,

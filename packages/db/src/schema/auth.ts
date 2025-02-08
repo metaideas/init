@@ -7,7 +7,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
-import type { Brand } from "@this/common/types"
+import type { Brand } from "@this/utils/type"
 
 import { userRoles } from "./enums"
 import { createTable, id, timestamps } from "./helpers"

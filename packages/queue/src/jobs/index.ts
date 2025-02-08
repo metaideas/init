@@ -3,11 +3,8 @@ import { QstashError, Receiver } from "@upstash/qstash"
 import type { VerifySignatureConfig } from "@upstash/qstash/nextjs"
 
 import env from "@this/env/queue.server"
-import {
-  type JobPayload,
-  JobSchemaMap,
-  type JobType,
-} from "@this/validation/jobs"
+
+import { type JobPayload, JobSchemaMap, type JobType } from "./schema"
 
 export const jobClient = new Client({ token: env.QSTASH_TOKEN })
 

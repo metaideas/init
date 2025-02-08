@@ -1,9 +1,9 @@
 import { type Redis, Redis as RedisNode } from "@upstash/redis"
 import { Redis as RedisCloudflare } from "@upstash/redis/cloudflare"
 
-import type { FirstArg, JoinedRest, RestArgs } from "@this/common/types"
-import { isCloudflare } from "@this/common/variables"
 import env from "@this/env/kv.server"
+import { buildKeyGenerator } from "@this/utils/key"
+import { isCloudflare } from "@this/utils/runtime"
 
 function createKv(): Redis {
   if (isCloudflare) {
@@ -19,18 +19,8 @@ function createKv(): Redis {
   })
 }
 
-type KVCategory = "stripe"
+type KVCategory = "stripe" | "auth" | "organization"
 
-type KeyFormat<
-  T extends KVCategory,
-  Args extends string[],
-> = `${T}:${FirstArg<Args>}${JoinedRest<RestArgs<Args>>}`
-
-export function generateKey<T extends KVCategory, const Args extends string[]>(
-  category: T,
-  ...args: Args
-): KeyFormat<T, Args> {
-  return [category, ...args].join(":") as KeyFormat<T, Args>
-}
+export const generateKVKey = buildKeyGenerator<KVCategory>()
 
 export const kv = createKv()

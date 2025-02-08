@@ -9,8 +9,8 @@ import type { TRPCLink } from "@trpc/client"
 import { createTRPCReact } from "@trpc/react-query"
 import type { TRPCClient } from "api/client"
 
-import { transformer } from "@this/common/utils/trpc"
-import { isDevelopment } from "@this/common/variables"
+import { isDevelopment } from "@this/utils/environment"
+import { transformer } from "@this/utils/trpc"
 
 import { buildApiUrl } from "~/lib/utils"
 

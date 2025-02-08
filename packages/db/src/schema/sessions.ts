@@ -1,6 +1,6 @@
 import { timestamp, varchar } from "drizzle-orm/pg-core"
 
-import type { Brand } from "@this/common/types"
+import type { Brand } from "@this/utils/type"
 
 import { users } from "./auth"
 import { createTable, id, timestamps } from "./helpers"

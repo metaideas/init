@@ -2,7 +2,7 @@ import createNextIntlMiddleware from "next-intl/middleware"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-import { LOCALES } from "@this/common/constants"
+import { LOCALES } from "@this/utils/constants"
 
 import { routing } from "~/lib/i18n/routing"
 

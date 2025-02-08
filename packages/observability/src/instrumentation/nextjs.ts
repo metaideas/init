@@ -2,9 +2,9 @@ import * as Sentry from "@sentry/nextjs"
 import { withSentryConfig } from "@sentry/nextjs"
 import type { NextConfig } from "next"
 
-import { isProduction } from "@this/common/variables"
 import envServer from "@this/env/observability.server"
 import envWeb from "@this/env/observability.web"
+import { isProduction } from "@this/utils/environment"
 
 const options = {
   dsn: envWeb.NEXT_PUBLIC_SENTRY_DSN,
