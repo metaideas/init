@@ -2,8 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": ["./base.json", "@tsconfig/vite-react/tsconfig.json"],
   "compilerOptions": {
-    "paths": {
-      "~/*": ["./src/*"]
-    }
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   }
 }

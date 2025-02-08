@@ -34,15 +34,15 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "nativewind": "catalog:",
     "tailwindcss-animate": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "react-native": "catalog:",
     "tailwindcss": "catalog:tailwind3"
   }

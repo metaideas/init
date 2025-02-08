@@ -2,7 +2,6 @@ import { RouterProvider } from "@tanstack/react-router"
 import React from "react"
 import ReactDOM from "react-dom/client"
 
-import "~/assets/styles/tailwind.css"
 import { createRouter } from "~/router"
 
 const router = createRouter(["/options"])

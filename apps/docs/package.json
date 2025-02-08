@@ -25,8 +25,8 @@
     "fumadocs-mdx": "11.5.1",
     "fumadocs-ui": "15.0.3",
     "next": "catalog:",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@fumadocs/cli": "^0.0.7",
@@ -34,8 +34,8 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "catalog:",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "postcss": "catalog:",
     "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"

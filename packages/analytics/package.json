@@ -28,13 +28,13 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
+    "@types/react": "catalog:",
     "next": "catalog:",
-    "react": "catalog:react18",
+    "react": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": ">=18.0.0"
+    "react": "catalog:"
   },
   "peerDependenciesMeta": {
     "react": {

@@ -1,5 +1,5 @@
 {
-  "extends": ["./.wxt/tsconfig.json", "@tooling/tsconfig/extension.json"],
+  "extends": ["./.wxt/tsconfig.json", "@tooling/tsconfig/vite.json"],
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
@@ -8,5 +8,5 @@
       "~~/*": ["./*"]
     }
   },
-  "include": ["src", "wxt.config.ts"]
+  "include": ["src", "tailwind.config.ts", "wxt.config.ts"]
 }

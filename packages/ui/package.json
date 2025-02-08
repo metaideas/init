@@ -63,15 +63,15 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "shadcn": "^2.1.8",
     "tailwindcss-animate": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "tailwindcss": "catalog:tailwind4"
   }
 }
