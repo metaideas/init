@@ -5,46 +5,18 @@ const APP_NAME = "This App"
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: APP_NAME,
-  slug: APP_ID,
-  version: "1.0.0",
-  orientation: "portrait",
+  android: {
+    adaptiveIcon: {
+      backgroundColor: "#ffffff",
+      foregroundImage: "./src/assets/images/adaptive-icon.png",
+    },
+  },
+  experiments: {
+    typedRoutes: true,
+  },
   icon: "./src/assets/images/icon.png",
-  scheme: APP_ID,
-  userInterfaceStyle: "automatic",
-  newArchEnabled: true,
   ios: {
-    supportsTablet: true,
     privacyManifests: {
-      // Required for Sentry to work:
-      NSPrivacyCollectedDataTypes: [
-        {
-          NSPrivacyCollectedDataType: "NSPrivacyCollectedDataTypeCrashData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypeTracking: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-        },
-        {
-          NSPrivacyCollectedDataType:
-            "NSPrivacyCollectedDataTypePerformanceData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypeTracking: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-        },
-        {
-          NSPrivacyCollectedDataType:
-            "NSPrivacyCollectedDataTypeOtherDiagnosticData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypeTracking: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-        },
-      ],
       NSPrivacyAccessedAPITypes: [
         {
           NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryUserDefaults",
@@ -60,28 +32,50 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           NSPrivacyAccessedAPITypeReasons: ["C617.1"],
         },
       ],
+      // Required for Sentry to work:
+      NSPrivacyCollectedDataTypes: [
+        {
+          NSPrivacyCollectedDataType: "NSPrivacyCollectedDataTypeCrashData",
+          NSPrivacyCollectedDataTypeLinked: false,
+          NSPrivacyCollectedDataTypePurposes: [
+            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
+          ],
+          NSPrivacyCollectedDataTypeTracking: false,
+        },
+        {
+          NSPrivacyCollectedDataType:
+            "NSPrivacyCollectedDataTypePerformanceData",
+          NSPrivacyCollectedDataTypeLinked: false,
+          NSPrivacyCollectedDataTypePurposes: [
+            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
+          ],
+          NSPrivacyCollectedDataTypeTracking: false,
+        },
+        {
+          NSPrivacyCollectedDataType:
+            "NSPrivacyCollectedDataTypeOtherDiagnosticData",
+          NSPrivacyCollectedDataTypeLinked: false,
+          NSPrivacyCollectedDataTypePurposes: [
+            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
+          ],
+          NSPrivacyCollectedDataTypeTracking: false,
+        },
+      ],
     },
+    supportsTablet: true,
   },
-  android: {
-    adaptiveIcon: {
-      foregroundImage: "./src/assets/images/adaptive-icon.png",
-      backgroundColor: "#ffffff",
-    },
-  },
-  web: {
-    bundler: "metro",
-    output: "static",
-    favicon: "./src/assets/images/favicon.png",
-  },
+  name: APP_NAME,
+  newArchEnabled: true,
+  orientation: "portrait",
   plugins: [
     "expo-router",
     [
       "expo-splash-screen",
       {
+        backgroundColor: "#ffffff",
         image: "./src/assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
-        backgroundColor: "#ffffff",
       },
     ],
     [
@@ -93,13 +87,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "@sentry/react-native/expo",
       {
-        url: process.env.EXPO_PUBLIC_SENTRY_URL,
         organization: process.env.EXPO_PUBLIC_SENTRY_ORGANIZATION,
         project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
+        url: process.env.EXPO_PUBLIC_SENTRY_URL,
       },
     ],
   ],
-  experiments: {
-    typedRoutes: true,
+  scheme: APP_ID,
+  slug: APP_ID,
+  userInterfaceStyle: "automatic",
+  version: "1.0.0",
+  web: {
+    bundler: "metro",
+    favicon: "./src/assets/images/favicon.png",
+    output: "static",
   },
 })

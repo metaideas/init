@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+
 import { validateRequest } from "~/lib/auth/server"
 
 export async function SignedIn({ children }: { children: ReactNode }) {

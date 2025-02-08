@@ -1,11 +1,11 @@
-import base from "@tooling/tailwind/config"
 // @ts-expect-error - Nativewind preset is not typed
 import nativewind from "nativewind/preset"
 import { hairlineWidth } from "nativewind/theme"
 import type { Config } from "tailwindcss"
 
+import base from "@tooling/tailwind/config"
+
 export default {
-  darkMode: "class",
   content: [
     ...base.content,
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +15,8 @@ export default {
   theme: {
     extend: {
       borderWidth: {
+        // Again, Nativewind is not typed.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         hairline: hairlineWidth(),
       },
     },

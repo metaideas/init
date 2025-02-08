@@ -1,8 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-// import { useForm } from "react-hook-form"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
+
 import {
   Form,
   FormControl,
@@ -23,17 +23,17 @@ export default function SignUpForm() {
     signUp,
     zodResolver(SignUpSchema),
     {
-      formProps: {
-        defaultValues: {
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        },
-      },
       actionProps: {
         onError({ error }) {
           toast.error(error.serverError)
+        },
+      },
+      formProps: {
+        defaultValues: {
+          confirmPassword: "",
+          email: "",
+          name: "",
+          password: "",
         },
       },
     }

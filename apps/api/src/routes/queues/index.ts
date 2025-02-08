@@ -1,5 +1,6 @@
-import { serve } from "@this/queue/hono"
 import { Hono } from "hono"
+
+import { serve } from "@this/queue/hono"
 
 import type { AppContext } from "~/lib/types"
 

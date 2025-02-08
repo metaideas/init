@@ -1,9 +1,10 @@
 "use client"
 
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { cn } from "@this/common/utils/cn"
 import { Check } from "lucide-react"
 import * as React from "react"
+
+import { cn } from "@this/common/utils/cn"
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,

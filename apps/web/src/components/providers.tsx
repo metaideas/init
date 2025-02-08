@@ -1,7 +1,8 @@
-import { Toaster } from "@this/ui/sonner"
-import { TooltipProvider } from "@this/ui/tooltip"
 import { ThemeProvider } from "next-themes"
 import type { ReactNode } from "react"
+
+import { Toaster } from "@this/ui/sonner"
+import { TooltipProvider } from "@this/ui/tooltip"
 
 export default function Providers({
   children,

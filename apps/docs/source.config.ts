@@ -1,7 +1,9 @@
 import { defineConfig, defineDocs } from "fumadocs-mdx/config"
 
 export const { docs, meta } = defineDocs({
-  dir: "content/",
+  dir: "content",
 })
 
-export default defineConfig()
+export default defineConfig({
+  lastModifiedTime: "git",
+})

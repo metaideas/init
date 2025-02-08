@@ -1,6 +1,7 @@
 import { intro, log, outro } from "@clack/prompts"
-import { runScript } from "@tooling/utils"
 import { sql } from "drizzle-orm"
+
+import { runScript } from "@tooling/utils"
 
 async function reset() {
   intro("Resetting database...")

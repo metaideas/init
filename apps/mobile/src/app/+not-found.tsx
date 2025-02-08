@@ -1,3 +1,6 @@
+import { Link, Stack } from "expo-router"
+import { View } from "react-native"
+
 import {
   Accordion,
   AccordionContent,
@@ -5,8 +8,6 @@ import {
   AccordionTrigger,
 } from "@this/ui/native/accordion"
 import { Text } from "@this/ui/native/text"
-import { Link, Stack } from "expo-router"
-import { View } from "react-native"
 
 export default function Screen() {
   return (

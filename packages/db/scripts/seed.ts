@@ -1,6 +1,8 @@
 import { log } from "@clack/prompts"
-import { runProcess, runScript } from "@tooling/utils"
 import { seed } from "drizzle-seed"
+
+import { runProcess, runScript } from "@tooling/utils"
+
 import * as schema from "../src/schema"
 
 async function main() {

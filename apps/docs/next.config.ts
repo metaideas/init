@@ -1,12 +1,13 @@
 import bundleAnalyzer from "@next/bundle-analyzer"
+import { createMDX } from "fumadocs-mdx/next"
+import type { NextConfig } from "next"
+
 import rewrites from "@this/analytics/posthog/rewrites"
 import { ensureEnv } from "@this/env/helpers"
 import observabilityServer from "@this/env/observability.server"
 import observabilityWeb from "@this/env/observability.web"
 import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
-import { createMDX } from "fumadocs-mdx/next"
-import type { NextConfig } from "next"
 
 import appEnv from "~/lib/env"
 
@@ -23,6 +24,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 let nextConfig: NextConfig = {
+  // eslint-disable-next-line @typescript-eslint/require-await -- Rewrite requires an async function
   rewrites: async () => [...rewrites],
 
   transpilePackages: ["@this/env", "@this/observability"],

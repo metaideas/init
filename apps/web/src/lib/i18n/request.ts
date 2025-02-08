@@ -1,5 +1,7 @@
-import type { Locale } from "@this/common/constants"
 import { getRequestConfig } from "next-intl/server"
+
+import type { Locale } from "@this/common/constants"
+
 import { routing } from "./routing"
 
 export default getRequestConfig(async ({ requestLocale }) => {

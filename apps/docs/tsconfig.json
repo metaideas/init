@@ -1,12 +1,20 @@
 {
-  "extends": "@tooling/tsconfig/web",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
-    }
+    },
+    "allowJs": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "extends": "@tooling/tsconfig/web",
+  "include": [
+    "next-env.d.ts",
+    "**/*.mjs",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mdx",
+    ".next/types/**/*.ts"
+  ]
 }

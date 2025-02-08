@@ -1,6 +1,7 @@
-import env from "@this/env/ai.server"
 import { SemanticCache } from "@upstash/semantic-cache"
 import { Index } from "@upstash/vector"
+
+import env from "@this/env/ai.server"
 
 export function createIndex<T extends Record<string, unknown> = never>() {
   return new Index<T>({

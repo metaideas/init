@@ -1,9 +1,10 @@
+import { RocketIcon } from "lucide-react"
+import Link from "next/link"
+
 import { Button } from "@this/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@this/ui/tooltip"
 import { TypographyH1 } from "@this/ui/typography"
 import { TypographyLead } from "@this/ui/typography"
-import { RocketIcon } from "lucide-react"
-import Link from "next/link"
 
 import { ModeToggle } from "~/components/theme"
 import { SignedIn, SignedOut } from "~/features/auth/components/state"

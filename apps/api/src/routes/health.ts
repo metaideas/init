@@ -1,5 +1,7 @@
-import { ensureEnv } from "@this/env/helpers"
 import { Hono } from "hono"
+
+import { ensureEnv } from "@this/env/helpers"
+
 import type { AppContext } from "~/lib/types"
 
 /**

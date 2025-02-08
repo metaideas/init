@@ -1,8 +1,10 @@
 import "server-only"
 
-import { type Session, auth } from "@this/auth/server"
 import { headers } from "next/headers"
 import { cache } from "react"
+
+import { auth } from "@this/auth/server"
+import type { Session } from "@this/auth/server"
 
 export const validateRequest = cache(async (): Promise<Session | null> => {
   const result = await auth.api.getSession({

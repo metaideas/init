@@ -1,4 +1,3 @@
-import type { Brand } from "@this/common/types"
 import {
   boolean,
   index,
@@ -7,6 +6,8 @@ import {
   uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core"
+
+import type { Brand } from "@this/common/types"
 
 import { userRoles } from "./enums"
 import { createTable, id, timestamps } from "./helpers"

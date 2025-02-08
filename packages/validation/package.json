@@ -9,10 +9,10 @@
     "./*": "./src/*.ts"
   },
   "scripts": {
-    "check": "biome check --write src",
+    "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "format": "biome format --write src",
-    "lint": "biome lint --fix --unsafe src",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

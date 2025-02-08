@@ -1,5 +1,6 @@
-import base from "@tooling/tailwind/config"
 import type { Config } from "tailwindcss"
+
+import base from "@tooling/tailwind/config"
 
 export default {
   content: [
@@ -8,9 +9,9 @@ export default {
     "./src/routes/**/*.{js,ts,jsx,tsx,mdx,html}",
     "../../packages/ui/src/**/*.{ts,tsx}",
   ],
+  plugins: [],
   presets: [base],
   theme: {
     extend: {},
   },
-  plugins: [],
 } satisfies Config

@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-native"
+
 import envMobile from "@this/env/observability.mobile"
 
 export function initializeSentry() {

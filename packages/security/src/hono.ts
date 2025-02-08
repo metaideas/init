@@ -1,4 +1,5 @@
 import arcjet, { shield } from "@arcjet/node"
+
 import env from "@this/env/security.server"
 
 export const security = arcjet({

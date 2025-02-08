@@ -11,16 +11,16 @@
     "./server": "./src/server.ts"
   },
   "scripts": {
-    "check": "biome check --write src",
+    "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "format": "biome format --write src",
-    "lint": "biome lint --fix --unsafe src",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
     "secret": "pnpx @better-auth/cli@latest secret",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/expo": "^1.1.16",
+    "@better-auth/expo": "1.1.16",
     "@this/common": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",

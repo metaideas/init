@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+
 import { validateRequest } from "~/lib/auth/server"
 
 export async function AdminOnly({
@@ -6,7 +7,7 @@ export async function AdminOnly({
 }: Readonly<{ children: ReactNode }>) {
   const session = await validateRequest()
 
-  if (session?.user?.role !== "admin") {
+  if (session?.user.role !== "admin") {
     return null
   }
 
@@ -18,7 +19,7 @@ export async function UserOnly({
 }: Readonly<{ children: ReactNode }>) {
   const session = await validateRequest()
 
-  if (session?.user?.role !== "user") {
+  if (session?.user.role !== "user") {
     return null
   }
 

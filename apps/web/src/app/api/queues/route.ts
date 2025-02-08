@@ -4,9 +4,9 @@ import { serve } from "@this/queue/nextjs"
 const helloWorld = queue.createFunction(
   nameFunction("Hello World"),
   { event: "test/helloWorld" },
-  ({ step, logger }) => {
+  async ({ step, logger }) => {
     logger.info("Hello from NextJS route")
-    step.run("test", () => console.log("Hello from NextJS route"))
+    await step.run("test", () => console.log("Hello from NextJS route"))
   }
 )
 

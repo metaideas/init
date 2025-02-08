@@ -17,7 +17,9 @@ export default function ExternalLink({
           // Prevent the default behavior of linking to the default browser on native.
           event.preventDefault()
           // Open the link in an in-app browser.
-          await openBrowserAsync(href.toString())
+          await openBrowserAsync(
+            typeof href === "string" ? href : href.pathname
+          )
         }
       }}
     />

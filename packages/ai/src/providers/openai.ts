@@ -1,4 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai"
+
 import env from "@this/env/ai.server"
 
 export const openai = createOpenAI({

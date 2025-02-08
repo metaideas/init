@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@this/ui/card"
+
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
 import { getCurrentUser } from "~/server/loaders"
@@ -27,11 +28,11 @@ export default async function Page() {
           <CardContent className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <Avatar>
-                <AvatarImage src={user.image || undefined} alt="Avatar" />
-                <AvatarFallback>{user.name?.[0] || "U"}</AvatarFallback>
+                <AvatarImage src={user.image ?? undefined} alt="Avatar" />
+                <AvatarFallback>{user.name[0] ?? "U"}</AvatarFallback>
               </Avatar>
               <div>
-                <div className="font-medium">{user.name || "Unknown"}</div>
+                <div className="font-medium">{user.name ?? "Unknown"}</div>
                 <div className="text-muted-foreground">{user.email}</div>
               </div>
             </div>

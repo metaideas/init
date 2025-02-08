@@ -1,9 +1,11 @@
 "use client"
 
-import { Button } from "@this/ui/button"
 import { Loader2Icon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+
+import { Button } from "@this/ui/button"
+
 import { authClient } from "~/lib/auth/client"
 import { UNAUTHORIZED_PATHNAME } from "~/lib/constants"
 
@@ -16,7 +18,8 @@ export default function SignOutButton() {
       variant="secondary"
       onClick={() => {
         setLoading(true)
-        authClient.signOut({
+
+        void authClient.signOut({
           fetchOptions: {
             onSuccess: () => {
               router.push(UNAUTHORIZED_PATHNAME)

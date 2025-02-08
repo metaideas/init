@@ -10,7 +10,7 @@ import { routeTree } from "~/routeTree.gen"
 
 const history = createMemoryHistory()
 
-const router = createRouter({ routeTree, history })
+const router = createRouter({ history, routeTree })
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -18,7 +18,11 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("root") as HTMLElement
+const rootElement = document.getElementById("root")
+
+if (!rootElement) {
+  throw new Error("Root element not found")
+}
 
 if (!rootElement.innerHTML) {
   ReactDOM.createRoot(rootElement).render(

@@ -1,7 +1,8 @@
-import env from "@this/env/analytics.web"
 import { usePathname, useSearchParams } from "next/navigation"
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import { type ComponentProps, useEffect, useRef } from "react"
+
+import env from "@this/env/analytics.web"
 
 export function AnalyticsProvider(
   props: Pick<ComponentProps<typeof PostHogProvider>, "children">
@@ -51,7 +52,9 @@ export function TrackPageview() {
 
 export function IdentifyUser({
   user,
-}: { user: { id: string; email: string } }) {
+}: {
+  user: { id: string; email: string }
+}) {
   const posthog = usePostHog()
 
   useEffect(() => {

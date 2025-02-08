@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "files": ["*.json"],
+  "scripts": {
+    "check": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix ."
+  },
   "devDependencies": {
     "@tsconfig/next": "^2.0.3",
     "@tsconfig/react-native": "3.0.5",

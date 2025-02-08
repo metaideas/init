@@ -5,13 +5,13 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
-    "check": "biome check --write src",
+    "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "next dev --port 3005",
-    "format": "biome format --write src",
+    "format": "biome format --write .",
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
-    "lint": "biome lint --fix --unsafe src",
+    "lint": "biome lint --fix .",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },

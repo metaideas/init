@@ -5,11 +5,11 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
-    "check": "biome check --write src",
+    "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .next dist node_modules",
     "dev": "next dev --turbo",
-    "format": "biome format --write src",
-    "lint": "biome lint --fix --unsafe src",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
     "prebuild": "content-collections build",
     "start": "next start",
     "typecheck": "tsc --noEmit"

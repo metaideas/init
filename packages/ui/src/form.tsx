@@ -2,7 +2,6 @@
 
 import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
-import { cn } from "@this/common/utils/cn"
 import { Loader2Icon } from "lucide-react"
 import * as React from "react"
 import {
@@ -14,6 +13,8 @@ import {
   useFormContext,
   useFormState,
 } from "react-hook-form"
+
+import { cn } from "@this/common/utils/cn"
 
 import { Button } from "./button"
 import { Label } from "./label"

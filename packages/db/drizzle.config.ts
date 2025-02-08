@@ -1,5 +1,6 @@
-import env from "@this/env/db.server"
 import { defineConfig } from "drizzle-kit"
+
+import env from "@this/env/db.server"
 
 if (env.DATABASE_URL?.includes("neon") && !env.RUN_PRODUCTION_MIGRATIONS) {
   throw new Error(

@@ -1,8 +1,9 @@
 import { Pool, neonConfig } from "@neondatabase/serverless"
-import envCore from "@this/env/core.server"
-import env from "@this/env/db.server"
 import { drizzle } from "drizzle-orm/neon-serverless"
 import { WebSocket } from "ws"
+
+import envCore from "@this/env/core.server"
+import env from "@this/env/db.server"
 
 import * as schema from "./schema"
 

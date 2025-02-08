@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "tauri build",
-    "check": "biome check --write src",
+    "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tauri dev",
-    "format": "biome format --write src",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit",
     "vite:build": "tsc && vite build",
     "vite:dev": "vite",

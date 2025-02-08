@@ -8,9 +8,10 @@
     }
   },
   "include": [
+    ".expo/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".expo/types/**/*.ts",
+    "eslint.config.mjs",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
   ]

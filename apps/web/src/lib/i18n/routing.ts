@@ -1,6 +1,7 @@
-import { DEFAULT_LOCALE, LOCALES } from "@this/common/constants"
 import { createNavigation } from "next-intl/navigation"
 import { defineRouting } from "next-intl/routing"
+
+import { DEFAULT_LOCALE, LOCALES } from "@this/common/constants"
 
 export const routing = defineRouting({
   locales: LOCALES,

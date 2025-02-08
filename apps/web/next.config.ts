@@ -1,13 +1,14 @@
 import { withContentCollections } from "@content-collections/next"
 import bundleAnalyzer from "@next/bundle-analyzer"
-import rewrites from "@this/analytics/posthog/rewrites"
-import { ensureEnv } from "@this/env/helpers"
-import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
-import { withLogger } from "@this/observability/logger/nextjs"
 import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 
+import rewrites from "@this/analytics/posthog/rewrites"
 import dbServer from "@this/env/db.server"
+import { ensureEnv } from "@this/env/helpers"
+import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
+import { withLogger } from "@this/observability/logger/nextjs"
+
 import appEnv from "~/lib/env"
 
 ensureEnv([

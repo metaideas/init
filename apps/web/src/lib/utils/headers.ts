@@ -1,8 +1,9 @@
+import { geolocation, ipAddress } from "@vercel/functions"
+import { headers } from "next/headers"
 import "server-only"
 
 import { logger } from "@this/observability/logger"
-import { geolocation, ipAddress } from "@vercel/functions"
-import { headers } from "next/headers"
+
 const FALLBACK_IP = "127.0.0.1"
 
 export async function getIpAddress(request?: Request): Promise<string> {

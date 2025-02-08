@@ -1,3 +1,7 @@
+import { Link } from "expo-router"
+import { View } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
+
 import { Button } from "@this/ui/native/button"
 import {
   Collapsible,
@@ -5,9 +9,6 @@ import {
   CollapsibleTrigger,
 } from "@this/ui/native/collapsible"
 import { Text } from "@this/ui/native/text"
-import { Link } from "expo-router"
-import { View } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
 
 export default function Page() {
   return (

@@ -1,6 +1,5 @@
 "use client"
 
-import { cn } from "@this/common/utils/cn"
 import {
   type CSSProperties,
   type ComponentProps,
@@ -18,6 +17,8 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts"
+
+import { cn } from "@this/common/utils/cn"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const

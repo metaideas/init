@@ -2,9 +2,8 @@ import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { logger } from "hono/logger"
-import type { AppContext } from "~/lib/types"
 
-// Routers
+import type { AppContext } from "~/lib/types"
 import authRouter from "~/routes/auth"
 import healthRouter from "~/routes/health"
 import queuesRouter from "~/routes/queues"
@@ -13,7 +12,7 @@ import trpcRouter from "~/routes/trpc"
 
 const app = new Hono<AppContext>()
 
-app.use(cors({ origin: "*", credentials: true }))
+app.use(cors({ credentials: true, origin: "*" }))
 app.use(logger())
 app.use(contextStorage())
 

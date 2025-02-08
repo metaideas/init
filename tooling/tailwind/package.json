@@ -12,7 +12,7 @@
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
-    "lint": "biome lint --fix --unsafe .",
+    "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {},

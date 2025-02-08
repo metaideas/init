@@ -1,15 +1,17 @@
 import * as Sentry from "@sentry/react-native"
-import { initializeSentry } from "@this/observability/instrumentation/expo"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
+
 import "react-native-reanimated"
 
-import "~/assets/styles/tailwind.css"
+import { initializeSentry } from "@this/observability/instrumentation/expo"
 
 import Providers from "~/components/providers"
 
+import "~/assets/styles/tailwind.css"
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+void SplashScreen.preventAutoHideAsync()
 
 // Initialize Sentry
 initializeSentry()

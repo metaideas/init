@@ -1,5 +1,4 @@
 import * as AccordionPrimitive from "@rn-primitives/accordion"
-import { cn } from "@this/common/utils/cn"
 import * as React from "react"
 import { Platform, Pressable, View } from "react-native"
 import Animated, {
@@ -13,6 +12,8 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from "react-native-reanimated"
+
+import { cn } from "@this/common/utils/cn"
 
 import { ChevronDown } from "./icons/chevron-down"
 import { TextClassContext } from "./text"
@@ -124,7 +125,10 @@ const AccordionContent = React.forwardRef<
 function InnerContent({
   children,
   className,
-}: { children: React.ReactNode; className?: string }) {
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   if (Platform.OS === "web") {
     return <View className={cn("pb-4", className)}>{children}</View>
   }

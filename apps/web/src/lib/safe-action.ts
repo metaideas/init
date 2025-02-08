@@ -1,16 +1,16 @@
-import { AuthError, RateLimitError } from "@this/common/errors"
-import { createRateLimiter, slidingWindow } from "@this/kv/ratelimit"
-import { reportError } from "@this/observability/instrumentation/error"
-import {
-  type Logger,
-  createActionLogger,
-} from "@this/observability/logger/nextjs"
-import { ActionMetadataSchema } from "@this/validation/actions"
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createMiddleware,
   createSafeActionClient,
 } from "next-safe-action"
+
+import { AuthError, RateLimitError } from "@this/common/errors"
+import { createRateLimiter, slidingWindow } from "@this/kv/ratelimit"
+import { reportError } from "@this/observability/instrumentation/error"
+import { createActionLogger } from "@this/observability/logger/nextjs"
+import type { Logger } from "@this/observability/logger/nextjs"
+import { ActionMetadataSchema } from "@this/validation/actions"
+
 import { validateRequest } from "~/lib/auth/server"
 import { getIpAddress } from "~/lib/utils/headers"
 
@@ -30,7 +30,7 @@ export const actionClient = createSafeActionClient({
 
   const result = await next({ ctx: { log: logger.log } })
 
-  logger.flush(result.success)
+  void logger.flush(result.success)
 
   return result
 })

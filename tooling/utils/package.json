@@ -6,6 +6,12 @@
   "exports": {
     ".": "./index.ts"
   },
+  "scripts": {
+    "check": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:"

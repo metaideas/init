@@ -3,10 +3,10 @@ import { PasswordSchema, matchPasswords } from "@this/validation/password"
 
 export const SignUpSchema = z
   .object({
-    name: z.string().min(1),
-    email: z.string().email(),
-    password: PasswordSchema,
     confirmPassword: PasswordSchema,
+    email: z.string().email(),
+    name: z.string().min(1),
+    password: PasswordSchema,
   })
   .refine(matchPasswords, {
     message: "Passwords don't match",

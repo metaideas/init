@@ -1,6 +1,9 @@
-import { LOCALES } from "@this/common/constants"
 import createNextIntlMiddleware from "next-intl/middleware"
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
+
+import { LOCALES } from "@this/common/constants"
+
 import { routing } from "~/lib/i18n/routing"
 
 const nextIntlMiddleware = createNextIntlMiddleware(routing)

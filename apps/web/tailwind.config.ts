@@ -1,6 +1,7 @@
-import base from "@tooling/tailwind/config"
 import type { Config } from "tailwindcss"
 import defaultTheme from "tailwindcss/defaultTheme"
+
+import base from "@tooling/tailwind/config"
 
 export default {
   // We need to append the path to the UI package to the content array so that

@@ -1,6 +1,8 @@
-import { transformer } from "@this/common/utils/trpc"
 import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
+
+import { transformer } from "@this/common/utils/trpc"
+
 import type { AppContext } from "~/lib/types"
 
 export type TRPCContext = FetchCreateContextFnOptions & AppContext["Variables"]

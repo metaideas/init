@@ -2,7 +2,7 @@ import aspectRatio from "@tailwindcss/aspect-ratio"
 import typography from "@tailwindcss/typography"
 import type { Config } from "tailwindcss"
 import animate from "tailwindcss-animate"
-import { fontFamily } from "tailwindcss/defaultTheme"
+import defaultTheme from "tailwindcss/defaultTheme"
 
 export default {
   content: [
@@ -71,7 +71,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

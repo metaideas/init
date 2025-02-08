@@ -2,15 +2,17 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider as NavigationThemeProvider,
-  type Theme,
 } from "@react-navigation/native"
+import type { Theme } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
-import { type ReactNode, useLayoutEffect, useRef, useState } from "react"
-import { NAV_THEME } from "~/lib/constants"
+import { useLayoutEffect, useRef, useState } from "react"
+import type { ReactNode } from "react"
+
+import { NAVIGATION_THEME } from "~/lib/constants"
 import { useColorScheme } from "~/lib/hooks"
 
-const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light }
-const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark }
+const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAVIGATION_THEME.light }
+const DARK_THEME: Theme = { ...DarkTheme, colors: NAVIGATION_THEME.dark }
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const hasMounted = useRef(false)

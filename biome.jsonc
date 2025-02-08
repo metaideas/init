@@ -75,19 +75,19 @@
         "useSimplifiedLogicExpression": "off"
       },
       "correctness": {
+        "noNodejsModules": "off",
         "noUndeclaredDependencies": "off",
         "noUnusedImports": "error",
-        "useImportExtensions": "off",
-        "noNodejsModules": "off"
+        "useImportExtensions": "off"
       },
       "nursery": {
         "all": true,
         "noProcessEnv": "off",
+        "noSecrets": "info",
         "useComponentExportOnlyModules": "off",
         "useExplicitType": "off",
         "useImportRestrictions": "off",
-        "useSortedClasses": "error",
-        "noSecrets": "info"
+        "useSortedClasses": "error"
       },
       "performance": {
         "noBarrelFile": "off",
@@ -156,12 +156,12 @@
       "include": ["*.svelte", "*.astro", "*.vue"],
       "linter": {
         "rules": {
+          "correctness": {
+            "noUnusedImports": "off"
+          },
           "style": {
             "useConst": "off",
             "useImportType": "off"
-          },
-          "correctness": {
-            "noUnusedImports": "off"
           }
         }
       }

@@ -1,12 +1,13 @@
+import { Client } from "@upstash/qstash"
+import { QstashError, Receiver } from "@upstash/qstash"
+import type { VerifySignatureConfig } from "@upstash/qstash/nextjs"
+
 import env from "@this/env/queue.server"
 import {
   type JobPayload,
   JobSchemaMap,
   type JobType,
 } from "@this/validation/jobs"
-import { Client } from "@upstash/qstash"
-import { QstashError, Receiver } from "@upstash/qstash"
-import type { VerifySignatureConfig } from "@upstash/qstash/nextjs"
 
 export const jobClient = new Client({ token: env.QSTASH_TOKEN })
 

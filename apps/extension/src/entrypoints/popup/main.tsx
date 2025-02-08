@@ -6,7 +6,11 @@ import { createRouter } from "~/router"
 
 const router = createRouter(["/popup"])
 
-const rootElement = document.getElementById("root") as HTMLElement
+const rootElement = document.getElementById("root")
+
+if (!rootElement) {
+  throw new Error("Root element not found")
+}
 
 if (!rootElement.innerHTML) {
   ReactDOM.createRoot(rootElement).render(

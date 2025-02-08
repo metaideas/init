@@ -10,12 +10,13 @@
   "scripts": {
     "build:types": "tsup src/client.ts --dts-only",
     "build:types:watch": "pnpm run build:types --watch",
-    "check": "biome check --write src",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
     "deploy": "wrangler deploy --minify --env production",
     "deploy:dry-run": "wrangler deploy --dry-run --outdir ./dist",
     "dev": "wrangler dev --port 3001 --env development",
-    "format": "biome format --write src",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit",
     "typegen:cloudflare": "wrangler types --env-interface CloudflareBindings"
   },
@@ -30,7 +31,7 @@
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
     "@trpc/server": "11.0.0-rc.730",
-    "hono": "catalog:",
+    "hono": "^4.7.0",
     "pino": "catalog:"
   },
   "devDependencies": {

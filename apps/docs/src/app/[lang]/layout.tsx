@@ -1,21 +1,25 @@
-import { I18nProvider, type Translations } from "fumadocs-ui/i18n"
+import { I18nProvider } from "fumadocs-ui/i18n"
+import type { Translations } from "fumadocs-ui/i18n"
 import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
-import es from "~/lib/i18n/translations/es"
 
 import "~/assets/styles/tailwind.css"
+import es from "~/lib/i18n/translations/es"
 
 const inter = Inter({
   subsets: ["latin"],
 })
 
-const translations: { [key: string]: Partial<Translations> } = { es }
+const translations: Record<string, Partial<Translations>> = { es }
 
 export default async function Layout({
   params,
   children,
-}: { params: Promise<{ lang: string }>; children: ReactNode }) {
+}: {
+  params: Promise<{ lang: string }>
+  children: ReactNode
+}) {
   const { lang } = await params
 
   return (
@@ -24,8 +28,8 @@ export default async function Layout({
         <I18nProvider
           locale={lang}
           locales={[
-            { name: "English", locale: "en" },
-            { name: "Spanish", locale: "es" },
+            { locale: "en", name: "English" },
+            { locale: "es", name: "Spanish" },
           ]}
           translations={translations[lang]}
         >

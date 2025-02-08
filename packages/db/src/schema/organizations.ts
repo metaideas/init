@@ -1,5 +1,6 @@
-import type { Brand } from "@this/common/types"
 import { jsonb, timestamp, unique, varchar } from "drizzle-orm/pg-core"
+
+import type { Brand } from "@this/common/types"
 
 import { users } from "./auth"
 import { activityType, invitationStatus, organizationRoles } from "./enums"

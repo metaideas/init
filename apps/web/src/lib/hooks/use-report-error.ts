@@ -1,9 +1,10 @@
 "use client"
 
-import { reportError } from "@this/observability/instrumentation/error"
 import { LogLevel, useLogger } from "next-axiom"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
+
+import { reportError } from "@this/observability/instrumentation/error"
 
 export function useReportError(error: Error) {
   const logger = useLogger()
@@ -21,8 +22,8 @@ export function useReportError(error: Error) {
         statusCode: status,
       },
       {
-        error: error.name,
         cause: error.cause,
+        error: error.name,
         stack: error.stack,
       }
     )

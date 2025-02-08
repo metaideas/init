@@ -6,13 +6,14 @@ import {
   DocsTitle,
 } from "fumadocs-ui/page"
 import { notFound } from "next/navigation"
+
 import { source } from "~/lib/source"
 
 export default async function Page(props: {
-  params: Promise<{ slug?: string[] }>
+  params: Promise<{ slug?: string[]; lang: string }>
 }) {
-  const params = await props.params
-  const page = source.getPage(params.slug)
+  const { slug, lang } = await props.params
+  const page = source.getPage(slug, lang)
 
   if (!page) {
     notFound()

@@ -1,8 +1,9 @@
+import { type Redis, Redis as RedisNode } from "@upstash/redis"
+import { Redis as RedisCloudflare } from "@upstash/redis/cloudflare"
+
 import type { FirstArg, JoinedRest, RestArgs } from "@this/common/types"
 import { isCloudflare } from "@this/common/variables"
 import env from "@this/env/kv.server"
-import { type Redis, Redis as RedisNode } from "@upstash/redis"
-import { Redis as RedisCloudflare } from "@upstash/redis/cloudflare"
 
 function createKv(): Redis {
   if (isCloudflare) {

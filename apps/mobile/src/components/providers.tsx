@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import type { ReactNode } from "react"
+
 import FontLoader from "~/components/font-loader"
 import ThemeProvider from "~/components/theme-provider"
 import { trpc, trpcReact } from "~/lib/trpc"

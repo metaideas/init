@@ -1,6 +1,7 @@
+import { pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core"
+
 import type { Brand } from "@this/common/types"
 import { generatePrefixedId } from "@this/common/utils/id"
-import { pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core"
 
 // You can add a prefix to table names to host multiple projects on the same
 // database

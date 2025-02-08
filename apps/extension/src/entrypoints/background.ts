@@ -1,5 +1,6 @@
 import { browser } from "wxt/browser"
 import { defineBackground } from "wxt/sandbox"
+
 import { registerTestService } from "~/lib/services"
 
 export default defineBackground(() => {

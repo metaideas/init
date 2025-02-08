@@ -1,6 +1,7 @@
+import { Inngest, slugify } from "inngest"
+
 import { APP_ID } from "@this/common/constants"
 import { logger } from "@this/observability/logger"
-import { Inngest, slugify } from "inngest"
 
 import { schemas } from "./events"
 

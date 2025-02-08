@@ -8,5 +8,11 @@
       "~~/*": ["./*"]
     }
   },
-  "include": ["src", "tailwind.config.ts", "wxt.config.ts"]
+  "include": [
+    "src",
+    "tailwind.config.ts",
+    "wxt.config.ts",
+    "eslint.config.mjs",
+    "prettier.config.mjs"
+  ]
 }

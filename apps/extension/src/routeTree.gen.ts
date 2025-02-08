@@ -10,66 +10,66 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as PopupImport } from './routes/popup'
-import { Route as OptionsImport } from './routes/_options'
-import { Route as OptionsOptionsIndexImport } from './routes/_options.options.index'
-import { Route as OptionsOptionsOptionIdImport } from './routes/_options.options.$optionId'
+import { Route as rootRoute } from "./routes/__root"
+import { Route as PopupImport } from "./routes/popup"
+import { Route as OptionsImport } from "./routes/_options"
+import { Route as OptionsOptionsIndexImport } from "./routes/_options.options.index"
+import { Route as OptionsOptionsOptionIdImport } from "./routes/_options.options.$optionId"
 
 // Create/Update Routes
 
 const PopupRoute = PopupImport.update({
-  id: '/popup',
-  path: '/popup',
+  id: "/popup",
+  path: "/popup",
   getParentRoute: () => rootRoute,
 } as any)
 
 const OptionsRoute = OptionsImport.update({
-  id: '/_options',
+  id: "/_options",
   getParentRoute: () => rootRoute,
 } as any)
 
 const OptionsOptionsIndexRoute = OptionsOptionsIndexImport.update({
-  id: '/options/',
-  path: '/options/',
+  id: "/options/",
+  path: "/options/",
   getParentRoute: () => OptionsRoute,
 } as any)
 
 const OptionsOptionsOptionIdRoute = OptionsOptionsOptionIdImport.update({
-  id: '/options/$optionId',
-  path: '/options/$optionId',
+  id: "/options/$optionId",
+  path: "/options/$optionId",
   getParentRoute: () => OptionsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/_options': {
-      id: '/_options'
-      path: ''
-      fullPath: ''
+    "/_options": {
+      id: "/_options"
+      path: ""
+      fullPath: ""
       preLoaderRoute: typeof OptionsImport
       parentRoute: typeof rootRoute
     }
-    '/popup': {
-      id: '/popup'
-      path: '/popup'
-      fullPath: '/popup'
+    "/popup": {
+      id: "/popup"
+      path: "/popup"
+      fullPath: "/popup"
       preLoaderRoute: typeof PopupImport
       parentRoute: typeof rootRoute
     }
-    '/_options/options/$optionId': {
-      id: '/_options/options/$optionId'
-      path: '/options/$optionId'
-      fullPath: '/options/$optionId'
+    "/_options/options/$optionId": {
+      id: "/_options/options/$optionId"
+      path: "/options/$optionId"
+      fullPath: "/options/$optionId"
       preLoaderRoute: typeof OptionsOptionsOptionIdImport
       parentRoute: typeof OptionsImport
     }
-    '/_options/options/': {
-      id: '/_options/options/'
-      path: '/options'
-      fullPath: '/options'
+    "/_options/options/": {
+      id: "/_options/options/"
+      path: "/options"
+      fullPath: "/options"
       preLoaderRoute: typeof OptionsOptionsIndexImport
       parentRoute: typeof OptionsImport
     }
@@ -92,38 +92,38 @@ const OptionsRouteWithChildren =
   OptionsRoute._addFileChildren(OptionsRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '': typeof OptionsRouteWithChildren
-  '/popup': typeof PopupRoute
-  '/options/$optionId': typeof OptionsOptionsOptionIdRoute
-  '/options': typeof OptionsOptionsIndexRoute
+  "": typeof OptionsRouteWithChildren
+  "/popup": typeof PopupRoute
+  "/options/$optionId": typeof OptionsOptionsOptionIdRoute
+  "/options": typeof OptionsOptionsIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '': typeof OptionsRouteWithChildren
-  '/popup': typeof PopupRoute
-  '/options/$optionId': typeof OptionsOptionsOptionIdRoute
-  '/options': typeof OptionsOptionsIndexRoute
+  "": typeof OptionsRouteWithChildren
+  "/popup": typeof PopupRoute
+  "/options/$optionId": typeof OptionsOptionsOptionIdRoute
+  "/options": typeof OptionsOptionsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/_options': typeof OptionsRouteWithChildren
-  '/popup': typeof PopupRoute
-  '/_options/options/$optionId': typeof OptionsOptionsOptionIdRoute
-  '/_options/options/': typeof OptionsOptionsIndexRoute
+  "/_options": typeof OptionsRouteWithChildren
+  "/popup": typeof PopupRoute
+  "/_options/options/$optionId": typeof OptionsOptionsOptionIdRoute
+  "/_options/options/": typeof OptionsOptionsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/popup' | '/options/$optionId' | '/options'
+  fullPaths: "" | "/popup" | "/options/$optionId" | "/options"
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/popup' | '/options/$optionId' | '/options'
+  to: "" | "/popup" | "/options/$optionId" | "/options"
   id:
-    | '__root__'
-    | '/_options'
-    | '/popup'
-    | '/_options/options/$optionId'
-    | '/_options/options/'
+    | "__root__"
+    | "/_options"
+    | "/popup"
+    | "/_options/options/$optionId"
+    | "/_options/options/"
   fileRoutesById: FileRoutesById
 }
 

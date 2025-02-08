@@ -1,8 +1,10 @@
 "use server"
 
-import { auth } from "@this/auth/server"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+
+import { auth } from "@this/auth/server"
+
 import {
   SignInWithPasswordSchema,
   SignUpSchema,

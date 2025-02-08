@@ -1,6 +1,7 @@
 "use client"
 
 import NextError from "next/error"
+
 import { useReportError } from "~/lib/hooks/use-report-error"
 
 export default function GlobalError({

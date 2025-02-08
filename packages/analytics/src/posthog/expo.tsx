@@ -1,6 +1,7 @@
-import env from "@this/env/analytics.mobile"
 import { PostHogProvider } from "posthog-react-native"
 import type { ComponentProps } from "react"
+
+import env from "@this/env/analytics.mobile"
 
 export function AnalyticsProvider(
   props: Omit<ComponentProps<typeof PostHogProvider>, "apiKey">

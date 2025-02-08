@@ -1,6 +1,6 @@
 import { Hono } from "hono"
-import { requireSession } from "~/lib/middlewares"
 
+import { requireSession } from "~/lib/middlewares"
 import type { AppContext } from "~/lib/types"
 
 const test = new Hono<AppContext>()
@@ -15,9 +15,9 @@ const test = new Hono<AppContext>()
     const { default: TestEmail } = await import("@this/email/test-email")
 
     await sendEmail({
+      body: TestEmail(),
       emails: ["delivered@resend.dev"],
       subject: "Test",
-      body: TestEmail(),
     })
 
     return c.json({ message: "Email sent" })

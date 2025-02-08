@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
+
 import { Button } from "@this/ui/button"
+
 import { getTestService } from "~/lib/services"
 
 const testService = getTestService()
@@ -14,7 +16,7 @@ function Component() {
       <h1>Popup works!</h1>
       <Button
         onClick={() => {
-          testService.test()
+          void testService.test()
         }}
       >
         Testing this

@@ -1,9 +1,8 @@
+import { NextResponse } from "next/server"
+import type { NextFetchEvent, NextRequest } from "next/server"
+
 import { loggingMiddleware } from "@this/observability/logger/nextjs"
-import {
-  type NextFetchEvent,
-  type NextRequest,
-  NextResponse,
-} from "next/server"
+
 import { csrfProtectionMiddleware, i18nMiddleware } from "~/lib/middlewares"
 
 export function middleware(request: NextRequest, event: NextFetchEvent) {
