@@ -13,3 +13,5 @@ export const buildApiUrl = createUrlBuilder(
   env.NEXT_PUBLIC_API_URL ?? `${env.NEXT_PUBLIC_VERCEL_URL}/api`,
   isProduction ? "https" : "http"
 )
+
+console.log({ API_URL: env.NEXT_PUBLIC_API_URL, buildApiUrl: buildApiUrl("/") })
