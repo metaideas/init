@@ -24,7 +24,7 @@
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
     "@this/utils": "workspace:*",
-    "resend": "4.1.1"
+    "resend": "4.1.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

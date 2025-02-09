@@ -4,36 +4,35 @@ packages:
   - tooling/*
 catalog:
   "@next/bundle-analyzer": 15.1.6
-  "@sentry/react-native": "6.5.0"
-  "@tailwindcss/postcss": 4.0.0
+  "@sentry/react-native": 6.6.0
+  "@tailwindcss/postcss": 4.0.5
   "@tanstack/react-router": 1.100.0
   "@tanstack/router-devtools": 1.100.0
   "@tanstack/router-plugin": 1.100.0
   "@types/node": 22.13.1
-  "@types/react-dom": 18.3.5
   "@types/react": 18.3.18
-  "@vercel/functions": 1.5.2
+  "@types/react-dom": 18.3.5
+  "@vercel/functions": 2.0.0
   autoprefixer: 10.4.20
   class-variance-authority: 0.7.1
-  hono: 4.6.16
-  lucide-react: 0.471.1
+  hono: 4.7.0
+  lucide-react: 0.471.2
   nativewind: 4.1.23
-  next-axiom: 1.9.1
   next: 15.1.6
+  next-axiom: 1.9.1
   pino: 9.6.0
   postcss: ^8.5.1
-  react-dom: 18.3.1
-  react-native-reanimated: 3.16.7
-  react-native: 0.76.6
   react: 18.3.1
+  react-dom: 18.3.1
+  react-native: 0.77.0
+  react-native-reanimated: 3.16.7
   server-only: 0.0.1
   tailwindcss-animate: 1.0.7
   typescript: 5.7.3
   vite: 6.1.0
-  vitest: ^3.0.1
-
+  vitest: ^3.0.5
 catalogs:
   tailwind3:
     tailwindcss: 3.4.17
   tailwind4:
-    tailwindcss: 4.0.0
+    tailwindcss: 4.0.5

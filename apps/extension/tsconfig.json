@@ -8,5 +8,5 @@
       "~~/*": ["./*"]
     }
   },
-  "include": ["src", "tailwind.config.ts", "wxt.config.ts"]
+  "include": ["src", "wxt.config.ts"]
 }

@@ -24,7 +24,7 @@
     "@this/observability": "workspace:*",
     "@this/utils": "workspace:*",
     "@upstash/qstash": "^2.7.20",
-    "inngest": "^3.30.0",
+    "inngest": "^3.31.6",
     "pino": "catalog:"
   },
   "devDependencies": {

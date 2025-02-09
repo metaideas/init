@@ -30,8 +30,8 @@
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/ws": "^8.5.14",
-    "drizzle-kit": "^0.30.2",
-    "drizzle-seed": "^0.3.0",
+    "drizzle-kit": "^0.30.4",
+    "drizzle-seed": "^0.3.1",
     "typescript": "catalog:"
   }
 }

@@ -1,8 +1,13 @@
-import { geolocation, ipAddress, waitUntil } from "@vercel/functions"
+import { geolocation, ipAddress } from "@vercel/functions"
 import { StatusCodes } from "http-status-codes"
 import { LogLevel, Logger } from "next-axiom"
 import { headers } from "next/headers"
-import type { NextFetchEvent, NextRequest, NextResponse } from "next/server"
+import {
+  type NextFetchEvent,
+  type NextRequest,
+  type NextResponse,
+  after,
+} from "next/server"
 
 import type { ActionMetadata } from "@this/utils/server-action"
 
@@ -37,32 +42,34 @@ export function createActionLogger(metadata: ActionMetadata) {
 
   return {
     log,
-    flush: async (success: boolean) => {
-      const endTime = Date.now()
-      const headersList = await headers()
-      const ip = await ipAddress({ headers: headersList })
-      const geo = await geolocation({ headers: headersList })
+    flush: (success: boolean) => {
+      after(async () => {
+        const endTime = Date.now()
+        const headersList = await headers()
+        const ip = await ipAddress({ headers: headersList })
+        const geo = await geolocation({ headers: headersList })
 
-      const report = {
-        metadata,
-        startTime,
-        endTime,
-        durationMs: endTime - startTime,
-        requestId,
-        ip,
-        ...geo,
-      }
+        const report = {
+          metadata,
+          startTime,
+          endTime,
+          durationMs: endTime - startTime,
+          requestId,
+          ip,
+          ...geo,
+        }
 
-      logger.logHttpRequest(
-        success ? LogLevel.info : LogLevel.error,
-        `Action "${metadata.actionName}" ${success ? "succeeded" : "failed"} in ${report.durationMs}ms`,
-        report,
-        {}
-      )
+        logger.logHttpRequest(
+          success ? LogLevel.info : LogLevel.error,
+          `Action "${metadata.actionName}" ${success ? "succeeded" : "failed"} in ${report.durationMs}ms`,
+          report,
+          {}
+        )
 
-      logger.config.req = report
+        logger.config.req = report
 
-      waitUntil(log.flush())
+        await log.flush()
+      })
     },
   }
 }
@@ -90,32 +97,34 @@ export function createRouteLogger(request: NextRequest) {
   return {
     log,
     flush: (logLevel: LogLevel, statusCode: StatusCodes) => {
-      const endTime = Date.now()
-      const report = {
-        startTime,
-        endTime,
-        durationMs: endTime - startTime,
-        path: request.nextUrl.pathname,
-        method: request.method,
-        host: request.headers.get("host"),
-        userAgent: request.headers.get("user-agent"),
-        scheme: request.nextUrl.protocol,
-        requestId,
-        ip: ipAddress(request),
-        ...geolocation(request),
-      }
+      after(async () => {
+        const endTime = Date.now()
+        const report = {
+          startTime,
+          endTime,
+          durationMs: endTime - startTime,
+          path: request.nextUrl.pathname,
+          method: request.method,
+          host: request.headers.get("host"),
+          userAgent: request.headers.get("user-agent"),
+          scheme: request.nextUrl.protocol,
+          requestId,
+          ip: ipAddress(request),
+          ...geolocation(request),
+        }
 
-      logger.logHttpRequest(
-        logLevel,
-        `[${request.method}] ${report.path} ${statusCode} ${report.durationMs}ms`,
-        report,
-        {}
-      )
+        logger.logHttpRequest(
+          logLevel,
+          `[${request.method}] ${report.path} ${statusCode} ${report.durationMs}ms`,
+          report,
+          {}
+        )
 
-      logger.config.req = report
-      log.attachResponseStatus(statusCode)
+        logger.config.req = report
+        log.attachResponseStatus(statusCode)
 
-      waitUntil(log.flush())
+        await log.flush()
+      })
     },
   }
 }
@@ -177,32 +186,34 @@ export function createComponentLogger(componentName: string) {
 
   return {
     log,
-    flush: async () => {
-      const endTime = Date.now()
-      const headersList = await headers()
-      const ip = await ipAddress({ headers: headersList })
-      const geo = await geolocation({ headers: headersList })
+    flush: () => {
+      after(async () => {
+        const endTime = Date.now()
+        const headersList = await headers()
+        const ip = await ipAddress({ headers: headersList })
+        const geo = await geolocation({ headers: headersList })
 
-      const report = {
-        componentName,
-        startTime,
-        endTime,
-        durationMs: endTime - startTime,
-        requestId,
-        ip,
-        ...geo,
-      }
+        const report = {
+          componentName,
+          startTime,
+          endTime,
+          durationMs: endTime - startTime,
+          requestId,
+          ip,
+          ...geo,
+        }
 
-      logger.logHttpRequest(
-        LogLevel.info,
-        `Server Component "${componentName}" rendered in ${report.durationMs}ms`,
-        report,
-        {}
-      )
+        logger.logHttpRequest(
+          LogLevel.info,
+          `Server Component "${componentName}" rendered in ${report.durationMs}ms`,
+          report,
+          {}
+        )
 
-      logger.config.req = report
+        logger.config.req = report
 
-      waitUntil(log.flush())
+        await log.flush()
+      })
     },
   }
 }

@@ -18,8 +18,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@sentry/core": "^8.50.0",
-    "@sentry/nextjs": "^8.50.0",
+    "@sentry/core": "^8.54.0",
+    "@sentry/nextjs": "^8.54.0",
     "@this/env": "workspace:*",
     "@this/utils": "workspace:*",
     "chalk": "5.4.1",

@@ -16,7 +16,7 @@ function Component() {
       <h1>Popup works!</h1>
       <Button
         onClick={() => {
-          void testService.test()
+          testService.test()
         }}
       >
         Testing this

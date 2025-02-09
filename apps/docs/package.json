@@ -21,9 +21,9 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/utils": "workspace:*",
-    "fumadocs-core": "15.0.3",
-    "fumadocs-mdx": "11.5.1",
-    "fumadocs-ui": "15.0.3",
+    "fumadocs-core": "15.0.5",
+    "fumadocs-mdx": "11.5.3",
+    "fumadocs-ui": "15.0.5",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
