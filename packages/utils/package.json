@@ -6,10 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": [
-      "./src/helpers/*.ts",
-      "./src/helpers/*.tsx"
-    ],
+    "./*": ["./src/helpers/*.ts", "./src/helpers/*.tsx"],
     "./constants": "./src/constants/index.ts"
   },
   "scripts": {
@@ -20,17 +17,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@trpc/client": "11.0.0-rc.748",
+    "@trpc/react-query": "11.0.0-rc.748",
     "clsx": "2.1.1",
-    "devalue": "5.1.1",
     "lodash.merge": "4.6.2",
     "nanoid": "5.0.9",
     "schema-dts": "1.1.2",
-    "superjson": "2.2.2",
+    "superjson": "^2.2.2",
     "tailwind-merge": "3.0.1",
     "tailwind-merge2": "npm:tailwind-merge@2.6.0",
     "zod": "3.24.1"
   },
   "devDependencies": {
+    "@trpc/server": "11.0.0-rc.748",
     "@tooling/tsconfig": "workspace:*",
     "@types/lodash.merge": "^4.6.9",
     "next": "catalog:",

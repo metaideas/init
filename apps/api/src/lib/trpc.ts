@@ -1,10 +1,10 @@
 import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
+import superjson from "superjson"
 
 import type { Session } from "@this/auth/server"
 import { ZodError } from "@this/utils/schema"
-import { transformer } from "@this/utils/trpc"
 
 import type { AppContext } from "~/lib/types"
 
@@ -33,7 +33,7 @@ export async function createTRPCContext(
 }
 
 export const t = initTRPC.context<TRPCContext>().create({
-  transformer,
+  transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
       ...shape,

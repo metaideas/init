@@ -13,7 +13,7 @@ ensureEnv(
 
 export default createEnv({
   client: {
-    EXPO_PUBLIC_SERVER_URL: z.string().url(),
+    EXPO_PUBLIC_API_URL: z.string().url(),
   },
   clientPrefix: "EXPO_PUBLIC_",
   runtimeEnv: process.env,

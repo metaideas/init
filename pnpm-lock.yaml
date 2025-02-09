@@ -15,6 +15,9 @@ catalogs:
     '@tailwindcss/postcss':
       specifier: 4.0.5
       version: 4.0.5
+    '@tanstack/react-query':
+      specifier: 5.66.0
+      version: 5.66.0
     '@tanstack/react-router':
       specifier: 1.100.0
       version: 1.100.0
@@ -75,6 +78,9 @@ catalogs:
     server-only:
       specifier: 0.0.1
       version: 0.0.1
+    superjson:
+      specifier: 2.2.2
+      version: 2.2.2
     tailwindcss-animate:
       specifier: 1.0.7
       version: 1.0.7
@@ -145,6 +151,9 @@ importers:
       '@hono/trpc-server':
         specifier: ^0.3.4
         version: 0.3.4(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(hono@4.7.0)
+      '@hono/zod-validator':
+        specifier: ^0.4.2
+        version: 0.4.2(hono@4.7.0)(zod@3.24.1)
       '@this/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -178,6 +187,9 @@ importers:
       pino:
         specifier: 'catalog:'
         version: 9.6.0
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20250204.0
@@ -197,6 +209,9 @@ importers:
 
   apps/desktop:
     dependencies:
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.66.0(react@18.3.1)
       '@tanstack/react-router':
         specifier: 'catalog:'
         version: 1.100.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -206,9 +221,18 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2.2.5
         version: 2.2.5
+      '@this/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@this/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      hono:
+        specifier: ^4.7.0
+        version: 4.7.0
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -240,6 +264,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.38.1)(tsx@4.19.2)(yaml@2.7.0))
+      api:
+        specifier: workspace:*
+        version: link:../api
       tailwindcss:
         specifier: catalog:tailwind4
         version: 4.0.5
@@ -488,6 +515,9 @@ importers:
       react-native-webview:
         specifier: 13.13.2
         version: 13.13.2(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@babel/core':
         specifier: ^7.26.8
@@ -1272,12 +1302,15 @@ importers:
 
   packages/utils:
     dependencies:
+      '@trpc/client':
+        specifier: 11.0.0-rc.748
+        version: 11.0.0-rc.748(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(typescript@5.7.3)
+      '@trpc/react-query':
+        specifier: 11.0.0-rc.748
+        version: 11.0.0-rc.748(@tanstack/react-query@5.66.0(react@18.3.1))(@trpc/client@11.0.0-rc.748(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(typescript@5.7.3))(@trpc/server@11.0.0-rc.748(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
-      devalue:
-        specifier: 5.1.1
-        version: 5.1.1
       lodash.merge:
         specifier: 4.6.2
         version: 4.6.2
@@ -1288,7 +1321,7 @@ importers:
         specifier: 1.1.2
         version: 1.1.2(typescript@5.7.3)
       superjson:
-        specifier: 2.2.2
+        specifier: ^2.2.2
         version: 2.2.2
       tailwind-merge:
         specifier: 3.0.1
@@ -1303,6 +1336,9 @@ importers:
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
+      '@trpc/server':
+        specifier: 11.0.0-rc.748
+        version: 11.0.0-rc.748(typescript@5.7.3)
       '@types/lodash.merge':
         specifier: ^4.6.9
         version: 4.6.9
@@ -3590,6 +3626,12 @@ packages:
     peerDependencies:
       '@trpc/server': ^10.10.0 || >11.0.0-rc
       hono: '>=4.*'
+
+  '@hono/zod-validator@0.4.2':
+    resolution: {integrity: sha512-1rrlBg+EpDPhzOV4hT9pxr5+xDVmKuz6YJl+la7VCwK6ass5ldyKm5fD+umJdV2zhHD6jROoCCv8NbTwyfhT0g==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
 
   '@hookform/resolvers@3.10.0':
     resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
@@ -7733,9 +7775,6 @@ packages:
 
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
-
-  devalue@5.1.1:
-    resolution: {integrity: sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==}
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
@@ -16022,6 +16061,11 @@ snapshots:
       '@trpc/server': 11.0.0-rc.748(typescript@5.7.3)
       hono: 4.7.0
 
+  '@hono/zod-validator@0.4.2(hono@4.7.0)(zod@3.24.1)':
+    dependencies:
+      hono: 4.7.0
+      zod: 3.24.1
+
   '@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@18.3.1))':
     dependencies:
       react-hook-form: 7.54.2(react@18.3.1)
@@ -20741,8 +20785,6 @@ snapshots:
   detect-newline@3.1.0: {}
 
   detect-node-es@1.1.0: {}
-
-  devalue@5.1.1: {}
 
   devlop@1.1.0:
     dependencies:

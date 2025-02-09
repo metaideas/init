@@ -11,7 +11,7 @@ import Providers from "~/components/providers"
 import "~/assets/styles/tailwind.css"
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-void SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync()
 
 // Initialize Sentry
 initializeSentry()
