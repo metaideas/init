@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@hono/trpc-server": "^0.3.4",
+    "@hono/zod-validator": "^0.4.2",
     "@this/auth": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",
@@ -31,7 +32,7 @@
     "@this/queue": "workspace:*",
     "@this/utils": "workspace:*",
     "@trpc/server": "11.0.0-rc.748",
-    "hono": "^4.7.0",
+    "hono": "catalog:",
     "pino": "catalog:",
     "superjson": "catalog:"
   },
