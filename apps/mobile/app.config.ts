@@ -1,7 +1,7 @@
 import type { ConfigContext, ExpoConfig } from "expo/config"
 
-const APP_ID = "thisapp"
-const APP_NAME = "This App"
+const APP_ID = "init"
+const APP_NAME = "Init Mobile"
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -16,6 +16,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   icon: "./src/assets/images/icon.png",
   ios: {
+    bundleIdentifier: "com.init.mobile",
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+    },
     privacyManifests: {
       NSPrivacyAccessedAPITypes: [
         {
@@ -79,7 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     [
-      "expo-dev-launcher",
+      "expo-dev-client",
       {
         launcherMode: "most-recent",
       },
@@ -102,4 +106,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     favicon: "./src/assets/images/favicon.png",
     output: "static",
   },
+  extra: {
+    eas: {
+      projectId: "31c6d602-965b-4a19-a82b-3ce97f244581",
+    },
+  },
+  owner: "metaideas",
 })
