@@ -1,15 +1,18 @@
-import { router } from "~/lib/trpc"
+import { createRouter, protectedProcedure } from "~/lib/trpc"
 import { publicProcedure } from "~/lib/trpc"
 
 // Normally this would inside a `features/users` folder, but for this example
 // we'll just keep it here.
-const usersRouter = router({
-  list: publicProcedure.query(async ({ ctx }) => {
+const usersRouter = createRouter({
+  list: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.users.findMany()
   }),
 })
 
-export const trpcRouter = router({
+/**
+ * This is the main router for TRPC. It contains all the routes for this API.
+ */
+export const trpcRouter = createRouter({
   hello: publicProcedure.query(() => {
     return {
       message: "Hello from TRPC!",
