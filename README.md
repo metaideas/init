@@ -22,6 +22,9 @@ root
   │   ├── desktop           # Tauri desktop application
   │   └── extensions        # WXT browser extensions
   │
+  ├── infra               # Infrastructure as code for cloud providers
+  │   └── local             # Docker Compose configuration for local development
+  │
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
