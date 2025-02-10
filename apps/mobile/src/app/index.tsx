@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react-native"
 import { Link } from "expo-router"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -27,6 +28,14 @@ export default function Page() {
           </View>
         </CollapsibleContent>
       </Collapsible>
+
+      <Button
+        onPress={() => {
+          Sentry.captureException(new Error(Date.now().toString()))
+        }}
+      >
+        <Text>Sentry Test</Text>
+      </Button>
 
       <Link href="/+not-found" asChild>
         <Button variant="link">

@@ -1,7 +1,7 @@
-import type { LucideIcon } from "lucide-react-native"
+import { ChevronDown, type LucideIcon } from "lucide-react-native"
 import { cssInterop } from "nativewind"
 
-export default function iconWithClassName(icon: LucideIcon) {
+function iconWithClassName(icon: LucideIcon) {
   cssInterop(icon, {
     className: {
       target: "style",
@@ -12,3 +12,7 @@ export default function iconWithClassName(icon: LucideIcon) {
     },
   })
 }
+
+iconWithClassName(ChevronDown)
+
+export { ChevronDown }

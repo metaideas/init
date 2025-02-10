@@ -15,7 +15,7 @@ import Animated, {
 
 import { _cn as cn } from "@this/utils/classname"
 
-import { ChevronDown } from "./icons/chevron-down"
+import { ChevronDown } from "./icon"
 import { TextClassContext } from "./text"
 
 const Accordion = React.forwardRef<

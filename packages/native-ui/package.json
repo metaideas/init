@@ -6,7 +6,7 @@
   "type": "module",
   "exports": {
     "./*": "./src/*.tsx",
-    "./icons/*": "./src/icons/*.tsx",
+    "./icons/*": "./src/icons/*.ts",
     "./blocks/*": "./src/blocks/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./tailwind.config": "./tailwind.config.ts"
@@ -27,8 +27,7 @@
     "class-variance-authority": "catalog:",
     "lucide-react-native": "^0.474.0",
     "react-native": "catalog:",
-    "react-native-reanimated": "catalog:",
-    "react-native-svg": "^15.11.1"
+    "react-native-reanimated": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
