@@ -17,34 +17,31 @@ Contains:
 root
   ├── apps                # Cross-platform applications
   │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
-  │   ├── web               # Next.js web application
+  │   ├── web               # Next.js web application with content collections for marketing pages
   │   ├── mobile            # Expo mobile application
   │   ├── desktop           # Tauri desktop application
-  │   ├── docs              # Astro documentation site with Starlight
-  │   ├── marketing         # Astro Marketing site
   │   └── extensions        # WXT browser extensions
   │
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
   │   ├── auth              # Authentication utilities
-  │   ├── common            # Shared utilities, helpers, assets, and type definitions
   │   ├── db                # Database client and ORM using Drizzle
   │   ├── email             # Email templating and sending service using Resend
   │   ├── env               # Environment variable management and validation
-  │   ├── queue             # Serverless job queue and workflow management using Inngest and Upstash Qstash
   │   ├── kv                # Redis client and vector database integration using Upstash
+  │   ├── native-ui         # Reusable UI components for React Native apps
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments          # Payment processing utilities using Stripe
+  │   ├── queue             # Serverless job queue and workflow management using Inngest and Upstash Qstash
   │   ├── security          # Security utilities and best practices using Arcjet
   │   ├── storage           # Shared storage utilities using UploadThing
   │   ├── ui                # Reusable UI components and design system using Shadcn/UI
-  │   └── validation        # Shared data validation schemas using Zod
+  │   └── utils             # Shared helpers and constants for packages and apps
   │
   ├── tooling             # Shared development and build tools
-  │   ├── tailwind          # Tailwind CSS configuration
   │   ├── tsconfig          # TypeScript configuration
-  │   └── utils             # Common utility functions for tooling and scripts
+  │   └── helpers           # Common utility functions for tooling and scripts
   │
   ├── scripts             # Scripts for random tasks
   │
