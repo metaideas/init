@@ -1,17 +1,33 @@
-"use client"
-
 import { MoonIcon, SunIcon } from "lucide-react"
+import {
+  ThemeProvider as NextThemeProvider,
+  type ThemeProviderProps as NextThemeProviderProps,
+  useTheme,
+} from "next-themes"
 
-import { Button } from "@this/ui/button"
+import { Button } from "./button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@this/ui/dropdown-menu"
-import { useTheme } from "@this/ui/theme"
+} from "./dropdown-menu"
 
-export function ModeToggle() {
+export function ThemeProvider({ children, ...props }: NextThemeProviderProps) {
+  return (
+    <NextThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
+      {children}
+    </NextThemeProvider>
+  )
+}
+
+export function ThemeToggle() {
   const { setTheme } = useTheme()
 
   return (
@@ -37,3 +53,5 @@ export function ModeToggle() {
     </DropdownMenu>
   )
 }
+
+export { useTheme } from "next-themes"
