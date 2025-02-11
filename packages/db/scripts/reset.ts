@@ -1,33 +1,34 @@
-import { intro, log, outro } from "@clack/prompts"
-import { sql } from "drizzle-orm"
+import { log } from "@clack/prompts"
+import { reset } from "drizzle-seed"
 
 import { runScript } from "@tooling/helpers"
 
-async function reset() {
-  intro("Resetting database...")
+import * as schema from "../src/schema"
+
+async function main() {
+  log.step("Resetting database...")
 
   const { db } = await import("../src")
   const { default: env } = await import("@this/env/db.server")
 
-  if (env.DATABASE_URL?.includes("neon")) {
+  if (env.DATABASE_URL?.includes("https")) {
     log.error("Cannot reset production database")
     process.exit(1)
   }
 
   try {
-    log.info("Dropping all tables and enums...")
+    log.step("Dropping all tables")
 
-    await db.execute(sql`DROP SCHEMA public CASCADE;`)
-    await db.execute(sql`CREATE SCHEMA public;`)
+    // @ts-expect-error -- TODO: find out if this error is due to drizzle-seed or
+    // the schema
+    await reset(db, schema)
 
-    log.success("All tables and enums dropped successfully")
+    log.success("All tables dropped successfully. Database reset complete!")
   } catch (error) {
-    log.error("Error dropping tables and enums:")
+    log.error("Error dropping tables:")
     console.error(error)
     process.exit(1)
   }
-
-  outro("Database reset complete!")
 }
 
-runScript(reset)
+runScript(main)

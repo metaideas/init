@@ -13,6 +13,7 @@ export const userRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   verifications: many(verifications),
   sessions: many(sessions),
+  members: many(members),
 }))
 
 export const accountRelations = relations(accounts, ({ one }) => ({

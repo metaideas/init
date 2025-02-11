@@ -1,4 +1,4 @@
-import { timestamp, varchar } from "drizzle-orm/pg-core"
+import { integer, text } from "drizzle-orm/sqlite-core"
 
 import type { Brand } from "@this/utils/type"
 
@@ -9,7 +9,7 @@ import { organizations } from "./organizations"
 export const sessions = createTable("sessions", {
   ...id<"SessionId">("ses"),
 
-  userId: varchar({ length: 255 })
+  userId: text()
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
@@ -17,20 +17,20 @@ export const sessions = createTable("sessions", {
     })
     .$type<Brand<string, "UserId">>(),
 
-  token: varchar({ length: 64 }).notNull().unique(),
-  expiresAt: timestamp({ mode: "date" }).notNull(),
+  token: text().notNull().unique(),
+  expiresAt: integer({ mode: "timestamp" }).notNull(),
 
-  impersonatedBy: varchar({ length: 255 })
+  impersonatedBy: text()
     .references(() => users.id, {
       onDelete: "set null",
       onUpdate: "cascade",
     })
     .$type<Brand<string, "UserId">>(),
 
-  ipAddress: varchar({ length: 45 }),
-  userAgent: varchar({ length: 1024 }),
+  ipAddress: text(),
+  userAgent: text(),
 
-  activeOrganizationId: varchar({ length: 255 })
+  activeOrganizationId: text()
     .references(() => organizations.id, {
       onDelete: "set null",
       onUpdate: "cascade",

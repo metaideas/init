@@ -22,5 +22,11 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
   }
 }

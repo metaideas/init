@@ -1,13 +1,4 @@
-import {
-  boolean,
-  index,
-  text,
-  timestamp,
-  uniqueIndex,
-  varchar,
-} from "drizzle-orm/pg-core"
-
-import type { Brand } from "@this/utils/type"
+import { index, integer, text, uniqueIndex } from "drizzle-orm/sqlite-core"
 
 import { userRoles } from "./enums"
 import { createTable, id, timestamps } from "./helpers"
@@ -17,17 +8,17 @@ export const users = createTable(
   {
     ...id<"UserId">("usr"),
 
-    role: userRoles().notNull().default("user"),
+    role: text({ enum: userRoles }).notNull().default("user"),
 
-    name: varchar({ length: 255 }).notNull(),
-    image: varchar({ length: 512 }),
+    name: text().notNull(),
+    image: text(),
 
-    email: varchar({ length: 255 }).notNull().unique(),
-    emailVerified: boolean().notNull().default(false),
+    email: text().notNull().unique(),
+    emailVerified: integer({ mode: "boolean" }).notNull().default(false),
 
-    banned: boolean().notNull().default(false),
+    banned: integer({ mode: "boolean" }).notNull().default(false),
     banReason: text(),
-    banExpiresAt: timestamp({ mode: "date" }),
+    banExpiresAt: integer({ mode: "timestamp" }),
 
     ...timestamps,
   },
@@ -46,24 +37,24 @@ export const accounts = createTable(
   {
     ...id<"AccountId">("acc"),
 
-    userId: varchar({ length: 255 })
+    userId: text()
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<string, "UserId">>(),
+      .$type<UserId>(),
 
-    accountId: varchar({ length: 255 }).notNull(),
-    providerId: varchar({ length: 255 }).notNull(),
+    accountId: text().notNull(),
+    providerId: text().notNull(),
 
     accessToken: text(),
     refreshToken: text(),
 
-    accessTokenExpiresAt: timestamp({ mode: "date" }),
-    refreshTokenExpiresAt: timestamp({ mode: "date" }),
+    accessTokenExpiresAt: integer({ mode: "timestamp" }),
+    refreshTokenExpiresAt: integer({ mode: "timestamp" }),
 
-    scope: varchar({ length: 1024 }),
+    scope: text(),
     idToken: text(),
 
     password: text(),
@@ -88,10 +79,10 @@ export const verifications = createTable(
   {
     ...id<"VerificationId">("ver"),
 
-    identifier: varchar({ length: 255 }).notNull(),
-    value: varchar({ length: 255 }).notNull(),
+    identifier: text().notNull(),
+    value: text().notNull(),
 
-    expiresAt: timestamp({ mode: "date" }).notNull(),
+    expiresAt: integer({ mode: "timestamp" }).notNull(),
 
     ...timestamps,
   },

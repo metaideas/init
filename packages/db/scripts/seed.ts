@@ -13,6 +13,8 @@ async function main() {
   await runProcess("drizzle-kit", ["push"])
 
   console.time("Seeded database")
+  // @ts-expect-error -- TODO: find out if this error is due to drizzle-seed or
+  // the schema
   await seed(db, schema).refine(f => ({
     users: {
       columns: {

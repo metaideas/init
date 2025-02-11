@@ -1,21 +1,15 @@
-import { pgEnum } from "drizzle-orm/pg-core"
+export const userRoles = ["user", "admin"] as const
 
-export const userRoles = pgEnum("user_role", ["user", "admin"])
+export const organizationRoles = ["member", "admin", "owner"] as const
 
-export const organizationRoles = pgEnum("organization_role", [
-  "member",
-  "admin",
-  "owner",
-])
-
-export const invitationStatus = pgEnum("invitation_status", [
+export const invitationStatus = [
   "pending",
   "accepted",
   "rejected",
   "canceled",
-])
+] as const
 
-export const activityType = pgEnum("activity_type", [
+export const activityType = [
   "accepted_invitation",
   "created_asset",
   "created_organization",
@@ -38,4 +32,4 @@ export const activityType = pgEnum("activity_type", [
   "signed_up_with_github",
   "signed_up_with_google",
   "signed_up_with_password",
-])
+] as const
