@@ -7,7 +7,7 @@ import {
   select,
   text,
 } from "@clack/prompts"
-import { runProcess, runScript } from "../tooling/utils"
+import { runProcess, runScript } from "../tooling/helpers"
 
 const APPS = [
   {
@@ -50,10 +50,6 @@ const PACKAGES = [
     label: "auth - Authentication utilities",
   },
   {
-    value: "common",
-    label: "common - Shared utilities, helpers, assets, and type definitions",
-  },
-  {
     value: "db",
     label: "db - Database client and ORM using Drizzle",
   },
@@ -68,6 +64,11 @@ const PACKAGES = [
   {
     value: "kv",
     label: "kv - Redis client and vector database integration using Upstash",
+  },
+  {
+    value: "native-ui",
+    label:
+      "native-ui - Reusable UI components and design system for React Native",
   },
   {
     value: "observability",
@@ -96,8 +97,8 @@ const PACKAGES = [
     label: "ui - Reusable UI components and design system using shadcn/ui",
   },
   {
-    value: "validation",
-    label: "validation - Shared data validation schemas using Zod",
+    value: "utils",
+    label: "utils - Shared utilities and helpers",
   },
 ]
 

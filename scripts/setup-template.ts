@@ -1,7 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { cancel, group, intro, log, multiselect, outro } from "@clack/prompts"
-import { runScript } from "../tooling/utils"
+import { runScript } from "../tooling/helpers"
 
 async function main() {
   intro("Select workspaces to keep")

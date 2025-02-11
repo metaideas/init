@@ -8,7 +8,7 @@ import {
   outro,
   select,
 } from "@clack/prompts"
-import { runScript } from "../tooling/utils"
+import { runScript } from "../tooling/helpers"
 
 async function main() {
   intro("Remove a package from the workspace")

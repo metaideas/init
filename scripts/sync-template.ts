@@ -1,6 +1,6 @@
 import { cancel, isCancel, log, select, tasks } from "@clack/prompts"
 import { spinner } from "@clack/prompts"
-import { executeCommand, runScript } from "../tooling/utils"
+import { executeCommand, runScript } from "../tooling/helpers"
 
 const REMOTE_URL = "git@github.com:adelrodriguez/init.git"
 

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises"
 import { isCancel, log, multiselect, outro, select } from "@clack/prompts"
-import { runProcess, runScript } from "../tooling/utils"
+import { runProcess, runScript } from "../tooling/helpers"
 
 async function main() {
   log.info("Generating a dependency graph")
