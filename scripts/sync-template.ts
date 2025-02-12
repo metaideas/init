@@ -34,14 +34,28 @@ async function mergeTemplateRemote(): Promise<void> {
       await executeCommand("git rev-parse --abbrev-ref HEAD")
     ).trim()
     await executeCommand("git checkout -b template-sync-temp")
+
+    // First, get a list of files that exist in our current working directory
+    const existingFiles = (await executeCommand("git ls-files"))
+      .split("\n")
+      .filter(Boolean)
+
+    // Merge only existing files from template
     await executeCommand(
       "git merge --squash template/main --allow-unrelated-histories"
     )
-    await executeCommand('git commit -m "chore: sync with template repository"')
+
+    // Reset any files that don't exist in our current working directory
+    await executeCommand("git reset HEAD")
+    await executeCommand(`git add ${existingFiles.join(" ")}`)
+
+    await executeCommand(
+      'git commit -m "chore: sync with template repository (existing files only)"'
+    )
     await executeCommand(`git checkout ${currentBranch}`)
     await executeCommand("git merge template-sync-temp --ff-only")
     await executeCommand("git branch -D template-sync-temp")
-    s.stop("Template changes merged successfully as a single commit")
+    s.stop("Template changes merged successfully (only existing files updated)")
   } catch (error) {
     s.stop("Merge conflicts detected")
 
