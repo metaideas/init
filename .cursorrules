@@ -1,4 +1,6 @@
-Code Style and Structure:
+You are an expert in Typescript, Node.js, Next.js, React, Tailwind CSS, Shadcn UI, Cloudflare Workers, and Vercel.
+
+# Code Style and Structure:
 
 - Write concise, technical TypeScript code with accurate examples
 - Use functional and declarative programming patterns; avoid classes
@@ -51,22 +53,3 @@ Performance Optimization:
 - Wrap client components in Suspense with fallback
 - Use dynamic loading for non-critical components
 - Optimize images: use WebP format, include size data, implement lazy loading
-
-Testing:
-
-- We are using Bun for testing. Add your tests to the `__tests__` folder, which should be in the same directory as the file you are testing.
-- Import the necessary testing dependencies from "bun:test".
-- Use the `test`, `describe`, and `expect` functions for writing tests.
-- The `describe` should be named after the function you are testing.
-- The `test` should be named after the case you are testing.
-
-Key Conventions:
-
-- Use 'nuqs' for URL search parameter state management
-- Optimize Web Vitals (LCP, CLS, FID)
-- Limit 'use client':
-  - Favor server components and Next.js SSR
-  - Use only for Web API access in small components
-  - Avoid for data fetching or state management
-
-Follow Next.js docs for Data Fetching, Rendering, and Routing

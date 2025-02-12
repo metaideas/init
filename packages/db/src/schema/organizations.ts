@@ -4,10 +4,10 @@ import type { Brand } from "@this/utils/type"
 
 import { users } from "./auth"
 import { activityType, invitationStatus, organizationRoles } from "./enums"
-import { createTable, id, timestamps } from "./helpers"
+import { constructId, createTable, timestamps } from "./helpers"
 
 export const organizations = createTable("organizations", {
-  ...id<"OrganizationId">("org"),
+  ...constructId<"OrganizationId">("org"),
 
   name: text().notNull(),
   slug: text().notNull(),
@@ -25,7 +25,7 @@ export type OrganizationId = Organization["id"]
 export const members = createTable(
   "members",
   {
-    ...id<"MemberId">("mbr"),
+    ...constructId<"MemberId">("mbr"),
 
     userId: text()
       .notNull()
@@ -57,7 +57,7 @@ export type MemberRole = Member["role"]
 export const invitations = createTable(
   "invitations",
   {
-    ...id<"InvitationId">("inv"),
+    ...constructId<"InvitationId">("inv"),
 
     organizationId: text()
       .notNull()
@@ -94,7 +94,7 @@ export type NewInvitation = typeof invitations.$inferInsert
 export type InvitationId = Invitation["id"]
 
 export const activityLogs = createTable("activity_logs", {
-  ...id<"ActivityLogId">("act"),
+  ...constructId<"ActivityLogId">("act"),
 
   createdAt: integer({ mode: "timestamp" })
     .notNull()

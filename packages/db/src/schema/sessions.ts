@@ -3,11 +3,11 @@ import { integer, text } from "drizzle-orm/sqlite-core"
 import type { Brand } from "@this/utils/type"
 
 import { users } from "./auth"
-import { createTable, id, timestamps } from "./helpers"
+import { constructId, createTable, timestamps } from "./helpers"
 import { organizations } from "./organizations"
 
 export const sessions = createTable("sessions", {
-  ...id<"SessionId">("ses"),
+  ...constructId<"SessionId">("ses"),
 
   userId: text()
     .notNull()

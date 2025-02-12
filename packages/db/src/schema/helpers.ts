@@ -7,7 +7,7 @@ import type { Brand } from "@this/utils/type"
 // database
 export const createTable = sqliteTableCreator(name => name)
 
-export function id<T extends string>(prefix: string) {
+export function constructId<T extends string>(prefix: string) {
   return {
     id: text("id", { length: 255 })
       .notNull()

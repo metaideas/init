@@ -1,0 +1,47 @@
+---
+description: Guideline for the coding style used in this monorepo.
+globs: *.ts,*.tsx
+---
+# Coding Style and Conventions
+
+## Key Principles
+
+- Write concise, technical TypeScript code.
+- Use functional and declarative programming patterns; avoid classes
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
+- Use descriptive function names with auxiliary verbs (e.g., getUserSettings, setUserSettings, checkIsMobile)
+- Structure files: exported component, subcomponents, helpers, static content, types.
+- Follow the project structure detailed in [README.md](mdc:README.md).
+
+## Imports
+
+- For packages inside `apps`, use the `~/` alias for imports coming from `[app] /src`.
+- For packages inside `packages`, use relative imports.
+- Use the `@this/` alias for importing packages in the monorepo.
+- Never allow imports between `apps`, except from [client.ts](mdc:apps/api/src/client.ts), which should only be used as a development dependency.
+- Avoid circular imports.
+
+## Naming Conventions
+
+- Use lowercase with dashes (kebab-case) for directories and files (e.g. components/auth-wizard).
+- Favor default exports for components, unless exporting multiple functions from the file.
+
+## Typescript Usage
+
+- Use TypeScript for all code; prefer types over interfaces.
+- Avoid enums; use readonly arrays or maps with `as const`.
+- Use functional components with props and children, and destructure the props.
+
+
+## Syntax and Formatting
+
+- Use the `function` keyword for pure functions.
+- Use the `function` keyword for components.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements
+- Use declarative JSX.
+
+## UI and Styling
+
+- Use components inside `@this/ui` or `@this/native-ui` to create components.
+- Use the `cn` function inside `@this/utils/classname` for classname composition.
