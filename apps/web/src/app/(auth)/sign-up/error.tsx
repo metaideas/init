@@ -1,6 +1,6 @@
 "use client"
 
-import { useReportError } from "~/lib/hooks/use-report-error"
+import { useReportError } from "~/shared/hooks/use-report-error"
 
 export default function ErrorPage({
   error,

@@ -1,5 +1,6 @@
 import aspectRatio from "@tailwindcss/aspect-ratio"
 import typography from "@tailwindcss/typography"
+import { hairlineWidth } from "nativewind/theme"
 import type { Config } from "tailwindcss"
 import animate from "tailwindcss-animate"
 import { fontFamily } from "tailwindcss/defaultTheme"
@@ -7,8 +8,7 @@ import { fontFamily } from "tailwindcss/defaultTheme"
 export default {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/assets/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "../../packages/native-ui/src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -92,6 +92,11 @@ export default {
             height: "0",
           },
         },
+      },
+      borderWidth: {
+        // Again, Nativewind is not typed.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        hairline: hairlineWidth(),
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

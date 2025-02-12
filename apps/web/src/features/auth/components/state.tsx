@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 
-import { validateRequest } from "~/lib/auth/server"
+import { validateRequest } from "~/shared/auth/server"
 
 export async function SignedIn({ children }: { children: ReactNode }) {
   const session = await validateRequest()

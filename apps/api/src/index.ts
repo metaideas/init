@@ -1,6 +1,6 @@
 import type { ExportedHandler } from "@cloudflare/workers-types"
 
-import app from "~/app"
+import app from "~/routes"
 
 export default {
   fetch: app.fetch,

@@ -3,8 +3,8 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 
 import { ThemeToggle } from "@this/ui/theme"
 
-import "~/assets/styles/tailwind.css"
-import Providers from "~/components/providers"
+import "~/shared/assets/styles/tailwind.css"
+import Providers from "~/shared/components/providers"
 
 export const Route = createRootRoute({
   component: () => (

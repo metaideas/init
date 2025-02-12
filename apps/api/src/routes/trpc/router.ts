@@ -1,5 +1,5 @@
-import { createRouter, protectedProcedure } from "~/lib/trpc"
-import { publicProcedure } from "~/lib/trpc"
+import { createRouter, protectedProcedure } from "~/shared/trpc"
+import { publicProcedure } from "~/shared/trpc"
 
 // Normally this would inside a `features/users` folder, but for this example
 // we'll just keep it here.

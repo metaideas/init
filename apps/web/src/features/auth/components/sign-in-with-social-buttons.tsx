@@ -6,8 +6,8 @@ import { useState } from "react"
 import { Button } from "@this/ui/button"
 import { toast } from "@this/ui/sonner"
 
-import { signIn } from "~/lib/auth/client"
-import { AUTHORIZED_PATHNAME } from "~/lib/constants"
+import { signIn } from "~/shared/auth/client"
+import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 
 export function SignInWithGoogleButton() {
   const [loading, setLoading] = useState(false)

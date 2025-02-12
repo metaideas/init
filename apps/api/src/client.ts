@@ -1,4 +1,4 @@
-import type { appRouter } from "~/app"
+import type { router } from "~/routes"
 import type { trpcRouter } from "~/routes/trpc/router"
 
 /**
@@ -6,7 +6,7 @@ import type { trpcRouter } from "~/routes/trpc/router"
  * `hono/client` to have a type-safe RPC client. This is for the REST API routes.
  * For the TRPC routes, see `TRPCClient`.
  */
-export type AppClient = typeof appRouter
+export type AppClient = typeof router
 
 /**
  * This is the type of the TRPC client to be used on clients.

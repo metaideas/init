@@ -4,10 +4,5 @@
     "types": ["@cloudflare/workers-types"],
     "baseUrl": "."
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "worker-configuration.d.ts",
-    "global.d.ts"
-  ]
+  "include": ["src", "worker-configuration.d.ts", "global.d.ts"]
 }

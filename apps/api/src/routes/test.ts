@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 
-import { requireSession } from "~/lib/middlewares"
-import type { AppContext } from "~/lib/types"
+import { requireSession } from "~/shared/middlewares"
+import type { AppContext } from "~/shared/types"
 
 const test = new Hono<AppContext>()
   .get("/ping", c => c.text("pong"))

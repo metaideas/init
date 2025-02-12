@@ -1,4 +1,4 @@
-import { i18nMiddleware } from "~/lib/middlewares"
+import { i18nMiddleware } from "~/shared/middlewares"
 
 const middleware = i18nMiddleware
 

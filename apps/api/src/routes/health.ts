@@ -2,7 +2,7 @@ import { Hono } from "hono"
 
 import { ensureEnv } from "@this/env/helpers"
 
-import type { AppContext } from "~/lib/types"
+import type { AppContext } from "~/shared/types"
 
 /**
  * The health check endpoint is used to verify that the API is running with all

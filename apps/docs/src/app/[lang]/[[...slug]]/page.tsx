@@ -7,7 +7,7 @@ import {
 } from "fumadocs-ui/page"
 import { notFound } from "next/navigation"
 
-import { source } from "~/lib/source"
+import { source } from "~/shared/source"
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[]; lang: string }>

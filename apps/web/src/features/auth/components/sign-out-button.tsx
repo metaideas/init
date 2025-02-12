@@ -6,8 +6,8 @@ import { useState } from "react"
 
 import { Button } from "@this/ui/button"
 
-import { authClient } from "~/lib/auth/client"
-import { UNAUTHORIZED_PATHNAME } from "~/lib/constants"
+import { authClient } from "~/shared/auth/client"
+import { UNAUTHORIZED_PATHNAME } from "~/shared/constants"
 
 export default function SignOutButton() {
   const router = useRouter()

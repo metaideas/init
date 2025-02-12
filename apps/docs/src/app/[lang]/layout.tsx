@@ -4,8 +4,8 @@ import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
-import "~/assets/styles/tailwind.css"
-import es from "~/lib/i18n/translations/es"
+import "~/shared/assets/styles/tailwind.css"
+import es from "~/shared/i18n/translations/es"
 
 const inter = Inter({
   subsets: ["latin"],

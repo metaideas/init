@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { Button } from "@this/ui/button"
 
-import { getTestService } from "~/lib/services"
+import { getTestService } from "~/shared/services"
 
 const testService = getTestService()
 

@@ -2,7 +2,7 @@ import { getContext } from "hono/context-storage"
 
 import { nameFunction } from "@this/queue"
 
-import type { AppContext } from "~/lib/types"
+import type { AppContext } from "~/shared/types"
 
 const queue = getContext<AppContext>().var.queue
 

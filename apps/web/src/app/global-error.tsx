@@ -2,7 +2,7 @@
 
 import NextError from "next/error"
 
-import { useReportError } from "~/lib/hooks/use-report-error"
+import { useReportError } from "~/shared/hooks/use-report-error"
 
 export default function GlobalError({
   error,

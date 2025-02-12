@@ -6,7 +6,7 @@ const { getSentryExpoConfig } = require("@sentry/react-native/metro")
 let config = getSentryExpoConfig(__dirname)
 
 config = withNativeWind(config, {
-  input: "./src/assets/styles/tailwind.css",
+  input: "./src/shared/assets/styles/tailwind.css",
   configPath: "./tailwind.config.ts",
 })
 

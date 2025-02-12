@@ -4,9 +4,9 @@ import type { ReactNode } from "react"
 
 import { cn } from "@this/utils/classname"
 
-import Providers from "~/components/providers"
+import Providers from "~/shared/components/providers"
 
-import "~/assets/styles/tailwind.css"
+import "~/shared/assets/styles/tailwind.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 

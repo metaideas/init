@@ -9,7 +9,7 @@ import observabilityWeb from "@this/env/observability.web"
 import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
 
-import appEnv from "~/lib/env"
+import appEnv from "~/shared/env"
 
 ensureEnv([
   appEnv,

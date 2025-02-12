@@ -2,11 +2,11 @@ import { RocketIcon } from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@this/ui/button"
+import { ThemeToggle } from "@this/ui/theme"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@this/ui/tooltip"
 import { TypographyH1 } from "@this/ui/typography"
 import { TypographyLead } from "@this/ui/typography"
 
-import { ModeToggle } from "~/components/theme"
 import { SignedIn, SignedOut } from "~/features/auth/components/state"
 
 export default function Page() {
@@ -37,7 +37,7 @@ export default function Page() {
             </Button>
           </SignedOut>
 
-          <ModeToggle />
+          <ThemeToggle />
         </nav>
       </header>
       <main className="flex-1">

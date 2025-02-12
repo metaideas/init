@@ -8,13 +8,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       backgroundColor: "#ffffff",
-      foregroundImage: "./src/assets/images/adaptive-icon.png",
+      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
     },
   },
   experiments: {
     typedRoutes: true,
   },
-  icon: "./src/assets/images/icon.png",
+  icon: "./src/shared/assets/images/icon.png",
   ios: {
     bundleIdentifier: "com.init.mobile",
     infoPlist: {
@@ -77,7 +77,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "expo-splash-screen",
       {
         backgroundColor: "#ffffff",
-        image: "./src/assets/images/splash-icon.png",
+        image: "./src/shared/assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
       },
@@ -103,7 +103,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: "1.0.0",
   web: {
     bundler: "metro",
-    favicon: "./src/assets/images/favicon.png",
+    favicon: "./src/shared/assets/images/favicon.png",
     output: "static",
   },
   extra: {

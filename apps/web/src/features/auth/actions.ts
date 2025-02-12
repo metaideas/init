@@ -9,8 +9,8 @@ import {
   SignInWithPasswordSchema,
   SignUpSchema,
 } from "~/features/auth/validation"
-import { AUTHORIZED_PATHNAME } from "~/lib/constants"
-import { actionClient, withRateLimitByIp } from "~/lib/safe-action"
+import { AUTHORIZED_PATHNAME } from "~/shared/constants"
+import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
 
 export const signUp = actionClient
   .metadata({ actionName: "auth.signUp" })

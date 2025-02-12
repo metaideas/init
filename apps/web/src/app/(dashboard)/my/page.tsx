@@ -10,7 +10,7 @@ import {
 
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
-import { getCurrentUser } from "~/server/loaders"
+import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Page() {
   const user = await getCurrentUser()

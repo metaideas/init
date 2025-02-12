@@ -9,7 +9,7 @@ import { ensureEnv } from "@this/env/helpers"
 import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
 import { withLogger } from "@this/observability/logger/nextjs"
 
-import appEnv from "~/lib/env"
+import appEnv from "~/shared/env"
 
 ensureEnv([
   appEnv, // Environment variables for this app
@@ -20,7 +20,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: appEnv.ANALYZE,
 })
 
-const withIntl = createNextIntlPlugin("./src/lib/i18n/request.ts")
+const withIntl = createNextIntlPlugin("./src/shared/i18n/request.ts")
 
 let nextConfig: NextConfig = {
   rewrites: async () => [...rewrites],

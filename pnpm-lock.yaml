@@ -9,9 +9,24 @@ catalogs:
     '@next/bundle-analyzer':
       specifier: 15.1.6
       version: 15.1.6
+    '@sentry/react-native':
+      specifier: 6.6.0
+      version: 6.6.0
     '@tailwindcss/postcss':
       specifier: 4.0.5
       version: 4.0.5
+    '@tanstack/react-query':
+      specifier: 5.66.0
+      version: 5.66.0
+    '@tanstack/react-router':
+      specifier: 1.100.0
+      version: 1.100.0
+    '@tanstack/router-devtools':
+      specifier: 1.100.0
+      version: 1.100.0
+    '@tanstack/router-plugin':
+      specifier: 1.100.0
+      version: 1.100.0
     '@types/node':
       specifier: 22.13.1
       version: 22.13.1
@@ -24,27 +39,61 @@ catalogs:
     '@vercel/functions':
       specifier: 2.0.0
       version: 2.0.0
+    class-variance-authority:
+      specifier: 0.7.1
+      version: 0.7.1
+    hono:
+      specifier: 4.7.0
+      version: 4.7.0
     lucide-react:
       specifier: 0.471.2
       version: 0.471.2
+    nativewind:
+      specifier: 4.1.23
+      version: 4.1.23
     next:
       specifier: 15.1.6
       version: 15.1.6
     next-axiom:
       specifier: 1.9.1
       version: 1.9.1
+    pino:
+      specifier: 9.6.0
+      version: 9.6.0
+    postcss:
+      specifier: ^8.5.1
+      version: 8.5.1
     react:
       specifier: 18.3.1
       version: 18.3.1
     react-dom:
       specifier: 18.3.1
       version: 18.3.1
+    react-native:
+      specifier: 0.77.0
+      version: 0.77.0
+    react-native-reanimated:
+      specifier: 3.16.7
+      version: 3.16.7
     server-only:
       specifier: 0.0.1
       version: 0.0.1
+    superjson:
+      specifier: 2.2.2
+      version: 2.2.2
+    tailwindcss-animate:
+      specifier: 1.0.7
+      version: 1.0.7
     typescript:
       specifier: 5.7.3
       version: 5.7.3
+    vitest:
+      specifier: ^3.0.5
+      version: 3.0.5
+  tailwind3:
+    tailwindcss:
+      specifier: 3.4.17
+      version: 3.4.17
   tailwind4:
     tailwindcss:
       specifier: 4.0.5
@@ -883,6 +932,9 @@ importers:
       lucide-react-native:
         specifier: ^0.474.0
         version: 0.474.0(react-native-svg@15.11.1(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
+      nativewind:
+        specifier: 'catalog:'
+        version: 4.1.23(react-native-reanimated@3.16.7(@babel/core@7.26.8)(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-safe-area-context@5.2.0(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-svg@15.11.1(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -914,9 +966,6 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 18.3.5(@types/react@18.3.18)
-      nativewind:
-        specifier: 'catalog:'
-        version: 4.1.23(react-native-reanimated@3.16.7(@babel/core@7.26.8)(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-safe-area-context@5.2.0(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-svg@15.11.1(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.0(@babel/core@7.26.8)(@babel/preset-env@7.26.8(@babel/core@7.26.8))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
       tailwindcss-animate:
         specifier: 'catalog:'
         version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
@@ -1234,7 +1283,7 @@ importers:
         version: 2.3.0(typescript@5.7.3)
       tailwindcss-animate:
         specifier: 'catalog:'
-        version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)))
+        version: 1.0.7(tailwindcss@4.0.5)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -3444,7 +3493,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {node: '>=0.10.0'}
+    engines: {'0': node >=0.10.0}
 
   '@expo/cli@0.22.13':
     resolution: {integrity: sha512-GpRkCt5Eb0pWXrvpvYswFhUxm0R5197P1acAgj242XfsdNhjVUfjScj+Z6raTRsW0SdIxmingpef2fZaHvUFKQ==}
@@ -10160,7 +10209,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lie@3.3.0:
@@ -15586,7 +15634,7 @@ snapshots:
   '@esbuild-plugins/node-resolve@0.2.2(esbuild@0.21.5)':
     dependencies:
       '@types/resolve': 1.20.6
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@8.1.1)
       esbuild: 0.21.5
       escape-string-regexp: 4.0.0
       resolve: 1.22.10
@@ -21420,10 +21468,6 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.4.0:
-    dependencies:
-      ms: 2.1.3
-
   debug@4.4.0(supports-color@8.1.1):
     dependencies:
       ms: 2.1.3
@@ -25379,7 +25423,7 @@ snapshots:
   micromark@4.0.1:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@8.1.1)
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.2
@@ -25713,7 +25757,7 @@ snapshots:
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      styled-jsx: 5.1.6(react@18.3.1)
+      styled-jsx: 5.1.6(@babel/core@7.24.5)(react@18.3.1)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.1.6
       '@next/swc-darwin-x64': 15.1.6
@@ -27988,11 +28032,6 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.26.8
 
-  styled-jsx@5.1.6(react@18.3.1):
-    dependencies:
-      client-only: 0.0.1
-      react: 18.3.1
-
   styleq@0.1.3: {}
 
   sucrase@3.35.0:
@@ -28075,6 +28114,10 @@ snapshots:
   tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3))):
     dependencies:
       tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3))
+
+  tailwindcss-animate@1.0.7(tailwindcss@4.0.5):
+    dependencies:
+      tailwindcss: 4.0.5
 
   tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.1)(typescript@5.7.3)):
     dependencies:

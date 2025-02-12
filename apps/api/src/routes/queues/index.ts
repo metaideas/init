@@ -2,7 +2,7 @@ import { Hono } from "hono"
 
 import { serve } from "@this/queue/hono"
 
-import type { AppContext } from "~/lib/types"
+import type { AppContext } from "~/shared/types"
 
 export default new Hono<AppContext>().on(
   ["GET", "PUT", "POST"],
