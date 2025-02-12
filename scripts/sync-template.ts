@@ -1,172 +1,136 @@
-import { cancel, isCancel, log, select, tasks } from "@clack/prompts"
-import { spinner } from "@clack/prompts"
+import { copyFile, mkdir, rm } from "node:fs/promises"
+import { dirname, join } from "node:path"
+import { cancel, log, spinner } from "@clack/prompts"
+
 import { executeCommand, runScript } from "../tooling/helpers"
 
+const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "git@github.com:adelrodriguez/init.git"
 
-async function checkTemplateRemote(): Promise<string[]> {
-  log.message("Checking for template remote...")
-  const stdout = await executeCommand("git remote")
-  return stdout.split("\n")
+async function cloneTemplate() {
+  await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1`)
 }
 
-async function addTemplateRemote(): Promise<void> {
-  await executeCommand(`git remote add template ${REMOTE_URL}`)
-  log.success("Template remote added")
+async function getTemplateFiles(): Promise<string[]> {
+  const output = await executeCommand(`git -C ${TEMP_DIR} ls-files`)
+  return output.split("\n").filter(Boolean)
 }
 
-async function fetchTemplateRemote(): Promise<void> {
-  await executeCommand("git fetch template")
-  log.success("Template remote fetched")
+async function getLocalFiles(): Promise<string[]> {
+  const output = await executeCommand("git ls-files")
+  return output.split("\n").filter(Boolean)
 }
 
-async function checkForUncommittedChanges(): Promise<boolean> {
-  log.message("Checking for uncommitted changes...")
-  const status = await executeCommand("git status --porcelain")
-  return status.length > 0
-}
+async function getFileDiff(localFiles: string[], templateFiles: string[]) {
+  const filesToUpdate: string[] = []
+  const newFiles: string[] = []
 
-async function mergeTemplateRemote(): Promise<void> {
-  const s = spinner()
-  s.start("Merging template remote...")
-  try {
-    const currentBranch = (
-      await executeCommand("git rev-parse --abbrev-ref HEAD")
-    ).trim()
-    await executeCommand("git checkout -b template-sync-temp")
-
-    // First, get a list of files that exist in our current working directory
-    const existingFiles = (await executeCommand("git ls-files"))
-      .split("\n")
-      .filter(Boolean)
-
-    // Get list of files that haven't been modified locally
-    const cleanFiles =
-      (await executeCommand("git diff --name-only")).length === 0
-        ? existingFiles // If no local changes, use all files
-        : existingFiles.filter(async file => {
-            const status = await executeCommand(
-              `git diff --quiet HEAD -- ${file}`
-            )
-            return status === "0" // Only include files with no local modifications
-          })
-
-    // Merge only clean files from template
-    await executeCommand(
-      `git merge --squash template/main --strategy-option=theirs -- ${cleanFiles.join(" ")}`
+  for (const file of templateFiles) {
+    const isNew = !localFiles.includes(file)
+    const hasLocalChanges = await executeCommand(
+      `git diff --quiet HEAD -- ${file}`
     )
+      .then(() => false)
+      .catch(() => true)
 
-    // Add new files from template that don't exist locally
-    await executeCommand("git checkout template/main -- . --no-overwrite")
-    const newFiles = (
-      await executeCommand("git ls-files --others --exclude-standard")
-    )
-      .split("\n")
-      .filter(Boolean)
-
-    if (newFiles.length > 0) {
-      await executeCommand(`git add ${newFiles.join(" ")}`)
+    if (isNew) {
+      newFiles.push(file)
+    } else if (!hasLocalChanges) {
+      filesToUpdate.push(file)
     }
+  }
 
-    // Reset any files that don't exist in our current working directory
-    await executeCommand("git reset HEAD")
-    await executeCommand(`git add ${cleanFiles.join(" ")}`)
+  return { filesToUpdate, newFiles }
+}
 
-    await executeCommand(
-      'git commit -m "chore: sync with template repository (existing files and new template files)"'
-    )
-    await executeCommand(`git checkout ${currentBranch}`)
-    await executeCommand("git merge template-sync-temp --ff-only")
-    await executeCommand("git branch -D template-sync-temp")
-    s.stop(
-      "Template changes merged successfully (existing files and new template files updated)"
-    )
-  } catch (error) {
-    s.stop("Merge conflicts detected")
+async function copyFiles(files: string[]) {
+  for (const file of files) {
+    const source = join(TEMP_DIR, file)
+    const dest = join(process.cwd(), file)
 
-    // Clean up and provide guidance
-    try {
-      await executeCommand("git merge --abort")
-      await executeCommand("git checkout -")
-      await executeCommand("git branch -D template-sync-temp")
-
-      log.error("Failed to sync with template. Here's what you can do:")
-      log.message("\n1. Manual sync steps:")
-      log.message("   git checkout -b template-sync")
-      log.message("   git fetch template")
-      log.message("   git merge --squash template/main")
-      log.message("   # Resolve conflicts")
-      log.message("   git add .")
-      log.message("   git commit -m 'chore: sync with template repository'")
-      log.message("\n2. Or reset everything and try again later:")
-      log.message("   git reset --hard HEAD")
-      log.message("   git clean -fd")
-
-      log.message("\nAfter resolving conflicts, run this script again.")
-    } catch (cleanupError) {
-      log.error(
-        `Additionally, cleanup failed: ${(cleanupError as Error).message}. Current git state might be inconsistent.`
-      )
-      log.message("You might need to manually run:")
-      log.message("   git merge --abort")
-      log.message("   git checkout <your-branch>")
-      log.message("   git branch -D template-sync-temp")
-    }
-
-    throw error
+    await mkdir(dirname(dest), { recursive: true })
+    await copyFile(source, dest)
   }
 }
 
 async function main() {
-  // Check for uncommitted changes first
-  const hasUncommittedChanges = await checkForUncommittedChanges()
-  if (hasUncommittedChanges) {
-    cancel(
-      "Please commit or stash your changes before syncing with the template"
+  log.message("Starting template synchronization")
+
+  const s = spinner()
+  try {
+    // Verify clean working tree
+    s.start("Checking for uncommitted changes")
+    const hasChanges = await checkForUncommittedChanges()
+    if (hasChanges) {
+      cancel("Please commit or stash changes before syncing")
+      process.exit(1)
+    }
+    s.stop("Working directory clean")
+
+    // Set up temporary environment
+    s.start("Setting up temporary directory")
+    await rm(TEMP_DIR, { recursive: true, force: true })
+    await mkdir(TEMP_DIR, { recursive: true })
+    s.stop("Temporary directory created")
+
+    // Clone template
+    s.start("Cloning template repository")
+    await cloneTemplate()
+    s.stop("Template cloned")
+
+    // Get file lists
+    s.start("Analyzing file differences")
+    const [localFiles, templateFiles] = await Promise.all([
+      getLocalFiles(),
+      getTemplateFiles(),
+    ])
+
+    const { filesToUpdate, newFiles } = await getFileDiff(
+      localFiles,
+      templateFiles
     )
-    process.exit(1)
-  }
+    s.stop(
+      `Found ${filesToUpdate.length} updates and ${newFiles.length} new files`
+    )
 
-  const remotes = await checkTemplateRemote()
+    // Copy changes
+    if (filesToUpdate.length > 0 || newFiles.length > 0) {
+      s.start("Applying template changes")
+      await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
+      s.stop("Changes applied")
 
-  if (!remotes.includes("template")) {
-    const confirmation = await select({
-      message: "Do you want to add the template remote?",
-      options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
-      ],
-    })
+      // Stage changes and set commit message
+      await executeCommand("git add .")
 
-    if (!confirmation || isCancel(confirmation)) {
-      cancel(
-        `Please add the template remote by running the command: \`git remote add template ${REMOTE_URL}\``
+      // Write commit message to Git's internal file
+      const commitMessage = "chore: sync with template repository"
+      await executeCommand(
+        "git config --local commit.template .git/COMMIT_EDITMSG"
       )
-      process.exit(0)
+      await executeCommand(`echo "${commitMessage}" > .git/COMMIT_EDITMSG`)
+
+      log.success("Changes staged with suggested commit message")
+      log.message("Open VS Code and check the Source Control view")
+      log.message("The commit message will appear in the input box")
+    } else {
+      log.info("No changes to apply - already up to date")
     }
 
-    await addTemplateRemote()
-  }
-
-  try {
-    await tasks([
-      {
-        title: "Fetching template remote...",
-        task: () => fetchTemplateRemote(),
-      },
-      {
-        title: "Merging template remote...",
-        task: () => mergeTemplateRemote(),
-      },
-    ])
-  } catch (error) {
-    log.error(`Ran into an error: ${(error as Error).message}`)
-
-    cancel(
-      "Failed to sync with template. Please resolve any conflicts manually."
+    log.message(
+      "Template sync completed. Review and commit in VS Code when ready."
     )
+  } catch (error) {
+    s.stop("Sync failed")
+    log.error(error instanceof Error ? error.message : "Unknown error occurred")
     process.exit(1)
+  } finally {
+    await rm(TEMP_DIR, { recursive: true, force: true })
   }
+}
+
+async function checkForUncommittedChanges(): Promise<boolean> {
+  const status = await executeCommand("git status --porcelain")
+  return status.length > 0
 }
 
 runScript(main)

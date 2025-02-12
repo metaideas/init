@@ -70,3 +70,6 @@ dependency-graph.svg
 
 # Content Collections
 .content-collections
+
+# Template Sync
+.template-sync-tmp
