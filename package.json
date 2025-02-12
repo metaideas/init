@@ -16,6 +16,7 @@
     "dev": "turbo dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
+    "env:setup": "tsx scripts/setup-env.ts",
     "format": "turbo format",
     "generate": "turbo generate",
     "lint": "turbo lint",
