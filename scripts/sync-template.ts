@@ -40,22 +40,47 @@ async function mergeTemplateRemote(): Promise<void> {
       .split("\n")
       .filter(Boolean)
 
-    // Merge only existing files from template
+    // Get list of files that haven't been modified locally
+    const cleanFiles =
+      (await executeCommand("git diff --name-only")).length === 0
+        ? existingFiles // If no local changes, use all files
+        : existingFiles.filter(async file => {
+            const status = await executeCommand(
+              `git diff --quiet HEAD -- ${file}`
+            )
+            return status === "0" // Only include files with no local modifications
+          })
+
+    // Merge only clean files from template
     await executeCommand(
-      "git merge --squash template/main --allow-unrelated-histories"
+      `git merge --squash template/main --strategy-option=theirs -- ${cleanFiles.join(" ")}`
     )
+
+    // Add new files from template that don't exist locally
+    await executeCommand("git checkout template/main -- . --no-overwrite")
+    const newFiles = (
+      await executeCommand("git ls-files --others --exclude-standard")
+    )
+      .split("\n")
+      .filter(Boolean)
+
+    if (newFiles.length > 0) {
+      await executeCommand(`git add ${newFiles.join(" ")}`)
+    }
 
     // Reset any files that don't exist in our current working directory
     await executeCommand("git reset HEAD")
-    await executeCommand(`git add ${existingFiles.join(" ")}`)
+    await executeCommand(`git add ${cleanFiles.join(" ")}`)
 
     await executeCommand(
-      'git commit -m "chore: sync with template repository (existing files only)"'
+      'git commit -m "chore: sync with template repository (existing files and new template files)"'
     )
     await executeCommand(`git checkout ${currentBranch}`)
     await executeCommand("git merge template-sync-temp --ff-only")
     await executeCommand("git branch -D template-sync-temp")
-    s.stop("Template changes merged successfully (only existing files updated)")
+    s.stop(
+      "Template changes merged successfully (existing files and new template files updated)"
+    )
   } catch (error) {
     s.stop("Merge conflicts detected")
 
