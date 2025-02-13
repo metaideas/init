@@ -67,9 +67,9 @@ export async function queueEmail({
     return
   }
 
-  const { publishJob, resend } = await import("@this/queue/jobs")
+  const { publishMessage, resend } = await import("@this/queue/messages")
 
-  await publishJob({
+  await publishMessage({
     api: {
       name: "email",
       provider: resend({ token: env.RESEND_API_KEY }),

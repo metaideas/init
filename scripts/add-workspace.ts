@@ -82,7 +82,7 @@ const PACKAGES = [
   {
     value: "queue",
     label:
-      "queue - Serverless job queue and workflow management using Inngest and Upstash Qstash",
+      "queue - Serverless message queue and workflow management using Upstash",
   },
   {
     value: "security",

@@ -6,3 +6,5 @@ export const openai = createOpenAI({
   apiKey: env.OPENAI_API_KEY,
   compatibility: "strict",
 })
+
+export { createOpenAI } from "@ai-sdk/openai"

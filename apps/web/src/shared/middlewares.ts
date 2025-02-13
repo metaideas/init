@@ -3,12 +3,17 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 import { LOCALES } from "@this/utils/constants"
+import { isDevelopment } from "@this/utils/environment"
 
 import { routing } from "~/shared/i18n/routing"
 
 const nextIntlMiddleware = createNextIntlMiddleware(routing)
 
 export function csrfProtectionMiddleware(request: NextRequest) {
+  if (isDevelopment) {
+    return null
+  }
+
   if (request.method !== "GET") {
     const originHeader = request.headers.get("Origin")
     const hostHeader = request.headers.get("Host")

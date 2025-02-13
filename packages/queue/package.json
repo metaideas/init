@@ -5,33 +5,35 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./hono": "./src/serve/hono.ts",
-    "./nextjs": "./src/serve/nextjs.ts",
-    "./jobs": "./src/jobs/index.ts",
-    "./jobs/*": "./src/jobs/*.ts"
+    "./workflows": "./src/workflows/index.ts",
+    "./workflows/*": [
+      "./src/workflows/serve/*.ts",
+      "./src/workflows/integrations/*.ts"
+    ],
+    "./messages": "./src/messages/index.ts",
+    "./messages/verify": "./src/messages/verify.ts"
   },
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "tsx ./scripts/dev.ts",
+    "dev": "qstash dev --port 8288",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@this/ai": "workspace:*",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/utils": "workspace:*",
-    "@upstash/qstash": "^2.7.20",
-    "inngest": "^3.31.6",
-    "pino": "catalog:"
+    "@upstash/qstash": "2.7.21",
+    "@upstash/qstash-cli": "2.21.1",
+    "@upstash/workflow": "0.2.7"
   },
   "devDependencies": {
-    "@this/payments": "workspace:^",
+    "@this/payments": "workspace:*",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "inngest-cli": "1.4.6",
     "typescript": "catalog:"
   },
   "peerDependencies": {

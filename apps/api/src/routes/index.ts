@@ -5,7 +5,6 @@ import { logger } from "hono/logger"
 
 import authRouter from "~/routes/auth"
 import healthRouter from "~/routes/health"
-import queuesRouter from "~/routes/queues"
 import testRouter from "~/routes/test"
 import trpcRouter from "~/routes/trpc"
 import type { AppContext } from "~/shared/types"
@@ -33,7 +32,6 @@ app.use(async (c, next) => {
   await Promise.all([
     import("@this/auth/server").then(({ auth }) => c.set("auth", auth)),
     import("@this/db").then(({ db }) => c.set("db", db)),
-    import("@this/queue").then(({ queue }) => c.set("queue", queue)),
     import("@this/kv").then(({ kv }) => c.set("kv", kv)),
     import("@this/observability/logger").then(({ logger }) =>
       c.set("logger", logger)
@@ -47,7 +45,6 @@ export const router = app
   .get("/ping", c => c.text(Date.now().toString()))
   .route("/auth", authRouter)
   .route("/health", healthRouter)
-  .route("/queues", queuesRouter)
   .route("/test", testRouter)
   .route("/trpc", trpcRouter)
 

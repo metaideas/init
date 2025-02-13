@@ -6,7 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./providers/*": "./src/providers/*",
+    "./providers/*": "./src/providers/*.ts",
     "./react": "./src/react.ts",
     "./rsc": "./src/rsc.ts",
     "./vector": "./src/vector.ts"

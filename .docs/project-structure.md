@@ -23,7 +23,7 @@ root
   │   ├── native-ui         # Reusable UI components for React Native apps
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments          # Payment processing utilities using Stripe
-  │   ├── queue             # Serverless job queue and workflow management using Inngest and Upstash Qstash
+  │   ├── queue             # Serverless job queue and workflow management using Upstash
   │   ├── security          # Security utilities and best practices using Arcjet
   │   ├── storage           # Shared storage utilities using UploadThing
   │   ├── ui                # Reusable UI components and design system using Shadcn/UI
