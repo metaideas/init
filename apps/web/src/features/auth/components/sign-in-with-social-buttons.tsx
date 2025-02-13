@@ -18,7 +18,8 @@ export function SignInWithGoogleButton() {
       className="flex w-full gap-3"
       onClick={() => {
         setLoading(true)
-        void signIn.social({
+
+        signIn.social({
           callbackURL: AUTHORIZED_PATHNAME,
           provider: "google",
           fetchOptions: {
@@ -69,7 +70,8 @@ export function SignInWithGitHubButton() {
       className="flex w-full gap-3"
       onClick={() => {
         setLoading(true)
-        void signIn.social({
+
+        signIn.social({
           callbackURL: AUTHORIZED_PATHNAME,
           provider: "github",
           fetchOptions: {

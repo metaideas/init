@@ -19,7 +19,7 @@ export default function SignOutButton() {
       onClick={() => {
         setLoading(true)
 
-        void authClient.signOut({
+        authClient.signOut({
           fetchOptions: {
             onSuccess: () => {
               router.push(UNAUTHORIZED_PATHNAME)
