@@ -18,12 +18,12 @@ export async function sendEmail({
   subject: string
   // Setting the body as unknown and then casting it later to a ReactElement to
   // allow for any type of ReactElement, since Hono's JSX leads to type errors.
-  body: unknown
+  body: ReactElement
   sendAt?: Date | string
   from?: string
 }) {
   if (env.MOCK_RESEND) {
-    const text = await render(body as ReactElement, { plainText: true })
+    const text = await render(body, { plainText: true })
     mockEmail(emails, text)
 
     return
@@ -46,7 +46,7 @@ export async function sendEmail({
 }
 
 /**
- * Queues an email to be sent later using Upstash.
+ * Queues an email to be sent later using Upstash Qstash.
  */
 export async function queueEmail({
   emails,
@@ -57,19 +57,19 @@ export async function queueEmail({
   emails: string[]
   subject: string
   from?: string
-  body: unknown
+  body: ReactElement
 }) {
   if (env.MOCK_RESEND) {
-    const text = await render(body as ReactElement, { plainText: true })
+    const text = await render(body, { plainText: true })
 
     mockEmail(emails, text, true)
 
     return
   }
 
-  const { publishMessage, resend } = await import("@this/queue/messages")
+  const { default: q, resend } = await import("@this/queue/messages")
 
-  await publishMessage({
+  await q.publishJSON({
     api: {
       name: "email",
       provider: resend({ token: env.RESEND_API_KEY }),
@@ -78,7 +78,7 @@ export async function queueEmail({
       from,
       to: emails,
       subject,
-      react: body as ReactElement,
+      react: body,
     },
   })
 }

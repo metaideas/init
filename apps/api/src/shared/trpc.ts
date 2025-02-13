@@ -25,7 +25,6 @@ export async function createTRPCContext(
     info: opts.info,
     kv: c.var.kv,
     logger: c.var.logger,
-    queue: c.var.queue,
     req: opts.req,
     resHeaders: opts.resHeaders,
     session,

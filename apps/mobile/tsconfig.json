@@ -1,6 +1,7 @@
 {
   "extends": ["expo/tsconfig.base", "@tooling/tsconfig/mobile.json"],
   "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "Bundler",
     "strict": true,
     "paths": {

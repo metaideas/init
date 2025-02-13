@@ -1,4 +1,5 @@
 import { Hono } from "hono"
+import { env } from "hono/adapter"
 
 import { ensureEnv } from "@this/env/helpers"
 
@@ -17,7 +18,7 @@ const health = new Hono<AppContext>().get("/", async c => {
   ])
 
   // Ensure environment variables are set
-  ensureEnv([authServer, dbServer], { env: c.env })
+  ensureEnv([authServer, dbServer], { env: env(c) as Record<string, string> })
 
   return c.text("ok")
 })

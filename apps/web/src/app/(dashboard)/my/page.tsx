@@ -1,4 +1,3 @@
-import { createWorkflowClient } from "@this/queue/workflows"
 import { Avatar, AvatarFallback, AvatarImage } from "@this/ui/avatar"
 import { Button } from "@this/ui/button"
 import {
@@ -12,6 +11,7 @@ import {
 
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
+import { triggerWorkflow } from "~/shared/queues"
 import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Page() {
@@ -43,11 +43,7 @@ export default async function Page() {
                 onClick={async () => {
                   "use server"
 
-                  const { triggerWorkflow } = createWorkflowClient(
-                    "http://localhost:3001"
-                  )
-
-                  await triggerWorkflow("test/workflow", {
+                  await triggerWorkflow("test/hello-world", {
                     name: "John Doe",
                   })
                 }}
