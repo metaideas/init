@@ -30,4 +30,6 @@ export function createMessageClient<U extends string>(baseUrl: U) {
   }
 }
 
+export type { MessageType, MessageBody } from "./events"
+
 export { resend, openai, anthropic } from "@upstash/qstash"

@@ -22,4 +22,4 @@ export function createWorkflowClient<U extends string>(baseUrl: U) {
   }
 }
 
-export type { TriggerBody } from "./events"
+export type { TriggerBody, TriggerType } from "./events"

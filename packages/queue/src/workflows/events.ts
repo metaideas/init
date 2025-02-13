@@ -6,6 +6,7 @@ export const HelloWorldBodySchema = z.object({
 
 export const TriggerSchemaMap = {
   "test/hello-world": HelloWorldBodySchema,
+  "test/workflow": HelloWorldBodySchema,
 } as const
 
 export type TriggerType = keyof typeof TriggerSchemaMap

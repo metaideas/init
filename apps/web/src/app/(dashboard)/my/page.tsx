@@ -1,4 +1,6 @@
+import { createWorkflowClient } from "@this/queue/workflows"
 import { Avatar, AvatarFallback, AvatarImage } from "@this/ui/avatar"
+import { Button } from "@this/ui/button"
 import {
   Card,
   CardContent,
@@ -35,6 +37,23 @@ export default async function Page() {
                 <div className="font-medium">{user.name ?? "Unknown"}</div>
                 <div className="text-muted-foreground">{user.email}</div>
               </div>
+            </div>
+            <div>
+              <Button
+                onClick={async () => {
+                  "use server"
+
+                  const { triggerWorkflow } = createWorkflowClient(
+                    "http://localhost:3001"
+                  )
+
+                  await triggerWorkflow("test/workflow", {
+                    name: "John Doe",
+                  })
+                }}
+              >
+                Trigger workflow
+              </Button>
             </div>
           </CardContent>
           <CardFooter className="flex gap-2">
