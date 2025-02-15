@@ -28,7 +28,7 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.0.5",
+    "@tailwindcss/vite": "4.0.6",
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@tauri-apps/cli": "2.2.7",

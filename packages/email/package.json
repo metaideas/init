@@ -18,8 +18,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-email/components": "0.0.32",
-    "@react-email/render": "1.0.4",
+    "@react-email/components": "0.0.33",
+    "@react-email/render": "1.0.5",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",
@@ -30,7 +30,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "react": "catalog:",
-    "react-email": "3.0.6",
+    "react-email": "3.0.7",
     "typescript": "catalog:"
   },
   "peerDependencies": {

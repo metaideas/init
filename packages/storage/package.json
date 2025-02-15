@@ -20,9 +20,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uploadthing/expo": "7.1.5",
-    "@uploadthing/react": "7.1.5",
-    "uploadthing": "7.4.4"
+    "@uploadthing/expo": "7.2.1",
+    "@uploadthing/react": "7.2.1",
+    "uploadthing": "7.5.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

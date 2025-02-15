@@ -22,9 +22,9 @@
   "dependencies": {
     "@this/env": "workspace:*",
     "next-plausible": "3.12.4",
-    "posthog-js": "1.215.6",
-    "posthog-node": "4.5.0",
-    "posthog-react-native": "3.9.0"
+    "posthog-js": "1.218.2",
+    "posthog-node": "4.6.0",
+    "posthog-react-native": "3.9.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
