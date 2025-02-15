@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@content-collections/mdx": "0.2.0",
-    "@hookform/resolvers": "4.1.0",
+    "@hookform/resolvers": "catalog:",
     "@next-safe-action/adapter-react-hook-form": "1.0.13",
     "@next/bundle-analyzer": "catalog:",
     "@this/analytics": "workspace:*",
@@ -40,7 +40,7 @@
     "next-safe-action": "7.10.3",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-hook-form": "7.54.2",
+    "react-hook-form": "catalog:",
     "server-only": "catalog:"
   },
   "devDependencies": {

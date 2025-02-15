@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "4.1.0",
+    "@hookform/resolvers": "catalog:",
     "@radix-ui/react-accordion": "1.2.3",
     "@radix-ui/react-alert-dialog": "1.1.6",
     "@radix-ui/react-aspect-ratio": "1.1.2",
@@ -55,7 +55,7 @@
     "lucide-react": "catalog:",
     "next-themes": "0.4.4",
     "react-day-picker": "9.5.1",
-    "react-hook-form": "7.54.2",
+    "react-hook-form": "catalog:",
     "react-resizable-panels": "2.1.7",
     "recharts": "2.15.1",
     "sonner": "1.7.4",
