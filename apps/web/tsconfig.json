@@ -10,10 +10,11 @@
   },
   "exclude": ["node_modules"],
   "include": [
-    "src",
-    "scripts",
+    ".next/types/**/*.ts",
+    "global.d.ts",
     "next-env.d.ts",
     "next.config.ts",
-    ".next/types/**/*.ts"
+    "scripts",
+    "src"
   ]
 }
