@@ -4,23 +4,12 @@ import * as z from "@this/utils/schema"
 
 export default createEnv({
   server: {
-    ENABLE_OPENAI: z.boolean(),
-    OPENAI_API_KEY: z.conditional(
-      process.env.ENABLE_OPENAI === "true",
-      z.string()
-    ),
-    ENABLE_ANTHROPIC: z.boolean(),
-    ANTHROPIC_API_KEY: z.conditional(
-      process.env.ENABLE_ANTHROPIC === "true",
-      z.string()
-    ),
-    ENABLE_DEEPSEEK: z.boolean(),
-    DEEPSEEK_API_KEY: z.conditional(
-      process.env.ENABLE_DEEPSEEK === "true",
-      z.string()
-    ),
-    UPSTASH_VECTOR_REST_URL: z.string().url(),
+    ANTHROPIC_API_KEY: z.string().optional(),
+    DEEPSEEK_API_KEY: z.string().optional(),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
+    OPENAI_API_KEY: z.string().optional(),
     UPSTASH_VECTOR_REST_TOKEN: z.string(),
+    UPSTASH_VECTOR_REST_URL: z.string().url(),
   },
   runtimeEnv: process.env,
   skipValidation: process.env.SKIP_VALIDATION_AI_SERVER === "true",

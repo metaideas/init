@@ -1,7 +1,7 @@
 import type { HTTPMethods } from "@upstash/qstash"
 import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow"
 
-import { createOpenAI } from "@this/ai/providers/openai"
+import { createOpenAI } from "@this/ai/providers"
 import { logger } from "@this/observability/logger"
 
 export function createWorkflowOpenAI(context: WorkflowContext) {
