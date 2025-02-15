@@ -18,8 +18,8 @@
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@tauri-apps/api": "^2.2.0",
-    "@tauri-apps/plugin-opener": "^2.2.5",
+    "@tauri-apps/api": "2.2.0",
+    "@tauri-apps/plugin-opener": "2.2.5",
     "@this/env": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
@@ -28,14 +28,14 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.5",
+    "@tailwindcss/vite": "4.0.5",
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
-    "@tauri-apps/cli": "^2.2.7",
+    "@tauri-apps/cli": "2.2.7",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "4.3.4",
     "api": "workspace:*",
     "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:",

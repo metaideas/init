@@ -19,19 +19,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@rn-primitives/accordion": "^1.1.0",
-    "@rn-primitives/collapsible": "^1.1.0",
-    "@rn-primitives/slot": "^1.1.0",
-    "@rn-primitives/types": "^1.1.0",
+    "@rn-primitives/accordion": "1.1.0",
+    "@rn-primitives/collapsible": "1.1.0",
+    "@rn-primitives/slot": "1.1.0",
+    "@rn-primitives/types": "1.1.0",
     "@this/utils": "workspace:*",
     "class-variance-authority": "catalog:",
-    "lucide-react-native": "^0.474.0",
+    "lucide-react-native": "0.474.0",
     "react-native": "catalog:",
     "react-native-reanimated": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/aspect-ratio": "0.4.2",
+    "@tailwindcss/typography": "0.5.16",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

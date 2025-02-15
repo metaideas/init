@@ -22,8 +22,8 @@
     "typegen:cloudflare": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
-    "@hono/trpc-server": "^0.3.4",
-    "@hono/zod-validator": "^0.4.2",
+    "@hono/trpc-server": "0.3.4",
+    "@hono/zod-validator": "0.4.2",
     "@this/auth": "workspace:*",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",
@@ -38,10 +38,10 @@
     "superjson": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250204.0",
+    "@cloudflare/workers-types": "4.20250204.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "wrangler": "^3.107.3"
+    "wrangler": "3.107.3"
   }
 }

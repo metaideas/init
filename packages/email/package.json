@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@react-email/components": "0.0.32",
-    "@react-email/render": "^1.0.4",
+    "@react-email/render": "1.0.4",
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/queue": "workspace:*",

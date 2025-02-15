@@ -31,7 +31,7 @@
   "devDependencies": {
     "@trpc/server": "11.0.0-rc.748",
     "@tooling/tsconfig": "workspace:*",
-    "@types/lodash.merge": "^4.6.9",
+    "@types/lodash.merge": "4.6.9",
     "next": "catalog:",
     "typescript": "catalog:"
   }
