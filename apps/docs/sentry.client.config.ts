@@ -1,3 +1,3 @@
-import { initializeSentry } from "@this/observability/instrumentation/nextjs"
+import { initializeErrorMonitoring } from "@this/observability/error/nextjs/client"
 
-initializeSentry("client")
+initializeErrorMonitoring()

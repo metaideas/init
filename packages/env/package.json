@@ -6,7 +6,7 @@
   "type": "module",
   "exports": {
     "./*": "./src/packages/*.ts",
-    "./core.server": "./src/core.server.ts",
+    "./core": "./src/core.ts",
     "./helpers": "./src/helpers.ts",
     "./presets": "./src/presets.ts"
   },

@@ -5,10 +5,14 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./logger": "./src/logger/index.ts",
-    "./logger/*": "./src/logger/*.ts",
+    "./error": "./src/error/index.ts",
+    "./error/*": "./src/error/*.ts",
+    "./error/nextjs": "./src/error/nextjs/index.ts",
+    "./error/nextjs/*": "./src/error/nextjs/*.ts",
     "./instrumentation": "./src/instrumentation/index.ts",
-    "./instrumentation/*": "./src/instrumentation/*.ts"
+    "./instrumentation/*": "./src/instrumentation/*.ts",
+    "./logger": "./src/logger/index.ts",
+    "./logger/*": "./src/logger/*.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -18,7 +22,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@sentry/core": "9.1.0",
+    "@sentry/browser": "9.1.0",
+    "@sentry/cloudflare": "9.1.0",
     "@sentry/nextjs": "9.1.0",
     "@this/env": "workspace:*",
     "@this/utils": "workspace:*",

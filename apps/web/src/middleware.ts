@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server"
-import type { NextFetchEvent, NextRequest } from "next/server"
-
-import { loggingMiddleware } from "@this/observability/logger/nextjs"
+import type { NextRequest } from "next/server"
 
 import { csrfProtectionMiddleware, i18nMiddleware } from "~/shared/middlewares"
 
-export function middleware(request: NextRequest, event: NextFetchEvent) {
-  loggingMiddleware(request, event)
+export function middleware(request: NextRequest) {
+  const crsfProtectionResult = csrfProtectionMiddleware(request)
 
-  const crsftProtectionResult = csrfProtectionMiddleware(request)
-
-  if (crsftProtectionResult) {
-    return crsftProtectionResult
+  if (crsfProtectionResult) {
+    return crsfProtectionResult
   }
 
   const i18nResult = i18nMiddleware(request)

@@ -2,20 +2,17 @@ import bundleAnalyzer from "@next/bundle-analyzer"
 import { createMDX } from "fumadocs-mdx/next"
 import type { NextConfig } from "next"
 
-import rewrites from "@this/analytics/posthog/rewrites"
-import { ensureEnv } from "@this/env/helpers"
-import observabilityServer from "@this/env/observability.server"
-import observabilityWeb from "@this/env/observability.web"
-import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
-import { withLogger } from "@this/observability/logger/nextjs"
+import { withErrorMonitoring } from "@this/observability/error/nextjs"
+import { withLogging } from "@this/observability/logger/nextjs"
 
+import { ensureEnv } from "@this/env/helpers"
+import observabilityEnv from "@this/env/observability/nextjs"
 import appEnv from "~/shared/env"
 
 ensureEnv([
   appEnv,
   // Import environment variables for all the packages you are using
-  observabilityWeb,
-  observabilityServer,
+  observabilityEnv,
 ])
 
 const withMDX = createMDX()
@@ -31,8 +28,8 @@ let nextConfig: NextConfig = {
 }
 
 nextConfig = withBundleAnalyzer(nextConfig)
-nextConfig = withInstrumentation(nextConfig)
-nextConfig = withLogger(nextConfig)
+nextConfig = withErrorMonitoring(nextConfig)
+nextConfig = withLogging(nextConfig)
 nextConfig = withMDX(nextConfig)
 
 export default nextConfig

@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/react-native"
 
-import envMobile from "@this/env/observability.mobile"
+import envMobile from "@this/env/observability/expo"
 
-export function initializeSentry() {
+export function initializeErrorMonitoring() {
   Sentry.init({
     dsn: envMobile.EXPO_PUBLIC_SENTRY_DSN,
 
