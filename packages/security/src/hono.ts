@@ -1,6 +1,6 @@
 import arcjet, { shield } from "@arcjet/node"
 
-import env from "@this/env/security.server"
+import env from "@this/env/security"
 
 export const security = arcjet({
   key: env.ARCJET_KEY, // Get your site key from https://app.arcjet.com

@@ -1,7 +1,7 @@
 import { type Redis, Redis as RedisNode } from "@upstash/redis"
 import { Redis as RedisCloudflare } from "@upstash/redis/cloudflare"
 
-import env from "@this/env/kv.server"
+import env from "@this/env/kv"
 import { buildKeyGenerator } from "@this/utils/key"
 import { isCloudflare } from "@this/utils/runtime"
 

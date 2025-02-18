@@ -1,7 +1,7 @@
 import { render } from "@react-email/render"
 import type { ReactElement } from "react"
 
-import env from "@this/env/email.server"
+import env from "@this/env/email"
 import { SendEmailError } from "@this/observability/error"
 import { logger, styles } from "@this/observability/logger"
 

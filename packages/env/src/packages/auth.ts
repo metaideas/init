@@ -9,7 +9,7 @@ export default createEnv({
     BETTER_AUTH_BASE_PATH: z.string().optional(),
     BETTER_AUTH_TRUSTED_ORIGINS: z
       .preprocess(
-        val => (typeof val === "string" ? val.split(",") : val),
+        val => (typeof val === "string" ? val.split(",").filter(Boolean) : val),
         z.array(z.string().url())
       )
       .optional(),
@@ -28,4 +28,5 @@ export default createEnv({
     GITHUB_CLIENT_SECRET: z.string(),
   },
   runtimeEnv: process.env,
+  skipValidation: process.env.SKIP_VALIDATION_AUTH === "true",
 })

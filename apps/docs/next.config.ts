@@ -6,8 +6,9 @@ import { withAnalytics } from "@this/analytics/posthog/nextjs"
 import { withErrorMonitoring } from "@this/observability/error/nextjs"
 import { withLogging } from "@this/observability/logger/nextjs"
 
-import { ensureEnv } from "@this/env/helpers"
+import { ensureEnv } from "@this/env"
 import observabilityEnv from "@this/env/observability/nextjs"
+
 import appEnv from "~/shared/env"
 
 ensureEnv([

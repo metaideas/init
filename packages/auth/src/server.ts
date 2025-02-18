@@ -4,7 +4,7 @@ import { nextCookies } from "better-auth/next-js"
 import { admin, organization } from "better-auth/plugins"
 
 import { db } from "@this/db"
-import env from "@this/env/auth.server"
+import env from "@this/env/auth"
 import { APP_ID, APP_NAME } from "@this/utils/constants"
 
 import { sendInvitationEmail } from "./emails"

@@ -1,6 +1,6 @@
 import { Client, type PublishRequest } from "@upstash/qstash"
 
-import env from "@this/env/queue.server"
+import env from "@this/env/queue"
 
 import type { MessageBody, MessageType } from "./events"
 

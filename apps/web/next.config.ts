@@ -7,18 +7,18 @@ import { withAnalytics } from "@this/analytics/posthog/nextjs"
 import { withErrorMonitoring } from "@this/observability/error/nextjs"
 import { withLogging } from "@this/observability/logger/nextjs"
 
-import dbServer from "@this/env/db.server"
-import { ensureEnv } from "@this/env/helpers"
-import kvServer from "@this/env/kv.server"
-import queueServer from "@this/env/queue.server"
+import { ensureEnv } from "@this/env"
+import dbEnv from "@this/env/db"
+import kvEnv from "@this/env/kv"
+import queueEnv from "@this/env/queue"
 
 import appEnv from "~/shared/env"
 
 ensureEnv([
   appEnv, // Environment variables for this app
-  dbServer,
-  queueServer,
-  kvServer,
+  dbEnv,
+  kvEnv,
+  queueEnv,
 ])
 
 const withBundleAnalyzer = bundleAnalyzer({

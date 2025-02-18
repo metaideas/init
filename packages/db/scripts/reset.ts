@@ -9,7 +9,7 @@ async function main() {
   log.step("Resetting database...")
 
   const { db } = await import("../src")
-  const { default: env } = await import("@this/env/db.server")
+  const { default: env } = await import("@this/env/db")
 
   if (env.DATABASE_URL?.includes("https")) {
     log.error("Cannot reset production database")

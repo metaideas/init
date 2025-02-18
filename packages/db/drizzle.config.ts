@@ -1,6 +1,6 @@
 import { defineConfig } from "drizzle-kit"
 
-import env from "@this/env/db.server"
+import env from "@this/env/db"
 
 if (env.DATABASE_URL?.includes("https") && !env.RUN_PRODUCTION_MIGRATIONS) {
   throw new Error(

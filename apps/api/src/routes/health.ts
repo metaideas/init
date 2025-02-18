@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { env } from "hono/adapter"
 
-import { ensureEnv } from "@this/env/helpers"
+import { ensureEnv } from "@this/env"
 
 import type { AppContext } from "~/shared/types"
 
@@ -12,13 +12,18 @@ import type { AppContext } from "~/shared/types"
  * correctly.
  */
 const health = new Hono<AppContext>().get("/", async c => {
-  const [authServer, dbServer] = await Promise.all([
-    import("@this/env/auth.server"),
-    import("@this/env/db.server"),
+  const [authEnv, dbEnv, emailEnv, kvEnv, queueEnv] = await Promise.all([
+    import("@this/env/auth"),
+    import("@this/env/db"),
+    import("@this/env/email"),
+    import("@this/env/kv"),
+    import("@this/env/queue"),
   ])
 
   // Ensure environment variables are set
-  ensureEnv([authServer, dbServer], { env: env(c) as Record<string, string> })
+  ensureEnv([authEnv, dbEnv, emailEnv, kvEnv, queueEnv], {
+    env: env(c) as Record<string, string>,
+  })
 
   return c.text("ok")
 })

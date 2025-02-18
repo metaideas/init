@@ -1,6 +1,6 @@
 import { Receiver, type VerifyRequest } from "@upstash/qstash"
 
-import env from "@this/env/queue.server"
+import env from "@this/env/queue"
 
 import { type MessageBody, MessageSchemaMap, type MessageType } from "./events"
 

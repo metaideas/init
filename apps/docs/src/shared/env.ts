@@ -1,4 +1,4 @@
-import { createNextjsEnv } from "@this/env/helpers"
+import { createNextjsEnv } from "@this/env"
 import { vercel } from "@this/env/presets"
 import * as z from "@this/utils/schema"
 

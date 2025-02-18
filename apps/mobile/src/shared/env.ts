@@ -1,4 +1,4 @@
-import { createEnv, ensureEnv } from "@this/env/helpers"
+import { createEnv, ensureEnv } from "@this/env"
 import * as z from "@this/utils/schema"
 
 ensureEnv(
