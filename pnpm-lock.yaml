@@ -984,6 +984,9 @@ importers:
 
   packages/observability:
     dependencies:
+      '@openstatus/react':
+        specifier: ^0.0.3
+        version: 0.0.3(react@18.3.1)
       '@sentry/browser':
         specifier: 9.1.0
         version: 9.1.0
@@ -992,7 +995,7 @@ importers:
         version: 9.1.0
       '@sentry/nextjs':
         specifier: 9.1.0
-        version: 9.1.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.97.1(esbuild@0.24.2))
+        version: 9.1.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.97.1(esbuild@0.24.2))
       '@sentry/react-native':
         specifier: 'catalog:'
         version: 6.7.0(expo@52.0.35(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@expo/metro-runtime@4.0.1(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native-webview@13.13.2(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -1013,7 +1016,7 @@ importers:
         version: 2.3.0
       next:
         specifier: 'catalog:'
-        version: 15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-axiom:
         specifier: 'catalog:'
         version: 1.9.1(next@15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
@@ -4355,6 +4358,11 @@ packages:
 
   '@one-ini/wasm@0.1.1':
     resolution: {integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==}
+
+  '@openstatus/react@0.0.3':
+    resolution: {integrity: sha512-uDiegz7e3H67pG8lTT+op+6w5keTT7XpcENrREaqlWl5j53TYyO8nheOG1PeNw2/Qgd5KaGeRJJFn1crhTUSYw==}
+    peerDependencies:
+      react: ^18.0.0
 
   '@opentelemetry/api-logs@0.53.0':
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
@@ -17763,6 +17771,10 @@ snapshots:
 
   '@one-ini/wasm@0.1.1': {}
 
+  '@openstatus/react@0.0.3(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+
   '@opentelemetry/api-logs@0.53.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -19614,7 +19626,7 @@ snapshots:
 
   '@sentry/core@9.1.0': {}
 
-  '@sentry/nextjs@9.1.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.97.1(esbuild@0.24.2))':
+  '@sentry/nextjs@9.1.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.97.1(esbuild@0.24.2))':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.29.0
@@ -19627,7 +19639,7 @@ snapshots:
       '@sentry/vercel-edge': 9.1.0
       '@sentry/webpack-plugin': 3.1.2(webpack@5.97.1(esbuild@0.24.2))
       chalk: 3.0.0
-      next: 15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next: 15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       resolve: 1.22.8
       rollup: 3.29.5
       stacktrace-parser: 0.1.10

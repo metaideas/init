@@ -9,10 +9,9 @@
     "./error/*": "./src/error/*.ts",
     "./error/nextjs": "./src/error/nextjs/index.ts",
     "./error/nextjs/*": "./src/error/nextjs/*.ts",
-    "./instrumentation": "./src/instrumentation/index.ts",
-    "./instrumentation/*": "./src/instrumentation/*.ts",
     "./logger": "./src/logger/index.ts",
-    "./logger/*": "./src/logger/*.ts"
+    "./logger/*": "./src/logger/*.ts",
+    "./uptime": "./src/uptime.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -22,6 +21,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@openstatus/react": "^0.0.3",
     "@sentry/browser": "9.1.0",
     "@sentry/cloudflare": "9.1.0",
     "@sentry/nextjs": "9.1.0",
