@@ -1,21 +1,22 @@
+import env from "@this/env/analytics/nextjs"
 import { usePathname, useSearchParams } from "next/navigation"
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import { type ComponentProps, useEffect, useRef } from "react"
 
-import env from "@this/env/analytics.web"
+import { config } from "../config"
 
 export function AnalyticsProvider(
-  props: Pick<ComponentProps<typeof PostHogProvider>, "children">
+  props: Omit<ComponentProps<typeof PostHogProvider>, "apiKey" | "client">
 ) {
   return (
     <PostHogProvider
       {...props}
       apiKey={env.NEXT_PUBLIC_POSTHOG_API_KEY}
       options={{
-        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
-        person_profiles: "identified_only",
-        capture_pageview: false,
-        capture_pageleave: true,
+        ...config,
+        ui_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+        api_host: "/ingest",
+        ...props.options,
       }}
     />
   )
@@ -58,7 +59,7 @@ export function IdentifyUser({
   const posthog = usePostHog()
 
   useEffect(() => {
-    posthog.identify(user.id.toString(), {
+    posthog.identify(user.id, {
       email: user.email,
     })
   }, [posthog, user.id, user.email])

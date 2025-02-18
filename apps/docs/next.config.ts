@@ -2,6 +2,7 @@ import bundleAnalyzer from "@next/bundle-analyzer"
 import { createMDX } from "fumadocs-mdx/next"
 import type { NextConfig } from "next"
 
+import { withAnalytics } from "@this/analytics/posthog/nextjs"
 import { withErrorMonitoring } from "@this/observability/error/nextjs"
 import { withLogging } from "@this/observability/logger/nextjs"
 
@@ -20,13 +21,9 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: appEnv.ANALYZE,
 })
 
-let nextConfig: NextConfig = {
-  // eslint-disable-next-line @typescript-eslint/require-await -- Rewrite requires an async function
-  rewrites: async () => [...rewrites],
+let nextConfig: NextConfig = {}
 
-  transpilePackages: ["@this/env", "@this/observability"],
-}
-
+nextConfig = withAnalytics(nextConfig)
 nextConfig = withBundleAnalyzer(nextConfig)
 nextConfig = withErrorMonitoring(nextConfig)
 nextConfig = withLogging(nextConfig)

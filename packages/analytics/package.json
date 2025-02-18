@@ -5,11 +5,11 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./plausible": "./src/plausible.ts",
+    "./plausible/nextjs": "./src/plausible/nextjs.ts",
     "./posthog/client": "./src/posthog/client.ts",
-    "./posthog/nextjs": "./src/posthog/nextjs.tsx",
+    "./posthog/nextjs": "./src/posthog/nextjs/index.ts",
+    "./posthog/nextjs/*": "./src/posthog/nextjs/*.ts",
     "./posthog/expo": "./src/posthog/expo.tsx",
-    "./posthog/rewrites": "./src/posthog/rewrites.ts",
     "./posthog/server": "./src/posthog/server.ts"
   },
   "scripts": {

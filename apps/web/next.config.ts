@@ -3,6 +3,7 @@ import bundleAnalyzer from "@next/bundle-analyzer"
 import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 
+import { withAnalytics } from "@this/analytics/posthog/nextjs"
 import { withErrorMonitoring } from "@this/observability/error/nextjs"
 import { withLogging } from "@this/observability/logger/nextjs"
 
@@ -10,8 +11,6 @@ import dbServer from "@this/env/db.server"
 import { ensureEnv } from "@this/env/helpers"
 import kvServer from "@this/env/kv.server"
 import queueServer from "@this/env/queue.server"
-import { withInstrumentation } from "@this/observability/instrumentation/nextjs"
-import { withLogger } from "@this/observability/logger/nextjs"
 
 import appEnv from "~/shared/env"
 
@@ -28,10 +27,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const withIntl = createNextIntlPlugin("./src/shared/i18n/request.ts")
 
-let nextConfig: NextConfig = {
-  rewrites: async () => [...rewrites],
-}
+let nextConfig: NextConfig = {}
 
+nextConfig = withAnalytics(nextConfig)
 nextConfig = withBundleAnalyzer(nextConfig)
 nextConfig = withErrorMonitoring(nextConfig)
 nextConfig = withLogging(nextConfig)
