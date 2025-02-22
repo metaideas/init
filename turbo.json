@@ -10,6 +10,7 @@
     "BETTER_AUTH_URL",
 
     "DATABASE_URL",
+    "DATABASE_AUTH_TOKEN",
 
     "EMAIL_FROM",
 
