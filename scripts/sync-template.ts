@@ -93,31 +93,22 @@ async function main() {
       `Found ${filesToUpdate.length} updates and ${newFiles.length} new files`
     )
 
-    // Copy changes
-    if (filesToUpdate.length > 0 || newFiles.length > 0) {
-      s.start("Applying template changes")
-      await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
-      s.stop("Changes applied")
-
-      // Stage changes and set commit message
-      await executeCommand("git add .")
-
-      // Write commit message to Git's internal file
-      const commitMessage = "chore: sync with template repository"
-      await executeCommand(
-        "git config --local commit.template .git/COMMIT_EDITMSG"
-      )
-      await executeCommand(`echo "${commitMessage}" > .git/COMMIT_EDITMSG`)
-
-      log.success("Changes staged with suggested commit message")
-      log.message("Open VS Code and check the Source Control view")
-      log.message("The commit message will appear in the input box")
-    } else {
+    if (filesToUpdate.length === 0 && newFiles.length === 0) {
       log.info("No changes to apply - already up to date")
+      return
     }
 
+    // Copy changes
+    s.start("Applying template changes")
+    await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
+    s.stop("Changes applied")
+
+    // Stage changes and set commit message
+    await executeCommand("git add .")
+
+    log.success("Changes staged")
     log.message(
-      "Template sync completed. Review and commit in VS Code when ready."
+      "Template sync completed. Please review the changes and commit them to your repository."
     )
   } catch (error) {
     s.stop("Sync failed")
