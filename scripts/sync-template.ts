@@ -5,7 +5,7 @@ import { cancel, log, spinner } from "@clack/prompts"
 import { executeCommand, runScript } from "../tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
-const REMOTE_URL = "git@github.com:adelrodriguez/init.git"
+const REMOTE_URL = "git@github.com:metaideas/init.git"
 
 async function cloneTemplate() {
   await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1`)

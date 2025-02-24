@@ -172,7 +172,7 @@ async function main() {
       "gen",
       "workspace",
       "--copy",
-      `https://github.com/adelrodriguez/init/tree/main/${workspaceType}s/${workspace}`,
+      `https://github.com/metaideas/init/tree/main/${workspaceType}s/${workspace}`,
       "--type",
       workspaceType,
       "--name",

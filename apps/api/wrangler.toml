@@ -29,7 +29,7 @@ NODE_ENV = "development"
 EMAIL_FROM = "test@mail.startline.dev"
 
 [env.production.vars]
-BETTER_AUTH_URL = "https://api.adelrodriguez.workers.dev"
+BETTER_AUTH_URL = "https://api.metaideas.workers.dev"
 BETTER_AUTH_BASE_PATH = "/auth"
 NODE_ENV = "production"
 EMAIL_FROM = "test@mail.startline.dev"
