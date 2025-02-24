@@ -1,13 +1,24 @@
 # Project structure
 
+The project is divided into the following folders:
+
+- `apps` - Cross-platform applications and user-facing products.
+- `infra` - Infrastructure as code for local development and cloud providers.
+- `packages` - Shared internal packages for use across apps.
+- `scripts` - Scripts for random tasks, such as syncing the project with the template and graphing dependencies.
+- `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
+
+## General monorepo structure
+
 ```sh
 root
   ├── apps                # Cross-platform applications
   │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
-  │   ├── web               # Next.js web application with content collections for marketing pages
-  │   ├── mobile            # Expo mobile application
   │   ├── desktop           # Tauri desktop application
-  │   └── extensions        # WXT browser extensions
+  │   ├── docs              # Documentation site
+  │   ├── extensions        # WXT browser extension
+  │   ├── mobile            # Expo mobile application
+  │   └── web               # Next.js web application with content collections for marketing pages
   │
   ├── infra               # Infrastructure as code for cloud providers
   │   └── local             # Docker Compose configuration for local development
@@ -29,11 +40,11 @@ root
   │   ├── ui                # Reusable UI components and design system using Shadcn/UI
   │   └── utils             # Shared helpers and constants for packages and apps
   │
+  ├── scripts             # Scripts for random tasks
+  │
   ├── tooling             # Shared development and build tools
   │   ├── tsconfig          # TypeScript configuration
   │   └── helpers           # Common utility functions for tooling and scripts
-  │
-  ├── scripts             # Scripts for random tasks
   │
   └── turbo               # Turborepo configuration for monorepo management
       └── generators        # Code generators for packages and tooling
@@ -275,3 +286,21 @@ apps/docs
   │
   └── content/                # Documentation content in MDX format
 ```
+
+## Package structure
+
+Packages don't have an strict structure. A general guideline is that all runtime code should be in the `src` folder, while scripts should be in the `scripts` folder.
+
+```sh
+packages/package-name
+  ├── src/                    # Source code
+  └── scripts/                # Scripts
+```
+
+You can create a new package using the following command:
+
+```sh
+pnpm generate
+```
+
+And then selecting the `internal-package` option.

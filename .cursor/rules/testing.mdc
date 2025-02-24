@@ -1,11 +1,8 @@
 ---
 description: Instructions for adding unit tests
-globs: *.tsx, *.test.tsx
+globs: /**/*.test.(ts|tsx)
+alwaysApply: false
 ---
-# Instructions for testing
-
-## Key Principles
-
 - We are using Vitest for testing. Follow Vitest best practices.
 - Add your tests to the `__tests__` folder, which should be in the same directory as the file you are testing.
 - Import the necessary testing dependencies from "vitest".

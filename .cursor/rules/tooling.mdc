@@ -1,16 +1,12 @@
 ---
 description: Instructions on developing tooling and scripts
-globs: scripts/*.ts, apps/**/scripts/*.ts, packages/**/scripts/*.ts
+globs: {scripts/*.ts,apps/**/scripts/*.ts,packages/**/scripts/*.ts,!(node_modules)/**/scripts/*.ts}
+alwaysApply: false
 ---
-# Developing Tooling and Scripts
-
 - For all scripts, use the tooling inside [index.ts](mdc:tooling/helpers/index.ts).
 - All Node.js packages should be imported using the `node:` prefix.
 - Project wide scripts go inside the root `scripts` folder, and should have a command added in `package.json`. Follow existing conventions in naming the command.
 - Workspace specific scripts should go inside their respective `scripts` directory.
-
-## Scripts
-
 - For scripts, use the `runScript` function inside [index.ts](mdc:tooling/helpers/index.ts).
 - Use the `@clack/prompts` package for logging and managing CLI input.
 - Do not use the `intro` and `outro` from `@clack/prompts`, since the `runScript` already contains them.

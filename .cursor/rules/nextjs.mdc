@@ -1,0 +1,16 @@
+---
+description: Best practices for Next.js projects using App Router
+globs: apps/(docs|web)/src/**/*.(ts|tsx)
+alwaysApply: false
+---
+- Prioritize using server components (RSC) for performance, SEO, and data fetching.
+- Use server actions for data mutations.
+- Use client components sparingly, only when interactivity is required. 
+- Never make a `page.tsx` have a client directive ("use client"). Create a component inside `features` instead.
+- Take advantage of Next.js file-based routing system for simplicity.
+- Centralize shared layouts in `layout.tsx` for consistency across pages.
+- Add `loading.tsx` to handle loading states for better UX. For nested content that needs to be fetched, use `Suspense` boundaries.
+- Implement custom error pages with `error.tsx` to handle errors gracefully.
+- Use API route handlers to manage backend logic within the app structure.
+- Optimize server-side rendering (SSR) and static site generation (SSG) for faster loading times.
+- Use `nuqs` package for URL search parameter state management.

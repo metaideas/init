@@ -112,3 +112,7 @@ pnpm <command> --filter <workspace>
 - `pnpm deps:mismatch` - List version mismatches across the monorepo
 - `pnpm deps:sync` - Fix version mismatches automatically
 - `pnpm deps:graph` - Generate a dependency graph visualization
+
+## Documentation
+
+- [Project Structure](./.docs/project-structure.md)
