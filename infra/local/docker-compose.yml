@@ -23,7 +23,7 @@ services:
     image: ghcr.io/tursodatabase/libsql-server:latest
     platform: linux/amd64
     ports:
-      - "5432:8080"
+      - "8080:8080"
       - "5000:5001"
     volumes:
       - ./.data/libsql:/var/lib/sqld
