@@ -1,6 +1,6 @@
 "use client"
 
-import { MoonIcon, SunIcon } from "lucide-react"
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import {
   ThemeProvider as NextThemeProvider,
   type ThemeProviderProps as NextThemeProviderProps,

@@ -1,5 +1,5 @@
+import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Slot } from "@radix-ui/react-slot"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
 import * as React from "react"
 
 import { cn } from "@this/utils/classname"
@@ -66,6 +66,7 @@ const BreadcrumbPage = React.forwardRef<
     role="link"
     aria-disabled="true"
     aria-current="page"
+    tabIndex={0}
     className={cn("font-normal text-foreground", className)}
     {...props}
   />
@@ -83,7 +84,7 @@ const BreadcrumbSeparator = ({
     className={cn("[&>svg]:h-3.5 [&>svg]:w-3.5", className)}
     {...props}
   >
-    {children ?? <ChevronRight />}
+    {children ?? <ChevronRightIcon />}
   </li>
 )
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
@@ -98,7 +99,7 @@ const BreadcrumbEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <MoreHorizontal className="h-4 w-4" />
+    <DotsHorizontalIcon className="h-4 w-4" />
     <span className="sr-only">More</span>
   </span>
 )
