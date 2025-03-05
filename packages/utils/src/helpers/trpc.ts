@@ -27,8 +27,8 @@ export function createTRPCClients<T extends AnyTRPCRouter>(url: string) {
   ]
 
   return {
-    reactClient: createTRPCReact<T>(),
-    vanillaClient: createTRPCClient<T>({ links }),
+    trpcReact: createTRPCReact<T>(),
     links,
+    trpcVanilla: createTRPCClient<T>({ links }),
   }
 }

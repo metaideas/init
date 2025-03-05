@@ -51,6 +51,9 @@ catalogs:
     lucide-react:
       specifier: 0.475.0
       version: 0.475.0
+    nativewind:
+      specifier: 4.1.23
+      version: 4.1.23
     next:
       specifier: 15.1.7
       version: 15.1.7
@@ -1028,10 +1031,10 @@ importers:
     devDependencies:
       '@tailwindcss/aspect-ratio':
         specifier: 0.4.2
-        version: 0.4.2
+        version: 0.4.2(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))
       '@tailwindcss/typography':
         specifier: 0.5.16
-        version: 0.5.16
+        version: 0.5.16(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -1043,7 +1046,7 @@ importers:
         version: 18.3.5(@types/react@18.3.18)
       tailwindcss-animate:
         specifier: 'catalog:'
-        version: 1.0.7(tailwindcss@4.0.6)
+        version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -1395,6 +1398,9 @@ importers:
       nanoid:
         specifier: 5.1.0
         version: 5.1.0
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
       schema-dts:
         specifier: 1.1.2
         version: 1.1.2(typescript@5.7.3)
@@ -1420,6 +1426,9 @@ importers:
       '@types/lodash.merge':
         specifier: 4.6.9
         version: 4.6.9
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.18
       next:
         specifier: 'catalog:'
         version: 15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3752,7 +3761,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {node: '>=0.10.0'}
+    engines: {'0': node >=0.10.0}
 
   '@expo/cli@0.22.16':
     resolution: {integrity: sha512-a8Ulbnji9kFatnOtsWGCRs6nMUj9UNC0/WhE74HQdXGDGMn5Pl8eNe3cLMy9G54DdqAmEZmRZpgXmcudT78fEQ==}
@@ -11029,7 +11038,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lie@3.3.0:
@@ -21001,7 +21009,9 @@ snapshots:
       typescript: 5.7.3
       zod: 3.24.2
 
-  '@tailwindcss/aspect-ratio@0.4.2': {}
+  '@tailwindcss/aspect-ratio@0.4.2(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))':
+    dependencies:
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3))
 
   '@tailwindcss/node@4.0.6':
     dependencies:
@@ -21065,12 +21075,13 @@ snapshots:
       postcss: 8.5.2
       tailwindcss: 4.0.6
 
-  '@tailwindcss/typography@0.5.16':
+  '@tailwindcss/typography@0.5.16(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3))
 
   '@tailwindcss/vite@4.0.6(vite@6.1.0(@types/node@22.13.4)(jiti@1.21.7)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))':
     dependencies:
@@ -29815,6 +29826,10 @@ snapshots:
   tailwind-merge@2.6.0: {}
 
   tailwind-merge@3.0.1: {}
+
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3))):
+    dependencies:
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3))
 
   tailwindcss-animate@1.0.7(tailwindcss@4.0.6):
     dependencies:

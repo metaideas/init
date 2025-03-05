@@ -1,11 +1,19 @@
 import type { TRPCClient } from "api/client"
+import { useState } from "react"
 
 import { createTRPCClients } from "@this/utils/trpc"
 
 import { buildApiUrl } from "~/shared/utils"
 
 export const {
-  reactClient: trpc,
-  vanillaClient: client,
+  trpcReact: trpc,
+  trpcVanilla: client,
   links,
 } = createTRPCClients<TRPCClient>(buildApiUrl("/trpc"))
+
+export function useTRPCClient() {
+  const [client] = useState(() => trpc.createClient({ links }))
+  return client
+}
+
+export const TRPCProvider = trpc.Provider

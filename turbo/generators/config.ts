@@ -388,4 +388,22 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
     ],
   })
+
+  plop.setGenerator("trpc-client", {
+    description: "Generate a new tRPC client setup for an app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app to add the tRPC client to?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/shared/trpc.ts",
+        templateFile: "templates/apps/trpc-client/trpc.ts.hbs",
+      },
+    ],
+  })
 }
