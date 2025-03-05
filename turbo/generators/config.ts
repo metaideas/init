@@ -406,4 +406,22 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
     ],
   })
+
+  plop.setGenerator("hono-client", {
+    description: "Generate a new Hono client setup for an app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app to add the Hono client to?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/shared/api.ts",
+        templateFile: "templates/apps/hono-client/api.ts.hbs",
+      },
+    ],
+  })
 }

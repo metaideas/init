@@ -44,7 +44,6 @@
     "expo-symbols": "~0.2.2",
     "expo-system-ui": "~4.0.8",
     "expo-web-browser": "~14.0.2",
-    "hono": "catalog:",
     "nativewind": "4.1.23",
     "react": "catalog:",
     "react-dom": "catalog:",

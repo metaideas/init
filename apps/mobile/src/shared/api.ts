@@ -1,6 +1,7 @@
 import type { AppClient } from "api/client"
-import { hc } from "hono/client"
 
-import env from "~/shared/env"
+import { createClient } from "@this/utils/hono"
 
-export const client = hc<AppClient>(env.EXPO_PUBLIC_API_URL)
+import { buildApiUrl } from "~/shared/utils"
+
+export const api = createClient<AppClient>(buildApiUrl("/"))

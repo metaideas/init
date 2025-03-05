@@ -23,7 +23,6 @@
     "@this/env": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
-    "hono": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
