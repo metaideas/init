@@ -213,6 +213,121 @@ importers:
         specifier: 3.109.1
         version: 3.109.1(@cloudflare/workers-types@4.20250214.0)
 
+  apps/app:
+    dependencies:
+      '@content-collections/mdx':
+        specifier: 0.2.0
+        version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@hookform/resolvers':
+        specifier: 'catalog:'
+        version: 4.1.0(react-hook-form@7.54.2(react@18.3.1))
+      '@next-safe-action/adapter-react-hook-form':
+        specifier: 1.0.13
+        version: 1.0.13(@hookform/resolvers@4.1.0(react-hook-form@7.54.2(react@18.3.1)))(next-safe-action@7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)
+      '@next/bundle-analyzer':
+        specifier: 'catalog:'
+        version: 15.1.7
+      '@this/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@this/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@this/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@this/email':
+        specifier: workspace:*
+        version: link:../../packages/email
+      '@this/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@this/kv':
+        specifier: workspace:*
+        version: link:../../packages/kv
+      '@this/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
+      '@this/queue':
+        specifier: workspace:*
+        version: link:../../packages/queue
+      '@this/security':
+        specifier: workspace:*
+        version: link:../../packages/security
+      '@this/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@this/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      '@vercel/functions':
+        specifier: 'catalog:'
+        version: 2.0.0
+      api:
+        specifier: workspace:*
+        version: link:../api
+      client-only:
+        specifier: 0.0.1
+        version: 0.0.1
+      lucide-react:
+        specifier: 'catalog:'
+        version: 0.475.0(react@18.3.1)
+      next:
+        specifier: 'catalog:'
+        version: 15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next-axiom:
+        specifier: 'catalog:'
+        version: 1.9.1(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      next-intl:
+        specifier: 3.26.3
+        version: 3.26.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      next-safe-action:
+        specifier: 7.10.3
+        version: 7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2)
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 18.3.1(react@18.3.1)
+      react-hook-form:
+        specifier: 'catalog:'
+        version: 7.54.2(react@18.3.1)
+      server-only:
+        specifier: 'catalog:'
+        version: 0.0.1
+    devDependencies:
+      '@content-collections/cli':
+        specifier: 0.1.6
+        version: 0.1.6(@content-collections/core@0.8.0(typescript@5.7.3))
+      '@content-collections/core':
+        specifier: 0.8.0
+        version: 0.8.0(typescript@5.7.3)
+      '@content-collections/next':
+        specifier: 0.2.4
+        version: 0.2.4(@content-collections/core@0.8.0(typescript@5.7.3))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@tailwindcss/postcss':
+        specifier: 'catalog:'
+        version: 4.0.6
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/tsconfig
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.4
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 18.3.5(@types/react@18.3.18)
+      tailwindcss:
+        specifier: catalog:tailwind4
+        version: 4.0.6
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
+
   apps/desktop:
     dependencies:
       '@tanstack/react-query':
@@ -479,9 +594,6 @@ importers:
       expo-web-browser:
         specifier: ~14.0.2
         version: 14.0.2(expo@52.0.35(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@expo/metro-runtime@4.0.1(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native-webview@13.13.2(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))
-      hono:
-        specifier: 'catalog:'
-        version: 4.7.1
       nativewind:
         specifier: 4.1.23
         version: 4.1.23(react-native-reanimated@3.16.7(@babel/core@7.26.9)(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-safe-area-context@5.2.0(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-svg@15.11.1(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.9)(@babel/preset-env@7.26.8(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3)))

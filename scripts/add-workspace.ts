@@ -11,28 +11,32 @@ import { runProcess, runScript } from "../tooling/helpers"
 
 const APPS = [
   {
-    value: "web",
-    label: "web - Next.js application deployed on Vercel",
-  },
-  {
     value: "api",
     label: "api - Hono API deployed on Cloudflare Workers",
   },
   {
-    value: "mobile",
-    label: "mobile - Expo application deployed with EAS",
+    value: "app",
+    label: "app - Next.js application deployed on Vercel",
   },
   {
     value: "desktop",
     label: "desktop - Tauri desktop application with Vite and Tanstack Router",
   },
   {
+    value: "docs",
+    label: "docs - Documentation site using Fumadocs",
+  },
+  {
     value: "extension",
     label: "extension - Browser extension using WXT",
   },
   {
-    value: "docs",
-    label: "docs - Documentation site using Fumadocs",
+    value: "mobile",
+    label: "mobile - Expo application deployed with EAS",
+  },
+  {
+    value: "web",
+    label: "web - Next.js marketing site and blog deployed on Vercel",
   },
 ]
 

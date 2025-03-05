@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,21 +7,25 @@
     "build": "next build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .next dist node_modules",
-    "dev": "next dev --turbo --port 3006",
+    "dev": "next dev --turbo",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "prebuild": "content-collections build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@content-collections/mdx": "0.2.0",
     "@hookform/resolvers": "catalog:",
     "@next-safe-action/adapter-react-hook-form": "1.0.13",
     "@next/bundle-analyzer": "catalog:",
     "@this/analytics": "workspace:*",
+    "@this/auth": "workspace:*",
+    "@this/db": "workspace:*",
+    "@this/email": "workspace:*",
     "@this/env": "workspace:*",
+    "@this/kv": "workspace:*",
     "@this/observability": "workspace:*",
+    "@this/queue": "workspace:*",
+    "@this/security": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
     "@vercel/functions": "catalog:",
@@ -37,14 +41,12 @@
     "server-only": "catalog:"
   },
   "devDependencies": {
-    "@content-collections/cli": "0.1.6",
-    "@content-collections/core": "0.8.0",
-    "@content-collections/next": "0.2.4",
     "@tailwindcss/postcss": "catalog:",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "api": "workspace:*",
     "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }

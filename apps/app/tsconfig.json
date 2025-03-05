@@ -1,0 +1,20 @@
+{
+  "extends": "@tooling/tsconfig/web",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"],
+      "content-collections": ["./.content-collections/generated"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": [
+    ".next/types/**/*.ts",
+    "global.d.ts",
+    "next-env.d.ts",
+    "next.config.ts",
+    "scripts",
+    "src"
+  ]
+}

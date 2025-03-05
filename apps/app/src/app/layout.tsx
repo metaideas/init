@@ -11,7 +11,7 @@ import "~/shared/assets/styles/tailwind.css"
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 export const metadata: Metadata = {
-  description: "A marketing site for the Init project",
+  description: "A web app for the Init project",
   title: "Init Web",
 }
 
@@ -22,6 +22,7 @@ export default async function RootLayout({
   children: ReactNode
   params: Promise<{ locale: string }>
 }>) {
+  // TODO(adelrodriguez): Replace this with getting the locale from the cookie
   const { locale } = await params
 
   return (

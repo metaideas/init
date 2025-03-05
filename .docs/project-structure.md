@@ -13,12 +13,13 @@ The project is divided into the following folders:
 ```sh
 root
   ├── apps                # Cross-platform applications
+  │   ├── app               # Next.js web application
   │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
   │   ├── desktop           # Tauri desktop application
   │   ├── docs              # Documentation site
   │   ├── extensions        # WXT browser extension
   │   ├── mobile            # Expo mobile application
-  │   └── web               # Next.js web application with content collections for marketing pages
+  │   └── web               # Next.js marketing site with content collections for blog and other static pages
   │
   ├── infra               # Infrastructure as code for cloud providers
   │   └── local             # Docker Compose configuration for local development
@@ -65,14 +66,17 @@ We follow a unidirectional import flow between these three folders. The code onl
 
 Feature folders are also vertical slices of the app and do not have any dependencies between them. This keeps the code organized and easier to understand. If you find yourself needing to import something from a different feature, you should first consider if it can be moved to the `shared` folder.
 
-### Web
+### App
 
-The web app is a Next.js application with content collections for marketing pages.
+This is a web application using Next.js.
 
 ```sh
-apps/web
+apps/app
   ├── src/                    # Source code
   │   ├── app/                  # App router for Next.js
+  │   │   ├── (unauthenticated)/ # Unauthenticated routes (sign in, sign up, etc.)
+  │   │   ├── (authenticated)/   # Authenticated routes (dashboard, settings, etc.)
+  │   │   └── api/               # API routes
   │   │
   │   ├── shared/               # Shared utilities and helpers
   │   │   ├── assets/               # Static assets shared across the app (images, icons, etc.)
@@ -285,6 +289,39 @@ apps/docs
   │   └── instrumentation.ts    # Monitoring and analytics instrumentation
   │
   └── content/                # Documentation content in MDX format
+```
+
+### Web
+
+Similar to the app, but focusing on static content like marketing pages. This leads to have a simpler structure, as it doesn't need to support authentication or server actions.
+
+It uses content collections to manage the blog and other static pages, and has i18n support through routing.
+
+```sh
+apps/web
+  ├── src/                    # Source code
+  │   ├── app/                  # App router for Next.js
+  │   │   └── [locale]/          # Localized routes
+  │   │
+  │   ├── shared/               # Shared utilities and helpers
+  │   │   ├── assets/               # Static assets shared across the app (images, icons, etc.)
+  │   │   ├── components/         # Reusable components
+  │   │   ├── hooks/              # Custom React hooks
+  │   │   ├── i18n/               # Internationalization setup
+  │   │   ├── middlewares/        # Global middleware to be imported into middleware.ts
+  │   │   ├── stores/             # Global state management stores
+  │   │   ├── env.ts              # Environment variable configuration
+  │   │   ├── constants.ts        # Constant values and enums
+  │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
+  │   │   ├── types.ts            # TypeScript type definitions
+  │   │   ├── utils.ts            # General utility functions
+  │   │   └── validation.ts       # Form and data validation schemas
+  │   │
+  │   ├── middleware.ts         # Next.js middleware for request/response modification
+  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
+  │
+  ├── translations              # Internationalization translation files
+  └── global.d.ts               # Global TypeScript declarations
 ```
 
 ## Package structure
