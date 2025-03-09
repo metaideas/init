@@ -1,69 +1,81 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
+import { useAction } from "next-safe-action/hooks"
 import Link from "next/link"
 
 import { Button } from "@this/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormSubmit,
-} from "@this/ui/form"
-import { Input } from "@this/ui/input"
+import { useAppForm } from "@this/ui/form"
+import { toast } from "@this/ui/sonner"
 
 import { signInWithPassword } from "~/features/auth/actions"
-import { SignInWithPasswordSchema } from "~/features/auth/validation"
+import { SignInWithPasswordFormSchema } from "~/features/auth/validation"
 
 export default function SignInWithPasswordForm() {
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    signInWithPassword,
-    zodResolver(SignInWithPasswordSchema),
-    { formProps: { defaultValues: { email: "", password: "" } } }
-  )
+  const action = useAction(signInWithPassword)
+  const form = useAppForm({
+    defaultValues: { email: "", password: "" },
+    validators: {
+      onSubmit: SignInWithPasswordFormSchema,
+    },
+    onSubmit: async ({ value: { email, password } }) => {
+      const result = await action.executeAsync({ email, password })
+
+      result?.validationErrors?._errors?.map(error => {
+        toast.error(error)
+      })
+    },
+  })
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmitWithAction} className="space-y-4">
-        <FormField
-          control={form.control}
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
+      className="space-y-4"
+    >
+      <form.AppForm>
+        <form.AppField
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email address</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" autoComplete="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          validators={{
+            onBlur: SignInWithPasswordFormSchema.shape.email,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Email address</field.Label>
+              <field.Control>
+                <field.Input type="email" autoComplete="email" />
+              </field.Control>
+
+              <field.Message />
+            </field.Item>
           )}
-        />
-        <FormField
-          control={form.control}
+        </form.AppField>
+        <form.AppField
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="password" />
-              </FormControl>
+          validators={{
+            onBlur: SignInWithPasswordFormSchema.shape.password,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Password</field.Label>
+              <field.Control>
+                <field.Input type="password" />
+              </field.Control>
+              <field.Message />
               <Button variant="link" asChild className="p-0">
-                <Link href="/sign-in/reset-password" className="h-auto">
-                  Forgot password?
-                </Link>
+                <Link href="/sign-in/reset-password">Forgot password?</Link>
               </Button>
-              <FormMessage />
-            </FormItem>
+            </field.Item>
           )}
-        />
-        <FormSubmit className="w-full" submittingMessage="Signing in...">
+        </form.AppField>
+        <form.SubmitButton className="w-full" loadingText="Signing in...">
           Sign in
-        </FormSubmit>
-      </form>
-    </Form>
+        </form.SubmitButton>
+      </form.AppForm>
+    </form>
   )
 }

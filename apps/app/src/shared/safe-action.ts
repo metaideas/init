@@ -10,7 +10,6 @@ import { captureException } from "@this/observability/error/nextjs"
 import { logger } from "@this/observability/logger"
 
 import * as z from "@this/utils/schema"
-
 import { geolocation, ipAddress } from "@vercel/functions"
 import { headers } from "next/headers"
 import { validateRequest } from "~/shared/auth/server"
@@ -49,20 +48,28 @@ export const actionClient = createSafeActionClient({
       geolocation({ headers: headersList }),
     ])
 
+    const actionContext = {
+      metadata,
+      durationMs,
+      ip,
+      ...geo,
+    }
+
     if (result.success) {
       logger.info(
-        {
-          metadata,
-          durationMs,
-          ip,
-          requestId,
-          ...geo,
-        },
+        { ...actionContext },
         `Action "${metadata.name}" succeeded in ${durationMs}ms`
       )
     } else {
       logger.error(
-        { metadata, durationMs, ip, ...geo },
+        {
+          ...actionContext,
+          errors: {
+            server: result.serverError,
+            validation: result.validationErrors,
+            bindArgsValidation: result.bindArgsValidationErrors,
+          },
+        },
         `Action "${metadata.name}" failed in ${durationMs}ms`
       )
     }

@@ -1,103 +1,129 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
+import { useAction } from "next-safe-action/hooks"
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormSubmit,
-} from "@this/ui/form"
-import { Input } from "@this/ui/input"
+import { useAppForm } from "@this/ui/form"
 import { toast } from "@this/ui/sonner"
 
 import { signUp } from "~/features/auth/actions"
-import { SignUpSchema } from "~/features/auth/validation"
+import { SignUpFormSchema } from "~/features/auth/validation"
 
 export default function SignUpForm() {
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    signUp,
-    zodResolver(SignUpSchema),
-    {
-      actionProps: {
-        onError({ error }) {
-          toast.error(error.serverError)
-        },
+  const action = useAction(signUp)
+  const form = useAppForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validators: {
+      onBlur: ({ value }) => {
+        if (
+          value.password &&
+          value.confirmPassword &&
+          value.password !== value.confirmPassword
+        ) {
+          return {
+            fields: {
+              confirmPassword: { message: "Passwords don't match" },
+            },
+          }
+        }
+
+        return null
       },
-      formProps: {
-        defaultValues: {
-          confirmPassword: "",
-          email: "",
-          name: "",
-          password: "",
-        },
-      },
-    }
-  )
+      onSubmit: SignUpFormSchema,
+    },
+    onSubmit: async ({ value }) => {
+      const result = await action.executeAsync(value)
+
+      result?.validationErrors?._errors?.map(error => {
+        toast.error(error)
+      })
+
+      result?.serverError && toast.error(result.serverError)
+    },
+  })
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmitWithAction} className="space-y-4">
-        <FormField
-          control={form.control}
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
+      className="space-y-4"
+    >
+      <form.AppForm>
+        <form.AppField
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input {...field} type="text" autoComplete="name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          validators={{
+            onBlur: SignUpFormSchema._def.schema.shape.name,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Name</field.Label>
+              <field.Control>
+                <field.Input type="text" autoComplete="name" />
+              </field.Control>
+              <field.Message />
+            </field.Item>
           )}
-        />
-        <FormField
-          control={form.control}
+        </form.AppField>
+        <form.AppField
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email address</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" autoComplete="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          validators={{
+            onBlur: SignUpFormSchema._def.schema.shape.email,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Email address</field.Label>
+              <field.Control>
+                <field.Input type="email" autoComplete="email" />
+              </field.Control>
+              <field.Message />
+            </field.Item>
           )}
-        />
-        <FormField
-          control={form.control}
+        </form.AppField>
+        <form.AppField
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          validators={{
+            onBlur: SignUpFormSchema._def.schema.shape.password,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Password</field.Label>
+              <field.Control>
+                <field.Input type="password" autoComplete="new-password" />
+              </field.Control>
+              <field.Message />
+            </field.Item>
           )}
-        />
-        <FormField
-          control={form.control}
+        </form.AppField>
+        <form.AppField
           name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          validators={{
+            onBlur: SignUpFormSchema._def.schema.shape.confirmPassword,
+          }}
+        >
+          {field => (
+            <field.Item>
+              <field.Label>Confirm Password</field.Label>
+              <field.Control>
+                <field.Input type="password" autoComplete="new-password" />
+              </field.Control>
+              <field.Message />
+            </field.Item>
           )}
-        />
-        <FormSubmit className="w-full" submittingMessage="Signing up...">
+        </form.AppField>
+        <form.SubmitButton className="w-full" loadingText="Signing up...">
           Sign Up
-        </FormSubmit>
-      </form>
-    </Form>
+        </form.SubmitButton>
+      </form.AppForm>
+    </form>
   )
 }

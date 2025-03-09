@@ -1,10 +1,10 @@
-import { PasswordSchema, matchPasswords } from "@this/auth/schema"
+import { EmailSchema, PasswordSchema, matchPasswords } from "@this/auth/schema"
 import * as z from "@this/utils/schema"
 
-export const SignUpSchema = z
+export const SignUpFormSchema = z
   .object({
     confirmPassword: PasswordSchema,
-    email: z.string().email(),
+    email: EmailSchema,
     name: z.string().min(1),
     password: PasswordSchema,
   })
@@ -12,10 +12,12 @@ export const SignUpSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   })
-export type SignUpData = z.infer<typeof SignUpSchema>
+export type SignUpFormData = z.infer<typeof SignUpFormSchema>
 
-export const SignInWithPasswordSchema = z.object({
+export const SignInWithPasswordFormSchema = z.object({
   email: z.string().email(),
   password: PasswordSchema,
 })
-export type SignInWithPasswordData = z.infer<typeof SignInWithPasswordSchema>
+export type SignInWithPasswordFormData = z.infer<
+  typeof SignInWithPasswordFormSchema
+>

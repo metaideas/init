@@ -6,8 +6,8 @@ import { redirect } from "next/navigation"
 import { auth } from "@this/auth/server"
 
 import {
-  SignInWithPasswordSchema,
-  SignUpSchema,
+  SignInWithPasswordFormSchema,
+  SignUpFormSchema,
 } from "~/features/auth/validation"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
@@ -15,7 +15,7 @@ import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
 export const signUp = actionClient
   .metadata({ name: "auth.signUp" })
   .use(withRateLimitByIp(10, "60 s"))
-  .schema(SignUpSchema)
+  .schema(SignUpFormSchema)
   .action(async ({ parsedInput: { email, password, name }, ctx }) => {
     const { user } = await auth.api.signUpEmail({
       body: { email, password, name },
@@ -31,7 +31,7 @@ export const signUp = actionClient
 
 export const signInWithPassword = actionClient
   .metadata({ name: "auth.signInWithPassword" })
-  .schema(SignInWithPasswordSchema)
+  .schema(SignInWithPasswordFormSchema)
   .action(async ({ parsedInput: { email, password }, ctx }) => {
     const { user } = await auth.api.signInEmail({
       body: { email, password },

@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@hookform/resolvers':
-      specifier: 4.1.0
-      version: 4.1.0
     '@next/bundle-analyzer':
       specifier: 15.1.7
       version: 15.1.7
@@ -72,9 +69,6 @@ catalogs:
     react-dom:
       specifier: 18.3.1
       version: 18.3.1
-    react-hook-form:
-      specifier: 7.54.2
-      version: 7.54.2
     react-native:
       specifier: 0.77.1
       version: 0.77.1
@@ -215,18 +209,12 @@ importers:
 
   apps/app:
     dependencies:
-      '@content-collections/mdx':
-        specifier: 0.2.0
-        version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@hookform/resolvers':
-        specifier: 'catalog:'
-        version: 4.1.0(react-hook-form@7.54.2(react@18.3.1))
-      '@next-safe-action/adapter-react-hook-form':
-        specifier: 1.0.13
-        version: 1.0.13(@hookform/resolvers@4.1.0(react-hook-form@7.54.2(react@18.3.1)))(next-safe-action@7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.1.7
+      '@tanstack/react-form':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@this/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
@@ -263,9 +251,6 @@ importers:
       '@vercel/functions':
         specifier: 'catalog:'
         version: 2.0.0
-      api:
-        specifier: workspace:*
-        version: link:../api
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -290,22 +275,10 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
-      react-hook-form:
-        specifier: 'catalog:'
-        version: 7.54.2(react@18.3.1)
       server-only:
         specifier: 'catalog:'
         version: 0.0.1
     devDependencies:
-      '@content-collections/cli':
-        specifier: 0.1.6
-        version: 0.1.6(@content-collections/core@0.8.0(typescript@5.7.3))
-      '@content-collections/core':
-        specifier: 0.8.0
-        version: 0.8.0(typescript@5.7.3)
-      '@content-collections/next':
-        specifier: 0.2.4
-        version: 0.2.4(@content-collections/core@0.8.0(typescript@5.7.3))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.0.6
@@ -321,6 +294,9 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 18.3.5(@types/react@18.3.18)
+      api:
+        specifier: workspace:*
+        version: link:../api
       tailwindcss:
         specifier: catalog:tailwind4
         version: 4.0.6
@@ -685,42 +661,18 @@ importers:
       '@content-collections/mdx':
         specifier: 0.2.0
         version: 0.2.0(@content-collections/core@0.8.0(typescript@5.7.3))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@hookform/resolvers':
-        specifier: 'catalog:'
-        version: 4.1.0(react-hook-form@7.54.2(react@18.3.1))
-      '@next-safe-action/adapter-react-hook-form':
-        specifier: 1.0.13
-        version: 1.0.13(@hookform/resolvers@4.1.0(react-hook-form@7.54.2(react@18.3.1)))(next-safe-action@7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.1.7
       '@this/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
-      '@this/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@this/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@this/email':
-        specifier: workspace:*
-        version: link:../../packages/email
       '@this/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@this/kv':
-        specifier: workspace:*
-        version: link:../../packages/kv
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
-      '@this/queue':
-        specifier: workspace:*
-        version: link:../../packages/queue
-      '@this/security':
-        specifier: workspace:*
-        version: link:../../packages/security
       '@this/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -730,9 +682,6 @@ importers:
       '@vercel/functions':
         specifier: 'catalog:'
         version: 2.0.0
-      api:
-        specifier: workspace:*
-        version: link:../api
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -757,9 +706,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
-      react-hook-form:
-        specifier: 'catalog:'
-        version: 7.54.2(react@18.3.1)
       server-only:
         specifier: 'catalog:'
         version: 0.0.1
@@ -1329,9 +1275,6 @@ importers:
 
   packages/ui:
     dependencies:
-      '@hookform/resolvers':
-        specifier: 'catalog:'
-        version: 4.1.0(react-hook-form@7.54.2(react@18.3.1))
       '@radix-ui/react-accordion':
         specifier: 1.2.3
         version: 1.2.3(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1416,6 +1359,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: 1.1.8
         version: 1.1.8(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tanstack/react-form':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@this/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1449,9 +1395,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
-      react-hook-form:
-        specifier: 'catalog:'
-        version: 7.54.2(react@18.3.1)
       react-resizable-panels:
         specifier: 2.1.7
         version: 2.1.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1525,6 +1468,9 @@ importers:
       zod:
         specifier: 3.24.2
         version: 3.24.2
+      zod-form-data:
+        specifier: 2.0.5
+        version: 2.0.5(zod@3.24.2)
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -4087,11 +4033,6 @@ packages:
       hono: '>=3.9.0'
       zod: ^3.19.1
 
-  '@hookform/resolvers@4.1.0':
-    resolution: {integrity: sha512-fX/uHKb+OOCpACLc6enuTQsf0ZpRrKbeBBPETg5PCPLCIYV6osP2Bw6ezuclM61lH+wBF9eXcuC0+BFh9XOEnQ==}
-    peerDependencies:
-      react-hook-form: ^7.0.0
-
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
@@ -4421,16 +4362,6 @@ packages:
 
   '@neondatabase/serverless@0.10.4':
     resolution: {integrity: sha512-2nZuh3VUO9voBauuh+IGYRhGU/MskWHt1IuZvHcJw6GLjDgtqj/KViKo7SIrLdGLdot7vFbiRRw+BgEy3wT9HA==}
-
-  '@next-safe-action/adapter-react-hook-form@1.0.13':
-    resolution: {integrity: sha512-J1zfdiVWcs6w388fKwdm0V/2UojU3KkqSQb4dx428HMujuF23UKaZ7v+R10I+AQrkR3yH7RIMIhYOdNwZN33DA==}
-    peerDependencies:
-      '@hookform/resolvers': '>= 3.0.0'
-      next: '>= 14.0.0'
-      next-safe-action: '>= 7.6.0'
-      react: '>= 18.2.0'
-      react-dom: '>= 18.2.0'
-      react-hook-form: '>= 7.0.0'
 
   '@next/bundle-analyzer@15.1.7':
     resolution: {integrity: sha512-tESiAwTUEpzzxKMLDbQuPHvD+PFDjY+0O3R4T5bpjIo0cr5fvppbbllQbtksQbBEquT55Eu8JmDoOlc9YFv6Kw==}
@@ -6991,12 +6922,27 @@ packages:
     peerDependencies:
       vite: 6.1.0
 
+  '@tanstack/form-core@1.0.0':
+    resolution: {integrity: sha512-GHYjF9m+FjXbIMpbMP1Ru8XzTJnQDva9wkw3E/fXUIPAtx0NmTGrefxUGqs7/aCT2uSqdrmzRyVFUJObemx51Q==}
+
   '@tanstack/history@1.99.13':
     resolution: {integrity: sha512-JMd7USmnp8zV8BRGIjALqzPxazvKtQ7PGXQC7n39HpbqdsmfV2ePCzieO84IvN+mwsTrXErpbjI4BfKCa+ZNCg==}
     engines: {node: '>=12'}
 
   '@tanstack/query-core@5.66.0':
     resolution: {integrity: sha512-J+JeBtthiKxrpzUu7rfIPDzhscXF2p5zE/hVdrqkACBP8Yu0M96mwJ5m/8cPPYQE9aRNvXztXHlNwIh4FEeMZw==}
+
+  '@tanstack/react-form@1.0.0':
+    resolution: {integrity: sha512-8vhhpfdWlLfO92DF70dIzi/tKIbtVb0mJkixXPKUzfxgp/s0fpILNHeLePs5xjBlRmm35xt6PmNXwcGKM1Ofkg==}
+    peerDependencies:
+      '@tanstack/react-start': ^1.112.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      vinxi: ^0.5.0
+    peerDependenciesMeta:
+      '@tanstack/react-start':
+        optional: true
+      vinxi:
+        optional: true
 
   '@tanstack/react-query@5.66.0':
     resolution: {integrity: sha512-z3sYixFQJe8hndFnXgWu7C79ctL+pI0KAelYyW+khaNJ1m22lWrhJU2QrsTcRKMuVPtoZvfBYrTStIdKo+x0Xw==}
@@ -8813,6 +8759,9 @@ packages:
 
   decimal.js@10.5.0:
     resolution: {integrity: sha512-8vDa8Qxvr/+d94hSh5P3IJwI5t8/c0KsMp+g8bNw9cY2icONa5aPfvKeieW1WlG0WQYwwhJ7mjui2xtiePQSXw==}
+
+  decode-formdata@0.8.0:
+    resolution: {integrity: sha512-iUzDgnWsw5ToSkFY7VPFA5Gfph6ROoOxOB7Ybna4miUSzLZ4KaSJk6IAB2AdW6+C9vCVWhjjNA4gjT6wF3eZHQ==}
 
   decode-named-character-reference@1.0.2:
     resolution: {integrity: sha512-O8x12RzrUF8xyVcY0KJowWsmaJxQbmy0/EtnNtHRpsOcT7dFk5W598coHqBVpmWo1oQQfsCqfCmkZN5DJrZVdg==}
@@ -12710,10 +12659,6 @@ packages:
     resolution: {integrity: sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.1:
-    resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
-    engines: {node: ^10 || ^12 || >=14}
-
   postcss@8.5.2:
     resolution: {integrity: sha512-MjOadfU3Ys9KYoX0AdkBlFEF1Vx37uCCeN4ZHnmwm9FfpbsGWMZeBLMmmpY+6Ocqod7mkdZ0DT31OlbsFrLlkA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -12991,12 +12936,6 @@ packages:
     peerDependencies:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
-
-  react-hook-form@7.54.2:
-    resolution: {integrity: sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^16.8.0 || ^17 || ^18 || ^19
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -15239,6 +15178,11 @@ packages:
 
   zip-dir@2.0.0:
     resolution: {integrity: sha512-uhlsJZWz26FLYXOD6WVuq+fIcZ3aBPGo/cFdiLlv3KNwpa52IF3ISV8fLhQLiqVu5No3VhlqlgthN6gehil1Dg==}
+
+  zod-form-data@2.0.5:
+    resolution: {integrity: sha512-T7dV6lTBCwkd8PyvJVCnjXKpgXomU8gEm/TcvEZY7qNdRhIo9T17HrdlHIK68PzTAYaV2HxR9rgwpTSWv0L+QQ==}
+    peerDependencies:
+      zod: '>= 3.11.0'
 
   zod-to-json-schema@3.24.1:
     resolution: {integrity: sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==}
@@ -17857,11 +17801,6 @@ snapshots:
       hono: 4.7.1
       zod: 3.24.2
 
-  '@hookform/resolvers@4.1.0(react-hook-form@7.54.2(react@18.3.1))':
-    dependencies:
-      caniuse-lite: 1.0.30001698
-      react-hook-form: 7.54.2(react@18.3.1)
-
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.0.4
@@ -18323,15 +18262,6 @@ snapshots:
     dependencies:
       '@types/pg': 8.11.6
     optional: true
-
-  '@next-safe-action/adapter-react-hook-form@1.0.13(@hookform/resolvers@4.1.0(react-hook-form@7.54.2(react@18.3.1)))(next-safe-action@7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2))(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@hookform/resolvers': 4.1.0(react-hook-form@7.54.2(react@18.3.1))
-      next: 15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      next-safe-action: 7.10.3(next@15.1.7(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-hook-form: 7.54.2(react@18.3.1)
 
   '@next/bundle-analyzer@15.1.7':
     dependencies:
@@ -21205,9 +21135,24 @@ snapshots:
       tailwindcss: 4.0.6
       vite: 6.1.0(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0)
 
+  '@tanstack/form-core@1.0.0':
+    dependencies:
+      '@tanstack/store': 0.7.0
+
   '@tanstack/history@1.99.13': {}
 
   '@tanstack/query-core@5.66.0': {}
+
+  '@tanstack/react-form@1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)':
+    dependencies:
+      '@remix-run/node': 2.15.3(typescript@5.7.3)
+      '@tanstack/form-core': 1.0.0
+      '@tanstack/react-store': 0.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      decode-formdata: 0.8.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - react-dom
+      - typescript
 
   '@tanstack/react-query@5.66.0(react@18.3.1)':
     dependencies:
@@ -23226,6 +23171,8 @@ snapshots:
   decimal.js-light@2.5.1: {}
 
   decimal.js@10.5.0: {}
+
+  decode-formdata@0.8.0: {}
 
   decode-named-character-reference@1.0.2:
     dependencies:
@@ -28201,12 +28148,6 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.1:
-    dependencies:
-      nanoid: 3.3.8
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
-
   postcss@8.5.2:
     dependencies:
       nanoid: 3.3.8
@@ -28491,10 +28432,6 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-fast-compare: 3.2.2
       shallowequal: 1.1.0
-
-  react-hook-form@7.54.2(react@18.3.1):
-    dependencies:
-      react: 18.3.1
 
   react-is@16.13.1: {}
 
@@ -30666,7 +30603,7 @@ snapshots:
   vite@6.1.0(@types/node@22.13.4)(jiti@1.21.7)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0):
     dependencies:
       esbuild: 0.24.2
-      postcss: 8.5.1
+      postcss: 8.5.2
       rollup: 4.34.6
     optionalDependencies:
       '@types/node': 22.13.4
@@ -30680,7 +30617,7 @@ snapshots:
   vite@6.1.0(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0):
     dependencies:
       esbuild: 0.24.2
-      postcss: 8.5.1
+      postcss: 8.5.2
       rollup: 4.34.6
     optionalDependencies:
       '@types/node': 22.13.4
@@ -31180,6 +31117,10 @@ snapshots:
     dependencies:
       async: 3.2.6
       jszip: 3.10.1
+
+  zod-form-data@2.0.5(zod@3.24.2):
+    dependencies:
+      zod: 3.24.2
 
   zod-to-json-schema@3.24.1(zod@3.24.2):
     dependencies:

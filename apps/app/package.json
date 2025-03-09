@@ -14,9 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "catalog:",
-    "@next-safe-action/adapter-react-hook-form": "1.0.13",
     "@next/bundle-analyzer": "catalog:",
+    "@tanstack/react-form": "catalog:",
     "@this/analytics": "workspace:*",
     "@this/auth": "workspace:*",
     "@this/db": "workspace:*",
@@ -37,7 +36,6 @@
     "next-safe-action": "7.10.3",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-hook-form": "catalog:",
     "server-only": "catalog:"
   },
   "devDependencies": {
