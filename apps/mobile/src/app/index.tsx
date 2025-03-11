@@ -9,9 +9,18 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@this/native-ui/collapsible"
+import { useAppForm } from "@this/native-ui/form"
 import { Text } from "@this/native-ui/text"
 
 export default function Page() {
+  const form = useAppForm({
+    defaultValues: { name: "John Doe" },
+    onSubmit: async ({ value }) => {
+      await new Promise(resolve => setTimeout(resolve, 5000))
+      console.log(value)
+    },
+  })
+
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-y-4">
       <Text className="font-bold text-4xl">Init Mobile</Text>
@@ -42,6 +51,27 @@ export default function Page() {
           <Text>Go to not found</Text>
         </Button>
       </Link>
+
+      <form.AppForm>
+        <form.AppField name="name">
+          {field => (
+            <field.Item className="w-full">
+              <field.Label>Name</field.Label>
+              <field.Control>
+                <field.Input autoComplete="name" />
+              </field.Control>
+              <field.Message />
+            </field.Item>
+          )}
+        </form.AppField>
+        <form.SubmitButton
+          className="w-full"
+          loadingText="Submitting..."
+          onPress={() => form.handleSubmit()}
+        >
+          <Text>Submit</Text>
+        </form.SubmitButton>
+      </form.AppForm>
     </SafeAreaView>
   )
 }

@@ -6,9 +6,9 @@
   "type": "module",
   "exports": {
     "./*": "./src/*.tsx",
-    "./icons/*": "./src/icons/*.ts",
     "./blocks/*": "./src/blocks/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
+    "./icons/*": "./src/icons/*.ts",
     "./tailwind.config": "./tailwind.config.ts"
   },
   "scripts": {
@@ -46,6 +46,7 @@
     "@rn-primitives/toggle-group": "^1.1.0",
     "@rn-primitives/tooltip": "^1.1.0",
     "@rn-primitives/types": "1.1.0",
+    "@tanstack/react-form": "catalog:",
     "@this/utils": "workspace:*",
     "class-variance-authority": "catalog:",
     "lucide-react-native": "0.475.0",
