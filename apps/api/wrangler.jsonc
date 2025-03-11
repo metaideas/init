@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-11",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env"
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "placement": {
+    "mode": "smart"
+  },
+  "env": {
+    "development": {
+      "vars": {
+        "BETTER_AUTH_URL": "http://localhost:3001",
+        "BETTER_AUTH_BASE_PATH": "/auth",
+        "NODE_ENV": "development",
+        "EMAIL_FROM": "test@mail.startline.dev"
+      }
+    },
+    "production": {
+      "vars": {
+        "BETTER_AUTH_URL": "https://api.metaideas.workers.dev",
+        "BETTER_AUTH_BASE_PATH": "/auth",
+        "NODE_ENV": "production",
+        "EMAIL_FROM": "test@mail.startline.dev"
+      }
+    }
+  }
+}
