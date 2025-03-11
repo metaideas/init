@@ -6,8 +6,8 @@ import {
   loggerLink,
   splitLink,
 } from "@trpc/client"
-import { createTRPCReact } from "@trpc/react-query"
 import type { AnyTRPCRouter } from "@trpc/server"
+import { createTRPCContext } from "@trpc/tanstack-react-query"
 import superjson from "superjson"
 
 import { isDevelopment } from "./environment"
@@ -26,9 +26,10 @@ export function createTRPCClients<T extends AnyTRPCRouter>(url: string) {
     }),
   ]
 
+  const trpcClient = createTRPCClient<T>({ links })
+
   return {
-    trpcReact: createTRPCReact<T>(),
-    links,
-    trpcVanilla: createTRPCClient<T>({ links }),
+    ...createTRPCContext<T>(),
+    trpcClient,
   }
 }

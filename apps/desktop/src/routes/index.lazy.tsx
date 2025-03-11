@@ -2,31 +2,32 @@ import { createLazyFileRoute } from "@tanstack/react-router"
 import { invoke } from "@tauri-apps/api/core"
 import { useState } from "react"
 
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { Button } from "@this/ui/button"
 import { Input } from "@this/ui/input"
+import { useTRPC } from "~/shared/trpc"
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
 })
 
 function Index() {
-  const [greetMsg, setGreetMsg] = useState("")
   const [name, setName] = useState("")
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }))
-  }
+  const greet = useMutation({
+    mutationFn: () => invoke<string>("greet", { name }),
+  })
+  const trpc = useTRPC()
+  const { data } = useQuery(trpc.hello.queryOptions())
 
   return (
     <div className="p-2">
       <h3>Welcome to the home page of your desktop app!</h3>
-
+      <p>{data?.message}</p>
       <form
         className="row"
         onSubmit={e => {
           e.preventDefault()
-          greet()
+          greet.mutate()
         }}
       >
         <Input
@@ -36,7 +37,7 @@ function Index() {
         />
         <Button type="submit">Greet</Button>
       </form>
-      <p>{greetMsg}</p>
+      <p>{greet.data}</p>
     </div>
   )
 }

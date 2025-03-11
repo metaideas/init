@@ -17,8 +17,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@trpc/client": "11.0.0-rc.768",
-    "@trpc/react-query": "11.0.0-rc.768",
+    "@tanstack/react-query": "catalog:",
+    "@trpc/client": "11.0.0-rc.828",
+    "@trpc/tanstack-react-query": "11.0.0-rc.828",
+    "@types/react": "18.3.12",
     "clsx": "2.1.1",
     "hono": "catalog:",
     "lodash.merge": "4.6.2",
@@ -32,9 +34,17 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@trpc/server": "11.0.0-rc.768",
+    "@trpc/server": "catalog:",
     "@types/lodash.merge": "4.6.9",
     "next": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
