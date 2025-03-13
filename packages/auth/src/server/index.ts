@@ -15,9 +15,9 @@ type CreateAuthOptions = Pick<
   | "trustedOrigins"
 >
 
-export function createAuth<Plugin extends BetterAuthPlugin>(
-  options: CreateAuthOptions,
-  plugins: Plugin[] = []
+export function createAuth<const Plugins extends BetterAuthPlugin[]>(
+  options: CreateAuthOptions = {},
+  plugins: Plugins = [] as unknown as Plugins
 ) {
   return betterAuth({
     appName: APP_NAME,
