@@ -23,7 +23,7 @@
     "@libsql/client": "0.14.0",
     "@this/env": "workspace:*",
     "@this/utils": "workspace:*",
-    "drizzle-orm": "0.39.3"
+    "drizzle-orm": "0.40.0"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",

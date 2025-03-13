@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@this/utils": "workspace:*",
-    "next-intl": "4.0.0"
+    "next-intl": "4.0.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

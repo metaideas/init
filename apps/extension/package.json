@@ -34,7 +34,7 @@
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@tooling/tsconfig": "workspace:*",
-    "@types/chrome": "0.0.304",
+    "@types/chrome": "0.0.309",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@wxt-dev/auto-icons": "1.0.2",

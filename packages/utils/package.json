@@ -6,7 +6,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": ["./src/helpers/*.ts", "./src/helpers/*.tsx"],
+    "./*": [
+      "./src/helpers/*.ts",
+      "./src/helpers/*.tsx"
+    ],
     "./constants": "./src/constants/index.ts"
   },
   "scripts": {
