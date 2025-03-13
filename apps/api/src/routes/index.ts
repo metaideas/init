@@ -22,7 +22,7 @@ app.use(async (c, next) => {
   await Promise.all([
     import("@this/auth/server").then(({ auth }) => c.set("auth", auth)),
     import("@this/db").then(({ db }) => c.set("db", db)),
-    import("@this/kv").then(({ kv }) => c.set("kv", kv)),
+    import("@this/kv/cloudflare").then(({ kv }) => c.set("kv", kv)),
     import("@this/observability/logger").then(({ logger }) =>
       c.set("logger", logger)
     ),

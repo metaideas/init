@@ -1,7 +1,10 @@
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 
-import { kv } from "./"
+import { isCloudflare } from "@this/utils/runtime"
+
+import { kv as kvCloudflare } from "./cloudflare"
+import { kv as kvNode } from "./index"
 
 export function createRateLimiter(
   name: string,
@@ -16,7 +19,7 @@ export function createRateLimiter(
     ...options,
     analytics: true,
     ephemeralCache,
-    redis: kv,
+    redis: isCloudflare ? kvCloudflare : kvNode,
     prefix: `ratelimit:${name}`,
     enableProtection: true,
   })

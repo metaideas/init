@@ -1,4 +1,4 @@
-import { Redis } from "@upstash/redis"
+import { Redis } from "@upstash/redis/cloudflare"
 
 import env from "@this/env/kv"
 
