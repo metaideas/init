@@ -19,6 +19,7 @@
     "@next/bundle-analyzer": "catalog:",
     "@this/analytics": "workspace:*",
     "@this/env": "workspace:*",
+    "@this/i18n": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
@@ -27,8 +28,6 @@
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-axiom": "catalog:",
-    "next-intl": "3.26.5",
-    "next-safe-action": "7.10.4",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

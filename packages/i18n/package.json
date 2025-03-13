@@ -1,0 +1,28 @@
+{
+  "name": "@this/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./locale": "./src/locale.ts",
+    "./nextjs": "./src/nextjs/index.ts",
+    "./nextjs/*": "./src/nextjs/*.ts"
+  },
+  "scripts": {
+    "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@this/utils": "workspace:*",
+    "next-intl": "4.0.0"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "next": "catalog:",
+    "typescript": "catalog:"
+  }
+}

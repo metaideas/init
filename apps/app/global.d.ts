@@ -1,9 +1,10 @@
+import type { Locale } from "@this/i18n/locale"
+
 import type en from "./translations/en.json"
-import type es from "./translations/es.json"
 
-type Messages = typeof en & typeof es
-
-declare global {
-  // Use type safe message keys with `next-intl`
-  interface IntlMessages extends Messages {}
+declare module "next-intl" {
+  interface AppConfig {
+    Locale: Locale
+    Messages: typeof en
+  }
 }

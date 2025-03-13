@@ -1,13 +1,20 @@
 import { RocketIcon } from "lucide-react"
 import Link from "next/link"
 
+import type { Locale } from "@this/i18n/locale"
+import { getTranslations } from "@this/i18n/nextjs/server"
 import { Button } from "@this/ui/button"
 import { ThemeToggle } from "@this/ui/theme"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@this/ui/tooltip"
-import { TypographyH1 } from "@this/ui/typography"
+import { TypographyH1, TypographySmall } from "@this/ui/typography"
 import { TypographyLead } from "@this/ui/typography"
 
-export default function Page() {
+export default async function Page({
+  params,
+}: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params
+  const t = await getTranslations("locale")
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="flex h-14 items-center px-4 lg:px-6">
@@ -44,6 +51,9 @@ export default function Page() {
               </div>
             </div>
           </div>
+        </section>
+        <section className="w-full text-center">
+          <TypographySmall>{t(locale)}</TypographySmall>
         </section>
       </main>
       <footer className="flex w-full shrink-0 justify-center gap-2 border-t px-4 py-6 md:px-6">

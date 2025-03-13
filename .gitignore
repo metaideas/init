@@ -73,3 +73,6 @@ dependency-graph.svg
 
 # Template Sync
 .template-sync-tmp
+
+# i18n
+**/translations/*.d.json.ts
