@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@openstatus/react": "^0.0.3",
-    "@sentry/browser": "9.1.0",
-    "@sentry/cloudflare": "9.1.0",
-    "@sentry/nextjs": "9.1.0",
+    "@sentry/browser": "9.5.0",
+    "@sentry/cloudflare": "9.5.0",
+    "@sentry/nextjs": "9.5.0",
     "@this/env": "workspace:*",
     "@this/utils": "workspace:*",
     "chalk": "5.4.1",

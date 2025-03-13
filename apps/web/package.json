@@ -15,7 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@content-collections/mdx": "0.2.0",
+    "@content-collections/mdx": "0.2.2",
     "@next/bundle-analyzer": "catalog:",
     "@this/analytics": "workspace:*",
     "@this/env": "workspace:*",
@@ -27,16 +27,16 @@
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-axiom": "catalog:",
-    "next-intl": "3.26.3",
-    "next-safe-action": "7.10.3",
+    "next-intl": "3.26.5",
+    "next-safe-action": "7.10.4",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"
   },
   "devDependencies": {
     "@content-collections/cli": "0.1.6",
-    "@content-collections/core": "0.8.0",
-    "@content-collections/next": "0.2.4",
+    "@content-collections/core": "0.8.2",
+    "@content-collections/next": "0.2.6",
     "@tailwindcss/postcss": "catalog:",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",

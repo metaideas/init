@@ -19,14 +19,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "1.1.8",
-    "@ai-sdk/deepseek": "0.1.10",
-    "@ai-sdk/google": "^1.1.14",
-    "@ai-sdk/openai": "1.1.11",
+    "@ai-sdk/anthropic": "1.1.17",
+    "@ai-sdk/deepseek": "0.1.15",
+    "@ai-sdk/google": "^1.1.25",
+    "@ai-sdk/openai": "1.2.5",
     "@this/env": "workspace:*",
     "@upstash/semantic-cache": "1.0.5",
-    "@upstash/vector": "1.2.0",
-    "ai": "4.1.41"
+    "@upstash/vector": "1.2.1",
+    "ai": "4.1.61"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

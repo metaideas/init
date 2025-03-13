@@ -5,8 +5,8 @@ import { Slot } from "@radix-ui/react-slot"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { Loader2Icon } from "lucide-react"
 import React from "react"
-// @ts-expect-error -- for some reason this hook is not typed on the react-dom
-// version we're using. But it works fine when running it.
+// @ts-expect-error -- this type was removed from react-dom but it's still
+// available to be used
 import { useFormStatus } from "react-dom"
 
 import { cn } from "@this/utils/classname"

@@ -21,13 +21,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/expo": "1.1.18",
+    "@better-auth/expo": "1.2.3",
     "@this/db": "workspace:*",
     "@this/email": "workspace:*",
     "@this/env": "workspace:*",
     "@this/kv": "workspace:*",
     "@this/utils": "workspace:*",
-    "better-auth": "1.1.18",
+    "better-auth": "1.2.3",
     "server-only": "catalog:"
   },
   "devDependencies": {

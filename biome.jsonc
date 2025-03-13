@@ -83,7 +83,6 @@
       "nursery": {
         "all": true,
         "noProcessEnv": "off",
-        "noSecrets": "info",
         "useComponentExportOnlyModules": "off",
         "useExplicitType": "off",
         "useImportRestrictions": "off",

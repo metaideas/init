@@ -32,8 +32,8 @@
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-axiom": "catalog:",
-    "next-intl": "3.26.3",
-    "next-safe-action": "7.10.3",
+    "next-intl": "3.26.5",
+    "next-safe-action": "7.10.4",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

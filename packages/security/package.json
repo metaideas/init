@@ -18,10 +18,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/ip": "1.0.0-beta.2",
-    "@arcjet/next": "1.0.0-beta.2",
-    "@arcjet/node": "1.0.0-beta.2",
-    "@arcjet/redact": "1.0.0-beta.2",
+    "@arcjet/ip": "1.0.0-beta.3",
+    "@arcjet/next": "1.0.0-beta.3",
+    "@arcjet/node": "1.0.0-beta.3",
+    "@arcjet/redact": "1.0.0-beta.3",
     "@this/env": "workspace:*"
   },
   "devDependencies": {

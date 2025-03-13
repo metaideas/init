@@ -37,7 +37,7 @@
     "pino": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20250311.0",
+    "@cloudflare/workers-types": "4.20250312.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:",
