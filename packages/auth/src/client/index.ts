@@ -1,12 +1,6 @@
 import type { Auth, BetterAuthClientPlugin } from "better-auth"
-import {
-  adminClient,
-  inferAdditionalFields,
-  organizationClient,
-} from "better-auth/client/plugins"
+import { inferAdditionalFields } from "better-auth/client/plugins"
 import { createAuthClient as createBetterAuthClient } from "better-auth/react"
-
-import { accessControl, adminRole, memberRole, ownerRole } from "../permissions"
 
 /**
  * Create a BetterAuth client.
@@ -14,24 +8,12 @@ import { accessControl, adminRole, memberRole, ownerRole } from "../permissions"
  * @param url - The URL of the BetterAuth server.
  * @returns The BetterAuth client.
  */
-export function createAuthClient(
+export function createAuthClient<Plugin extends BetterAuthClientPlugin>(
   url: string,
-  plugins: BetterAuthClientPlugin[] = []
+  plugins: Plugin[] = []
 ) {
   return createBetterAuthClient({
     baseURL: url,
-    plugins: [
-      inferAdditionalFields<Auth>(),
-      adminClient(),
-      organizationClient({
-        ac: accessControl,
-        roles: {
-          admin: adminRole,
-          member: memberRole,
-          owner: ownerRole,
-        },
-      }),
-      ...plugins,
-    ],
+    plugins: [inferAdditionalFields<Auth>(), ...plugins],
   })
 }

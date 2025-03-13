@@ -1,4 +1,5 @@
 import { handler } from "@this/auth/nextjs"
-import { auth } from "@this/auth/server"
+
+import { auth } from "~/shared/auth/server"
 
 export const { POST, GET } = handler(auth)

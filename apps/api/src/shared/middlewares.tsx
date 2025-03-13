@@ -2,10 +2,10 @@ import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 import type { ContentfulStatusCode } from "hono/utils/http-status"
 
-import type { Session } from "@this/auth/server"
 import type { MessageBody, MessageType } from "@this/queue/messages"
 import type { DeepMerge } from "@this/utils/type"
 
+import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
 export const requireSession = createMiddleware<

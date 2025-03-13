@@ -2,10 +2,10 @@ import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
 
-import type { Session } from "@this/auth/server"
 import { ZodError } from "@this/utils/schema"
 import { transformer } from "@this/utils/trpc-client"
 
+import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
 type TRPCContext = FetchCreateContextFnOptions &

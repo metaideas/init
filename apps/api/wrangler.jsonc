@@ -16,16 +16,14 @@
   "env": {
     "development": {
       "vars": {
-        "BETTER_AUTH_URL": "http://localhost:3001",
-        "BETTER_AUTH_BASE_PATH": "/auth",
+        "BASE_URL": "http://localhost:3001",
         "NODE_ENV": "development",
         "EMAIL_FROM": "test@mail.startline.dev"
       }
     },
     "production": {
       "vars": {
-        "BETTER_AUTH_URL": "https://api.metaideas.workers.dev",
-        "BETTER_AUTH_BASE_PATH": "/auth",
+        "BASE_URL": "https://api.metaideas.workers.dev",
         "NODE_ENV": "production",
         "EMAIL_FROM": "test@mail.startline.dev"
       }

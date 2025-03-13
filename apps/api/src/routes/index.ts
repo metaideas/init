@@ -6,6 +6,8 @@ import { logger } from "hono/logger"
 import authRouter from "~/routes/auth"
 import testRouter from "~/routes/test"
 import trpcRouter from "~/routes/trpc"
+
+import { auth } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
 // Import this file to ensure that all environment variables are set
@@ -18,9 +20,9 @@ app.use(logger())
 app.use(contextStorage())
 
 app.use(async (c, next) => {
+  c.set("auth", auth)
   // Load dependencies into the application context
   await Promise.all([
-    import("@this/auth/server").then(({ auth }) => c.set("auth", auth)),
     import("@this/db").then(({ db }) => c.set("db", db)),
     import("@this/kv/cloudflare").then(({ kv }) => c.set("kv", kv)),
     import("@this/observability/logger").then(({ logger }) =>

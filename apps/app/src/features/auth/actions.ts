@@ -3,12 +3,11 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { auth } from "@this/auth/server"
-
 import {
   SignInWithPasswordFormSchema,
   SignUpFormSchema,
 } from "~/features/auth/validation"
+import { auth } from "~/shared/auth/server"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
 

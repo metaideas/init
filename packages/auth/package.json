@@ -9,7 +9,8 @@
     "./nextjs": "./src/nextjs.ts",
     "./permissions": "./src/permissions.ts",
     "./schema": "./src/schema.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server/index.ts",
+    "./server/plugins": "./src/server/plugins.ts"
   },
   "scripts": {
     "check": "biome check --write .",
