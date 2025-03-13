@@ -2,11 +2,10 @@ import type { OrganizationOptions } from "better-auth/plugins"
 
 import { sendEmail } from "@this/email"
 import OrganizationInvitation from "@this/email/organization-invitation"
-import env from "@this/env/auth"
 
 export const sendInvitationEmail: OrganizationOptions["sendInvitationEmail"] =
-  async data => {
-    const inviteLink = `${env.BETTER_AUTH_URL}/accept-invitation/${data.id}`
+  async (data, request) => {
+    const inviteLink = `${request?.headers.get("host")}/accept-invitation/${data.id}`
 
     await sendEmail({
       emails: [data.email],
