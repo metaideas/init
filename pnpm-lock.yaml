@@ -84,9 +84,6 @@ catalogs:
     server-only:
       specifier: 0.0.1
       version: 0.0.1
-    superjson:
-      specifier: 2.2.2
-      version: 2.2.2
     tailwindcss-animate:
       specifier: 1.0.7
       version: 1.0.7
@@ -193,9 +190,6 @@ importers:
       pino:
         specifier: 'catalog:'
         version: 9.6.0
-      superjson:
-        specifier: 'catalog:'
-        version: 2.2.2
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20250311.0
@@ -1475,7 +1469,7 @@ importers:
         specifier: 1.1.2
         version: 1.1.2(typescript@5.7.3)
       superjson:
-        specifier: 'catalog:'
+        specifier: 2.2.2
         version: 2.2.2
       tailwind-merge:
         specifier: 3.0.1

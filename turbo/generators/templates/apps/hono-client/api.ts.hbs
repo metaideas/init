@@ -1,6 +1,6 @@
 import type { AppClient } from "api/client"
 
-import { createClient } from "@this/utils/hono"
+import { createClient } from "@this/utils/hono-client"
 
 import { buildApiUrl } from "~/shared/utils"
 

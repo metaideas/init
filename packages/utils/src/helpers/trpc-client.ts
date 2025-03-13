@@ -14,7 +14,7 @@ import { isDevelopment } from "./environment"
 
 export const transformer = superjson
 
-export function createTRPCClients<T extends AnyTRPCRouter>(url: string) {
+export function createTRPC<T extends AnyTRPCRouter>(url: string) {
   const links: TRPCLink<T>[] = [
     loggerLink({ enabled: () => isDevelopment }),
     splitLink({

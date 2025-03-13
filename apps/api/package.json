@@ -34,8 +34,7 @@
     "@this/utils": "workspace:*",
     "@trpc/server": "catalog:",
     "hono": "catalog:",
-    "pino": "catalog:",
-    "superjson": "catalog:"
+    "pino": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20250311.0",
