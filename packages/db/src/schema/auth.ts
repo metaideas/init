@@ -6,7 +6,7 @@ import { constructId, createTable, timestamps } from "./helpers"
 export const users = createTable(
   "users",
   {
-    ...constructId<"UserId">("usr"),
+    ...constructId("UserId", "usr"),
 
     role: text({ enum: userRoles }).notNull().default("user"),
 
@@ -35,7 +35,7 @@ export type UserRole = User["role"]
 export const accounts = createTable(
   "accounts",
   {
-    ...constructId<"AccountId">("acc"),
+    ...constructId("AccountId", "acc"),
 
     userId: text()
       .notNull()
@@ -77,7 +77,7 @@ export type AccountId = Account["id"]
 export const verifications = createTable(
   "verifications",
   {
-    ...constructId<"VerificationId">("ver"),
+    ...constructId("VerificationId", "ver"),
 
     identifier: text().notNull(),
     value: text().notNull(),

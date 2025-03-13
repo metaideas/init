@@ -1,13 +1,11 @@
 import { integer, text } from "drizzle-orm/sqlite-core"
 
-import type { Brand } from "@this/utils/type"
-
 import { users } from "./auth"
-import { constructId, createTable, timestamps } from "./helpers"
+import { type BrandId, constructId, createTable, timestamps } from "./helpers"
 import { organizations } from "./organizations"
 
 export const sessions = createTable("sessions", {
-  ...constructId<"SessionId">("ses"),
+  ...constructId("SessionId", "ses"),
 
   userId: text()
     .notNull()
@@ -15,7 +13,7 @@ export const sessions = createTable("sessions", {
       onDelete: "cascade",
       onUpdate: "cascade",
     })
-    .$type<Brand<string, "UserId">>(),
+    .$type<BrandId<"UserId">>(),
 
   token: text().notNull().unique(),
   expiresAt: integer({ mode: "timestamp" }).notNull(),
@@ -25,7 +23,7 @@ export const sessions = createTable("sessions", {
       onDelete: "set null",
       onUpdate: "cascade",
     })
-    .$type<Brand<string, "UserId">>(),
+    .$type<BrandId<"UserId">>(),
 
   ipAddress: text(),
   userAgent: text(),
@@ -35,7 +33,7 @@ export const sessions = createTable("sessions", {
       onDelete: "set null",
       onUpdate: "cascade",
     })
-    .$type<Brand<string, "OrganizationId">>(),
+    .$type<BrandId<"OrganizationId">>(),
 
   ...timestamps,
 })

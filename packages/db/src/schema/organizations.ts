@@ -1,13 +1,11 @@
 import { integer, text, unique } from "drizzle-orm/sqlite-core"
 
-import type { Brand } from "@this/utils/type"
-
 import { users } from "./auth"
 import { activityType, invitationStatus, organizationRoles } from "./enums"
-import { constructId, createTable, timestamps } from "./helpers"
+import { type BrandId, constructId, createTable, timestamps } from "./helpers"
 
 export const organizations = createTable("organizations", {
-  ...constructId<"OrganizationId">("org"),
+  ...constructId("OrganizationId", "org"),
 
   name: text().notNull(),
   slug: text().notNull(),
@@ -25,12 +23,12 @@ export type OrganizationId = Organization["id"]
 export const members = createTable(
   "members",
   {
-    ...constructId<"MemberId">("mbr"),
+    ...constructId("MemberId", "mbr"),
 
     userId: text()
       .notNull()
       .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
-      .$type<Brand<string, "UserId">>(),
+      .$type<BrandId<"UserId">>(),
 
     organizationId: text()
       .notNull()
@@ -38,7 +36,7 @@ export const members = createTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<string, "OrganizationId">>(),
+      .$type<BrandId<"OrganizationId">>(),
 
     role: text({ enum: organizationRoles }).notNull().default("member"),
 
@@ -57,7 +55,7 @@ export type MemberRole = Member["role"]
 export const invitations = createTable(
   "invitations",
   {
-    ...constructId<"InvitationId">("inv"),
+    ...constructId("InvitationId", "inv"),
 
     organizationId: text()
       .notNull()
@@ -65,14 +63,14 @@ export const invitations = createTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<string, "OrganizationId">>(),
+      .$type<BrandId<"OrganizationId">>(),
 
     inviterId: text()
       .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<Brand<string, "MemberId">>(),
+      .$type<BrandId<"MemberId">>(),
 
     email: text().notNull(),
     role: text({ enum: organizationRoles }).notNull().default("member"),
@@ -94,7 +92,7 @@ export type NewInvitation = typeof invitations.$inferInsert
 export type InvitationId = Invitation["id"]
 
 export const activityLogs = createTable("activity_logs", {
-  ...constructId<"ActivityLogId">("act"),
+  ...constructId("ActivityLogId", "act"),
 
   createdAt: integer({ mode: "timestamp" })
     .notNull()
@@ -102,13 +100,13 @@ export const activityLogs = createTable("activity_logs", {
 
   organizationId: text()
     .references(() => organizations.id)
-    .$type<Brand<string, "OrganizationId">>(),
+    .$type<BrandId<"OrganizationId">>(),
   memberId: text()
     .references(() => members.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
     })
-    .$type<Brand<string, "MemberId">>(),
+    .$type<BrandId<"MemberId">>(),
 
   type: text({ enum: activityType }).notNull(),
   ipAddress: text(),
