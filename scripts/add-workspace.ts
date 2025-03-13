@@ -70,6 +70,10 @@ const PACKAGES = [
     label: "kv - Redis client and vector database integration using Upstash",
   },
   {
+    value: "i18n",
+    label: "i18n - Internationalization utilities",
+  },
+  {
     value: "native-ui",
     label:
       "native-ui - Reusable UI components and design system for React Native",
