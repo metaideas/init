@@ -3,14 +3,15 @@
 import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
-import { Loader2Icon } from "lucide-react"
+import { AlertCircle, Loader2Icon } from "lucide-react"
 import React from "react"
 // @ts-expect-error -- this type was removed from react-dom but it's still
-// available to be used
+// available to be used. Remove this once we update to React 19.
 import { useFormStatus } from "react-dom"
 
 import { cn } from "@this/utils/classname"
 
+import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"
 import { Input } from "./input"
 import { Label } from "./label"
@@ -155,6 +156,34 @@ const FormSubmitButton = React.forwardRef<
 })
 FormSubmitButton.displayName = "FormSubmitButton"
 
+const FormServerError = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    title?: string
+  }
+>(({ title = "Error" }, ref) => {
+  const form = useFormContext()
+
+  return (
+    <form.Subscribe selector={formState => [formState.errorMap.onServer ?? []]}>
+      {([error]) => {
+        if (!error || typeof error !== "string") {
+          return null
+        }
+
+        return (
+          <Alert variant="destructive" ref={ref}>
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>{title}</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )
+      }}
+    </form.Subscribe>
+  )
+})
+FormServerError.displayName = "FormServerError"
+
 export const { useAppForm, withForm } = createFormHook({
   fieldContext,
   formContext,
@@ -168,5 +197,6 @@ export const { useAppForm, withForm } = createFormHook({
   },
   formComponents: {
     SubmitButton: FormSubmitButton,
+    ServerError: FormServerError,
   },
 })

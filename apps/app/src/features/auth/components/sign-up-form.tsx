@@ -1,22 +1,24 @@
 "use client"
 
+import { mergeForm, useTransform } from "@tanstack/react-form"
 import { useAction } from "next-safe-action/hooks"
+import { useStateAction } from "next-safe-action/stateful-hooks"
 
 import { useAppForm } from "@this/ui/form"
-import { toast } from "@this/ui/sonner"
 
-import { signUp } from "~/features/auth/actions"
+import { checkEmailAvailability, signUp } from "~/features/auth/actions"
 import { SignUpFormSchema } from "~/features/auth/validation"
 
+const FieldsSchema = SignUpFormSchema._def.schema._def.schema
+
 export default function SignUpForm() {
-  const action = useAction(signUp)
+  const action = useStateAction(signUp, {
+    initResult: { data: undefined },
+  })
+  const checkEmailAvailabilityAction = useAction(checkEmailAvailability)
+
   const form = useAppForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
+    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
     validators: {
       onBlur: ({ value }) => {
         if (
@@ -33,34 +35,29 @@ export default function SignUpForm() {
 
         return null
       },
-      onSubmit: SignUpFormSchema,
+      onSubmit: FieldsSchema,
     },
-    onSubmit: async ({ value }) => {
-      const result = await action.executeAsync(value)
-
-      result?.validationErrors?._errors?.map(error => {
-        toast.error(error)
-      })
-
-      result?.serverError && toast.error(result.serverError)
-    },
+    transform: useTransform(
+      baseForm =>
+        mergeForm(baseForm, {
+          errorMap: {
+            onServer: action.result.serverError,
+          },
+        }),
+      [action.result]
+    ),
   })
 
   return (
     <form
-      onSubmit={e => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
+      action={action.execute}
+      onSubmit={() => form.handleSubmit()}
       className="space-y-4"
     >
       <form.AppForm>
         <form.AppField
           name="name"
-          validators={{
-            onBlur: SignUpFormSchema._def.schema.shape.name,
-          }}
+          validators={{ onBlur: FieldsSchema.shape.name }}
         >
           {field => (
             <field.Item>
@@ -75,7 +72,18 @@ export default function SignUpForm() {
         <form.AppField
           name="email"
           validators={{
-            onBlur: SignUpFormSchema._def.schema.shape.email,
+            onBlur: FieldsSchema.shape.email,
+            onBlurAsync: async ({ value }) => {
+              const result = await checkEmailAvailabilityAction.executeAsync({
+                email: value,
+              })
+
+              if (result?.data?.available) {
+                return null
+              }
+
+              return { message: "Email is already in use" }
+            },
           }}
         >
           {field => (
@@ -90,9 +98,7 @@ export default function SignUpForm() {
         </form.AppField>
         <form.AppField
           name="password"
-          validators={{
-            onBlur: SignUpFormSchema._def.schema.shape.password,
-          }}
+          validators={{ onBlur: FieldsSchema.shape.password }}
         >
           {field => (
             <field.Item>
@@ -106,9 +112,7 @@ export default function SignUpForm() {
         </form.AppField>
         <form.AppField
           name="confirmPassword"
-          validators={{
-            onBlur: SignUpFormSchema._def.schema.shape.confirmPassword,
-          }}
+          validators={{ onBlur: FieldsSchema.shape.confirmPassword }}
         >
           {field => (
             <field.Item>
@@ -120,6 +124,7 @@ export default function SignUpForm() {
             </field.Item>
           )}
         </form.AppField>
+        <form.ServerError />
         <form.SubmitButton className="w-full" loadingText="Signing up...">
           Sign Up
         </form.SubmitButton>

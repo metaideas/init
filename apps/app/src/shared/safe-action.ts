@@ -1,17 +1,18 @@
+import { geolocation, ipAddress } from "@vercel/functions"
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createMiddleware,
   createSafeActionClient,
 } from "next-safe-action"
+import { headers } from "next/headers"
 
+import { db } from "@this/db"
 import { createRateLimiter, slidingWindow } from "@this/kv/ratelimit"
 import { AuthError, RateLimitError } from "@this/observability/error"
 import { captureException } from "@this/observability/error/nextjs"
 import { logger } from "@this/observability/logger"
-
 import * as z from "@this/utils/schema"
-import { geolocation, ipAddress } from "@vercel/functions"
-import { headers } from "next/headers"
+
 import { validateRequest } from "~/shared/auth/server"
 
 export const actionClient = createSafeActionClient({
@@ -29,16 +30,21 @@ export const actionClient = createSafeActionClient({
     return e.message || DEFAULT_SERVER_ERROR_MESSAGE
   },
 })
-  // Logging middleware for action
-  .use(async ({ next, metadata }) => {
+  // Inject dependencies to the action context
+  .use(({ next, metadata }) => {
     const requestId = crypto.randomUUID()
     const childLogger = logger.child({
       action: metadata.name,
       requestId,
     })
 
+    return next({ ctx: { logger: childLogger, db } })
+  })
+  // Logging middleware for action
+  .use(async ({ next, metadata }) => {
     const startTime = performance.now()
-    const result = await next({ ctx: { logger: childLogger } })
+
+    const result = await next()
     const endTime = performance.now()
     const durationMs = endTime - startTime
 

@@ -1,5 +1,7 @@
 "use server"
 
+import { z } from "@this/utils/schema"
+import { flattenValidationErrors } from "next-safe-action"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
@@ -11,11 +13,25 @@ import { auth } from "~/shared/auth/server"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
 
+export const checkEmailAvailability = actionClient
+  .metadata({ name: "auth.checkEmailAvailability" })
+  .schema(z.object({ email: z.string().email() }))
+  .action(async ({ parsedInput: { email }, ctx }) => {
+    const user = await ctx.db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.email, email),
+    })
+
+    return { available: !user }
+  })
+
 export const signUp = actionClient
   .metadata({ name: "auth.signUp" })
   .use(withRateLimitByIp(10, "60 s"))
-  .schema(SignUpFormSchema)
-  .action(async ({ parsedInput: { email, password, name }, ctx }) => {
+  .schema(SignUpFormSchema, {
+    handleValidationErrorsShape: async errors =>
+      flattenValidationErrors(errors),
+  })
+  .stateAction(async ({ parsedInput: { email, password, name }, ctx }) => {
     const { user } = await auth.api.signUpEmail({
       body: { email, password, name },
       headers: await headers(),
@@ -30,8 +46,11 @@ export const signUp = actionClient
 
 export const signInWithPassword = actionClient
   .metadata({ name: "auth.signInWithPassword" })
-  .schema(SignInWithPasswordFormSchema)
-  .action(async ({ parsedInput: { email, password }, ctx }) => {
+  .schema(SignInWithPasswordFormSchema, {
+    handleValidationErrorsShape: async errors =>
+      flattenValidationErrors(errors),
+  })
+  .stateAction(async ({ parsedInput: { email, password }, ctx }) => {
     const { user } = await auth.api.signInEmail({
       body: { email, password },
       headers: await headers(),

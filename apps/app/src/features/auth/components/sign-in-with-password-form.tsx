@@ -1,46 +1,45 @@
 "use client"
-
-import { useAction } from "next-safe-action/hooks"
+import { useStateAction } from "next-safe-action/stateful-hooks"
 import Link from "next/link"
 
 import { Button } from "@this/ui/button"
 import { useAppForm } from "@this/ui/form"
-import { toast } from "@this/ui/sonner"
 
+import { mergeForm, useTransform } from "@tanstack/react-form"
 import { signInWithPassword } from "~/features/auth/actions"
 import { SignInWithPasswordFormSchema } from "~/features/auth/validation"
 
+const FieldsSchema = SignInWithPasswordFormSchema._def.schema
+
 export default function SignInWithPasswordForm() {
-  const action = useAction(signInWithPassword)
+  const action = useStateAction(signInWithPassword, {
+    initResult: { data: undefined },
+  })
+
   const form = useAppForm({
     defaultValues: { email: "", password: "" },
-    validators: {
-      onSubmit: SignInWithPasswordFormSchema,
-    },
-    onSubmit: async ({ value: { email, password } }) => {
-      const result = await action.executeAsync({ email, password })
-
-      result?.validationErrors?._errors?.map(error => {
-        toast.error(error)
-      })
-    },
+    validators: { onSubmit: FieldsSchema },
+    transform: useTransform(
+      baseForm =>
+        mergeForm(baseForm, {
+          errorMap: {
+            onServer: action.result.serverError,
+          },
+        }),
+      [action.result]
+    ),
   })
 
   return (
     <form
-      onSubmit={e => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
+      action={action.execute}
+      onSubmit={() => form.handleSubmit()}
       className="space-y-4"
     >
       <form.AppForm>
         <form.AppField
           name="email"
-          validators={{
-            onBlur: SignInWithPasswordFormSchema.shape.email,
-          }}
+          validators={{ onBlur: FieldsSchema.shape.email }}
         >
           {field => (
             <field.Item>
@@ -55,9 +54,7 @@ export default function SignInWithPasswordForm() {
         </form.AppField>
         <form.AppField
           name="password"
-          validators={{
-            onBlur: SignInWithPasswordFormSchema.shape.password,
-          }}
+          validators={{ onBlur: FieldsSchema.shape.password }}
         >
           {field => (
             <field.Item>
@@ -72,6 +69,7 @@ export default function SignInWithPasswordForm() {
             </field.Item>
           )}
         </form.AppField>
+        <form.ServerError title="Form Error" />
         <form.SubmitButton className="w-full" loadingText="Signing in...">
           Sign in
         </form.SubmitButton>
