@@ -7,7 +7,7 @@ import {
 import { headers } from "next/headers"
 
 import { db } from "@this/db"
-import { createRateLimiter, slidingWindow } from "@this/kv/ratelimit"
+import { createRateLimiter } from "@this/kv/ratelimit"
 import { AuthError, RateLimitError } from "@this/observability/error"
 import { captureException } from "@this/observability/error/nextjs"
 import { logger } from "@this/observability/logger"
@@ -94,11 +94,10 @@ export const authActionClient = actionClient.use(async ({ next }) => {
 })
 
 export function withRateLimitByIp(
-  ...options: Parameters<typeof slidingWindow>
+  prefix: string,
+  limiter: Parameters<typeof createRateLimiter>[1]["limiter"]
 ) {
-  const rateLimiter = createRateLimiter("ip", {
-    limiter: slidingWindow(...options),
-  })
+  const rateLimiter = createRateLimiter(prefix, { limiter })
 
   return createMiddleware().define(async ({ next, ctx }) => {
     const ip = await ipAddress({ headers: await headers() })

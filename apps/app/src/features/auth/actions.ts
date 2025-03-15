@@ -1,9 +1,11 @@
 "use server"
 
-import { z } from "@this/utils/schema"
 import { flattenValidationErrors } from "next-safe-action"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+
+import { slidingWindow } from "@this/kv/ratelimit"
+import { z } from "@this/utils/schema"
 
 import {
   SignInWithPasswordFormSchema,
@@ -26,7 +28,7 @@ export const checkEmailAvailability = actionClient
 
 export const signUp = actionClient
   .metadata({ name: "auth.signUp" })
-  .use(withRateLimitByIp(10, "60 s"))
+  .use(withRateLimitByIp("auth.signUp", slidingWindow(10, "60 s")))
   .schema(SignUpFormSchema, {
     handleValidationErrorsShape: async errors =>
       flattenValidationErrors(errors),
