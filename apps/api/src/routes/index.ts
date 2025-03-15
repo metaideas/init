@@ -24,7 +24,6 @@ app.use(async (c, next) => {
   // Load dependencies into the application context
   await Promise.all([
     import("@this/db").then(({ db }) => c.set("db", db)),
-    import("@this/kv/cloudflare").then(({ kv }) => c.set("kv", kv)),
     import("@this/observability/logger").then(({ logger }) =>
       c.set("logger", logger)
     ),

@@ -157,21 +157,12 @@ importers:
       '@this/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@this/email':
-        specifier: workspace:*
-        version: link:../../packages/email
       '@this/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@this/kv':
-        specifier: workspace:*
-        version: link:../../packages/kv
       '@this/observability':
         specifier: workspace:*
         version: link:../../packages/observability
-      '@this/queue':
-        specifier: workspace:*
-        version: link:../../packages/queue
       '@this/utils':
         specifier: workspace:*
         version: link:../../packages/utils
