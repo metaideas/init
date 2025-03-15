@@ -4,34 +4,47 @@ packages:
   - tooling/*
 
 catalog:
-  "@next/bundle-analyzer": 15.2.2
+  # React
+  react: 18.3.1
+  react-dom: 18.3.1
+  "@types/react": 18.3.18
+  "@types/react-dom": 18.3.5
+  server-only: 0.0.1
+
+  # React Native
+  react-native: 0.77.1
+  react-native-reanimated: 3.17.1
+  nativewind: 4.1.23
   "@sentry/react-native": 6.9.1
-  "@tailwindcss/postcss": 4.0.14
-  "@tanstack/react-form": 1.0.5
+
+  # Next.js
+  next: 15.2.2
+  "@next/bundle-analyzer": 15.2.2
+
+  # TanStack
   "@tanstack/react-query": 5.67.3
+  "@tanstack/react-form": 1.0.5
   "@tanstack/react-router": 1.114.17
   "@tanstack/router-devtools": 1.114.21
   "@tanstack/router-plugin": 1.114.17
-  "@trpc/server": 11.0.0-rc.828
-  "@types/node": 22.13.10
-  "@types/react-dom": 18.3.5
-  "@types/react": 18.3.18
-  class-variance-authority: 0.7.1
-  hono: 4.7.4
-  lucide-react: 0.475.0
-  nativewind: 4.1.23
-  next: 15.2.2
-  pino: 9.6.0
+
+  # Styling
   postcss: 8.5.3
-  react-dom: 18.3.1
-  react-native-reanimated: 3.17.1
-  react-native: 0.77.1
-  react: 18.3.1
-  server-only: 0.0.1
+  "@tailwindcss/postcss": 4.0.14
   tailwindcss-animate: 1.0.7
+  class-variance-authority: 0.7.1
+  lucide-react: 0.475.0
+
+  # Development
+  "@types/node": 22.13.10
   typescript: 5.8.2
   vite: 6.2.1
   vitest: 3.0.8
+
+  # Other
+  "@trpc/server": 11.0.0-rc.828
+  hono: 4.7.4
+  pino: 9.6.0
 
 catalogs:
   tailwind3:
