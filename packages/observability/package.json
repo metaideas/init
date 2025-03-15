@@ -29,30 +29,20 @@
     "@this/utils": "workspace:*",
     "chalk": "5.4.1",
     "http-status-codes": "2.3.0",
+    "next-axiom": "1.9.1",
     "pino": "catalog:",
     "pino-pretty": "13.0.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "next": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@sentry/react-native": "catalog:",
-    "@vercel/functions": "catalog:",
-    "next": "catalog:",
-    "next-axiom": "catalog:"
+    "@sentry/react-native": "catalog:"
   },
   "peerDependenciesMeta": {
     "@sentry/react-native": {
-      "optional": true
-    },
-    "@vercel/functions": {
-      "optional": true
-    },
-    "next": {
-      "optional": true
-    },
-    "next-axiom": {
       "optional": true
     }
   }

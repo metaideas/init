@@ -42,9 +42,6 @@ catalogs:
     '@types/react-dom':
       specifier: 18.3.5
       version: 18.3.5
-    '@vercel/functions':
-      specifier: 2.0.0
-      version: 2.0.0
     class-variance-authority:
       specifier: 0.7.1
       version: 0.7.1
@@ -60,9 +57,6 @@ catalogs:
     next:
       specifier: 15.2.2
       version: 15.2.2
-    next-axiom:
-      specifier: 1.9.1
-      version: 1.9.1
     pino:
       specifier: 9.6.0
       version: 9.6.0
@@ -249,7 +243,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       '@vercel/functions':
-        specifier: 'catalog:'
+        specifier: 2.0.0
         version: 2.0.0
       client-only:
         specifier: 0.0.1
@@ -260,9 +254,6 @@ importers:
       next:
         specifier: 'catalog:'
         version: 15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      next-axiom:
-        specifier: 'catalog:'
-        version: 1.9.1(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       next-safe-action:
         specifier: 7.10.4
         version: 7.10.4(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.24.2)
@@ -679,9 +670,6 @@ importers:
       '@this/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@vercel/functions':
-        specifier: 'catalog:'
-        version: 2.0.0
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -691,9 +679,6 @@ importers:
       next:
         specifier: 'catalog:'
         version: 15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      next-axiom:
-        specifier: 'catalog:'
-        version: 1.9.1(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -1142,20 +1127,14 @@ importers:
       '@this/utils':
         specifier: workspace:*
         version: link:../utils
-      '@vercel/functions':
-        specifier: 'catalog:'
-        version: 2.0.0
       chalk:
         specifier: 5.4.1
         version: 5.4.1
       http-status-codes:
         specifier: 2.3.0
         version: 2.3.0
-      next:
-        specifier: 'catalog:'
-        version: 15.2.2(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-axiom:
-        specifier: 'catalog:'
+        specifier: 1.9.1
         version: 1.9.1(next@15.2.2(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       pino:
         specifier: 'catalog:'
@@ -1167,6 +1146,9 @@ importers:
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
+      next:
+        specifier: 'catalog:'
+        version: 15.2.2(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
@@ -27164,13 +27146,6 @@ snapshots:
   next-axiom@1.9.1(next@15.2.2(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
       next: 15.2.2(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      use-deep-compare: 1.3.0(react@18.3.1)
-      whatwg-fetch: 3.6.20
-
-  next-axiom@1.9.1(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
-    dependencies:
-      next: 15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       use-deep-compare: 1.3.0(react@18.3.1)
       whatwg-fetch: 3.6.20

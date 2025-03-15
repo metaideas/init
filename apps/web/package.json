@@ -23,11 +23,9 @@
     "@this/observability": "workspace:*",
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
-    "@vercel/functions": "catalog:",
     "client-only": "0.0.1",
     "lucide-react": "catalog:",
     "next": "catalog:",
-    "next-axiom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:"

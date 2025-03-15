@@ -8,7 +8,7 @@
     "build:ios:development": "eas build --profile development --platform ios",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
-    "dev": "expo start --dev-client --port 3002",
+    "dev": "expo start --port 3002",
     "format": "biome format --write .",
     "ios": "expo start --ios",
     "lint": "biome lint --fix .",
