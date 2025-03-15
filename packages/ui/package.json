@@ -8,7 +8,7 @@
     "./*": "./src/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
-    "./styles": "./src/styles/index.css"
+    "./styles.css": "./src/styles/index.css"
   },
   "scripts": {
     "check": "biome check --write .",
