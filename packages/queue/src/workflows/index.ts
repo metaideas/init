@@ -20,6 +20,10 @@ export function createWorkflowTrigger(baseUrl: string) {
   }
 }
 
+export function notifyEvent(...args: Parameters<typeof client.notify>) {
+  return client.notify(...args)
+}
+
 export type { TriggerBody, TriggerType } from "./events"
 
 export default client
