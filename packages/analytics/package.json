@@ -22,7 +22,7 @@
   "dependencies": {
     "@this/env": "workspace:*",
     "next-plausible": "3.12.4",
-    "posthog-js": "1.230.4",
+    "posthog-js": "1.231.0",
     "posthog-node": "4.10.1",
     "posthog-react-native": "3.12.0"
   },
