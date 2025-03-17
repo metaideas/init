@@ -14,8 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "catalog:",
-    "@tanstack/react-form": "catalog:",
+    "@next/bundle-analyzer": "15.2.2",
+    "@tanstack/react-form": "1.0.5",
     "@this/analytics": "workspace:*",
     "@this/auth": "workspace:*",
     "@this/db": "workspace:*",
@@ -30,21 +30,21 @@
     "@this/utils": "workspace:*",
     "@vercel/functions": "2.0.0",
     "client-only": "0.0.1",
-    "lucide-react": "catalog:",
-    "next": "catalog:",
+    "lucide-react": "0.475.0",
+    "next": "15.2.2",
     "next-safe-action": "7.10.4",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "server-only": "catalog:"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "catalog:",
+    "@tailwindcss/postcss": "4.0.14",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/node": "22.13.10",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
     "api": "workspace:*",
-    "tailwindcss": "catalog:tailwind4",
-    "typescript": "catalog:"
+    "tailwindcss": "4.0.14",
+    "typescript": "5.8.2"
   }
 }

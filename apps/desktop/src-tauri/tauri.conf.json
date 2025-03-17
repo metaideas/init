@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "identifier": "com.desktop.app",
   "build": {
-    "beforeDevCommand": "pnpm vite:dev",
+    "beforeDevCommand": "bun vite:dev",
     "devUrl": "http://localhost:3003",
-    "beforeBuildCommand": "pnpm vite:build",
+    "beforeBuildCommand": "bun vite:build",
     "frontendDist": "../dist"
   },
   "app": {
