@@ -1,12 +1,12 @@
 {
   "name": "@init/core",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },
-  "license": "MIT",
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "5.8.3"
   }
 }

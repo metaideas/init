@@ -327,7 +327,7 @@ packages/package-name
 You can create a new package using the following command:
 
 ```sh
-pnpm generate
+bun generate
 ```
 
 And then selecting the `internal-package` option.

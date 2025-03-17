@@ -1,19 +1,20 @@
 {
   "name": "init",
   "private": true,
+  "workspaces": ["apps/*", "packages/*", "tooling/*"],
   "scripts": {
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "check": "turbo check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
-    "db:push": "turbo --filter @init/db push",
     "db:migrate": "turbo --filter @init/db migrate",
+    "db:push": "turbo --filter @init/db push",
     "db:studio": "turbo --filter @init/db studio",
     "deps:check": "taze -rl",
     "deps:list": "syncpack list",
-    "deps:mismatch": "syncpack list-mismatches",
-    "deps:sync": "syncpack fix-mismatches",
-    "deps:sync:prompt": "syncpack prompt",
+    "deps:mismatch": "syncpack list-mismatches --types dev,prod",
+    "deps:sync": "syncpack fix-mismatches --types dev,prod",
+    "deps:sync:prompt": "syncpack prompt --types dev,prod",
     "deps:update": "taze -rlw",
     "dev": "turbo dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
@@ -33,19 +34,20 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@clack/prompts": "0.10.1",
     "@turbo/gen": "2.5.3",
-    "@types/node": "catalog:",
+    "@types/node": "22.15.17",
     "dependency-cruiser": "16.10.2",
+    "dotenv": "16.5.0",
     "shadcn": "^2.6.3",
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
-    "tsx": "catalog:",
+    "tsup": "8.5.0",
+    "tsx": "4.19.4",
     "turbo": "2.5.3",
-    "typescript": "catalog:"
+    "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "bun@1.2.13",
   "engines": {
     "node": ">=22"
   }

@@ -8,11 +8,11 @@
     }
   },
   "scripts": {
-    "build": "tsx scripts/build.ts",
+    "build": "bun scripts/build.ts",
     "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
-    "dev": "tsx watch --env-file=.env src/index.ts",
+    "dev": "bun --watch src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "start": "node dist",
@@ -26,25 +26,24 @@
     "@hono/zod-validator": "0.4.3",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
-    "@init/email": "workspace:^",
+    "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
-    "@trpc/server": "catalog:",
+    "@trpc/server": "11.4.0",
     "esbuild": "^0.25.4",
-    "hono": "catalog:",
-    "pino": "catalog:",
-    "superjson": "catalog:"
+    "hono": "4.7.11",
+    "pino": "9.6.0",
+    "superjson": "2.2.2"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
+    "@types/node": "22.15.17",
     "esbuild-node-externals": "^1.18.0",
     "tsup": "8.5.0",
-    "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "5.8.3"
   }
 }

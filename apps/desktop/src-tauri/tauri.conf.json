@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "identifier": "com.desktop.app",
   "build": {
-    "beforeBuildCommand": "pnpm next:build",
-    "beforeDevCommand": "pnpm next:dev",
+    "beforeBuildCommand": "bun next:build",
+    "beforeDevCommand": "bun next:dev",
     "devUrl": "http://localhost:3003",
     "frontendDist": "../out"
   },

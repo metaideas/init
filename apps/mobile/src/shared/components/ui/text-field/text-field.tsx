@@ -21,7 +21,7 @@ import Animated, {
 
 import { cn } from "@init/utils/ui"
 
-import { useColorScheme } from "../../hooks/use-color-scheme"
+import { useColorScheme } from "~/shared/hooks"
 import type { TextFieldProps, TextFieldRef } from "./types"
 
 const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(

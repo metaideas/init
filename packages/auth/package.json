@@ -28,12 +28,12 @@
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "better-auth": "1.2.8",
-    "server-only": "catalog:"
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "@types/node": "22.15.17",
+    "typescript": "5.8.3",
+    "vitest": "3.2.3"
   }
 }

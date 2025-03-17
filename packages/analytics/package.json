@@ -24,23 +24,23 @@
     "@init/utils": "workspace:*",
     "flags": "4.0.0",
     "next-plausible": "3.12.4",
-    "posthog-js": "catalog:",
+    "posthog-js": "1.242.0",
     "posthog-node": "4.17.1",
-    "posthog-react-native": "catalog:",
-    "server-only": "catalog:"
+    "posthog-react-native": "3.15.2",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "next": "catalog:",
-    "react": "catalog:",
-    "typescript": "catalog:"
+    "@types/react": "19.1.8",
+    "next": "15.3.3",
+    "react": "19.0.0",
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "react-native": "catalog:"
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0",
+    "react-native": ">=0.70.0"
   },
   "peerDependenciesMeta": {
     "react": {

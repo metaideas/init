@@ -18,8 +18,8 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "push": "drizzle-kit push",
-    "reset": "tsx --env-file=.env ./scripts/reset.ts",
-    "seed": "tsx --env-file=.env ./scripts/seed.ts",
+    "reset": "bun run ./scripts/reset.ts",
+    "seed": "bun run ./scripts/seed.ts",
     "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
@@ -36,7 +36,6 @@
     "@types/pg": "^8.15.4",
     "drizzle-kit": "0.31.1",
     "drizzle-seed": "0.3.1",
-    "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "5.8.3"
   }
 }
