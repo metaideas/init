@@ -22,21 +22,22 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@next/bundle-analyzer": "catalog:",
-    "fumadocs-core": "15.2.10",
-    "fumadocs-mdx": "11.6.1",
-    "fumadocs-ui": "15.2.10",
-    "next": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "@next/bundle-analyzer": "15.3.2",
+    "fumadocs-core": "15.3.1",
+    "fumadocs-mdx": "11.6.3",
+    "fumadocs-ui": "15.3.1",
+    "lucide-react": "0.475.0",
+    "next": "15.3.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@fumadocs/cli": "0.1.1",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "2.0.13",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "typescript": "catalog:"
+    "@types/node": "22.15.17",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
+    "typescript": "5.8.3"
   }
 }

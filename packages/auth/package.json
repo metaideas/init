@@ -22,18 +22,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/expo": "1.2.4",
+    "@better-auth/expo": "1.2.7",
     "@init/db": "workspace:*",
     "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "better-auth": "1.2.4",
-    "server-only": "catalog:"
+    "better-auth": "1.2.7",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "@types/node": "22.15.17",
+    "typescript": "5.8.3",
+    "vitest": "3.1.3"
   }
 }

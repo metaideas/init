@@ -19,27 +19,27 @@
     "@init/env": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@tanstack/react-query": "catalog:",
-    "@tanstack/react-router": "catalog:",
+    "@tanstack/react-query": "5.76.1",
+    "@tanstack/react-router": "1.120.3",
     "@tauri-apps/api": "2.5.0",
     "@tauri-apps/plugin-opener": "2.2.6",
-    "@trpc/client": "catalog:",
-    "@trpc/tanstack-react-query": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "superjson": "catalog:"
+    "@trpc/client": "11.1.2",
+    "@trpc/tanstack-react-query": "11.1.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "superjson": "2.2.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.4",
-    "@tanstack/router-devtools": "catalog:",
-    "@tanstack/router-plugin": "catalog:",
+    "@tailwindcss/vite": "4.1.6",
+    "@tanstack/router-devtools": "1.120.3",
+    "@tanstack/router-plugin": "1.120.3",
     "@tauri-apps/cli": "2.5.0",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
     "@vitejs/plugin-react": "4.4.1",
     "api": "workspace:*",
-    "typescript": "catalog:",
-    "vite": "catalog:"
+    "typescript": "5.8.3",
+    "vite": "6.3.5"
   }
 }
