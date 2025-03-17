@@ -9,6 +9,8 @@
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
     "dev": "expo start --port 3002",
+    "dev:ios": "expo start --ios",
+    "dev:android": "expo start --android",
     "format": "biome format --write .",
     "ios": "expo start --ios",
     "lint": "biome lint --fix .",
