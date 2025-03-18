@@ -51,6 +51,14 @@
     },
     "format": {},
     "lint": {},
+    "push": {
+      "cache": false,
+      "interactive": true
+    },
+    "studio": {
+      "cache": false,
+      "persistent": true
+    },
     "typecheck": {}
   },
   "ui": "tui"

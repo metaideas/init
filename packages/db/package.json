@@ -12,11 +12,12 @@
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "drizzle": "drizzle-kit",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
+    "push": "drizzle-kit push",
     "reset": "tsx ./scripts/reset.ts",
     "seed": "tsx ./scripts/seed.ts",
+    "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
