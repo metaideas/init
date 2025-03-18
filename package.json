@@ -1,10 +1,10 @@
 {
   "name": "init",
   "private": true,
+  "workspaces": ["apps/*", "packages/*", "tooling/*"],
   "scripts": {
     "build": "turbo build",
     "check": "turbo check",
-    "clean": "turbo clean",
     "clean:all": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -rl",
     "deps:graph": "tsx scripts/graph-dependencies.ts",
@@ -31,7 +31,7 @@
     "@biomejs/biome": "1.9.4",
     "@clack/prompts": "0.10.0",
     "@turbo/gen": "2.4.4",
-    "@types/node": "catalog:",
+    "@types/node": "22.13.10",
     "dependency-cruiser": "16.10.0",
     "dotenv": "16.4.7",
     "sherif": "1.4.0",
@@ -40,15 +40,10 @@
     "tsup": "8.4.0",
     "tsx": "4.19.3",
     "turbo": "2.4.4",
-    "typescript": "catalog:"
+    "typescript": "5.8.2"
   },
-  "packageManager": "pnpm@10.6.3",
+  "packageManager": "bun@1.0.35",
   "engines": {
     "node": ">=22"
-  },
-  "pnpm": {
-    "overrides": {
-      "vite": "catalog:"
-    }
   }
 }

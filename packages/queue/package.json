@@ -34,10 +34,10 @@
     "@this/payments": "workspace:*",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "5.8.2"
   },
   "peerDependencies": {
-    "hono": "catalog:"
+    "hono": "4.7.4"
   },
   "peerDependenciesMeta": {
     "hono": {

@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@content-collections/mdx": "0.2.2",
-    "@next/bundle-analyzer": "catalog:",
+    "@next/bundle-analyzer": "15.2.2",
     "@this/analytics": "workspace:*",
     "@this/env": "workspace:*",
     "@this/i18n": "workspace:*",
@@ -24,22 +24,22 @@
     "@this/ui": "workspace:*",
     "@this/utils": "workspace:*",
     "client-only": "0.0.1",
-    "lucide-react": "catalog:",
-    "next": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "server-only": "catalog:"
+    "lucide-react": "0.475.0",
+    "next": "15.2.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@content-collections/cli": "0.1.6",
     "@content-collections/core": "0.8.2",
     "@content-collections/next": "0.2.6",
-    "@tailwindcss/postcss": "catalog:",
+    "@tailwindcss/postcss": "4.0.14",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "tailwindcss": "catalog:tailwind4",
-    "typescript": "catalog:"
+    "@types/node": "22.13.10",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "tailwindcss": "4.0.14",
+    "typescript": "5.8.2"
   }
 }

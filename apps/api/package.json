@@ -15,10 +15,10 @@
     "dev": "wrangler dev --port 3001 --env development",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "postinstall": "pnpm run typegen:cloudflare && pnpm run typegen:client",
+    "postinstall": "bun run typegen:cloudflare && bun run typegen:client",
     "typecheck": "tsc --noEmit",
     "typegen:client": "tsup src/client.ts --dts-only",
-    "typegen:client:watch": "pnpm run typegen:client --watch",
+    "typegen:client:watch": "bun run typegen:client --watch",
     "typegen:cloudflare": "wrangler types"
   },
   "dependencies": {
@@ -29,14 +29,14 @@
     "@this/env": "workspace:*",
     "@this/observability": "workspace:*",
     "@this/utils": "workspace:*",
-    "@trpc/server": "catalog:",
-    "hono": "catalog:",
-    "pino": "catalog:"
+    "@trpc/server": "11.0.0-rc.828",
+    "hono": "4.7.4",
+    "pino": "9.6.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "typescript": "catalog:",
+    "@types/node": "22.13.10",
+    "typescript": "5.8.2",
     "wrangler": "4.0.0"
   }
 }

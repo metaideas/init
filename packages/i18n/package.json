@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "next": "catalog:",
-    "typescript": "catalog:"
+    "next": "15.2.2",
+    "typescript": "5.8.2"
   }
 }

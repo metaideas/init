@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "@types/node": "22.13.10",
+    "typescript": "5.8.2"
   }
 }
