@@ -67,11 +67,12 @@ const PACKAGES = [
   },
   {
     value: "kv",
-    label: "kv - Redis client and vector database integration using Upstash",
+    label: "kv - Redis client database integration using Upstash",
   },
   {
-    value: "i18n",
-    label: "i18n - Internationalization utilities",
+    value: "internationalization",
+    label:
+      "internationalization - Internationalization utilities and translation files",
   },
   {
     value: "native-ui",
@@ -94,7 +95,8 @@ const PACKAGES = [
   },
   {
     value: "security",
-    label: "security - Security utilities and best practices using Arcjet",
+    label:
+      "security - Security utilities and best practices using Arcjet and rate-limiting using Upstash",
   },
   {
     value: "storage",
@@ -184,7 +186,7 @@ async function main() {
       "--type",
       workspaceType,
       "--name",
-      workspaceName,
+      workspaceType === "app" ? workspaceName : `@init/${workspace}`,
     ])
 
     log.success(`Added "${workspaceName}" ${workspaceType} to the workspace`)
