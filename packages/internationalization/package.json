@@ -7,7 +7,9 @@
   "exports": {
     "./locale": "./src/locale.ts",
     "./nextjs": "./src/nextjs/index.ts",
-    "./nextjs/*": "./src/nextjs/*.ts"
+    "./nextjs/*": "./src/nextjs/*.ts",
+    "./nextjs/types": "./src/nextjs/types.d.ts",
+    "./translations/*": "./translations/*.json"
   },
   "scripts": {
     "check": "biome check --write .",

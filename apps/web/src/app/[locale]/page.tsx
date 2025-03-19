@@ -13,7 +13,7 @@ export default async function Page({
   params,
 }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params
-  const t = await getTranslations("locale")
+  const t = await getTranslations("web.home")
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -37,8 +37,7 @@ export default async function Page({
               <TypographyH1>Init Web</TypographyH1>
 
               <TypographyLead className="max-w-2xl">
-                This is a marketing site for the Init project. Here you can can
-                build a marketing site with static content.
+                {t("description")}
               </TypographyLead>
 
               <div className="mt-6">
@@ -53,7 +52,7 @@ export default async function Page({
           </div>
         </section>
         <section className="w-full text-center">
-          <TypographySmall>{t(locale)}</TypographySmall>
+          <TypographySmall>{t(`locale.${locale}`)}</TypographySmall>
         </section>
       </main>
       <footer className="flex w-full shrink-0 justify-center gap-2 border-t px-4 py-6 md:px-6">

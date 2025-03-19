@@ -1,3 +1,5 @@
+import "server-only"
+
 import { geolocation, ipAddress } from "@vercel/functions"
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,

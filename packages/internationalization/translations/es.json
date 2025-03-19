@@ -1,0 +1,19 @@
+{
+  "app": {
+    "test": {
+      "description": "Esta es tu página de inicio localizada",
+      "title": "¡Hola mundo!",
+      "content": "Este es un contenido de ejemplo en español. Aquí puedes encontrar información sobre nuestro proyecto y sus características principales. ¡Gracias por visitarnos!"
+    }
+  },
+  "web": {
+    "home": {
+      "title": "Inicio",
+      "description": "Esta es la página de inicio del proyecto",
+      "locale": {
+        "en": "Esto es Inglés",
+        "es": "Esto es Español"
+      }
+    }
+  }
+}
