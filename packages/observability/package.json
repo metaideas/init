@@ -1,5 +1,5 @@
 {
-  "name": "@this/observability",
+  "name": "@init/observability",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -25,8 +25,8 @@
     "@sentry/browser": "9.5.0",
     "@sentry/cloudflare": "9.5.0",
     "@sentry/nextjs": "9.5.0",
-    "@this/env": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/utils": "workspace:*",
     "chalk": "5.4.1",
     "http-status-codes": "2.3.0",
     "next-axiom": "1.9.1",

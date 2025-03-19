@@ -1,5 +1,5 @@
-import { createEnv } from "@this/env"
-import * as z from "@this/utils/schema"
+import { createEnv } from "@init/env"
+import * as z from "@init/utils/schema"
 
 export default createEnv({
   client: {

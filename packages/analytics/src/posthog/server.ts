@@ -1,6 +1,6 @@
 import { PostHog } from "posthog-node"
 
-import env from "@this/env/analytics/server"
+import env from "@init/env/analytics/server"
 
 export const analytics = new PostHog(env.POSTHOG_API_KEY, {
   host: env.POSTHOG_HOST,

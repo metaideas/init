@@ -5,7 +5,7 @@ import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import React from "react"
 import { Text, View } from "react-native"
 
-import { _cn as cn } from "@this/utils/classname"
+import { _cn as cn } from "@init/utils/classname"
 
 import { Button, buttonTextVariants } from "./button"
 import { Loader2 } from "./icon"

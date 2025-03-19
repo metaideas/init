@@ -1,6 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs"
 
-import * as z from "@this/utils/schema"
+import * as z from "@init/utils/schema"
 
 import envServer from "./server"
 

@@ -1,7 +1,7 @@
 import { PostHogProvider } from "posthog-react-native"
 import type { ComponentProps } from "react"
 
-import env from "@this/env/analytics/expo"
+import env from "@init/env/analytics/expo"
 
 import { config } from "./config"
 

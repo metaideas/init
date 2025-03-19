@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { ChevronDown } from "./icon"
 

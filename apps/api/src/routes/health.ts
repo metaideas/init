@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { env } from "hono/adapter"
 
-import { ensureEnv } from "@this/env"
+import { ensureEnv } from "@init/env"
 
 import type { AppContext } from "~/shared/types"
 
@@ -15,11 +15,11 @@ import type { AppContext } from "~/shared/types"
  */
 export default new Hono<AppContext>().get("/", async c => {
   const [authEnv, dbEnv, emailEnv, kvEnv, queueEnv] = await Promise.all([
-    import("@this/env/auth"),
-    import("@this/env/db"),
-    import("@this/env/email"),
-    import("@this/env/kv"),
-    import("@this/env/queue"),
+    import("@init/env/auth"),
+    import("@init/env/db"),
+    import("@init/env/email"),
+    import("@init/env/kv"),
+    import("@init/env/queue"),
   ])
 
   // Ensure environment variables are set

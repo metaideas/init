@@ -3,7 +3,7 @@
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 import * as React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { buttonVariants } from "./button"
 

@@ -1,5 +1,5 @@
 {
-  "name": "@this/security",
+  "name": "@init/security",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@arcjet/next": "1.0.0-beta.4",
     "@arcjet/node": "1.0.0-beta.4",
     "@arcjet/redact": "1.0.0-beta.4",
-    "@this/env": "workspace:*"
+    "@init/env": "workspace:*"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

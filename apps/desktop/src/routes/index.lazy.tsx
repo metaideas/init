@@ -2,9 +2,9 @@ import { createLazyFileRoute } from "@tanstack/react-router"
 import { invoke } from "@tauri-apps/api/core"
 import { useState } from "react"
 
+import { Button } from "@init/ui/button"
+import { Input } from "@init/ui/input"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { Button } from "@this/ui/button"
-import { Input } from "@this/ui/input"
 import { useTRPC } from "~/shared/trpc"
 
 export const Route = createLazyFileRoute("/")({

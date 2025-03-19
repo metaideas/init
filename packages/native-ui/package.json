@@ -1,5 +1,5 @@
 {
-  "name": "@this/native-ui",
+  "name": "@init/native-ui",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -47,7 +47,7 @@
     "@rn-primitives/tooltip": "^1.1.0",
     "@rn-primitives/types": "1.1.0",
     "@tanstack/react-form": "catalog:",
-    "@this/utils": "workspace:*",
+    "@init/utils": "workspace:*",
     "class-variance-authority": "catalog:",
     "lucide-react-native": "0.475.0",
     "react-native": "catalog:",

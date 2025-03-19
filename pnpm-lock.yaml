@@ -151,19 +151,22 @@ importers:
       '@hono/zod-validator':
         specifier: 0.4.3
         version: 0.4.3(hono@4.7.4)(zod@3.24.2)
-      '@this/auth':
+      '@init/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@this/db':
+      '@init/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@this/observability':
+      '@init/observability':
         specifier: workspace:*
         version: link:../../packages/observability
-      '@this/utils':
+      '@init/queue':
+        specifier: workspace:*
+        version: link:../../packages/queue
+      '@init/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       '@trpc/server':
@@ -191,48 +194,48 @@ importers:
 
   apps/app:
     dependencies:
+      '@init/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@init/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@init/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@init/email':
+        specifier: workspace:*
+        version: link:../../packages/email
+      '@init/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@init/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@init/kv':
+        specifier: workspace:*
+        version: link:../../packages/kv
+      '@init/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
+      '@init/queue':
+        specifier: workspace:*
+        version: link:../../packages/queue
+      '@init/security':
+        specifier: workspace:*
+        version: link:../../packages/security
+      '@init/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.2.2
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
-      '@this/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@this/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@this/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@this/email':
-        specifier: workspace:*
-        version: link:../../packages/email
-      '@this/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@this/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@this/kv':
-        specifier: workspace:*
-        version: link:../../packages/kv
-      '@this/observability':
-        specifier: workspace:*
-        version: link:../../packages/observability
-      '@this/queue':
-        specifier: workspace:*
-        version: link:../../packages/queue
-      '@this/security':
-        specifier: workspace:*
-        version: link:../../packages/security
-      '@this/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@vercel/functions':
         specifier: 2.0.0
         version: 2.0.0
@@ -285,6 +288,15 @@ importers:
 
   apps/desktop:
     dependencies:
+      '@init/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@init/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.68.0(react@18.3.1)
@@ -297,15 +309,6 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: 2.2.6
         version: 2.2.6
-      '@this/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@this/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -352,21 +355,24 @@ importers:
 
   apps/docs:
     dependencies:
+      '@init/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@init/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@init/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@init/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.2.2
-      '@this/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@this/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@this/observability':
-        specifier: workspace:*
-        version: link:../../packages/observability
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       fumadocs-core:
         specifier: 15.0.17
         version: 15.0.17(@types/react@18.3.18)(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -419,12 +425,12 @@ importers:
 
   apps/extension:
     dependencies:
+      '@init/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tanstack/react-router':
         specifier: 'catalog:'
         version: 1.114.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@this/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@webext-core/isolated-element':
         specifier: 1.1.2
         version: 1.1.2
@@ -483,6 +489,21 @@ importers:
       '@expo/vector-icons':
         specifier: 14.0.4
         version: 14.0.4
+      '@init/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@init/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@init/native-ui':
+        specifier: workspace:*
+        version: link:../../packages/native-ui
+      '@init/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@react-navigation/bottom-tabs':
         specifier: 7.2.1
         version: 7.2.1(@react-navigation/native@7.0.15(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-safe-area-context@5.3.0(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native-screens@4.9.2(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -498,21 +519,6 @@ importers:
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.68.0(react@18.3.1)
-      '@this/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@this/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@this/native-ui':
-        specifier: workspace:*
-        version: link:../../packages/native-ui
-      '@this/observability':
-        specifier: workspace:*
-        version: link:../../packages/observability
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       expo:
         specifier: 52.0.39
         version: 52.0.39(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@expo/metro-runtime@4.0.1(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native-webview@13.13.4(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -640,27 +646,27 @@ importers:
       '@content-collections/mdx':
         specifier: 0.2.2
         version: 0.2.2(@content-collections/core@0.8.2(typescript@5.8.2))(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@init/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@init/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@init/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@init/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
+      '@init/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@next/bundle-analyzer':
         specifier: 'catalog:'
         version: 15.2.2
-      '@this/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@this/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@this/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@this/observability':
-        specifier: workspace:*
-        version: link:../../packages/observability
-      '@this/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -725,7 +731,7 @@ importers:
       '@ai-sdk/openai':
         specifier: 1.2.5
         version: 1.2.5(zod@3.24.2)
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
       '@upstash/semantic-cache':
@@ -750,7 +756,7 @@ importers:
 
   packages/analytics:
     dependencies:
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
       next-plausible:
@@ -787,16 +793,16 @@ importers:
       '@better-auth/expo':
         specifier: 1.2.4
         version: 1.2.4(better-auth@1.2.4(typescript@5.8.2))
-      '@this/db':
+      '@init/db':
         specifier: workspace:*
         version: link:../db
-      '@this/email':
+      '@init/email':
         specifier: workspace:*
         version: link:../email
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
-      '@this/utils':
+      '@init/utils':
         specifier: workspace:*
         version: link:../utils
       better-auth:
@@ -821,15 +827,15 @@ importers:
 
   packages/db:
     dependencies:
+      '@init/env':
+        specifier: workspace:*
+        version: link:../env
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
-      '@this/env':
-        specifier: workspace:*
-        version: link:../env
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
       drizzle-orm:
         specifier: 0.40.0
         version: 0.40.0(@cloudflare/workers-types@4.20250313.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(gel@2.0.1)(kysely@0.27.6)
@@ -852,24 +858,24 @@ importers:
 
   packages/email:
     dependencies:
+      '@init/env':
+        specifier: workspace:*
+        version: link:../env
+      '@init/observability':
+        specifier: workspace:*
+        version: link:../observability
+      '@init/queue':
+        specifier: workspace:*
+        version: link:../queue
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@react-email/components':
         specifier: 0.0.33
         version: 0.0.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-email/render':
         specifier: 1.0.5
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@this/env':
-        specifier: workspace:*
-        version: link:../env
-      '@this/observability':
-        specifier: workspace:*
-        version: link:../observability
-      '@this/queue':
-        specifier: workspace:*
-        version: link:../queue
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
       resend:
         specifier: 4.1.2
         version: 4.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -892,15 +898,15 @@ importers:
 
   packages/env:
     dependencies:
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@t3-oss/env-core':
         specifier: 0.12.0
         version: 0.12.0(typescript@5.8.2)(valibot@1.0.0-beta.15(typescript@5.8.2))(zod@3.24.2)
       '@t3-oss/env-nextjs':
         specifier: 0.12.0
         version: 0.12.0(typescript@5.8.2)(valibot@1.0.0-beta.15(typescript@5.8.2))(zod@3.24.2)
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -917,7 +923,7 @@ importers:
 
   packages/i18n:
     dependencies:
-      '@this/utils':
+      '@init/utils':
         specifier: workspace:*
         version: link:../utils
       next-intl:
@@ -936,10 +942,10 @@ importers:
 
   packages/kv:
     dependencies:
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
-      '@this/utils':
+      '@init/utils':
         specifier: workspace:*
         version: link:../utils
       '@upstash/ratelimit':
@@ -961,6 +967,9 @@ importers:
 
   packages/native-ui:
     dependencies:
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@react-navigation/native':
         specifier: 7.0.15
         version: 7.0.15(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -1045,9 +1054,6 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
@@ -1097,6 +1103,12 @@ importers:
 
   packages/observability:
     dependencies:
+      '@init/env':
+        specifier: workspace:*
+        version: link:../env
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@openstatus/react':
         specifier: ^0.0.3
         version: 0.0.3(react@18.3.1)
@@ -1112,12 +1124,6 @@ importers:
       '@sentry/react-native':
         specifier: 'catalog:'
         version: 6.9.1(expo@52.0.39(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@expo/metro-runtime@4.0.1(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native-webview@13.13.4(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
-      '@this/env':
-        specifier: workspace:*
-        version: link:../env
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
       chalk:
         specifier: 5.4.1
         version: 5.4.1
@@ -1146,6 +1152,15 @@ importers:
 
   packages/payments:
     dependencies:
+      '@init/env':
+        specifier: workspace:*
+        version: link:../env
+      '@init/kv':
+        specifier: workspace:*
+        version: link:../kv
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@stripe/agent-toolkit':
         specifier: 0.5.1
         version: 0.5.1(@langchain/core@0.3.39(openai@4.87.3(ws@8.18.0)(zod@3.24.2)))(@modelcontextprotocol/sdk@1.5.0)(ai@4.1.61(react@18.3.1)(zod@3.24.2))(openai@4.87.3(ws@8.18.0)(zod@3.24.2))
@@ -1155,12 +1170,6 @@ importers:
       '@stripe/stripe-js':
         specifier: 6.0.0
         version: 6.0.0
-      '@this/env':
-        specifier: workspace:*
-        version: link:../env
-      '@this/kv':
-        specifier: workspace:*
-        version: link:../kv
       stripe:
         specifier: 17.7.0
         version: 17.7.0
@@ -1174,16 +1183,16 @@ importers:
 
   packages/queue:
     dependencies:
-      '@this/ai':
+      '@init/ai':
         specifier: workspace:*
         version: link:../ai
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
-      '@this/observability':
+      '@init/observability':
         specifier: workspace:*
         version: link:../observability
-      '@this/utils':
+      '@init/utils':
         specifier: workspace:*
         version: link:../utils
       '@upstash/qstash':
@@ -1199,7 +1208,7 @@ importers:
         specifier: 'catalog:'
         version: 4.7.4
     devDependencies:
-      '@this/payments':
+      '@init/payments':
         specifier: workspace:*
         version: link:../payments
       '@tooling/helpers':
@@ -1226,7 +1235,7 @@ importers:
       '@arcjet/redact':
         specifier: 1.0.0-beta.4
         version: 1.0.0-beta.4
-      '@this/env':
+      '@init/env':
         specifier: workspace:*
         version: link:../env
     devDependencies:
@@ -1261,6 +1270,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@radix-ui/react-accordion':
         specifier: 1.2.3
         version: 1.2.3(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1348,9 +1360,6 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
-      '@this/utils':
-        specifier: workspace:*
-        version: link:../utils
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1

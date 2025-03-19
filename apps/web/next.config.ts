@@ -2,15 +2,15 @@ import { withContentCollections } from "@content-collections/next"
 import bundleAnalyzer from "@next/bundle-analyzer"
 import type { NextConfig } from "next"
 
-import { withAnalytics } from "@this/analytics/posthog/nextjs"
-import { withIntl } from "@this/i18n/nextjs/config"
-import { withErrorMonitoring } from "@this/observability/error/nextjs"
-import { withLogging } from "@this/observability/logger/nextjs"
+import { withAnalytics } from "@init/analytics/posthog/nextjs"
+import { withIntl } from "@init/i18n/nextjs/config"
+import { withErrorMonitoring } from "@init/observability/error/nextjs"
+import { withLogging } from "@init/observability/logger/nextjs"
 
-import { ensureEnv } from "@this/env"
-import dbEnv from "@this/env/db"
-import kvEnv from "@this/env/kv"
-import queueEnv from "@this/env/queue"
+import { ensureEnv } from "@init/env"
+import dbEnv from "@init/env/db"
+import kvEnv from "@init/env/kv"
+import queueEnv from "@init/env/queue"
 
 import appEnv from "~/shared/env"
 

@@ -3,14 +3,14 @@ import { Link } from "expo-router"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { Button } from "@this/native-ui/button"
+import { Button } from "@init/native-ui/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@this/native-ui/collapsible"
-import { useAppForm } from "@this/native-ui/form"
-import { Text } from "@this/native-ui/text"
+} from "@init/native-ui/collapsible"
+import { useAppForm } from "@init/native-ui/form"
+import { Text } from "@init/native-ui/text"
 
 export default function Page() {
   const form = useAppForm({

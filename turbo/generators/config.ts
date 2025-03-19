@@ -16,7 +16,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "input",
         name: "name",
         message: "What is the name of the package?",
-        prefix: "@this/",
+        prefix: "@init/",
       },
       {
         type: "input",

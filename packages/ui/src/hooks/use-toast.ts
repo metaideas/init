@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { assertUnreachable } from "@this/utils/assert"
+import { assertUnreachable } from "@init/utils/assert"
 
 import type { ToastActionElement, ToastProps } from "../toast"
 

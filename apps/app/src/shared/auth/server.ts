@@ -3,8 +3,8 @@ import "server-only"
 import { headers } from "next/headers"
 import { cache } from "react"
 
-import { createAuth } from "@this/auth/server"
-import { admin, nextCookies, organization } from "@this/auth/server/plugins"
+import { createAuth } from "@init/auth/server"
+import { admin, nextCookies, organization } from "@init/auth/server/plugins"
 
 import env from "~/shared/env"
 

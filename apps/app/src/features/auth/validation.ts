@@ -1,5 +1,5 @@
-import { EmailSchema, PasswordSchema, matchPasswords } from "@this/auth/schema"
-import * as z from "@this/utils/schema"
+import { EmailSchema, PasswordSchema, matchPasswords } from "@init/auth/schema"
+import * as z from "@init/utils/schema"
 
 export const SignUpFormSchema = z
   .formData({

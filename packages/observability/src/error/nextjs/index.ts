@@ -2,8 +2,8 @@ import { init } from "@sentry/nextjs"
 import { withSentryConfig } from "@sentry/nextjs"
 import type { NextConfig } from "next/types"
 
-import env from "@this/env/observability/nextjs"
-import { isProduction } from "@this/utils/environment"
+import env from "@init/env/observability/nextjs"
+import { isProduction } from "@init/utils/environment"
 
 export * as Sentry from "@sentry/nextjs"
 export { captureException, captureMessage } from "@sentry/nextjs"

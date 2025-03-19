@@ -1,5 +1,5 @@
 {
-  "name": "@this/i18n",
+  "name": "@init/i18n",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@this/utils": "workspace:*",
+    "@init/utils": "workspace:*",
     "next-intl": "4.0.2"
   },
   "devDependencies": {

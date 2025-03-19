@@ -1,5 +1,5 @@
-import { logger } from "@this/observability/logger"
-import { verifyMessageRequest } from "@this/queue/messages/verify"
+import { logger } from "@init/observability/logger"
+import { verifyMessageRequest } from "@init/queue/messages/verify"
 import type { NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {

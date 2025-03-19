@@ -1,5 +1,5 @@
-import { createAuth } from "@this/auth/server"
-import { admin, organization } from "@this/auth/server/plugins"
+import { createAuth } from "@init/auth/server"
+import { admin, organization } from "@init/auth/server/plugins"
 
 import env from "~/shared/env"
 

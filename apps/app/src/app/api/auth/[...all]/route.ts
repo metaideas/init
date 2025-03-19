@@ -1,4 +1,4 @@
-import { handler } from "@this/auth/nextjs"
+import { handler } from "@init/auth/nextjs"
 
 import { auth } from "~/shared/auth/server"
 

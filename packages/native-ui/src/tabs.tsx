@@ -1,7 +1,7 @@
 import * as TabsPrimitive from "@rn-primitives/tabs"
 import * as React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { TextClassContext } from "./text"
 

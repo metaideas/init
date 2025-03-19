@@ -3,7 +3,7 @@
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 import * as React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,

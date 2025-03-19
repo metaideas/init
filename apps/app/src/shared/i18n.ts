@@ -4,8 +4,8 @@ import {
   DEFAULT_LOCALE,
   LOCALE_COOKIE_NAME,
   type Locale,
-} from "@this/i18n/locale"
-import { getRequestConfig } from "@this/i18n/nextjs/server"
+} from "@init/i18n/locale"
+import { getRequestConfig } from "@init/i18n/nextjs/server"
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = (await requestLocale) as Locale | undefined

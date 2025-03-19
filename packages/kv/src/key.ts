@@ -1,4 +1,4 @@
-import { buildKeyGenerator } from "@this/utils/key"
+import { buildKeyGenerator } from "@init/utils/key"
 
 type KVCategory = "stripe" | "auth" | "organization"
 

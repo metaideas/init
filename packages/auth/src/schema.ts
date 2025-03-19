@@ -1,4 +1,4 @@
-import * as z from "@this/utils/schema"
+import * as z from "@init/utils/schema"
 
 export const EmailSchema = z
   .string({ required_error: "Email is required" })

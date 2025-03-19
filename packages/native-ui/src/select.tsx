@@ -3,7 +3,7 @@ import * as React from "react"
 import { Platform, StyleSheet, View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Check, ChevronDown, ChevronUp } from "./icon"
 

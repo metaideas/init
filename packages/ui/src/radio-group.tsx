@@ -1,8 +1,8 @@
 "use client"
 
+import { cn } from "@init/utils/classname"
 import { DotFilledIcon } from "@radix-ui/react-icons"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
-import { cn } from "@this/utils/classname"
 import * as React from "react"
 
 const RadioGroup = React.forwardRef<

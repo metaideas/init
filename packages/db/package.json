@@ -1,5 +1,5 @@
 {
-  "name": "@this/db",
+  "name": "@init/db",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@libsql/client": "0.14.0",
-    "@this/env": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/utils": "workspace:*",
     "drizzle-orm": "0.40.0"
   },
   "devDependencies": {

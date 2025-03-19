@@ -1,7 +1,7 @@
 import type { OrganizationOptions } from "better-auth/plugins"
 
-import { sendEmail } from "@this/email"
-import OrganizationInvitation from "@this/email/organization-invitation"
+import { sendEmail } from "@init/email"
+import OrganizationInvitation from "@init/email/organization-invitation"
 
 export const sendInvitationEmail: OrganizationOptions["sendInvitationEmail"] =
   async (data, request) => {

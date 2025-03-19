@@ -1,5 +1,5 @@
 {
-  "name": "@this/payments",
+  "name": "@init/payments",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -20,8 +20,9 @@
     "@stripe/agent-toolkit": "0.5.1",
     "@stripe/react-stripe-js": "3.4.0",
     "@stripe/stripe-js": "6.0.0",
-    "@this/env": "workspace:*",
-    "@this/kv": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/kv": "workspace:*",
+    "@init/utils": "workspace:*",
     "stripe": "17.7.0"
   },
   "devDependencies": {

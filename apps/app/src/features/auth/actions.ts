@@ -4,8 +4,8 @@ import { flattenValidationErrors } from "next-safe-action"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { slidingWindow } from "@this/kv/ratelimit"
-import { z } from "@this/utils/schema"
+import { slidingWindow } from "@init/kv/ratelimit"
+import { z } from "@init/utils/schema"
 
 import {
   SignInWithPasswordFormSchema,

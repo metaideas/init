@@ -1,10 +1,10 @@
-import { createEnv, ensureEnv } from "@this/env"
-import auth from "@this/env/auth"
-import db from "@this/env/db"
-import email from "@this/env/email"
-import kv from "@this/env/kv"
-import queue from "@this/env/queue"
-import { z } from "@this/utils/schema"
+import { createEnv, ensureEnv } from "@init/env"
+import auth from "@init/env/auth"
+import db from "@init/env/db"
+import email from "@init/env/email"
+import kv from "@init/env/kv"
+import queue from "@init/env/queue"
+import { z } from "@init/utils/schema"
 
 ensureEnv([auth, db, email, kv, queue])
 

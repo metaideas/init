@@ -1,6 +1,6 @@
 import { Client } from "@upstash/workflow"
 
-import env from "@this/env/queue"
+import env from "@init/env/queue"
 
 import type { TriggerBody, TriggerType } from "./events"
 

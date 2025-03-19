@@ -2,12 +2,12 @@ import bundleAnalyzer from "@next/bundle-analyzer"
 import { createMDX } from "fumadocs-mdx/next"
 import type { NextConfig } from "next"
 
-import { withAnalytics } from "@this/analytics/posthog/nextjs"
-import { withErrorMonitoring } from "@this/observability/error/nextjs"
-import { withLogging } from "@this/observability/logger/nextjs"
+import { withAnalytics } from "@init/analytics/posthog/nextjs"
+import { withErrorMonitoring } from "@init/observability/error/nextjs"
+import { withLogging } from "@init/observability/logger/nextjs"
 
-import { ensureEnv } from "@this/env"
-import observabilityEnv from "@this/env/observability/nextjs"
+import { ensureEnv } from "@init/env"
+import observabilityEnv from "@init/env/observability/nextjs"
 
 import appEnv from "~/shared/env"
 

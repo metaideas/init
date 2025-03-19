@@ -2,8 +2,8 @@
 import { useStateAction } from "next-safe-action/stateful-hooks"
 import Link from "next/link"
 
-import { Button } from "@this/ui/button"
-import { useAppForm } from "@this/ui/form"
+import { Button } from "@init/ui/button"
+import { useAppForm } from "@init/ui/form"
 
 import { mergeForm, useTransform } from "@tanstack/react-form"
 import { signInWithPassword } from "~/features/auth/actions"

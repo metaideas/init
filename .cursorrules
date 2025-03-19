@@ -9,8 +9,8 @@ You are an expert in Typescript, Node.js, Next.js, React, Tailwind CSS, Shadcn U
 - Use descriptive function names with auxiliary verbs (e.g., getUserSettings, setUserSettings, checkIsMobile)
 - Structure files: exported component, subcomponents, helpers, static content, types
 - Use the `~/` alias for imports from the root of the project
-- Use the `@this/` alias for imports from packages
-- Use the `@this/env` package for environment variables
+- Use the `@init/` alias for imports from packages
+- Use the `@init/env` package for environment variables
 - Use the `@tooling/*` alias for imports from the `tooling` folder.
 - Avoid circular imports
 
@@ -37,7 +37,7 @@ Error Handling and Validation:
 - Prioritize error handling: handle errors and edge cases early
 - Use early returns and guard clauses
 - Implement proper error logging and user-friendly messages
-- Use Zod for form validation. Add the schemas to the `@this/utils/schema` package.
+- Use Zod for form validation. Add the schemas to the `@init/utils/schema` package.
 - Return errors from Server Actions to be handled by the UI. Map the errors to the fields.
 - Use error boundaries for unexpected errors
 

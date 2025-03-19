@@ -1,7 +1,7 @@
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 
-import { isCloudflare } from "@this/utils/runtime"
+import { isCloudflare } from "@init/utils/runtime"
 
 import { kv as kvCloudflare } from "./cloudflare"
 import { kv as kvNode } from "./index"

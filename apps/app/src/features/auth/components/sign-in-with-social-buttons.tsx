@@ -3,8 +3,8 @@
 import { Loader2Icon } from "lucide-react"
 import { useState } from "react"
 
-import { Button } from "@this/ui/button"
-import { toast } from "@this/ui/sonner"
+import { Button } from "@init/ui/button"
+import { toast } from "@init/ui/sonner"
 
 import { signIn } from "~/shared/auth/client"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"

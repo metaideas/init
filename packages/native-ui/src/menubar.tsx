@@ -2,7 +2,7 @@ import * as MenubarPrimitive from "@rn-primitives/menubar"
 import * as React from "react"
 import { Platform, Text, type TextProps, View } from "react-native"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Check, ChevronDown, ChevronRight, ChevronUp } from "./icon"
 import { TextClassContext } from "./text"

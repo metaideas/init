@@ -5,7 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { type VariantProps, cva } from "class-variance-authority"
 import * as React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Button } from "./button"
 import { useIsMobile } from "./hooks/use-is-mobile"

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@this/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@init/ui/card"
 
 import SignUpForm from "~/features/auth/components/sign-up-form"
 

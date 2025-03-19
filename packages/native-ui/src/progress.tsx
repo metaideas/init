@@ -9,7 +9,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 const Progress = React.forwardRef<
   ProgressPrimitive.RootRef,

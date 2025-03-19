@@ -1,6 +1,6 @@
 import React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 const TypographyH1 = React.forwardRef<
   React.ComponentRef<"h1">,

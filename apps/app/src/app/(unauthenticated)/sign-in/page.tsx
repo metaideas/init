@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@this/ui/card"
-import { Separator } from "@this/ui/separator"
+import { Card, CardContent, CardHeader, CardTitle } from "@init/ui/card"
+import { Separator } from "@init/ui/separator"
 
 import SignInWithPasswordForm from "~/features/auth/components/sign-in-with-password-form"
 import {

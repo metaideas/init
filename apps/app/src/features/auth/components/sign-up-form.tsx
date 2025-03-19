@@ -4,7 +4,7 @@ import { mergeForm, useTransform } from "@tanstack/react-form"
 import { useAction } from "next-safe-action/hooks"
 import { useStateAction } from "next-safe-action/stateful-hooks"
 
-import { useAppForm } from "@this/ui/form"
+import { useAppForm } from "@init/ui/form"
 
 import { checkEmailAvailability, signUp } from "~/features/auth/actions"
 import { SignUpFormSchema } from "~/features/auth/validation"

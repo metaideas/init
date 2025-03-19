@@ -1,5 +1,5 @@
 {
-  "name": "@this/ai",
+  "name": "@init/ai",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -23,7 +23,7 @@
     "@ai-sdk/deepseek": "0.1.15",
     "@ai-sdk/google": "^1.1.25",
     "@ai-sdk/openai": "1.2.5",
-    "@this/env": "workspace:*",
+    "@init/env": "workspace:*",
     "@upstash/semantic-cache": "1.0.5",
     "@upstash/vector": "1.2.1",
     "ai": "4.1.61"

@@ -3,7 +3,7 @@ description: Web UI best practices
 globs: apps/!(mobile)/src/**/*.(ts|tsx)
 alwaysApply: false
 ---
-- Use components inside `@this/ui` with proper composition and customization
+- Use components inside `@init/ui` with proper composition and customization
 - Leverage Radix UI primitives for accessible interactive components
 - Follow Tailwind CSS class naming conventions and utility patterns
 - Implement mobile-first responsive design with Tailwind breakpoints

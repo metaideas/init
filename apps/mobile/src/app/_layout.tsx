@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 import "react-native-reanimated"
 
-import { initializeErrorMonitoring } from "@this/observability/error/expo"
+import { initializeErrorMonitoring } from "@init/observability/error/expo"
 
 import "~/shared/assets/styles/tailwind.css"
 

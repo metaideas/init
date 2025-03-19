@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-import { isDevelopment } from "@this/utils/environment"
+import { isDevelopment } from "@init/utils/environment"
 
 export function csrfProtectionMiddleware(request: NextRequest) {
   if (isDevelopment) {

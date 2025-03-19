@@ -1,4 +1,4 @@
-import { createAuthClient } from "@this/auth/client"
+import { createAuthClient } from "@init/auth/client"
 
 import { buildApiUrl } from "~/shared/utils"
 

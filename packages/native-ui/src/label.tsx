@@ -1,5 +1,5 @@
 import * as LabelPrimitive from "@rn-primitives/label"
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 import * as React from "react"
 
 const Label = React.forwardRef<

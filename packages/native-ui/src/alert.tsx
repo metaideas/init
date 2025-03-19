@@ -4,7 +4,7 @@ import type { LucideIcon } from "lucide-react-native"
 import * as React from "react"
 import { View, type ViewProps } from "react-native"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Text } from "./text"
 

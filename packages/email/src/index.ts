@@ -1,9 +1,9 @@
 import { render } from "@react-email/render"
 import type { ReactElement } from "react"
 
-import env from "@this/env/email"
-import { SendEmailError } from "@this/observability/error"
-import { logger, styles } from "@this/observability/logger"
+import env from "@init/env/email"
+import { SendEmailError } from "@init/observability/error"
+import { logger, styles } from "@init/observability/logger"
 
 import client from "./client"
 
@@ -67,7 +67,7 @@ export async function queueEmail({
     return
   }
 
-  const { default: q, resend } = await import("@this/queue/messages")
+  const { default: q, resend } = await import("@init/queue/messages")
 
   await q.publishJSON({
     api: {

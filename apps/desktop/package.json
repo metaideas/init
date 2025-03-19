@@ -20,9 +20,9 @@
     "@tanstack/react-router": "catalog:",
     "@tauri-apps/api": "2.3.0",
     "@tauri-apps/plugin-opener": "2.2.6",
-    "@this/env": "workspace:*",
-    "@this/ui": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/ui": "workspace:*",
+    "@init/utils": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

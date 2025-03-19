@@ -1,5 +1,5 @@
-import { isProduction } from "@this/utils/environment"
-import { createUrlBuilder } from "@this/utils/url"
+import { isProduction } from "@init/utils/environment"
+import { createUrlBuilder } from "@init/utils/url"
 
 import env from "~/shared/env"
 

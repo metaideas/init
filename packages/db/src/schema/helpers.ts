@@ -1,6 +1,6 @@
 import { integer, sqliteTableCreator, text } from "drizzle-orm/sqlite-core"
 
-import { generatePrefixedId } from "@this/utils/id"
+import { generatePrefixedId } from "@init/utils/id"
 
 export type BrandId<B extends string> = string & { readonly __brand__: B }
 

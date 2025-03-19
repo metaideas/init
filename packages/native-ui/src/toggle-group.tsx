@@ -3,7 +3,7 @@ import type { VariantProps } from "class-variance-authority"
 import type { LucideIcon } from "lucide-react-native"
 import * as React from "react"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { TextClassContext } from "./text"
 import { toggleTextVariants, toggleVariants } from "./toggle"

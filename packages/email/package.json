@@ -1,5 +1,5 @@
 {
-  "name": "@this/email",
+  "name": "@init/email",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -20,10 +20,10 @@
   "dependencies": {
     "@react-email/components": "0.0.33",
     "@react-email/render": "1.0.5",
-    "@this/env": "workspace:*",
-    "@this/observability": "workspace:*",
-    "@this/queue": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/observability": "workspace:*",
+    "@init/queue": "workspace:*",
+    "@init/utils": "workspace:*",
     "resend": "4.1.2"
   },
   "devDependencies": {

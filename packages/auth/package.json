@@ -1,5 +1,5 @@
 {
-  "name": "@this/auth",
+  "name": "@init/auth",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -23,10 +23,10 @@
   },
   "dependencies": {
     "@better-auth/expo": "1.2.4",
-    "@this/db": "workspace:*",
-    "@this/email": "workspace:*",
-    "@this/env": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/db": "workspace:*",
+    "@init/email": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/utils": "workspace:*",
     "better-auth": "1.2.4",
     "server-only": "catalog:"
   },

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react"
 
-import { NextIntlClientProvider } from "@this/i18n/nextjs"
-import { getMessages } from "@this/i18n/nextjs/server"
-import { Toaster } from "@this/ui/sonner"
-import { ThemeProvider } from "@this/ui/theme"
-import { TooltipProvider } from "@this/ui/tooltip"
+import { NextIntlClientProvider } from "@init/i18n/nextjs"
+import { getMessages } from "@init/i18n/nextjs/server"
+import { Toaster } from "@init/ui/sonner"
+import { ThemeProvider } from "@init/ui/theme"
+import { TooltipProvider } from "@init/ui/tooltip"
 
 export default async function Providers({
   children,

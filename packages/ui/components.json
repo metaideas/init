@@ -4,8 +4,8 @@
     "components": "src",
     "ui": "src",
     "hooks": "src/hooks",
-    "lib": "@this/utils/classname",
-    "utils": "@this/utils/classname"
+    "lib": "@init/utils/classname",
+    "utils": "@init/utils/classname"
   },
   "rsc": true,
   "style": "new-york",

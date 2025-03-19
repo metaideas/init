@@ -1,5 +1,5 @@
-import { createEnv, ensureEnv } from "@this/env"
-import * as z from "@this/utils/schema"
+import { createEnv, ensureEnv } from "@init/env"
+import * as z from "@init/utils/schema"
 
 ensureEnv(
   [

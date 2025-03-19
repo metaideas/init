@@ -1,9 +1,9 @@
 import { type BetterAuthPlugin, betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
-import { db } from "@this/db"
-import env from "@this/env/auth"
-import { APP_ID, APP_NAME } from "@this/utils/constants"
+import { db } from "@init/db"
+import env from "@init/env/auth"
+import { APP_ID, APP_NAME } from "@init/utils/constants"
 
 type CreateAuthOptions = Pick<
   Parameters<typeof betterAuth>[0],

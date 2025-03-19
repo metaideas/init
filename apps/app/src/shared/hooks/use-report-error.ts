@@ -1,6 +1,6 @@
 "use client"
 
-import { captureException } from "@this/observability/error/nextjs"
+import { captureException } from "@init/observability/error/nextjs"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 

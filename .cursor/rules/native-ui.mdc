@@ -3,7 +3,7 @@ description: Native UI best practices
 globs: apps/mobile/src/**/*.(ts|tsx)
 alwaysApply: false
 ---
-- Use components inside `@this/native-ui` with proper composition and customization
+- Use components inside `@init/native-ui` with proper composition and customization
 - Leverage Radix UI primitives for accessible interactive components
 - Follow Tailwind CSS class naming conventions and utility patterns
 - Implement mobile-first responsive design with Tailwind breakpoints

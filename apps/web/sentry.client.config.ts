@@ -1,3 +1,3 @@
-import { initializeErrorMonitoring } from "@this/observability/error/nextjs/client"
+import { initializeErrorMonitoring } from "@init/observability/error/nextjs/client"
 
 initializeErrorMonitoring()

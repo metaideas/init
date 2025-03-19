@@ -2,7 +2,7 @@ import * as CheckboxPrimitive from "@rn-primitives/checkbox"
 import * as React from "react"
 import { Platform } from "react-native"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Check } from "./icon"
 

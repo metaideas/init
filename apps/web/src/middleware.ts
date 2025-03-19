@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-import { i18nMiddleware } from "@this/i18n/nextjs/middleware"
+import { i18nMiddleware } from "@init/i18n/nextjs/middleware"
 
 import { csrfProtectionMiddleware } from "~/shared/middlewares"
 

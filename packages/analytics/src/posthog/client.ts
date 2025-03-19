@@ -1,6 +1,6 @@
 import posthog from "posthog-js"
 
-import env from "@this/env/analytics/client"
+import env from "@init/env/analytics/client"
 
 import { config } from "./config"
 

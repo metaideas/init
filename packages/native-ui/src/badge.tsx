@@ -3,7 +3,7 @@ import type { SlottableViewProps } from "@rn-primitives/types"
 import { type VariantProps, cva } from "class-variance-authority"
 import { View } from "react-native"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { TextClassContext } from "./text"
 

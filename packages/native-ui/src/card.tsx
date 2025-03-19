@@ -1,5 +1,5 @@
 import type { TextRef, ViewRef } from "@rn-primitives/types"
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 import * as React from "react"
 import { Text, type TextProps, View, type ViewProps } from "react-native"
 

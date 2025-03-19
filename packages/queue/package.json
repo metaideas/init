@@ -1,5 +1,5 @@
 {
-  "name": "@this/queue",
+  "name": "@init/queue",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -22,16 +22,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@this/ai": "workspace:*",
-    "@this/env": "workspace:*",
-    "@this/observability": "workspace:*",
-    "@this/utils": "workspace:*",
+    "@init/ai": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/observability": "workspace:*",
+    "@init/utils": "workspace:*",
     "@upstash/qstash": "2.7.22",
     "@upstash/qstash-cli": "2.22.3",
     "@upstash/workflow": "0.2.12"
   },
   "devDependencies": {
-    "@this/payments": "workspace:*",
+    "@init/payments": "workspace:*",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"

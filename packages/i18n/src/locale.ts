@@ -1,4 +1,4 @@
-import { APP_ID } from "@this/utils/constants"
+import { APP_ID } from "@init/utils/constants"
 
 export const Locales = {
   EN: "en",

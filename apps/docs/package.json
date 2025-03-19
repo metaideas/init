@@ -16,11 +16,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@init/analytics": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/i18n": "workspace:*",
+    "@init/observability": "workspace:*",
+    "@init/utils": "workspace:*",
     "@next/bundle-analyzer": "catalog:",
-    "@this/analytics": "workspace:*",
-    "@this/env": "workspace:*",
-    "@this/observability": "workspace:*",
-    "@this/utils": "workspace:*",
     "fumadocs-core": "15.0.17",
     "fumadocs-mdx": "11.5.6",
     "fumadocs-ui": "15.0.17",

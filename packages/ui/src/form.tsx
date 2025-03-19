@@ -9,7 +9,7 @@ import React from "react"
 // available to be used. Remove this once we update to React 19.
 import { useFormStatus } from "react-dom"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"

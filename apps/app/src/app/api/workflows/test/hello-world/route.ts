@@ -1,5 +1,5 @@
-import { logger } from "@this/observability/logger"
-import { serve } from "@this/queue/workflows/nextjs"
+import { logger } from "@init/observability/logger"
+import { serve } from "@init/queue/workflows/nextjs"
 
 export const { POST } = serve(async context => {
   const result = await context.run(

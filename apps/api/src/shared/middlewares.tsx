@@ -2,8 +2,8 @@ import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 import type { ContentfulStatusCode } from "hono/utils/http-status"
 
-import type { MessageBody, MessageType } from "@this/queue/messages"
-import type { DeepMerge } from "@this/utils/type"
+import type { MessageBody, MessageType } from "@init/queue/messages"
+import type { DeepMerge } from "@init/utils/type"
 
 import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
@@ -28,7 +28,7 @@ export function verifyMessage<T extends MessageType>(type: T) {
   return createMiddleware<
     DeepMerge<AppContext, { Variables: { message: MessageBody<T> } }>
   >(async (c, next) => {
-    const { verifyMessageRequest } = await import("@this/queue/messages/verify")
+    const { verifyMessageRequest } = await import("@init/queue/messages/verify")
 
     const message = await verifyMessageRequest(c.req.raw, type)
 

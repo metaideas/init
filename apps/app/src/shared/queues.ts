@@ -1,5 +1,5 @@
-import { createPublishMessage } from "@this/queue/messages"
-import { createWorkflowTrigger } from "@this/queue/workflows"
+import { createPublishMessage } from "@init/queue/messages"
+import { createWorkflowTrigger } from "@init/queue/workflows"
 
 import { buildApiUrl } from "~/shared/utils"
 

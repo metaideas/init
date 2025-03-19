@@ -10,7 +10,7 @@ import {
   type ViewStyle,
 } from "react-native"
 
-import { cn } from "@this/utils/classname"
+import { cn } from "@init/utils/classname"
 
 import { Check, ChevronDown, ChevronRight, ChevronUp } from "./icon"
 import { TextClassContext } from "./text"

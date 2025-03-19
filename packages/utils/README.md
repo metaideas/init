@@ -1,4 +1,4 @@
-# `@this/utils`
+# `@init/utils`
 
 Common helpers, types and more used across init's packages and applications.
 

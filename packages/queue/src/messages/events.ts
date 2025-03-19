@@ -1,5 +1,5 @@
-import type { Stripe } from "@this/payments"
-import * as z from "@this/utils/schema"
+import type { Stripe } from "@init/payments"
+import * as z from "@init/utils/schema"
 
 export const MessageSchemaMap = {
   "stripe/process-webhook-event": z.object({

@@ -1,5 +1,5 @@
+import env from "@init/env/observability/nextjs"
 import { init, replayIntegration } from "@sentry/nextjs"
-import env from "@this/env/observability/nextjs"
 
 export function initializeErrorMonitoring() {
   init({

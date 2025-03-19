@@ -1,5 +1,5 @@
-import type { db } from "@this/db"
-import type { logger } from "@this/observability/logger"
+import type { db } from "@init/db"
+import type { logger } from "@init/observability/logger"
 
 import type { auth } from "~/shared/auth"
 

@@ -1,4 +1,4 @@
-import { getTranslations } from "@this/i18n/nextjs/server"
+import { getTranslations } from "@init/i18n/nextjs/server"
 
 export default async function Page() {
   const t = await getTranslations()
