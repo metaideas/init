@@ -212,9 +212,6 @@ importers:
       '@init/internationalization':
         specifier: workspace:*
         version: link:../../packages/internationalization
-      '@init/kv':
-        specifier: workspace:*
-        version: link:../../packages/kv
       '@init/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -948,9 +945,6 @@ importers:
       '@init/utils':
         specifier: workspace:*
         version: link:../utils
-      '@upstash/ratelimit':
-        specifier: 2.0.5
-        version: 2.0.5(@upstash/redis@1.34.5)
       '@upstash/redis':
         specifier: 1.34.5
         version: 1.34.5
@@ -1430,9 +1424,9 @@ importers:
       shadcn:
         specifier: 2.4.0-canary.14
         version: 2.4.0-canary.14(@types/node@22.13.10)(typescript@5.8.2)
-      tailwindcss-animate:
-        specifier: 'catalog:'
-        version: 1.0.7(tailwindcss@4.0.14)
+      tw-animate-css:
+        specifier: ^1.2.4
+        version: 1.2.4
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
@@ -14158,6 +14152,9 @@ packages:
 
   turndown@7.1.2:
     resolution: {integrity: sha512-ntI9R7fcUKjqBP6QU8rBK2Ehyt8LAzt3UBT9JR9tgo6GtuKvyUzpayWmeMKJw1DPdXzktvtIT8m2mVXz+bL/Qg==}
+
+  tw-animate-css@1.2.4:
+    resolution: {integrity: sha512-yt+HkJB41NAvOffe4NweJU6fLqAlVx/mBX6XmHRp15kq0JxTtOKaIw8pVSWM1Z+n2nXtyi7cW6C9f0WG/F/QAQ==}
 
   type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
@@ -29551,10 +29548,6 @@ snapshots:
     dependencies:
       tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.13.10)(typescript@5.8.2))
 
-  tailwindcss-animate@1.0.7(tailwindcss@4.0.14):
-    dependencies:
-      tailwindcss: 4.0.14
-
   tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.13.10)(typescript@5.8.2)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
@@ -29931,6 +29924,8 @@ snapshots:
   turndown@7.1.2:
     dependencies:
       domino: 2.1.6
+
+  tw-animate-css@1.2.4: {}
 
   type-detect@4.0.8: {}
 
