@@ -1238,6 +1238,15 @@ importers:
       '@init/env':
         specifier: workspace:*
         version: link:../env
+      '@init/kv':
+        specifier: workspace:*
+        version: link:../kv
+      '@init/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@upstash/ratelimit':
+        specifier: 2.0.5
+        version: 2.0.5(@upstash/redis@1.34.5)
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*

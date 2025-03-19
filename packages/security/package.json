@@ -7,6 +7,7 @@
   "exports": {
     "./nextjs": "./src/nextjs.ts",
     "./hono": "./src/hono.ts",
+    "./ratelimit": "./src/ratelimit.ts",
     "./rules": "./src/rules.ts",
     "./tools": "./src/tools.ts"
   },
@@ -22,7 +23,10 @@
     "@arcjet/next": "1.0.0-beta.4",
     "@arcjet/node": "1.0.0-beta.4",
     "@arcjet/redact": "1.0.0-beta.4",
-    "@init/env": "workspace:*"
+    "@init/env": "workspace:*",
+    "@init/kv": "workspace:*",
+    "@init/utils": "workspace:*",
+    "@upstash/ratelimit": "2.0.5"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -22,7 +22,6 @@
     "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
-    "@init/kv": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
     "@init/security": "workspace:*",

@@ -4,7 +4,7 @@ import { flattenValidationErrors } from "next-safe-action"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { slidingWindow } from "@init/kv/ratelimit"
+import { slidingWindow } from "@init/security/ratelimit"
 import { z } from "@init/utils/schema"
 
 import {

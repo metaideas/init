@@ -7,10 +7,10 @@ import {
 import { headers } from "next/headers"
 
 import { db } from "@init/db"
-import { createRateLimiter } from "@init/kv/ratelimit"
 import { AuthError, RateLimitError } from "@init/observability/error"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
+import { createRateLimiter } from "@init/security/ratelimit"
 import * as z from "@init/utils/schema"
 
 import { validateRequest } from "~/shared/auth/server"
@@ -102,12 +102,7 @@ export function withRateLimitByIp(
   return createMiddleware().define(async ({ next, ctx }) => {
     const ip = await ipAddress({ headers: await headers() })
 
-    // If the IP address is not found, skip the rate limit
-    if (!ip) {
-      return next({ ctx })
-    }
-
-    const limit = await rateLimiter.limit(ip)
+    const limit = await rateLimiter.limit(ip ?? "Unknown")
 
     if (!limit.success) {
       throw new RateLimitError(`Rate limit exceeded for IP ${ip}`)
