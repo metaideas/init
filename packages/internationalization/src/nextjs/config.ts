@@ -2,10 +2,13 @@ import createNextIntlPlugin from "next-intl/plugin"
 
 import { LOCALES } from "../locale"
 
+// We're using the relative path to the translation files since we follow the
+// same structure in each project that uses this package.
+
 const messages = LOCALES.map(locale => `./translations/${locale}.json`)
 
 export const withIntl = createNextIntlPlugin({
-  requestConfig: "./src/shared/i18n.ts",
+  requestConfig: "./src/shared/localization.ts",
   experimental: {
     createMessagesDeclaration: messages,
   },

@@ -5,7 +5,7 @@ import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
 import "~/shared/assets/styles/tailwind.css"
-import es from "~/shared/i18n/translations/es"
+import es from "~/shared/localization/translations/es"
 
 const inter = Inter({
   subsets: ["latin"],

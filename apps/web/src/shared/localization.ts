@@ -1,5 +1,5 @@
-import { getLocale } from "@init/i18n/nextjs"
-import { getRequestConfig } from "@init/i18n/nextjs/server"
+import { getLocale } from "@init/internationalization/nextjs"
+import { getRequestConfig } from "@init/internationalization/nextjs/server"
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const locale = await getLocale(requestLocale)

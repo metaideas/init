@@ -1,8 +1,8 @@
 import { RocketIcon } from "lucide-react"
 import Link from "next/link"
 
-import type { Locale } from "@init/i18n/locale"
-import { getTranslations } from "@init/i18n/nextjs/server"
+import type { Locale } from "@init/internationalization/locale"
+import { getTranslations } from "@init/internationalization/nextjs/server"
 import { Button } from "@init/ui/button"
 import { ThemeToggle } from "@init/ui/theme"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@init/ui/tooltip"

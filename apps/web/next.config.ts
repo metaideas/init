@@ -3,7 +3,7 @@ import bundleAnalyzer from "@next/bundle-analyzer"
 import type { NextConfig } from "next"
 
 import { withAnalytics } from "@init/analytics/posthog/nextjs"
-import { withIntl } from "@init/i18n/nextjs/config"
+import { withIntl } from "@init/internationalization/nextjs/config"
 import { withErrorMonitoring } from "@init/observability/error/nextjs"
 import { withLogging } from "@init/observability/logger/nextjs"
 

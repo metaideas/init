@@ -1,4 +1,4 @@
-import type { Locale } from "@init/i18n/locale"
+import type { Locale } from "@init/internationalization/locale"
 
 import type en from "./translations/en.json"
 

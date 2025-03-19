@@ -209,9 +209,9 @@ importers:
       '@init/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@init/i18n':
+      '@init/internationalization':
         specifier: workspace:*
-        version: link:../../packages/i18n
+        version: link:../../packages/internationalization
       '@init/kv':
         specifier: workspace:*
         version: link:../../packages/kv
@@ -361,9 +361,9 @@ importers:
       '@init/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@init/i18n':
+      '@init/internationalization':
         specifier: workspace:*
-        version: link:../../packages/i18n
+        version: link:../../packages/internationalization
       '@init/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -652,9 +652,9 @@ importers:
       '@init/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@init/i18n':
+      '@init/internationalization':
         specifier: workspace:*
-        version: link:../../packages/i18n
+        version: link:../../packages/internationalization
       '@init/observability':
         specifier: workspace:*
         version: link:../../packages/observability
@@ -921,7 +921,7 @@ importers:
         specifier: 'catalog:'
         version: 5.8.2
 
-  packages/i18n:
+  packages/internationalization:
     dependencies:
       '@init/utils':
         specifier: workspace:*

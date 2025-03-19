@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 
-import { NextIntlClientProvider } from "@init/i18n/nextjs"
-import { getMessages } from "@init/i18n/nextjs/server"
+import { NextIntlClientProvider } from "@init/internationalization/nextjs"
+import { getMessages } from "@init/internationalization/nextjs/server"
 import { Toaster } from "@init/ui/sonner"
 import { ThemeProvider } from "@init/ui/theme"
 import { TooltipProvider } from "@init/ui/tooltip"
