@@ -29,20 +29,6 @@ export type Unbrand<T> = T extends Brand<infer X, unknown> ? X : never
  * @param {B} _brand - The branding symbol.
  * @returns {Brand<T, B>} A new branded type.
  */
-function toBrandedType<T, B>(value: T, _brand: B): Brand<T, B> {
+export function toBrandedType<T, B>(value: T, _brand: B): Brand<T, B> {
   return value as Brand<T, B>
 }
-
-export const Brand = {
-  /**
-   * Creates a new branded type by intersecting a given type with an object
-   * containing a unique brand symbol.
-   *
-   * @template T - The original type.
-   * @template B - The branding symbol to apply.
-   * @param {T} value - The value to brand.
-   * @param {B} _brand - The branding symbol.
-   * @returns {Brand<T, B>} A new branded type.
-   */
-  apply: toBrandedType,
-} as const

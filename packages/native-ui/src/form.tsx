@@ -11,6 +11,7 @@ import { Button, buttonTextVariants } from "./button"
 import { Loader2 } from "./icon"
 import { Input } from "./input"
 import { Label } from "./label"
+import { Textarea } from "./textarea"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
@@ -110,16 +111,20 @@ const FieldInput = React.forwardRef<
       ref={ref}
       nativeID={field.name}
       value={field.state.value}
-      onChangeText={value => {
-        field.handleChange(value)
-      }}
-      onBlur={() => {
-        field.handleBlur()
-      }}
+      onChangeText={field.handleChange}
+      onBlur={field.handleBlur}
     />
   )
 })
 FieldInput.displayName = "FieldInput"
+
+const FieldTextarea = React.forwardRef<
+  React.ElementRef<typeof Textarea>,
+  React.ComponentPropsWithoutRef<typeof Textarea>
+>(({ ...props }, ref) => {
+  return <Textarea {...props} ref={ref} />
+})
+FieldTextarea.displayName = "FieldTextarea"
 
 const FormSubmitButton = React.forwardRef<
   React.ElementRef<typeof Button>,
@@ -134,7 +139,12 @@ const FormSubmitButton = React.forwardRef<
       selector={formState => [formState.canSubmit, formState.isSubmitting]}
     >
       {([canSubmit, isSubmitting]) => (
-        <Button ref={ref} {...props} disabled={!canSubmit || isSubmitting}>
+        <Button
+          ref={ref}
+          {...props}
+          disabled={!canSubmit || isSubmitting}
+          onPress={form.handleSubmit}
+        >
           {isSubmitting ? (
             <View className="flex-row items-center">
               <Loader2 className="mr-2 size-4 animate-spin" />
@@ -165,10 +175,11 @@ export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
     Control: FieldControl,
     Description: FieldDescription,
-    Item: FieldItem,
     Input: FieldInput,
+    Item: FieldItem,
     Label: FieldLabel,
     Message: FieldMessage,
+    Textarea: FieldTextarea,
   },
   formComponents: {
     SubmitButton: FormSubmitButton,
