@@ -1476,6 +1476,9 @@ importers:
         specifier: 2.0.7
         version: 2.0.7(zod@3.24.2)
     devDependencies:
+      '@tooling/testing':
+        specifier: workspace:*
+        version: link:../../tooling/testing
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -1494,6 +1497,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
+      vitest:
+        specifier: 'catalog:'
+        version: 3.0.8(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(jsdom@20.0.3)(lightningcss@1.29.2)(msw@2.7.3(@types/node@22.13.10)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   tooling/helpers:
     devDependencies:
@@ -1503,6 +1509,15 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.13.10
+
+  tooling/testing:
+    devDependencies:
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      vitest:
+        specifier: 'catalog:'
+        version: 3.0.8(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(jsdom@20.0.3)(lightningcss@1.29.2)(msw@2.7.3(@types/node@22.13.10)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   tooling/tsconfig:
     devDependencies:
