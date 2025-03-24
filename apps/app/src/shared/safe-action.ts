@@ -9,10 +9,10 @@ import {
 import { headers } from "next/headers"
 
 import { db } from "@init/db"
-import { AuthError, RateLimitError } from "@init/observability/error"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
+import { Fault } from "@init/utils/fault"
 import * as z from "@init/utils/schema"
 
 import { validateRequest } from "~/shared/auth/server"
@@ -28,6 +28,11 @@ export const actionClient = createSafeActionClient({
         metadata: utils.metadata,
       },
     })
+
+    // If the error is a Fault, return the public message
+    if (e instanceof Fault) {
+      return e.message
+    }
 
     return e.message || DEFAULT_SERVER_ERROR_MESSAGE
   },
@@ -89,7 +94,12 @@ export const authActionClient = actionClient.use(async ({ next }) => {
   const session = await validateRequest()
 
   if (!session) {
-    throw new AuthError("Session not found")
+    throw Fault.from("Missing Session")
+      .withTag("AUTHENTICATION_ERROR")
+      .withDescription(
+        "Session not found in request",
+        "You must be logged in to perform this action"
+      )
   }
 
   return next({ ctx: { ...session } })
@@ -107,7 +117,13 @@ export function withRateLimitByIp(
     const limit = await rateLimiter.limit(ip ?? "Unknown")
 
     if (!limit.success) {
-      throw new RateLimitError(`Rate limit exceeded for IP ${ip}`)
+      throw Fault.from("Rate Limit Exceeded")
+        .withTag("RATE_LIMIT_EXCEEDED")
+        .withMetadata("reason", limit.reason)
+        .withDescription(
+          `Rate limit exceeded for IP: ${ip}`,
+          `Please try again in ${Math.ceil(limit.reset / 1000)} seconds`
+        )
     }
 
     return next({ ctx })
