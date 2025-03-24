@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@tanstack/react-query": "catalog:",
-    "@trpc/client": "11.0.0-rc.828",
-    "@trpc/tanstack-react-query": "11.0.0-rc.828",
+    "@trpc/client": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "clsx": "2.1.1",
     "hono": "catalog:",
     "lodash.merge": "4.6.2",
