@@ -2,8 +2,8 @@ import { render } from "@react-email/render"
 import type { ReactElement } from "react"
 
 import env from "@init/env/email"
-import { SendEmailError } from "@init/observability/error"
 import { logger, styles } from "@init/observability/logger"
+import { Fault } from "@init/utils/fault"
 
 import client from "./client"
 
@@ -38,10 +38,17 @@ export async function sendEmail({
   })
 
   if (error) {
-    throw new SendEmailError(
-      { name: error.name, message: error.message, emails },
-      error
-    )
+    throw Fault.from(error)
+      .withTag("SEND_EMAIL_ERROR")
+      .withDescription(
+        error.message,
+        `Unable to send email to ${emails.join(", ")}`
+      )
+      .withContext({
+        from,
+        to: emails,
+        subject,
+      })
   }
 }
 

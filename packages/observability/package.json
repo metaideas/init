@@ -5,7 +5,6 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./error": "./src/error/index.ts",
     "./error/*": "./src/error/*.ts",
     "./error/nextjs": "./src/error/nextjs/index.ts",
     "./error/nextjs/*": "./src/error/nextjs/*.ts",
