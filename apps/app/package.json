@@ -16,6 +16,7 @@
   "dependencies": {
     "@next/bundle-analyzer": "catalog:",
     "@tanstack/react-form": "catalog:",
+    "@tanstack/react-query": "catalog:",
     "@init/analytics": "workspace:*",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
@@ -27,6 +28,9 @@
     "@init/security": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "@vercel/functions": "2.0.0",
     "client-only": "0.0.1",
     "lucide-react": "catalog:",
@@ -34,7 +38,8 @@
     "next-safe-action": "7.10.4",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "server-only": "catalog:"
+    "server-only": "catalog:",
+    "superjson": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",

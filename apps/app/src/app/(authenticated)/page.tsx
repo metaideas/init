@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/avatar"
-import { Button } from "@init/ui/button"
 import {
   Card,
   CardContent,
@@ -11,7 +10,6 @@ import {
 
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
-import { triggerWorkflow } from "~/shared/queues"
 import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Page() {
@@ -37,19 +35,6 @@ export default async function Page() {
                 <div className="font-medium">{user.name ?? "Unknown"}</div>
                 <div className="text-muted-foreground">{user.email}</div>
               </div>
-            </div>
-            <div>
-              <Button
-                onClick={async () => {
-                  "use server"
-
-                  await triggerWorkflow("test/hello-world", {
-                    name: "John Doe",
-                  })
-                }}
-              >
-                Trigger workflow
-              </Button>
             </div>
           </CardContent>
           <CardFooter className="flex gap-2">

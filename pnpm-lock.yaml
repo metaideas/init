@@ -84,6 +84,9 @@ catalogs:
     server-only:
       specifier: 0.0.1
       version: 0.0.1
+    superjson:
+      specifier: 2.2.2
+      version: 2.2.2
     tailwindcss-animate:
       specifier: 1.0.7
       version: 1.0.7
@@ -239,6 +242,18 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.0.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.68.0(react@18.3.1)
+      '@trpc/client':
+        specifier: 'catalog:'
+        version: 11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/server':
+        specifier: 'catalog:'
+        version: 11.0.0(typescript@5.8.2)
+      '@trpc/tanstack-react-query':
+        specifier: 'catalog:'
+        version: 11.0.0(@tanstack/react-query@5.68.0(react@18.3.1))(@trpc/client@11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.0(typescript@5.8.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
       '@vercel/functions':
         specifier: 2.0.0
         version: 2.0.0
@@ -263,6 +278,9 @@ importers:
       server-only:
         specifier: 'catalog:'
         version: 0.0.1
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@tailwindcss/postcss':
         specifier: 'catalog:'
@@ -1467,7 +1485,7 @@ importers:
         specifier: 1.1.5
         version: 1.1.5
       superjson:
-        specifier: 2.2.2
+        specifier: 'catalog:'
         version: 2.2.2
       tailwind-merge:
         specifier: 3.0.2

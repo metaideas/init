@@ -49,6 +49,7 @@ catalog:
   # Other
   hono: 4.7.4
   pino: 9.6.0
+  superjson: 2.2.2
 
 catalogs:
   tailwind3:
