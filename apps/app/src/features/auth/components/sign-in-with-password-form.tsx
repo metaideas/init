@@ -1,46 +1,41 @@
 "use client"
-import { useStateAction } from "next-safe-action/stateful-hooks"
+import { mergeForm, useTransform } from "@tanstack/react-form"
 import Link from "next/link"
+import { useActionState } from "react"
 
 import { Button } from "@init/ui/button"
 import { useAppForm } from "@init/ui/form"
 
-import { mergeForm, useTransform } from "@tanstack/react-form"
 import { signInWithPassword } from "~/features/auth/actions"
 import { SignInWithPasswordFormSchema } from "~/features/auth/validation"
 
-const FieldsSchema = SignInWithPasswordFormSchema._def.schema
+const schema = SignInWithPasswordFormSchema._def.schema
 
 export default function SignInWithPasswordForm() {
-  const action = useStateAction(signInWithPassword, {
-    initResult: { data: undefined },
-  })
+  const [state, action] = useActionState(signInWithPassword, {})
 
   const form = useAppForm({
     defaultValues: { email: "", password: "" },
-    validators: { onSubmit: FieldsSchema },
+    validators: { onSubmit: schema },
     transform: useTransform(
       baseForm =>
         mergeForm(baseForm, {
           errorMap: {
-            onServer: action.result.serverError,
+            onServer: state.serverError,
           },
         }),
-      [action.result]
+      [state]
     ),
   })
 
   return (
     <form
-      action={action.execute}
+      action={action}
       onSubmit={() => form.handleSubmit()}
       className="space-y-4"
     >
       <form.AppForm>
-        <form.AppField
-          name="email"
-          validators={{ onBlur: FieldsSchema.shape.email }}
-        >
+        <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
           {field => (
             <field.Item>
               <field.Label>Email address</field.Label>
@@ -54,13 +49,13 @@ export default function SignInWithPasswordForm() {
         </form.AppField>
         <form.AppField
           name="password"
-          validators={{ onBlur: FieldsSchema.shape.password }}
+          validators={{ onBlur: schema.shape.password }}
         >
           {field => (
             <field.Item>
               <field.Label>Password</field.Label>
               <field.Control>
-                <field.Input type="password" />
+                <field.Input type="password" autoComplete="current-password" />
               </field.Control>
               <field.Message />
               <Button variant="link" asChild className="p-0">

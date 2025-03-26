@@ -15,9 +15,9 @@ import { createRateLimiter } from "@init/security/ratelimit"
 import { Fault } from "@init/utils/fault"
 import * as z from "@init/utils/schema"
 
-import { validateRequest } from "~/shared/auth/server"
+import { auth, validateRequest } from "~/shared/auth/server"
 
-export const actionClient = createSafeActionClient({
+export const publicAction = createSafeActionClient({
   defineMetadataSchema: () =>
     z.object({
       name: z.string(),
@@ -34,7 +34,9 @@ export const actionClient = createSafeActionClient({
       return e.message
     }
 
-    return e.message || DEFAULT_SERVER_ERROR_MESSAGE
+    // Otherwise, return the default server error message, since we can't trust
+    // that the error message is safe to display to the client
+    return DEFAULT_SERVER_ERROR_MESSAGE
   },
 })
   // Inject dependencies to the action context
@@ -45,15 +47,15 @@ export const actionClient = createSafeActionClient({
       requestId,
     })
 
-    return next({ ctx: { logger: childLogger, db } })
+    return next({ ctx: { logger: childLogger, db, auth } })
   })
   // Logging middleware for action
   .use(async ({ next, metadata }) => {
     const startTime = performance.now()
 
     const result = await next()
-    const endTime = performance.now()
-    const durationMs = endTime - startTime
+
+    const duration = (performance.now() - startTime).toFixed(2)
 
     const headersList = await headers()
     const [ip, geo] = await Promise.all([
@@ -61,17 +63,12 @@ export const actionClient = createSafeActionClient({
       geolocation({ headers: headersList }),
     ])
 
-    const actionContext = {
-      metadata,
-      durationMs,
-      ip,
-      ...geo,
-    }
+    const actionContext = { metadata, duration, ip, geo }
 
     if (result.success) {
       logger.info(
         { ...actionContext },
-        `Action "${metadata.name}" succeeded in ${durationMs}ms`
+        `Action "${metadata.name}" succeeded in ${duration}ms`
       )
     } else {
       logger.error(
@@ -83,14 +80,14 @@ export const actionClient = createSafeActionClient({
             bindArgsValidation: result.bindArgsValidationErrors,
           },
         },
-        `Action "${metadata.name}" failed in ${durationMs}ms`
+        `Action "${metadata.name}" failed in ${duration}ms`
       )
     }
 
     return result
   })
 
-export const authActionClient = actionClient.use(async ({ next }) => {
+export const protectedAction = publicAction.use(async ({ next }) => {
   const session = await validateRequest()
 
   if (!session) {

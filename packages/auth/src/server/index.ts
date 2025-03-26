@@ -41,3 +41,4 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
 }
 
 export { BetterAuthError } from "better-auth"
+export { APIError } from "better-auth/api"

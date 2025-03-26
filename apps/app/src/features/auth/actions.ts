@@ -5,28 +5,17 @@ import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
 import { slidingWindow } from "@init/security/ratelimit"
-import { z } from "@init/utils/schema"
+import { Fault } from "@init/utils/fault"
+import { tryCatch } from "@init/utils/try-catch"
 
 import {
   SignInWithPasswordFormSchema,
   SignUpFormSchema,
 } from "~/features/auth/validation"
-import { auth } from "~/shared/auth/server"
+import { publicAction, withRateLimitByIp } from "~/shared/action-client"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
-import { actionClient, withRateLimitByIp } from "~/shared/safe-action"
 
-export const checkEmailAvailability = actionClient
-  .metadata({ name: "auth.checkEmailAvailability" })
-  .schema(z.object({ email: z.string().email() }))
-  .action(async ({ parsedInput: { email }, ctx }) => {
-    const user = await ctx.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.email, email),
-    })
-
-    return { available: !user }
-  })
-
-export const signUp = actionClient
+export const signUp = publicAction
   .metadata({ name: "auth.signUp" })
   .use(withRateLimitByIp("auth.signUp", slidingWindow(10, "60 s")))
   .schema(SignUpFormSchema, {
@@ -34,7 +23,7 @@ export const signUp = actionClient
       flattenValidationErrors(errors),
   })
   .stateAction(async ({ parsedInput: { email, password, name }, ctx }) => {
-    const { user } = await auth.api.signUpEmail({
+    const { user } = await ctx.auth.api.signUpEmail({
       body: { email, password, name },
       headers: await headers(),
     })
@@ -46,19 +35,27 @@ export const signUp = actionClient
     redirect(AUTHORIZED_PATHNAME)
   })
 
-export const signInWithPassword = actionClient
+export const signInWithPassword = publicAction
   .metadata({ name: "auth.signInWithPassword" })
   .schema(SignInWithPasswordFormSchema, {
     handleValidationErrorsShape: async errors =>
       flattenValidationErrors(errors),
   })
   .stateAction(async ({ parsedInput: { email, password }, ctx }) => {
-    const { user } = await auth.api.signInEmail({
-      body: { email, password },
-      headers: await headers(),
-    })
+    const [data, error] = await tryCatch(
+      ctx.auth.api.signInEmail({
+        body: { email, password },
+        headers: await headers(),
+      })
+    )
 
-    ctx.logger.info("Signed in with password", { user })
+    if (error) {
+      throw Fault.from(error)
+        .withTag("AUTHENTICATION_ERROR")
+        .withDescription("Invalid credentials")
+    }
+
+    ctx.logger.info("Signed in with password", { user: data.user })
 
     redirect(AUTHORIZED_PATHNAME)
   })

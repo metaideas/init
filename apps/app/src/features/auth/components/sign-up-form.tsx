@@ -1,64 +1,44 @@
 "use client"
 
 import { mergeForm, useTransform } from "@tanstack/react-form"
-import { useAction } from "next-safe-action/hooks"
-import { useStateAction } from "next-safe-action/stateful-hooks"
+import { useActionState } from "react"
 
 import { useAppForm } from "@init/ui/form"
 
-import { checkEmailAvailability, signUp } from "~/features/auth/actions"
+import { signUp } from "~/features/auth/actions"
 import { SignUpFormSchema } from "~/features/auth/validation"
+import { useTRPCClient } from "~/shared/trpc/client"
 
-const FieldsSchema = SignUpFormSchema._def.schema._def.schema
+const schema = SignUpFormSchema._def.schema._def.schema
 
 export default function SignUpForm() {
-  const action = useStateAction(signUp, {
-    initResult: { data: undefined },
-  })
-  const checkEmailAvailabilityAction = useAction(checkEmailAvailability)
+  const trpcClient = useTRPCClient()
+  const [state, action] = useActionState(signUp, {})
 
   const form = useAppForm({
     defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
     validators: {
-      onBlur: ({ value }) => {
-        if (
-          value.password &&
-          value.confirmPassword &&
-          value.password !== value.confirmPassword
-        ) {
-          return {
-            fields: {
-              confirmPassword: { message: "Passwords don't match" },
-            },
-          }
-        }
-
-        return null
-      },
-      onSubmit: FieldsSchema,
+      onSubmit: schema,
     },
     transform: useTransform(
       baseForm =>
         mergeForm(baseForm, {
           errorMap: {
-            onServer: action.result.serverError,
+            onServer: state.serverError,
           },
         }),
-      [action.result]
+      [state]
     ),
   })
 
   return (
     <form
-      action={action.execute}
+      action={action}
       onSubmit={() => form.handleSubmit()}
       className="space-y-4"
     >
       <form.AppForm>
-        <form.AppField
-          name="name"
-          validators={{ onBlur: FieldsSchema.shape.name }}
-        >
+        <form.AppField name="name" validators={{ onBlur: schema.shape.name }}>
           {field => (
             <field.Item>
               <field.Label>Name</field.Label>
@@ -72,13 +52,14 @@ export default function SignUpForm() {
         <form.AppField
           name="email"
           validators={{
-            onBlur: FieldsSchema.shape.email,
+            onBlur: schema.shape.email,
             onBlurAsync: async ({ value }) => {
-              const result = await checkEmailAvailabilityAction.executeAsync({
-                email: value,
-              })
+              const { isAvailable } =
+                await trpcClient.auth.checkEmailAvailability.query({
+                  email: value,
+                })
 
-              if (result?.data?.available) {
+              if (isAvailable) {
                 return null
               }
 
@@ -98,7 +79,7 @@ export default function SignUpForm() {
         </form.AppField>
         <form.AppField
           name="password"
-          validators={{ onBlur: FieldsSchema.shape.password }}
+          validators={{ onBlur: schema.shape.password }}
         >
           {field => (
             <field.Item>
@@ -112,7 +93,16 @@ export default function SignUpForm() {
         </form.AppField>
         <form.AppField
           name="confirmPassword"
-          validators={{ onBlur: FieldsSchema.shape.confirmPassword }}
+          validators={{
+            onBlur: schema.shape.confirmPassword.refine(
+              v => v === form.getFieldValue("password"),
+              {
+                message: "Passwords don't match",
+              }
+            ),
+            onBlurListenTo: ["password"],
+            onChangeListenTo: ["password"],
+          }}
         >
           {field => (
             <field.Item>

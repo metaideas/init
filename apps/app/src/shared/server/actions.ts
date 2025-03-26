@@ -5,9 +5,9 @@ import { cookies } from "next/headers"
 import { LOCALES, LOCALE_COOKIE_NAME } from "@init/internationalization/locale"
 import { z } from "@init/utils/schema"
 
-import { actionClient } from "~/shared/safe-action"
+import { publicAction } from "~/shared/action-client"
 
-export const changeLocale = actionClient
+export const changeLocale = publicAction
   .metadata({ name: "changeLocale" })
   .schema(z.object({ locale: z.enum(LOCALES) }))
   .action(async ({ parsedInput: { locale } }) => {

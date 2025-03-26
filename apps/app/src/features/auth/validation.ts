@@ -19,3 +19,7 @@ export const SignInWithPasswordFormSchema = z.formData({
   email: z.text(EmailSchema),
   password: z.text(PasswordSchema),
 })
+
+export type SignInWithPasswordFormData = z.infer<
+  typeof SignInWithPasswordFormSchema
+>
