@@ -1,4 +1,4 @@
-import merge from "lodash.merge"
+import { defu } from "defu"
 import type { Metadata } from "next"
 
 type MetadataCreator = (
@@ -60,7 +60,7 @@ export function buildMetadataCreator({
       },
     }
 
-    const metadata: Metadata = merge(defaultMetadata, properties)
+    const metadata = defu(properties, defaultMetadata)
 
     if (image && metadata.openGraph) {
       metadata.openGraph.images = [
