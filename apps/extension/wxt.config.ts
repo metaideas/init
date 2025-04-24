@@ -7,10 +7,11 @@ export default defineConfig({
   dev: {
     server: { port: 3004 },
   },
-  extensionApi: "chrome",
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
-  publicDir: "static",
+  autoIcons: {
+    baseIconPath: "shared/assets/icon.svg",
+  },
   srcDir: "src",
   vite: () => ({
     plugins: [TanStackRouterVite(), tailwindcss()],

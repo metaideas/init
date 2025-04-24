@@ -1,5 +1,5 @@
 import { browser } from "wxt/browser"
-import { defineBackground } from "wxt/sandbox"
+import { defineBackground } from "#imports"
 
 import { registerTestService } from "~/shared/services"
 
