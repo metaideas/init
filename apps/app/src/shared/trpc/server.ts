@@ -3,13 +3,15 @@ import "server-only"
 import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { cache } from "react"
+import superjson from "superjson"
 
 import { db } from "@init/db"
 import { logger } from "@init/observability/logger"
 import { ZodError } from "@init/utils/schema"
-import { transformer } from "@init/utils/trpc-client"
 
 import { auth, validateRequest } from "~/shared/auth/server"
+
+const transformer = superjson
 
 export const createContext = cache(
   async (options?: FetchCreateContextFnOptions) => {

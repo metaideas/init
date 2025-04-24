@@ -401,8 +401,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
     actions: [
       {
         type: "add",
-        path: "apps/{{kebabCase app}}/src/shared/trpc.ts",
-        templateFile: "templates/apps/trpc-client/trpc.ts.hbs",
+        path: "apps/{{kebabCase app}}/src/shared/trpc.tsx",
+        templateFile: "templates/apps/trpc-client/trpc.tsx.hbs",
       },
     ],
   })

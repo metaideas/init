@@ -29,6 +29,8 @@
     "@react-navigation/native": "7.0.15",
     "@sentry/react-native": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@trpc/client": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
     "@init/native-ui": "workspace:*",
@@ -56,7 +58,8 @@
     "react-native-screens": "4.9.2",
     "react-native-svg": "15.11.2",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.13.4"
+    "react-native-webview": "13.13.4",
+    "superjson": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",

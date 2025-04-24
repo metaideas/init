@@ -18,13 +18,16 @@
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
+    "@trpc/client": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "@tauri-apps/api": "2.3.0",
     "@tauri-apps/plugin-opener": "2.2.6",
     "@init/env": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "superjson": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.0.14",

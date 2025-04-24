@@ -32,7 +32,8 @@
     "@init/utils": "workspace:*",
     "@trpc/server": "catalog:",
     "hono": "catalog:",
-    "pino": "catalog:"
+    "pino": "catalog:",
+    "superjson": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -333,12 +333,21 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: 2.2.6
         version: 2.2.6
+      '@trpc/client':
+        specifier: 'catalog:'
+        version: 11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/tanstack-react-query':
+        specifier: 'catalog:'
+        version: 11.0.0(@tanstack/react-query@5.68.0(react@18.3.1))(@trpc/client@11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.0(typescript@5.8.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
       react:
         specifier: 'catalog:'
         version: 18.3.1
       react-dom:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@tailwindcss/vite':
         specifier: 4.0.14
@@ -543,6 +552,12 @@ importers:
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.68.0(react@18.3.1)
+      '@trpc/client':
+        specifier: 'catalog:'
+        version: 11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/tanstack-react-query':
+        specifier: 'catalog:'
+        version: 11.0.0(@tanstack/react-query@5.68.0(react@18.3.1))(@trpc/client@11.0.0(@trpc/server@11.0.0(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.0(typescript@5.8.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.2)
       expo:
         specifier: 52.0.39
         version: 52.0.39(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@expo/metro-runtime@4.0.1(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native-webview@13.13.4(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
@@ -612,6 +627,9 @@ importers:
       react-native-webview:
         specifier: 13.13.4
         version: 13.13.4(react-native@0.77.1(@babel/core@7.26.10)(@babel/preset-env@7.26.8(@babel/core@7.26.10))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@babel/core':
         specifier: 7.26.10
