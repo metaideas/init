@@ -187,6 +187,9 @@ importers:
       pino:
         specifier: 'catalog:'
         version: 9.6.0
+      superjson:
+        specifier: 'catalog:'
+        version: 2.2.2
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
