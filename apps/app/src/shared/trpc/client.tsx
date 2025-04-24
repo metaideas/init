@@ -1,6 +1,6 @@
 "use client"
 
-import { type QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import {
   createTRPCClient,
   httpBatchLink,
@@ -9,32 +9,14 @@ import {
   splitLink,
 } from "@trpc/client"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
-import { type ReactNode, cache, useState } from "react"
+import { type ReactNode, useState } from "react"
 import superjson from "superjson"
 
 import { isDevelopment } from "@init/utils/environment"
 
-import { makeQueryClient } from "~/shared/query-client"
+import { getQueryClient } from "~/shared/query-client"
 import type { AppRouter } from "~/shared/trpc/router"
 import { buildApiUrl } from "~/shared/utils"
-
-let browserQueryClient: QueryClient | undefined
-
-export const getQueryClient = cache(() => {
-  if (typeof window === "undefined") {
-    // Server: always make a new query client
-    return makeQueryClient()
-  }
-  // Browser: make a new query client if we don't already have one This is very
-  // important, so we don't re-make a new client if React suspends during the
-  // initial render. This may not be needed if we have a suspense boundary BELOW
-  // the creation of the query client
-  if (!browserQueryClient) {
-    browserQueryClient = makeQueryClient()
-  }
-
-  return browserQueryClient
-})
 
 // In this implementation we're providing the app router to the Next.js server,
 // but we could easily swipe it out with the router in the API project and use

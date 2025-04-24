@@ -1,3 +1,5 @@
+import "server-only"
+
 import { TRPCError, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { cache } from "react"

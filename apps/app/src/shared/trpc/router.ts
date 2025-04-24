@@ -2,10 +2,19 @@
 // we need to get routers and procedures from the features into the application
 // router, so we can have type-safe clients.
 import auth from "~/features/auth/procedures"
-import { createRouter } from "~/shared/trpc/server"
+import {
+  createCallerFactory,
+  createContext,
+  createRouter,
+} from "~/shared/trpc/server"
 
 export const appRouter = createRouter({
   auth,
 })
 
 export type AppRouter = typeof appRouter
+
+/**
+ * Use the caller to call procedures inside API routes.
+ */
+export const caller = createCallerFactory(appRouter)(createContext)
