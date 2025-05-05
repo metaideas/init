@@ -6,10 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": [
-      "./src/helpers/*.ts",
-      "./src/helpers/*.tsx"
-    ],
+    "./*": ["./src/helpers/*.ts", "./src/helpers/*.tsx"],
     "./constants": "./src/constants/index.ts"
   },
   "scripts": {
@@ -36,7 +33,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@trpc/server": "catalog:",
     "@types/lodash.merge": "4.6.9",
-    "@types/react": "18.3.18",
+    "@types/react": "catalog:",
     "next": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

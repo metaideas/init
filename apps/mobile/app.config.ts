@@ -72,6 +72,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   orientation: "portrait",
   plugins: [
+    "expo-font",
     "expo-router",
     [
       "expo-splash-screen",
