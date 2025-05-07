@@ -4,7 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import {
   createTRPCClient,
   httpBatchLink,
-  httpBatchStreamLink,
+  httpLink,
+  isNonJsonSerializable,
   loggerLink,
   splitLink,
 } from "@trpc/client"
@@ -40,9 +41,11 @@ export function TRPCProvider(
       links: [
         loggerLink({ enabled: () => isDevelopment }),
         splitLink({
-          condition: op => Boolean(op.context.streaming),
+          condition: op =>
+            Boolean(op.context.skipBatching) ||
+            isNonJsonSerializable(op.context.result),
           false: httpBatchLink({ transformer: superjson, url }),
-          true: httpBatchStreamLink({ transformer: superjson, url }),
+          true: httpLink({ transformer: superjson, url }),
         }),
       ],
     })

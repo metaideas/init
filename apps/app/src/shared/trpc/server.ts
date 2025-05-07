@@ -11,8 +11,6 @@ import { ZodError } from "@init/utils/schema"
 
 import { auth, validateRequest } from "~/shared/auth/server"
 
-const transformer = superjson
-
 export const createContext = cache(
   async (options?: FetchCreateContextFnOptions) => {
     const session = await validateRequest()
@@ -32,7 +30,7 @@ export const createContext = cache(
 )
 
 export const t = initTRPC.context<typeof createContext>().create({
-  transformer,
+  transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
       ...shape,
