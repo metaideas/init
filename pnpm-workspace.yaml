@@ -5,57 +5,58 @@ packages:
 
 catalog:
   # React
-  react: 19.0.0
-  react-dom: 19.0.0
-  "@types/react": 19.0.0
-  "@types/react-dom": 19.0.0
+  react: 19.1.0
+  react-dom: 19.1.0
+  "@types/react": 19.1.2
+  "@types/react-dom": 19.1.3
   server-only: 0.0.1
 
   # React Native
   react-native: 0.79.2
   react-native-reanimated: 3.17.5
   nativewind: 4.1.23
-  "@sentry/react-native": 6.10.0
+  "@sentry/react-native": 6.13.0
 
   # Next.js
-  next: 15.2.2
-  "@next/bundle-analyzer": 15.2.2
+  next: 15.3.1
+  "@next/bundle-analyzer": 15.3.1
 
   # TanStack
-  "@tanstack/react-query": 5.68.0
-  "@tanstack/react-form": 1.0.5
-  "@tanstack/react-router": 1.114.17
-  "@tanstack/router-devtools": 1.114.21
-  "@tanstack/router-plugin": 1.114.17
+  "@tanstack/react-query": 5.75.2
+  "@tanstack/react-form": 1.9.0
+  "@tanstack/react-router": 1.119.0
+  "@tanstack/router-devtools": 1.119.1
+  "@tanstack/router-plugin": 1.119.0
 
   # TRPC
-  "@trpc/client": 11.0.0
-  "@trpc/server": 11.0.0
-  "@trpc/tanstack-react-query": 11.0.0
+  "@trpc/client": 11.1.2
+  "@trpc/server": 11.1.2
+  "@trpc/tanstack-react-query": 11.1.2
 
   # Styling
   postcss: 8.5.3
-  "@tailwindcss/postcss": 4.0.14
+  "@tailwindcss/postcss": 4.1.5
   tailwindcss-animate: 1.0.7
   class-variance-authority: 0.7.1
   lucide-react: 0.475.0
 
   # Development
-  "@types/node": 22.13.10
-  typescript: 5.8.2
-  vite: 6.2.2
-  vitest: 3.0.8
+  "@types/node": 22.15.3
+  typescript: 5.8.3
+  vite: 6.3.5
+  vitest: 3.1.3
 
   # Other
-  hono: 4.7.4
+  hono: 4.7.8
   pino: 9.6.0
   superjson: 2.2.2
+  zod: 3.24.4
 
 catalogs:
   tailwind3:
     tailwindcss: 3.4.17
   tailwind4:
-    tailwindcss: 4.0.14
+    tailwindcss: 4.1.5
 
 onlyBuiltDependencies:
   - "@biomejs/biome"
