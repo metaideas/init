@@ -54,8 +54,8 @@ export default function Page() {
           </div>
 
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <SignInWithGoogleButton />
-            <SignInWithGitHubButton />
+            <SignInWithGoogleButton className="w-full min-w-[180px] sm:flex-1" />
+            <SignInWithGitHubButton className="w-full min-w-[180px] sm:flex-1" />
           </div>
         </CardContent>
       </Card>

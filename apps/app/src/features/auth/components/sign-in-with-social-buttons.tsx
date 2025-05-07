@@ -6,16 +6,17 @@ import { useState } from "react"
 import { Button } from "@init/ui/components/button"
 import { toast } from "@init/ui/components/sonner"
 
+import { cn } from "@init/utils/ui"
 import { signIn } from "~/shared/auth/client"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 
-export function SignInWithGoogleButton() {
+export function SignInWithGoogleButton({ className }: { className?: string }) {
   const [loading, setLoading] = useState(false)
 
   return (
     <Button
       variant="outline"
-      className="flex w-full gap-3"
+      className={cn("flex gap-3", className)}
       onClick={() => {
         setLoading(true)
 
@@ -76,13 +77,13 @@ function GoogleIcon() {
   )
 }
 
-export function SignInWithGitHubButton() {
+export function SignInWithGitHubButton({ className }: { className?: string }) {
   const [loading, setLoading] = useState(false)
 
   return (
     <Button
       variant="outline"
-      className="flex w-full gap-3"
+      className={cn("flex gap-3", className)}
       onClick={() => {
         setLoading(true)
 

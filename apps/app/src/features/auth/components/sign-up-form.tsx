@@ -116,7 +116,7 @@ export default function SignUpForm() {
         </form.AppField>
         <form.ServerError />
         <form.SubmitButton className="w-full" loadingText="Signing up...">
-          Sign Up
+          Sign up
         </form.SubmitButton>
       </form.AppForm>
     </form>
