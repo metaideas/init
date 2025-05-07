@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@init/ui/card"
+} from "@init/ui/components/card"
 
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"

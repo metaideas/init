@@ -4,7 +4,7 @@ import { Loader2Icon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-import { Button } from "@init/ui/button"
+import { Button } from "@init/ui/components/button"
 
 import { authClient } from "~/shared/auth/client"
 import { UNAUTHORIZED_PATHNAME } from "~/shared/constants"

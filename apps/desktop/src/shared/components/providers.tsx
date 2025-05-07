@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@init/ui/theme"
+import { ThemeProvider } from "@init/ui/components/theme"
 import type { ReactNode } from "react"
 
 import { TRPCProvider } from "~/shared/trpc"

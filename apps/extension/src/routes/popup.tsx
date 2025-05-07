@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { Button } from "@init/ui/button"
-import { TypographyH1 } from "@init/ui/typography"
+import { Button } from "@init/ui/components/button"
+import { TypographyH1 } from "@init/ui/components/typography"
 
 import { getTestService } from "~/shared/services"
 

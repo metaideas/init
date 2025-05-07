@@ -3,7 +3,7 @@
 import { mergeForm, useTransform } from "@tanstack/react-form"
 import { useActionState } from "react"
 
-import { useAppForm } from "@init/ui/form"
+import { useAppForm } from "@init/ui/components/form"
 
 import { signUp } from "~/features/auth/actions"
 import { SignUpFormSchema } from "~/features/auth/validation"

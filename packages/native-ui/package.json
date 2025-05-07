@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./*": "./src/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
+    "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./icons/*": "./src/icons/*.ts",
     "./tailwind.config": "./tailwind.config.ts"

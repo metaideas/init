@@ -1,5 +1,5 @@
 import { getTranslations } from "@init/internationalization/nextjs/server"
-import { TypographyH1, TypographyP } from "@init/ui/typography"
+import { TypographyH1, TypographyP } from "@init/ui/components/typography"
 
 import { LocaleToggle } from "~/shared/components/locale-toggle"
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
-import { cn } from "@init/utils/classname"
+import { cn } from "@init/utils/ui"
 
 import Providers from "~/shared/components/providers"
 

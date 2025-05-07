@@ -3,11 +3,18 @@ import Link from "next/link"
 
 import type { Locale } from "@init/internationalization/locale"
 import { getTranslations } from "@init/internationalization/nextjs/server"
-import { Button } from "@init/ui/button"
-import { ThemeToggle } from "@init/ui/theme"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@init/ui/tooltip"
-import { TypographyH1, TypographySmall } from "@init/ui/typography"
-import { TypographyLead } from "@init/ui/typography"
+import { Button } from "@init/ui/components/button"
+import { ThemeToggle } from "@init/ui/components/theme"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@init/ui/components/tooltip"
+import {
+  TypographyH1,
+  TypographyLead,
+  TypographySmall,
+} from "@init/ui/components/typography"
 
 export default async function Page({
   params,

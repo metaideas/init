@@ -3,8 +3,8 @@ import { mergeForm, useTransform } from "@tanstack/react-form"
 import Link from "next/link"
 import { useActionState } from "react"
 
-import { Button } from "@init/ui/button"
-import { useAppForm } from "@init/ui/form"
+import { Button } from "@init/ui/components/button"
+import { useAppForm } from "@init/ui/components/form"
 
 import { signInWithPassword } from "~/features/auth/actions"
 import { SignInWithPasswordFormSchema } from "~/features/auth/validation"

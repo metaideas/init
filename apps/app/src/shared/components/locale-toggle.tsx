@@ -4,13 +4,13 @@ import { LanguagesIcon } from "lucide-react"
 import { useAction } from "next-safe-action/hooks"
 
 import { useTranslations } from "@init/internationalization/nextjs"
-import { Button } from "@init/ui/button"
+import { Button } from "@init/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@init/ui/dropdown-menu"
+} from "@init/ui/components/dropdown-menu"
 
 import { changeLocale } from "~/shared/server/actions"
 
