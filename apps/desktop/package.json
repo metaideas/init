@@ -39,7 +39,6 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "4.4.1",
     "api": "workspace:*",
-    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:",
     "vite": "catalog:"
   }

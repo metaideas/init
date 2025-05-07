@@ -42,13 +42,10 @@
     "superjson": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "catalog:",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "api": "workspace:*",
-    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
 }

@@ -5,7 +5,8 @@
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"],
-      "content-collections": ["./.content-collections/generated"]
+      "content-collections": ["./.content-collections/generated"],
+      "@init/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "exclude": ["node_modules"],

@@ -34,12 +34,10 @@
     "@content-collections/cli": "0.1.6",
     "@content-collections/core": "0.8.2",
     "@content-collections/next": "0.2.6",
-    "@tailwindcss/postcss": "catalog:",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
 }

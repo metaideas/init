@@ -9,10 +9,10 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared"
  */
 export const baseOptions: BaseLayoutProps = {
   // Enable this to display the language switcher
-  // i18n: true,
+  i18n: true,
   links: [
     {
-      active: "nested-url",
+      active: "none",
       text: "Website",
       url: "/",
     },

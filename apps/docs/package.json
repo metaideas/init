@@ -7,7 +7,7 @@
     "build": "next build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "next dev --port 3005",
+    "dev": "next dev --port 3005 --turbo",
     "format": "biome format --write .",
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
@@ -20,6 +20,7 @@
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/observability": "workspace:*",
+    "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "@next/bundle-analyzer": "catalog:",
     "fumadocs-core": "15.2.10",
@@ -31,14 +32,11 @@
   },
   "devDependencies": {
     "@fumadocs/cli": "0.1.1",
-    "@tailwindcss/postcss": "catalog:",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "2.0.13",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "postcss": "catalog:",
-    "tailwindcss": "catalog:tailwind4",
     "typescript": "catalog:"
   }
 }

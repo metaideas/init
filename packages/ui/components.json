@@ -10,7 +10,7 @@
   "rsc": true,
   "style": "new-york",
   "tailwind": {
-    "baseColor": "zinc",
+    "baseColor": "neutral",
     "config": "",
     "css": "src/styles/index.css",
     "cssVariables": true

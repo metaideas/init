@@ -1,9 +1,9 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 
+import "@init/ui/globals.css"
 import { ThemeToggle } from "@init/ui/components/theme"
 
-import "~/shared/assets/styles/tailwind.css"
 import Providers from "~/shared/components/providers"
 
 export const Route = createRootRoute({
