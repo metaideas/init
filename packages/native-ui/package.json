@@ -14,11 +14,14 @@
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "components:add": "pnpx @react-native-reusables/cli add",
+    "components:diff": "pnpx @react-native-reusables/cli diff",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@init/utils": "workspace:*",
     "@react-navigation/native": "7.0.15",
     "@rn-primitives/accordion": "1.1.0",
     "@rn-primitives/alert-dialog": "^1.1.0",
@@ -47,13 +50,13 @@
     "@rn-primitives/tooltip": "^1.1.0",
     "@rn-primitives/types": "1.1.0",
     "@tanstack/react-form": "catalog:",
-    "@init/utils": "workspace:*",
     "class-variance-authority": "catalog:",
     "lucide-react-native": "0.475.0",
     "react-native": "catalog:",
     "react-native-reanimated": "catalog:"
   },
   "devDependencies": {
+    "@react-native-reusables/cli": "^0.3.8",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/typography": "0.5.16",
     "@tooling/tsconfig": "workspace:*",

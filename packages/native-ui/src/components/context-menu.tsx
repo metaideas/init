@@ -47,7 +47,7 @@ const ContextMenuSubTrigger = React.forwardRef<
         )}
         {...props}
       >
-        <>{children}</>
+        {children}
         <Icon size={18} className="ml-auto text-foreground" />
       </ContextMenuPrimitive.SubTrigger>
     </TextClassContext.Provider>
@@ -109,8 +109,8 @@ const ContextMenuContent = React.forwardRef<
             className={cn(
               "web:data-[side=bottom]:slide-in-from-top-2 web:data-[side=left]:slide-in-from-right-2 web:data-[side=right]:slide-in-from-left-2 web:data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 shadow-foreground/5 shadow-md",
               open
-                ? "web:animate-in web:fade-in-0 web:zoom-in-95"
-                : "web:animate-out web:fade-out-0 web:zoom-out-95",
+                ? "web:fade-in-0 web:zoom-in-95 web:animate-in"
+                : "web:fade-out-0 web:zoom-out-95 web:animate-out",
               className
             )}
             {...props}
@@ -132,9 +132,9 @@ const ContextMenuItem = React.forwardRef<
     <ContextMenuPrimitive.Item
       ref={ref}
       className={cn(
-        "relative flex flex-row web:cursor-default items-center gap-2 rounded-sm px-2 py-1.5 native:py-2 web:outline-none web:focus:bg-accent active:bg-accent web:hover:bg-accent group",
+        "group relative flex web:cursor-default flex-row items-center gap-2 rounded-sm px-2 native:py-2 py-1.5 web:outline-none web:hover:bg-accent web:focus:bg-accent active:bg-accent",
         inset && "pl-8",
-        props.disabled && "opacity-50 web:pointer-events-none",
+        props.disabled && "web:pointer-events-none opacity-50",
         className
       )}
       {...props}
@@ -150,7 +150,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "relative flex flex-row web:cursor-default items-center web:group rounded-sm py-1.5 native:py-2 pl-8 pr-2 web:outline-none web:focus:bg-accent active:bg-accent",
+      "web:group relative flex web:cursor-default flex-row items-center rounded-sm native:py-2 py-1.5 pr-2 pl-8 web:outline-none web:focus:bg-accent active:bg-accent",
       props.disabled && "web:pointer-events-none opacity-50",
       className
     )}
@@ -161,7 +161,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
         <Check size={14} strokeWidth={3} className="text-foreground" />
       </ContextMenuPrimitive.ItemIndicator>
     </View>
-    <>{children}</>
+    {children}
   </ContextMenuPrimitive.CheckboxItem>
 ))
 ContextMenuCheckboxItem.displayName =
@@ -174,7 +174,7 @@ const ContextMenuRadioItem = React.forwardRef<
   <ContextMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex flex-row web:cursor-default web:group items-center rounded-sm py-1.5 native:py-2 pl-8 pr-2 web:outline-none web:focus:bg-accent active:bg-accent",
+      "web:group relative flex web:cursor-default flex-row items-center rounded-sm native:py-2 py-1.5 pr-2 pl-8 web:outline-none web:focus:bg-accent active:bg-accent",
       props.disabled && "web:pointer-events-none opacity-50",
       className
     )}
@@ -182,10 +182,10 @@ const ContextMenuRadioItem = React.forwardRef<
   >
     <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <View className="bg-foreground h-2 w-2 rounded-full" />
+        <View className="h-2 w-2 rounded-full bg-foreground" />
       </ContextMenuPrimitive.ItemIndicator>
     </View>
-    <>{children}</>
+    {children}
   </ContextMenuPrimitive.RadioItem>
 ))
 ContextMenuRadioItem.displayName = ContextMenuPrimitive.RadioItem.displayName
@@ -199,7 +199,7 @@ const ContextMenuLabel = React.forwardRef<
   <ContextMenuPrimitive.Label
     ref={ref}
     className={cn(
-      "px-2 py-1.5 text-sm native:text-base font-semibold text-foreground web:cursor-default",
+      "web:cursor-default px-2 py-1.5 font-semibold native:text-base text-foreground text-sm",
       inset && "pl-8",
       className
     )}
@@ -224,7 +224,7 @@ const ContextMenuShortcut = ({ className, ...props }: TextProps) => {
   return (
     <Text
       className={cn(
-        "ml-auto text-xs native:text-sm tracking-widest text-muted-foreground",
+        "ml-auto native:text-sm text-muted-foreground text-xs tracking-widest",
         className
       )}
       {...props}

@@ -55,7 +55,7 @@ const DialogOverlayNative = React.forwardRef<
         entering={FadeIn.duration(150)}
         exiting={FadeOut.duration(150)}
       >
-        <>{children}</>
+        {children}
       </Animated.View>
     </DialogPrimitive.Overlay>
   )
@@ -79,19 +79,18 @@ const DialogContent = React.forwardRef<
         <DialogPrimitive.Content
           ref={ref}
           className={cn(
-            "max-w-lg gap-4 border border-border web:cursor-default bg-background p-6 shadow-lg web:duration-200 rounded-lg",
+            "max-w-lg web:cursor-default gap-4 rounded-lg border border-border bg-background p-6 shadow-lg web:duration-200",
             open
-              ? "web:animate-in web:fade-in-0 web:zoom-in-95"
-              : "web:animate-out web:fade-out-0 web:zoom-out-95",
+              ? "web:fade-in-0 web:zoom-in-95 web:animate-in"
+              : "web:fade-out-0 web:zoom-out-95 web:animate-out",
             className
           )}
           {...props}
         >
           {children}
           <DialogPrimitive.Close
-            className={
-              "absolute right-4 top-4 p-0.5 web:group rounded-sm opacity-70 web:ring-offset-background web:transition-opacity web:hover:opacity-100 web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 web:disabled:pointer-events-none"
-            }
+            className=
+              "web:group absolute top-4 right-4 rounded-sm p-0.5 opacity-70 web:ring-offset-background web:transition-opacity web:hover:opacity-100 web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 web:disabled:pointer-events-none"
           >
             <X
               size={Platform.OS === "web" ? 16 : 18}
@@ -119,7 +118,7 @@ DialogHeader.displayName = "DialogHeader"
 const DialogFooter = ({ className, ...props }: ViewProps) => (
   <View
     className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end gap-2",
+      "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
       className
     )}
     {...props}
@@ -134,7 +133,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg native:text-xl text-foreground font-semibold leading-none tracking-tight",
+      "font-semibold native:text-xl text-foreground text-lg leading-none tracking-tight",
       className
     )}
     {...props}
@@ -148,7 +147,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm native:text-base text-muted-foreground", className)}
+    className={cn("native:text-base text-muted-foreground text-sm", className)}
     {...props}
   />
 ))

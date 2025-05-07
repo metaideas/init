@@ -2,7 +2,11 @@
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "rootDir": "."
+    "baseUrl": ".",
+    "paths": {
+      "@init/ui/*": ["./src/*"],
+      "@init/utils/*": ["../utils/src/*"]
+    }
   },
   "include": ["*.ts", "src"],
   "exclude": ["node_modules"]

@@ -87,7 +87,7 @@ const AccordionTrigger = React.forwardRef<
               className
             )}
           >
-            {children as React.ReactNode}
+            {children}
             <Animated.View style={chevronStyle}>
               <ChevronDown size={18} className="shrink-0 text-foreground" />
             </Animated.View>
@@ -125,10 +125,7 @@ const AccordionContent = React.forwardRef<
 function InnerContent({
   children,
   className,
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
+}: { children: React.ReactNode; className?: string }) {
   if (Platform.OS === "web") {
     return <View className={cn("pb-4", className)}>{children}</View>
   }

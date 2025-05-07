@@ -5,8 +5,6 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"],
       "@init/ui/*": ["./src/*"],
       "@init/utils/*": ["../utils/src/helpers/*"]
     }
