@@ -7,7 +7,7 @@
     "build": "next build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "next dev --port 3005 --turbo",
+    "dev": "next dev --port 3005 --turbopack",
     "format": "biome format --write .",
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
