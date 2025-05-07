@@ -51,5 +51,8 @@
     "overrides": {
       "vite": "catalog:"
     }
+  },
+  "dependencies": {
+    "shadcn": "^2.5.0"
   }
 }
