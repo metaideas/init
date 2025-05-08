@@ -3,12 +3,19 @@ import {
   ChevronDown,
   ChevronRight,
   ChevronUp,
-  Loader2,
+  LoaderCircle,
   X,
 } from "lucide-react-native"
 import { cssInterop } from "nativewind"
 
-for (const icon of [Check, ChevronDown, ChevronRight, ChevronUp, Loader2, X]) {
+for (const icon of [
+  Check,
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  LoaderCircle,
+  X,
+]) {
   cssInterop(icon, {
     className: {
       target: "style",
@@ -20,4 +27,4 @@ for (const icon of [Check, ChevronDown, ChevronRight, ChevronUp, Loader2, X]) {
   })
 }
 
-export { ChevronDown, Check, ChevronRight, ChevronUp, X, Loader2 }
+export { ChevronDown, Check, ChevronRight, ChevronUp, X, LoaderCircle }
