@@ -4,7 +4,7 @@ import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
-import "~/shared/assets/styles/tailwind.css"
+import "~/shared/assets/styles/index.css"
 import es from "~/shared/localization/translations/es"
 
 const inter = Inter({
