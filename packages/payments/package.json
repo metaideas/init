@@ -17,12 +17,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stripe/agent-toolkit": "0.5.1",
-    "@stripe/react-stripe-js": "3.4.0",
-    "@stripe/stripe-js": "6.0.0",
     "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/utils": "workspace:*",
+    "@stripe/agent-toolkit": "0.5.1",
+    "@stripe/react-stripe-js": "3.4.0",
+    "@stripe/stripe-js": "6.0.0",
     "stripe": "17.7.0"
   },
   "devDependencies": {
