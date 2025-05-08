@@ -28,6 +28,7 @@ root
   │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
   │   ├── auth              # Authentication utilities
+  │   ├── core              # Shared core logic and business rules
   │   ├── db                # Database client and ORM using Drizzle
   │   ├── email             # Email templating and sending service using Resend
   │   ├── env               # Environment variable management and validation
