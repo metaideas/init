@@ -4,11 +4,8 @@ import * as Slot from "@rn-primitives/slot"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import type { ComponentProps } from "react"
 import { Text, View } from "react-native"
-import Animated from "react-native-reanimated"
 
 import { _cn as cn } from "@init/utils/ui"
-
-import useRotationAnimation from "../hooks/use-rotation-animation"
 import { Button, buttonTextVariants } from "./button"
 import { LoaderCircle } from "./icon"
 import { Input } from "./input"
@@ -101,7 +98,6 @@ function FormSubmitButton(
 ) {
   const { loadingText = "Submitting...", children, ...rest } = props
   const form = useFormContext()
-  const rotation = useRotationAnimation()
 
   return (
     <form.Subscribe
@@ -115,9 +111,7 @@ function FormSubmitButton(
         >
           {isSubmitting ? (
             <View className="flex-row items-center gap-2">
-              <Animated.View style={[rotation]}>
-                <LoaderCircle size={20} />
-              </Animated.View>
+              <LoaderCircle className="size-6 animate-spin text-muted-foreground" />
               <Text
                 className={cn(
                   buttonTextVariants({
