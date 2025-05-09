@@ -5,9 +5,9 @@ import { useEffect } from "react"
 
 import "react-native-reanimated"
 
-import { initializeErrorMonitoring } from "@init/observability/error/expo"
+import { useInitialAndroidBarSync } from "@init/native-ui/hooks/_use-color-scheme"
 import { initializeErrorMonitoring, wrap } from "@init/observability/error/expo"
-import "~/shared/assets/styles/tailwind.css"
+import "@init/native-ui/globals.css"
 
 import Providers from "~/shared/components/providers"
 
@@ -20,6 +20,7 @@ function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../shared/assets/fonts/SpaceMono-Regular.ttf"),
   })
+  useInitialAndroidBarSync()
 
   useEffect(() => {
     if (loaded) {

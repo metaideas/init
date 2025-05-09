@@ -7,9 +7,12 @@
   "exports": {
     "./blocks/*": "./src/blocks/*.tsx",
     "./components/*": "./src/components/*.tsx",
+    "./_components/*": "./src/_components/*.tsx",
+    "./globals.css": "./src/styles/globals.css",
     "./hooks/*": "./src/hooks/*.ts",
     "./icons/*": "./src/icons/*.ts",
-    "./tailwind.config": "./tailwind.config.ts"
+    "./tailwind.config": "./tailwind.config.ts",
+    "./theme": "./src/theme/index.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -22,7 +25,7 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@react-navigation/native": "7.0.15",
+    "@react-navigation/native": "catalog:",
     "@rn-primitives/accordion": "1.1.0",
     "@rn-primitives/alert-dialog": "^1.1.0",
     "@rn-primitives/aspect-ratio": "^1.1.0",
@@ -49,8 +52,10 @@
     "@rn-primitives/toggle-group": "^1.1.0",
     "@rn-primitives/tooltip": "^1.1.0",
     "@rn-primitives/types": "1.1.0",
+    "@roninoss/icons": "catalog:",
     "@tanstack/react-form": "catalog:",
     "class-variance-authority": "catalog:",
+    "expo-navigation-bar": "^4.2.4",
     "lucide-react-native": "0.475.0",
     "react-native": "catalog:",
     "react-native-reanimated": "catalog:"

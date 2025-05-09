@@ -17,6 +17,7 @@ catalog:
   nativewind: 4.1.23
   "@sentry/react-native": 6.10.0
   "@react-navigation/native": 7.1.7
+  "@roninoss/icons": "0.0.4"
 
   # Next.js
   next: 15.3.1

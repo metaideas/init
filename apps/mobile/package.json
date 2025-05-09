@@ -5,7 +5,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "android": "expo start --android",
-    "build:ios:development": "eas build --profile development --platform ios",
+    "build:ios:development": "eas build:dev --profile development --platform ios",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
     "dev": "expo start --port 3002",
@@ -34,6 +34,7 @@
     "@react-navigation/bottom-tabs": "7.3.11",
     "@react-navigation/elements": "2.2.6",
     "@react-navigation/native": "catalog:",
+    "@roninoss/icons": "catalog:",
     "@sentry/react-native": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@trpc/client": "catalog:",
