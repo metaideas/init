@@ -39,7 +39,7 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "react": ">=19"
+    "react": "catalog:"
   },
   "peerDependenciesMeta": {
     "react": {
