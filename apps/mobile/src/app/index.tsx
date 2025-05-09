@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/react-native"
 import { Link } from "expo-router"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -11,6 +10,7 @@ import {
 } from "@init/native-ui/components/collapsible"
 import { useAppForm } from "@init/native-ui/components/form"
 import { Text } from "@init/native-ui/components/text"
+import { captureException } from "@init/observability/error/expo"
 
 export default function Page() {
   const form = useAppForm({
@@ -40,7 +40,7 @@ export default function Page() {
 
       <Button
         onPress={() => {
-          Sentry.captureException(new Error(Date.now().toString()))
+          captureException(`Tested Sentry out ${Date.now()}`)
         }}
       >
         <Text>Sentry Test</Text>
