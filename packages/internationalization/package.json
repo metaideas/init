@@ -20,11 +20,14 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "next-intl": "4.0.2"
+    "next-intl": "4.1.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "next": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
   }
 }
