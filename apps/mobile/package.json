@@ -4,7 +4,7 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "android": "expo start --android",
+    "android": "expo run:android",
     "build:ios:development": "eas build:dev --profile development --platform ios",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
@@ -13,7 +13,7 @@
     "dev:ios": "expo start --ios",
     "doctor": "expo-doctor",
     "format": "biome format --write .",
-    "ios": "expo start --ios",
+    "ios": "expo run:ios",
     "lint": "biome lint --fix .",
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
@@ -62,7 +62,8 @@
     "react-native-svg": "15.11.2",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
-    "superjson": "catalog:"
+    "superjson": "catalog:",
+    "sweet-sfsymbols": "^0.7.2"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
