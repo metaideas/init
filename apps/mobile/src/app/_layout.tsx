@@ -5,7 +5,7 @@ import { useEffect } from "react"
 
 import "react-native-reanimated"
 
-import { useInitialAndroidBarSync } from "@init/native-ui/hooks/_use-color-scheme"
+import { useInitialAndroidBarSync } from "@init/native-ui/hooks/use-color-scheme"
 import { initializeErrorMonitoring, wrap } from "@init/observability/error/expo"
 import "@init/native-ui/globals.css"
 

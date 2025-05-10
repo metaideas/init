@@ -1,48 +1,45 @@
 import * as AvatarPrimitive from "@rn-primitives/avatar"
-import * as React from "react"
+import type { ComponentProps } from "react"
 
 import { cn } from "@init/utils/ui"
 
-const Avatar = React.forwardRef<
-  AvatarPrimitive.RootRef,
-  AvatarPrimitive.RootProps
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+function Avatar(props: ComponentProps<typeof AvatarPrimitive.Root>) {
+  const { alt, className, ...rest } = props
+  return (
+    <AvatarPrimitive.Root
+      alt={alt}
+      className={cn(
+        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+        className
+      )}
+      {...rest}
+    />
+  )
+}
 
-const AvatarImage = React.forwardRef<
-  AvatarPrimitive.ImageRef,
-  AvatarPrimitive.ImageProps
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+function AvatarImage(props: ComponentProps<typeof AvatarPrimitive.Image>) {
+  const { className, ...rest } = props
+  return (
+    <AvatarPrimitive.Image
+      className={cn("aspect-square h-full w-full", className)}
+      {...rest}
+    />
+  )
+}
 
-const AvatarFallback = React.forwardRef<
-  AvatarPrimitive.FallbackRef,
-  AvatarPrimitive.FallbackProps
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className
-    )}
-    {...props}
-  />
-))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+function AvatarFallback(
+  props: ComponentProps<typeof AvatarPrimitive.Fallback>
+) {
+  const { className, ...rest } = props
+  return (
+    <AvatarPrimitive.Fallback
+      className={cn(
+        "flex h-full w-full items-center justify-center rounded-full bg-muted",
+        className
+      )}
+      {...rest}
+    />
+  )
+}
 
 export { Avatar, AvatarFallback, AvatarImage }

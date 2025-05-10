@@ -1,6 +1,7 @@
-import { Text } from "@init/native-ui/_components/text"
 import { Stack } from "expo-router"
 import { View } from "react-native"
+
+import { Text } from "@init/native-ui/components/text"
 
 export default function Screen() {
   return (

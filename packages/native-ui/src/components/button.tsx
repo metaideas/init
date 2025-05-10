@@ -1,93 +1,189 @@
+import * as Slot from "@rn-primitives/slot"
 import { type VariantProps, cva } from "class-variance-authority"
 import * as React from "react"
-import { Pressable } from "react-native"
+import {
+  Platform,
+  Pressable,
+  type PressableProps,
+  View,
+  type ViewStyle,
+} from "react-native"
 
-import { _cn as cn } from "@init/utils/ui"
+import { cn } from "@init/utils/ui"
 
+import { useColorScheme } from "../hooks/use-color-scheme"
+import { COLORS } from "../theme/colors"
 import { TextClassContext } from "./text"
 
-const buttonVariants = cva(
-  "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary web:hover:opacity-90 active:opacity-90",
-        destructive: "bg-destructive web:hover:opacity-90 active:opacity-90",
-        outline:
-          "border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
-        ghost:
-          "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        link: "web:underline-offset-4 web:hover:underline web:focus:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8 native:h-14",
-        icon: "h-10 w-10",
-      },
+const buttonVariants = cva("flex-row items-center justify-center gap-2", {
+  variants: {
+    variant: {
+      primary: "ios:active:opacity-80 bg-primary",
+      secondary:
+        "ios:border-primary ios:active:bg-primary/5 border border-foreground/40",
+      tonal:
+        "ios:bg-primary/10 dark:ios:bg-primary/10 ios:active:bg-primary/15 bg-primary/15 dark:bg-primary/30",
+      plain: "ios:active:opacity-70",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
+    size: {
+      none: "",
+      sm: "py-1 px-2.5 rounded-full",
+      md: "ios:rounded-lg py-2 ios:py-1.5 ios:px-3.5 px-5 rounded-full",
+      lg: "py-2.5 px-5 ios:py-2 rounded-xl gap-2",
+      icon: "ios:rounded-lg h-10 w-10 rounded-full",
     },
-  }
-)
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+})
 
-const buttonTextVariants = cva(
-  "web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors",
-  {
-    variants: {
-      variant: {
-        default: "text-primary-foreground",
-        destructive: "text-destructive-foreground",
-        outline: "group-active:text-accent-foreground",
-        secondary:
-          "text-secondary-foreground group-active:text-secondary-foreground",
-        ghost: "group-active:text-accent-foreground",
-        link: "text-primary group-active:underline",
-      },
-      size: {
-        default: "",
-        sm: "",
-        lg: "native:text-lg",
-        icon: "",
-      },
+const androidRootVariants = cva("overflow-hidden", {
+  variants: {
+    size: {
+      none: "",
+      icon: "rounded-full",
+      sm: "rounded-full",
+      md: "rounded-full",
+      lg: "rounded-xl",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
+  },
+  defaultVariants: {
+    size: "md",
+  },
+})
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>
+const buttonTextVariants = cva("font-medium", {
+  variants: {
+    variant: {
+      primary: "text-white",
+      secondary: "ios:text-primary text-foreground",
+      tonal: "ios:text-primary text-foreground",
+      plain: "text-foreground",
+    },
+    size: {
+      none: "",
+      icon: "",
+      sm: "text-[15px] leading-5",
+      md: "text-[17px] leading-7",
+      lg: "text-[17px] leading-7",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+})
+
+function convertToRGBA(rgb: string, opacity: number): string {
+  const rgbValues = rgb.match(/\d+/g)
+  if (!rgbValues || rgbValues.length !== 3) {
+    throw new Error("Invalid RGB color format")
+  }
+  const red = Number.parseInt(rgbValues[0], 10)
+  const green = Number.parseInt(rgbValues[1], 10)
+  const blue = Number.parseInt(rgbValues[2], 10)
+  if (opacity < 0 || opacity > 1) {
+    throw new Error("Opacity must be a number between 0 and 1")
+  }
+  return `rgba(${red},${green},${blue},${opacity})`
+}
+
+const ANDROID_RIPPLE = {
+  dark: {
+    primary: {
+      color: convertToRGBA(COLORS.dark.grey3, 0.4),
+      borderless: false,
+    },
+    secondary: {
+      color: convertToRGBA(COLORS.dark.grey5, 0.8),
+      borderless: false,
+    },
+    plain: { color: convertToRGBA(COLORS.dark.grey5, 0.8), borderless: false },
+    tonal: { color: convertToRGBA(COLORS.dark.grey5, 0.8), borderless: false },
+  },
+  light: {
+    primary: {
+      color: convertToRGBA(COLORS.light.grey4, 0.4),
+      borderless: false,
+    },
+    secondary: {
+      color: convertToRGBA(COLORS.light.grey5, 0.4),
+      borderless: false,
+    },
+    plain: { color: convertToRGBA(COLORS.light.grey5, 0.4), borderless: false },
+    tonal: { color: convertToRGBA(COLORS.light.grey6, 0.4), borderless: false },
+  },
+}
+
+// Add as class when possible: https://github.com/marklawlor/nativewind/issues/522
+const BORDER_CURVE: ViewStyle = {
+  borderCurve: "continuous",
+}
+
+type ButtonVariantProps = Omit<
+  VariantProps<typeof buttonVariants>,
+  "variant"
+> & {
+  variant?: Exclude<VariantProps<typeof buttonVariants>["variant"], null>
+}
+
+type AndroidOnlyButtonProps = {
+  /**
+   * ANDROID ONLY: The class name of root responsible for hidding the ripple overflow.
+   */
+  androidRootClassName?: string
+}
+
+type ButtonProps = PressableProps & ButtonVariantProps & AndroidOnlyButtonProps
+
+const Root = Platform.OS === "android" ? View : Slot.Pressable
 
 const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
->(({ className, variant, size, ...props }, ref) => {
-  return (
-    <TextClassContext.Provider
-      value={buttonTextVariants({
-        variant,
-        size,
-        className: "web:pointer-events-none",
-      })}
-    >
-      <Pressable
-        className={cn(
-          props.disabled && "web:pointer-events-none opacity-50",
-          buttonVariants({ variant, size, className })
-        )}
-        ref={ref}
-        role="button"
-        {...props}
-      />
-    </TextClassContext.Provider>
-  )
-})
+>(
+  (
+    {
+      className,
+      variant = "primary",
+      size,
+      style = BORDER_CURVE,
+      androidRootClassName,
+      ...props
+    },
+    ref
+  ) => {
+    const { colorScheme } = useColorScheme()
+
+    return (
+      <TextClassContext.Provider value={buttonTextVariants({ variant, size })}>
+        <Root
+          className={Platform.select({
+            ios: undefined,
+            default: androidRootVariants({
+              size,
+              className: androidRootClassName,
+            }),
+          })}
+        >
+          <Pressable
+            className={cn(
+              props.disabled && "opacity-50",
+              buttonVariants({ variant, size, className })
+            )}
+            ref={ref}
+            style={style}
+            android_ripple={ANDROID_RIPPLE[colorScheme][variant]}
+            {...props}
+          />
+        </Root>
+      </TextClassContext.Provider>
+    )
+  }
+)
+
 Button.displayName = "Button"
 
 export { Button, buttonTextVariants, buttonVariants }

@@ -1,29 +1,53 @@
-import * as Slot from "@rn-primitives/slot"
-import type { SlottableTextProps, TextRef } from "@rn-primitives/types"
+import { type VariantProps, cva } from "class-variance-authority"
 import * as React from "react"
 import { Text as RNText } from "react-native"
 
-import { _cn as cn } from "@init/utils/ui"
+import { cn } from "@init/utils/ui"
+
+const textVariants = cva("text-foreground", {
+  variants: {
+    variant: {
+      largeTitle: "text-4xl",
+      title1: "text-2xl",
+      title2: "text-[22px] leading-7",
+      title3: "text-xl",
+      heading: "text-[17px] leading-6 font-semibold",
+      body: "text-[17px] leading-6",
+      callout: "text-base",
+      subhead: "text-[15px] leading-6",
+      footnote: "text-[13px] leading-5",
+      caption1: "text-xs",
+      caption2: "text-[11px] leading-4",
+    },
+    color: {
+      primary: "",
+      secondary: "text-secondary-foreground/90",
+      tertiary: "text-muted-foreground/90",
+      quarternary: "text-muted-foreground/50",
+    },
+  },
+  defaultVariants: {
+    variant: "body",
+    color: "primary",
+  },
+})
 
 const TextClassContext = React.createContext<string | undefined>(undefined)
 
-const Text = React.forwardRef<TextRef, SlottableTextProps>(
-  ({ className, asChild = false, ...props }, ref) => {
-    const textClass = React.useContext(TextClassContext)
-    const Component = asChild ? Slot.Text : RNText
-    return (
-      <Component
-        className={cn(
-          "web:select-text text-base text-foreground",
-          textClass,
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Text.displayName = "Text"
+function Text({
+  className,
+  variant,
+  color,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof RNText> &
+  VariantProps<typeof textVariants>) {
+  const textClassName = React.useContext(TextClassContext)
+  return (
+    <RNText
+      className={cn(textVariants({ variant, color }), textClassName, className)}
+      {...props}
+    />
+  )
+}
 
-export { Text, TextClassContext }
+export { Text, TextClassContext, textVariants }
