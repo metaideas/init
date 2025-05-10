@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority"
 import * as React from "react"
 import { Text as RNText } from "react-native"
 
-import { _cn as cn } from "@init/utils/ui"
+import { cn } from "@init/utils/ui"
 
 const textVariants = cva("text-foreground", {
   variants: {
