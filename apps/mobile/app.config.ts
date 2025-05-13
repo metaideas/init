@@ -6,6 +6,7 @@ const APP_NAME = "Init Mobile"
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   android: {
+    package: "com.init.mobile",
     adaptiveIcon: {
       backgroundColor: "#ffffff",
       foregroundImage: "./src/shared/assets/images/adaptive-icon.png",

@@ -15,8 +15,8 @@ config.cacheStores = [
 ]
 
 config = withNativeWind(config, {
-  input: "./src/shared/assets/styles/tailwind.css",
-  configPath: "./tailwind.config.ts",
+  input: "../../packages/native-ui/src/styles/globals.css",
+  inlineRem: 16,
 })
 
 module.exports = config

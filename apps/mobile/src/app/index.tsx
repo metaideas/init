@@ -1,77 +1,100 @@
-import * as Sentry from "@sentry/react-native"
+import { Icon } from "@roninoss/icons"
 import { Link } from "expo-router"
-import { View } from "react-native"
+import { Platform, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 import { Button } from "@init/native-ui/components/button"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@init/native-ui/components/collapsible"
-import { useAppForm } from "@init/native-ui/components/form"
 import { Text } from "@init/native-ui/components/text"
+import { useColorScheme } from "@init/native-ui/hooks/use-color-scheme"
 
-export default function Page() {
-  const form = useAppForm({
-    defaultValues: { name: "John Doe" },
-    onSubmit: async ({ value }) => {
-      await new Promise(resolve => setTimeout(resolve, 5000))
-      console.log(value)
-    },
-  })
+export default function WelcomeConsentScreen() {
+  const { colors } = useColorScheme()
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center gap-y-4">
-      <Text className="font-bold text-4xl">Init Mobile</Text>
-
-      <Collapsible>
-        <CollapsibleTrigger asChild>
-          <Button>
-            <Text>Click me</Text>
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <View className="my-4 flex items-center justify-center">
-            <Text>Hello world!</Text>
+    <SafeAreaView className="flex-1">
+      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
+        <View className="ios:pt-8 pt-12">
+          <Text
+            variant="largeTitle"
+            className="ios:text-left text-center font-bold ios:font-black"
+          >
+            Welcome to your
+          </Text>
+          <Text
+            variant="largeTitle"
+            className="ios:text-left text-center font-bold ios:font-black text-primary"
+          >
+            Application
+          </Text>
+        </View>
+        <View className="gap-8">
+          {FEATURES.map(feature => (
+            <View key={feature.title} className="flex-row gap-4">
+              <View className="pt-px">
+                <Icon
+                  name={feature.icon}
+                  size={38}
+                  color={colors.primary}
+                  ios={{ renderingMode: "hierarchical" }}
+                />
+              </View>
+              <View className="flex-1">
+                <Text className="font-bold">{feature.title}</Text>
+                <Text variant="footnote">{feature.description}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+        <View className="gap-4">
+          <View className="items-center">
+            <Icon
+              name="account-multiple"
+              size={24}
+              color={colors.primary}
+              ios={{ renderingMode: "hierarchical" }}
+            />
+            <Text variant="caption2" className="pt-1 text-center">
+              By pressing continue, you agree to our{" "}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Terms of Service
+                </Text>
+              </Link>{" "}
+              and that you have read our{" "}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Privacy Policy
+                </Text>
+              </Link>
+            </Text>
           </View>
-        </CollapsibleContent>
-      </Collapsible>
-
-      <Button
-        onPress={() => {
-          Sentry.captureException(new Error(Date.now().toString()))
-        }}
-      >
-        <Text>Sentry Test</Text>
-      </Button>
-
-      <Link href="/+not-found" asChild>
-        <Button variant="link">
-          <Text>Go to not found</Text>
-        </Button>
-      </Link>
-
-      <form.AppForm>
-        <form.AppField name="name">
-          {field => (
-            <field.Item className="w-full">
-              <field.Label>Name</field.Label>
-              <field.Control>
-                <field.Input autoComplete="name" />
-              </field.Control>
-              <field.Message />
-            </field.Item>
-          )}
-        </form.AppField>
-        <form.SubmitButton
-          className="w-full"
-          loadingText="Submitting..."
-          onPress={() => form.handleSubmit()}
-        >
-          <Text>Submit</Text>
-        </form.SubmitButton>
-      </form.AppForm>
+          <Link href="/profile" replace asChild>
+            <Button size={Platform.select({ ios: "lg", default: "md" })}>
+              <Text>Continue</Text>
+            </Button>
+          </Link>
+        </View>
+      </View>
     </SafeAreaView>
   )
 }
+
+const FEATURES = [
+  {
+    title: "Profile Management",
+    description:
+      "Easily update and manage your personal information, settings, and preferences",
+    icon: "account-circle-outline",
+  },
+  {
+    title: "Secure Messaging",
+    description: "Chat securely with friends and family in real-time.",
+    icon: "message-processing",
+  },
+  {
+    title: "Activity Tracking",
+    description:
+      "Monitor your daily activities and track your progress over time.",
+    icon: "chart-timeline-variant",
+  },
+] as const

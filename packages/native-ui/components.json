@@ -1,7 +1,0 @@
-{
-  "aliases": {
-    "components": "src/components",
-    "lib": "@init/utils/ui",
-    "ui": "src/components"
-  }
-}

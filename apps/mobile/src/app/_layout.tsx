@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/react-native"
 import { useFonts } from "expo-font"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
@@ -6,9 +5,9 @@ import { useEffect } from "react"
 
 import "react-native-reanimated"
 
-import { initializeErrorMonitoring } from "@init/observability/error/expo"
-
-import "~/shared/assets/styles/tailwind.css"
+import { useInitialAndroidBarSync } from "@init/native-ui/hooks/use-color-scheme"
+import { initializeErrorMonitoring, wrap } from "@init/observability/error/expo"
+import "@init/native-ui/globals.css"
 
 import Providers from "~/shared/components/providers"
 
@@ -21,6 +20,7 @@ function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../shared/assets/fonts/SpaceMono-Regular.ttf"),
   })
+  useInitialAndroidBarSync()
 
   useEffect(() => {
     if (loaded) {
@@ -38,4 +38,4 @@ function RootLayout() {
   )
 }
 
-export default Sentry.wrap(RootLayout)
+export default wrap(RootLayout)

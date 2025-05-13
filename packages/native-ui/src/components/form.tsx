@@ -1,96 +1,131 @@
-"use client"
-
-import * as Slot from "@rn-primitives/slot"
+import { Icon, type IconProps } from "@roninoss/icons"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import type { ComponentProps } from "react"
-import { Text, View } from "react-native"
+import { Platform, View, type ViewProps } from "react-native"
 
-import { _cn as cn } from "@init/utils/ui"
+import { cn } from "@init/utils/ui"
+
+import { useColorScheme } from "../hooks/use-color-scheme"
+import { ActivityIndicator } from "./activity-indicator"
 import { Button, buttonTextVariants } from "./button"
-import { LoaderCircle } from "./icon"
-import { Input } from "./input"
-import { Label } from "./label"
-import { Textarea } from "./textarea"
+import { Text } from "./text"
+import { TextField } from "./text-field"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
 
-function FieldItem(props: ComponentProps<typeof View>) {
-  const { className, ...rest } = props
-  return <View className={cn("mb-4", className)} {...rest} />
-}
+function FormSection({
+  rootClassName,
+  className,
+  footnote,
+  footnoteClassName,
+  ios,
+  materialIconProps,
+  children,
+  ...props
+}: ViewProps & {
+  rootClassName?: string
+  footnote?: string
+  footnoteClassName?: string
+  ios?: {
+    title: string
+    titleClassName?: string
+  }
+  materialIconProps?: Omit<IconProps<"material">, "namingScheme" | "ios">
+}) {
+  const { colors } = useColorScheme()
 
-function FieldControl(props: ComponentProps<typeof View>) {
-  const { className, ...rest } = props
-  const field = useFieldContext()
-  const hasError = field.state.meta.errors.length > 0
   return (
-    <Slot.View
-      aria-invalid={hasError}
-      className={cn(hasError && "text-destructive", className)}
-      {...rest}
-    />
+    <View
+      className={cn(
+        "relative",
+        Platform.OS !== "ios" && !!materialIconProps && "flex-row gap-4",
+        rootClassName
+      )}
+    >
+      {Platform.OS === "ios" && !!ios?.title && (
+        <Text
+          variant="footnote"
+          className={cn(
+            "pb-1 pl-3 text-muted-foreground uppercase",
+            ios?.titleClassName
+          )}
+        >
+          {ios.title}
+        </Text>
+      )}
+      {!!materialIconProps && (
+        <View className="ios:hidden pt-0.5">
+          <Icon
+            color={colors.grey}
+            size={24}
+            {...(materialIconProps as IconProps<"material">)}
+          />
+        </View>
+      )}
+      <View className="flex-1">
+        <View
+          className={cn(
+            "gap-4 ios:gap-0 ios:overflow-hidden ios:rounded-lg ios:bg-card ios:pl-1",
+            className
+          )}
+          style={{ borderCurve: "continuous" }}
+          {...props}
+        >
+          {children}
+        </View>
+        {!!footnote && (
+          <Text
+            className={cn(
+              "ios:pt-1 pt-0.5 ios:pl-3 pl-3 text-muted-foreground",
+              footnoteClassName
+            )}
+            variant="footnote"
+          >
+            {footnote}
+          </Text>
+        )}
+      </View>
+    </View>
   )
 }
 
-function FieldLabel(props: ComponentProps<typeof Label>) {
-  const { className, ...rest } = props
-  const field = useFieldContext()
-  const hasError = field.state.meta.errors.length > 0
-  return (
-    <Label
-      className={cn("mb-2", hasError && "text-destructive", className)}
-      nativeID={field.name}
-      {...rest}
-    />
-  )
-}
-
-function FieldDescription(props: ComponentProps<typeof Text>) {
-  const { className, ...rest } = props
-  return (
-    <Text
-      className={cn("mb-2 text-muted-foreground text-xs", className)}
-      {...rest}
-    />
-  )
-}
-
-function FieldMessage(props: ComponentProps<typeof Text>) {
-  const { className, children, ...rest } = props
-  const field = useFieldContext()
-  const error = field.state.meta.errors[0]
-  const body = error ? String(error?.message) : children
-
-  if (!body) {
+function FormSeparator(props: ViewProps) {
+  if (Platform.OS !== "ios") {
     return null
   }
 
   return (
-    <Text
-      className={cn("mt-2 font-medium text-destructive text-xs", className)}
-      {...rest}
-    >
-      {body}
-    </Text>
-  )
-}
-
-function FieldInput(props: ComponentProps<typeof Input>) {
-  const field = useFieldContext<string>()
-  return (
-    <Input
+    <View
       {...props}
-      nativeID={field.name}
-      value={field.state.value}
-      onChangeText={field.handleChange}
-      onBlur={field.handleBlur}
+      className={cn("ml-2 h-px flex-1 bg-border", props.className)}
     />
   )
 }
 
-function FieldTextarea(props: ComponentProps<typeof Textarea>) {
-  return <Textarea {...props} />
+function FieldItem({
+  className,
+
+  ...props
+}: ViewProps) {
+  return <View className={cn("ios:pr-1", className)} {...props} />
+}
+
+function FieldTextInput(props: ComponentProps<typeof TextField>) {
+  const field = useFieldContext()
+  const error = field.state.meta.errors[0]
+  const message = error && typeof error === "string" ? error : undefined
+
+  return (
+    <TextField
+      {...props}
+      nativeID={field.name}
+      value={field.state.value as string | undefined}
+      onChangeText={field.handleChange}
+      onBlur={field.handleBlur}
+      errorMessage={message}
+    />
+  )
 }
 
 function FormSubmitButton(
@@ -111,7 +146,10 @@ function FormSubmitButton(
         >
           {isSubmitting ? (
             <View className="flex-row items-center gap-2">
-              <LoaderCircle className="size-6 animate-spin text-muted-foreground" />
+              <ActivityIndicator
+                size="small"
+                className="color-muted-foreground"
+              />
               <Text
                 className={cn(
                   buttonTextVariants({
@@ -132,19 +170,25 @@ function FormSubmitButton(
   )
 }
 
+function FieldLeftLabel({ children }: { children: string }) {
+  return (
+    <View className="w-28 justify-center pl-2">
+      <Text className="font-medium">{children}</Text>
+    </View>
+  )
+}
+
 export const { useAppForm, withForm } = createFormHook({
   fieldContext,
   formContext,
   fieldComponents: {
-    Control: FieldControl,
-    Description: FieldDescription,
-    Input: FieldInput,
     Item: FieldItem,
-    Label: FieldLabel,
-    Message: FieldMessage,
-    Textarea: FieldTextarea,
+    TextInput: FieldTextInput,
+    LeftLabel: FieldLeftLabel,
   },
   formComponents: {
+    Section: FormSection,
+    Separator: FormSeparator,
     SubmitButton: FormSubmitButton,
   },
 })
