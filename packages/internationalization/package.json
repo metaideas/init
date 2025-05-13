@@ -24,10 +24,10 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "next": "catalog:",
-    "typescript": "catalog:"
+    "next": "15.3.2",
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "react": "catalog:"
+    "react": ">=19.0.0"
   }
 }

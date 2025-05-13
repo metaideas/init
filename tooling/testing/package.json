@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "vitest": "catalog:"
+    "vitest": "3.1.3"
   }
 }
