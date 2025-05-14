@@ -1,7 +1,6 @@
 import type { AppClient } from "api/client"
-
-import { createClient } from "@init/utils/hono-client"
+import { hc } from "hono/client"
 
 import { buildApiUrl } from "~/shared/utils"
 
-export const api = createClient<AppClient>(buildApiUrl("/")) 
+export const api = hc<AppClient>(buildApiUrl("/"))

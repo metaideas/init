@@ -6,7 +6,7 @@
   "exports": {
     "./client": "./src/client/index.ts",
     "./client/plugins": "./src/client/plugins.ts",
-    "./expo": "./src/client/expo.ts",
+    "./expo/*": "./src/expo/*.ts",
     "./nextjs": "./src/nextjs.ts",
     "./permissions": "./src/permissions.ts",
     "./schema": "./src/schema.ts",

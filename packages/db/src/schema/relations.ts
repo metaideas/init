@@ -1,13 +1,15 @@
 import { relations } from "drizzle-orm"
 
-import { accounts, users, verifications } from "./auth"
 import {
+  accounts,
   activityLogs,
   invitations,
   members,
   organizations,
-} from "./organizations"
-import { sessions } from "./sessions"
+  sessions,
+  users,
+  verifications,
+} from "./base"
 
 export const userRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
