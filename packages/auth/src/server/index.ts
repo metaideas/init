@@ -5,14 +5,9 @@ import { db } from "@init/db"
 import env from "@init/env/auth"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
 
-type CreateAuthOptions = Pick<
+type CreateAuthOptions = Omit<
   Parameters<typeof betterAuth>[0],
-  | "basePath"
-  | "baseURL"
-  | "emailAndPassword"
-  | "secondaryStorage"
-  | "socialProviders"
-  | "trustedOrigins"
+  "appName" | "secret" | "database" | "advanced" | "session" | "plugins"
 >
 
 export function createAuth<const Plugins extends BetterAuthPlugin[]>(

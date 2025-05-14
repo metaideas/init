@@ -6,7 +6,7 @@ import { useState } from "react"
 
 import { Button } from "@init/ui/components/button"
 
-import { authClient } from "~/shared/auth/client"
+import { signOut } from "~/shared/auth/client"
 import { UNAUTHORIZED_PATHNAME } from "~/shared/constants"
 
 export default function SignOutButton() {
@@ -19,7 +19,7 @@ export default function SignOutButton() {
       onClick={() => {
         setLoading(true)
 
-        authClient.signOut({
+        signOut({
           fetchOptions: {
             onSuccess: () => {
               router.push(UNAUTHORIZED_PATHNAME)

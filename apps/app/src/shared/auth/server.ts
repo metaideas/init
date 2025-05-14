@@ -3,8 +3,9 @@ import "server-only"
 import { headers } from "next/headers"
 import { cache } from "react"
 
+import { nextCookies } from "@init/auth/nextjs"
 import { createAuth } from "@init/auth/server"
-import { admin, nextCookies, organization } from "@init/auth/server/plugins"
+import { adminPlugin, organizationPlugin } from "@init/auth/server/plugins"
 
 import env from "~/shared/env"
 
@@ -29,7 +30,7 @@ export const auth = createAuth(
       },
     },
   },
-  [admin(), organization(), nextCookies()]
+  [adminPlugin, organizationPlugin, nextCookies()]
 )
 
 export type Auth = typeof auth

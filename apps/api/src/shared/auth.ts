@@ -1,17 +1,21 @@
 import { createAuth } from "@init/auth/server"
-import { admin, organization } from "@init/auth/server/plugins"
+import { adminPlugin, organizationPlugin } from "@init/auth/server/plugins"
 
 import env from "~/shared/env"
-
-// biome-ignore lint/suspicious/noExplicitAny: Hack to get the admin plugin working
-type AdminPlugin = ReturnType<typeof admin<any>>
-type OrganizationPlugin = ReturnType<typeof organization>
 
 // !HACK(adelrodriguez): This is a workaround to allow us to build the types for
 // the client, otherwise we get a "A type annotation is necessary" error. See
 // this issue for more details:
 // https://github.com/better-auth/better-auth/issues/1391
-type Auth = ReturnType<typeof createAuth<[AdminPlugin, OrganizationPlugin]>>
+type Auth = ReturnType<
+  typeof createAuth<
+    [
+      // See above. If you add any plugins, make sure to add them here as well.
+      typeof adminPlugin,
+      typeof organizationPlugin,
+    ]
+  >
+>
 
 export const auth: Auth = createAuth(
   {
@@ -22,7 +26,7 @@ export const auth: Auth = createAuth(
       autoSignIn: true,
     },
   },
-  [admin(), organization()]
+  [adminPlugin, organizationPlugin]
 )
 
 export type Session = typeof auth.$Infer.Session
