@@ -19,10 +19,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/ip": "1.0.0-beta.4",
-    "@arcjet/next": "1.0.0-beta.4",
-    "@arcjet/node": "1.0.0-beta.4",
-    "@arcjet/redact": "1.0.0-beta.4",
+    "@arcjet/ip": "1.0.0-beta.7",
+    "@arcjet/next": "1.0.0-beta.7",
+    "@arcjet/node": "1.0.0-beta.7",
+    "@arcjet/redact": "1.0.0-beta.7",
     "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/utils": "workspace:*",

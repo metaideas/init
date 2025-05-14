@@ -26,9 +26,9 @@
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@upstash/qstash": "2.7.23",
+    "@upstash/qstash": "2.8.1",
     "@upstash/qstash-cli": "2.22.3",
-    "@upstash/workflow": "0.2.12"
+    "@upstash/workflow": "0.2.13"
   },
   "devDependencies": {
     "@init/payments": "workspace:*",

@@ -5,30 +5,30 @@ packages:
 
 catalog:
   # React
-  react: 19.0.0
-  react-dom: 19.0.0
-  "@types/react": 19.0.14
-  "@types/react-dom": 19.0.4
+  react: 19.1.0
+  react-dom: 19.1.0
+  "@types/react": 19.1.4
+  "@types/react-dom": 19.1.5
   server-only: 0.0.1
 
   # React Native
   react-native: 0.79.2
   react-native-reanimated: 3.17.5
   nativewind: 4.1.23
-  "@sentry/react-native": 6.10.0
-  "@react-navigation/native": 7.1.7
+  "@sentry/react-native": 6.13.1
+  "@react-navigation/native": 7.1.9
   "@roninoss/icons": "0.0.4"
 
   # Next.js
-  next: 15.3.1
-  "@next/bundle-analyzer": 15.3.1
+  next: 15.3.2
+  "@next/bundle-analyzer": 15.3.2
 
   # TanStack
-  "@tanstack/react-query": 5.75.2
-  "@tanstack/react-form": 1.9.0
-  "@tanstack/react-router": 1.119.0
-  "@tanstack/router-devtools": 1.119.1
-  "@tanstack/router-plugin": 1.119.0
+  "@tanstack/react-query": 5.76.1
+  "@tanstack/react-form": 1.11.1
+  "@tanstack/react-router": 1.120.3
+  "@tanstack/router-devtools": 1.120.3
+  "@tanstack/router-plugin": 1.120.3
 
   # TRPC
   "@trpc/client": 11.1.2
@@ -40,13 +40,13 @@ catalog:
   lucide-react: 0.475.0
 
   # Development
-  "@types/node": 22.15.3
+  "@types/node": 22.15.17
   typescript: 5.8.3
   vite: 6.3.5
   vitest: 3.1.3
 
   # Other
-  hono: 4.7.8
+  hono: 4.7.9
   pino: 9.6.0
   superjson: 2.2.2
   zod: 3.24.4

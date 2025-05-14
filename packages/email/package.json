@@ -23,8 +23,8 @@
     "@init/queue": "workspace:*",
     "@init/utils": "workspace:*",
     "@react-email/components": "0.0.33",
-    "@react-email/render": "1.0.5",
-    "resend": "4.1.2"
+    "@react-email/render": "1.1.2",
+    "resend": "4.5.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

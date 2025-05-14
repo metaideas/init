@@ -30,7 +30,7 @@
     "superjson": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.4",
+    "@tailwindcss/vite": "4.1.6",
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@tauri-apps/cli": "2.5.0",
