@@ -3,6 +3,8 @@ packages:
   - packages/*
   - tooling/*
 
+linkWorkspacePackages: true
+
 catalog:
   # React
   react: 19.1.0
