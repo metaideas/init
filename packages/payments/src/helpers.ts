@@ -1,8 +1,8 @@
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 
 import env from "@init/env/payments"
+import kv from "@init/kv"
 import { generateKVKey } from "@init/kv/key"
-import { isCloudflare } from "@init/utils/runtime"
 
 import { type Stripe, stripe } from "./"
 
@@ -43,9 +43,6 @@ export type SubscriptionCache =
 export async function syncSubscription(
   customerId: string
 ): Promise<SubscriptionCache> {
-  const { kv } = isCloudflare
-    ? await import("@init/kv/cloudflare")
-    : await import("@init/kv")
   const cacheKey = generateKVKey("stripe", "customer", customerId)
 
   // Fetch latest subscription data from Stripe

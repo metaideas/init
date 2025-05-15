@@ -12,7 +12,7 @@ import { runProcess, runScript } from "../tooling/helpers"
 const APPS = [
   {
     value: "api",
-    label: "api - Hono API deployed on Cloudflare Workers",
+    label: "api - Hono API running on Node.js",
   },
   {
     value: "app",

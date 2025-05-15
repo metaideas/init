@@ -32,12 +32,7 @@ async function setupWorkspaceEnv(workspacePath: string) {
   const workspaceName = path.basename(workspacePath)
   log.step(`Processing ${workspaceName}...`)
 
-  // Check for Cloudflare Workers config (.dev.vars)
-  const devVarsExample = path.join(workspacePath, ".dev.vars.example")
-  const devVars = path.join(workspacePath, ".dev.vars")
-  await copyEnvFile(devVarsExample, devVars)
-
-  // Check for regular .env
+  // Check for .env.example
   const envExample = path.join(workspacePath, ".env.example")
   const env = path.join(workspacePath, ".env")
   await copyEnvFile(envExample, env)

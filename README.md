@@ -13,7 +13,7 @@ An opinionated monorepo starter kit for building apps everywhere: web, mobile, d
 - Web application using [Next.js](https://nextjs.org/)
 - Documentation site using [Fumadocs](http://fumadocs.vercel.app)
 - Mobile application using [Expo](https://expo.dev/)
-- API using [Hono](https://hono.dev/), built to be deployed on [Cloudflare Workers](https://workers.cloudflare.com/)
+- API using [Hono](https://hono.dev/) running on Node.js
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 

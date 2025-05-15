@@ -147,12 +147,6 @@
       }
     },
     {
-      "include": ["apps/api/**"],
-      "javascript": {
-        "globals": ["CloudflareBindings"]
-      }
-    },
-    {
       "include": ["*.svelte", "*.astro", "*.vue"],
       "linter": {
         "rules": {

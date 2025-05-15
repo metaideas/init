@@ -14,7 +14,7 @@ The project is divided into the following folders:
 root
   ├── apps                # Cross-platform applications
   │   ├── app               # Next.js web application
-  │   ├── api               # Hono API with RPC client, deployed on Cloudflare Workers
+  │   ├── api               # Hono API with RPC client running on Node.js
   │   ├── desktop           # Tauri desktop application
   │   ├── docs              # Documentation site
   │   ├── extensions        # WXT browser extension

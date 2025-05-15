@@ -6,7 +6,6 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./cloudflare": "./src/cloudflare.ts",
     "./key": "./src/key.ts"
   },
   "scripts": {
