@@ -23,7 +23,7 @@ app.use(async (c, next) => {
   c.set("auth", auth)
   // Load dependencies into the application context
   await Promise.all([
-    import("@init/db").then(({ db }) => c.set("db", db)),
+    import("@init/db/client").then(({ default: db }) => c.set("db", db)),
     import("@init/observability/logger").then(({ logger }) =>
       c.set("logger", logger)
     ),

@@ -1,4 +1,4 @@
-import { integer, sqliteTableCreator, text } from "drizzle-orm/sqlite-core"
+import { pgTableCreator, text, timestamp } from "drizzle-orm/pg-core"
 
 import { generatePrefixedId } from "@init/utils/id"
 
@@ -6,24 +6,24 @@ export type BrandId<B extends string> = string & { readonly __brand__: B }
 
 // You can add a prefix to table names to host multiple projects on the same
 // database
-export const createTable = sqliteTableCreator(name => name)
+export const createTable = pgTableCreator(name => name)
+
+export const UNIQUE_ID_LENGTH = 24
 
 export function constructId<B extends string>(_brand: B, prefix: string) {
   return {
-    id: text("id", { length: 255 })
+    id: text()
       .notNull()
       .primaryKey()
-      .$defaultFn(() => generatePrefixedId(prefix, 24))
+      .$defaultFn(() => generatePrefixedId(prefix, UNIQUE_ID_LENGTH))
       .$type<BrandId<B>>(),
   }
 }
 
 export const timestamps = {
-  createdAt: integer({ mode: "timestamp" })
+  createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp({ mode: "date" })
     .notNull()
-    .$defaultFn(() => new Date()),
-  updatedAt: integer({ mode: "timestamp" })
-    .notNull()
-    .$defaultFn(() => new Date())
+    .defaultNow()
     .$onUpdateFn(() => new Date()),
 }

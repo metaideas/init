@@ -3,18 +3,18 @@ import { seed } from "drizzle-seed"
 
 import { runProcess, runScript } from "@tooling/helpers"
 
-import * as schema from "../src/schema"
+import { connect } from "@init/db/client"
+import * as schema from "@init/db/schema"
 
 async function main() {
-  const { db } = await import("../src")
+  const db = connect()
 
   log.info("Seeding database...")
 
   await runProcess("drizzle-kit", ["push"])
 
   console.time("Seeded database")
-  // @ts-expect-error -- TODO: find out if this error is due to drizzle-seed or
-  // the schema
+
   await seed(db, schema).refine(f => ({
     users: {
       columns: {

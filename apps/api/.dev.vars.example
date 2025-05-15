@@ -8,8 +8,7 @@ NODE_ENV="development"
 # Add environment variables for all the packages you are using in the project
 
 # Database
-DATABASE_URL="http://127.0.0.1:8080"
-DATABASE_AUTH_TOKEN="your-database-auth-token"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/main"
 
 # Email
 EMAIL_FROM="test@example.com"

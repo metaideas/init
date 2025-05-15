@@ -881,12 +881,18 @@ importers:
       '@init/utils':
         specifier: workspace:*
         version: link:../utils
-      '@libsql/client':
-        specifier: 0.15.5
-        version: 0.15.5
+      '@neondatabase/serverless':
+        specifier: ^1.0.0
+        version: 1.0.0
       drizzle-orm:
         specifier: 0.43.1
-        version: 0.43.1(@libsql/client@0.15.5)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)(kysely@0.27.6)
+        version: 0.43.1(@libsql/client@0.15.5)(@neondatabase/serverless@1.0.0)(@opentelemetry/api@1.9.0)(@types/pg@8.15.1)(kysely@0.27.6)(postgres@3.4.5)
+      postgres:
+        specifier: ^3.4.5
+        version: 3.4.5
+      ws:
+        specifier: ^8.18.2
+        version: 8.18.2
     devDependencies:
       '@tooling/helpers':
         specifier: workspace:*
@@ -894,12 +900,15 @@ importers:
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       drizzle-kit:
         specifier: 0.31.1
         version: 0.31.1
       drizzle-seed:
         specifier: 0.3.1
-        version: 0.3.1(drizzle-orm@0.43.1(@libsql/client@0.15.5)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)(kysely@0.27.6))
+        version: 0.3.1(drizzle-orm@0.43.1(@libsql/client@0.15.5)(@neondatabase/serverless@1.0.0)(@opentelemetry/api@1.9.0)(@types/pg@8.15.1)(kysely@0.27.6)(postgres@3.4.5))
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -3595,6 +3604,10 @@ packages:
   '@neon-rs/load@0.0.4':
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
 
+  '@neondatabase/serverless@1.0.0':
+    resolution: {integrity: sha512-XWmEeWpBXIoksZSDN74kftfTnXFEGZ3iX8jbANWBc+ag6dsiQuvuR4LgB0WdCOKMb5AQgjqgufc0TgAsZubUYw==}
+    engines: {node: '>=19.0.0'}
+
   '@next/bundle-analyzer@15.3.2':
     resolution: {integrity: sha512-zY5O1PNKNxWEjaFX8gKzm77z2oL0cnj+m5aiqNBgay9LPLCDO13Cf+FJONeNq/nJjeXptwHFT9EMmTecF9U4Iw==}
 
@@ -6251,6 +6264,9 @@ packages:
 
   '@types/pg-pool@2.0.6':
     resolution: {integrity: sha512-TaAUE5rq2VQYxab5Ts7WZhKNmuN78Q6PiFonTDdpbx8a1H0M1vhy3rhiMjl+e2iHmogyMw7jZF4FrE6eJUy5HQ==}
+
+  '@types/pg@8.15.1':
+    resolution: {integrity: sha512-YKHrkGWBX5+ivzvOQ66I0fdqsQTsvxqM0AGP2i0XrVZ9DP5VA/deEbTf7VuLPGpY7fJB9uGbkZ6KjVhuHcrTkQ==}
 
   '@types/pg@8.6.1':
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
@@ -10948,6 +10964,9 @@ packages:
     resolution: {integrity: sha512-EFVjAYfzWqWsBMRHPMAXLCDIJnpMhdWAqR7xG6M6a2cs6PMFpl/+Z20w9zDW4vkxOFfddegBKq9Rehd0bxWE7A==}
     engines: {node: '>= 10'}
 
+  obuf@1.1.2:
+    resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
+
   ofetch@1.4.1:
     resolution: {integrity: sha512-QZj2DfGplQAr2oj9KzceK9Hwz6Whxazmn85yYeVuS3u9XTMOGMRx0kO95MQ+vLsj/S/NwBDMMLU5hpxvI6Tklw==}
 
@@ -11246,12 +11265,20 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
+  pg-numeric@1.0.2:
+    resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
+    engines: {node: '>=4'}
+
   pg-protocol@1.9.5:
     resolution: {integrity: sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
     engines: {node: '>=4'}
+
+  pg-types@4.0.2:
+    resolution: {integrity: sha512-cRL3JpS3lKMGsKaWndugWQoLOCoP+Cic8oseVcbr0qhPzYD5DWXK+RZ9LY9wxRf7RQia4SCwQlXk0q6FCPrVng==}
+    engines: {node: '>=10'}
 
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
@@ -11405,17 +11432,40 @@ packages:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
 
+  postgres-array@3.0.4:
+    resolution: {integrity: sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ==}
+    engines: {node: '>=12'}
+
   postgres-bytea@1.0.0:
     resolution: {integrity: sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w==}
     engines: {node: '>=0.10.0'}
+
+  postgres-bytea@3.0.0:
+    resolution: {integrity: sha512-CNd4jim9RFPkObHSjVHlVrxoVQXz7quwNFpz7RY1okNNme49+sVyiTvTRobiLV548Hx/hb1BG+iE7h9493WzFw==}
+    engines: {node: '>= 6'}
 
   postgres-date@1.0.7:
     resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
     engines: {node: '>=0.10.0'}
 
+  postgres-date@2.1.0:
+    resolution: {integrity: sha512-K7Juri8gtgXVcDfZttFKVmhglp7epKb1K4pgrkLxehjqkrgPhfG6OO8LHLkfaqkbpjNRnra018XwAr1yQFWGcA==}
+    engines: {node: '>=12'}
+
   postgres-interval@1.2.0:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
+
+  postgres-interval@3.0.0:
+    resolution: {integrity: sha512-BSNDnbyZCXSxgA+1f5UU2GmwhoI0aU5yMxRGO8CdFEcY2BQF9xm/7MqKnYoM1nJDk8nONNWDk9WeSmePFhQdlw==}
+    engines: {node: '>=12'}
+
+  postgres-range@1.1.4:
+    resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
+
+  postgres@3.4.5:
+    resolution: {integrity: sha512-cDWgoah1Gez9rN3H4165peY9qfpEo+SA61oQv65O3cRUE1pOEoJWwddwcqKE8XZYjbblOJlYDlLV4h67HrEVDg==}
+    engines: {node: '>=12'}
 
   posthog-js@1.242.0:
     resolution: {integrity: sha512-8R9tv+CmrdYPdBn9KD+UNT4dJsIvNTvFlDoIsaROHl4CRptaHxlOucq6JuPNhlzILTD8tGvkG8MG5Hzd6mo4fw==}
@@ -16271,10 +16321,12 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/core@0.15.5':
     dependencies:
       js-base64: 3.7.7
+    optional: true
 
   '@libsql/darwin-arm64@0.5.9':
     optional: true
@@ -16291,8 +16343,10 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
-  '@libsql/isomorphic-fetch@0.3.1': {}
+  '@libsql/isomorphic-fetch@0.3.1':
+    optional: true
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
@@ -16301,6 +16355,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/linux-arm-gnueabihf@0.5.9':
     optional: true
@@ -16409,7 +16464,13 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@neon-rs/load@0.0.4': {}
+  '@neon-rs/load@0.0.4':
+    optional: true
+
+  '@neondatabase/serverless@1.0.0':
+    dependencies:
+      '@types/node': 22.15.17
+      '@types/pg': 8.15.1
 
   '@next/bundle-analyzer@15.3.2':
     dependencies:
@@ -19273,7 +19334,13 @@ snapshots:
 
   '@types/pg-pool@2.0.6':
     dependencies:
-      '@types/pg': 8.6.1
+      '@types/pg': 8.15.1
+
+  '@types/pg@8.15.1':
+    dependencies:
+      '@types/node': 22.15.17
+      pg-protocol: 1.9.5
+      pg-types: 4.0.2
 
   '@types/pg@8.6.1':
     dependencies:
@@ -20902,7 +20969,8 @@ snapshots:
 
   detect-libc@1.0.3: {}
 
-  detect-libc@2.0.2: {}
+  detect-libc@2.0.2:
+    optional: true
 
   detect-libc@2.0.4: {}
 
@@ -20994,18 +21062,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.43.1(@libsql/client@0.15.5)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)(kysely@0.27.6):
+  drizzle-orm@0.43.1(@libsql/client@0.15.5)(@neondatabase/serverless@1.0.0)(@opentelemetry/api@1.9.0)(@types/pg@8.15.1)(kysely@0.27.6)(postgres@3.4.5):
     optionalDependencies:
       '@libsql/client': 0.15.5
+      '@neondatabase/serverless': 1.0.0
       '@opentelemetry/api': 1.9.0
-      '@types/pg': 8.6.1
+      '@types/pg': 8.15.1
       kysely: 0.27.6
+      postgres: 3.4.5
 
-  drizzle-seed@0.3.1(drizzle-orm@0.43.1(@libsql/client@0.15.5)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)(kysely@0.27.6)):
+  drizzle-seed@0.3.1(drizzle-orm@0.43.1(@libsql/client@0.15.5)(@neondatabase/serverless@1.0.0)(@opentelemetry/api@1.9.0)(@types/pg@8.15.1)(kysely@0.27.6)(postgres@3.4.5)):
     dependencies:
       pure-rand: 6.1.0
     optionalDependencies:
-      drizzle-orm: 0.43.1(@libsql/client@0.15.5)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)(kysely@0.27.6)
+      drizzle-orm: 0.43.1(@libsql/client@0.15.5)(@neondatabase/serverless@1.0.0)(@opentelemetry/api@1.9.0)(@types/pg@8.15.1)(kysely@0.27.6)(postgres@3.4.5)
 
   dtrace-provider@0.8.8:
     dependencies:
@@ -23390,7 +23460,8 @@ snapshots:
 
   joycon@3.1.1: {}
 
-  js-base64@3.7.7: {}
+  js-base64@3.7.7:
+    optional: true
 
   js-tiktoken@1.0.20:
     dependencies:
@@ -23551,6 +23622,7 @@ snapshots:
       '@libsql/linux-x64-gnu': 0.5.9
       '@libsql/linux-x64-musl': 0.5.9
       '@libsql/win32-x64-msvc': 0.5.9
+    optional: true
 
   lie@3.3.0:
     dependencies:
@@ -25007,6 +25079,8 @@ snapshots:
 
   object-treeify@1.1.33: {}
 
+  obuf@1.1.2: {}
+
   ofetch@1.4.1:
     dependencies:
       destr: 2.0.5
@@ -25357,6 +25431,8 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
+  pg-numeric@1.0.2: {}
+
   pg-protocol@1.9.5: {}
 
   pg-types@2.2.0:
@@ -25366,6 +25442,16 @@ snapshots:
       postgres-bytea: 1.0.0
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
+
+  pg-types@4.0.2:
+    dependencies:
+      pg-int8: 1.0.1
+      pg-numeric: 1.0.2
+      postgres-array: 3.0.4
+      postgres-bytea: 3.0.0
+      postgres-date: 2.1.0
+      postgres-interval: 3.0.0
+      postgres-range: 1.1.4
 
   picocolors@1.0.1: {}
 
@@ -25522,13 +25608,27 @@ snapshots:
 
   postgres-array@2.0.0: {}
 
+  postgres-array@3.0.4: {}
+
   postgres-bytea@1.0.0: {}
 
+  postgres-bytea@3.0.0:
+    dependencies:
+      obuf: 1.1.2
+
   postgres-date@1.0.7: {}
+
+  postgres-date@2.1.0: {}
 
   postgres-interval@1.2.0:
     dependencies:
       xtend: 4.0.2
+
+  postgres-interval@3.0.0: {}
+
+  postgres-range@1.1.4: {}
+
+  postgres@3.4.5: {}
 
   posthog-js@1.242.0:
     dependencies:

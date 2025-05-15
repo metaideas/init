@@ -1,19 +1,22 @@
 import { relations } from "drizzle-orm"
 
-import { accounts, users, verifications } from "./auth"
 import {
+  accounts,
   activityLogs,
   invitations,
   members,
   organizations,
-} from "./organizations"
-import { sessions } from "./sessions"
+  sessions,
+  users,
+} from "./base"
 
 export const userRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  verifications: many(verifications),
-  sessions: many(sessions),
+  sessions: many(sessions, { relationName: "user" }),
   members: many(members),
+  impersonationSessions: many(sessions, {
+    relationName: "impersonator",
+  }),
 }))
 
 export const accountRelations = relations(accounts, ({ one }) => ({
@@ -27,15 +30,16 @@ export const sessionRelations = relations(sessions, ({ one }) => ({
   user: one(users, {
     fields: [sessions.userId],
     references: [users.id],
+    relationName: "user",
   }),
   activeOrganization: one(organizations, {
     fields: [sessions.activeOrganizationId],
     references: [organizations.id],
   }),
-
   impersonatedBy: one(users, {
     fields: [sessions.impersonatedBy],
     references: [users.id],
+    relationName: "impersonator",
   }),
 }))
 
