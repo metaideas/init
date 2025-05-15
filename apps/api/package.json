@@ -10,18 +10,14 @@
   "scripts": {
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
-    "deploy": "wrangler deploy --minify --env production",
-    "deploy:dry-run": "wrangler deploy --dry-run --outdir ./dist",
-    "dev": "wrangler dev --port 3001 --env development",
+    "dev": "tsx watch src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "postinstall": "pnpm run typegen:cloudflare && pnpm run typegen:client",
-    "typecheck": "tsc --noEmit",
-    "typegen:client": "tsup src/client.ts --dts-only",
-    "typegen:client:watch": "pnpm run typegen:client --watch",
-    "typegen:cloudflare": "wrangler types"
+    "start": "node dist/index.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hono/node-server": "^1.14.1",
     "@hono/trpc-server": "0.3.4",
     "@hono/zod-validator": "0.4.3",
     "@init/auth": "workspace:*",
@@ -38,7 +34,9 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "typescript": "catalog:",
-    "wrangler": "4.14.4"
+    "dotenv": "catalog:",
+    "tsup": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

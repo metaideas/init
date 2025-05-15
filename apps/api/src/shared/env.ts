@@ -11,8 +11,10 @@ ensureEnv([auth, db, email, kv, queue])
 export default createEnv({
   server: {
     BASE_URL: z.string().url(),
+    PORT: z.number().default(3001),
   },
   runtimeEnvStrict: {
     BASE_URL: process.env.BASE_URL,
+    PORT: process.env.PORT,
   },
 })
