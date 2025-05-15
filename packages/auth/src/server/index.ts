@@ -1,7 +1,7 @@
 import { type BetterAuthPlugin, betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
-import { db } from "@init/db"
+import db from "@init/db/client"
 import env from "@init/env/auth"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
 
@@ -18,7 +18,7 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
     appName: APP_NAME,
     secret: env.AUTH_SECRET,
     database: drizzleAdapter(db, {
-      provider: "sqlite",
+      provider: "pg",
       usePlural: true,
     }),
     advanced: {

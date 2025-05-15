@@ -8,7 +8,7 @@ import {
 } from "next-safe-action"
 import { headers } from "next/headers"
 
-import { db } from "@init/db"
+import db from "@init/db/client"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
