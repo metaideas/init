@@ -8,13 +8,16 @@
     }
   },
   "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
     "dev": "tsx watch src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "start": "node dist/index.mjs",
-    "typecheck": "tsc --noEmit"
+    "start": "node dist",
+    "typecheck": "tsc --noEmit",
+    "typegen:client": "tsup src/client.ts --dts-only",
+    "typegen:client:watch": "tsup src/client.ts --dts-only --watch"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",
@@ -27,6 +30,7 @@
     "@init/queue": "workspace:*",
     "@init/utils": "workspace:*",
     "@trpc/server": "catalog:",
+    "esbuild": "^0.25.4",
     "hono": "catalog:",
     "pino": "catalog:",
     "superjson": "catalog:"

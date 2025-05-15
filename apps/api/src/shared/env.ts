@@ -1,12 +1,9 @@
 import { createEnv, ensureEnv } from "@init/env"
 import auth from "@init/env/auth"
 import db from "@init/env/db"
-import email from "@init/env/email"
-import kv from "@init/env/kv"
-import queue from "@init/env/queue"
 import { z } from "@init/utils/schema"
 
-ensureEnv([auth, db, email, kv, queue])
+ensureEnv([auth, db])
 
 export default createEnv({
   server: {

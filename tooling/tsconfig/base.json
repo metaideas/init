@@ -23,7 +23,6 @@
     "module": "Preserve",
     "moduleResolution": "Bundler",
 
-    "noEmit": true,
     "incremental": true,
     "isolatedModules": true,
     "allowJs": true,
