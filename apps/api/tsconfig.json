@@ -1,7 +1,12 @@
 {
   "extends": "@tooling/tsconfig/api.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"]
+    },
+    "outDir": "dist"
   },
-  "include": ["src", "worker-configuration.d.ts", "global.d.ts"]
+  "include": ["src"]
 }

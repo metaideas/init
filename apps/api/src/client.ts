@@ -1,4 +1,4 @@
-import type { router } from "~/routes"
+import type { router } from "~/app"
 import type { trpcRouter } from "~/routes/trpc/router"
 
 /**

@@ -34,12 +34,11 @@
     "@turbo/gen": "2.5.3",
     "@types/node": "catalog:",
     "dependency-cruiser": "16.10.2",
-    "dotenv": "16.5.0",
+    "shadcn": "^2.5.0",
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
-    "tsup": "8.4.0",
-    "tsx": "4.19.4",
+    "tsx": "catalog:",
     "turbo": "2.5.3",
     "typescript": "catalog:"
   },
@@ -51,8 +50,5 @@
     "overrides": {
       "vite": "catalog:"
     }
-  },
-  "dependencies": {
-    "shadcn": "^2.5.0"
   }
 }
