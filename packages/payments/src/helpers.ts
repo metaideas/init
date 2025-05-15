@@ -1,7 +1,7 @@
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 
 import env from "@init/env/payments"
-import kv from "@init/kv"
+import { kv } from "@init/kv"
 import { generateKVKey } from "@init/kv/key"
 
 import { type Stripe, stripe } from "./"
