@@ -25,6 +25,7 @@
     "@openstatus/react": "^0.0.3",
     "@sentry/browser": "9.18.0",
     "@sentry/nextjs": "9.18.0",
+    "@sentry/node": "^9.19.0",
     "chalk": "5.4.1",
     "http-status-codes": "2.3.0",
     "next-axiom": "1.9.1",

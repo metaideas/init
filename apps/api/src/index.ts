@@ -1,5 +1,7 @@
-import { serve } from "@hono/node-server"
 import "dotenv/config"
+import "~/instrument"
+
+import { serve } from "@hono/node-server"
 
 import { logger, styles } from "@init/observability/logger"
 

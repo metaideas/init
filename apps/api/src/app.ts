@@ -1,8 +1,10 @@
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
+import { HTTPException } from "hono/http-exception"
 import { logger } from "hono/logger"
 
+import { captureException } from "@init/observability/error/server"
 import { logger as customLogger } from "@init/observability/logger"
 
 import authRouter from "~/routes/auth"
@@ -19,6 +21,19 @@ const app = new Hono<AppContext>()
 app.use(cors({ credentials: true, origin: "*" }))
 app.use(logger((message, ...rest) => customLogger.info(rest, message)))
 app.use(contextStorage())
+
+app.onError((err, c) => {
+  // If the error is a HTTPException (for example, an authorization failure),
+  // return the custom response
+  if (err instanceof HTTPException) {
+    return err.getResponse()
+  }
+
+  // Capture the exception in monitoring
+  captureException(err)
+
+  return c.text("Internal Server Error", 500)
+})
 
 app.use(async (c, next) => {
   c.set("auth", auth)
