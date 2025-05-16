@@ -1,0 +1,8 @@
+import {
+  captureRouterTransitionStart,
+  initializeErrorMonitoring,
+} from "@init/observability/error/nextjs/client"
+
+initializeErrorMonitoring()
+
+export const onRouterTransitionStart = captureRouterTransitionStart

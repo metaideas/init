@@ -1,20 +1,31 @@
+import * as Sentry from "@sentry/nextjs"
+
 import env from "@init/env/observability/nextjs"
-import { init, replayIntegration } from "@sentry/nextjs"
+import {
+  DEVELOPMENT_MONITORING_SAMPLE_RATE,
+  PRODUCTION_MONITORING_SAMPLE_RATE,
+} from "@init/utils/constants"
+import { isDevelopment } from "@init/utils/environment"
 
 export function initializeErrorMonitoring() {
-  init({
+  Sentry.init({
     dsn: env.NEXT_PUBLIC_SENTRY_DSN,
-    tracesSampleRate: 1,
+    tracesSampleRate: isDevelopment
+      ? DEVELOPMENT_MONITORING_SAMPLE_RATE
+      : PRODUCTION_MONITORING_SAMPLE_RATE,
 
-    replaysOnErrorSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1,
 
-    // This sets the sample rate to be 10%. You may want this to be 100% while
-    // in development and sample at a lower rate in production
-    replaysSessionSampleRate: 0.1,
+    replaysSessionSampleRate: isDevelopment
+      ? DEVELOPMENT_MONITORING_SAMPLE_RATE
+      : PRODUCTION_MONITORING_SAMPLE_RATE,
+
+    sendDefaultPii: true,
 
     // You can remove this option if you're not planning to use the Sentry Session Replay feature:
     integrations: [
-      replayIntegration({
+      Sentry.browserTracingIntegration(), // Added for performance monitoring
+      Sentry.replayIntegration({
         // Additional Replay configuration goes in here, for example:
         maskAllText: true,
         blockAllMedia: true,
@@ -22,3 +33,5 @@ export function initializeErrorMonitoring() {
     ],
   })
 }
+
+export const captureRouterTransitionStart = Sentry.captureRouterTransitionStart

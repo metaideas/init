@@ -12,7 +12,7 @@ export function registerErrorMonitoring() {
   init({
     dsn: env.SENTRY_DSN,
     debug: env.SENTRY_DEBUG,
-    tracesSampleRate: 1,
+    tracesSampleRate: isProduction ? 0.1 : 1,
 
     // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
     spotlight: isProduction && process.env.NEXT_RUNTIME === "nodejs",
