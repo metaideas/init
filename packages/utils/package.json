@@ -6,7 +6,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": ["./src/helpers/*.ts", "./src/helpers/*.tsx"],
+    "./json-ld": "./src/helpers/json-ld.tsx",
+    "./trpc-client": "./src/helpers/trpc-client.tsx",
+    "./*": "./src/helpers/*.ts",
     "./constants": "./src/constants/index.ts"
   },
   "scripts": {
@@ -18,10 +20,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@trpc/client": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
     "clsx": "2.1.1",
     "defu": "^6.1.4",
     "nanoid": "5.1.5",
     "schema-dts": "1.1.5",
+    "superjson": "catalog:",
     "tailwind-merge": "3.3.0",
     "zod": "catalog:",
     "zod-form-data": "2.0.7"
@@ -29,8 +35,6 @@
   "devDependencies": {
     "@tooling/testing": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@trpc/server": "catalog:",
-    "@types/lodash.merge": "4.6.9",
     "@types/react": "catalog:",
     "next": "catalog:",
     "typescript": "catalog:",
