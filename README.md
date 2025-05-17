@@ -68,8 +68,8 @@ pnpm workspace:remove # Removes a workspace from the project
 
 Apps run in the 3000-3999 range.
 
-- App: 3000
-- API: 3001
+- API: 3000
+- App: 3001
 - Mobile: 3002
 - Desktop: 3003
 - Extension: 3004

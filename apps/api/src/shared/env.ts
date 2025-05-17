@@ -9,7 +9,7 @@ ensureEnv([auth, db, observability])
 export default createEnv({
   server: {
     BASE_URL: z.string().url(),
-    PORT: z.number().default(3001),
+    PORT: z.number().default(3000),
   },
   runtimeEnvStrict: {
     BASE_URL: process.env.BASE_URL,

@@ -7,18 +7,17 @@ import { withIntl } from "@init/internationalization/nextjs/config"
 import { withErrorMonitoring } from "@init/observability/error/nextjs"
 import { withLogging } from "@init/observability/logger/nextjs"
 
+// Environment variables
 import { ensureEnv } from "@init/env"
-import dbEnv from "@init/env/db"
-import kvEnv from "@init/env/kv"
-import queueEnv from "@init/env/queue"
+import observabilityEnv from "@init/env/observability/nextjs"
 
+// Local environment variables
 import appEnv from "~/shared/env"
 
 ensureEnv([
   appEnv, // Environment variables for this app
-  dbEnv,
-  kvEnv,
-  queueEnv,
+  // Packages
+  observabilityEnv,
 ])
 
 const withBundleAnalyzer = bundleAnalyzer({
