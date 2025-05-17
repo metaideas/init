@@ -22,6 +22,7 @@
     "generate": "turbo generate",
     "lint": "turbo lint",
     "lint:repo": "sherif --fix",
+    "start": "turbo run start",
     "template:setup": "tsx scripts/setup-template.ts",
     "template:sync": "tsx scripts/sync-template.ts",
     "typecheck": "turbo typecheck --continue",
