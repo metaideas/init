@@ -1,7 +1,8 @@
-import env from "@init/env/analytics/nextjs"
 import { usePathname, useSearchParams } from "next/navigation"
 import { PostHogProvider, usePostHog } from "posthog-js/react"
 import { type ComponentProps, useEffect, useRef } from "react"
+
+import env from "@init/env/analytics/nextjs"
 
 import { config } from "../config"
 

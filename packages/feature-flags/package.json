@@ -1,0 +1,39 @@
+{
+  "name": "@init/feature-flags",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./expo": "./src/expo.tsx",
+    "./nextjs": "./src/nextjs.ts",
+    "./react": "./src/react.tsx"
+  },
+  "scripts": {
+    "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@init/analytics": "workspace:*",
+    "flags": "4.0.0",
+    "posthog-js": "catalog:",
+    "posthog-react-native": "catalog:"
+  },
+  "devDependencies": {
+    "@init/auth": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "next": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  }
+}

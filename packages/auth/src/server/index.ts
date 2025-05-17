@@ -35,5 +35,7 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
   })
 }
 
+export type Auth = ReturnType<typeof createAuth>
+
 export { BetterAuthError } from "better-auth"
 export { APIError } from "better-auth/api"

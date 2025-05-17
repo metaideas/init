@@ -5,12 +5,12 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./plausible/nextjs": "./src/plausible/nextjs.ts",
-    "./posthog/client": "./src/posthog/client.ts",
-    "./posthog/nextjs": "./src/posthog/nextjs/index.ts",
-    "./posthog/nextjs/*": "./src/posthog/nextjs/*.ts",
-    "./posthog/expo": "./src/posthog/expo.tsx",
-    "./posthog/server": "./src/posthog/server.ts"
+    "./product/expo": "./src/product/expo.tsx",
+    "./product/nextjs": "./src/product/nextjs/index.ts",
+    "./product/nextjs/*": "./src/product/nextjs/*.ts",
+    "./product/node": "./src/product/node.ts",
+    "./product/react": "./src/product/react.tsx",
+    "./web": "./src/web.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -21,12 +21,16 @@
   },
   "dependencies": {
     "@init/env": "workspace:*",
+    "@init/utils": "workspace:*",
+    "flags": "4.0.0",
     "next-plausible": "3.12.4",
-    "posthog-js": "1.242.0",
+    "posthog-js": "catalog:",
     "posthog-node": "4.17.1",
-    "posthog-react-native": "3.15.2"
+    "posthog-react-native": "catalog:",
+    "server-only": "catalog:"
   },
   "devDependencies": {
+    "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "next": "catalog:",
@@ -35,13 +39,17 @@
   },
   "peerDependencies": {
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-native": "catalog:"
   },
   "peerDependenciesMeta": {
     "react": {
       "optional": true
     },
     "react-dom": {
+      "optional": true
+    },
+    "react-native": {
       "optional": true
     }
   }

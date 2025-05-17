@@ -148,12 +148,8 @@
           "tableFrom": "accounts",
           "tableTo": "users",
           "schemaTo": "auth",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -265,12 +261,8 @@
           "tableFrom": "activity_logs",
           "tableTo": "organizations",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -279,12 +271,8 @@
           "tableFrom": "activity_logs",
           "tableTo": "members",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -419,12 +407,8 @@
           "tableFrom": "invitations",
           "tableTo": "organizations",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -433,12 +417,8 @@
           "tableFrom": "invitations",
           "tableTo": "members",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "inviter_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["inviter_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -553,12 +533,8 @@
           "tableFrom": "members",
           "tableTo": "users",
           "schemaTo": "auth",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -567,12 +543,8 @@
           "tableFrom": "members",
           "tableTo": "organizations",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -714,12 +686,8 @@
           "tableFrom": "sessions",
           "tableTo": "users",
           "schemaTo": "auth",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -728,12 +696,8 @@
           "tableFrom": "sessions",
           "tableTo": "users",
           "schemaTo": "auth",
-          "columnsFrom": [
-            "impersonated_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["impersonated_by"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -742,12 +706,8 @@
           "tableFrom": "sessions",
           "tableTo": "organizations",
           "schemaTo": "organization",
-          "columnsFrom": [
-            "active_organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["active_organization_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -757,9 +717,7 @@
         "sessions_token_unique": {
           "name": "sessions_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -887,9 +845,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1026,29 +982,17 @@
     "organization.invitation_status": {
       "name": "invitation_status",
       "schema": "organization",
-      "values": [
-        "pending",
-        "accepted",
-        "rejected",
-        "canceled"
-      ]
+      "values": ["pending", "accepted", "rejected", "canceled"]
     },
     "organization.organization_roles": {
       "name": "organization_roles",
       "schema": "organization",
-      "values": [
-        "member",
-        "admin",
-        "owner"
-      ]
+      "values": ["member", "admin", "owner"]
     },
     "auth.user_roles": {
       "name": "user_roles",
       "schema": "auth",
-      "values": [
-        "user",
-        "admin"
-      ]
+      "values": ["user", "admin"]
     }
   },
   "schemas": {
