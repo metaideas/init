@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { Button } from "@init/native-ui/components/button"
 import { Text } from "@init/native-ui/components/text"
 import { useColorScheme } from "@init/native-ui/hooks/use-color-scheme"
+import { captureException } from "@init/observability/error/expo"
 
 export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme()
@@ -68,6 +69,14 @@ export default function WelcomeConsentScreen() {
               </Link>
             </Text>
           </View>
+          <Button
+            onPress={() =>
+              captureException(new Error("Tracking first error!!!"))
+            }
+            variant="tonal"
+          >
+            <Text>Report an error</Text>
+          </Button>
           <Link href="/profile" replace asChild>
             <Button size={Platform.select({ ios: "lg", default: "md" })}>
               <Text>Continue</Text>

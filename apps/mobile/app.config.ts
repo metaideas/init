@@ -1,10 +1,10 @@
+import { withSentry } from "@sentry/react-native/expo"
 import type { ConfigContext, ExpoConfig } from "expo/config"
 
 const APP_ID = "init"
 const APP_NAME = "Init Mobile"
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
+let expoConfig: ExpoConfig = {
   android: {
     package: "com.init.mobile",
     adaptiveIcon: {
@@ -90,14 +90,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         launcherMode: "most-recent",
       },
     ],
-    [
-      "@sentry/react-native/expo",
-      {
-        organization: process.env.EXPO_PUBLIC_SENTRY_ORGANIZATION,
-        project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
-        url: process.env.EXPO_PUBLIC_SENTRY_URL,
-      },
-    ],
   ],
   scheme: APP_ID,
   slug: APP_ID,
@@ -114,4 +106,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   owner: "metaideas",
+}
+
+expoConfig = withSentry(expoConfig, {
+  organization: process.env.EXPO_PUBLIC_SENTRY_ORGANIZATION,
+  project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
+  url: process.env.EXPO_PUBLIC_SENTRY_URL,
+})
+
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  ...expoConfig,
 })

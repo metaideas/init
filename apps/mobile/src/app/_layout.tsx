@@ -6,7 +6,10 @@ import { useEffect } from "react"
 import "react-native-reanimated"
 
 import { useInitialAndroidBarSync } from "@init/native-ui/hooks/use-color-scheme"
-import { initializeErrorMonitoring, wrap } from "@init/observability/error/expo"
+import {
+  initializeErrorMonitoring,
+  monitoringWrap,
+} from "@init/observability/error/expo"
 import "@init/native-ui/globals.css"
 
 import Providers from "~/shared/components/providers"
@@ -38,4 +41,4 @@ function RootLayout() {
   )
 }
 
-export default wrap(RootLayout)
+export default monitoringWrap(RootLayout)

@@ -9,12 +9,10 @@ export default createEnv({
     EXPO_PUBLIC_SENTRY_ORGANIZATION: z.string(),
     EXPO_PUBLIC_SENTRY_PROJECT: z.string(),
   },
-  clientPrefix: "EXPO_PUBLIC_",
-  runtimeEnv: {
-    EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
-    EXPO_PUBLIC_SENTRY_URL: process.env.EXPO_PUBLIC_SENTRY_URL,
-    EXPO_PUBLIC_SENTRY_ORGANIZATION:
-      process.env.EXPO_PUBLIC_SENTRY_ORGANIZATION,
-    EXPO_PUBLIC_SENTRY_PROJECT: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
+  server: {
+    SENTRY_AUTH_TOKEN: z.string(),
+    SENTRY_DEBUG: z.booleanLike().optional().default(false),
   },
+  clientPrefix: "EXPO_PUBLIC_",
+  runtimeEnv: process.env,
 })

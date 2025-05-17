@@ -1,9 +1,10 @@
+const { getDefaultConfig } = require("expo/metro-config")
 const { FileStore } = require("metro-cache")
 const path = require("node:path")
 const { withNativeWind } = require("nativewind/metro")
-const { getSentryExpoConfig } = require("@sentry/react-native/metro")
+const { withSentryConfig } = require("@sentry/react-native/metro")
 
-let config = getSentryExpoConfig(__dirname)
+let config = getDefaultConfig(__dirname)
 
 // Enable package exports and symlinks for workspace packages
 config.resolver.unstable_enableSymlinks = true
@@ -18,5 +19,7 @@ config = withNativeWind(config, {
   input: "../../packages/native-ui/src/styles/globals.css",
   inlineRem: 16,
 })
+
+config = withSentryConfig(config)
 
 module.exports = config
