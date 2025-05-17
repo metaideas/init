@@ -1,4 +1,6 @@
 import * as Sentry from "@sentry/nextjs"
+import { usePathname } from "next/navigation"
+import { useEffect } from "react"
 
 import env from "@init/env/observability/nextjs"
 import {
@@ -32,6 +34,18 @@ export function initializeErrorMonitoring() {
       }),
     ],
   })
+}
+
+export function useReportError(error: Error) {
+  const pathname = usePathname()
+
+  useEffect(() => {
+    Sentry.captureException(error, {
+      data: {
+        pathname,
+      },
+    })
+  }, [error, pathname])
 }
 
 export const captureRouterTransitionStart = Sentry.captureRouterTransitionStart

@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react-native"
 
-import envMobile from "@init/env/observability/expo"
+import env from "@init/env/observability/expo"
 import {
   DEVELOPMENT_MONITORING_SAMPLE_RATE,
   PRODUCTION_MONITORING_SAMPLE_RATE,
@@ -9,9 +9,7 @@ import { isDevelopment } from "@init/utils/environment"
 
 export function initializeErrorMonitoring() {
   Sentry.init({
-    dsn: envMobile.EXPO_PUBLIC_SENTRY_DSN,
-
-    debug: true,
+    dsn: env.EXPO_PUBLIC_SENTRY_DSN,
 
     tracesSampleRate: isDevelopment
       ? DEVELOPMENT_MONITORING_SAMPLE_RATE
@@ -21,3 +19,6 @@ export function initializeErrorMonitoring() {
     // spotlight: __DEV__,
   })
 }
+
+export const monitoringWrap = Sentry.wrap
+export const captureException = Sentry.captureException

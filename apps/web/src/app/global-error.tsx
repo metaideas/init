@@ -2,7 +2,7 @@
 
 import NextError from "next/error"
 
-import { useReportError } from "~/shared/hooks/use-report-error"
+import { useReportError } from "@init/observability/error/nextjs/client"
 
 export default function GlobalError({
   error,

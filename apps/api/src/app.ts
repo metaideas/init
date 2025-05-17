@@ -4,7 +4,7 @@ import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { logger } from "hono/logger"
 
-import { captureException } from "@init/observability/error/server"
+import { captureException } from "@init/observability/error/node"
 import { logger as customLogger } from "@init/observability/logger"
 
 import authRouter from "~/routes/auth"

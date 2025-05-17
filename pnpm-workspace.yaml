@@ -10,7 +10,7 @@ catalog:
   react: 19.0.0
   react-dom: 19.0.0
   "@types/react": 19.0.14
-  "@types/react-dom": 19.1.5
+  "@types/react-dom": 19.0.6
   server-only: 0.0.1
 
   # React Native
@@ -72,3 +72,8 @@ onlyBuiltDependencies:
   - msw
   - sharp
   - spawn-sync
+
+publicHoistPattern:
+  - "require-in-the-middle"
+  - "import-in-the-middle"
+  - "prettier"

@@ -25,7 +25,6 @@
     "@init/utils": "workspace:*",
     "@openstatus/react": "^0.0.3",
     "@sentry/browser": "9.19.0",
-    "@sentry/core": "9.19.0",
     "@sentry/nextjs": "9.19.0",
     "@sentry/node": "9.19.0",
     "chalk": "5.4.1",
@@ -42,7 +41,8 @@
   "peerDependencies": {
     "@sentry/react-native": "catalog:",
     "next": "catalog:",
-    "react": "catalog:"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "peerDependenciesMeta": {
     "@sentry/react-native": {
@@ -52,6 +52,9 @@
       "optional": true
     },
     "react": {
+      "optional": true
+    },
+    "react-dom": {
       "optional": true
     }
   }
