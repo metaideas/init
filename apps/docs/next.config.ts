@@ -1,6 +1,6 @@
-import bundleAnalyzer from "@next/bundle-analyzer"
 import { createMDX } from "fumadocs-mdx/next"
-import type { NextConfig } from "next"
+
+import { createConfig, withBundleAnalyzer } from "@tooling/next-config"
 
 import { withAnalytics } from "@init/analytics/product/nextjs"
 import { withErrorMonitoring } from "@init/observability/error/nextjs"
@@ -12,21 +12,18 @@ import observabilityEnv from "@init/env/observability/nextjs"
 
 import appEnv from "~/shared/env"
 
+const withMDX = createMDX()
+
 ensureEnv([
   appEnv,
   // Import environment variables for all the packages you are using
   observabilityEnv,
 ])
 
-const withMDX = createMDX()
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: appEnv.ANALYZE,
-})
+let nextConfig = createConfig()
 
-let nextConfig: NextConfig = {}
-
-nextConfig = withAnalytics(nextConfig)
 nextConfig = withBundleAnalyzer(nextConfig)
+nextConfig = withAnalytics(nextConfig)
 nextConfig = withErrorMonitoring(nextConfig)
 nextConfig = withLogging(nextConfig)
 nextConfig = withMDX(nextConfig)

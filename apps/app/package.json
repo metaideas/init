@@ -42,6 +42,7 @@
     "superjson": "catalog:"
   },
   "devDependencies": {
+    "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",

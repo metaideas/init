@@ -1,0 +1,20 @@
+{
+  "name": "@tooling/next-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "check": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "catalog:",
+    "@tooling/tsconfig": "workspace:*",
+    "next": "catalog:"
+  }
+}

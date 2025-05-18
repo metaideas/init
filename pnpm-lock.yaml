@@ -305,6 +305,9 @@ importers:
         specifier: 'catalog:'
         version: 2.2.2
     devDependencies:
+      '@tooling/next-config':
+        specifier: workspace:*
+        version: link:../../tooling/next-config
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -442,6 +445,9 @@ importers:
       '@fumadocs/cli':
         specifier: 0.1.1
         version: 0.1.1
+      '@tooling/next-config':
+        specifier: workspace:*
+        version: link:../../tooling/next-config
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -760,6 +766,9 @@ importers:
       '@content-collections/next':
         specifier: 0.2.6
         version: 0.2.6(@content-collections/core@0.8.2(typescript@5.8.3))(next@15.3.2(@babel/core@7.27.1)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      '@tooling/next-config':
+        specifier: workspace:*
+        version: link:../../tooling/next-config
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -1599,6 +1608,18 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.15.17
+
+  tooling/next-config:
+    devDependencies:
+      '@next/bundle-analyzer':
+        specifier: 'catalog:'
+        version: 15.3.2
+      '@tooling/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      next:
+        specifier: 'catalog:'
+        version: 15.3.2(@babel/core@7.27.1)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
   tooling/testing:
     devDependencies:

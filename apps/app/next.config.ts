@@ -1,5 +1,4 @@
-import bundleAnalyzer from "@next/bundle-analyzer"
-import type { NextConfig } from "next"
+import { createConfig, withBundleAnalyzer } from "@tooling/next-config"
 
 import { withAnalytics } from "@init/analytics/product/nextjs"
 import { withIntl } from "@init/internationalization/nextjs/config"
@@ -20,14 +19,10 @@ ensureEnv([
   queueEnv,
 ])
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: appEnv.ANALYZE,
-})
+let nextConfig = createConfig()
 
-let nextConfig: NextConfig = {}
-
-nextConfig = withAnalytics(nextConfig)
 nextConfig = withBundleAnalyzer(nextConfig)
+nextConfig = withAnalytics(nextConfig)
 nextConfig = withErrorMonitoring(nextConfig)
 nextConfig = withLogging(nextConfig)
 nextConfig = withIntl(nextConfig)
