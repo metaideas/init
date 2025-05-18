@@ -35,3 +35,4 @@ export function withErrorMonitoring(config: NextConfig) {
 export const captureException = Sentry.captureException
 export const captureMessage = Sentry.captureMessage
 export const withScope = Sentry.withScope
+export const captureRequestError = Sentry.captureRequestError

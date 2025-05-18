@@ -1,1 +1,4 @@
-export { registerErrorMonitoring as register } from "@init/observability/error/nextjs"
+export {
+  registerErrorMonitoring as register,
+  captureRequestError as onRequestError,
+} from "@init/observability/error/nextjs"
