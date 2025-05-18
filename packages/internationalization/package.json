@@ -24,10 +24,14 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "next": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:"
+    "next": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   }
 }

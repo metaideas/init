@@ -20,7 +20,8 @@
     "@init/analytics": "workspace:*",
     "flags": "4.0.0",
     "posthog-js": "catalog:",
-    "posthog-react-native": "catalog:"
+    "posthog-react-native": "catalog:",
+    "server-only": "catalog:"
   },
   "devDependencies": {
     "@init/auth": "workspace:*",

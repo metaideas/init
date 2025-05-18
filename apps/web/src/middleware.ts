@@ -12,6 +12,8 @@ export function middleware(request: NextRequest) {
     return crsfProtectionResult
   }
 
+  // @ts-expect-error - Small difference between request types in React 19.0.0
+  // and 19.1.0. Should be resolved when upgrading to React 19.1.0
   const i18nResult = i18nMiddleware(request)
 
   if (i18nResult) {

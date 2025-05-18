@@ -2,6 +2,7 @@
   "name": "init",
   "private": true,
   "scripts": {
+    "boundaries": "turbo boundaries",
     "build": "turbo build",
     "check": "turbo check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",

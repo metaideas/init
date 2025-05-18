@@ -4,10 +4,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": {
-      "@init/ui/*": ["./src/*"],
-      "@init/utils/*": ["../utils/src/helpers/*"]
-    }
+    "rootDir": "."
   },
   "include": ["src"],
   "exclude": ["node_modules"]
