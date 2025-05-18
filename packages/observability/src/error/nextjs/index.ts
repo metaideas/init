@@ -17,7 +17,7 @@ export function registerErrorMonitoring() {
 
 export function withErrorMonitoring(config: NextConfig) {
   return Sentry.withSentryConfig(config, {
-    org: env.SENTRY_ORGANIZATION,
+    org: env.SENTRY_ORG,
     project: env.SENTRY_PROJECT,
     debug: env.SENTRY_DEBUG,
 

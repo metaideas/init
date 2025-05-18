@@ -6,7 +6,7 @@ export default createEnv({
   client: {
     EXPO_PUBLIC_SENTRY_DSN: z.string(),
     EXPO_PUBLIC_SENTRY_URL: z.string(),
-    EXPO_PUBLIC_SENTRY_ORGANIZATION: z.string(),
+    EXPO_PUBLIC_SENTRY_ORG: z.string(),
     EXPO_PUBLIC_SENTRY_PROJECT: z.string(),
   },
   server: {

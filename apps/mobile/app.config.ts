@@ -109,7 +109,7 @@ let expoConfig: ExpoConfig = {
 }
 
 expoConfig = withSentry(expoConfig, {
-  organization: process.env.EXPO_PUBLIC_SENTRY_ORGANIZATION,
+  organization: process.env.EXPO_PUBLIC_SENTRY_ORG,
   project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
   url: process.env.EXPO_PUBLIC_SENTRY_URL,
 })
