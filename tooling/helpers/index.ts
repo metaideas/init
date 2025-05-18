@@ -1,4 +1,3 @@
-import "dotenv/config"
 import { type ExecSyncOptions, exec, execSync } from "node:child_process"
 import { promisify } from "node:util"
 import * as prompt from "@clack/prompts"

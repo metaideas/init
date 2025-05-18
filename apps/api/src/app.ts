@@ -13,9 +13,6 @@ import trpcRouter from "~/routes/trpc"
 import { auth } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
-// Import this file to ensure that all environment variables are set
-import "~/shared/env"
-
 const app = new Hono<AppContext>()
 
 app.use(cors({ credentials: true, origin: "*" }))

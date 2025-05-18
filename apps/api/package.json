@@ -8,10 +8,11 @@
     }
   },
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist",
+    "build": "tsx scripts/build.ts",
+    "build:dev": "tsx --env-file=.env scripts/build.ts",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "start": "node dist",
@@ -36,9 +37,10 @@
     "superjson": "catalog:"
   },
   "devDependencies": {
+    "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "dotenv": "catalog:",
+    "esbuild-node-externals": "^1.18.0",
     "tsup": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"

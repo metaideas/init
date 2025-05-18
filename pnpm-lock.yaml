@@ -54,9 +54,6 @@ catalogs:
     class-variance-authority:
       specifier: 0.7.1
       version: 0.7.1
-    dotenv:
-      specifier: 16.5.0
-      version: 16.5.0
     hono:
       specifier: 4.7.9
       version: 4.7.9
@@ -214,9 +211,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.15.17
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.5.0
       esbuild-node-externals:
         specifier: ^1.18.0
         version: 1.18.0(esbuild@0.25.4)
@@ -1605,9 +1599,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.15.17
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.5.0
 
   tooling/testing:
     devDependencies:

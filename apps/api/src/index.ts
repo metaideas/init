@@ -1,4 +1,3 @@
-import "dotenv/config"
 import "~/instrument"
 
 import { serve } from "@hono/node-server"
