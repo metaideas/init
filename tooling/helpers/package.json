@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@clack/prompts": "0.10.1",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "dotenv": "catalog:"

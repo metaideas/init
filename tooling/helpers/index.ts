@@ -1,7 +1,7 @@
 import "dotenv/config"
 import { type ExecSyncOptions, exec, execSync } from "node:child_process"
 import { promisify } from "node:util"
-import { intro, log, outro } from "@clack/prompts"
+import * as prompt from "@clack/prompts"
 
 /**
  * Run a script and log the execution time. Make sure to import this at the top
@@ -9,7 +9,7 @@ import { intro, log, outro } from "@clack/prompts"
  * @param fn - The script to run
  */
 export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
-  intro("Starting script execution...")
+  prompt.intro("Starting script execution...")
 
   const startTime = performance.now()
 
@@ -17,14 +17,14 @@ export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
     await fn()
   } catch (error) {
     console.error(error)
-    outro("Script execution failed")
+    prompt.outro("Script execution failed")
     process.exit(1)
   }
 
   const endTime = performance.now()
   const executionTime = endTime - startTime
 
-  outro(`Script executed in ${executionTime.toFixed(2)}ms`)
+  prompt.outro(`Script executed in ${executionTime.toFixed(2)}ms`)
 
   process.exit()
 }
@@ -35,7 +35,7 @@ export function runProcess(
   options: Omit<ExecSyncOptions, "stdio"> = {}
 ) {
   const commandWithArgs = `${command} ${args.join(" ")}`
-  log.message(`Running command: ${commandWithArgs}`)
+  console.info(`Running command: ${commandWithArgs}`)
 
   execSync(commandWithArgs, { ...options, stdio: "inherit" })
 }
@@ -46,3 +46,5 @@ export async function executeCommand(command: string): Promise<string> {
   const { stdout } = await execAsync(command)
   return stdout
 }
+
+export * as prompt from "@clack/prompts"

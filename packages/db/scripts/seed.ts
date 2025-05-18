@@ -1,7 +1,6 @@
-import { log } from "@clack/prompts"
 import { seed } from "drizzle-seed"
 
-import { runProcess, runScript } from "@tooling/helpers"
+import { prompt, runProcess, runScript } from "@tooling/helpers"
 
 import { connect } from "@init/db/client"
 import * as schema from "@init/db/schema"
@@ -9,7 +8,7 @@ import * as schema from "@init/db/schema"
 async function main() {
   const db = connect()
 
-  log.info("Seeding database...")
+  prompt.log.info("Seeding database...")
 
   await runProcess("drizzle-kit", ["push"])
 
@@ -43,7 +42,7 @@ async function main() {
   }))
   console.timeEnd("Seeded database")
 
-  log.info("Database seeded!")
+  prompt.log.info("Database seeded!")
 }
 
 runScript(main)
