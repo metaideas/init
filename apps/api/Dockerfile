@@ -28,12 +28,15 @@ RUN pnpm install -g turbo
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 # pnpm install will use the pruned pnpm-lock.yaml from out/json/
-RUN pnpm install --prod
+RUN pnpm install
 
 # Copy the full pruned source code
 COPY --from=builder /app/out/full/ .
 # Add a build step for the 'api' application
 RUN pnpm run build --filter api
+
+# Remove devDependencies after build
+RUN pnpm prune --prod
 
 # Runner stage
 FROM installer AS runner
