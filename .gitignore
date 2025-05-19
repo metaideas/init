@@ -11,9 +11,9 @@ node_modules
 !.yarn/versions
 
 # Environment variables
-!.env.example
+!.env.template
 .env
-.dev.vars
+.env.*
 
 # Testing
 coverage
@@ -44,7 +44,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
 # Wrangler
 .wrangler
 
@@ -57,16 +56,11 @@ lerna-debug.log*
 # Docker
 .data
 
-# SQLite
-local.db
-local.db-*
-
 # React Email
 *.react-email
 
 # Dependency Graph
 dependency-graph.svg
-
 
 # Content Collections
 .content-collections
