@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsx scripts/build.ts",
+    "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
     "dev": "tsx watch --env-file=.env src/index.ts",
