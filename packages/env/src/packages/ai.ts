@@ -4,9 +4,6 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   server: {
-    ANTHROPIC_API_KEY: z.string().optional(),
-    DEEPSEEK_API_KEY: z.string().optional(),
-    GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
     OPENAI_API_KEY: z.string().optional(),
 
     UPSTASH_VECTOR_REST_TOKEN: z.string(),
