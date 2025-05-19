@@ -7,24 +7,50 @@ import { Fault } from "@init/utils/fault"
 
 import client from "./client"
 
-export async function sendEmail({
-  body,
-  emails,
-  subject,
-  sendAt,
-  from = env.EMAIL_FROM,
-}: {
-  emails: string[]
-  subject: string
-  // Setting the body as unknown and then casting it later to a ReactElement to
-  // allow for any type of ReactElement, since Hono's JSX leads to type errors.
-  body: ReactElement
-  sendAt?: Date | string
-  from?: string
-}) {
+export async function sendEmail(
+  body: ReactElement,
+  {
+    emails,
+    subject,
+    sendAt,
+    from = env.EMAIL_FROM,
+    queue = false,
+  }: {
+    emails: string[]
+    subject: string
+    sendAt?: Date | string
+    from?: string
+    /**
+     * If true, the email will be queued to be sent later using Upstash Qstash.
+     *
+     * @default false
+     */
+    queue?: boolean
+  }
+) {
   if (env.MOCK_RESEND) {
     const text = await render(body, { plainText: true })
     mockEmail(emails, text)
+
+    return
+  }
+
+  if (queue) {
+    const { default: queue, resend } = await import("@init/queue/messages")
+
+    await queue.publishJSON({
+      api: {
+        name: "email",
+        provider: resend({ token: env.RESEND_API_KEY }),
+      },
+      body: {
+        from,
+        to: emails,
+        subject,
+        react: body,
+        sendAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
+      },
+    })
 
     return
   }
@@ -50,44 +76,6 @@ export async function sendEmail({
         subject,
       })
   }
-}
-
-/**
- * Queues an email to be sent later using Upstash Qstash.
- */
-export async function queueEmail({
-  emails,
-  subject,
-  body,
-  from = env.EMAIL_FROM,
-}: {
-  emails: string[]
-  subject: string
-  from?: string
-  body: ReactElement
-}) {
-  if (env.MOCK_RESEND) {
-    const text = await render(body, { plainText: true })
-
-    mockEmail(emails, text, true)
-
-    return
-  }
-
-  const { default: q, resend } = await import("@init/queue/messages")
-
-  await q.publishJSON({
-    api: {
-      name: "email",
-      provider: resend({ token: env.RESEND_API_KEY }),
-    },
-    body: {
-      from,
-      to: emails,
-      subject,
-      react: body,
-    },
-  })
 }
 
 function mockEmail(emails: string[], html: string, isQueued = false) {
