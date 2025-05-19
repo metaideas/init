@@ -16,6 +16,8 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
+    "translations:generate": "echo 'Not implemented yet'",
+    "translations:check": "i18n-check --source en --locales translations",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -23,6 +25,7 @@
     "next-intl": "4.1.0"
   },
   "devDependencies": {
+    "@lingual/i18n-check": "0.8.3",
     "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"
   },
