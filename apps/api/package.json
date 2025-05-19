@@ -41,7 +41,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "esbuild-node-externals": "^1.18.0",
-    "tsup": "catalog:",
+    "tsup": "8.5.0",
     "tsx": "catalog:",
     "typescript": "catalog:"
   }

@@ -29,7 +29,7 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.6",
+    "@tailwindcss/vite": "catalog:",
     "@tanstack/router-devtools": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@tooling/tsconfig": "workspace:*",
