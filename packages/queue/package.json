@@ -34,6 +34,7 @@
     "@init/payments": "workspace:*",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
