@@ -2,22 +2,35 @@ import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
-import { logger } from "hono/logger"
+import { logger as honoLogger } from "hono/logger"
 
+import db from "@init/db/client"
 import { captureException } from "@init/observability/error/node"
-import { logger as customLogger } from "@init/observability/logger"
+import { logger } from "@init/observability/logger"
 
-import authRouter from "~/routes/auth"
-import healthRouter from "~/routes/health"
-import testRouter from "~/routes/test"
-import trpcRouter from "~/routes/trpc"
+import { auth } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
+
+// Routing
+import authRoutes from "~/routes/auth"
+import healthRoutes from "~/routes/health"
+import testRoutes from "~/routes/test"
+import trpcRoutes from "~/routes/trpc"
 
 const app = new Hono<AppContext>()
 
 app.use(cors({ credentials: true, origin: "*" }))
-app.use(logger((message, ...rest) => customLogger.info(rest, message)))
+app.use(honoLogger((message, ...rest) => logger.info(rest, message)))
 app.use(contextStorage())
+
+// Add context dependencies
+app.use(async (c, next) => {
+  c.set("auth", auth)
+  c.set("db", db)
+  c.set("logger", logger)
+
+  await next()
+})
 
 app.onError((err, c) => {
   // If the error is a HTTPException (for example, an authorization failure),
@@ -32,25 +45,11 @@ app.onError((err, c) => {
   return c.text("Internal Server Error", 500)
 })
 
-app.use(async (c, next) => {
-  // Load dependencies into the application context
-  await Promise.all([
-    import("~/shared/auth").then(({ auth }) => c.set("auth", auth)),
-
-    import("@init/db/client").then(({ default: db }) => c.set("db", db)),
-    import("@init/observability/logger").then(({ logger }) =>
-      c.set("logger", logger)
-    ),
-  ])
-
-  await next()
-})
-
 export const router = app
   .get("/ping", c => c.text(Date.now().toString()))
-  .route("/health", healthRouter)
-  .route("/auth", authRouter)
-  .route("/test", testRouter)
-  .route("/trpc", trpcRouter)
+  .route("/auth", authRoutes)
+  .route("/health", healthRoutes)
+  .route("/test", testRoutes)
+  .route("/trpc", trpcRoutes)
 
 export default app
