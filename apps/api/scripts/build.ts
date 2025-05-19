@@ -3,9 +3,6 @@ import { nodeExternalsPlugin } from "esbuild-node-externals"
 
 import { prompt, runScript } from "@tooling/helpers"
 
-// Import this file to ensure that all environment variables are set
-import "~/shared/env"
-
 async function build() {
   const spinner = prompt.spinner()
 
