@@ -67,14 +67,16 @@ onlyBuiltDependencies:
   - "@biomejs/biome"
   - "@parcel/watcher"
   - "@sentry/cli"
+  - "@tailwindcss/oxide"
   - "@upstash/qstash-cli"
-  - core-js
-  - core-js-pure
-  - dtrace-provider
-  - esbuild
-  - msw
-  - sharp
-  - spawn-sync
+  - "core-js"
+  - "core-js-pure"
+  - "dtrace-provider"
+  - "esbuild"
+  - "msgpackr-extract"
+  - "msw"
+  - "sharp"
+  - "spawn-sync"
 
 publicHoistPattern:
   - "require-in-the-middle"
