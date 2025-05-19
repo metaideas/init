@@ -3,7 +3,7 @@
 import { cookies } from "next/headers"
 
 import { LOCALES, LOCALE_COOKIE_NAME } from "@init/internationalization/locale"
-import { z } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 
 import { publicAction } from "~/shared/action-client"
 

@@ -10,5 +10,5 @@ export function env() {
   return z.enum(["development", "production", "test"])
 }
 
-export * from "zod-form-data"
+export * as form from "zod-form-data"
 export * from "zod"

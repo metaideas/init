@@ -1,5 +1,5 @@
 import { slidingWindow } from "@init/security/ratelimit"
-import { z } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 
 import { withRateLimitByIp } from "~/shared/trpc/middleware"
 import { createRouter, publicProcedure } from "~/shared/trpc/server"

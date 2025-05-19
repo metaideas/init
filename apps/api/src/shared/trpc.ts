@@ -3,7 +3,7 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
 import superjson from "superjson"
 
-import { ZodError } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 
 import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
@@ -40,7 +40,7 @@ export const t = initTRPC.context<TRPCContext>().create({
       data: {
         ...shape.data,
         zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+          error.cause instanceof z.ZodError ? error.cause.flatten() : null,
       },
     }
   },

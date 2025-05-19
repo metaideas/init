@@ -1,4 +1,4 @@
-import { z } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 
 export const HelloWorldBodySchema = z.object({
   name: z.string(),

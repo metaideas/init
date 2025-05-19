@@ -7,7 +7,7 @@ import superjson from "superjson"
 
 import db from "@init/db/client"
 import { logger } from "@init/observability/logger"
-import { ZodError } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 
 import { auth, validateRequest } from "~/shared/auth/server"
 
@@ -37,7 +37,7 @@ export const t = initTRPC.context<typeof createContext>().create({
       data: {
         ...shape.data,
         zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+          error.cause instanceof z.ZodError ? error.cause.flatten() : null,
       },
     }
   },

@@ -1,12 +1,12 @@
 import { EmailSchema, PasswordSchema, matchPasswords } from "@init/auth/schema"
 import * as z from "@init/utils/schema"
 
-export const SignUpFormSchema = z
+export const SignUpFormSchema = z.form
   .formData({
-    confirmPassword: z.text(PasswordSchema),
-    email: z.text(EmailSchema),
-    name: z.text(z.string().min(1)),
-    password: z.text(PasswordSchema),
+    confirmPassword: z.form.text(PasswordSchema),
+    email: z.form.text(EmailSchema),
+    name: z.form.text(z.string().min(1)),
+    password: z.form.text(PasswordSchema),
   })
   .refine(matchPasswords, {
     message: "Passwords don't match",
@@ -15,9 +15,9 @@ export const SignUpFormSchema = z
 
 export type SignUpFormData = z.infer<typeof SignUpFormSchema>
 
-export const SignInWithPasswordFormSchema = z.formData({
-  email: z.text(EmailSchema),
-  password: z.text(PasswordSchema),
+export const SignInWithPasswordFormSchema = z.form.formData({
+  email: z.form.text(EmailSchema),
+  password: z.form.text(PasswordSchema),
 })
 
 export type SignInWithPasswordFormData = z.infer<
