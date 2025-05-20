@@ -1,5 +1,12 @@
+import { isProduction } from "./environment"
+
 const LEADING_SLASHES = /^\/+/
 const MULTIPLE_SLASHES = /\/+/g
+
+export function addProtocol(url: string, protocol?: "http" | "https") {
+  const defaultProtocol = isProduction ? "https" : "http"
+  return `${protocol ?? defaultProtocol}://${url}`
+}
 
 export function createUrlBuilder(
   url: string,
@@ -8,7 +15,7 @@ export function createUrlBuilder(
   // Split the URL into domain and base path
   const [domain, ...pathParts] = url.split("/")
   const basePath = pathParts.length > 0 ? `/${pathParts.join("/")}` : ""
-  const baseUrl = `${protocol}://${domain}`
+  const baseUrl = addProtocol(domain, protocol)
 
   return function buildUrl<T extends string>(
     pathname: T,

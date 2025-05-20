@@ -6,13 +6,13 @@ import { cache } from "react"
 import { nextCookies } from "@init/auth/nextjs"
 import { createAuth } from "@init/auth/server"
 import { adminPlugin, organizationPlugin } from "@init/auth/server/plugins"
+import { addProtocol } from "@init/utils/url"
 
 import env from "~/shared/env"
 
 export const auth = createAuth(
   {
-    basePath: "/api/auth",
-    baseURL: env.VERCEL_URL,
+    baseURL: addProtocol(env.VERCEL_URL ?? env.NEXT_PUBLIC_VERCEL_URL),
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,
