@@ -3,7 +3,6 @@ import type { ReactElement } from "react"
 
 import env from "@init/env/email"
 import { logger, styles } from "@init/observability/logger"
-import { Fault } from "@init/utils/fault"
 
 import client from "./client"
 
@@ -64,17 +63,9 @@ export async function sendEmail(
   })
 
   if (error) {
-    throw Fault.from(error)
-      .withTag("SEND_EMAIL_ERROR")
-      .withDescription(
-        error.message,
-        `Unable to send email to ${emails.join(", ")}`
-      )
-      .withContext({
-        from,
-        to: emails,
-        subject,
-      })
+    throw new Error(
+      `Unable to send email to ${emails.join(", ")}: ${error.message}`
+    )
   }
 }
 

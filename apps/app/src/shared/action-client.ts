@@ -8,14 +8,64 @@ import {
 } from "next-safe-action"
 import { headers } from "next/headers"
 
+import { AuthError } from "@init/auth/server"
 import db from "@init/db/client"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
-import { Fault } from "@init/utils/fault"
 import * as z from "@init/utils/schema"
 
 import { auth, validateRequest } from "~/shared/auth/server"
+
+type ActionErrorCode =
+  | "BAD_REQUEST"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "NOT_FOUND"
+  | "METHOD_NOT_SUPPORTED"
+  | "TIMEOUT"
+  | "CONFLICT"
+  | "PRECONDITION_FAILED"
+  | "PAYLOAD_TOO_LARGE"
+  | "UNSUPPORTED_MEDIA_TYPE"
+  | "UNPROCESSABLE_CONTENT"
+  | "TOO_MANY_REQUESTS"
+  | "CLIENT_CLOSED_REQUEST"
+  | "INTERNAL_SERVER_ERROR"
+  | "NOT_IMPLEMENTED"
+  | "BAD_GATEWAY"
+  | "SERVICE_UNAVAILABLE"
+  | "GATEWAY_TIMEOUT"
+
+export class ActionError extends Error {
+  code: ActionErrorCode
+  metadata?: Record<string, unknown>
+  publicMessage?: string
+
+  constructor({
+    cause,
+    code,
+    message,
+    metadata,
+    publicMessage,
+  }: {
+    message: string
+    /**
+     * The public message to display to the client. If not provided, the
+     * default server error message will be used.
+     */
+    publicMessage?: string
+    code?: ActionErrorCode
+    cause?: unknown
+    metadata?: Record<string, unknown>
+  }) {
+    super(message, { cause })
+    this.code = code ?? "INTERNAL_SERVER_ERROR"
+    this.metadata = metadata
+    this.name = "ActionError"
+    this.publicMessage = publicMessage
+  }
+}
 
 export const publicAction = createSafeActionClient({
   defineMetadataSchema: () =>
@@ -29,9 +79,13 @@ export const publicAction = createSafeActionClient({
       },
     })
 
-    // If the error is a Fault, return the public message
-    if (e instanceof Fault) {
+    if (e instanceof AuthError) {
       return e.message
+    }
+
+    // If the error is an ActionError, return the public message
+    if (e instanceof ActionError && e.publicMessage) {
+      return e.publicMessage
     }
 
     // Otherwise, return the default server error message, since we can't trust
@@ -91,12 +145,11 @@ export const protectedAction = publicAction.use(async ({ next }) => {
   const session = await validateRequest()
 
   if (!session) {
-    throw Fault.from("Missing Session")
-      .withTag("AUTHENTICATION_ERROR")
-      .withDescription(
-        "Session not found in request",
-        "You must be logged in to perform this action"
-      )
+    throw new ActionError({
+      code: "UNAUTHORIZED",
+      message: "Session not found in request",
+      publicMessage: "You must be logged in to perform this action",
+    })
   }
 
   return next({ ctx: { ...session } })
@@ -114,13 +167,11 @@ export function withRateLimitByIp(
     const limit = await rateLimiter.limit(ip ?? "Unknown")
 
     if (!limit.success) {
-      throw Fault.from("Rate Limit Exceeded")
-        .withTag("RATE_LIMIT_EXCEEDED")
-        .withMetadata("reason", limit.reason)
-        .withDescription(
-          `Rate limit exceeded for IP: ${ip}`,
-          `Please try again in ${Math.ceil(limit.reset / 1000)} seconds`
-        )
+      throw new ActionError({
+        code: "TOO_MANY_REQUESTS",
+        message: `Rate limit exceeded for IP: ${ip}`,
+        publicMessage: `Please try again in ${Math.ceil(limit.reset / 1000).toFixed(0)} seconds`,
+      })
     }
 
     return next({ ctx })

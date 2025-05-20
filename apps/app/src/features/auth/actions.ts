@@ -5,8 +5,6 @@ import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
 import { slidingWindow } from "@init/security/ratelimit"
-import { Fault } from "@init/utils/fault"
-import { tryCatch } from "@init/utils/try-catch"
 
 import {
   SignInWithPasswordFormSchema,
@@ -42,20 +40,12 @@ export const signInWithPassword = publicAction
       flattenValidationErrors(errors),
   })
   .stateAction(async ({ parsedInput: { email, password }, ctx }) => {
-    const [data, error] = await tryCatch(
-      ctx.auth.api.signInEmail({
-        body: { email, password },
-        headers: await headers(),
-      })
-    )
+    const { user } = await ctx.auth.api.signInEmail({
+      body: { email, password },
+      headers: await headers(),
+    })
 
-    if (error) {
-      throw Fault.from(error)
-        .withTag("AUTHENTICATION_ERROR")
-        .withDescription("Invalid credentials")
-    }
-
-    ctx.logger.info("Signed in with password", { user: data.user })
+    ctx.logger.info("Signed in with password", { user })
 
     redirect(AUTHORIZED_PATHNAME)
   })
