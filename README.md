@@ -10,10 +10,11 @@ An opinionated monorepo starter kit for building apps everywhere: web, mobile, d
 
 ## What's included
 
-- Web application using [Next.js](https://nextjs.org/)
+- Fullstack application using [Next.js](https://nextjs.org/) and [TRPC](https://trpc.io/)
 - Documentation site using [Fumadocs](http://fumadocs.vercel.app)
+- Marketing site and blog using [Next.js](https://nextjs.org/) and [Content Collections](https://www.content-collections.dev/)
 - Mobile application using [Expo](https://expo.dev/)
-- API using [Hono](https://hono.dev/) running on Node.js
+- Node.js API using [Hono](https://hono.dev/)
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 
@@ -37,29 +38,30 @@ pnpm install
 pnpm docker:up
 ```
 
-3. Run the `setup-env` script to create the environment files:
-
-```bash
-pnpm env:setup
-```
-
-4. Start the development server:
-
-```bash
-pnpm dev
-```
-
-Since this monorepo has a lot of applications and packages you may not need for your project, you can run the `setup-template` script to select which workspaces you want to keep:
+3. Run the `setup` script:
 
 ```bash
 pnpm template:setup
 ```
+
+This will:
+
+- Let you choose the workspaces you want to include
+- Rename the project and update all the imports
+- Setup environment files from templates
+- Setup a remote template branch for syncing updates
 
 If you later want to add or remove workspaces, you can use the following commands:
 
 ```bash
 pnpm workspace:add # Adds a workspace from the template to the project
 pnpm workspace:remove # Removes a workspace from the project
+```
+
+4. Start the development server:
+
+```bash
+pnpm dev # or pnpm dev --filter <workspace> to start a specific workspace
 ```
 
 ### Ports

@@ -1,7 +1,4 @@
-type Workspace = {
-  name: string
-  description: string
-}
+export const REMOTE_URL = "git@github.com:metaideas/init.git"
 
 export const Workspaces = {
   APPS: [
@@ -118,4 +115,10 @@ export const Workspaces = {
       description: "utils - Shared utilities and helpers",
     },
   ],
-} satisfies Record<string, Workspace[]>
+} satisfies Record<
+  string,
+  {
+    name: string
+    description: string
+  }[]
+>

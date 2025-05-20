@@ -10,7 +10,7 @@ import {
 } from "@clack/prompts"
 
 import { runProcess, runScript } from "../tooling/helpers"
-import { Workspaces } from "./workspaces"
+import { Workspaces } from "./consts"
 
 async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
   const workspaceType = await select({
