@@ -2,6 +2,8 @@ import type { Auth, BetterAuthClientPlugin } from "better-auth"
 import { inferAdditionalFields } from "better-auth/client/plugins"
 import { createAuthClient as createBetterAuthClient } from "better-auth/react"
 
+import type { Locale } from "@init/internationalization/locale"
+
 /**
  * Create a BetterAuth client.
  *
@@ -16,4 +18,27 @@ export function createAuthClient<Plugin extends BetterAuthClientPlugin>(
     baseURL: url,
     plugins: [inferAdditionalFields<Auth>(), ...plugins],
   })
+}
+
+export type AuthClient = ReturnType<typeof createAuthClient>
+
+export type ErrorTypes = Partial<
+  Record<
+    keyof AuthClient["$ERROR_CODES"],
+    {
+      [key in Locale]: string
+    }
+  >
+>
+
+const errorCodes = {
+  // Add your error codes here
+} satisfies ErrorTypes
+
+export const getErrorMessage = (code: string, locale: Locale) => {
+  if (code in errorCodes) {
+    return errorCodes[code as keyof typeof errorCodes][locale]
+  }
+
+  return ""
 }
