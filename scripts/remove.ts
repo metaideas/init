@@ -10,9 +10,10 @@ import {
 } from "@clack/prompts"
 
 import { runScript } from "../tooling/helpers"
-import type { Workspaces } from "./workspaces"
 
-async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
+type WorkspaceType = "app" | "package"
+
+async function getWorkspaceType(): Promise<WorkspaceType> {
   const workspaceType = await select({
     message: "Which type of workspace would you like to remove?",
     options: [
@@ -32,7 +33,7 @@ async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
     process.exit()
   }
 
-  return workspaceType
+  return workspaceType === "APPS" ? "app" : "package"
 }
 
 async function chooseWorkspaces(
@@ -59,7 +60,7 @@ async function main() {
 
   const workspaceType = await getWorkspaceType()
 
-  const workspaceDir = path.join(__dirname, "..", workspaceType)
+  const workspaceDir = path.join(__dirname, "..", `${workspaceType}s`)
   const directories = fs
     .readdirSync(workspaceDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
@@ -84,7 +85,7 @@ async function main() {
     log.success(`Removed ${workspace}`)
   }
 
-  outro("Done!")
+  log.success("Done!")
 }
 
 runScript(main)

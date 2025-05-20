@@ -17,18 +17,18 @@
     "dev": "turbo dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
-    "env:setup": "tsx scripts/setup-env.ts",
     "format": "turbo format",
     "generate": "turbo generate",
     "lint": "turbo lint",
     "lint:repo": "sherif --fix",
     "start": "turbo run start",
-    "template:setup": "tsx scripts/setup.ts",
-    "template:sync": "tsx scripts/sync.ts",
     "typecheck": "turbo typecheck --continue",
     "workspace:add": "tsx scripts/add.ts",
+    "workspace:graph": "tsx scripts/graph.ts",
     "workspace:remove": "tsx scripts/remove.ts",
-    "workspace:graph": "tsx scripts/graph.ts"
+    "workspace:replace": "tsx scripts/replace.ts",
+    "workspace:setup": "tsx scripts/setup.ts",
+    "workspace:update": "tsx scripts/update.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

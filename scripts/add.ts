@@ -1,18 +1,12 @@
 import fs from "node:fs"
-import {
-  intro,
-  isCancel,
-  log,
-  multiselect,
-  outro,
-  select,
-  text,
-} from "@clack/prompts"
+import { isCancel, log, multiselect, outro, select, text } from "@clack/prompts"
 
 import { runProcess, runScript } from "../tooling/helpers"
-import { Workspaces } from "./consts"
+import { Workspaces } from "./utils"
 
-async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
+type WorkspaceType = "app" | "package"
+
+async function getWorkspaceType(): Promise<WorkspaceType> {
   const workspaceType = await select({
     message: "Which type of workspace would you like to add?",
     options: [
@@ -32,19 +26,24 @@ async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
     process.exit()
   }
 
-  return workspaceType
+  switch (workspaceType) {
+    case "APPS":
+      return "app"
+    case "PACKAGES":
+      return "package"
+    default:
+      throw new Error("Invalid workspace type")
+  }
 }
 
-async function chooseWorkspaces(
-  type: keyof typeof Workspaces
-): Promise<string[]> {
-  const options = Workspaces[type].map(w => ({
+async function chooseWorkspaces(type: WorkspaceType): Promise<string[]> {
+  const options = Workspaces[type === "app" ? "APPS" : "PACKAGES"].map(w => ({
     value: w.name,
     label: w.description,
   }))
 
   const workspaces = await multiselect({
-    message: `Which ${type === "APPS" ? "app" : "package"}(s) would you like to add?`,
+    message: `Which ${type}(s) would you like to add?`,
     options,
   })
 
@@ -76,17 +75,18 @@ function getProjectName() {
 }
 
 async function main() {
-  intro("Add a workspace app or package")
+  log.step("Add a workspace app or package")
 
   const workspaceType = await getWorkspaceType()
 
-  const isApp = workspaceType === "APPS"
+  const isApp = workspaceType === "app"
 
   const workspaces = await chooseWorkspaces(workspaceType)
 
+  const projectName = getProjectName()
+
   for (const workspace of workspaces) {
     const workspaceName = isApp ? await getWorkspaceName(workspace) : workspace
-    const projectName = getProjectName()
 
     runProcess("turbo", [
       "gen",
@@ -102,7 +102,13 @@ async function main() {
     log.success(`Added "${workspaceName}" ${workspaceType} to the workspace`)
   }
 
-  outro("Done!")
+  log.step("Finished adding workspaces")
+
+  log.step(`Now replacing "@init/" with "@${projectName}/" in the workspace`)
+
+  await runProcess("pnpm", ["workspace:replace"])
+
+  log.success("Done!")
 }
 
 runScript(main)

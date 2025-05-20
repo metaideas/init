@@ -1,71 +1,8 @@
 import fs from "node:fs"
 import path from "node:path"
-import {
-  cancel,
-  intro,
-  isCancel,
-  log,
-  multiselect,
-  outro,
-  text,
-} from "@clack/prompts"
-import { executeCommand, runScript } from "../tooling/helpers"
-import { REMOTE_URL, Workspaces } from "./consts"
-
-const EXCLUDED_DIRS = [
-  "node_modules",
-  ".git",
-  ".next",
-  "dist",
-  "build",
-  "out",
-  ".turbo",
-  ".vercel",
-  ".DS_Store",
-  ".cache",
-  ".pnpm-store",
-  ".yarn",
-] as const
-
-function checkShouldExclude(filePath: string): boolean {
-  return EXCLUDED_DIRS.some(
-    dir =>
-      filePath.includes(`${path.sep}${dir}${path.sep}`) ||
-      filePath.endsWith(`${path.sep}${dir}`)
-  )
-}
-
-function getAllFilesRecursively(dir: string, files: string[] = []): string[] {
-  if (checkShouldExclude(dir)) {
-    return files
-  }
-
-  try {
-    for (const file of fs.readdirSync(dir)) {
-      const filePath = path.join(dir, file)
-
-      if (checkShouldExclude(filePath)) {
-        continue
-      }
-
-      const stat = fs.statSync(filePath)
-      stat.isDirectory()
-        ? getAllFilesRecursively(filePath, files)
-        : files.push(filePath)
-    }
-  } catch (error: unknown) {
-    log.error(
-      `Could not read directory ${dir}: ${error instanceof Error ? error.message : "Unknown error"}`
-    )
-  }
-
-  return files
-}
-
-function getReplacementCount(content: string, from: string): number {
-  const regex = new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")
-  return (content.match(regex) || []).length
-}
+import { cancel, isCancel, log, multiselect, outro, text } from "@clack/prompts"
+import { executeCommand, runProcess, runScript } from "../tooling/helpers"
+import { REMOTE_URL, Workspaces } from "./utils"
 
 async function copyEnvFile(sourcePath: string, targetPath: string) {
   try {
@@ -162,63 +99,6 @@ async function promptForProjectName(): Promise<string | null> {
   }
 
   return projectName
-}
-
-function replaceProjectNameInFiles(projectName: string) {
-  const rootDir = path.join(__dirname, "..")
-  log.info(
-    `Searching for "@init" in project files (excluding node_modules, .git, etc.) to replace with "@${projectName}"...`
-  )
-
-  const allFiles = getAllFilesRecursively(rootDir)
-  let totalReplacements = 0
-  let filesChanged = 0
-
-  for (const file of allFiles) {
-    try {
-      if (file.endsWith("pnpm-lock.yaml")) {
-        continue
-      }
-
-      const content = fs.readFileSync(file, "utf8")
-      // Check for "@init" to catch instances like "@init/some-package" or "@init" as a whole word.
-      if (!content.includes("@init")) {
-        continue
-      }
-
-      const count = getReplacementCount(content, "@init")
-      if (!count) {
-        continue
-      }
-
-      filesChanged++
-      totalReplacements += count
-
-      const replaced = content.split("@init").join(`@${projectName}`)
-
-      fs.writeFileSync(file, replaced, "utf8")
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        log.warn(
-          `Could not process file ${file} for renaming: ${error.message}`
-        )
-
-        continue
-      }
-
-      log.warn(`Could not process file ${file} for renaming: Unknown error`)
-    }
-  }
-
-  if (filesChanged > 0) {
-    log.success(
-      `Replaced ${totalReplacements} instance(s) of '@init' with '@${projectName}' in ${filesChanged} file(s).`
-    )
-
-    return
-  }
-
-  log.info("No instances of '@init' found to replace in files.")
 }
 
 function updatePackageJsonName(projectName: string) {
@@ -344,7 +224,7 @@ async function setupRemoteBranch() {
 }
 
 async function main() {
-  intro("🚀 Starting project setup wizard!")
+  log.info("🚀 Starting project setup wizard!")
 
   const selectedApps = await getSelectedApps()
   const selectedPackages = await getSelectedPackages()
@@ -354,8 +234,10 @@ async function main() {
   const newProjectName = await promptForProjectName()
 
   if (newProjectName) {
-    await replaceProjectNameInFiles(newProjectName)
     await updatePackageJsonName(newProjectName)
+
+    await runProcess("pnpm", ["workspace:replace"])
+
     log.success("✅ Project renaming steps complete!")
   }
 
@@ -363,7 +245,7 @@ async function main() {
 
   await setupRemoteBranch()
 
-  outro("🎉 All setup steps complete! Your project is ready.")
+  log.success("🎉 All setup steps complete! Your project is ready.")
 }
 
 runScript(main)
