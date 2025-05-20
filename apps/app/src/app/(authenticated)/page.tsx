@@ -8,19 +8,24 @@ import {
   CardTitle,
 } from "@init/ui/components/card"
 
+import { getTranslations } from "@init/internationalization/nextjs/server"
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
+import { LocaleToggle } from "~/shared/components/locale-toggle"
 import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Page() {
   const user = await getCurrentUser()
+  const t = await getTranslations("app")
 
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-8">
       <div className="mx-auto w-full max-w-md space-y-4">
         <Card className="">
           <CardHeader>
-            <CardTitle>Welcome back!</CardTitle>
+            <CardTitle>
+              {t("dashboard.home.welcome", { name: user.name })}
+            </CardTitle>
             <AdminOnly>
               <CardDescription>Only admins can see this</CardDescription>
             </AdminOnly>
@@ -37,7 +42,9 @@ export default async function Page() {
               </div>
             </div>
           </CardContent>
-          <CardFooter className="flex gap-2">
+          <CardFooter className="flex justify-between">
+            <LocaleToggle />
+
             <SignOutButton />
           </CardFooter>
         </Card>

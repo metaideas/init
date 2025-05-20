@@ -1,9 +1,9 @@
 {
   "app": {
-    "test": {
-      "description": "This is your project's localized home page",
-      "title": "Hello world!",
-      "content": "This is example content in English. Here you can find information about our project and its main features. Thank you for visiting!"
+    "dashboard": {
+      "home": {
+        "welcome": "Welcome back, {name}!"
+      }
     }
   },
   "web": {
@@ -11,8 +11,8 @@
       "title": "Home",
       "description": "This is the home page of the project",
       "locale": {
-        "en": "This is English",
-        "es": "This is Spanish"
+        "en": "English",
+        "es": "Spanish"
       }
     }
   }
