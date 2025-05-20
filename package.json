@@ -9,7 +9,6 @@
     "db:push": "turbo --filter @init/db push",
     "db:studio": "turbo --filter @init/db studio",
     "deps:check": "taze -rl",
-    "deps:graph": "tsx scripts/graph-dependencies.ts",
     "deps:list": "syncpack list",
     "deps:mismatch": "syncpack list-mismatches",
     "deps:sync": "syncpack fix-mismatches",
@@ -28,7 +27,8 @@
     "template:sync": "tsx scripts/sync-template.ts",
     "typecheck": "turbo typecheck --continue",
     "workspace:add": "tsx scripts/add.ts",
-    "workspace:remove": "tsx scripts/remove.ts"
+    "workspace:remove": "tsx scripts/remove.ts",
+    "workspace:graph": "tsx scripts/graph.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

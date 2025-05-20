@@ -195,7 +195,7 @@ module.exports = {
     /* Which modules to exclusively include (array of regular expressions in strings)
        dependency-cruiser will skip everything not matching this pattern
     */
-    // includeOnly : [''],
+    includeOnly: ["^(apps|packages|tooling)/"],
 
     /* List of module systems to cruise.
        When left out dependency-cruiser will fall back to the list of _all_
@@ -366,8 +366,7 @@ module.exports = {
           dependency graph reporter (`archi`) you probably want to tweak
           this collapsePattern to your situation.
         */
-        collapsePattern:
-          "^(?:packages|src|lib(s?)|app(s?)|bin|test(s?)|spec(s?))/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)",
+        collapsePattern: "^(apps|packages|tooling)/[^/]+",
 
         /* Options to tweak the appearance of your graph. If you don't specify a
            theme for 'archi' dependency-cruiser will use the one specified in the
