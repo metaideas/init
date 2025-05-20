@@ -6,10 +6,7 @@
   "type": "module",
   "exports": {
     "./workflows": "./src/workflows/index.ts",
-    "./workflows/*": [
-      "./src/workflows/serve/*.ts",
-      "./src/workflows/integrations/*.ts"
-    ],
+    "./workflows/*": "./src/workflows/serve/*.ts",
     "./messages": "./src/messages/index.ts",
     "./messages/verify": "./src/messages/verify.ts"
   },
@@ -22,7 +19,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/ai": "workspace:*",
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
@@ -31,7 +27,6 @@
     "@upstash/workflow": "0.2.13"
   },
   "devDependencies": {
-    "@init/payments": "workspace:*",
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "catalog:",

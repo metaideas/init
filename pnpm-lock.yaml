@@ -177,9 +177,6 @@ importers:
       '@init/observability':
         specifier: workspace:*
         version: link:../../packages/observability
-      '@init/queue':
-        specifier: workspace:*
-        version: link:../../packages/queue
       '@init/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -1291,9 +1288,6 @@ importers:
 
   packages/queue:
     dependencies:
-      '@init/ai':
-        specifier: workspace:*
-        version: link:../ai
       '@init/env':
         specifier: workspace:*
         version: link:../env
@@ -1316,9 +1310,6 @@ importers:
         specifier: 'catalog:'
         version: 4.7.9
     devDependencies:
-      '@init/payments':
-        specifier: workspace:*
-        version: link:../payments
       '@tooling/helpers':
         specifier: workspace:*
         version: link:../../tooling/helpers
