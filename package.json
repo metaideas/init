@@ -28,7 +28,7 @@
     "template:sync": "tsx scripts/sync-template.ts",
     "typecheck": "turbo typecheck --continue",
     "workspace:add": "tsx scripts/add.ts",
-    "workspace:remove": "tsx scripts/remove-workspace.ts"
+    "workspace:remove": "tsx scripts/remove.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

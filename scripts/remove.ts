@@ -8,20 +8,20 @@ import {
   outro,
   select,
 } from "@clack/prompts"
+
 import { runScript } from "../tooling/helpers"
+import type { Workspaces } from "./workspaces"
 
-async function main() {
-  intro("Remove a package from the workspace")
-
+async function getWorkspaceType(): Promise<keyof typeof Workspaces> {
   const workspaceType = await select({
     message: "Which type of workspace would you like to remove?",
     options: [
       {
-        value: "apps",
+        value: "APPS",
         label: "App",
       },
       {
-        value: "packages",
+        value: "PACKAGES",
         label: "Package",
       },
     ],
@@ -31,6 +31,33 @@ async function main() {
     outro("Canceled removing workspace")
     process.exit()
   }
+
+  return workspaceType
+}
+
+async function chooseWorkspaces(
+  directories: {
+    value: string
+    label: string
+  }[]
+) {
+  const selected = await multiselect({
+    message: "Which workspace(s) would you like to remove?",
+    options: directories,
+  })
+
+  if (isCancel(selected)) {
+    outro("Canceled removing workspace")
+    process.exit()
+  }
+
+  return selected
+}
+
+async function main() {
+  intro("Remove a workspace app or package")
+
+  const workspaceType = await getWorkspaceType()
 
   const workspaceDir = path.join(__dirname, "..", workspaceType)
   const directories = fs
@@ -42,21 +69,13 @@ async function main() {
     }))
 
   if (directories.length === 0) {
-    outro("No workspace found to remove")
+    outro("No workspace(s) found to remove")
     process.exit()
   }
 
-  const selectedWorkspaces = await multiselect({
-    message: `Which ${workspaceType} would you like to remove?`,
-    options: directories,
-  })
+  const selected = await chooseWorkspaces(directories)
 
-  if (isCancel(selectedWorkspaces)) {
-    outro("Canceled removing workspace")
-    process.exit()
-  }
-
-  for (const workspace of selectedWorkspaces) {
+  for (const workspace of selected) {
     fs.rmSync(path.join(workspaceDir, workspace), {
       recursive: true,
       force: true,
