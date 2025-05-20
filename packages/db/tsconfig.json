@@ -3,6 +3,6 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": ["drizzle.config.ts", "src", "scripts"],
+  "include": ["drizzle.config.ts", "src", "scripts", "reset.d.ts"],
   "exclude": ["node_modules"]
 }

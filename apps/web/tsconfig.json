@@ -15,6 +15,7 @@
     "next-env.d.ts",
     "next.config.ts",
     "scripts",
-    "src"
+    "src",
+    "reset.d.ts"
   ]
 }

@@ -3,6 +3,12 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": ["*.ts", "src", "src/nextjs/types.d.ts", "translations"],
+  "include": [
+    "*.ts",
+    "src",
+    "src/nextjs/types.d.ts",
+    "translations",
+    "reset.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

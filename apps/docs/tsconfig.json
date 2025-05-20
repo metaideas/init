@@ -15,6 +15,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mdx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "reset.d.ts"
   ]
 }

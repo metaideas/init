@@ -14,6 +14,7 @@
     "app.config.ts",
     "eslint.config.mjs",
     "expo-env.d.ts",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "reset.d.ts"
   ]
 }

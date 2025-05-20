@@ -4,6 +4,6 @@
     "jsx": "preserve",
     "rootDir": "."
   },
-  "include": ["src"],
+  "include": ["src", "reset.d.ts"],
   "exclude": ["node_modules"]
 }
