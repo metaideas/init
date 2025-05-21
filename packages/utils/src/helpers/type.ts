@@ -51,6 +51,39 @@ export type DeepMerge<T, U> = Omit<T, keyof U> & {
     : U[K]
 }
 
+/**
+ * Makes a type more readable in IDE tooltips by expanding intersections and
+ * removing unnecessary type information.
+ */
 export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
+
+type StringToArray<
+  S extends string,
+  Acc extends string[] = [],
+> = S extends `${infer Char}${infer Rest}`
+  ? StringToArray<Rest, [...Acc, Char]>
+  : Acc
+
+/**
+ * A type that validates if a string has the length specified by a number. If
+ * valid, it resolves to the string. If invalid, it resolves to an error message
+ * string, causing a type error on assignment.
+ */
+export type ConstrainedString<
+  ActualString extends string,
+  ExpectedLengthSpec extends number,
+  // --- Internal Helper Types ---
+  _TargetNumericLength extends number = ExpectedLengthSpec extends number
+    ? ExpectedLengthSpec // If ExpectedLengthSpec is already a number
+    : ExpectedLengthSpec extends string
+      ? ExpectedLengthSpec // If it's a string like "3", convert to 3
+      : never, // Invalid ExpectedLengthSpec format
+  _ActualCharsTuple extends string[] = StringToArray<ActualString>,
+  _ActualNumericLength extends number = _ActualCharsTuple["length"],
+> = _TargetNumericLength extends never
+  ? `Error: Invalid length specification "${ExpectedLengthSpec}". Must be a number or a string representation of a number.`
+  : _ActualNumericLength extends _TargetNumericLength
+    ? ActualString // Validation passed: the type is the string literal itself
+    : `Error: String "${ActualString}" (length: ${_ActualNumericLength}) must be exactly ${_TargetNumericLength} characters.`
