@@ -1,15 +1,15 @@
 import {
   boolean,
+  constructId,
   index,
   jsonb,
   pgSchema,
   text,
   timestamp,
+  timestamps,
   uniqueIndex,
   varchar,
-} from "drizzle-orm/pg-core"
-
-import { type BrandId, constructId, timestamps } from "./helpers"
+} from "./helpers"
 
 // Auth
 export const authSchema = pgSchema("auth")
@@ -20,6 +20,7 @@ export const users = authSchema.table(
   "users",
   {
     ...constructId("UserId", "usr"),
+    ...timestamps,
 
     role: userRoles().notNull().default("user"),
 
@@ -34,8 +35,6 @@ export const users = authSchema.table(
     banExpiresAt: timestamp({ mode: "date" }),
 
     metadata: jsonb(),
-
-    ...timestamps,
   },
   table => [
     index("users_email_idx").on(table.email),
@@ -51,6 +50,7 @@ export const accounts = authSchema.table(
   "accounts",
   {
     ...constructId("AccountId", "acc"),
+    ...timestamps,
 
     userId: text()
       .notNull()
@@ -73,8 +73,6 @@ export const accounts = authSchema.table(
     idToken: text(),
 
     password: varchar({ length: 255 }),
-
-    ...timestamps,
   },
   table => [
     index("accounts_user_id_idx").on(table.userId),
@@ -93,13 +91,12 @@ export const verifications = authSchema.table(
   "verifications",
   {
     ...constructId("VerificationId", "ver"),
+    ...timestamps,
 
     identifier: varchar({ length: 255 }).notNull(),
     value: varchar({ length: 255 }).notNull(),
 
     expiresAt: timestamp({ mode: "date" }).notNull(),
-
-    ...timestamps,
   },
   table => [
     index("verifications_identifier_idx").on(table.identifier),
@@ -112,6 +109,7 @@ export type NewVerification = typeof verifications.$inferInsert
 
 export const sessions = authSchema.table("sessions", {
   ...constructId("SessionId", "ses"),
+  ...timestamps,
 
   userId: text()
     .notNull()
@@ -119,7 +117,7 @@ export const sessions = authSchema.table("sessions", {
       onDelete: "cascade",
       onUpdate: "cascade",
     })
-    .$type<BrandId<"UserId">>(),
+    .$type<UserId>(),
 
   token: text().notNull().unique(),
   expiresAt: timestamp({ mode: "date" }).notNull(),
@@ -129,7 +127,7 @@ export const sessions = authSchema.table("sessions", {
       onDelete: "set null",
       onUpdate: "cascade",
     })
-    .$type<BrandId<"UserId">>(),
+    .$type<UserId>(),
 
   ipAddress: varchar({ length: 45 }),
   userAgent: text(),
@@ -139,9 +137,7 @@ export const sessions = authSchema.table("sessions", {
       onDelete: "set null",
       onUpdate: "cascade",
     })
-    .$type<BrandId<"OrganizationId">>(),
-
-  ...timestamps,
+    .$type<OrganizationId>(),
 })
 export type Session = typeof sessions.$inferSelect
 export type NewSession = typeof sessions.$inferInsert
@@ -189,14 +185,13 @@ export const activityType = organizationSchema.enum("activity_type", [
 
 export const organizations = organizationSchema.table("organizations", {
   ...constructId("OrganizationId", "org"),
+  ...timestamps,
 
   name: varchar({ length: 128 }).notNull(),
   slug: varchar({ length: 128 }).notNull(),
 
   logo: text(),
   metadata: jsonb(),
-
-  ...timestamps,
 })
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
@@ -206,11 +201,12 @@ export const members = organizationSchema.table(
   "members",
   {
     ...constructId("MemberId", "mbr"),
+    ...timestamps,
 
     userId: text()
       .notNull()
       .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
-      .$type<BrandId<"UserId">>(),
+      .$type<UserId>(),
 
     organizationId: text()
       .notNull()
@@ -218,11 +214,9 @@ export const members = organizationSchema.table(
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<BrandId<"OrganizationId">>(),
+      .$type<OrganizationId>(),
 
     role: organizationRoles().notNull().default("member"),
-
-    ...timestamps,
   },
   table => [
     uniqueIndex("user_organization_unique_idx").on(
@@ -242,6 +236,7 @@ export const invitations = organizationSchema.table(
   "invitations",
   {
     ...constructId("InvitationId", "inv"),
+    ...timestamps,
 
     organizationId: text()
       .notNull()
@@ -249,21 +244,19 @@ export const invitations = organizationSchema.table(
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<BrandId<"OrganizationId">>(),
+      .$type<OrganizationId>(),
 
     inviterId: text()
       .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<BrandId<"MemberId">>(),
+      .$type<MemberId>(),
 
     email: varchar({ length: 255 }).notNull(),
     role: organizationRoles().notNull().default("member"),
     status: invitationStatus().notNull().default("pending"),
     expiresAt: timestamp({ mode: "date" }).notNull(),
-
-    ...timestamps,
   },
   table => [
     uniqueIndex("organization_invitation_unique_idx").on(
@@ -290,13 +283,13 @@ export const activityLogs = organizationSchema.table(
 
     organizationId: text()
       .references(() => organizations.id)
-      .$type<BrandId<"OrganizationId">>(),
+      .$type<OrganizationId>(),
     memberId: text()
       .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
-      .$type<BrandId<"MemberId">>(),
+      .$type<MemberId>(),
 
     type: activityType().notNull(),
     ipAddress: varchar({ length: 45 }),
