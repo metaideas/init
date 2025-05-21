@@ -15,7 +15,10 @@ import { isDevelopment } from "./environment"
 
 export function createTRPCClient<TRouter>(
   url: string,
-  queryClient: QueryClient
+  options: {
+    queryClient: QueryClient
+    headers?: () => Headers
+  }
 ) {
   const {
     useTRPC,
@@ -34,16 +37,27 @@ export function createTRPCClient<TRouter>(
             condition: op =>
               Boolean(op.context.skipBatching) ||
               isNonJsonSerializable(op.context.result),
-            false: httpBatchLink({ transformer: superjson, url }),
-            true: httpLink({ transformer: superjson, url }),
+            false: httpBatchLink({
+              transformer: superjson,
+              url,
+              headers: options.headers,
+            }),
+            true: httpLink({
+              transformer: superjson,
+              url,
+              headers: options.headers,
+            }),
           }),
         ],
       })
     )
 
     return (
-      <QueryClientProvider client={queryClient}>
-        <TRPCProviderBase trpcClient={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={options.queryClient}>
+        <TRPCProviderBase
+          trpcClient={trpcClient}
+          queryClient={options.queryClient}
+        >
           {children}
         </TRPCProviderBase>
       </QueryClientProvider>

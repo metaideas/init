@@ -8,4 +8,4 @@ import { buildApiUrl } from "~/shared/utils"
 const queryClient = new QueryClient()
 
 export const { useTRPC, useTRPCClient, TRPCProvider } =
-  createTRPCClient<TRPCClient>(buildApiUrl("/trpc"), queryClient)
+  createTRPCClient<TRPCClient>(buildApiUrl("/trpc"), { queryClient })

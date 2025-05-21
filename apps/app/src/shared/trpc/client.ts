@@ -13,4 +13,4 @@ const url = buildApiUrl("/trpc")
 // but we could easily swipe it out with the router in the API project and use
 // that as our backend.
 export const { useTRPC, useTRPCClient, TRPCProvider } =
-  createTRPCClient<AppRouter>(url, queryClient)
+  createTRPCClient<AppRouter>(url, { queryClient })
