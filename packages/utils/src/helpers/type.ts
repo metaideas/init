@@ -50,3 +50,7 @@ export type DeepMerge<T, U> = Omit<T, keyof U> & {
       : U[K]
     : U[K]
 }
+
+export type Prettify<T> = {
+  [K in keyof T]: T[K]
+} & {}

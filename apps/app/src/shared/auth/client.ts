@@ -1,16 +1,26 @@
 import "client-only"
 
 import { createAuthClient } from "@init/auth/client"
+import { adminClient, organizationClient } from "@init/auth/client/plugins"
 import {
-  adminClientPlugin,
-  organizationClientPlugin,
-} from "@init/auth/client/plugins"
+  accessControl,
+  adminRole,
+  memberRole,
+  ownerRole,
+} from "@init/auth/permissions"
 
 import { buildApiUrl } from "~/shared/utils"
 
 export const authClient = createAuthClient(buildApiUrl("/auth"), [
-  adminClientPlugin,
-  organizationClientPlugin,
+  adminClient(),
+  organizationClient({
+    ac: accessControl,
+    roles: {
+      admin: adminRole,
+      member: memberRole,
+      owner: ownerRole,
+    },
+  }),
 ])
 
 export const {

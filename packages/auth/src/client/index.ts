@@ -2,7 +2,7 @@ import type { Auth, BetterAuthClientPlugin } from "better-auth"
 import { inferAdditionalFields } from "better-auth/client/plugins"
 import { createAuthClient as createBetterAuthClient } from "better-auth/react"
 
-import type { Locale } from "@init/internationalization/locale"
+import type { Locale } from "@init/utils/constants"
 
 /**
  * Create a BetterAuth client.

@@ -3,8 +3,15 @@ import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow"
 
 import { logger } from "@init/observability/logger"
 
-export function contextWrapper(
+/**
+ * Provide a fetch implementation with context to an AI provider from the AI
+ * SDK.
+ */
+export function contextFetch(
   context: WorkflowContext,
+  /**
+   * The name of the step to register in the workflow.
+   */
   stepName: string
 ): typeof globalThis.fetch {
   return async (input, init) => {

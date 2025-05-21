@@ -1,4 +1,4 @@
-import type { Locale } from "../locale"
+import type { Locale } from "@init/utils/constants"
 
 export async function loadMessages(locale: Locale) {
   return (await import(`../../translations/${locale}.json`)).default

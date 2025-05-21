@@ -4,8 +4,16 @@ import { headers } from "next/headers"
 import { cache } from "react"
 
 import { nextCookies } from "@init/auth/nextjs"
+import {
+  accessControl,
+  adminRole,
+  memberRole,
+  ownerRole,
+} from "@init/auth/permissions"
 import { createAuth } from "@init/auth/server"
-import { adminPlugin, organizationPlugin } from "@init/auth/server/plugins"
+import { admin, organization } from "@init/auth/server/plugins"
+import { sendEmail } from "@init/email"
+import OrganizationInvitation from "@init/email/organization-invitation"
 import { addProtocol } from "@init/utils/url"
 
 import env from "~/shared/env"
@@ -30,7 +38,36 @@ export const auth = createAuth(
       },
     },
   },
-  [adminPlugin, organizationPlugin, nextCookies()]
+  [
+    admin(),
+    organization({
+      ac: accessControl,
+      roles: {
+        admin: adminRole,
+        member: memberRole,
+        owner: ownerRole,
+      },
+      invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
+      sendInvitationEmail: async invitation => {
+        const inviteLink = `${env.VERCEL_URL}/accept-invitation/${invitation.id}`
+
+        await sendEmail(
+          OrganizationInvitation({
+            organizationName: invitation.organization.name,
+            inviterName: invitation.inviter.user.name,
+            inviterEmail: invitation.inviter.user.email,
+            invitationUrl: inviteLink,
+          }),
+          {
+            emails: [invitation.email],
+            subject: `You've been invited to join ${invitation.organization.name}`,
+          }
+        )
+      },
+    }),
+
+    nextCookies(),
+  ]
 )
 
 export type Auth = typeof auth

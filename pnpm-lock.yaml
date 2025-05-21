@@ -171,6 +171,9 @@ importers:
       '@init/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@init/email':
+        specifier: workspace:^
+        version: link:../../packages/email
       '@init/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -2985,7 +2988,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {'0': node >=0.10.0}
+    engines: {node: '>=0.10.0'}
 
   '@expo/cli@0.24.13':
     resolution: {integrity: sha512-2LSdbvYs+WmUljnplQXMCUyNzyX4H+F4l8uExfA1hud25Bl5kyaGrx1jjtgNxMTXmfmMjvgBdK798R50imEhkA==}
