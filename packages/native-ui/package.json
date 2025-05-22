@@ -41,9 +41,6 @@
     "react-native-reanimated": "catalog:"
   },
   "devDependencies": {
-    "@react-native-reusables/cli": "^0.3.8",
-    "@tailwindcss/aspect-ratio": "0.4.2",
-    "@tailwindcss/typography": "0.5.16",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

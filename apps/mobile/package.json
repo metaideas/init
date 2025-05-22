@@ -38,8 +38,6 @@
     "@sentry/react-native": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
-    "@trpc/client": "catalog:",
-    "@trpc/tanstack-react-query": "catalog:",
     "expo": "53.0.9",
     "expo-blur": "~14.1.4",
     "expo-constants": "~17.1.6",

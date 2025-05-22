@@ -23,8 +23,6 @@
     "@tanstack/react-router": "catalog:",
     "@tauri-apps/api": "2.5.0",
     "@tauri-apps/plugin-opener": "2.2.6",
-    "@trpc/client": "catalog:",
-    "@trpc/tanstack-react-query": "catalog:",
     "hono": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
