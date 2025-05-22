@@ -4,7 +4,7 @@ import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
 
-import db from "@init/db/client"
+import { db } from "@init/db"
 import { captureException } from "@init/observability/error/node"
 import { logger } from "@init/observability/logger"
 

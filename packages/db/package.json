@@ -6,9 +6,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./client": "./src/client/index.ts",
     "./helpers": "./src/helpers.ts",
-    "./schema": "./src/schema/index.ts"
+    "./schema": "./src/schema/index.ts",
+    "./serverless": "./src/serverless.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -18,8 +18,8 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "push": "drizzle-kit push",
-    "reset": "tsx ./scripts/reset.ts",
-    "seed": "tsx ./scripts/seed.ts",
+    "reset": "tsx --env-file=.env ./scripts/reset.ts",
+    "seed": "tsx --env-file=.env ./scripts/seed.ts",
     "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
@@ -28,13 +28,12 @@
     "@init/utils": "workspace:*",
     "@neondatabase/serverless": "^1.0.0",
     "drizzle-orm": "0.43.1",
-    "postgres": "^3.4.5",
-    "ws": "^8.18.2"
+    "pg": "^8.16.0"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/ws": "^8.18.1",
+    "@types/pg": "^8.15.2",
     "drizzle-kit": "0.31.1",
     "drizzle-seed": "0.3.1",
     "tsx": "catalog:",

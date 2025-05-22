@@ -6,9 +6,9 @@ import {
 } from "@init/auth/permissions"
 import { createAuth } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
+import { db } from "@init/db"
 import { sendEmail } from "@init/email"
 import OrganizationInvitation from "@init/email/organization-invitation"
-
 import env from "~/shared/env"
 
 const plugins = [
@@ -50,6 +50,7 @@ export const auth: Auth = createAuth(
   {
     basePath: "/auth",
     baseURL: env.BASE_URL,
+    database: db,
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,

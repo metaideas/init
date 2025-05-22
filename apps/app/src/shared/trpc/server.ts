@@ -5,7 +5,7 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { cache } from "react"
 import superjson from "superjson"
 
-import db from "@init/db/client"
+import { db } from "@init/db/serverless"
 import { logger } from "@init/observability/logger"
 import * as z from "@init/utils/schema"
 

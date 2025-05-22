@@ -9,7 +9,7 @@ import {
 import { headers } from "next/headers"
 
 import { AuthError } from "@init/auth/server"
-import db from "@init/db/client"
+import { db } from "@init/db/serverless"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"

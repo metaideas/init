@@ -2,13 +2,12 @@ import { reset } from "drizzle-seed"
 
 import { prompt, runScript } from "@tooling/helpers"
 
-import { connect } from "@init/db/client"
+import { db } from "@init/db"
 import * as schema from "@init/db/schema"
+import env from "@init/env/db"
 
 async function main() {
   prompt.log.step("Resetting database...")
-
-  const { default: env } = await import("@init/env/db")
 
   if (env.DATABASE_URL?.includes("https")) {
     prompt.log.error("Cannot reset production database")
@@ -18,7 +17,7 @@ async function main() {
   try {
     prompt.log.step("Dropping all tables")
 
-    await reset(connect(), schema)
+    await reset(db, schema)
 
     prompt.log.success(
       "All tables dropped successfully. Database reset complete!"

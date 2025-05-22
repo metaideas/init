@@ -2,12 +2,10 @@ import { seed } from "drizzle-seed"
 
 import { prompt, runProcess, runScript } from "@tooling/helpers"
 
-import { connect } from "@init/db/client"
+import { db } from "@init/db"
 import * as schema from "@init/db/schema"
 
 async function main() {
-  const db = connect()
-
   prompt.log.info("Seeding database...")
 
   await runProcess("drizzle-kit", ["push"])

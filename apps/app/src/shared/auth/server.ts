@@ -12,6 +12,7 @@ import {
 } from "@init/auth/permissions"
 import { createAuth } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
+import { db } from "@init/db/serverless"
 import { sendEmail } from "@init/email"
 import OrganizationInvitation from "@init/email/organization-invitation"
 import { addProtocol } from "@init/utils/url"
@@ -21,6 +22,7 @@ import env from "~/shared/env"
 export const auth = createAuth(
   {
     baseURL: addProtocol(env.VERCEL_URL ?? env.NEXT_PUBLIC_VERCEL_URL),
+    database: db,
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,

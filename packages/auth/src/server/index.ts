@@ -1,7 +1,8 @@
 import { type BetterAuthPlugin, betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
-import db from "@init/db/client"
+import type { db } from "@init/db"
+import type { db as dbServerless } from "@init/db/serverless"
 import env from "@init/env/auth"
 import {
   APP_ID,
@@ -13,16 +14,18 @@ import {
 type CreateAuthOptions = Omit<
   Parameters<typeof betterAuth>[0],
   "appName" | "secret" | "database" | "advanced" | "session" | "plugins"
->
+> & { database: typeof db | typeof dbServerless }
 
 export function createAuth<const Plugins extends BetterAuthPlugin[]>(
-  options: CreateAuthOptions = {},
+  options: CreateAuthOptions,
   plugins: Plugins = [] as unknown as Plugins
 ) {
+  const { database, ...rest } = options
+
   return betterAuth({
     appName: APP_NAME,
     secret: env.AUTH_SECRET,
-    database: drizzleAdapter(db, {
+    database: drizzleAdapter(database, {
       provider: "pg",
       usePlural: true,
     }),
@@ -38,7 +41,7 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
       updateAge: SESSION_UPDATE_AGE,
     },
     plugins,
-    ...options,
+    ...rest,
   })
 }
 

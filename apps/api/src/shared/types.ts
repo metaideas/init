@@ -1,6 +1,6 @@
 import type { HttpBindings } from "@hono/node-server"
 
-import type db from "@init/db/client"
+import type { db } from "@init/db"
 import type { logger } from "@init/observability/logger"
 
 import type { auth } from "~/shared/auth"

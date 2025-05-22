@@ -35,6 +35,7 @@
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-safe-action": "7.10.8",
+    "pg": "^8.16.0",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "catalog:",
