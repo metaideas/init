@@ -1,5 +1,6 @@
 import { Hono } from "hono"
 
+import { sql } from "@init/db/helpers"
 import { ensureEnv } from "@init/env"
 
 import type { AppContext } from "~/shared/types"
@@ -9,7 +10,11 @@ import type { AppContext } from "~/shared/types"
  * the necessary environment variables.
  */
 export default new Hono<AppContext>()
-  .get("/", c => c.text("ok"))
+  .get("/", async c => {
+    await c.var.db.execute(sql`SELECT 1`)
+
+    return c.text("ok")
+  })
   .get("/env", async c => {
     const [auth, db, email, observability] = await Promise.all([
       import("@init/env/auth"),
