@@ -2,9 +2,9 @@ import { RouterProvider } from "@tanstack/react-router"
 import React from "react"
 import ReactDOM from "react-dom/client"
 
-import { createRouter } from "~/router"
+import { createRouter } from "~/shared/router"
 
-const router = createRouter(["/popup"])
+const router = createRouter("/popup")
 
 const rootElement = document.getElementById("root")
 

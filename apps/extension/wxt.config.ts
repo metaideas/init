@@ -14,6 +14,11 @@ export default defineConfig({
   },
   srcDir: "src",
   vite: () => ({
-    plugins: [TanStackRouterVite(), tailwindcss()],
+    plugins: [
+      TanStackRouterVite({
+        generatedRouteTree: "src/shared/router/routeTree.gen.ts",
+      }),
+      tailwindcss(),
+    ],
   }),
 })
