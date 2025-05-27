@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
 import "@init/ui/globals.css"
+import { getLocale } from "@init/internationalization/nextjs/server"
 import { cn } from "@init/utils/ui"
 
 import Providers from "~/shared/components/providers"
@@ -16,13 +17,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
-}: Readonly<{
-  children: ReactNode
-  params: Promise<{ locale: string }>
-}>) {
-  // TODO(adelrodriguez): Replace this with getting the locale from the cookie
-  const { locale } = await params
+}: Readonly<{ children: ReactNode }>) {
+  const locale = await getLocale()
 
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
