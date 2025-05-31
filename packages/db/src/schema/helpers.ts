@@ -5,7 +5,7 @@ import * as z from "@init/utils/schema"
 import type { ConstrainedString } from "@init/utils/type"
 
 // You can add a prefix to table names to host multiple projects on the same
-// database
+// database. For example, ${APP_NAME}_${name}
 export const createTable = pgTableCreator(name => name)
 
 export const UNIQUE_ID_LENGTH = 24

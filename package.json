@@ -7,6 +7,7 @@
     "check": "turbo check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "db:push": "turbo --filter @init/db push",
+    "db:migrate": "turbo --filter @init/db migrate",
     "db:studio": "turbo --filter @init/db studio",
     "deps:check": "taze -rl",
     "deps:list": "syncpack list",

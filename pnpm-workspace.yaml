@@ -22,8 +22,8 @@ catalog:
   "@roninoss/icons": "0.0.4"
 
   # Next.js
-  next: 15.3.2
-  "@next/bundle-analyzer": 15.3.2
+  next: 15.3.3
+  "@next/bundle-analyzer": 15.3.3
 
   # TanStack
   "@tanstack/react-query": 5.76.1
@@ -65,18 +65,7 @@ catalogs:
 
 onlyBuiltDependencies:
   - "@biomejs/biome"
-  - "@parcel/watcher"
-  - "@sentry/cli"
-  - "@tailwindcss/oxide"
-  - "@upstash/qstash-cli"
-  - "core-js"
-  - "core-js-pure"
-  - "dtrace-provider"
-  - "esbuild"
-  - "msgpackr-extract"
-  - "msw"
-  - "sharp"
-  - "spawn-sync"
+
 
 publicHoistPattern:
   - "require-in-the-middle"
