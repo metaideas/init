@@ -1,3 +1,5 @@
+"use client"
+
 import { QueryClient } from "@tanstack/react-query"
 import type { TRPCClient } from "api/client"
 

@@ -1,5 +1,5 @@
 {
-  "extends": "@tooling/tsconfig/vite.json",
+  "extends": "@tooling/tsconfig/web.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -7,6 +7,12 @@
       "~~/*": ["./*"]
     }
   },
-  "include": ["src", "reset.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules"],
+  "include": [
+    "reset.d.ts",
+    "src",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "ext.config.ts"
+  ]
 }

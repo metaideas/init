@@ -10,35 +10,30 @@
     "dev": "tauri dev",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "typecheck": "tsc --noEmit",
-    "vite:build": "tsc && vite build",
-    "vite:dev": "vite",
-    "vite:preview": "vite preview"
+    "next:build": "next build",
+    "next:dev": "next dev --turbopack --port 3003",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "catalog:",
-    "@tanstack/react-router": "catalog:",
     "@tauri-apps/api": "2.5.0",
     "@tauri-apps/plugin-opener": "2.2.6",
     "hono": "catalog:",
+    "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "superjson": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "catalog:",
-    "@tanstack/router-devtools": "catalog:",
-    "@tanstack/router-plugin": "catalog:",
     "@tauri-apps/cli": "2.5.0",
+    "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "4.4.1",
     "api": "workspace:*",
-    "typescript": "catalog:",
-    "vite": "catalog:"
+    "typescript": "catalog:"
   }
 }

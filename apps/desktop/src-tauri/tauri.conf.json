@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "com.desktop.app",
   "build": {
-    "beforeDevCommand": "pnpm vite:dev",
+    "beforeBuildCommand": "pnpm next:build",
+    "beforeDevCommand": "pnpm next:dev",
     "devUrl": "http://localhost:3003",
-    "beforeBuildCommand": "pnpm vite:build",
-    "frontendDist": "../dist"
+    "frontendDist": "../out"
   },
   "app": {
     "windows": [

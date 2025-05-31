@@ -16,15 +16,14 @@ export default new Hono<AppContext>()
     return c.text("ok")
   })
   .get("/env", async c => {
-    const [auth, db, email, observability] = await Promise.all([
+    const [auth, db, observability] = await Promise.all([
       import("@init/env/auth"),
       import("@init/env/db"),
-      import("@init/env/email"),
       import("@init/env/observability/server"),
     ])
 
     // Ensure environment variables are set
-    ensureEnv([auth, db, observability, email])
+    ensureEnv([auth, db, observability])
 
     return c.text("ok")
   })

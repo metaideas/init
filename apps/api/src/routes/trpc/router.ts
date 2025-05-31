@@ -15,7 +15,7 @@ const usersRouter = createRouter({
 export const trpcRouter = createRouter({
   hello: publicProcedure.query(() => {
     return {
-      message: "Hello from TRPC!",
+      message: "Hello, this message is from the TRPC server!",
     }
   }),
   users: usersRouter,
