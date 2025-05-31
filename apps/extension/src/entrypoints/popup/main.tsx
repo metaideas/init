@@ -1,10 +1,11 @@
-import { RouterProvider } from "@tanstack/react-router"
 import React from "react"
 import ReactDOM from "react-dom/client"
+import { HashRouter, Route, Routes } from "react-router"
 
-import { createRouter } from "~/shared/router"
+import "@init/ui/globals.css"
 
-const router = createRouter("/popup")
+import PopupDemo from "~/features/demo/components/popup-demo"
+import SettingsDemo from "~/features/demo/components/settings-demo"
 
 const rootElement = document.getElementById("root")
 
@@ -15,7 +16,12 @@ if (!rootElement) {
 if (!rootElement.innerHTML) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <HashRouter>
+        <Routes>
+          <Route index element={<PopupDemo />} />
+          <Route path="/settings" element={<SettingsDemo />} />
+        </Routes>
+      </HashRouter>
     </React.StrictMode>
   )
 }

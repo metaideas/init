@@ -28,9 +28,6 @@ catalog:
   # TanStack
   "@tanstack/react-query": 5.76.1
   "@tanstack/react-form": 1.11.2
-  "@tanstack/react-router": 1.120.5
-  "@tanstack/router-devtools": 1.120.6
-  "@tanstack/router-plugin": 1.120.5
 
   # TRPC
   "@trpc/client": 11.1.2

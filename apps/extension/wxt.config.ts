@@ -1,5 +1,4 @@
 import tailwindcss from "@tailwindcss/vite"
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import { defineConfig } from "wxt"
 
 // See https://wxt.dev/api/config.html
@@ -14,11 +13,6 @@ export default defineConfig({
   },
   srcDir: "src",
   vite: () => ({
-    plugins: [
-      TanStackRouterVite({
-        generatedRouteTree: "src/shared/router/routeTree.gen.ts",
-      }),
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   }),
 })

@@ -186,8 +186,7 @@ apps/api
 ```sh
 apps/desktop
   ├── src/                    # Source code
-  │   ├── main.tsx              # Entry point to the desktop app
-  │   ├── routes/               # Routing
+  │   ├── app/                  # Entry point to the desktop app
   │   │
   │   ├── shared/               # Shared utilities and helpers
   │   │   ├── assets/            # Static assets shared across the app
@@ -246,29 +245,20 @@ apps/extensions
   │   │   ├── utils.ts          # Shared utilities for the app
   │   │   └── validation.ts     # Shared validation schemas
   │   │
-  │   ├── features/             # Feature based modules
-  │   │   └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-  │   │       ├── assets/          # Feature-specific assets
-  │   │       ├── components/      # Feature-specific components
-  │   │       ├── hooks.ts         # Feature-specific hooks
-  │   │       ├── mutations.ts     # Feature-specific mutations
-  │   │       ├── queries.ts       # Feature-specific queries
-  │   │       ├── services.ts      # Feature-specific services
-  │   │       ├── stores.ts        # Feature-specific global state stores
-  │   │       ├── types.ts         # Feature-specific types
-  │   │       ├── utils.ts         # Feature-specific utilities
-  │   │       └── validation.ts    # Feature-specific validation schemas
-  │   │
-  │   ├── routes/               # Routing shared by all entrypoints
-  │   │   ├── __root.tsx          # Root route
-  │   │   └── ...                 # Other routes
-  │   │
-  │   ├── static/               # Static assets not processed by WXT. Includes the extension icon.
-  │   │
-  │   ├── router.ts             # Router instance
-  │   └── routeTree.gen.ts      # Auto-generated route tree
+  │   └── features/             # Feature based modules
+  │       └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
+  │           ├── assets/          # Feature-specific assets
+  │           ├── components/      # Feature-specific components
+  │           ├── hooks/         # Feature-specific hooks
+  │           ├── mutations.ts     # Feature-specific mutations
+  │           ├── queries.ts       # Feature-specific queries
+  │           ├── services.ts      # Feature-specific services
+  │           ├── stores.ts        # Feature-specific global state stores
+  │           ├── types.ts         # Feature-specific types
+  │           ├── utils.ts         # Feature-specific utilities
+  │           └── validation.ts    # Feature-specific validation schemas
   │
-  └── wxt.config.ts           # WXT configuration
+  └── public/                 # Static assets not processed by WXT. Includes the extension icon.
 ```
 
 ### Docs
