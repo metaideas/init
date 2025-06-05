@@ -1,6 +1,6 @@
 ---
 description: Expo best practices for building mobile apps
-globs: apps/mobile/src/**/*.(ts|tsx)
+globs: apps/mobile/**
 alwaysApply: false
 ---
 - Prefer functional components with React hooks

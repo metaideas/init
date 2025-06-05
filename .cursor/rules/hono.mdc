@@ -1,6 +1,6 @@
 ---
 description: Hono best practices for building APIs and middleware
-globs: apps/api/src/**/*.(ts|tsx)
+globs: apps/api/**
 alwaysApply: false
 ---
 - Use middleware for authentication and logging

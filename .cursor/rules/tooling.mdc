@@ -1,6 +1,6 @@
 ---
 description: Instructions on developing tooling and scripts
-globs: {scripts/*.ts,apps/**/scripts/*.ts,packages/**/scripts/*.ts,!(node_modules)/**/scripts/*.ts}
+globs: apps/**/scripts/*.ts,packages/**/scripts/*.ts,scripts/*.ts
 alwaysApply: false
 ---
 - For all scripts, use the tooling inside [index.ts](mdc:tooling/helpers/index.ts).

@@ -1,6 +1,6 @@
 ---
 description: Web UI best practices
-globs: apps/!(mobile)/src/**/*.(ts|tsx)
+globs: apps/app/**,apps/desktop/**,apps/docs/**,apps/extension/**,apps/web/**
 alwaysApply: false
 ---
 - Use components inside `@init/ui` with proper composition and customization

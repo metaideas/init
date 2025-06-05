@@ -1,6 +1,6 @@
 ---
 description: Guideline for the coding style used in this monorepo.
-globs: *.(ts|tsx)
+globs: *.ts,*.tsx
 alwaysApply: false
 ---
 # Coding Style and Conventions

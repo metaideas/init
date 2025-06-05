@@ -1,6 +1,6 @@
 ---
 description: Instructions for adding unit tests
-globs: /**/*.test.(ts|tsx)
+globs: **/*.test.ts,**/*.test.tsx
 alwaysApply: false
 ---
 - We are using Vitest for testing. Follow Vitest best practices.

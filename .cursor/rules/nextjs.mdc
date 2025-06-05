@@ -1,6 +1,6 @@
 ---
 description: Best practices for Next.js projects using App Router
-globs: apps/(docs|web)/src/**/*.(ts|tsx)
+globs: apps/docs/**,apps/web/**,apps/app/**
 alwaysApply: false
 ---
 - Prioritize using server components (RSC) for performance, SEO, and data fetching.

@@ -1,6 +1,6 @@
 ---
 description: Native UI best practices
-globs: apps/mobile/src/**/*.(ts|tsx)
+globs: apps/mobile/**
 alwaysApply: false
 ---
 - Use components inside `@init/native-ui` with proper composition and customization
