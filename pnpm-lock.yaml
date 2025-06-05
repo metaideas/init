@@ -1546,8 +1546,8 @@ importers:
   tooling/helpers:
     devDependencies:
       '@clack/prompts':
-        specifier: 0.10.1
-        version: 0.10.1
+        specifier: 0.11.0
+        version: 0.11.0
       '@tooling/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -1591,8 +1591,8 @@ importers:
         specifier: 1.0.8
         version: 1.0.8
       '@tsconfig/vite-react':
-        specifier: 3.4.0
-        version: 3.4.0
+        specifier: 6.3.5
+        version: 6.3.5
 
 packages:
 
@@ -2361,8 +2361,14 @@ packages:
   '@clack/core@0.4.2':
     resolution: {integrity: sha512-NYQfcEy8MWIxrT5Fj8nIVchfRFA26yYKJcvBS7WlUIlw2OmQOY9DhGGXMovyI5J5PpxrCPGkgUi207EBrjpBvg==}
 
+  '@clack/core@0.5.0':
+    resolution: {integrity: sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow==}
+
   '@clack/prompts@0.10.1':
     resolution: {integrity: sha512-Q0T02vx8ZM9XSv9/Yde0jTmmBQufZhPJfYAg2XrrrxWWaZgq1rr8nU8Hv710BQ1dhoP8rtY7YUdpGej2Qza/cw==}
+
+  '@clack/prompts@0.11.0':
+    resolution: {integrity: sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw==}
 
   '@clerc/core@0.44.0':
     resolution: {integrity: sha512-o8RgXNcMRoHRujSw9OPDMxqrmoNk7HG0XAZkjZgOrSyIfRXCf85VLyHGBT3XmaOrPEGY964h02ZxMVFdp8RnNQ==}
@@ -6307,8 +6313,8 @@ packages:
   '@tsconfig/recommended@1.0.8':
     resolution: {integrity: sha512-TotjFaaXveVUdsrXCdalyF6E5RyG6+7hHHQVZonQtdlk1rJZ1myDIvPUUKPhoYv+JAzThb2lQJh9+9ZfF46hsA==}
 
-  '@tsconfig/vite-react@3.4.0':
-    resolution: {integrity: sha512-NxS7WJayciLI+UnCgEqdBfQrZebvVNTSEj5EnaitwThL7iAso5G8wx18B/6yypCFGnyu8p6IMpKWu6JklOX3KA==}
+  '@tsconfig/vite-react@6.3.5':
+    resolution: {integrity: sha512-1JDbtNCgexy5HuQdBkFHv38u5j79XWI1KWs6Jxwnm9i2rD1IPWyzlPqh4vgsAiRu1Zy1d26wxxSJYVqGaDJ+PQ==}
 
   '@turbo/gen@2.5.3':
     resolution: {integrity: sha512-Pek4Amm5HcBzHkR0GdnMmRZlMwIRkgKW2SZ4/BfN+CY8BolJH6Wesjg1FkFEYD/DqnqeKUf98YWDsxmfILrpSA==}
@@ -15544,9 +15550,20 @@ snapshots:
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
+  '@clack/core@0.5.0':
+    dependencies:
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+
   '@clack/prompts@0.10.1':
     dependencies:
       '@clack/core': 0.4.2
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+
+  '@clack/prompts@0.11.0':
+    dependencies:
+      '@clack/core': 0.5.0
       picocolors: 1.1.1
       sisteransi: 1.0.5
 
@@ -19966,7 +19983,7 @@ snapshots:
 
   '@tsconfig/recommended@1.0.8': {}
 
-  '@tsconfig/vite-react@3.4.0': {}
+  '@tsconfig/vite-react@6.3.5': {}
 
   '@turbo/gen@2.5.3(@types/node@22.15.17)(typescript@5.8.3)':
     dependencies:

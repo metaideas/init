@@ -13,6 +13,6 @@
     "@tsconfig/next": "2.0.3",
     "@tsconfig/react-native": "3.0.5",
     "@tsconfig/recommended": "1.0.8",
-    "@tsconfig/vite-react": "3.4.0"
+    "@tsconfig/vite-react": "6.3.5"
   }
 }
