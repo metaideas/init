@@ -36,7 +36,6 @@
     "@tanstack/react-form": "catalog:",
     "class-variance-authority": "catalog:",
     "expo-navigation-bar": "^4.2.4",
-    "lucide-react-native": "0.475.0",
     "react-native": "catalog:",
     "react-native-reanimated": "catalog:"
   },
