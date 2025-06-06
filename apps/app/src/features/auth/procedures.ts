@@ -8,7 +8,7 @@ const checkEmailAvailability = publicProcedure
   .use(
     withRateLimitByIp("auth.checkEmailAvailability", slidingWindow(10, "60 s"))
   )
-  .input(z.object({ email: z.string().email() }))
+  .input(z.object({ email: z.email() }))
   .query(async ({ input, ctx }) => {
     const user = await ctx.db.query.users.findFirst({
       where: (users, { eq }) => eq(users.email, input.email),

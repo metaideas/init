@@ -6,15 +6,39 @@ settings:
 
 catalogs:
   default:
+    '@next/bundle-analyzer':
+      specifier: 15.3.3
+      version: 15.3.3
     '@react-navigation/native':
       specifier: 7.1.9
       version: 7.1.9
     '@roninoss/icons':
       specifier: 0.0.4
       version: 0.0.4
+    '@sentry/react-native':
+      specifier: 6.10.0
+      version: 6.10.0
+    '@tailwindcss/vite':
+      specifier: 4.1.7
+      version: 4.1.7
     '@tanstack/react-form':
       specifier: 1.11.2
       version: 1.11.2
+    '@tanstack/react-query':
+      specifier: 5.76.1
+      version: 5.76.1
+    '@trpc/client':
+      specifier: 11.1.2
+      version: 11.1.2
+    '@trpc/server':
+      specifier: 11.1.2
+      version: 11.1.2
+    '@trpc/tanstack-react-query':
+      specifier: 11.1.2
+      version: 11.1.2
+    '@types/node':
+      specifier: 22.15.17
+      version: 22.15.17
     '@types/react':
       specifier: 19.0.14
       version: 19.0.14
@@ -24,15 +48,58 @@ catalogs:
     class-variance-authority:
       specifier: 0.7.1
       version: 0.7.1
+    hono:
+      specifier: 4.7.9
+      version: 4.7.9
+    lucide-react:
+      specifier: 0.475.0
+      version: 0.475.0
+    nativewind:
+      specifier: 4.1.23
+      version: 4.1.23
+    next:
+      specifier: 15.3.3
+      version: 15.3.3
+    pino:
+      specifier: 9.6.0
+      version: 9.6.0
+    posthog-js:
+      specifier: 1.242.0
+      version: 1.242.0
+    posthog-react-native:
+      specifier: 3.15.2
+      version: 3.15.2
+    react:
+      specifier: 19.0.0
+      version: 19.0.0
+    react-dom:
+      specifier: 19.0.0
+      version: 19.0.0
     react-native:
       specifier: 0.79.2
       version: 0.79.2
     react-native-reanimated:
       specifier: 3.17.5
       version: 3.17.5
+    server-only:
+      specifier: 0.0.1
+      version: 0.0.1
+    superjson:
+      specifier: 2.2.2
+      version: 2.2.2
+    tsx:
+      specifier: 4.19.4
+      version: 4.19.4
     typescript:
       specifier: 5.8.3
       version: 5.8.3
+    vitest:
+      specifier: 3.1.3
+      version: 3.1.3
+  tailwind3:
+    tailwindcss:
+      specifier: 3.4.17
+      version: 3.4.17
 
 importers:
 
@@ -85,7 +152,7 @@ importers:
         version: 0.3.4(@trpc/server@11.1.2(typescript@5.8.3))(hono@4.7.9)
       '@hono/zod-validator':
         specifier: 0.4.3
-        version: 0.4.3(hono@4.7.9)(zod@3.25.6)
+        version: 0.4.3(hono@4.7.9)(zod@3.25.55)
       '@init/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -104,6 +171,9 @@ importers:
       '@init/queue':
         specifier: workspace:*
         version: link:../../packages/queue
+      '@init/security':
+        specifier: workspace:*
+        version: link:../../packages/security
       '@init/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -683,16 +753,16 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: 1.2.11
-        version: 1.2.11(zod@3.25.6)
+        version: 1.2.11(zod@3.25.55)
       '@ai-sdk/deepseek':
         specifier: 0.2.14
-        version: 0.2.14(zod@3.25.6)
+        version: 0.2.14(zod@3.25.55)
       '@ai-sdk/google':
         specifier: 1.2.18
-        version: 1.2.18(zod@3.25.6)
+        version: 1.2.18(zod@3.25.55)
       '@ai-sdk/openai':
         specifier: 1.3.22
-        version: 1.3.22(zod@3.25.6)
+        version: 1.3.22(zod@3.25.55)
       '@init/env':
         specifier: workspace:*
         version: link:../env
@@ -704,10 +774,10 @@ importers:
         version: 1.2.1
       ai:
         specifier: 4.3.16
-        version: 4.3.16(react@19.0.0)(zod@3.25.6)
+        version: 4.3.16(react@19.0.0)(zod@3.25.55)
       orate:
         specifier: 2.0.6
-        version: 2.0.6(@types/node@22.15.17)(bufferutil@4.0.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.40.0)(tsx@4.19.4)(utf-8-validate@5.0.10)(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(yaml@2.8.0)(zod@3.25.6)
+        version: 2.0.6(@types/node@22.15.17)(bufferutil@4.0.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.40.0)(tsx@4.19.4)(utf-8-validate@5.0.10)(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(yaml@2.8.0)(zod@3.25.55)
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -901,10 +971,10 @@ importers:
         version: link:../utils
       '@t3-oss/env-core':
         specifier: 0.12.0
-        version: 0.12.0(typescript@5.8.3)(zod@3.25.6)
+        version: 0.12.0(typescript@5.8.3)(zod@3.25.55)
       '@t3-oss/env-nextjs':
         specifier: 0.12.0
-        version: 0.12.0(typescript@5.8.3)(zod@3.25.6)
+        version: 0.12.0(typescript@5.8.3)(zod@3.25.55)
     devDependencies:
       '@tooling/tsconfig':
         specifier: workspace:*
@@ -1068,7 +1138,7 @@ importers:
         version: 19.0.6(@types/react@19.0.14)
       tailwindcss-animate:
         specifier: 1.0.7
-        version: 1.0.7
+        version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3)))
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -1445,11 +1515,11 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
       zod:
-        specifier: 3.25.6
-        version: 3.25.6
+        specifier: 3.25.55
+        version: 3.25.55
       zod-form-data:
         specifier: 3.0.0
-        version: 3.0.0(zod@3.25.6)
+        version: 3.0.0(zod@3.25.55)
     devDependencies:
       '@tooling/testing':
         specifier: workspace:*
@@ -2860,7 +2930,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {'0': node >=0.10.0}
+    engines: {node: '>=0.10.0'}
 
   '@expo/cli@0.24.13':
     resolution: {integrity: sha512-2LSdbvYs+WmUljnplQXMCUyNzyX4H+F4l8uExfA1hud25Bl5kyaGrx1jjtgNxMTXmfmMjvgBdK798R50imEhkA==}
@@ -14496,6 +14566,9 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
+  zod@3.25.55:
+    resolution: {integrity: sha512-219huNnkSLQnLsQ3uaRjXsxMrVm5C9W3OOpEVt2k5tvMKuA8nBSu38e0B//a+he9Iq2dvmk2VyYVlHqiHa4YBA==}
+
   zod@3.25.6:
     resolution: {integrity: sha512-kA1wikWvfsP+z3L6mzUJJRQz1Y28BR0Bu/MTWeYbfaFJ8c+OLOt1Bb8d4V3Mk1480H+poPYG6BjS/I4kJ1U8WA==}
 
@@ -14535,36 +14608,49 @@ snapshots:
       defu: 6.1.4
       many-keys-map: 2.0.1
 
-  '@ai-sdk/anthropic@1.2.11(zod@3.25.6)':
+  '@ai-sdk/anthropic@1.2.11(zod@3.25.55)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
 
-  '@ai-sdk/deepseek@0.2.14(zod@3.25.6)':
+  '@ai-sdk/deepseek@0.2.14(zod@3.25.55)':
     dependencies:
-      '@ai-sdk/openai-compatible': 0.2.14(zod@3.25.6)
+      '@ai-sdk/openai-compatible': 0.2.14(zod@3.25.55)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
 
-  '@ai-sdk/google@1.2.18(zod@3.25.6)':
+  '@ai-sdk/google@1.2.18(zod@3.25.55)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
 
-  '@ai-sdk/openai-compatible@0.2.14(zod@3.25.6)':
+  '@ai-sdk/openai-compatible@0.2.14(zod@3.25.55)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
+
+  '@ai-sdk/openai@1.3.22(zod@3.25.55)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
 
   '@ai-sdk/openai@1.3.22(zod@3.25.6)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
       zod: 3.25.6
+
+  '@ai-sdk/provider-utils@2.2.8(zod@3.25.55)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      nanoid: 3.3.11
+      secure-json-parse: 2.7.0
+      zod: 3.25.55
 
   '@ai-sdk/provider-utils@2.2.8(zod@3.25.6)':
     dependencies:
@@ -14577,6 +14663,16 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
+  '@ai-sdk/react@1.2.12(react@19.0.0)(zod@3.25.55)':
+    dependencies:
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.55)
+      react: 19.0.0
+      swr: 2.3.3(react@19.0.0)
+      throttleit: 2.1.0
+    optionalDependencies:
+      zod: 3.25.55
+
   '@ai-sdk/react@1.2.12(react@19.0.0)(zod@3.25.6)':
     dependencies:
       '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
@@ -14586,6 +14682,13 @@ snapshots:
       throttleit: 2.1.0
     optionalDependencies:
       zod: 3.25.6
+
+  '@ai-sdk/ui-utils@1.2.11(zod@3.25.55)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      zod: 3.25.55
+      zod-to-json-schema: 3.24.5(zod@3.25.55)
 
   '@ai-sdk/ui-utils@1.2.11(zod@3.25.6)':
     dependencies:
@@ -14737,7 +14840,7 @@ snapshots:
       '@babel/traverse': 7.27.4
       '@babel/types': 7.27.3
       convert-source-map: 2.0.0
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -14789,7 +14892,7 @@ snapshots:
       '@babel/core': 7.27.1
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-plugin-utils': 7.27.1
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -15317,7 +15420,7 @@ snapshots:
       '@babel/parser': 7.27.4
       '@babel/template': 7.27.2
       '@babel/types': 7.27.3
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -15856,7 +15959,7 @@ snapshots:
       ci-info: 3.9.0
       compression: 1.8.0
       connect: 3.7.0
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       env-editor: 0.4.2
       freeport-async: 2.0.0
       getenv: 1.0.0
@@ -15975,7 +16078,7 @@ snapshots:
       '@expo/plist': 0.3.4
       '@expo/sdk-runtime-versions': 1.0.0
       chalk: 4.1.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       getenv: 1.0.0
       glob: 10.4.5
       resolve-from: 5.0.0
@@ -16078,7 +16181,7 @@ snapshots:
   '@expo/env@1.0.5':
     dependencies:
       chalk: 4.1.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       dotenv: 16.4.7
       dotenv-expand: 11.0.7
       getenv: 1.0.0
@@ -16090,7 +16193,7 @@ snapshots:
       '@expo/spawn-async': 1.7.2
       arg: 5.0.2
       chalk: 4.1.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       find-up: 5.0.0
       getenv: 1.0.0
       minimatch: 9.0.5
@@ -16158,7 +16261,7 @@ snapshots:
       '@expo/json-file': 9.1.4
       '@expo/spawn-async': 1.7.2
       chalk: 4.1.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       dotenv: 16.4.7
       dotenv-expand: 11.0.7
       getenv: 1.0.0
@@ -16279,7 +16382,7 @@ snapshots:
       '@expo/image-utils': 0.7.4
       '@expo/json-file': 9.1.4
       '@react-native/normalize-colors': 0.79.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       resolve-from: 5.0.0
       semver: 7.7.2
       xml2js: 0.6.0
@@ -16546,10 +16649,10 @@ snapshots:
       '@trpc/server': 11.1.2(typescript@5.8.3)
       hono: 4.7.9
 
-  '@hono/zod-validator@0.4.3(hono@4.7.9)(zod@3.25.6)':
+  '@hono/zod-validator@0.4.3(hono@4.7.9)(zod@3.25.55)':
     dependencies:
       hono: 4.7.9
-      zod: 3.25.6
+      zod: 3.25.55
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -17264,7 +17367,7 @@ snapshots:
       supports-color: 8.1.1
       supports-hyperlinks: 2.3.0
       ts-node: 10.9.2(@types/node@22.15.29)(typescript@5.8.3)
-      tslib: 2.6.2
+      tslib: 2.8.1
       widest-line: 3.1.0
       wordwrap: 1.0.0
       wrap-ansi: 7.0.0
@@ -19603,17 +19706,17 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.12.0(typescript@5.8.3)(zod@3.25.6)':
+  '@t3-oss/env-core@0.12.0(typescript@5.8.3)(zod@3.25.55)':
     optionalDependencies:
       typescript: 5.8.3
-      zod: 3.25.6
+      zod: 3.25.55
 
-  '@t3-oss/env-nextjs@0.12.0(typescript@5.8.3)(zod@3.25.6)':
+  '@t3-oss/env-nextjs@0.12.0(typescript@5.8.3)(zod@3.25.55)':
     dependencies:
-      '@t3-oss/env-core': 0.12.0(typescript@5.8.3)(zod@3.25.6)
+      '@t3-oss/env-core': 0.12.0(typescript@5.8.3)(zod@3.25.55)
     optionalDependencies:
       typescript: 5.8.3
-      zod: 3.25.6
+      zod: 3.25.55
 
   '@tailwindcss/node@4.1.7':
     dependencies:
@@ -19946,7 +20049,7 @@ snapshots:
 
   '@types/duplexify@3.6.4':
     dependencies:
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
 
   '@types/eslint-scope@3.7.7':
     dependencies:
@@ -19982,7 +20085,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
 
   '@types/graceful-fs@4.1.9':
     dependencies:
@@ -20056,7 +20159,7 @@ snapshots:
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
       form-data: 4.0.2
 
   '@types/node@13.13.52': {}
@@ -20094,7 +20197,7 @@ snapshots:
   '@types/pumpify@1.4.4':
     dependencies:
       '@types/duplexify': 3.6.4
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
 
   '@types/react-dom@19.0.6(@types/react@19.0.14)':
     dependencies:
@@ -20116,7 +20219,7 @@ snapshots:
   '@types/request@2.48.12':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.3
 
@@ -20140,7 +20243,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
 
   '@types/tinycolor2@1.4.6': {}
 
@@ -20156,7 +20259,7 @@ snapshots:
 
   '@types/websocket@1.0.10':
     dependencies:
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -20545,6 +20648,18 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
+  ai@4.3.16(react@19.0.0)(zod@3.25.55):
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.55)
+      '@ai-sdk/react': 1.2.12(react@19.0.0)(zod@3.25.55)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.55)
+      '@opentelemetry/api': 1.9.0
+      jsondiffpatch: 0.6.0
+      zod: 3.25.55
+    optionalDependencies:
+      react: 19.0.0
+
   ai@4.3.16(react@19.0.0)(zod@3.25.6):
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -20848,7 +20963,7 @@ snapshots:
       babel-plugin-react-native-web: 0.19.13
       babel-plugin-syntax-hermes-parser: 0.25.1
       babel-plugin-transform-flow-enums: 0.0.2(@babel/core@7.27.1)
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       react-refresh: 0.14.2
       resolve-from: 5.0.0
     transitivePeerDependencies:
@@ -21721,10 +21836,6 @@ snapshots:
       ms: 2.1.3
 
   debug@4.3.7:
-    dependencies:
-      ms: 2.1.3
-
-  debug@4.4.1:
     dependencies:
       ms: 2.1.3
 
@@ -22662,7 +22773,7 @@ snapshots:
   expo-navigation-bar@4.2.4(expo@53.0.9(@babel/core@7.27.1)(@expo/metro-runtime@5.0.4(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10)))(bufferutil@4.0.9)(graphql@16.11.0)(react-native-webview@13.13.5(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0)(utf-8-validate@5.0.10))(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0):
     dependencies:
       '@react-native/normalize-colors': 0.79.2
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       expo: 53.0.9(@babel/core@7.27.1)(@expo/metro-runtime@5.0.4(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10)))(bufferutil@4.0.9)(graphql@16.11.0)(react-native-webview@13.13.5(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0)(utf-8-validate@5.0.10)
       react: 19.0.0
       react-native: 0.79.2(@babel/core@7.27.1)(@types/react@19.0.14)(bufferutil@4.0.9)(react@19.0.0)(utf-8-validate@5.0.10)
@@ -23458,7 +23569,7 @@ snapshots:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.3.2
+      fast-glob: 3.3.3
       ignore: 5.3.0
       merge2: 1.4.1
       slash: 3.0.0
@@ -23810,7 +23921,7 @@ snapshots:
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -25468,7 +25579,7 @@ snapshots:
 
   metro-file-map@0.82.4:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       fb-watchman: 2.0.2
       flow-enums-runtime: 0.0.6
       graceful-fs: 4.2.11
@@ -25564,7 +25675,7 @@ snapshots:
       chalk: 4.1.2
       ci-info: 2.0.0
       connect: 3.7.0
-      debug: 4.4.1
+      debug: 4.4.1(supports-color@8.1.1)
       error-stack-parser: 2.1.4
       flow-enums-runtime: 0.0.6
       graceful-fs: 4.2.11
@@ -26426,6 +26537,21 @@ snapshots:
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
 
+  openai@4.104.0(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.55):
+    dependencies:
+      '@types/node': 18.19.110
+      '@types/node-fetch': 2.6.12
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    optionalDependencies:
+      ws: 8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      zod: 3.25.55
+    transitivePeerDependencies:
+      - encoding
+
   openai@4.104.0(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.6):
     dependencies:
       '@types/node': 18.19.110
@@ -26510,7 +26636,7 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.1.0
 
-  orate@2.0.6(@types/node@22.15.17)(bufferutil@4.0.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.40.0)(tsx@4.19.4)(utf-8-validate@5.0.10)(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(yaml@2.8.0)(zod@3.25.6):
+  orate@2.0.6(@types/node@22.15.17)(bufferutil@4.0.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.40.0)(tsx@4.19.4)(utf-8-validate@5.0.10)(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(yaml@2.8.0)(zod@3.25.55):
     dependencies:
       '@cartesia/cartesia-js': 2.2.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@deepgram/sdk': 3.13.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -26530,7 +26656,7 @@ snapshots:
       ky: 1.8.1
       lmnt-node: 2.4.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       microsoft-cognitiveservices-speech-sdk: 1.44.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      openai: 4.104.0(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.6)
+      openai: 4.104.0(ws@8.18.2(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.55)
       replicate: 1.0.1
       revai-node-sdk: 3.8.5
       typescript: 5.8.3
@@ -27062,7 +27188,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.15.17
+      '@types/node': 22.15.29
       long: 5.3.2
 
   proxy-addr@2.0.7:
@@ -28754,7 +28880,9 @@ snapshots:
 
   tailwind-merge@3.3.0: {}
 
-  tailwindcss-animate@1.0.7: {}
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))):
+    dependencies:
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))
 
   tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3)):
     dependencies:
@@ -30122,14 +30250,20 @@ snapshots:
       async: 3.2.6
       jszip: 3.10.1
 
-  zod-form-data@3.0.0(zod@3.25.6):
+  zod-form-data@3.0.0(zod@3.25.55):
     dependencies:
       '@rvf/set-get': 7.0.1
-      zod: 3.25.6
+      zod: 3.25.55
+
+  zod-to-json-schema@3.24.5(zod@3.25.55):
+    dependencies:
+      zod: 3.25.55
 
   zod-to-json-schema@3.24.5(zod@3.25.6):
     dependencies:
       zod: 3.25.6
+
+  zod@3.25.55: {}
 
   zod@3.25.6: {}
 

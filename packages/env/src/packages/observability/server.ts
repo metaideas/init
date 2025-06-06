@@ -10,7 +10,7 @@ export default createEnv({
     SENTRY_DSN: z.string(),
     SENTRY_ORG: z.string(),
     SENTRY_PROJECT: z.string(),
-    SENTRY_DEBUG: z.booleanLike().optional().default(false),
+    SENTRY_DEBUG: z.stringbool().optional().default(false),
     SENTRY_AUTH_TOKEN: z.string(),
   },
   runtimeEnv: process.env,

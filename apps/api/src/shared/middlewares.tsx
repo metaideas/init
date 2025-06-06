@@ -3,6 +3,7 @@ import { HTTPException } from "hono/http-exception"
 import type { ContentfulStatusCode } from "hono/utils/http-status"
 
 import type { MessageBody, MessageType } from "@init/queue/messages"
+import { createRateLimiter } from "@init/security/ratelimit"
 import type { DeepMerge } from "@init/utils/type"
 
 import type { Session } from "~/shared/auth"
@@ -39,6 +40,36 @@ export function verifyMessage<T extends MessageType>(type: T) {
     }
 
     c.set("message", message.body)
+
+    await next()
+  })
+}
+
+export function rateLimitByIp(
+  name: string,
+  limiter: Parameters<typeof createRateLimiter>[1]["limiter"]
+) {
+  const rateLimiter = createRateLimiter(name, { limiter })
+
+  return createMiddleware<AppContext>(async (c, next) => {
+    const ip =
+      c.req.header("CF-Connecting-IP") ??
+      c.req.header("X-Forwarded-For") ??
+      c.req.header("X-Real-IP") ??
+      "anonymous"
+
+    const { success, limit, remaining, reset } = await rateLimiter.limit(ip)
+
+    c.res.headers.set("X-RateLimit-Limit", limit.toString())
+    c.res.headers.set("X-RateLimit-Remaining", remaining.toString())
+    c.res.headers.set("X-RateLimit-Reset", reset.toString())
+
+    if (!success) {
+      throw new HTTPException(429, {
+        message: "Too many requests",
+        cause: { limit, remaining, reset },
+      })
+    }
 
     await next()
   })

@@ -1,8 +1,11 @@
-import { createNextjsEnv } from "@init/env"
+import { createEnv } from "@init/env/nextjs"
 import { vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 
-export default createNextjsEnv({
+// Packages
+import observabilityEnv from "@init/env/observability/nextjs"
+
+export default createEnv({
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string(),
   },
@@ -11,7 +14,12 @@ export default createNextjsEnv({
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
   },
   server: {
-    ANALYZE: z.booleanLike().default(false),
+    ANALYZE: z.stringbool().default(false),
   },
-  extends: [vercel()],
+  extends: [
+    vercel(),
+
+    // Packages
+    observabilityEnv,
+  ],
 })

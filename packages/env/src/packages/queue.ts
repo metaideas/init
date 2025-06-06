@@ -4,7 +4,7 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   server: {
-    QSTASH_URL: z.string().url().optional(),
+    QSTASH_URL: z.url().optional(),
     QSTASH_TOKEN: z.string(),
     QSTASH_CURRENT_SIGNING_KEY: z.string(),
     QSTASH_NEXT_SIGNING_KEY: z.string(),
