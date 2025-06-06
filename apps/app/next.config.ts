@@ -5,19 +5,7 @@ import { withIntl } from "@init/internationalization/nextjs/config"
 import { withErrorMonitoring } from "@init/observability/error/nextjs"
 import { withLogging } from "@init/observability/logger/nextjs"
 
-import { ensureEnv } from "@init/env"
-import dbEnv from "@init/env/db"
-import kvEnv from "@init/env/kv"
-import queueEnv from "@init/env/queue"
-
-import appEnv from "~/shared/env"
-
-ensureEnv([
-  appEnv, // Environment variables for this app
-  dbEnv,
-  kvEnv,
-  queueEnv,
-])
+import "~/shared/env"
 
 let nextConfig = createConfig()
 

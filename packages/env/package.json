@@ -8,6 +8,7 @@
     ".": "./src/index.ts",
     "./*": "./src/packages/*.ts",
     "./core": "./src/core.ts",
+    "./nextjs": "./src/nextjs.ts",
     "./presets": "./src/presets.ts"
   },
   "scripts": {

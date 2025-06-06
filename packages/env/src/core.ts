@@ -8,3 +8,5 @@ export default createEnv({
   },
   runtimeEnv: process.env,
 })
+
+export { createEnv } from "@t3-oss/env-core"
