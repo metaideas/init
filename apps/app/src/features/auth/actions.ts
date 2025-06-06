@@ -7,8 +7,8 @@ import { redirect } from "next/navigation"
 import { slidingWindow } from "@init/security/ratelimit"
 
 import {
-  SignInWithPasswordFormSchema,
-  SignUpFormSchema,
+  SignInWithPasswordFormDataSchema,
+  SignUpFormDataSchema,
 } from "~/features/auth/validation"
 import { publicAction, withRateLimitByIp } from "~/shared/action-client"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
@@ -16,7 +16,7 @@ import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 export const signUp = publicAction
   .metadata({ name: "auth.signUp" })
   .use(withRateLimitByIp("auth.signUp", slidingWindow(10, "60 s")))
-  .schema(SignUpFormSchema, {
+  .inputSchema(SignUpFormDataSchema, {
     handleValidationErrorsShape: async errors =>
       flattenValidationErrors(errors),
   })
@@ -35,7 +35,7 @@ export const signUp = publicAction
 
 export const signInWithPassword = publicAction
   .metadata({ name: "auth.signInWithPassword" })
-  .schema(SignInWithPasswordFormSchema, {
+  .inputSchema(SignInWithPasswordFormDataSchema, {
     handleValidationErrorsShape: async errors =>
       flattenValidationErrors(errors),
   })

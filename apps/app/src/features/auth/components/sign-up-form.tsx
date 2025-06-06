@@ -6,10 +6,8 @@ import { useActionState } from "react"
 import { useAppForm } from "@init/ui/components/form"
 
 import { signUp } from "~/features/auth/actions"
-import { SignUpFormSchema } from "~/features/auth/validation"
+import { SignUpFormSchema as schema } from "~/features/auth/validation"
 import { useTRPCClient } from "~/shared/trpc/client"
-
-const schema = SignUpFormSchema._def.schema._def.schema
 
 export default function SignUpForm() {
   const trpcClient = useTRPCClient()

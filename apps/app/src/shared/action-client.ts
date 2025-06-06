@@ -131,7 +131,6 @@ export const publicAction = createSafeActionClient({
           errors: {
             server: result.serverError,
             validation: result.validationErrors,
-            bindArgsValidation: result.bindArgsValidationErrors,
           },
         },
         `Action "${metadata.name}" failed in ${duration}ms`

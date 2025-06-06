@@ -1,4 +1,4 @@
-import * as z from "zod"
+import * as z from "zod/v4"
 
 // Create custom zod types here and import them to other packages under the `z` namespace.
 
@@ -11,4 +11,4 @@ export function env() {
 }
 
 export * as form from "zod-form-data"
-export * from "zod"
+export * from "zod/v4"

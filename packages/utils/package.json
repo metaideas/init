@@ -30,7 +30,7 @@
     "superjson": "catalog:",
     "tailwind-merge": "3.3.0",
     "zod": "3.25.6",
-    "zod-form-data": "2.0.7"
+    "zod-form-data": "3.0.0"
   },
   "devDependencies": {
     "@tooling/testing": "workspace:*",

@@ -7,9 +7,7 @@ import { Button } from "@init/ui/components/button"
 import { useAppForm } from "@init/ui/components/form"
 
 import { signInWithPassword } from "~/features/auth/actions"
-import { SignInWithPasswordFormSchema } from "~/features/auth/validation"
-
-const schema = SignInWithPasswordFormSchema._def.schema
+import { SignInWithPasswordFormSchema as schema } from "~/features/auth/validation"
 
 export default function SignInWithPasswordForm() {
   const [state, action] = useActionState(signInWithPassword, {})
