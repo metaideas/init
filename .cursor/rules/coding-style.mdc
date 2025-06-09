@@ -44,5 +44,5 @@ alwaysApply: false
 
 ## UI and Styling
 
-- Use components inside `@init/ui` or `@init/native-ui` to create components.
+- Use components inside `@init/ui` to create components for web projects, and `~/shared/components/ui` for mobile projects.
 - Use the `cn` function inside `@init/utils/ui` for classname composition.

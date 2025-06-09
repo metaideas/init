@@ -33,7 +33,6 @@ root
   │   ├── email             # Email templating and sending service using Resend
   │   ├── env               # Environment variable management and validation
   │   ├── kv                # Redis client and vector database integration using Upstash
-  │   ├── native-ui         # Reusable UI components for React Native apps
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments          # Payment processing utilities using Stripe
   │   ├── queue             # Serverless job queue and workflow management using Upstash

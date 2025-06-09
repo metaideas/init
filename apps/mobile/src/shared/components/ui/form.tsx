@@ -5,11 +5,11 @@ import { Platform, View, type ViewProps } from "react-native"
 
 import { cn } from "@init/utils/ui"
 
-import { useColorScheme } from "../hooks/use-color-scheme"
-import { ActivityIndicator } from "./activity-indicator"
-import { Button, buttonTextVariants } from "./button"
-import { Text } from "./text"
-import { TextField } from "./text-field"
+import { ActivityIndicator } from "~/shared/components/ui/activity-indicator"
+import { Button, buttonTextVariants } from "~/shared/components/ui/button"
+import { Text } from "~/shared/components/ui/text"
+import { TextField } from "~/shared/components/ui/text-field"
+import { useColorScheme } from "~/shared/hooks/use-color-scheme"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()

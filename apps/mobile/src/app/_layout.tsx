@@ -5,14 +5,14 @@ import { useEffect } from "react"
 
 import "react-native-reanimated"
 
-import { useInitialAndroidBarSync } from "@init/native-ui/hooks/use-color-scheme"
 import {
   initializeErrorMonitoring,
   monitoringWrap,
 } from "@init/observability/error/expo"
-import "@init/native-ui/globals.css"
-
 import Providers from "~/shared/components/providers"
+import { useInitialAndroidBarSync } from "~/shared/hooks/use-color-scheme"
+
+import "~/shared/assets/styles/globals.css"
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()

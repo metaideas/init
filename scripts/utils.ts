@@ -78,11 +78,6 @@ export const Workspaces = {
       description: "kv - Redis client database integration using Upstash",
     },
     {
-      name: "native-ui",
-      description:
-        "native-ui - Reusable UI components and design system for React Native",
-    },
-    {
       name: "observability",
       description:
         "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
