@@ -1,7 +1,7 @@
 "use client"
 
-import type * as LabelPrimitive from "@radix-ui/react-label"
-import { Slot } from "@radix-ui/react-slot"
+import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
+
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { AlertCircle, Loader2Icon } from "lucide-react"
 import type React from "react"
@@ -27,7 +27,7 @@ function FieldControl(props: React.ComponentProps<"div">) {
   const hasError = field.state.meta.errors.length > 0
 
   return (
-    <Slot
+    <SlotPrimitive.Slot
       {...props}
       aria-invalid={hasError}
       className={cn(hasError && "text-destructive", props.className)}

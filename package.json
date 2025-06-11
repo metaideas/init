@@ -37,7 +37,7 @@
     "@turbo/gen": "2.5.3",
     "@types/node": "catalog:",
     "dependency-cruiser": "16.10.2",
-    "shadcn": "^2.5.0",
+    "shadcn": "^2.6.3",
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
