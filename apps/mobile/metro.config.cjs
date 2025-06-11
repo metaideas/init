@@ -16,7 +16,7 @@ config.cacheStores = [
 ]
 
 config = withNativeWind(config, {
-  input: "../../packages/native-ui/src/styles/globals.css",
+  input: "./src/shared/assets/styles/globals.css",
   inlineRem: 16,
 })
 

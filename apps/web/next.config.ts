@@ -7,18 +7,8 @@ import { withIntl } from "@init/internationalization/nextjs/config"
 import { withErrorMonitoring } from "@init/observability/error/nextjs"
 import { withLogging } from "@init/observability/logger/nextjs"
 
-// Environment variables
-import { ensureEnv } from "@init/env"
-import observabilityEnv from "@init/env/observability/nextjs"
-
-// Local environment variables
-import appEnv from "~/shared/env"
-
-ensureEnv([
-  appEnv, // Environment variables for this app
-  // Packages
-  observabilityEnv,
-])
+// Verify environment variables
+import "~/shared/env"
 
 let nextConfig = createConfig()
 

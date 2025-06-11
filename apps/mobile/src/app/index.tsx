@@ -3,10 +3,11 @@ import { Link } from "expo-router"
 import { Platform, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { Button } from "@init/native-ui/components/button"
-import { Text } from "@init/native-ui/components/text"
-import { useColorScheme } from "@init/native-ui/hooks/use-color-scheme"
 import { captureException } from "@init/observability/error/expo"
+
+import { Button } from "~/shared/components/ui/button"
+import { Text } from "~/shared/components/ui/text"
+import { useColorScheme } from "~/shared/hooks"
 
 export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme()

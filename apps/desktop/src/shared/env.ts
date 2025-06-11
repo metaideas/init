@@ -1,9 +1,9 @@
-import { createNextjsEnv } from "@init/env"
+import { createEnv } from "@init/env/nextjs"
 import * as z from "@init/utils/schema"
 
-export default createNextjsEnv({
+export default createEnv({
   client: {
-    NEXT_PUBLIC_API_URL: z.string().url(),
+    NEXT_PUBLIC_API_URL: z.url(),
   },
   server: {
     TAURI_DEV_HOST: z.string().optional(),

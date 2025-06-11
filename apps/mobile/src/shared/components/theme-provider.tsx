@@ -2,8 +2,8 @@ import { ThemeProvider as NavigationThemeProvider } from "@react-navigation/nati
 import { StatusBar } from "expo-status-bar"
 import type { ReactNode } from "react"
 
-import { useColorScheme } from "@init/native-ui/hooks/use-color-scheme"
-import { NAV_THEME } from "@init/native-ui/theme"
+import { useColorScheme } from "~/shared/hooks"
+import { NAV_THEME } from "~/shared/theme"
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const { colorScheme, isDarkColorScheme } = useColorScheme()

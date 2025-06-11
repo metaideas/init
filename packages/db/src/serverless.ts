@@ -1,11 +1,12 @@
-import { drizzle as drizzleNeon } from "drizzle-orm/neon-http"
+import { neon } from "@neondatabase/serverless"
+import type { DrizzleConfig } from "drizzle-orm"
+import { drizzle } from "drizzle-orm/neon-http"
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres"
 
-import envCore from "@init/env/core"
 import env from "@init/env/db"
+import { isDevelopment } from "@init/utils/environment"
 import { remember } from "@init/utils/remember"
 
-import type { DrizzleConfig } from "drizzle-orm"
 import * as schema from "./schema"
 
 const config: DrizzleConfig = {
@@ -14,9 +15,10 @@ const config: DrizzleConfig = {
 
 export const db = remember("db-serverless", () => {
   // In development, we can't use the HTTP driver so we'll connect using TCP
-  if (envCore.NODE_ENV === "development") {
+  if (isDevelopment) {
     return drizzlePg(env.DATABASE_URL, { ...config, schema })
   }
 
-  return drizzleNeon(env.DATABASE_URL, { ...config, schema })
+  const sql = neon(env.DATABASE_URL)
+  return drizzle(sql, { ...config, schema })
 })

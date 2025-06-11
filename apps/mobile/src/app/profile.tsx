@@ -7,10 +7,11 @@ import {
 } from "react-native-keyboard-controller"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { Button } from "@init/native-ui/components/button"
-import { useAppForm } from "@init/native-ui/components/form"
-import { Text } from "@init/native-ui/components/text"
 import { cn } from "@init/utils/ui"
+
+import { Button } from "~/shared/components/ui/button"
+import { useAppForm } from "~/shared/components/ui/form"
+import { Text } from "~/shared/components/ui/text"
 
 export default function Screen() {
   const insets = useSafeAreaInsets()

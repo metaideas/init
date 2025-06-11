@@ -30,6 +30,7 @@
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
+    "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
     "@trpc/server": "catalog:",
     "esbuild": "^0.25.4",

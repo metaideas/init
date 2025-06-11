@@ -7,8 +7,8 @@ import Animated, {
 
 import { cn } from "@init/utils/ui"
 
-import { useColorScheme } from "../hooks/use-color-scheme"
-import { COLORS } from "../theme/colors"
+import { useColorScheme } from "~/shared/hooks"
+import { COLORS } from "~/shared/theme/colors"
 
 export function ThemeToggle() {
   const { colorScheme, setColorScheme } = useColorScheme()

@@ -11,7 +11,7 @@ export default createEnv({
   },
   server: {
     SENTRY_AUTH_TOKEN: z.string(),
-    SENTRY_DEBUG: z.booleanLike().optional().default(false),
+    SENTRY_DEBUG: z.stringbool().optional().default(false),
   },
   clientPrefix: "EXPO_PUBLIC_",
   runtimeEnv: process.env,

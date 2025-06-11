@@ -6,7 +6,7 @@ export default createEnv({
   server: {
     EMAIL_FROM: z.string(),
     RESEND_API_KEY: z.string(),
-    MOCK_RESEND: z.booleanLike().default(false),
+    MOCK_RESEND: z.stringbool().default(false),
   },
   runtimeEnv: process.env,
 })
