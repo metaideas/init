@@ -12,7 +12,7 @@ import {
 import { cn } from "@init/utils/ui"
 
 import { TextClassContext } from "~/shared/components/ui/text"
-import { useColorScheme } from "~/shared/hooks/use-color-scheme"
+import { useColorScheme } from "~/shared/hooks"
 import { COLORS } from "~/shared/theme/colors"
 
 const buttonVariants = cva("flex-row items-center justify-center gap-2", {

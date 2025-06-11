@@ -1,7 +1,5 @@
-import { useFonts } from "expo-font"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
-import { useEffect } from "react"
 
 import "react-native-reanimated"
 
@@ -9,8 +7,14 @@ import {
   initializeErrorMonitoring,
   monitoringWrap,
 } from "@init/observability/error/expo"
+
 import Providers from "~/shared/components/providers"
-import { useInitialAndroidBarSync } from "~/shared/hooks/use-color-scheme"
+import {
+  useHideSplashScreen,
+  useInitialAndroidBarSync,
+  useLoadFonts,
+  useOnlineStatus,
+} from "~/shared/hooks"
 
 import "~/shared/assets/styles/globals.css"
 
@@ -20,16 +24,13 @@ SplashScreen.preventAutoHideAsync()
 initializeErrorMonitoring()
 
 function RootLayout() {
-  const [loaded] = useFonts({
-    SpaceMono: require("../shared/assets/fonts/SpaceMono-Regular.ttf"),
-  })
   useInitialAndroidBarSync()
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync()
-    }
-  }, [loaded])
+  // Track online status for React Query
+  useOnlineStatus()
+
+  const fontsLoaded = useLoadFonts()
+  useHideSplashScreen(fontsLoaded)
 
   return (
     <Providers>

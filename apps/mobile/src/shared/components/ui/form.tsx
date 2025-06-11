@@ -9,7 +9,7 @@ import { ActivityIndicator } from "~/shared/components/ui/activity-indicator"
 import { Button, buttonTextVariants } from "~/shared/components/ui/button"
 import { Text } from "~/shared/components/ui/text"
 import { TextField } from "~/shared/components/ui/text-field"
-import { useColorScheme } from "~/shared/hooks/use-color-scheme"
+import { useColorScheme } from "~/shared/hooks"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()

@@ -7,7 +7,7 @@ import { captureException } from "@init/observability/error/expo"
 
 import { Button } from "~/shared/components/ui/button"
 import { Text } from "~/shared/components/ui/text"
-import { useColorScheme } from "~/shared/hooks/use-color-scheme"
+import { useColorScheme } from "~/shared/hooks"
 
 export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme()
