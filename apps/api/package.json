@@ -12,7 +12,7 @@
     "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
-    "dev": "bun --watch src/index.ts",
+    "dev": "bun --hot src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "start": "node dist",

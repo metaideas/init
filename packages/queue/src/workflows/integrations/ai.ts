@@ -13,8 +13,8 @@ export function contextFetch(
    * The name of the step to register in the workflow.
    */
   stepName: string
-): typeof globalThis.fetch {
-  return async (input, init) => {
+) {
+  return async (input: RequestInfo | URL, init?: RequestInit) => {
     try {
       // Prepare headers from init.headers
       const headers = init?.headers

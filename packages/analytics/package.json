@@ -38,9 +38,9 @@
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "react": ">=19.0.0",
-    "react-dom": ">=19.0.0",
-    "react-native": ">=0.70.0"
+    "react": "*",
+    "react-dom": "*",
+    "react-native": "*"
   },
   "peerDependenciesMeta": {
     "react": {

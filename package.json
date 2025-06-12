@@ -37,7 +37,6 @@
     "@turbo/gen": "2.5.3",
     "@types/node": "22.15.17",
     "dependency-cruiser": "16.10.2",
-    "dotenv": "16.5.0",
     "shadcn": "^2.6.3",
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
@@ -54,9 +53,24 @@
   },
   "trustedDependencies": [
     "@biomejs/biome",
+    "@parcel/watcher",
     "@sentry/cli",
     "@tailwindcss/oxide",
-    "@upstash/qstash-cli"
+    "@upstash/qstash-cli",
+    "bufferutil",
+    "core-js",
+    "core-js-pure",
+    "docs",
+    "dtrace-provider",
+    "es5-ext",
+    "esbuild",
+    "extension",
+    "msgpackr-extract",
+    "msw",
+    "protobufjs",
+    "sharp",
+    "spawn-sync",
+    "utf-8-validate"
   ],
   "patchedDependencies": {
     "nativewind@4.1.23": "patches/nativewind@4.1.23.patch"
