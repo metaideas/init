@@ -1,0 +1,206 @@
+diff --git a/dist/metro/tailwind/index.js b/dist/metro/tailwind/index.js
+index 9947412da7d44464993cc3c727992602eaaa2613..4ff60808f11c98ad5a9d513e6173184ea88752cb 100644
+--- a/dist/metro/tailwind/index.js
++++ b/dist/metro/tailwind/index.js
+@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.tailwindCli = tailwindCli;
+ exports.tailwindConfig = tailwindConfig;
+-const package_json_1 = __importDefault(require("tailwindcss/package.json"));
++const package_json_1 = __importDefault(require("../../../../../apps/mobile/node_modules/tailwindcss/package.json"));
+ const v3_1 = require("./v3");
+ const isV3 = package_json_1.default.version.split(".")[0].includes("3");
+ function tailwindCli(debug) {
+diff --git a/dist/metro/tailwind/v3/child.js b/dist/metro/tailwind/v3/child.js
+index 5ca031b1d4ec12f21c0acf151ddabf4027221f2f..24e76a9fd7f14653a82b427781bc5cb938a9584a 100644
+--- a/dist/metro/tailwind/v3/child.js
++++ b/dist/metro/tailwind/v3/child.js
+@@ -32,7 +32,7 @@
+         }
+         return;
+     };
+-    const { build } = require("tailwindcss/lib/cli/build");
++    const { build } = require("../../../../../../apps/mobile/node_modules/tailwindcss/lib/cli/build");
+     const args = {
+         "--input": process.env.NATIVEWIND_INPUT,
+         "--output": fakeOutput,
+diff --git a/dist/metro/tailwind/v3/index.js b/dist/metro/tailwind/v3/index.js
+index 7e21e741ffedce14ecbe4aa0072412146bfad61e..95193dfc63889fd9cd0bee5195eaf53edcf5bf30 100644
+--- a/dist/metro/tailwind/v3/index.js
++++ b/dist/metro/tailwind/v3/index.js
+@@ -69,7 +69,7 @@ const flattenPresets = (configs = []) => {
+     ]);
+ };
+ function tailwindConfigV3(path) {
+-    const config = require("tailwindcss/loadConfig")(path);
++    const config = require("../../../../../../apps/mobile/node_modules/tailwindcss/loadConfig")(path);
+     const hasPreset = flattenPresets(config.presets).some((preset) => {
+         return preset.nativewind;
+     });
+diff --git a/dist/tailwind/color.js b/dist/tailwind/color.js
+index 6ae4c56e6abbde733566b432e3b2c2231d832ec8..0e15e987428c24cbd9c767299b7b7bbfe8a6e225 100644
+--- a/dist/tailwind/color.js
++++ b/dist/tailwind/color.js
+@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.color = void 0;
+-const flattenColorPalette_1 = __importDefault(require("tailwindcss/lib/util/flattenColorPalette"));
+-const toColorValue_1 = __importDefault(require("tailwindcss/lib/util/toColorValue"));
+-const withAlphaVariable_1 = __importDefault(require("tailwindcss/lib/util/withAlphaVariable"));
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const flattenColorPalette_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/flattenColorPalette"));
++const toColorValue_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/toColorValue"));
++const withAlphaVariable_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/withAlphaVariable"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ exports.color = (0, plugin_1.default)(function ({ matchUtilities, corePlugins, theme }) {
+     matchUtilities({
+         color: (value) => {
+diff --git a/dist/tailwind/dark-mode.js b/dist/tailwind/dark-mode.js
+index 09bd4c0ccc43defde5f687abbeb16f7e41e9cbbe..d95ab5783c27a01f08b49e10af6423fbff3a29f0 100644
+--- a/dist/tailwind/dark-mode.js
++++ b/dist/tailwind/dark-mode.js
+@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.darkModeAtRule = void 0;
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ const common_1 = require("./common");
+ exports.darkModeAtRule = (0, plugin_1.default)(function ({ config, addBase }) {
+     const darkMode = config("darkMode");
+diff --git a/dist/tailwind/native.js b/dist/tailwind/native.js
+index 3256db01584f346b30ce60cb2cd5369d9166acbe..1c9b6af25e666be546441e56f56d3306fbbb8717 100644
+--- a/dist/tailwind/native.js
++++ b/dist/tailwind/native.js
+@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const postcss_1 = require("postcss");
+-const flattenColorPalette_1 = __importDefault(require("tailwindcss/lib/util/flattenColorPalette"));
+-const toColorValue_1 = __importDefault(require("tailwindcss/lib/util/toColorValue"));
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const flattenColorPalette_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/flattenColorPalette"));
++const toColorValue_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/toColorValue"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ const theme_1 = require("../theme");
+ const color_1 = require("./color");
+ const common_1 = require("./common");
+diff --git a/dist/tailwind/prop-modifier.js b/dist/tailwind/prop-modifier.js
+index f032d44ca4b8c7b746e05bd83ba376cd2b248117..7f0b1d0585b4d720e9288fa4c0a6c1beb5530319 100644
+--- a/dist/tailwind/prop-modifier.js
++++ b/dist/tailwind/prop-modifier.js
+@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.webPropModifierPlugin = void 0;
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ exports.webPropModifierPlugin = (0, plugin_1.default)(function ({ matchVariant, e }) {
+     matchVariant("prop", () => {
+         return `&`;
+diff --git a/dist/tailwind/safe-area.js b/dist/tailwind/safe-area.js
+index d0fa505f72ad4cf62d477a5eebf7d4e2daadd9f0..9d8619d0e7d234c6194375c17eec8fc7c72f07cb 100644
+--- a/dist/tailwind/safe-area.js
++++ b/dist/tailwind/safe-area.js
+@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.safeArea = void 0;
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ function generateVariantUtilities(utilities, variant, generateValue) {
+     return Object.entries(utilities).reduce((acc, [selector, propertyValue]) => {
+         const className = selector.slice(1);
+diff --git a/dist/tailwind/shadows.js b/dist/tailwind/shadows.js
+index 9e6109bd97f6a4d293aed99acae07abe349e268f..66072ca7764590413e21e02c47e3a8430fbb54f0 100644
+--- a/dist/tailwind/shadows.js
++++ b/dist/tailwind/shadows.js
+@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.shadows = void 0;
+-const flattenColorPalette_1 = __importDefault(require("tailwindcss/lib/util/flattenColorPalette"));
+-const parseBoxShadowValue_1 = require("tailwindcss/lib/util/parseBoxShadowValue");
+-const toColorValue_1 = __importDefault(require("tailwindcss/lib/util/toColorValue"));
+-const transformThemeValue_1 = __importDefault(require("tailwindcss/lib/util/transformThemeValue"));
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const flattenColorPalette_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/flattenColorPalette"));
++const parseBoxShadowValue_1 = require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/parseBoxShadowValue");
++const toColorValue_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/toColorValue"));
++const transformThemeValue_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/transformThemeValue"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ exports.shadows = (0, plugin_1.default)(({ matchUtilities, theme, ...rest }) => {
+     const { addDefaults } = rest;
+     const boxShadowEntries = Object.entries(theme("boxShadow") ?? {});
+diff --git a/dist/tailwind/switch.js b/dist/tailwind/switch.js
+index f3491872ea055801cd86a70997d077c4f392cd2f..ef420b7da50afd0ad7933d0f84cdc4661b850c1f 100644
+--- a/dist/tailwind/switch.js
++++ b/dist/tailwind/switch.js
+@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.webSwitch = exports.nativeSwitch = void 0;
+-const flattenColorPalette_1 = __importDefault(require("tailwindcss/lib/util/flattenColorPalette"));
+-const toColorValue_1 = __importDefault(require("tailwindcss/lib/util/toColorValue"));
+-const withAlphaVariable_1 = __importDefault(require("tailwindcss/lib/util/withAlphaVariable"));
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const flattenColorPalette_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/flattenColorPalette"));
++const toColorValue_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/toColorValue"));
++const withAlphaVariable_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/withAlphaVariable"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ exports.nativeSwitch = (0, plugin_1.default)(function ({ matchUtilities, theme }) {
+     matchUtilities({
+         thumb: (value) => {
+diff --git a/dist/tailwind/translate.js b/dist/tailwind/translate.js
+index 1050d3e6a33498321374ec43f920b1cffa107b1b..8e74c29304ecf60462237edf7551d2477fc57a9f 100644
+--- a/dist/tailwind/translate.js
++++ b/dist/tailwind/translate.js
+@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.translateY = exports.translateX = void 0;
+-const createUtilityPlugin_1 = __importDefault(require("tailwindcss/lib/util/createUtilityPlugin"));
++const createUtilityPlugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/lib/util/createUtilityPlugin"));
+ let cssTransformValue = [
+     "translate(var(--tw-translate-x), var(--tw-translate-y))",
+     "rotate(var(--tw-rotate))",
+diff --git a/dist/tailwind/verify.js b/dist/tailwind/verify.js
+index 4d37f83044e073d75e1ae96fcf16b1ee5109765c..a6f712ab679565427995c7db1697694be6de5008 100644
+--- a/dist/tailwind/verify.js
++++ b/dist/tailwind/verify.js
+@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.verify = void 0;
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ const common_1 = require("./common");
+ exports.verify = (0, plugin_1.default)(function ({ addBase }) {
+     if (common_1.isWeb) {
+diff --git a/dist/tailwind/web.js b/dist/tailwind/web.js
+index 15e2da041b2ac9b6f988a0a10f226d9e7c47ccf5..bdb1224f6a13a82ca7efc6696d4f003e6c05c24c 100644
+--- a/dist/tailwind/web.js
++++ b/dist/tailwind/web.js
+@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+     return (mod && mod.__esModule) ? mod : { "default": mod };
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+-const plugin_1 = __importDefault(require("tailwindcss/plugin"));
++const plugin_1 = __importDefault(require("../../../../apps/mobile/node_modules/tailwindcss/plugin"));
+ const color_1 = require("./color");
+ const common_1 = require("./common");
+ const dark_mode_1 = require("./dark-mode");
+diff --git a/dist/test.js b/dist/test.js
+index 321ea5c734ea5b478f22c5a9401b00b582d35dd7..a8e53b01e4aaf612ca25eb73c822264a53dd2250 100644
+--- a/dist/test.js
++++ b/dist/test.js
+@@ -26,7 +26,7 @@ const react_native_1 = require("react-native");
+ const container_queries_1 = __importDefault(require("@tailwindcss/container-queries"));
+ const postcss_1 = __importDefault(require("postcss"));
+ const test_1 = require("react-native-css-interop/test");
+-const tailwindcss_1 = __importDefault(require("tailwindcss"));
++const tailwindcss_1 = __importDefault(require("../../../apps/mobile/node_modules/tailwindcss"));
+ const common_1 = require("./metro/common");
+ var test_2 = require("react-native-css-interop/test");
+ Object.defineProperty(exports, "act", { enumerable: true, get: function () { return test_2.act; } });

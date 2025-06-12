@@ -45,10 +45,20 @@
     "tsup": "8.5.0",
     "tsx": "4.19.4",
     "turbo": "2.5.3",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "@types/bun": "1.2.16"
   },
   "packageManager": "bun@1.2.13",
   "engines": {
     "node": ">=22"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "@sentry/cli",
+    "@tailwindcss/oxide",
+    "@upstash/qstash-cli"
+  ],
+  "patchedDependencies": {
+    "nativewind@4.1.23": "patches/nativewind@4.1.23.patch"
   }
 }
