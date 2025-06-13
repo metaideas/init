@@ -19,18 +19,18 @@
   "dependencies": {
     "@init/analytics": "workspace:*",
     "flags": "4.0.0",
-    "posthog-js": "catalog:",
-    "posthog-react-native": "catalog:",
-    "server-only": "catalog:"
+    "posthog-js": "1.242.0",
+    "posthog-react-native": "3.15.2",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "typescript": "catalog:"
+    "@types/react": "19.1.8",
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "next": "catalog:"
+    "next": "*"
   },
   "peerDependenciesMeta": {
     "next": {

@@ -5,6 +5,7 @@
   "files": ["*.json", "reset.d.ts"],
   "scripts": {
     "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
     "lint": "biome lint --fix ."
   },

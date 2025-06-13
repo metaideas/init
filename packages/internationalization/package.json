@@ -27,10 +27,12 @@
   "devDependencies": {
     "@lingual/i18n-check": "0.8.3",
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
+    "next": "15.3.3",
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "next": "catalog:"
+    "next": "*",
+    "react": "*"
   },
   "peerDependenciesMeta": {
     "next": {

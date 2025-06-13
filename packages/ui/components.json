@@ -2,10 +2,10 @@
   "$schema": "https://ui.shadcn.com/schema.json",
   "aliases": {
     "components": "@init/ui/components",
-    "utils": "@init/utils/ui",
     "hooks": "@init/ui/hooks",
     "lib": "@init/utils/ui",
-    "ui": "@init/ui/components"
+    "ui": "@init/ui/components",
+    "utils": "@init/utils/ui"
   },
   "rsc": true,
   "style": "new-york",

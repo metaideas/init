@@ -8,13 +8,14 @@
   },
   "scripts": {
     "check": "biome check --write .",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "catalog:",
+    "@next/bundle-analyzer": "15.3.2",
     "@tooling/tsconfig": "workspace:*",
-    "next": "catalog:"
+    "next": "15.3.3"
   }
 }
