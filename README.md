@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">🧬 <code>init</code></h1>
+  <h1 align="center">▶︎ <code>init</code></h1>
 
   <p align="center">
     <em><strong>Start once, ship everything.</strong></em>
