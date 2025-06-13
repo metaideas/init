@@ -8,14 +8,13 @@
     }
   },
   "scripts": {
-    "build": "bun scripts/build.ts",
     "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "check": "biome check --write .",
-    "clean": "git clean -xdf .cache .turbo .wrangler dist node_modules",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --hot src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "start": "node dist",
+    "start": "bun run start",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit",

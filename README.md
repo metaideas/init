@@ -14,7 +14,7 @@ An opinionated monorepo starter kit for building apps everywhere: web, mobile, d
 - Documentation site using [Fumadocs](http://fumadocs.vercel.app)
 - Marketing site and blog using [Next.js](https://nextjs.org/) and [Content Collections](https://www.content-collections.dev/)
 - Mobile application using [Expo](https://expo.dev/)
-- Node.js API using [Hono](https://hono.dev/)
+- API using [Hono](https://hono.dev/)
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 
