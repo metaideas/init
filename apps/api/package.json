@@ -41,7 +41,7 @@
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "22.15.17",
+    "@types/bun": "1.2.16",
     "esbuild-node-externals": "^1.18.0",
     "tsup": "8.5.0",
     "typescript": "5.8.3"

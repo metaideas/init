@@ -35,7 +35,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@turbo/gen": "2.5.3",
-    "@types/node": "22.15.17",
     "dependency-cruiser": "16.10.2",
     "shadcn": "^2.6.3",
     "sherif": "1.5.0",
@@ -71,8 +70,5 @@
     "sharp",
     "spawn-sync",
     "utf-8-validate"
-  ],
-  "patchedDependencies": {
-    "nativewind@4.1.23": "patches/nativewind@4.1.23.patch"
-  }
+  ]
 }
