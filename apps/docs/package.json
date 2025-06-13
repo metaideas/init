@@ -22,7 +22,6 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@next/bundle-analyzer": "15.3.2",
     "fumadocs-core": "15.3.3",
     "fumadocs-mdx": "11.6.4",
     "fumadocs-ui": "15.3.3",

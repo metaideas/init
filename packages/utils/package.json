@@ -16,7 +16,8 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "test": "vitest",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -34,14 +35,12 @@
     "zod-form-data": "3.0.0"
   },
   "devDependencies": {
-    "@tooling/testing": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@trpc/server": "11.4.0",
     "@types/lodash.merge": "4.6.9",
     "@types/react": "19.1.8",
     "next": "15.3.3",
-    "typescript": "5.8.3",
-    "vitest": "3.2.3"
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
     "react": "*",

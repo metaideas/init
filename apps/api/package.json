@@ -16,12 +16,13 @@
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
     "start": "node dist",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit",
     "typegen:client": "tsup src/client.ts --dts-only",
     "typegen:client:watch": "tsup src/client.ts --dts-only --watch"
   },
   "dependencies": {
-    "@hono/node-server": "^1.14.1",
     "@hono/trpc-server": "0.3.4",
     "@hono/zod-validator": "0.4.3",
     "@init/auth": "workspace:*",

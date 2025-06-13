@@ -24,13 +24,14 @@
     "lint": "turbo lint",
     "lint:repo": "sherif --fix",
     "start": "turbo run start",
+    "test": "turbo test",
     "typecheck": "turbo typecheck --continue",
-    "workspace:add": "tsx scripts/add.ts",
-    "workspace:graph": "tsx scripts/graph.ts",
-    "workspace:remove": "tsx scripts/remove.ts",
-    "workspace:replace": "tsx scripts/replace.ts",
-    "workspace:setup": "tsx scripts/setup.ts",
-    "workspace:update": "tsx scripts/update.ts"
+    "workspace:add": "bun run scripts/add.ts",
+    "workspace:graph": "bun run scripts/graph.ts",
+    "workspace:remove": "bun run scripts/remove.ts",
+    "workspace:replace": "bun run scripts/replace.ts",
+    "workspace:setup": "bun run scripts/setup.ts",
+    "workspace:update": "bun run scripts/update.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -40,8 +41,6 @@
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
-    "tsup": "8.5.0",
-    "tsx": "4.19.4",
     "turbo": "2.5.3",
     "typescript": "5.8.3",
     "@types/bun": "1.2.16"

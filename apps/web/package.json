@@ -22,7 +22,6 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@next/bundle-analyzer": "15.3.2",
     "client-only": "0.0.1",
     "lucide-react": "0.475.0",
     "next": "15.3.3",

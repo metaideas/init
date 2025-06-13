@@ -26,7 +26,6 @@
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "pg": "^8.16.0",
-    "@next/bundle-analyzer": "15.3.2",
     "@tanstack/react-form": "1.11.1",
     "@tanstack/react-query": "5.80.7",
     "@trpc/client": "11.4.0",
