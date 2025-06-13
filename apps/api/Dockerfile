@@ -15,7 +15,9 @@ RUN turbo prune api --docker
 FROM base AS installer
 WORKDIR /app
 COPY --from=builder /app/out/json/ .
-RUN bun install --no-save
+# Don't copy the lockfile, allow bun to generate a fresh one
+RUN bun install
+
 COPY --from=builder /app/out/full/ .
 
 # Runner stage: production image with non-root user
