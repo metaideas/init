@@ -15,7 +15,6 @@ RUN turbo prune api --docker
 FROM base AS installer
 WORKDIR /app
 COPY --from=builder /app/out/json/ .
-RUN rm -f bun.lock
 RUN bun install --no-save
 COPY --from=builder /app/out/full/ .
 
