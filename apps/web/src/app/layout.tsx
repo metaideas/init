@@ -3,6 +3,8 @@ import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
 import "@init/ui/globals.css"
+
+import { Plausible } from "@init/analytics/web"
 import { cn } from "@init/utils/ui"
 
 import Providers from "~/shared/components/providers"
@@ -26,6 +28,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
       <body className={cn("font-sans", inter.variable)}>
+        <Plausible domain="init.now" />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -424,4 +424,29 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
     ],
   })
+
+  plop.setGenerator("instrumentation", {
+    description:
+      "Generate instrumentation files for error monitoring in an app",
+    prompts: [
+      {
+        type: "input",
+        name: "app",
+        message: "What is the name of the app to add instrumentation to?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/instrumentation.ts",
+        templateFile: "templates/apps/instrumentation/instrumentation.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "apps/{{kebabCase app}}/src/instrumentation-client.ts",
+        templateFile:
+          "templates/apps/instrumentation/instrumentation-client.ts.hbs",
+      },
+    ],
+  })
 }

@@ -1,9 +1,6 @@
 import { createEnv } from "@init/env/nextjs"
-import { sentry, vercel } from "@init/env/presets"
+import { vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
-
-// Packages
-import { sentryNextjs } from "@init/env/presets"
 
 export default createEnv({
   experimental__runtimeEnv: {
@@ -17,11 +14,5 @@ export default createEnv({
     NEXT_PUBLIC_VERCEL_URL: z.string(),
     NEXT_PUBLIC_API_URL: z.string().optional(),
   },
-  extends: [
-    vercel(),
-
-    // Packages
-    sentry(),
-    sentryNextjs(),
-  ],
+  extends: [vercel()],
 })
