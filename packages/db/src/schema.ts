@@ -134,52 +134,65 @@ export const verifications = createTable(
 export type Verification = typeof verifications.$inferSelect
 export type NewVerification = typeof verifications.$inferInsert
 
-export const sessions = createTable("sessions", {
-  ...constructId("SessionId", "ses"),
-  ...timestamps,
+export const sessions = createTable(
+  "sessions",
+  {
+    ...constructId("SessionId", "ses"),
+    ...timestamps,
 
-  userId: text()
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    })
-    .$type<UserId>(),
+    userId: text()
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
+      .$type<UserId>(),
 
-  token: text().notNull().unique(),
-  expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
+    token: text().notNull().unique(),
+    expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
 
-  impersonatedBy: text()
-    .references(() => users.id, {
-      onDelete: "set null",
-      onUpdate: "cascade",
-    })
-    .$type<UserId>(),
+    impersonatedBy: text()
+      .references(() => users.id, {
+        onDelete: "set null",
+        onUpdate: "cascade",
+      })
+      .$type<UserId>(),
 
-  ipAddress: text({ length: 45 }),
-  userAgent: text(),
+    ipAddress: text({ length: 45 }),
+    userAgent: text(),
 
-  activeOrganizationId: text()
-    .references(() => organizations.id, {
-      onDelete: "set null",
-      onUpdate: "cascade",
-    })
-    .$type<OrganizationId>(),
-})
+    activeOrganizationId: text()
+      .references(() => organizations.id, {
+        onDelete: "set null",
+        onUpdate: "cascade",
+      })
+      .$type<OrganizationId>(),
+  },
+  table => [
+    index("sessions_user_id_idx").on(table.userId),
+    index("sessions_token_idx").on(table.token),
+    index("sessions_expires_at_idx").on(table.expiresAt),
+    index("sessions_active_organization_id_idx").on(table.activeOrganizationId),
+  ]
+)
 export type Session = typeof sessions.$inferSelect
 export type NewSession = typeof sessions.$inferInsert
 
 // Organization tables
-export const organizations = createTable("organizations", {
-  ...constructId("OrganizationId", "org"),
-  ...timestamps,
+export const organizations = createTable(
+  "organizations",
+  {
+    ...constructId("OrganizationId", "org"),
+    ...timestamps,
 
-  name: text({ length: 128 }).notNull(),
-  slug: text({ length: 128 }).notNull(),
+    name: text({ length: 128 }).notNull(),
+    slug: text({ length: 128 }).notNull().unique(),
 
-  logo: text(),
-  metadata: text({ mode: "json" }),
-})
+    logo: text(),
+    metadata: text({ mode: "json" }),
+  },
+  table => [index("organizations_slug_idx").on(table.slug)]
+)
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
 export type OrganizationId = Organization["id"]
@@ -275,7 +288,10 @@ export const activityLogs = createTable(
       .$defaultFn(() => new Date()),
 
     organizationId: text()
-      .references(() => organizations.id)
+      .references(() => organizations.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
       .$type<OrganizationId>(),
     memberId: text()
       .references(() => members.id, {
