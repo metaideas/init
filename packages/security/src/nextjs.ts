@@ -1,14 +1,6 @@
-import arcjet, { shield } from "@arcjet/next"
-
-import env from "@init/env/security"
-
-export const security = arcjet({
-  key: env.ARCJET_KEY, // Get your site key from https://app.arcjet.com
-  characteristics: ["ip.src"], // Track requests by IP
-  rules: [
-    // Shield protects your app from common attacks e.g. SQL injection
-    shield({ mode: "LIVE" }),
-  ],
-})
-
-export { request, createMiddleware } from "@arcjet/next"
+export {
+  request,
+  createMiddleware,
+  default as security,
+  shield,
+} from "@arcjet/next"

@@ -23,13 +23,13 @@
     "@arcjet/next": "1.0.0-beta.7",
     "@arcjet/node": "1.0.0-beta.7",
     "@arcjet/redact": "1.0.0-beta.7",
-    "@init/env": "workspace:*",
-    "@init/kv": "workspace:*",
-    "@init/utils": "workspace:*",
     "@upstash/ratelimit": "2.0.5"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "typescript": "5.8.3"
+  },
+  "peerDependencies": {
+    "@init/kv": "*"
   }
 }
