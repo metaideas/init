@@ -19,7 +19,6 @@
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "5.80.7",
-    "@tanstack/react-router": "1.120.3",
     "@tauri-apps/api": "2.5.0",
     "@tauri-apps/plugin-opener": "2.2.6",
     "@trpc/client": "11.4.0",
