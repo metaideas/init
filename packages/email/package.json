@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/templates/*.tsx"
+    "./client": "./src/client.ts",
+    "./templates/*": "./src/templates/*.tsx"
   },
   "scripts": {
     "build": "email build --dir src/templates",

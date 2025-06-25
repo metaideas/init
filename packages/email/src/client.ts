@@ -1,7 +1,100 @@
+import { logger, styles } from "@init/observability/logger"
+import { render } from "@react-email/render"
+import type { ReactElement } from "react"
 import { Resend } from "resend"
 
-import env from "@init/env/email"
+export function createClient(
+  apiKey: string,
+  options: {
+    /**
+     * The default from address to use for emails.
+     */
+    from: string
+    /**
+     * If true, the email will be mocked and not sent.
+     */
+    mock?: boolean
+  }
+) {
+  const resend = new Resend(apiKey)
 
-const resend = new Resend(env.RESEND_API_KEY)
+  async function sendEmail(
+    body: ReactElement,
+    {
+      emails,
+      subject,
+      sendAt,
+      from = options.from,
+      queue = false,
+    }: {
+      emails: string[]
+      subject: string
+      sendAt?: Date | string
+      from?: string
+      /**
+       * If true, the email will be queued to be sent later using Upstash Qstash.
+       *
+       * @default false
+       */
+      queue?: boolean
+    }
+  ) {
+    if (options?.mock) {
+      const text = await render(body, { plainText: true })
+      mockEmail(emails, text)
 
-export default resend
+      return
+    }
+
+    if (queue) {
+      const { default: queue, resend } = await import("@init/queue/messages")
+
+      await queue.publishJSON({
+        api: {
+          name: "email",
+          provider: resend({ token: apiKey }),
+        },
+        body: {
+          from,
+          to: emails,
+          subject,
+          react: body,
+          sendAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
+        },
+      })
+
+      return
+    }
+
+    const { error } = await resend.emails.send({
+      from,
+      to: emails,
+      react: body as ReactElement,
+      subject,
+      scheduledAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
+    })
+
+    if (error) {
+      throw new Error(
+        `Unable to send email to ${emails.join(", ")}: ${error.message}`
+      )
+    }
+  }
+
+  function mockEmail(emails: string[], html: string, isQueued = false) {
+    logger.warn(styles.bold.yellowBright("📪 env.MOCK_RESEND is set!"))
+
+    if (isQueued) {
+      logger.info(styles.green("📫 Queueing email to", emails.join(", ")))
+    } else {
+      logger.info(styles.green("📫 Sending email to", emails.join(", ")))
+    }
+
+    logger.info(styles.green("📝 Email content:"))
+    logger.info(styles.gray("----------------------------------------"))
+    logger.info(styles.gray.italic(html))
+    logger.info(styles.gray("----------------------------------------"))
+  }
+
+  return { resend, sendEmail }
+}

@@ -1,5 +1,15 @@
-import { EmailSchema, PasswordSchema, matchPasswords } from "@init/auth/schema"
 import * as z from "@init/utils/schema"
+
+export const EmailSchema = z.email({
+  error: issue =>
+    issue.input === undefined ? "Email is required" : "Invalid email address",
+})
+
+export const PasswordSchema = z
+  .string({ error: "Password is required" })
+  .min(1, { error: "Password is required" })
+  .min(8, { error: "Password must be more than 8 characters" })
+  .max(32, { error: "Password must be less than 32 characters" })
 
 // Used in the form component
 export const SignUpFormSchema = z.object({
@@ -17,8 +27,8 @@ export const SignUpFormDataSchema = z.form
     name: z.form.text(z.string().min(1)),
     password: z.form.text(PasswordSchema),
   })
-  .refine(matchPasswords, {
-    message: "Passwords don't match",
+  .refine(data => data.password === data.confirmPassword, {
+    error: "Passwords don't match",
     path: ["confirmPassword"],
   })
 

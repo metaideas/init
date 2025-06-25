@@ -1,11 +1,10 @@
 import { createEnv } from "@init/env/nextjs"
-import { node, vercel } from "@init/env/presets"
-import * as z from "@init/utils/schema"
 
 import authEnv from "@init/env/auth"
-import dbEnv from "@init/env/db"
 import kvEnv from "@init/env/kv"
 import queueEnv from "@init/env/queue"
+import { db, node, vercel } from "@init/utils/env/presets"
+import * as z from "@init/utils/schema"
 
 export default createEnv({
   experimental__runtimeEnv: {
@@ -33,8 +32,10 @@ export default createEnv({
     vercel(),
 
     // Packages
+    db(),
+
     authEnv,
-    dbEnv,
+
     kvEnv,
     queueEnv,
   ],
