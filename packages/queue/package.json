@@ -5,10 +5,9 @@
   "license": "MIT",
   "type": "module",
   "exports": {
+    "./messages": "./src/messages.ts",
     "./workflows": "./src/workflows/index.ts",
-    "./workflows/*": "./src/workflows/serve/*.ts",
-    "./messages": "./src/messages/index.ts",
-    "./messages/verify": "./src/messages/verify.ts"
+    "./workflows/*": "./src/workflows/serve/*.ts"
   },
   "scripts": {
     "check": "biome check --write .",
