@@ -1,4 +1,4 @@
-import { I18nProvider } from "fumadocs-ui/i18n"
+import { Locales } from "@init/internationalization/locale"
 import type { Translations } from "fumadocs-ui/i18n"
 import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
@@ -11,7 +11,20 @@ const inter = Inter({
   subsets: ["latin"],
 })
 
-const translations: Record<string, Partial<Translations>> = { es }
+const translations: Record<string, Partial<Translations>> = {
+  es,
+}
+
+const locales = [
+  {
+    locale: Locales.EN,
+    name: "English",
+  },
+  {
+    locale: Locales.ES,
+    name: "Spanish",
+  },
+]
 
 export default async function Layout({
   params,
@@ -25,16 +38,15 @@ export default async function Layout({
   return (
     <html lang={lang} className={inter.className} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
-        <I18nProvider
-          locale={lang}
-          locales={[
-            { locale: "en", name: "English" },
-            { locale: "es", name: "Spanish" },
-          ]}
-          translations={translations[lang]}
+        <RootProvider
+          i18n={{
+            locale: lang,
+            locales,
+            translations: translations[lang],
+          }}
         >
-          <RootProvider>{children}</RootProvider>
-        </I18nProvider>
+          {children}
+        </RootProvider>
       </body>
     </html>
   )

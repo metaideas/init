@@ -4,11 +4,11 @@ import {
   DEFAULT_LOCALE,
   LOCALE_COOKIE_NAME,
 } from "@init/internationalization/locale"
+import type { Locale } from "@init/internationalization/locale"
 import {
   getRequestConfig,
   loadMessages,
 } from "@init/internationalization/nextjs/server"
-import type { Locale } from "@init/utils/constants"
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = (await requestLocale) as Locale | undefined

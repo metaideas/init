@@ -1,7 +1,6 @@
 import type { I18nConfig } from "fumadocs-core/i18n"
 
-import { DEFAULT_LOCALE } from "@init/internationalization/locale"
-import { Locales } from "@init/utils/constants"
+import { DEFAULT_LOCALE, Locales } from "@init/internationalization/locale"
 
 export const i18n = {
   defaultLanguage: DEFAULT_LOCALE,

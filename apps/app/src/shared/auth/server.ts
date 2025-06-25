@@ -5,6 +5,7 @@ import { cache } from "react"
 
 import { nextCookies } from "@init/auth/nextjs"
 import { createAuth } from "@init/auth/server"
+import { admin } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 
 import env from "~/shared/env"
@@ -31,7 +32,7 @@ export const auth = createAuth(
       },
     },
   },
-  [nextCookies()]
+  [admin(), nextCookies()]
 )
 
 export type Auth = typeof auth
