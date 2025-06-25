@@ -2,7 +2,7 @@ import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 
 import env from "@init/env/payments"
 import { redis } from "@init/kv/client"
-import { buildKeyGenerator } from "@init/utils/cache"
+import { buildKeyGenerator } from "@init/utils/key"
 import { type Stripe, stripe } from "./"
 
 const kv = redis()
