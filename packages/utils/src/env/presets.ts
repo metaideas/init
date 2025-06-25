@@ -27,6 +27,30 @@ export const auth = () =>
     runtimeEnv: process.env,
   })
 
+export const axiom = () => {
+  createEnv({
+    server: {
+      AXIOM_TOKEN: z.string(),
+      AXIOM_DATASET: z.string(),
+    },
+    runtimeEnv: process.env,
+  })
+}
+
+export const axiomNextjs = () => {
+  createEnv({
+    client: {
+      NEXT_PUBLIC_AXIOM_TOKEN: z.string(),
+      NEXT_PUBLIC_AXIOM_DATASET: z.string(),
+    },
+    clientPrefix: "NEXT_PUBLIC_",
+    runtimeEnvStrict: {
+      NEXT_PUBLIC_AXIOM_TOKEN: process.env.NEXT_PUBLIC_AXIOM_TOKEN,
+      NEXT_PUBLIC_AXIOM_DATASET: process.env.NEXT_PUBLIC_AXIOM_DATASET,
+    },
+  })
+}
+
 export const db = () =>
   createEnv({
     server: {
