@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "analyze": "ANALYZE=true next build",
+    "prebuild": "content-collections build",
     "build": "next build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .next dist node_modules",
     "dev": "next dev --turbopack --port 3006",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
-    "prebuild": "content-collections build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
@@ -22,13 +22,12 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@next/bundle-analyzer": "catalog:",
     "client-only": "0.0.1",
-    "lucide-react": "catalog:",
-    "next": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "server-only": "catalog:"
+    "lucide-react": "0.475.0",
+    "next": "15.3.3",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@content-collections/cli": "0.1.6",
@@ -36,9 +35,9 @@
     "@content-collections/next": "0.2.6",
     "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "typescript": "catalog:"
+    "@types/node": "22.15.17",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.5",
+    "typescript": "5.8.3"
   }
 }

@@ -1,19 +1,24 @@
+import { logger } from "@init/observability/logger"
 import type { HTTPMethods } from "@upstash/qstash"
 import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow"
-
-import { logger } from "@init/observability/logger"
 
 /**
  * Provide a fetch implementation with context to an AI provider from the AI
  * SDK.
+ *
+ * @example
+ * ```ts
+ * const fetch = contextFetch(context, "ai")
+ * const openai = createOpe
  */
 export function contextFetch(
   context: WorkflowContext,
   /**
    * The name of the step to register in the workflow.
    */
-  stepName: string
+  stepName = "ai-call-step"
 ): typeof globalThis.fetch {
+  // @ts-expect-error - Missing "preconnect" property
   return async (input, init) => {
     try {
       // Prepare headers from init.headers

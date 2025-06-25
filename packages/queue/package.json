@@ -29,11 +29,11 @@
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "@types/bun": "1.2.16",
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "hono": "catalog:"
+    "hono": "*"
   },
   "peerDependenciesMeta": {
     "hono": {

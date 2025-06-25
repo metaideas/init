@@ -1,10 +1,8 @@
 import fs from "node:fs/promises"
-import { isCancel, log, multiselect, outro } from "@clack/prompts"
-
-import { runProcess, runScript } from "../tooling/helpers"
+import { prompt, runProcess, runScript } from "../tooling/helpers"
 
 async function getWorkspaceTypes() {
-  const workspaceType = await multiselect({
+  const workspaceType = await prompt.multiselect({
     message: "Which type of workspace would you like to add?",
     options: [
       {
@@ -22,8 +20,8 @@ async function getWorkspaceTypes() {
     ],
   })
 
-  if (isCancel(workspaceType)) {
-    log.error("Canceled adding workspace")
+  if (prompt.isCancel(workspaceType)) {
+    prompt.log.error("Canceled adding workspace")
     process.exit()
   }
 
@@ -36,7 +34,7 @@ async function getEntries(workspaceType: string) {
 }
 
 async function chooseEntries(entries: string[]) {
-  const selectedEntries = await multiselect({
+  const selectedEntries = await prompt.multiselect({
     message: "Which entries would you like to include?",
     options: entries.map(entry => ({
       value: entry,
@@ -44,13 +42,13 @@ async function chooseEntries(entries: string[]) {
     })),
   })
 
-  if (isCancel(selectedEntries)) {
-    log.error("Canceled adding package")
+  if (prompt.isCancel(selectedEntries)) {
+    prompt.log.error("Canceled adding package")
     process.exit()
   }
 
   if (selectedEntries.length === 0) {
-    log.error("No entries selected")
+    prompt.log.error("No entries selected")
     process.exit()
   }
 
@@ -58,7 +56,7 @@ async function chooseEntries(entries: string[]) {
 }
 
 async function main() {
-  log.info("Generating a dependency graph")
+  prompt.log.info("Generating a dependency graph")
 
   const workspaceTypes = await getWorkspaceTypes()
 
@@ -71,9 +69,9 @@ async function main() {
     )
   ).flat()
 
-  // console.log(entries)
+  // console.prompt.log(entries)
   if (entries.length === 0) {
-    outro("No folders found")
+    prompt.outro("No folders found")
     process.exit()
   }
 
@@ -111,7 +109,7 @@ async function main() {
     "dependency-graph.svg",
   ])
 
-  log.info("Generated dependency graph at dependency-graph.svg")
+  prompt.log.info("Generated dependency graph at dependency-graph.svg")
 }
 
 runScript(main)

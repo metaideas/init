@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">🧬 <code>init</code></h1>
+  <h1 align="center">▶︎ <code>init</code></h1>
 
   <p align="center">
     <em><strong>Start once, ship everything.</strong></em>
@@ -14,34 +14,34 @@ An opinionated monorepo starter kit for building apps everywhere: web, mobile, d
 - Documentation site using [Fumadocs](http://fumadocs.vercel.app)
 - Marketing site and blog using [Next.js](https://nextjs.org/) and [Content Collections](https://www.content-collections.dev/)
 - Mobile application using [Expo](https://expo.dev/)
-- Node.js API using [Hono](https://hono.dev/)
+- API using [Hono](https://hono.dev/)
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 
 ## Prerequisites
 
-- We use [pnpm](https://pnpm.io/) as our package manager.
+- We use [bun](https://bun.sh/) as our package manager.
 - You'll need Nodejs v22 or higher installed.
 - You'll need Docker installed for running the database and Redis. I recommend using [OrbStack](https://orbstack.dev/) for managing your containers.
 
 ## Getting started
 
-1. Install the dependencies using `pnpm`:
+1. Install the dependencies using `bun`:
 
 ```bash
-pnpm install
+bun install
 ```
 
 2. Start your local services using `docker`.
 
 ```bash
-pnpm docker:up
+bun docker:up
 ```
 
 3. Run the `setup` script:
 
 ```bash
-pnpm template:setup
+bun workspace:setup
 ```
 
 This will:
@@ -54,14 +54,14 @@ This will:
 If you later want to add or remove workspaces, you can use the following commands:
 
 ```bash
-pnpm workspace:add # Adds a workspace from the template to the project
-pnpm workspace:remove # Removes a workspace from the project
+bun workspace:add # Adds a workspace from the template to the project
+bun workspace:remove # Removes a workspace from the project
 ```
 
 4. Start the development server:
 
 ```bash
-pnpm dev # or pnpm dev --filter <workspace> to start a specific workspace
+bun dev # or bun dev --filter <workspace> to start a specific workspace
 ```
 
 ### Ports
@@ -93,28 +93,27 @@ Packages run in the 8000-8999 range.
 
 Here are the most common commands you'll use during development:
 
-- `pnpm dev` - Start all applications in development mode
-- `pnpm build` - Build all applications
-- `pnpm lint` - Run linting across the codebase using Biome
-- `pnpm format` - Format code using Biome
-- `pnpm typecheck` - Run TypeScript type checking
-- `pnpm check` - Run linting and formatting
-- `pnpm clean` - Clean build artifacts
-- `pnpm clean:all` - Deep clean (build artifacts, cache, node_modules)
+- `bun dev` - Start all applications in development mode
+- `bun build` - Build all applications
+- `bun lint` - Run linting across the codebase using Biome
+- `bun format` - Format code using Biome
+- `bun typecheck` - Run TypeScript type checking
+- `bun check` - Run linting and formatting
+- `bun clean` - Clean build artifacts
 
 If you want to run a command for a specific workspace, you can use the following syntax:
 
 ```bash
-pnpm <command> --filter <workspace>
+bun <command> --filter <workspace>
 ```
 
 ### Managing Dependencies
 
-- `pnpm deps:check` - Check for outdated dependencies
-- `pnpm deps:update` - Update dependencies interactively
-- `pnpm deps:mismatch` - List version mismatches across the monorepo
-- `pnpm deps:sync` - Fix version mismatches automatically
-- `pnpm deps:graph` - Generate a dependency graph visualization
+- `bun deps:check` - Check for outdated dependencies
+- `bun deps:update` - Update dependencies interactively
+- `bun deps:mismatch` - List version mismatches across the monorepo
+- `bun deps:sync` - Fix version mismatches automatically
+- `bun deps:graph` - Generate a dependency graph visualization
 
 ## Documentation
 
