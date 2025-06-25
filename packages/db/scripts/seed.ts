@@ -2,16 +2,19 @@ import { seed } from "drizzle-seed"
 
 import { prompt, runProcess, runScript } from "@tooling/helpers"
 
-import { db } from "@init/db"
+import { database } from "@init/db/client"
 import * as schema from "@init/db/schema"
 
 async function main() {
   prompt.log.info("Seeding database...")
 
+  const db = database()
+
   await runProcess("drizzle-kit", ["push"])
 
   console.time("Seeded database")
 
+  // @ts-expect-error - Type error with drizzle-seed and LibSQL
   await seed(db, schema).refine(f => ({
     users: {
       columns: {

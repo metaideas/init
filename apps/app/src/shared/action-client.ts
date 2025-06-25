@@ -9,7 +9,7 @@ import {
 import { headers } from "next/headers"
 
 import { AuthError } from "@init/auth/server"
-import { db } from "@init/db/serverless"
+import { database } from "@init/db/client"
 import { captureException } from "@init/observability/error/nextjs"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
@@ -100,6 +100,7 @@ export const publicAction = createSafeActionClient({
       action: metadata.name,
       requestId,
     })
+    const db = database()
 
     return next({ ctx: { logger: childLogger, db, auth } })
   })

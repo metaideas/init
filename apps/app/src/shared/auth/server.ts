@@ -12,7 +12,7 @@ import {
 } from "@init/auth/permissions"
 import { createAuth } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
-import { db } from "@init/db/serverless"
+import { database } from "@init/db/client"
 import { sendEmail } from "@init/email"
 import OrganizationInvitation from "@init/email/organization-invitation"
 
@@ -22,7 +22,7 @@ export const auth = createAuth(
   {
     secret: env.AUTH_SECRET,
     baseURL: env.BASE_URL,
-    database: db,
+    database: database(),
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,

@@ -9,7 +9,7 @@ import { publicAction } from "~/shared/action-client"
 
 export const changeLocale = publicAction
   .metadata({ name: "changeLocale" })
-  .schema(z.object({ locale: z.enum(LOCALES) }))
+  .inputSchema(z.object({ locale: z.enum(LOCALES) }))
   .action(async ({ parsedInput: { locale } }) => {
     const cookieStore = await cookies()
 

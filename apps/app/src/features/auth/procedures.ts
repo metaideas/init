@@ -11,7 +11,7 @@ const checkEmailAvailability = publicProcedure
   .input(z.object({ email: z.email() }))
   .query(async ({ input, ctx }) => {
     const user = await ctx.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.email, input.email),
+      where: (table, { eq }) => eq(table.email, input.email),
     })
 
     return { isAvailable: !user }

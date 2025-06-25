@@ -25,12 +25,12 @@
   },
   "dependencies": {
     "@better-auth/expo": "1.2.8",
-    "@init/db": "workspace:*",
     "@init/utils": "workspace:*",
     "better-auth": "1.2.8",
     "server-only": "0.0.1"
   },
   "devDependencies": {
+    "@init/db": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "typescript": "5.8.3"
   }
