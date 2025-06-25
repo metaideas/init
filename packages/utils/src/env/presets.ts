@@ -18,6 +18,15 @@ export * from "@t3-oss/env-core/presets-zod"
 // You can import these into your apps and extend them from your env config if
 // you are using a package that needs environment variables.
 
+export const auth = () =>
+  createEnv({
+    server: {
+      AUTH_SECRET: z.string(),
+      BASE_URL: z.url(),
+    },
+    runtimeEnv: process.env,
+  })
+
 export const db = () =>
   createEnv({
     server: {

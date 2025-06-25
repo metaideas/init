@@ -1,9 +1,12 @@
 import { createEnv } from "@init/env/nextjs"
-
-import authEnv from "@init/env/auth"
-import kvEnv from "@init/env/kv"
-import queueEnv from "@init/env/queue"
-import { db, node, sentry, sentryNextjs, vercel } from "@init/utils/env/presets"
+import {
+  auth,
+  db,
+  node,
+  sentry,
+  sentryNextjs,
+  vercel,
+} from "@init/utils/env/presets"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -32,12 +35,9 @@ export default createEnv({
     vercel(),
 
     // Packages
+    auth(),
     db(),
     sentry(),
     sentryNextjs(),
-    authEnv,
-
-    kvEnv,
-    queueEnv,
   ],
 })
