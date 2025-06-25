@@ -15,13 +15,13 @@ import { admin, organization } from "@init/auth/server/plugins"
 import { db } from "@init/db/serverless"
 import { sendEmail } from "@init/email"
 import OrganizationInvitation from "@init/email/organization-invitation"
-import { addProtocol } from "@init/utils/url"
 
 import env from "~/shared/env"
 
 export const auth = createAuth(
   {
-    baseURL: addProtocol(env.VERCEL_URL ?? env.NEXT_PUBLIC_VERCEL_URL),
+    secret: env.AUTH_SECRET,
+    baseURL: env.BASE_URL,
     database: db,
     emailAndPassword: {
       enabled: true,
@@ -51,7 +51,7 @@ export const auth = createAuth(
       },
       invitationExpiresIn: 60 * 60 * 24 * 7, // 7 days
       sendInvitationEmail: async invitation => {
-        const inviteLink = `${env.VERCEL_URL}/accept-invitation/${invitation.id}`
+        const inviteLink = `${env.BASE_URL}/accept-invitation/${invitation.id}`
 
         await sendEmail(
           OrganizationInvitation({

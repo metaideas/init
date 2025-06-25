@@ -14,6 +14,7 @@ export default createEnv({
   },
   server: {
     ANALYZE: z.stringbool().default(false),
+    BASE_URL: z.url(),
 
     // Google Sign In
     GOOGLE_CLIENT_ID: z.string(),

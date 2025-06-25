@@ -3,18 +3,15 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
 import type { db } from "@init/db"
 import type { db as dbServerless } from "@init/db/serverless"
-import env from "@init/env/auth"
-import {
-  APP_ID,
-  APP_NAME,
-  SESSION_EXPIRES_IN,
-  SESSION_UPDATE_AGE,
-} from "@init/utils/constants"
+import { APP_ID, APP_NAME } from "@init/utils/constants"
+
+export const SESSION_EXPIRES_IN = 60 * 60 * 24 * 30 // 30 days
+export const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
 
 type CreateAuthOptions = Omit<
   Parameters<typeof betterAuth>[0],
   "appName" | "secret" | "database" | "advanced" | "session" | "plugins"
-> & { database: typeof db | typeof dbServerless }
+> & { secret: string; database: typeof db | typeof dbServerless }
 
 export function createAuth<const Plugins extends BetterAuthPlugin[]>(
   options: CreateAuthOptions,
@@ -24,7 +21,6 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
 
   return betterAuth({
     appName: APP_NAME,
-    secret: env.AUTH_SECRET,
     database: drizzleAdapter(database, {
       provider: "pg",
       usePlural: true,

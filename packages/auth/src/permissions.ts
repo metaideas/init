@@ -9,9 +9,7 @@ import {
 const statement = {
   ...defaultStatements,
 
-  member: ["create", "read", "update", "delete"],
-  admin: ["create", "read", "update", "delete"],
-  owner: ["create", "read", "update", "delete"],
+  // Add your custom statements here
 } as const
 
 export const accessControl = createAccessControl(statement)

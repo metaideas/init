@@ -49,6 +49,7 @@ type Auth = ReturnType<typeof createAuth<typeof plugins>>
 export const auth: Auth = createAuth(
   {
     basePath: "/auth",
+    secret: env.AUTH_SECRET,
     baseURL: env.BASE_URL,
     database: db,
     emailAndPassword: {
