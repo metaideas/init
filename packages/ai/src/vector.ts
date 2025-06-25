@@ -1,24 +1,28 @@
 import { SemanticCache } from "@upstash/semantic-cache"
-import { Index } from "@upstash/vector"
+import { Index, type IndexConfig } from "@upstash/vector"
 
-import env from "@init/env/ai"
-
-export function createIndex<T extends Record<string, unknown> = never>() {
-  return new Index<T>({
-    url: env.UPSTASH_VECTOR_REST_URL,
-    token: env.UPSTASH_VECTOR_REST_URL,
-  })
+export function createIndex<T extends Record<string, unknown> = never>(
+  options: Omit<IndexConfig, "url" | "token"> = {},
+  env?: { url: string; token: string }
+) {
+  return Index.fromEnv(
+    env
+      ? {
+          UPSTASH_VECTOR_REST_TOKEN: env.token,
+          UPSTASH_VECTOR_REST_URL: env.url,
+        }
+      : undefined,
+    options
+  ) as Index<T>
 }
 
-export function createSemanticCache({
-  namespace,
-  minProximity = 0.5,
-}: { namespace?: string; minProximity?: number } = {}) {
-  const index = createIndex()
-
+export function createSemanticCache(
+  index: Index,
+  options: { namespace?: string; minProximity: number } = { minProximity: 0.5 }
+) {
   return new SemanticCache({
     index,
-    minProximity,
-    namespace,
+    minProximity: options.minProximity,
+    namespace: options.namespace,
   })
 }
