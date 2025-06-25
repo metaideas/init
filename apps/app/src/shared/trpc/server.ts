@@ -5,7 +5,7 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { cache } from "react"
 import superjson from "superjson"
 
-import { db } from "@init/db/serverless"
+import { database } from "@init/db/client"
 import { logger } from "@init/observability/logger"
 import * as z from "@init/utils/schema"
 
@@ -18,6 +18,7 @@ export const createContext = cache(
     const childLogger = logger.child({
       requestId,
     })
+    const db = database()
 
     return {
       ...(options ?? {}),
@@ -56,5 +57,5 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     })
   }
 
-  return next({ ctx: { ...ctx.session } })
+  return next({ ctx: { ...ctx, ...ctx.session } })
 })

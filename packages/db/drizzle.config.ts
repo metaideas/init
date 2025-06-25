@@ -1,22 +1,23 @@
 import { defineConfig } from "drizzle-kit"
 
-import env from "@init/env/db"
+import { checkIsLocalDatabase } from "@init/db/helpers"
+import { db } from "@init/utils/env/presets"
 
-if (
-  !env.DATABASE_URL?.includes("localhost") &&
-  !env.RUN_PRODUCTION_MIGRATIONS
-) {
+const env = db()
+
+if (!checkIsLocalDatabase(env.DATABASE_URL) && !env.RUN_PRODUCTION_MIGRATIONS) {
   throw new Error(
     "DATABASE_URL is not allowed to be a remote URL when RUN_PRODUCTION_MIGRATIONS is not true"
   )
 }
 
 export default defineConfig({
-  schema: "./src/schema/index.ts",
+  schema: "./src/schema.ts",
   out: "./migrations",
-  dialect: "postgresql",
+  dialect: "turso",
   dbCredentials: {
     url: env.DATABASE_URL,
+    authToken: env.DATABASE_AUTH_TOKEN,
   },
   casing: "snake_case",
   breakpoints: true,

@@ -2,21 +2,24 @@ import { reset } from "drizzle-seed"
 
 import { prompt, runScript } from "@tooling/helpers"
 
-import { db } from "@init/db"
+import { database } from "@init/db/client"
+import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
-import env from "@init/env/db"
+import { db as env } from "@init/utils/env/presets"
 
 async function main() {
   prompt.log.step("Resetting database...")
 
-  if (env.DATABASE_URL?.includes("https")) {
+  if (!checkIsLocalDatabase(env().DATABASE_URL)) {
     prompt.log.error("Cannot reset production database")
     process.exit(1)
   }
+  const db = database()
 
   try {
     prompt.log.step("Dropping all tables")
 
+    // @ts-expect-error - Type error with drizzle-seed and LibSQL
     await reset(db, schema)
 
     prompt.log.success(

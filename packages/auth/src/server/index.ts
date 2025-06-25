@@ -1,28 +1,22 @@
 import { type BetterAuthPlugin, betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
-import type { db } from "@init/db"
-import type { db as dbServerless } from "@init/db/serverless"
+import type { Database } from "@init/db/client"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
-
-export const SESSION_EXPIRES_IN = 60 * 60 * 24 * 30 // 30 days
-export const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
 
 type CreateAuthOptions = Omit<
   Parameters<typeof betterAuth>[0],
   "appName" | "secret" | "database" | "advanced" | "session" | "plugins"
-> & { secret: string; database: typeof db | typeof dbServerless }
+> & { secret: string; database: Database }
 
 export function createAuth<const Plugins extends BetterAuthPlugin[]>(
-  options: CreateAuthOptions,
+  { database, ...options }: CreateAuthOptions,
   plugins: Plugins = [] as unknown as Plugins
 ) {
-  const { database, ...rest } = options
-
   return betterAuth({
     appName: APP_NAME,
     database: drizzleAdapter(database, {
-      provider: "pg",
+      provider: "sqlite",
       usePlural: true,
     }),
     advanced: {
@@ -33,11 +27,11 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
       cookiePrefix: APP_ID,
     },
     session: {
-      expiresIn: SESSION_EXPIRES_IN,
-      updateAge: SESSION_UPDATE_AGE,
+      expiresIn: 60 * 60 * 24 * 30, // 30 days
+      updateAge: 60 * 60 * 24 * 15, // 15 days
     },
     plugins,
-    ...rest,
+    ...options,
   })
 }
 

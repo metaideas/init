@@ -6,7 +6,7 @@ import {
 } from "@init/auth/permissions"
 import { createAuth } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
-import { db } from "@init/db"
+import { database } from "@init/db/client"
 import { sendEmail } from "@init/email"
 import OrganizationInvitation from "@init/email/organization-invitation"
 import env from "~/shared/env"
@@ -44,14 +44,14 @@ const plugins = [
 // the client, otherwise we get a "A type annotation is necessary" error. See
 // this issue for more details:
 // https://github.com/better-auth/better-auth/issues/1391
-type Auth = ReturnType<typeof createAuth<typeof plugins>>
+export type Auth = ReturnType<typeof createAuth<typeof plugins>>
 
 export const auth: Auth = createAuth(
   {
     basePath: "/auth",
     secret: env.AUTH_SECRET,
     baseURL: env.BASE_URL,
-    database: db,
+    database: database(),
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,

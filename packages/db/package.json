@@ -5,10 +5,9 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
     "./helpers": "./src/helpers.ts",
-    "./schema": "./src/schema/index.ts",
-    "./serverless": "./src/serverless.ts"
+    "./schema": "./src/schema.ts",
+    "./client": "./src/client.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -24,11 +23,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "@neondatabase/serverless": "^1.0.0",
-    "drizzle-orm": "0.44.2",
-    "pg": "^8.16.0"
+    "@libsql/client": "^0.15.9",
+    "drizzle-orm": "0.44.2"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",

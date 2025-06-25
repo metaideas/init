@@ -4,7 +4,7 @@ import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
 
-import { db } from "@init/db"
+import { database } from "@init/db/client"
 import { captureException } from "@init/observability/error/node"
 import { logger } from "@init/observability/logger"
 
@@ -25,6 +25,8 @@ app.use(contextStorage())
 
 // Add context dependencies
 app.use(async (c, next) => {
+  const db = database()
+
   c.set("auth", auth)
   c.set("db", db)
   c.set("logger", logger)
