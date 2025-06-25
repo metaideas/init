@@ -4,8 +4,7 @@ import * as z from "@init/utils/schema"
 
 // Packages
 import authEnv from "@init/env/auth"
-import dbEnv from "@init/env/db"
-import observabilityEnv from "@init/env/observability/server"
+import { db, sentry } from "@init/utils/env/presets"
 
 export default createEnv({
   server: {
@@ -14,11 +13,10 @@ export default createEnv({
   },
   extends: [
     node(),
-
     // Packages
+    db(),
+    sentry(),
     authEnv,
-    dbEnv,
-    observabilityEnv,
   ],
   runtimeEnv: process.env,
 })

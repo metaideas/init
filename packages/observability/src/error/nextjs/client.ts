@@ -1,26 +1,23 @@
+"use client"
+
 import * as Sentry from "@sentry/nextjs"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 
-import env from "@init/env/observability/nextjs"
-import {
-  DEVELOPMENT_MONITORING_SAMPLE_RATE,
-  PRODUCTION_MONITORING_SAMPLE_RATE,
-} from "@init/utils/constants"
-import { isDevelopment } from "@init/utils/environment"
+import { sentryNextjs } from "@init/utils/env/presets"
+
+import { MONITORING_SAMPLE_RATE } from "../config"
 
 export function initializeErrorMonitoring() {
+  const env = sentryNextjs()
+
   Sentry.init({
     dsn: env.NEXT_PUBLIC_SENTRY_DSN,
-    tracesSampleRate: isDevelopment
-      ? DEVELOPMENT_MONITORING_SAMPLE_RATE
-      : PRODUCTION_MONITORING_SAMPLE_RATE,
+    tracesSampleRate: MONITORING_SAMPLE_RATE,
 
     replaysOnErrorSampleRate: 1,
 
-    replaysSessionSampleRate: isDevelopment
-      ? DEVELOPMENT_MONITORING_SAMPLE_RATE
-      : PRODUCTION_MONITORING_SAMPLE_RATE,
+    replaysSessionSampleRate: MONITORING_SAMPLE_RATE,
 
     sendDefaultPii: true,
 
@@ -40,7 +37,7 @@ export function useReportError(error: Error) {
   const pathname = usePathname()
 
   useEffect(() => {
-    Sentry.captureException(error, {
+    captureException(error, {
       data: {
         pathname,
       },
@@ -48,4 +45,8 @@ export function useReportError(error: Error) {
   }, [error, pathname])
 }
 
+export const captureException = Sentry.captureException
+export const captureMessage = Sentry.captureMessage
+export const withScope = Sentry.withScope
+export const captureRequestError = Sentry.captureRequestError
 export const captureRouterTransitionStart = Sentry.captureRouterTransitionStart

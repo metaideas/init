@@ -5,7 +5,7 @@ import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
 
 import { database } from "@init/db/client"
-import { captureException } from "@init/observability/error/node"
+import { captureException } from "@init/observability/error/server"
 import { logger } from "@init/observability/logger"
 
 import { auth } from "~/shared/auth"

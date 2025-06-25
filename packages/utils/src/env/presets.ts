@@ -37,3 +37,37 @@ export const email = () =>
     },
     runtimeEnv: process.env,
   })
+
+export const sentry = () =>
+  createEnv({
+    server: {
+      SENTRY_DSN: z.string(),
+      SENTRY_AUTH_TOKEN: z.string(),
+      SENTRY_ORG: z.string(),
+      SENTRY_PROJECT: z.string(),
+      SENTRY_DEBUG: z.stringbool().default(false),
+    },
+    runtimeEnv: process.env,
+  })
+
+export const sentryExpo = () =>
+  createEnv({
+    client: {
+      EXPO_PUBLIC_SENTRY_DSN: z.string(),
+    },
+    clientPrefix: "EXPO_PUBLIC_",
+    runtimeEnvStrict: {
+      EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
+    },
+  })
+
+export const sentryNextjs = () =>
+  createEnv({
+    client: {
+      NEXT_PUBLIC_SENTRY_DSN: z.string(),
+    },
+    clientPrefix: "NEXT_PUBLIC_",
+    runtimeEnvStrict: {
+      NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    },
+  })

@@ -1,21 +1,26 @@
 import * as Sentry from "@sentry/nextjs"
 import type { NextConfig } from "next/types"
 
-import env from "@init/env/observability/nextjs"
-import { isProduction } from "@init/utils/environment"
+import { sentry } from "@init/utils/env/presets"
+
+import { MONITORING_SAMPLE_RATE } from "../config"
 
 export function registerErrorMonitoring() {
+  const env = sentry()
+
   Sentry.init({
     dsn: env.SENTRY_DSN,
     debug: env.SENTRY_DEBUG,
-    tracesSampleRate: isProduction ? 0.1 : 1,
+    tracesSampleRate: MONITORING_SAMPLE_RATE,
 
     // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
-    spotlight: isProduction && process.env.NEXT_RUNTIME === "nodejs",
+    spotlight: process.env.NEXT_RUNTIME === "nodejs",
   })
 }
 
 export function withErrorMonitoring(config: NextConfig) {
+  const env = sentry()
+
   return Sentry.withSentryConfig(config, {
     org: env.SENTRY_ORG,
     project: env.SENTRY_PROJECT,

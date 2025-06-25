@@ -1,3 +1,3 @@
-import { registerErrorMonitoring } from "@init/observability/error/node"
+import { registerErrorMonitoring } from "@init/observability/error/server"
 
 registerErrorMonitoring()
