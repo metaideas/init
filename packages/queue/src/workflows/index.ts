@@ -1,29 +1,40 @@
+import type * as z from "@init/utils/schema"
 import { Client } from "@upstash/workflow"
 
-import env from "@init/env/queue"
+type TriggersSchema = Record<string, z.ZodType>
+type TriggerType<Triggers extends TriggersSchema> = keyof Triggers & string
+type TriggerBody<
+  Triggers extends TriggersSchema,
+  T extends TriggerType<Triggers>,
+> = z.infer<Triggers[T]>
 
-import type { TriggerBody, TriggerType } from "./events"
+type WorkflowClientConfig = {
+  token: string
+}
 
-const client = new Client({ token: env.QSTASH_TOKEN })
+type WorkflowClientOptions<Triggers extends TriggersSchema> = {
+  baseUrl: string
+  triggers: Triggers
+}
 
-export function createWorkflowTrigger(baseUrl: string) {
-  return function trigger<T extends TriggerType>(
+export function createWorkflowClient<Triggers extends TriggersSchema>(
+  config: WorkflowClientConfig,
+  options: WorkflowClientOptions<Triggers>
+) {
+  const client = new Client({ token: config.token })
+
+  function getTriggerBody<T extends TriggerType<Triggers>>(
     type: T,
-    body: TriggerBody<T>,
-    ...options: Omit<Parameters<typeof client.trigger>, "url" | "body">[]
+    body: TriggerBody<Triggers, T>
   ) {
-    return client.trigger({
-      url: `${baseUrl}/${type}`,
+    return {
+      url: `${options.baseUrl}/${type}`,
       body,
-      ...options,
-    })
+    }
+  }
+
+  return {
+    client,
+    getTriggerBody,
   }
 }
-
-export function notifyEvent(...args: Parameters<typeof client.notify>) {
-  return client.notify(...args)
-}
-
-export type { TriggerBody, TriggerType } from "./events"
-
-export default client

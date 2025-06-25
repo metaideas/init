@@ -9,7 +9,7 @@ import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow"
  * @example
  * ```ts
  * const fetch = contextFetch(context, "ai")
- * const openai = createOpe
+ * const openai = createOpenAI({ fetch })
  */
 export function contextFetch(
   context: WorkflowContext,

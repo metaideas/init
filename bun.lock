@@ -516,7 +516,6 @@
       "name": "@init/queue",
       "version": "0.1.0",
       "dependencies": {
-        "@init/env": "workspace:*",
         "@init/observability": "workspace:*",
         "@init/utils": "workspace:*",
         "@upstash/qstash": "2.8.1",

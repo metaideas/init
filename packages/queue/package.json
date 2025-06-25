@@ -7,7 +7,8 @@
   "exports": {
     "./messages": "./src/messages.ts",
     "./workflows": "./src/workflows/index.ts",
-    "./workflows/*": "./src/workflows/serve/*.ts"
+    "./workflows/*": "./src/workflows/serve/*.ts",
+    "./workflows/integrations": "./src/workflows/integrations.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -18,7 +19,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@upstash/qstash": "2.8.1",

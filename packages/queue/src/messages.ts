@@ -1,11 +1,6 @@
 import { safeParseJSON } from "@init/utils/json"
 import type * as z from "@init/utils/schema"
-import {
-  Client,
-  type PublishRequest,
-  Receiver,
-  type VerifyRequest,
-} from "@upstash/qstash"
+import { Client, Receiver, type VerifyRequest } from "@upstash/qstash"
 
 type EventsSchema = Record<string, z.ZodType>
 type MessageType<Events extends EventsSchema> = keyof Events & string
@@ -73,18 +68,13 @@ export function createMessageClient<Events extends EventsSchema>(
     nextSigningKey: config.nextSigningKey,
   })
 
-  function getMessageOptions<T extends MessageType<Events>>(
+  function getPublishBody<T extends MessageType<Events>>(
     type: T,
-    body: MessageBody<Events, T>,
-    ...publishOptions: Omit<
-      PublishRequest<MessageBody<Events, T>>,
-      "url" | "body"
-    >[]
+    body: MessageBody<Events, T>
   ) {
     return {
       url: `${options.baseUrl}/${type}`,
       body,
-      ...publishOptions,
     }
   }
 
@@ -118,7 +108,7 @@ export function createMessageClient<Events extends EventsSchema>(
     return { success: true, body: parsedBody }
   }
 
-  return { client, getMessageOptions, verifyMessageRequest }
+  return { client, getPublishBody, verifyMessageRequest }
 }
 
 export { resend, openai, anthropic } from "@upstash/qstash"
