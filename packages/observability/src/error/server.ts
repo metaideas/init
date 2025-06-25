@@ -1,4 +1,4 @@
-import { sentry } from "@init/utils/env/presets"
+import { sentry } from "@init/env/presets"
 import * as Sentry from "@sentry/node"
 
 import { MONITORING_SAMPLE_RATE } from "./config"

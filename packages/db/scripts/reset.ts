@@ -5,7 +5,7 @@ import { prompt, runScript } from "@tooling/helpers"
 import { database } from "@init/db/client"
 import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
-import { db as env } from "@init/utils/env/presets"
+import { db as env } from "@init/env/presets"
 
 async function main() {
   prompt.log.step("Resetting database...")

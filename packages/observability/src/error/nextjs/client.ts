@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/nextjs"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 
-import { sentryNextjs } from "@init/utils/env/presets"
+import { sentryNextjs } from "@init/env/presets"
 
 import { MONITORING_SAMPLE_RATE } from "../config"
 

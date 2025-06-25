@@ -21,7 +21,6 @@
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/observability": "workspace:*",
-    "@init/queue": "workspace:*",
     "@init/security": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",

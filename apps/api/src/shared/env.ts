@@ -2,7 +2,7 @@ import { createEnv } from "@init/env/core"
 import * as z from "@init/utils/schema"
 
 // Packages
-import { auth, db, node, sentry } from "@init/utils/env/presets"
+import { auth, db, node, sentry, upstashRedis } from "@init/env/presets"
 
 export default createEnv({
   server: {
@@ -15,6 +15,7 @@ export default createEnv({
     auth(),
     db(),
     sentry(),
+    upstashRedis(),
   ],
   runtimeEnv: process.env,
 })

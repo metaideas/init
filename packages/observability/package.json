@@ -24,6 +24,7 @@
     "@axiomhq/logging": "^0.1.4",
     "@axiomhq/nextjs": "^0.1.4",
     "@axiomhq/react": "^0.1.4",
+    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "@openstatus/react": "^0.0.3",
     "@sentry/browser": "9.24.0",

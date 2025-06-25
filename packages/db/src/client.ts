@@ -1,7 +1,7 @@
 import { createClient } from "@libsql/client"
 import { drizzle } from "drizzle-orm/libsql"
 
-import { db } from "@init/utils/env/presets"
+import { db } from "@init/env/presets"
 import { singleton } from "@init/utils/singleton"
 
 import * as schema from "./schema"

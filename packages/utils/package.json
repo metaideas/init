@@ -9,9 +9,7 @@
     "./seo": "./src/helpers/seo.tsx",
     "./trpc-client": "./src/helpers/trpc-client.tsx",
     "./*": "./src/helpers/*.ts",
-    "./constants": "./src/constants/index.ts",
-    "./env": "./src/env/index.ts",
-    "./env/presets": "./src/env/presets.ts"
+    "./constants": "./src/constants/index.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -23,7 +21,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@t3-oss/env-core": "^0.13.8",
     "@tanstack/react-query": "5.80.7",
     "@trpc/client": "11.4.0",
     "@trpc/tanstack-react-query": "11.4.0",

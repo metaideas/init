@@ -23,6 +23,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "@libsql/client": "^0.15.9",
     "drizzle-orm": "0.44.2"

@@ -1,12 +1,5 @@
 import { createEnv } from "@init/env/nextjs"
-import {
-  auth,
-  db,
-  node,
-  sentry,
-  sentryNextjs,
-  vercel,
-} from "@init/utils/env/presets"
+import { auth, db, node, sentry, sentryNextjs, vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 
 export default createEnv({

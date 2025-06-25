@@ -5,6 +5,7 @@ import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
 
 import { database } from "@init/db/client"
+import { redis } from "@init/kv/client"
 import { captureException } from "@init/observability/error/server"
 import { logger } from "@init/observability/logger"
 
@@ -26,9 +27,11 @@ app.use(contextStorage())
 // Add context dependencies
 app.use(async (c, next) => {
   const db = database()
+  const kv = redis()
 
   c.set("auth", auth)
   c.set("db", db)
+  c.set("kv", kv)
   c.set("logger", logger)
 
   await next()

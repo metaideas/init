@@ -1,7 +1,7 @@
 import { defineConfig } from "drizzle-kit"
 
 import { checkIsLocalDatabase } from "@init/db/helpers"
-import { db } from "@init/utils/env/presets"
+import { db } from "@init/env/presets"
 
 const env = db()
 

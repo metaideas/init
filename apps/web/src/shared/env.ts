@@ -1,9 +1,9 @@
 import { createEnv } from "@init/env/nextjs"
-import { vercel } from "@init/env/presets"
+import { sentry, vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 
 // Packages
-import observabilityEnv from "@init/env/observability/nextjs"
+import { sentryNextjs } from "@init/env/presets"
 
 export default createEnv({
   experimental__runtimeEnv: {
@@ -21,6 +21,7 @@ export default createEnv({
     vercel(),
 
     // Packages
-    observabilityEnv,
+    sentry(),
+    sentryNextjs(),
   ],
 })

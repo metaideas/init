@@ -8,8 +8,7 @@ export default createEnv({
   server: {
     TAURI_DEV_HOST: z.string().optional(),
   },
-  runtimeEnv: {
+  experimental__runtimeEnv: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    TAURI_DEV_HOST: process.env.TAURI_DEV_HOST,
   },
 })

@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/nextjs"
 import type { NextConfig } from "next/types"
 
-import { sentry } from "@init/utils/env/presets"
+import { sentry } from "@init/env/presets"
 
 import { MONITORING_SAMPLE_RATE } from "../config"
 
