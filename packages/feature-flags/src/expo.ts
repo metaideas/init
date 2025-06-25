@@ -1,8 +1,6 @@
 import { useFeatureFlag as usePostHogFeatureFlag } from "posthog-react-native"
 import type { ReactNode } from "react"
 
-import { analytics } from "@init/analytics/product/expo"
-
 export function FeatureFlag({
   flag,
   match,
@@ -14,7 +12,7 @@ export function FeatureFlag({
   children: ReactNode
   fallback: ReactNode
 }) {
-  const value = usePostHogFeatureFlag(flag, analytics)
+  const value = usePostHogFeatureFlag(flag)
 
   if (value !== undefined && value === match) {
     return children
@@ -24,5 +22,5 @@ export function FeatureFlag({
 }
 
 export function useFeatureFlag(flag: string) {
-  return usePostHogFeatureFlag(flag, analytics)
+  return usePostHogFeatureFlag(flag)
 }

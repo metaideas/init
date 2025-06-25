@@ -5,11 +5,10 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./product/expo": "./src/product/expo.tsx",
-    "./product/nextjs": "./src/product/nextjs/index.ts",
-    "./product/nextjs/*": "./src/product/nextjs/*.ts",
+    "./product/client": "./src/product/client.tsx",
+    "./product/expo": "./src/product/expo.ts",
+    "./product/nextjs": "./src/product/nextjs.ts",
     "./product/server": "./src/product/server.ts",
-    "./product/react": "./src/product/react.tsx",
     "./web": "./src/web.ts"
   },
   "scripts": {
@@ -20,7 +19,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "next-plausible": "3.12.4",
     "posthog-js": "1.242.0",

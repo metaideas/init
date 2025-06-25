@@ -3,13 +3,13 @@ import "server-only"
 import { flag } from "flags/next"
 import { headers } from "next/headers"
 
-import { analytics } from "@init/analytics/product/server"
+import type { Analytics } from "@init/analytics/product/server"
 import type { Auth } from "@init/auth/server"
 
 /**
  * Create feature flags for Next.js. These flags are to be used only on the server side.
  */
-export function flags(auth: Auth) {
+export function flags(analytics: Analytics, auth: Auth) {
   return (key: string, defaultValue = false) => {
     return flag<boolean>({
       key,

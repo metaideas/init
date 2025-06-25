@@ -1,5 +1,6 @@
+import { PostHog, type PostHogOptions } from "posthog-react-native"
+
 import { singleton } from "@init/utils/singleton"
-import { PostHog, type PostHogOptions } from "posthog-node"
 
 export function createAnalytics(
   apiKey: string,
@@ -7,17 +8,14 @@ export function createAnalytics(
   options: Omit<PostHogOptions, "host" | "apiKey"> = {}
 ) {
   return singleton(
-    "analytics-server",
-    () =>
-      new PostHog(apiKey, {
-        host,
-        // Don't batch events and send them immediately
-        flushAt: 1,
-        flushInterval: 0,
-
-        ...options,
-      })
+    "analytics-expo",
+    () => new PostHog(apiKey, { host, ...options })
   )
 }
 
 export type Analytics = ReturnType<typeof createAnalytics>
+
+export {
+  PostHogProvider as AnalyticsProvider,
+  usePostHog as useAnalytics,
+} from "posthog-react-native"
