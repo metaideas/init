@@ -13,10 +13,10 @@ import { auth } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
 // Routing
-import authRoutes from "~/routes/auth"
-import healthRoutes from "~/routes/health"
-import testRoutes from "~/routes/test"
-import trpcRoutes from "~/routes/trpc"
+import authRoutes from "~/app/auth"
+import healthRoutes from "~/app/health"
+import testRoutes from "~/app/test"
+import trpcRoutes from "~/app/trpc"
 
 const app = new Hono<AppContext>()
 
