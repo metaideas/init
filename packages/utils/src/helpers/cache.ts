@@ -5,14 +5,14 @@ type KeyFormat<
   Args extends string[],
 > = `${T}:${FirstArg<Args>}${JoinedRest<RestArgs<Args>>}`
 
-export function buildKeyGenerator<const T extends string>(): <
-  C extends T,
-  Args extends string[],
->(
+export function buildKeyGenerator<
+  const TopKey extends string,
+  const SubKeys extends string,
+>(): <C extends TopKey, Args extends [SubKeys, ...string[]]>(
   category: C,
   ...args: Args
 ) => KeyFormat<C, Args> {
-  return <C extends T, Args extends string[]>(
+  return <C extends TopKey, Args extends [SubKeys, ...string[]]>(
     category: C,
     ...args: Args
   ): KeyFormat<C, Args> => {

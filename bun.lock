@@ -23,7 +23,6 @@
         "@hono/zod-validator": "0.4.3",
         "@init/auth": "workspace:*",
         "@init/db": "workspace:*",
-        "@init/email": "workspace:*",
         "@init/env": "workspace:*",
         "@init/observability": "workspace:*",
         "@init/queue": "workspace:*",
@@ -331,12 +330,12 @@
       "version": "0.1.0",
       "dependencies": {
         "@better-auth/expo": "1.2.8",
-        "@init/db": "workspace:*",
         "@init/utils": "workspace:*",
         "better-auth": "1.2.8",
         "server-only": "0.0.1",
       },
       "devDependencies": {
+        "@init/db": "workspace:*",
         "@tooling/tsconfig": "workspace:*",
         "typescript": "5.8.3",
       },
@@ -451,7 +450,6 @@
       "name": "@init/kv",
       "version": "0.1.0",
       "dependencies": {
-        "@init/env": "workspace:*",
         "@init/utils": "workspace:*",
         "@upstash/redis": "1.34.9",
       },

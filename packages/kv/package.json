@@ -5,8 +5,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./key": "./src/key.ts"
+    "./client": "./src/client.ts"
   },
   "scripts": {
     "check": "biome check --write .",
@@ -16,7 +15,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "@upstash/redis": "1.34.9"
   },

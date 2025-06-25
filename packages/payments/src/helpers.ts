@@ -1,10 +1,12 @@
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 
 import env from "@init/env/payments"
-import { kv } from "@init/kv"
-import { generateKVKey } from "@init/kv/key"
-
+import { redis } from "@init/kv/client"
+import { buildKeyGenerator } from "@init/utils/cache"
 import { type Stripe, stripe } from "./"
+
+const kv = redis()
+const generateKey = buildKeyGenerator<"stripe", "customer" | "subscription">()
 
 export const agentToolkit = new StripeAgentToolkit({
   secretKey: env.STRIPE_SECRET_KEY,
@@ -43,7 +45,7 @@ export type SubscriptionCache =
 export async function syncSubscription(
   customerId: string
 ): Promise<SubscriptionCache> {
-  const cacheKey = generateKVKey("stripe", "customer", customerId)
+  const cacheKey = generateKey("stripe", "customer", customerId)
 
   // Fetch latest subscription data from Stripe
   const subscriptions = await stripe.subscriptions.list({

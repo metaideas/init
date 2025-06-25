@@ -1,7 +1,7 @@
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 
-import { kv } from "@init/kv"
+import { redis } from "@init/kv/client"
 
 export function createRateLimiter(
   name: string,
@@ -16,7 +16,7 @@ export function createRateLimiter(
     ...options,
     analytics: true,
     ephemeralCache,
-    redis: kv,
+    redis: redis(),
     prefix: `ratelimit:${name}`,
     enableProtection: true,
   })
