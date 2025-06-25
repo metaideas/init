@@ -5,7 +5,7 @@ import { drizzle as drizzlePg } from "drizzle-orm/node-postgres"
 
 import env from "@init/env/db"
 import { isDevelopment } from "@init/utils/environment"
-import { remember } from "@init/utils/remember"
+import { singleton } from "@init/utils/singleton"
 
 import * as schema from "./schema"
 
@@ -13,7 +13,7 @@ const config: DrizzleConfig = {
   casing: "snake_case",
 }
 
-export const db = remember("db-serverless", () => {
+export const db = singleton("db-serverless", () => {
   // In development, we can't use the HTTP driver so we'll connect using TCP
   if (isDevelopment) {
     return drizzlePg(env.DATABASE_URL, { ...config, schema })

@@ -3,11 +3,11 @@ import { PostHogProvider } from "posthog-js/react"
 import type { ComponentProps } from "react"
 
 import env from "@init/env/analytics/client"
-import { remember } from "@init/utils/remember"
+import { singleton } from "@init/utils/singleton"
 
 import { config } from "./config"
 
-export const analytics = remember("analytics-react", () =>
+export const analytics = singleton("analytics-react", () =>
   posthog.init(env.VITE_POSTHOG_API_KEY, {
     ...config,
     ui_host: env.VITE_POSTHOG_HOST,

@@ -1,9 +1,9 @@
 import { Redis } from "@upstash/redis"
 
 import env from "@init/env/kv"
-import { remember } from "@init/utils/remember"
+import { singleton } from "@init/utils/singleton"
 
-export const kv = remember(
+export const kv = singleton(
   "kv",
   () =>
     new Redis({

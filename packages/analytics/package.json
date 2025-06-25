@@ -8,7 +8,7 @@
     "./product/expo": "./src/product/expo.tsx",
     "./product/nextjs": "./src/product/nextjs/index.ts",
     "./product/nextjs/*": "./src/product/nextjs/*.ts",
-    "./product/node": "./src/product/node.ts",
+    "./product/server": "./src/product/server.ts",
     "./product/react": "./src/product/react.tsx",
     "./web": "./src/web.ts"
   },
@@ -22,7 +22,6 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "flags": "4.0.0",
     "next-plausible": "3.12.4",
     "posthog-js": "1.242.0",
     "posthog-node": "4.17.1",
@@ -30,7 +29,6 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.8",
     "next": "15.3.3",

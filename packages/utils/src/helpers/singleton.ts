@@ -1,6 +1,6 @@
 // Taken and modified from https://github.com/epicweb-dev/remember/blob/main/index.js
 
-export function remember<T>(name: string, getValue: () => T) {
+export function singleton<T>(name: string, getValue: () => T) {
   const thusly = globalThis as unknown as {
     __remember_init: Map<string, T>
   }

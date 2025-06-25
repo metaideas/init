@@ -3,7 +3,7 @@ import "server-only"
 import { flag } from "flags/next"
 import { headers } from "next/headers"
 
-import { analytics } from "@init/analytics/product/node"
+import { analytics } from "@init/analytics/product/server"
 import type { Auth } from "@init/auth/server"
 
 /**

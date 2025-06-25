@@ -2,11 +2,11 @@ import { PostHog, PostHogProvider } from "posthog-react-native"
 import type { ComponentProps } from "react"
 
 import env from "@init/env/analytics/expo"
-import { remember } from "@init/utils/remember"
+import { singleton } from "@init/utils/singleton"
 
 import { config } from "./config"
 
-export const analytics = remember(
+export const analytics = singleton(
   "analytics-expo",
   () =>
     new PostHog(env.EXPO_PUBLIC_POSTHOG_API_KEY, {

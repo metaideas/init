@@ -1,10 +1,10 @@
 import { PostHog } from "posthog-node"
 
 import env from "@init/env/analytics/server"
-import { remember } from "@init/utils/remember"
+import { singleton } from "@init/utils/singleton"
 
-export const analytics = remember(
-  "analytics-node",
+export const analytics = singleton(
+  "analytics-server",
   () =>
     new PostHog(env.POSTHOG_API_KEY, {
       host: env.POSTHOG_HOST,
