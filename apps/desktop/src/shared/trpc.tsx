@@ -1,0 +1,54 @@
+import { isDevelopment } from "@init/utils/environment"
+import { useQueryClient } from "@tanstack/react-query"
+import {
+  createTRPCClient,
+  httpBatchLink,
+  httpLink,
+  isNonJsonSerializable,
+  loggerLink,
+  splitLink,
+} from "@trpc/client"
+import { createTRPCContext } from "@trpc/tanstack-react-query"
+import type { TRPCClient } from "api/client"
+import { type ReactNode, useState } from "react"
+import superjson from "superjson"
+
+import { buildApiUrl } from "~/shared/utils"
+
+export const {
+  useTRPC,
+  useTRPCClient,
+  TRPCProvider: TRPCProviderBase,
+} = createTRPCContext<TRPCClient>()
+
+const url = buildApiUrl("/trpc")
+
+export function TRPCProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient()
+  const [trpcClient] = useState(() =>
+    createTRPCClient<TRPCClient>({
+      links: [
+        loggerLink({ enabled: () => isDevelopment, colorMode: "ansi" }),
+        splitLink({
+          condition: op =>
+            Boolean(op.context.skipBatching) ||
+            isNonJsonSerializable(op.context.result),
+          false: httpBatchLink({
+            transformer: superjson,
+            url,
+          }),
+          true: httpLink({
+            transformer: superjson,
+            url,
+          }),
+        }),
+      ],
+    })
+  )
+
+  return (
+    <TRPCProviderBase trpcClient={trpcClient} queryClient={queryClient}>
+      {children}
+    </TRPCProviderBase>
+  )
+}

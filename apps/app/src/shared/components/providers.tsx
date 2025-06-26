@@ -6,6 +6,7 @@ import { Toaster } from "@init/ui/components/sonner"
 import { ThemeProvider } from "@init/ui/components/theme"
 import { TooltipProvider } from "@init/ui/components/tooltip"
 
+import { QueryClientProvider } from "~/shared/query-client"
 import { TRPCProvider } from "~/shared/trpc/client"
 
 export default async function Providers({
@@ -14,15 +15,17 @@ export default async function Providers({
   const messages = await getMessages()
 
   return (
-    <TRPCProvider>
-      <NextIntlClientProvider messages={messages}>
-        <ThemeProvider>
-          <TooltipProvider>
-            {children}
-            <Toaster />
-          </TooltipProvider>
-        </ThemeProvider>
-      </NextIntlClientProvider>
-    </TRPCProvider>
+    <QueryClientProvider>
+      <TRPCProvider>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
+      </TRPCProvider>
+    </QueryClientProvider>
   )
 }

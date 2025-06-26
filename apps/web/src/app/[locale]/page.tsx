@@ -1,6 +1,7 @@
 import { RocketIcon } from "lucide-react"
 import Link from "next/link"
 
+import type { Locale } from "@init/internationalization/locale"
 import { getTranslations } from "@init/internationalization/nextjs/server"
 import { Button } from "@init/ui/components/button"
 import { ThemeToggle } from "@init/ui/components/theme"
@@ -14,7 +15,6 @@ import {
   TypographyLead,
   TypographySmall,
 } from "@init/ui/components/typography"
-import type { Locale } from "@init/utils/constants"
 
 export default async function Page({
   params,

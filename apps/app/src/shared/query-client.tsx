@@ -1,4 +1,10 @@
-import { QueryClient, defaultShouldDehydrateQuery } from "@tanstack/react-query"
+"use client"
+import {
+  QueryClient,
+  QueryClientProvider as QueryClientProviderBase,
+  defaultShouldDehydrateQuery,
+} from "@tanstack/react-query"
+import type { ReactNode } from "react"
 import superjson from "superjson"
 
 export function makeQueryClient() {
@@ -35,4 +41,13 @@ export const getQueryClient = () => {
   browserQueryClient ??= makeQueryClient()
 
   return browserQueryClient
+}
+
+// Re-exporting the QueryClientProvider on a file with "use client"
+export function QueryClientProvider({ children }: { children: ReactNode }) {
+  return (
+    <QueryClientProviderBase client={getQueryClient()}>
+      {children}
+    </QueryClientProviderBase>
+  )
 }

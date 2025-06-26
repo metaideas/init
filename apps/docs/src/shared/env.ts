@@ -3,7 +3,7 @@ import { vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 
 // Packages
-import observabilityEnv from "@init/env/observability/nextjs"
+import { sentry } from "@init/env/presets"
 
 export default createEnv({
   client: {
@@ -20,6 +20,6 @@ export default createEnv({
     vercel(),
 
     // Packages
-    observabilityEnv,
+    sentry(),
   ],
 })

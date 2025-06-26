@@ -120,23 +120,26 @@ export const publicAction = createSafeActionClient({
 
     const actionContext = { metadata, duration, ip, geo }
 
-    if (result.success) {
+    // Navigation redirects are considered successful
+    if (result.success || result.navigationKind === "redirect") {
       logger.info(
         { ...actionContext },
         `Action "${metadata.name}" succeeded in ${duration}ms`
       )
-    } else {
-      logger.error(
-        {
-          ...actionContext,
-          errors: {
-            server: result.serverError,
-            validation: result.validationErrors,
-          },
-        },
-        `Action "${metadata.name}" failed in ${duration}ms`
-      )
+
+      return result
     }
+
+    logger.error(
+      {
+        ...actionContext,
+        errors: {
+          server: result.serverError,
+          validation: result.validationErrors,
+        },
+      },
+      `Action "${metadata.name}" failed in ${duration}ms`
+    )
 
     return result
   })

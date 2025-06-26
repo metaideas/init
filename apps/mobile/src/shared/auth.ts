@@ -31,3 +31,15 @@ export const auth = createAuthClient(buildApiUrl("/auth"), [
 ])
 
 export const { useSession } = auth
+
+/**
+ * Use this to provide headers to clients that need to make authenticated requests.
+ */
+export function getAuthHeaders() {
+  const headers = new Headers()
+  const cookies = auth.getCookie()
+  if (cookies) {
+    headers.set("Cookie", cookies)
+  }
+  return headers
+}
