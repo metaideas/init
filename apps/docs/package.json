@@ -16,17 +16,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/analytics": "workspace:*",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
-    "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "fumadocs-core": "15.3.3",
-    "fumadocs-mdx": "11.6.4",
-    "fumadocs-ui": "15.3.3",
+    "fumadocs-core": "15.5.5",
+    "fumadocs-mdx": "11.6.9",
+    "fumadocs-ui": "15.5.5",
     "lucide-react": "0.475.0",
-    "next": "15.3.3",
+    "next": "15.3.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
@@ -35,7 +33,7 @@
     "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/mdx": "2.0.13",
-    "@types/node": "22.15.17",
+    "@types/node": "22.15.33",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.5",
     "typescript": "5.8.3"

@@ -18,7 +18,6 @@ export const baseOptions: BaseLayoutProps = {
     },
   ],
   nav: {
-    // can be JSX too!
     title: "Init Docs",
   },
 }
