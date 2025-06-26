@@ -16,6 +16,6 @@
   "devDependencies": {
     "@next/bundle-analyzer": "15.3.2",
     "@tooling/tsconfig": "workspace:*",
-    "next": "15.3.3"
+    "next": "15.3.4"
   }
 }

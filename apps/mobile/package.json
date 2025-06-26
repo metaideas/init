@@ -95,7 +95,7 @@
     "metro-cache": "^0.82.3",
     "react-native-css-interop": "0.1.22",
     "react-test-renderer": "18.3.1",
-    "tailwindcss": "3.4.17",
+    "tailwindcss": "4.1.7",
     "typescript": "5.8.3"
   }
 }

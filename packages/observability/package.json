@@ -38,7 +38,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.8",
-    "next": "15.3.3",
+    "next": "15.3.4",
     "typescript": "5.8.3"
   },
   "peerDependencies": {

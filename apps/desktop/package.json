@@ -24,7 +24,7 @@
     "@trpc/client": "11.4.0",
     "@trpc/tanstack-react-query": "11.4.0",
     "hono": "4.7.11",
-    "next": "15.3.3",
+    "next": "15.3.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "superjson": "2.2.2"

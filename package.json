@@ -36,38 +36,17 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@turbo/gen": "2.5.3",
+    "@types/bun": "1.2.16",
     "dependency-cruiser": "16.10.2",
     "shadcn": "^2.6.3",
     "sherif": "1.5.0",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
     "turbo": "2.5.3",
-    "typescript": "5.8.3",
-    "@types/bun": "1.2.16"
+    "typescript": "5.8.3"
   },
   "packageManager": "bun@1.2.13",
   "engines": {
-    "node": ">=22"
-  },
-  "trustedDependencies": [
-    "@biomejs/biome",
-    "@parcel/watcher",
-    "@sentry/cli",
-    "@tailwindcss/oxide",
-    "@upstash/qstash-cli",
-    "bufferutil",
-    "core-js",
-    "core-js-pure",
-    "docs",
-    "dtrace-provider",
-    "es5-ext",
-    "esbuild",
-    "extension",
-    "msgpackr-extract",
-    "msw",
-    "protobufjs",
-    "sharp",
-    "spawn-sync",
-    "utf-8-validate"
-  ]
+    "node": ">=24"
+  }
 }
