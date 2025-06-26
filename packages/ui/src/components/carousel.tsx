@@ -1,13 +1,12 @@
 "use client"
 
+import { Button } from "@init/ui/components/button"
+import { cn } from "@init/utils/ui"
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 import * as React from "react"
-
-import { Button } from "@init/ui/components/button"
-import { cn } from "@init/utils/ui"
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -91,7 +90,7 @@ function Carousel({
   )
 
   React.useEffect(() => {
-    if (!api || !setApi) {
+    if (!(api && setApi)) {
       return
     }
     setApi(api)
@@ -114,7 +113,7 @@ function Carousel({
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         opts,
         orientation:
           orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
@@ -125,10 +124,9 @@ function Carousel({
       }}
     >
       <section
-        onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
-        aria-roledescription="carousel"
         data-slot="carousel"
+        onKeyDownCapture={handleKeyDown}
         {...props}
       >
         {children}
@@ -142,9 +140,9 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 
   return (
     <div
-      ref={carouselRef}
       className="overflow-hidden"
       data-slot="carousel-content"
+      ref={carouselRef}
     >
       <div
         className={cn(
@@ -163,14 +161,14 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 
   return (
     <div
-      role="group"
       aria-roledescription="slide"
-      data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
+      data-slot="carousel-item"
+      role="group"
       {...props}
     />
   )
@@ -186,9 +184,6 @@ function CarouselPrevious({
 
   return (
     <Button
-      data-slot="carousel-previous"
-      variant={variant}
-      size={size}
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
@@ -196,8 +191,11 @@ function CarouselPrevious({
           : "-top-12 -translate-x-1/2 left-1/2 rotate-90",
         className
       )}
+      data-slot="carousel-previous"
       disabled={!canScrollPrev}
       onClick={scrollPrev}
+      size={size}
+      variant={variant}
       {...props}
     >
       <ArrowLeftIcon />
@@ -216,9 +214,6 @@ function CarouselNext({
 
   return (
     <Button
-      data-slot="carousel-next"
-      variant={variant}
-      size={size}
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
@@ -226,8 +221,11 @@ function CarouselNext({
           : "-bottom-12 -translate-x-1/2 left-1/2 rotate-90",
         className
       )}
+      data-slot="carousel-next"
       disabled={!canScrollNext}
       onClick={scrollNext}
+      size={size}
+      variant={variant}
       {...props}
     >
       <ArrowRightIcon />

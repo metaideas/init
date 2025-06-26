@@ -5,7 +5,7 @@ const posts = defineCollection({
   directory: "content/posts",
   include: ["**/*.md", "**/*.mdx"],
   name: "posts",
-  schema: z => ({
+  schema: (z) => ({
     summary: z.string(),
     title: z.string(),
   }),

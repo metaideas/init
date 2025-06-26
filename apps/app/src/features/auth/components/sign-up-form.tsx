@@ -19,7 +19,7 @@ export default function SignUpForm() {
       onSubmit: schema,
     },
     transform: useTransform(
-      baseForm =>
+      (baseForm) =>
         mergeForm(baseForm, {
           errorMap: {
             onServer: state.serverError,
@@ -37,7 +37,7 @@ export default function SignUpForm() {
     >
       <form.AppForm>
         <form.AppField name="name" validators={{ onBlur: schema.shape.name }}>
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Name</field.Label>
               <field.Control>
@@ -65,7 +65,7 @@ export default function SignUpForm() {
             },
           }}
         >
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Email address</field.Label>
               <field.Control>
@@ -79,7 +79,7 @@ export default function SignUpForm() {
           name="password"
           validators={{ onBlur: schema.shape.password }}
         >
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Password</field.Label>
               <field.Control>
@@ -93,7 +93,7 @@ export default function SignUpForm() {
           name="confirmPassword"
           validators={{
             onBlur: schema.shape.confirmPassword.refine(
-              v => v === form.getFieldValue("password"),
+              (v) => v === form.getFieldValue("password"),
               {
                 message: "Passwords don't match",
               }
@@ -102,7 +102,7 @@ export default function SignUpForm() {
             onChangeListenTo: ["password"],
           }}
         >
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Confirm Password</field.Label>
               <field.Control>

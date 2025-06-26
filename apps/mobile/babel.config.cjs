@@ -1,4 +1,6 @@
-module.exports = api => {
+"use strict"
+
+module.exports = (api) => {
   api.cache(true)
   const plugins = []
 

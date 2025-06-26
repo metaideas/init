@@ -1,10 +1,8 @@
-import { TRPCError, initTRPC } from "@trpc/server"
+import * as z from "@init/utils/schema"
+import { initTRPC, TRPCError } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
 import superjson from "superjson"
-
-import * as z from "@init/utils/schema"
-
 import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 

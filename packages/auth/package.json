@@ -14,12 +14,12 @@
     "./server/plugins": "./src/server/plugins.ts"
   },
   "scripts": {
-    "check": "biome check --write .",
+    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
-    "format": "biome format --write .",
-    "lint": "biome lint --fix .",
+    "format": "biome format --write",
+    "lint": "biome lint --fix",
     "secret": "pnpx @better-auth/cli@latest secret",
     "test": "bun test",
     "test:watch": "bun test --watch",

@@ -1,14 +1,12 @@
+import { cn } from "@init/utils/ui"
 import { useStore } from "@tanstack/react-form"
 import { Stack } from "expo-router"
-import { Platform, View } from "react-native"
+import { Alert, Platform, View } from "react-native"
 import {
   KeyboardAwareScrollView,
   KeyboardController,
 } from "react-native-keyboard-controller"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-
-import { cn } from "@init/utils/ui"
-
 import { Button } from "~/shared/components/ui/button"
 import { useAppForm } from "~/shared/components/ui/form"
 import { Text } from "~/shared/components/ui/text"
@@ -22,12 +20,12 @@ export default function Screen() {
       email: "",
     },
     onSubmit: async ({ value }) => {
-      await new Promise(resolve => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 5000))
 
-      console.info(value)
+      Alert.alert(JSON.stringify(value))
     },
   })
-  const canSubmit = useStore(form.store, state => state.canSubmit)
+  const canSubmit = useStore(form.store, (state) => state.canSubmit)
 
   return (
     <>
@@ -51,16 +49,16 @@ export default function Screen() {
       />
       <KeyboardAwareScrollView
         bottomOffset={8}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="interactive"
-        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom: insets.bottom }}
+        contentInsetAdjustmentBehavior="automatic"
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="handled"
       >
         <form.AppForm>
           <View className="flex-1 gap-4 px-4">
             <form.Section ios={{ title: "Profile" }}>
               <form.AppField name="name">
-                {field => (
+                {(field) => (
                   <field.Item>
                     <field.TextInput
                       label={Platform.select({
@@ -70,17 +68,17 @@ export default function Screen() {
                       leftView={Platform.select({
                         ios: <field.LeftLabel>First</field.LeftLabel>,
                       })}
-                      placeholder="Required"
                       onSubmitEditing={() =>
                         KeyboardController.setFocusTo("next")
                       }
+                      placeholder="Required"
                     />
                   </field.Item>
                 )}
               </form.AppField>
               <form.Separator />
               <form.AppField name="email">
-                {field => (
+                {(field) => (
                   <field.Item>
                     <field.TextInput
                       label={Platform.select({
@@ -90,17 +88,17 @@ export default function Screen() {
                       leftView={Platform.select({
                         ios: <field.LeftLabel>Email</field.LeftLabel>,
                       })}
-                      placeholder="Required"
                       onSubmitEditing={() =>
                         KeyboardController.setFocusTo("next")
                       }
+                      placeholder="Required"
                     />
                   </field.Item>
                 )}
               </form.AppField>
               <form.Separator />
               <form.AppField name="email">
-                {field => (
+                {(field) => (
                   <field.Item>
                     <field.TextInput
                       label={Platform.select({
@@ -110,10 +108,10 @@ export default function Screen() {
                       leftView={Platform.select({
                         ios: <field.LeftLabel>Email</field.LeftLabel>,
                       })}
-                      placeholder="Required"
                       onSubmitEditing={() =>
                         KeyboardController.setFocusTo("next")
                       }
+                      placeholder="Required"
                     />
                   </field.Item>
                 )}

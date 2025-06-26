@@ -17,7 +17,7 @@ export const signUp = publicAction
   .metadata({ name: "auth.signUp" })
   .use(withRateLimitByIp("auth.signUp", slidingWindow(10, "60 s")))
   .inputSchema(SignUpFormDataSchema, {
-    handleValidationErrorsShape: async errors =>
+    handleValidationErrorsShape: async (errors) =>
       flattenValidationErrors(errors),
   })
   .stateAction(async ({ parsedInput: { email, password, name }, ctx }) => {
@@ -36,7 +36,7 @@ export const signUp = publicAction
 export const signInWithPassword = publicAction
   .metadata({ name: "auth.signInWithPassword" })
   .inputSchema(SignInWithPasswordFormDataSchema, {
-    handleValidationErrorsShape: async errors =>
+    handleValidationErrorsShape: async (errors) =>
       flattenValidationErrors(errors),
   })
   .stateAction(async ({ parsedInput: { email, password }, ctx }) => {

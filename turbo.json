@@ -47,7 +47,9 @@
       "cache": false,
       "persistent": true
     },
-    "format": {},
+    "format": {
+      "cache": false
+    },
     "lint": {},
     "push": {
       "cache": false,

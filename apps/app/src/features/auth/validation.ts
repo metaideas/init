@@ -1,7 +1,7 @@
 import * as z from "@init/utils/schema"
 
 export const EmailSchema = z.email({
-  error: issue =>
+  error: (issue) =>
     issue.input === undefined ? "Email is required" : "Invalid email address",
 })
 
@@ -27,7 +27,7 @@ export const SignUpFormDataSchema = z.form
     name: z.form.text(z.string().min(1)),
     password: z.form.text(PasswordSchema),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     error: "Passwords don't match",
     path: ["confirmPassword"],
   })

@@ -423,15 +423,5 @@
     "defaultBranch": "main",
     "enabled": true,
     "useIgnoreFile": true
-  },
-
-  "overrides": [
-    {
-      "includes": ["**/packages/email/**"],
-      "javascript": {
-        // Allow React import to be present in email templates
-        "jsxRuntime": "reactClassic"
-      }
-    }
-  ]
+  }
 }

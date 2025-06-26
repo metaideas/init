@@ -10,9 +10,8 @@ export default function ExternalLink({
   return (
     <Link
       {...rest}
-      target="_blank"
       href={href}
-      onPress={async event => {
+      onPress={async (event) => {
         if (Platform.OS !== "web") {
           // Prevent the default behavior of linking to the default browser on native.
           event.preventDefault()
@@ -22,6 +21,7 @@ export default function ExternalLink({
           )
         }
       }}
+      target="_blank"
     />
   )
 }

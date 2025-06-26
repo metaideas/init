@@ -5,15 +5,15 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
-    "check": "biome check --write .",
+    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
     "dev": "next dev --port 3005 --turbopack",
-    "format": "biome format --write .",
+    "format": "biome format --write",
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
-    "lint": "biome lint --fix .",
+    "lint": "biome lint --fix",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
