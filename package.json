@@ -34,7 +34,7 @@
     "workspace:update": "bun run scripts/update.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0",
     "@turbo/gen": "2.5.3",
     "@types/bun": "1.2.16",
     "dependency-cruiser": "16.10.2",
