@@ -10,6 +10,8 @@
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "compile": "tsc --noEmit",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "format": "biome format --write .",

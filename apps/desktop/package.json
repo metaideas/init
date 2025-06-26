@@ -7,6 +7,8 @@
     "build": "tauri build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
     "dev": "tauri dev",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",

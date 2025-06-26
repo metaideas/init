@@ -11,6 +11,8 @@
     "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
     "dev": "bun --hot src/index.ts",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",

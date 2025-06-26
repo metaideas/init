@@ -8,6 +8,8 @@
     "build:ios:development": "eas build:dev --profile development --platform ios",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
     "dev": "expo start --port 3002",
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",

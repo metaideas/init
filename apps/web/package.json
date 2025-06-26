@@ -8,6 +8,8 @@
     "build": "next build",
     "check": "biome check --write .",
     "clean": "git clean -xdf .cache .turbo .next dist node_modules",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
     "dev": "next dev --turbopack --port 3006",
     "format": "biome format --write .",
     "lint": "biome lint --fix .",
