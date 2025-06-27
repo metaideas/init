@@ -1,7 +1,6 @@
+import { isDevelopment } from "@init/utils/environment"
 import pino from "pino"
 import pretty from "pino-pretty"
-
-import { isDevelopment } from "@init/utils/environment"
 
 export const logger = pino(
   {
@@ -19,5 +18,7 @@ export const logger = pino(
   },
   pretty({ colorize: true })
 )
+
+export type Logger = pino.Logger
 
 export { default as styles } from "chalk"

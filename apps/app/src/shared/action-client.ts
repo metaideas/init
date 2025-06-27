@@ -1,21 +1,20 @@
 import "server-only"
 
-import { geolocation, ipAddress } from "@vercel/functions"
-import {
-  DEFAULT_SERVER_ERROR_MESSAGE,
-  createMiddleware,
-  createSafeActionClient,
-} from "next-safe-action"
-import { headers } from "next/headers"
-
 import { AuthError } from "@init/auth/server"
-import { database } from "@init/db/client"
+import { type Database, database } from "@init/db/client"
+import { type Redis, redis } from "@init/kv/client"
 import { captureException } from "@init/observability/error/nextjs"
-import { logger } from "@init/observability/logger"
+import { type Logger, logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
 import * as z from "@init/utils/schema"
-
-import { auth, validateRequest } from "~/shared/auth/server"
+import { geolocation, ipAddress } from "@vercel/functions"
+import { headers } from "next/headers"
+import {
+  createMiddleware,
+  createSafeActionClient,
+  DEFAULT_SERVER_ERROR_MESSAGE,
+} from "next-safe-action"
+import { type Auth, auth, validateRequest } from "~/shared/auth/server"
 
 type ActionErrorCode =
   | "BAD_REQUEST"
@@ -36,6 +35,13 @@ type ActionErrorCode =
   | "BAD_GATEWAY"
   | "SERVICE_UNAVAILABLE"
   | "GATEWAY_TIMEOUT"
+
+type ActionContext = {
+  auth: Auth
+  db: Database
+  kv: Redis
+  logger: Logger
+}
 
 export class ActionError extends Error {
   code: ActionErrorCode
@@ -101,8 +107,11 @@ export const publicAction = createSafeActionClient({
       requestId,
     })
     const db = database()
+    const kv = redis()
 
-    return next({ ctx: { logger: childLogger, db, auth } })
+    const ctx = { auth, db, kv, logger: childLogger } satisfies ActionContext
+
+    return next({ ctx })
   })
   // Logging middleware for action
   .use(async ({ next, metadata }) => {
@@ -162,21 +171,30 @@ export function withRateLimitByIp(
   prefix: string,
   limiter: Parameters<typeof createRateLimiter>[1]["limiter"]
 ) {
-  const rateLimiter = createRateLimiter(prefix, { limiter })
+  let rateLimiter: ReturnType<typeof createRateLimiter>
 
-  return createMiddleware().define(async ({ next, ctx }) => {
-    const ip = await ipAddress({ headers: await headers() })
+  return createMiddleware<{ ctx: ActionContext }>().define(
+    async ({ next, ctx }) => {
+      const ip = await ipAddress({ headers: await headers() })
 
-    const limit = await rateLimiter.limit(ip ?? "Unknown")
+      if (!rateLimiter) {
+        rateLimiter = createRateLimiter(prefix, {
+          limiter,
+          redis: ctx.kv,
+        })
+      }
 
-    if (!limit.success) {
-      throw new ActionError({
-        code: "TOO_MANY_REQUESTS",
-        message: `Rate limit exceeded for IP: ${ip}`,
-        publicMessage: `Please try again in ${Math.ceil(limit.reset / 1000).toFixed(0)} seconds`,
-      })
+      const limit = await rateLimiter.limit(ip ?? "Unknown")
+
+      if (!limit.success) {
+        throw new ActionError({
+          code: "TOO_MANY_REQUESTS",
+          message: `Rate limit exceeded for IP: ${ip}`,
+          publicMessage: `Please try again in ${Math.ceil(limit.reset / 1000).toFixed(0)} seconds`,
+        })
+      }
+
+      return next({ ctx })
     }
-
-    return next({ ctx })
-  })
+  )
 }

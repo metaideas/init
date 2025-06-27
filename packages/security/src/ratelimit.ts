@@ -1,4 +1,4 @@
-import { redis } from "@init/kv/client"
+import { type Redis, redis } from "@init/kv/client"
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
 
@@ -6,8 +6,8 @@ export function createRateLimiter(
   name: string,
   options: Omit<
     RatelimitConfig,
-    "ephemeralCache" | "analytics" | "prefix" | "enableProtection"
-  >
+    "redis" | "ephemeralCache" | "analytics" | "prefix" | "enableProtection"
+  > & { redis?: Redis }
 ) {
   const ephemeralCache = new Map<string, number>()
 
@@ -15,7 +15,7 @@ export function createRateLimiter(
     ...options,
     analytics: true,
     ephemeralCache,
-    redis: options.redis ?? redis(),
+    redis: redis(),
     prefix: `ratelimit:${name}`,
     enableProtection: true,
   })
