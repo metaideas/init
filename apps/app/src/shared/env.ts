@@ -4,7 +4,7 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   experimental__runtimeEnv: {
-    NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   server: {
@@ -20,7 +20,7 @@ export default createEnv({
     GITHUB_CLIENT_SECRET: z.string(),
   },
   client: {
-    NEXT_PUBLIC_VERCEL_URL: z.string(),
+    NEXT_PUBLIC_BASE_URL: z.url(),
     NEXT_PUBLIC_API_URL: z.string().optional(),
   },
   extends: [
