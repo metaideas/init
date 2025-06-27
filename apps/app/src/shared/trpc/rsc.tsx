@@ -1,12 +1,11 @@
 import "server-only"
 
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import {
-  type TRPCQueryOptions,
   createTRPCOptionsProxy,
+  type TRPCQueryOptions,
 } from "@trpc/tanstack-react-query"
-import { type ReactNode, cache } from "react"
-
+import { cache, type ReactNode } from "react"
 import { makeQueryClient } from "~/shared/query-client"
 import { appRouter } from "~/shared/trpc/router"
 import { createContext } from "~/shared/trpc/server"

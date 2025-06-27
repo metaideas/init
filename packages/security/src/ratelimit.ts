@@ -1,7 +1,6 @@
+import { redis } from "@init/kv/client"
 import type { RatelimitConfig } from "@upstash/ratelimit"
 import { Ratelimit } from "@upstash/ratelimit"
-
-import { redis } from "@init/kv/client"
 
 export function createRateLimiter(
   name: string,

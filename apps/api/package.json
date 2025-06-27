@@ -29,12 +29,12 @@
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
-    "@init/observability": "workspace:*",
     "@init/kv": "workspace:*",
+    "@init/observability": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
-    "@trpc/server": "11.4.0",
-    "hono": "4.7.11",
+    "@trpc/server": "11.4.3",
+    "hono": "4.8.3",
     "superjson": "2.2.2"
   },
   "devDependencies": {

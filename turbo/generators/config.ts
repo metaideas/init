@@ -1,13 +1,6 @@
 import { execSync } from "node:child_process"
 import type { PlopTypes } from "@turbo/gen"
 
-type PackageJson = {
-  name: string
-  scripts: Record<string, string>
-  dependencies: Record<string, string>
-  devDependencies: Record<string, string>
-}
-
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("internal-package", {
     description: "Generate a new package for the monorepo",
@@ -17,12 +10,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         name: "name",
         message: "What is the name of the package?",
         prefix: "@init/",
-      },
-      {
-        type: "input",
-        name: "deps",
-        message:
-          "Enter a space separated list of dependencies you would like to install",
       },
     ],
     actions: [
@@ -43,32 +30,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "packages/{{ name }}/src/index.ts",
         template: "export const name = '{{ name }}';",
       },
-      {
-        type: "modify",
-        path: "packages/{{ name }}/package.json",
-        async transform(content, answers) {
-          if ("deps" in answers && typeof answers.deps === "string") {
-            const pkg = JSON.parse(content) as PackageJson
-            for (const dep of answers.deps.split(" ").filter(Boolean)) {
-              const version = await fetch(
-                `https://registry.npmjs.org/-/package/${dep}/dist-tags`
-              )
-                .then(res => res.json())
-                .then(json => json.latest)
-
-              if (!pkg.dependencies) {
-                pkg.dependencies = {}
-              }
-
-              pkg.dependencies[dep] = `^${version}`
-            }
-            return JSON.stringify(pkg, null, 2)
-          }
-
-          return content
-        },
-      },
-      answers => {
+      (answers) => {
         /**
          * Install deps and format everything
          */

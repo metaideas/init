@@ -1,10 +1,8 @@
 "use client"
 
+import { useAppForm } from "@init/ui/components/form"
 import { mergeForm, useTransform } from "@tanstack/react-form"
 import { useActionState } from "react"
-
-import { useAppForm } from "@init/ui/components/form"
-
 import { signUp } from "~/features/auth/actions"
 import { SignUpFormSchema as schema } from "~/features/auth/validation"
 import { useTRPCClient } from "~/shared/trpc/client"
@@ -20,11 +18,7 @@ export default function SignUpForm() {
     },
     transform: useTransform(
       (baseForm) =>
-        mergeForm(baseForm, {
-          errorMap: {
-            onServer: state.serverError,
-          },
-        }),
+        mergeForm(baseForm, { errorMap: { onServer: state.serverError } }),
       [state]
     ),
   })
@@ -32,8 +26,8 @@ export default function SignUpForm() {
   return (
     <form
       action={action}
-      onSubmit={() => form.handleSubmit()}
       className="space-y-4"
+      onSubmit={() => form.handleSubmit()}
     >
       <form.AppForm>
         <form.AppField name="name" validators={{ onBlur: schema.shape.name }}>
@@ -41,7 +35,7 @@ export default function SignUpForm() {
             <field.Item>
               <field.Label>Name</field.Label>
               <field.Control>
-                <field.Input type="text" autoComplete="name" />
+                <field.Input autoComplete="name" type="text" />
               </field.Control>
               <field.Message />
             </field.Item>
@@ -69,7 +63,7 @@ export default function SignUpForm() {
             <field.Item>
               <field.Label>Email address</field.Label>
               <field.Control>
-                <field.Input type="email" autoComplete="email" />
+                <field.Input autoComplete="email" type="email" />
               </field.Control>
               <field.Message />
             </field.Item>
@@ -83,7 +77,7 @@ export default function SignUpForm() {
             <field.Item>
               <field.Label>Password</field.Label>
               <field.Control>
-                <field.Input type="password" autoComplete="new-password" />
+                <field.Input autoComplete="new-password" type="password" />
               </field.Control>
               <field.Message />
             </field.Item>
@@ -106,7 +100,7 @@ export default function SignUpForm() {
             <field.Item>
               <field.Label>Confirm Password</field.Label>
               <field.Control>
-                <field.Input type="password" autoComplete="new-password" />
+                <field.Input autoComplete="new-password" type="password" />
               </field.Control>
               <field.Message />
             </field.Item>

@@ -1,12 +1,10 @@
 "use client"
 
+import { Button } from "@init/ui/components/button"
+import { useAppForm } from "@init/ui/components/form"
 import { mergeForm, useTransform } from "@tanstack/react-form"
 import Link from "next/link"
 import { useActionState } from "react"
-
-import { Button } from "@init/ui/components/button"
-import { useAppForm } from "@init/ui/components/form"
-
 import { signInWithPassword } from "~/features/auth/actions"
 import { SignInWithPasswordFormSchema as schema } from "~/features/auth/validation"
 
@@ -18,11 +16,7 @@ export default function SignInWithPasswordForm() {
     validators: { onSubmit: schema },
     transform: useTransform(
       (baseForm) =>
-        mergeForm(baseForm, {
-          errorMap: {
-            onServer: state.serverError,
-          },
-        }),
+        mergeForm(baseForm, { errorMap: { onServer: state.serverError } }),
       [state]
     ),
   })
@@ -30,8 +24,8 @@ export default function SignInWithPasswordForm() {
   return (
     <form
       action={action}
-      onSubmit={() => form.handleSubmit()}
       className="space-y-4"
+      onSubmit={() => form.handleSubmit()}
     >
       <form.AppForm>
         <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
@@ -39,7 +33,7 @@ export default function SignInWithPasswordForm() {
             <field.Item>
               <field.Label>Email address</field.Label>
               <field.Control>
-                <field.Input type="email" autoComplete="email" />
+                <field.Input autoComplete="email" type="email" />
               </field.Control>
 
               <field.Message />
@@ -54,10 +48,10 @@ export default function SignInWithPasswordForm() {
             <field.Item>
               <field.Label>Password</field.Label>
               <field.Control>
-                <field.Input type="password" autoComplete="current-password" />
+                <field.Input autoComplete="current-password" type="password" />
               </field.Control>
               <field.Message />
-              <Button variant="link" asChild className="p-0">
+              <Button asChild className="p-0" variant="link">
                 <Link href="/sign-in/reset-password">Forgot password?</Link>
               </Button>
             </field.Item>
