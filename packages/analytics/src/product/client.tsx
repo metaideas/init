@@ -19,16 +19,16 @@ export function useIdentifyUser({
 }: {
   user: { id: string; email: string }
 }) {
-  const posthog = usePostHog()
+  const p = usePostHog()
 
   useEffect(() => {
-    posthog.identify(user.id, {
+    p.identify(user.id, {
       email: user.email,
     })
-  }, [posthog, user.id, user.email])
+  }, [p, user.id, user.email])
 }
 
 export {
-  usePostHog as useAnalytics,
   PostHogProvider as AnalyticsProvider,
+  usePostHog as useAnalytics,
 } from "posthog-js/react"

@@ -1,9 +1,9 @@
 import { createUploadthing } from "uploadthing/next"
 
-export { type FileRouter, createRouteHandler } from "uploadthing/next"
+export { createRouteHandler, type FileRouter } from "uploadthing/next"
 export {
-  UploadThingError as UploadError,
   extractRouterConfig,
+  UploadThingError as UploadError,
 } from "uploadthing/server"
 
 export const storage = createUploadthing()

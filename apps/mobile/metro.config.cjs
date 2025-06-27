@@ -1,3 +1,5 @@
+"use strict"
+
 const { getDefaultConfig } = require("expo/metro-config")
 const { FileStore } = require("metro-cache")
 const path = require("node:path")

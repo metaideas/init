@@ -1,8 +1,7 @@
-import { type VariantProps, cva } from "class-variance-authority"
+import { cn } from "@init/utils/ui"
+import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 import { Text as RNText } from "react-native"
-
-import { cn } from "@init/utils/ui"
 
 const textVariants = cva("text-foreground", {
   variants: {
@@ -11,7 +10,7 @@ const textVariants = cva("text-foreground", {
       title1: "text-2xl",
       title2: "text-[22px] leading-7",
       title3: "text-xl",
-      heading: "text-[17px] leading-6 font-semibold",
+      heading: "font-semibold text-[17px] leading-6",
       body: "text-[17px] leading-6",
       callout: "text-base",
       subhead: "text-[15px] leading-6",

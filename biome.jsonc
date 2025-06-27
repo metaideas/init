@@ -423,5 +423,9 @@
     "defaultBranch": "main",
     "enabled": true,
     "useIgnoreFile": true
+  },
+  // ----------------------------- FILES -----------------------------
+  "files": {
+    "includes": ["**", "!**/.cache", "!**/dist", "!**/.next"]
   }
 }

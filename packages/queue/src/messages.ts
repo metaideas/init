@@ -81,12 +81,12 @@ export function createMessageClient<Events extends EventsSchema>(
   async function verifyMessageRequest<T extends MessageType<Events>>(
     request: Request,
     messageType: T,
-    { clockTolerance }: Pick<VerifyRequest, "clockTolerance">
+    verifierOptions?: Pick<VerifyRequest, "clockTolerance">
   ): Promise<VerifyResult<Events, T>> {
     const signatureResult = await verifyRequestSignature(
       request,
       receiver,
-      clockTolerance
+      verifierOptions?.clockTolerance
     )
 
     if (!signatureResult.success) {

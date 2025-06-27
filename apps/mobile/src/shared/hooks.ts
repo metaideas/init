@@ -22,7 +22,7 @@ export function useColorScheme() {
       await setNavigationBar(scheme)
     } catch (error) {
       // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
-      console.error('useColorScheme.tsx", "setColorScheme', error)
+      console.error(`${__filename}`, "setColorScheme", error)
     }
   }
 
@@ -51,7 +51,7 @@ export function useInitialAndroidBarSync() {
 
     setNavigationBar(colorScheme).catch((error) => {
       // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
-      console.error('useColorScheme.tsx", "useInitialColorScheme', error)
+      console.error(`${__filename}`, "useInitialAndroidBarSync", error)
     })
   }, [colorScheme])
 }

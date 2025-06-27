@@ -1,3 +1,4 @@
+import { cn } from "@init/utils/ui"
 import { useAugmentedRef, useControllableState } from "@rn-primitives/hooks"
 import { Icon } from "@roninoss/icons"
 import { cva } from "class-variance-authority"
@@ -18,9 +19,6 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from "react-native-reanimated"
-
-import { cn } from "@init/utils/ui"
-
 import { useColorScheme } from "~/shared/hooks"
 import type { TextFieldProps, TextFieldRef } from "./types"
 
@@ -95,11 +93,11 @@ const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
           }),
           className: containerClassName,
         })}
+        disabled={editable === false}
+        onPress={focus}
         style={
           materialRingColor ? { borderColor: materialRingColor } : undefined
         }
-        disabled={editable === false}
-        onPress={focus}
       >
         <View
           className={innerRootVariants({
@@ -120,29 +118,29 @@ const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
           <InputWrapper>
             {!!label && (
               <MaterialLabel
-                materialVariant={materialVariant}
-                isFocused={isFocused}
-                value={value}
-                materialLabel={label}
-                hasLeftView={!!leftView}
                 className={labelClassName}
                 hasError={!!errorMessage}
+                hasLeftView={!!leftView}
+                isFocused={isFocused}
+                materialLabel={label}
+                materialVariant={materialVariant}
+                value={value}
               />
             )}
             <TextInput
-              ref={inputRef}
-              editable={editable}
+              accessibilityHint={accessibilityHint ?? errorMessage}
               className={cn(
                 "flex-1 rounded py-3 pl-2.5 text-[17px] text-foreground dark:placeholder:text-white/30",
                 materialVariant === "filled" && !!label && "pt-5 pb-2",
                 className
               )}
-              placeholder={isFocused || !label ? placeholder : ""}
-              onFocus={onFocus}
+              editable={editable}
               onBlur={onBlur}
               onChangeText={onChangeText}
+              onFocus={onFocus}
+              placeholder={isFocused || !label ? placeholder : ""}
+              ref={inputRef}
               value={value}
-              accessibilityHint={accessibilityHint ?? errorMessage}
               {...props}
             />
           </InputWrapper>
@@ -194,7 +192,7 @@ const rootVariants = cva("relative rounded-[5px]", {
   variants: {
     variant: {
       outlined: "border",
-      filled: "border-b rounded-b-none",
+      filled: "rounded-b-none border-b",
     },
     state: {
       idle: "border-transparent",
@@ -214,7 +212,7 @@ const innerRootVariants = cva("flex-row rounded", {
   variants: {
     variant: {
       outlined: "border border-border",
-      filled: "border-b bg-border/70 rounded-b-none ",
+      filled: "rounded-b-none border-b bg-border/70 ",
     },
     state: {
       idle: "border-foreground/30",
@@ -308,7 +306,7 @@ function MaterialLabel(props: MaterialLabelProps) {
     }
   })
   return (
-    <Animated.View style={animatedRootStyle} pointerEvents="none">
+    <Animated.View pointerEvents="none" style={animatedRootStyle}>
       <Animated.Text
         className={cn(
           "rounded bg-card/0 text-foreground/70",
@@ -339,8 +337,8 @@ function MaterialClearIcon(props: MaterialClearIconProps) {
       exiting={FadeOut.duration(200)}
     >
       <Pressable
-        disabled={props.editable === false}
         className="flex-1 justify-center px-2 active:opacity-65"
+        disabled={props.editable === false}
         onPress={props.clearText}
       >
         <Icon color={colors.grey2} name="close-circle-outline" size={24} />
@@ -353,18 +351,18 @@ function MaterialErrorIcon() {
   const { colors } = useColorScheme()
   return (
     <Animated.View
-      pointerEvents="none"
+      className="justify-center pr-2"
       entering={FadeIn.duration(200)}
       exiting={FadeOut.duration(200)}
-      className="justify-center pr-2"
+      pointerEvents="none"
     >
       <Icon
         color={colors.destructive}
-        name="close-circle-outline"
         materialIcon={{
           name: "alert-circle",
           type: "MaterialCommunityIcons",
         }}
+        name="close-circle-outline"
         size={24}
       />
     </Animated.View>
