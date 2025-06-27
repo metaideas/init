@@ -1,5 +1,13 @@
 import { createEnv } from "@init/env/nextjs"
-import { auth, db, node, sentry, sentryNextjs, vercel } from "@init/env/presets"
+import {
+  auth,
+  db,
+  node,
+  sentry,
+  sentryNextjs,
+  upstashRedis,
+  vercel,
+} from "@init/env/presets"
 import * as z from "@init/utils/schema"
 import { addProtocol } from "@init/utils/url"
 
@@ -35,5 +43,6 @@ export default createEnv({
     db(),
     sentry(),
     sentryNextjs(),
+    upstashRedis(),
   ],
 })

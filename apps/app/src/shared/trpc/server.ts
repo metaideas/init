@@ -1,14 +1,13 @@
 import "server-only"
 
-import { TRPCError, initTRPC } from "@trpc/server"
+import { database } from "@init/db/client"
+import { redis } from "@init/kv/client"
+import { logger } from "@init/observability/logger"
+import * as z from "@init/utils/schema"
+import { initTRPC, TRPCError } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { cache } from "react"
 import superjson from "superjson"
-
-import { database } from "@init/db/client"
-import { logger } from "@init/observability/logger"
-import * as z from "@init/utils/schema"
-
 import { auth, validateRequest } from "~/shared/auth/server"
 
 export const createContext = cache(
@@ -19,11 +18,13 @@ export const createContext = cache(
       requestId,
     })
     const db = database()
+    const kv = redis()
 
     return {
       ...(options ?? {}),
       auth,
       db,
+      kv,
       session,
       logger: childLogger,
     }

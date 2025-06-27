@@ -6,7 +6,7 @@ export function createRateLimiter(
   name: string,
   options: Omit<
     RatelimitConfig,
-    "redis" | "ephemeralCache" | "analytics" | "prefix" | "enableProtection"
+    "ephemeralCache" | "analytics" | "prefix" | "enableProtection"
   >
 ) {
   const ephemeralCache = new Map<string, number>()
@@ -15,7 +15,7 @@ export function createRateLimiter(
     ...options,
     analytics: true,
     ephemeralCache,
-    redis: redis(),
+    redis: options.redis ?? redis(),
     prefix: `ratelimit:${name}`,
     enableProtection: true,
   })
