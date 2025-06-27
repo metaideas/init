@@ -24,7 +24,7 @@
     "@tauri-apps/api": "2.5.0",
     "@tauri-apps/plugin-opener": "2.2.6",
     "@trpc/client": "11.4.3",
-    "@trpc/tanstack-react-query": "11.4.0",
+    "@trpc/tanstack-react-query": "11.4.3",
     "hono": "4.8.3",
     "next": "15.3.4",
     "react": "19.0.0",
