@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/node"
 import { MONITORING_SAMPLE_RATE } from "./config"
 
 export function registerErrorMonitoring() {
-  const env = sentry()
+  const env = sentry.server()
 
   Sentry.init({
     dsn: env.SENTRY_DSN,

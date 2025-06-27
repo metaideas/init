@@ -91,50 +91,54 @@ export const email = () =>
     runtimeEnv: process.env,
   })
 
-export const sentry = () =>
-  createEnv({
-    server: {
-      SENTRY_DSN: z.string(),
-      SENTRY_AUTH_TOKEN: z.string(),
-      SENTRY_ORG: z.string(),
-      SENTRY_PROJECT: z.string(),
-      SENTRY_DEBUG: z.stringbool().default(false),
-    },
-    runtimeEnv: process.env,
-  })
-
-export const sentryExpo = () =>
-  createEnv({
-    client: {
-      EXPO_PUBLIC_SENTRY_DSN: z.string(),
-      EXPO_PUBLIC_SENTRY_URL: z.string(),
-      EXPO_PUBLIC_SENTRY_ORG: z.string(),
-      EXPO_PUBLIC_SENTRY_PROJECT: z.string(),
-    },
-    clientPrefix: "EXPO_PUBLIC_",
-    runtimeEnvStrict: {
-      EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
-      EXPO_PUBLIC_SENTRY_URL: process.env.EXPO_PUBLIC_SENTRY_URL,
-      EXPO_PUBLIC_SENTRY_ORG: process.env.EXPO_PUBLIC_SENTRY_ORG,
-      EXPO_PUBLIC_SENTRY_PROJECT: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
-    },
-  })
-
-export const sentryNextjs = () =>
-  createEnvNextjs({
-    client: {
-      NEXT_PUBLIC_SENTRY_DSN: z.string(),
-    },
-    server: {
-      SENTRY_AUTH_TOKEN: z.string(),
-      SENTRY_ORG: z.string(),
-      SENTRY_PROJECT: z.string(),
-      SENTRY_DEBUG: z.stringbool().default(false),
-    },
-    experimental__runtimeEnv: {
-      NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
-    },
-  })
+export const sentry = {
+  server: () =>
+    createEnv({
+      server: {
+        SENTRY_DSN: z.string(),
+        SENTRY_AUTH_TOKEN: z.string(),
+        SENTRY_ORG: z.string(),
+        SENTRY_PROJECT: z.string(),
+        SENTRY_DEBUG: z.stringbool().default(false),
+      },
+      runtimeEnv: process.env,
+    }),
+  expo: () =>
+    createEnv({
+      client: {
+        EXPO_PUBLIC_SENTRY_DSN: z.string(),
+      },
+      server: {
+        SENTRY_AUTH_TOKEN: z.string(),
+        SENTRY_ORG: z.string(),
+        SENTRY_PROJECT: z.string(),
+        SENTRY_DEBUG: z.stringbool().default(false),
+      },
+      clientPrefix: "EXPO_PUBLIC_",
+      runtimeEnvStrict: {
+        EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
+        SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+        SENTRY_ORG: process.env.SENTRY_ORG,
+        SENTRY_PROJECT: process.env.SENTRY_PROJECT,
+        SENTRY_DEBUG: process.env.SENTRY_DEBUG,
+      },
+    }),
+  nextjs: () =>
+    createEnvNextjs({
+      client: {
+        NEXT_PUBLIC_SENTRY_DSN: z.string(),
+      },
+      server: {
+        SENTRY_AUTH_TOKEN: z.string(),
+        SENTRY_ORG: z.string(),
+        SENTRY_PROJECT: z.string(),
+        SENTRY_DEBUG: z.stringbool().default(false),
+      },
+      experimental__runtimeEnv: {
+        NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+      },
+    }),
+}
 
 export const openai = () =>
   createEnv({

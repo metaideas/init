@@ -13,7 +13,7 @@ export default createEnv({
     // Packages
     auth(),
     db(),
-    sentry(),
+    sentry.server(),
     upstashRedis(),
   ],
   runtimeEnv: process.env,

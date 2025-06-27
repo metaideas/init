@@ -1,10 +1,10 @@
-import { sentryNextjs } from "@init/env/presets"
+import { sentry } from "@init/env/presets"
 import * as Sentry from "@sentry/nextjs"
 import type { NextConfig } from "next/types"
 import { MONITORING_SAMPLE_RATE } from "../config"
 
 export function registerErrorMonitoring() {
-  const env = sentryNextjs()
+  const env = sentry.nextjs()
 
   Sentry.init({
     dsn: env.NEXT_PUBLIC_SENTRY_DSN,
@@ -17,7 +17,7 @@ export function registerErrorMonitoring() {
 }
 
 export function withErrorMonitoring(config: NextConfig) {
-  const env = sentryNextjs()
+  const env = sentry.nextjs()
 
   return Sentry.withSentryConfig(config, {
     org: env.SENTRY_ORG,
