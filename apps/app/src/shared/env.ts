@@ -3,7 +3,6 @@ import {
   auth,
   db,
   node,
-  sentry,
   sentryNextjs,
   upstashRedis,
   vercel,
@@ -41,7 +40,7 @@ export default createEnv({
     // Packages
     auth(),
     db(),
-    sentry(),
+
     sentryNextjs(),
     upstashRedis(),
   ],

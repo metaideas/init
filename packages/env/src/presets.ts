@@ -125,6 +125,12 @@ export const sentryNextjs = () =>
     client: {
       NEXT_PUBLIC_SENTRY_DSN: z.string(),
     },
+    server: {
+      SENTRY_AUTH_TOKEN: z.string(),
+      SENTRY_ORG: z.string(),
+      SENTRY_PROJECT: z.string(),
+      SENTRY_DEBUG: z.stringbool().default(false),
+    },
     experimental__runtimeEnv: {
       NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
     },
