@@ -1,6 +1,7 @@
 import { createEnv } from "@init/env/nextjs"
 import { auth, db, node, sentry, sentryNextjs, vercel } from "@init/env/presets"
 import * as z from "@init/utils/schema"
+import { addProtocol } from "@init/utils/url"
 
 export default createEnv({
   experimental__runtimeEnv: {
@@ -19,7 +20,10 @@ export default createEnv({
     GITHUB_CLIENT_SECRET: z.string(),
   },
   client: {
-    NEXT_PUBLIC_BASE_URL: z.url(),
+    NEXT_PUBLIC_BASE_URL: z
+      .string()
+      .pipe(z.preprocess((url) => addProtocol(url), z.url())),
+
     NEXT_PUBLIC_API_URL: z.url().optional(),
   },
   extends: [

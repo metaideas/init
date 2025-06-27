@@ -3,49 +3,54 @@ import { isProduction } from "./environment"
 const LEADING_SLASHES = /^\/+/
 const MULTIPLE_SLASHES = /\/+/g
 
+/**
+ * Adds or overrides the protocol for a URL.
+ *
+ * Explicitly provided protocols will override existing ones.
+ * Useful for security enforcement and environment normalization.
+ */
 export function addProtocol(url: string, protocol?: "http" | "https") {
+  if (url.includes("://")) {
+    const [existingProtocol, ...rest] = url.split("://")
+    const urlWithoutProtocol = rest.join("://")
+
+    if (!protocol) {
+      return `${existingProtocol.toLowerCase()}://${urlWithoutProtocol}`
+    }
+
+    return `${protocol}://${urlWithoutProtocol}`
+  }
+
   const defaultProtocol = isProduction ? "https" : "http"
   return `${protocol ?? defaultProtocol}://${url}`
 }
 
-export function createUrlBuilder(
-  url: string,
-  protocol: "http" | "https" = "https"
-) {
-  // Split the URL into domain and base path
-  const [domain, ...pathParts] = url.split("/")
-  const basePath = pathParts.length > 0 ? `/${pathParts.join("/")}` : ""
-  const baseUrl = addProtocol(domain, protocol)
+export function createUrlBuilder(baseUrl: string, protocol?: "http" | "https") {
+  const baseUrlObject = new URL(addProtocol(baseUrl, protocol))
 
   return function buildUrl<T extends string>(
     pathname: T,
     options?: {
       query?: Record<string, string | number | boolean | undefined>
-      decoded?: boolean
     }
   ): string {
-    // Ensure pathname starts with a single slash and combine with base path
-    const cleanPathname = pathname.replace(LEADING_SLASHES, "")
-    const fullPath = `${basePath}/${cleanPathname}`.replace(
-      MULTIPLE_SLASHES,
-      "/"
-    )
-    const builtUrl = new URL(fullPath, baseUrl)
+    const cleanedPathname = pathname.replace(LEADING_SLASHES, "")
+    const fullPath =
+      baseUrlObject.pathname === "/"
+        ? `/${cleanedPathname}`
+        : `${baseUrlObject.pathname}/${cleanedPathname}`
+
+    const normalizedPath = fullPath.replace(MULTIPLE_SLASHES, "/")
+    const url = new URL(normalizedPath, baseUrlObject.origin)
 
     if (options?.query) {
       for (const [key, value] of Object.entries(options.query)) {
         if (value !== undefined) {
-          builtUrl.searchParams.set(key, value.toString())
+          url.searchParams.set(key, value.toString())
         }
       }
     }
 
-    const urlString = builtUrl.toString()
-
-    if (options?.decoded) {
-      return decodeURIComponent(urlString)
-    }
-
-    return urlString
+    return url.toString()
   }
 }
