@@ -1,10 +1,8 @@
+import { captureException } from "@init/observability/error/expo"
 import { Icon } from "@roninoss/icons"
 import { Link } from "expo-router"
 import { Platform, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-
-import { captureException } from "@init/observability/error/expo"
-
 import { Button } from "~/shared/components/ui/button"
 import { Text } from "~/shared/components/ui/text"
 import { useColorScheme } from "~/shared/hooks"
@@ -17,27 +15,27 @@ export default function WelcomeConsentScreen() {
       <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
         <View className="ios:pt-8 pt-12">
           <Text
-            variant="largeTitle"
             className="ios:text-left text-center font-bold ios:font-black"
+            variant="largeTitle"
           >
             Welcome to your
           </Text>
           <Text
-            variant="largeTitle"
             className="ios:text-left text-center font-bold ios:font-black text-primary"
+            variant="largeTitle"
           >
             Application
           </Text>
         </View>
         <View className="gap-8">
-          {FEATURES.map(feature => (
-            <View key={feature.title} className="flex-row gap-4">
+          {FEATURES.map((feature) => (
+            <View className="flex-row gap-4" key={feature.title}>
               <View className="pt-px">
                 <Icon
-                  name={feature.icon}
-                  size={38}
                   color={colors.primary}
                   ios={{ renderingMode: "hierarchical" }}
+                  name={feature.icon}
+                  size={38}
                 />
               </View>
               <View className="flex-1">
@@ -50,21 +48,21 @@ export default function WelcomeConsentScreen() {
         <View className="gap-4">
           <View className="items-center">
             <Icon
-              name="account-multiple"
-              size={24}
               color={colors.primary}
               ios={{ renderingMode: "hierarchical" }}
+              name="account-multiple"
+              size={24}
             />
-            <Text variant="caption2" className="pt-1 text-center">
+            <Text className="pt-1 text-center" variant="caption2">
               By pressing continue, you agree to our{" "}
               <Link href="/">
-                <Text variant="caption2" className="text-primary">
+                <Text className="text-primary" variant="caption2">
                   Terms of Service
                 </Text>
               </Link>{" "}
               and that you have read our{" "}
               <Link href="/">
-                <Text variant="caption2" className="text-primary">
+                <Text className="text-primary" variant="caption2">
                   Privacy Policy
                 </Text>
               </Link>
@@ -78,7 +76,7 @@ export default function WelcomeConsentScreen() {
           >
             <Text>Report an error</Text>
           </Button>
-          <Link href="/profile" replace asChild>
+          <Link asChild href="/profile" replace>
             <Button size={Platform.select({ ios: "lg", default: "md" })}>
               <Text>Continue</Text>
             </Button>

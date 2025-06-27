@@ -81,12 +81,12 @@ export function createMessageClient<Events extends EventsSchema>(
   async function verifyMessageRequest<T extends MessageType<Events>>(
     request: Request,
     messageType: T,
-    config?: Pick<VerifyRequest, "clockTolerance">
+    verifierOptions?: Pick<VerifyRequest, "clockTolerance">
   ): Promise<VerifyResult<Events, T>> {
     const signatureResult = await verifyRequestSignature(
       request,
       receiver,
-      config?.clockTolerance
+      verifierOptions?.clockTolerance
     )
 
     if (!signatureResult.success) {
@@ -111,4 +111,9 @@ export function createMessageClient<Events extends EventsSchema>(
   return { client, getPublishBody, verifyMessageRequest }
 }
 
-export { resend, openai, anthropic } from "@upstash/qstash"
+export {
+  anthropic,
+  type Client as QstashClient,
+  openai,
+  resend,
+} from "@upstash/qstash"

@@ -25,14 +25,14 @@ export default function InvokeDemo() {
       <p>{data?.message}</p>
       <form
         className="flex flex-row gap-2"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault()
           greet.mutate()
         }}
       >
         <Input
           id="greet-input"
-          onChange={e => setName(e.currentTarget.value)}
+          onChange={(e) => setName(e.currentTarget.value)}
           placeholder="Enter a name..."
           value={name}
         />

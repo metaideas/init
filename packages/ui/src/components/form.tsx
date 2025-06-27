@@ -1,14 +1,11 @@
 "use client"
 
-import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
-
+import { cn } from "@init/utils/ui"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { AlertCircle, Loader2Icon } from "lucide-react"
+import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
 import type React from "react"
 import { useFormStatus } from "react-dom"
-
-import { cn } from "@init/utils/ui"
-
 import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"
 import { Input } from "./input"
@@ -90,15 +87,15 @@ function FieldInput(props: React.ComponentProps<typeof Input>) {
   return (
     <Input
       {...props}
-      name={field.name}
       id={field.name}
-      value={field.state.value}
-      onChange={e => {
-        field.handleChange(e.target.value)
-      }}
+      name={field.name}
       onBlur={() => {
         field.handleBlur()
       }}
+      onChange={(e) => {
+        field.handleChange(e.target.value)
+      }}
+      value={field.state.value}
     />
   )
 }
@@ -114,7 +111,7 @@ function FormSubmitButton({
 
   return (
     <form.Subscribe
-      selector={formState => [formState.canSubmit, formState.isSubmitting]}
+      selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
     >
       {([canSubmit, isSubmitting]) => (
         <Button {...props} disabled={!canSubmit || status.pending}>
@@ -140,7 +137,9 @@ function FormServerError({
   const form = useFormContext()
 
   return (
-    <form.Subscribe selector={formState => [formState.errorMap.onServer ?? []]}>
+    <form.Subscribe
+      selector={(formState) => [formState.errorMap.onServer ?? []]}
+    >
       {([error]) => {
         if (!error || typeof error !== "string") {
           return null

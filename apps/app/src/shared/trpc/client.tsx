@@ -32,7 +32,7 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
       links: [
         loggerLink({ enabled: () => isDevelopment, colorMode: "ansi" }),
         splitLink({
-          condition: op =>
+          condition: (op) =>
             Boolean(op.context.skipBatching) ||
             isNonJsonSerializable(op.context.result),
           false: httpBatchLink({

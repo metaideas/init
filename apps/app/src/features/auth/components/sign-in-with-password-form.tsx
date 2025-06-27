@@ -17,7 +17,7 @@ export default function SignInWithPasswordForm() {
     defaultValues: { email: "", password: "" },
     validators: { onSubmit: schema },
     transform: useTransform(
-      baseForm =>
+      (baseForm) =>
         mergeForm(baseForm, {
           errorMap: {
             onServer: state.serverError,
@@ -35,7 +35,7 @@ export default function SignInWithPasswordForm() {
     >
       <form.AppForm>
         <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Email address</field.Label>
               <field.Control>
@@ -50,7 +50,7 @@ export default function SignInWithPasswordForm() {
           name="password"
           validators={{ onBlur: schema.shape.password }}
         >
-          {field => (
+          {(field) => (
             <field.Item>
               <field.Label>Password</field.Label>
               <field.Control>

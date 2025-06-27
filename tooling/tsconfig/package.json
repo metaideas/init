@@ -2,14 +2,17 @@
   "name": "@tooling/tsconfig",
   "version": "0.1.0",
   "private": true,
-  "files": ["*.json", "reset.d.ts"],
+  "files": [
+    "*.json",
+    "reset.d.ts"
+  ],
   "scripts": {
-    "check": "biome check --write .",
+    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
-    "format": "biome format --write .",
-    "lint": "biome lint --fix ."
+    "format": "biome format --write",
+    "lint": "biome lint --fix"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "0.6.1",

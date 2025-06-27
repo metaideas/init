@@ -49,7 +49,7 @@ export function useTrackPageview() {
   const prevPathRef = useRef<string | null>(null)
 
   useEffect(() => {
-    if (!posthog || !pathname) {
+    if (!(posthog && pathname)) {
       return
     }
 

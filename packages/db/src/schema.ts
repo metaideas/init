@@ -1,3 +1,6 @@
+import { generatePrefixedId } from "@init/utils/id"
+import * as z from "@init/utils/schema"
+import type { ConstrainedString } from "@init/utils/type"
 import { relations } from "drizzle-orm/relations"
 import {
   index,
@@ -7,11 +10,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core"
 
-import { generatePrefixedId } from "@init/utils/id"
-import * as z from "@init/utils/schema"
-import type { ConstrainedString } from "@init/utils/type"
-
-export const createTable = sqliteTableCreator(name => name)
+export const createTable = sqliteTableCreator((name) => name)
 
 export const UNIQUE_ID_LENGTH = 24
 
@@ -63,7 +62,7 @@ export const users = createTable(
 
     metadata: text({ mode: "json" }),
   },
-  table => [
+  (table) => [
     index("users_email_idx").on(table.email),
     index("users_role_idx").on(table.role),
   ]
@@ -101,7 +100,7 @@ export const accounts = createTable(
 
     password: text({ length: 255 }),
   },
-  table => [
+  (table) => [
     index("accounts_user_id_idx").on(table.userId),
     index("accounts_provider_idx").on(table.providerId),
     uniqueIndex("accounts_provider_account_unique_idx").on(
@@ -125,7 +124,7 @@ export const verifications = createTable(
 
     expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
   },
-  table => [
+  (table) => [
     index("verifications_identifier_idx").on(table.identifier),
     index("verifications_expires_idx").on(table.expiresAt),
     uniqueIndex("verifications_value_unique_idx").on(table.value),
@@ -168,7 +167,7 @@ export const sessions = createTable(
       })
       .$type<OrganizationId>(),
   },
-  table => [
+  (table) => [
     index("sessions_user_id_idx").on(table.userId),
     index("sessions_token_idx").on(table.token),
     index("sessions_expires_at_idx").on(table.expiresAt),
@@ -191,7 +190,7 @@ export const organizations = createTable(
     logo: text(),
     metadata: text({ mode: "json" }),
   },
-  table => [index("organizations_slug_idx").on(table.slug)]
+  (table) => [index("organizations_slug_idx").on(table.slug)]
 )
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
@@ -220,7 +219,7 @@ export const members = createTable(
       .notNull()
       .default("member"),
   },
-  table => [
+  (table) => [
     uniqueIndex("user_organization_unique_idx").on(
       table.userId,
       table.organizationId
@@ -264,7 +263,7 @@ export const invitations = createTable(
       .default("pending"),
     expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
   },
-  table => [
+  (table) => [
     uniqueIndex("organization_invitation_unique_idx").on(
       table.organizationId,
       table.email
@@ -329,7 +328,7 @@ export const activityLogs = createTable(
     ipAddress: text({ length: 45 }),
     userAgent: text(),
   },
-  table => [
+  (table) => [
     index("activity_logs_organization_id_idx").on(table.organizationId),
     index("activity_logs_member_id_idx").on(table.memberId),
     index("activity_logs_type_idx").on(table.type),

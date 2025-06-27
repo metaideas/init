@@ -1,22 +1,19 @@
+import { database } from "@init/db/client"
+import { redis } from "@init/kv/client"
+import { captureException } from "@init/observability/error/server"
+import { logger } from "@init/observability/logger"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
-
-import { database } from "@init/db/client"
-import { redis } from "@init/kv/client"
-import { captureException } from "@init/observability/error/server"
-import { logger } from "@init/observability/logger"
-
-import { auth } from "~/shared/auth"
-import type { AppContext } from "~/shared/types"
-
 // Routing
 import authRoutes from "~/app/auth"
 import healthRoutes from "~/app/health"
 import testRoutes from "~/app/test"
 import trpcRoutes from "~/app/trpc"
+import { auth } from "~/shared/auth"
+import type { AppContext } from "~/shared/types"
 
 const app = new Hono<AppContext>()
 
@@ -51,7 +48,7 @@ app.onError((err, c) => {
 })
 
 export const router = app
-  .get("/ping", c => c.text(Date.now().toString()))
+  .get("/ping", (c) => c.text(Date.now().toString()))
   .route("/auth", authRoutes)
   .route("/health", healthRoutes)
   .route("/test", testRoutes)

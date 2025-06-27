@@ -18,6 +18,6 @@ export const queryClient = new QueryClient({
 
 export const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
-  serialize: data => superjson.stringify(data),
-  deserialize: data => superjson.parse(data),
+  serialize: (data) => superjson.stringify(data),
+  deserialize: (data) => superjson.parse(data),
 })

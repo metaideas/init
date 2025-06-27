@@ -6,23 +6,23 @@ import { SplashScreen } from "expo-router"
 import { useColorScheme as useNativewindColorScheme } from "nativewind"
 import { useEffect } from "react"
 import { Platform } from "react-native"
-
 import { COLORS } from "~/shared/theme/colors"
 
 export function useColorScheme() {
   const { colorScheme, setColorScheme: setNativeWindColorScheme } =
     useNativewindColorScheme()
 
-  async function setColorScheme(colorScheme: "light" | "dark") {
-    setNativeWindColorScheme(colorScheme)
+  async function setColorScheme(scheme: "light" | "dark") {
+    setNativeWindColorScheme(scheme)
     if (Platform.OS !== "android") {
       return
     }
 
     try {
-      await setNavigationBar(colorScheme)
+      await setNavigationBar(scheme)
     } catch (error) {
-      console.error('useColorScheme.tsx", "setColorScheme', error)
+      // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
+      console.error(`${__filename}`, "setColorScheme", error)
     }
   }
 
@@ -49,8 +49,9 @@ export function useInitialAndroidBarSync() {
       return
     }
 
-    setNavigationBar(colorScheme).catch(error => {
-      console.error('useColorScheme.tsx", "useInitialColorScheme', error)
+    setNavigationBar(colorScheme).catch((error) => {
+      // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
+      console.error(`${__filename}`, "useInitialAndroidBarSync", error)
     })
   }, [colorScheme])
 }
@@ -77,6 +78,7 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
+        // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
         console.warn("Error hiding splash screen:", error)
       }
     }
@@ -87,7 +89,7 @@ export function useHideSplashScreen(loaded: boolean) {
 
 export function useOnlineStatus() {
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
       const status = state.isConnected ?? false
       onlineManager.setOnline(status)
     })

@@ -12,7 +12,6 @@ import { createTRPCContext } from "@trpc/tanstack-react-query"
 import type { TRPCClient } from "api/client"
 import { type ReactNode, useState } from "react"
 import superjson from "superjson"
-
 import { buildApiUrl } from "~/shared/utils"
 import { getAuthHeaders } from "./auth"
 
@@ -31,7 +30,7 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
       links: [
         loggerLink({ enabled: () => isDevelopment, colorMode: "ansi" }),
         splitLink({
-          condition: op =>
+          condition: (op) =>
             Boolean(op.context.skipBatching) ||
             isNonJsonSerializable(op.context.result),
           false: httpBatchLink({
@@ -50,7 +49,7 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
   )
 
   return (
-    <TRPCProviderBase trpcClient={trpcClient} queryClient={queryClient}>
+    <TRPCProviderBase queryClient={queryClient} trpcClient={trpcClient}>
       {children}
     </TRPCProviderBase>
   )

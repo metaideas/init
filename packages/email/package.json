@@ -9,14 +9,14 @@
   },
   "scripts": {
     "build": "email build --dir src/templates",
-    "check": "biome check --write .",
+    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
     "dev": "email dev --dir src/templates --port 8081",
     "export": "email export --dir src/templates",
-    "format": "biome format --write .",
-    "lint": "biome lint --fix .",
+    "format": "biome format --write",
+    "lint": "biome lint --fix",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

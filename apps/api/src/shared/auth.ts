@@ -1,7 +1,6 @@
 import { createAuth } from "@init/auth/server"
 import { admin } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
-
 import env from "~/shared/env"
 
 const plugins = [admin()]

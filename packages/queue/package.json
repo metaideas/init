@@ -11,13 +11,13 @@
     "./workflows/integrations": "./src/workflows/integrations.ts"
   },
   "scripts": {
-    "check": "biome check --write .",
+    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
     "dev": "qstash dev --port 8288",
-    "format": "biome format --write .",
-    "lint": "biome lint --fix .",
+    "format": "biome format --write",
+    "lint": "biome lint --fix",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

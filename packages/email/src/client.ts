@@ -1,4 +1,5 @@
 import { logger, styles } from "@init/observability/logger"
+import { type QstashClient, resend as resendQstash } from "@init/queue/messages"
 import { render } from "@react-email/render"
 import type { ReactElement } from "react"
 import { Resend } from "resend"
@@ -25,18 +26,16 @@ export function createClient(
       subject,
       sendAt,
       from = options.from,
-      queue = false,
+      queue,
     }: {
       emails: string[]
       subject: string
       sendAt?: Date | string
       from?: string
       /**
-       * If true, the email will be queued to be sent later using Upstash Qstash.
-       *
-       * @default false
+       * If provided, the email will be queued to be sent later using Upstash Qstash.
        */
-      queue?: boolean
+      queue?: QstashClient
     }
   ) {
     if (options?.mock) {
@@ -47,12 +46,10 @@ export function createClient(
     }
 
     if (queue) {
-      const { default: queue, resend } = await import("@init/queue/messages")
-
       await queue.publishJSON({
         api: {
           name: "email",
-          provider: resend({ token: apiKey }),
+          provider: resendQstash({ token: apiKey }),
         },
         body: {
           from,

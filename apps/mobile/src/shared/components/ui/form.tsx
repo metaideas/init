@@ -1,10 +1,8 @@
+import { cn } from "@init/utils/ui"
 import { Icon, type IconProps } from "@roninoss/icons"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import type { ComponentProps } from "react"
 import { Platform, View, type ViewProps } from "react-native"
-
-import { cn } from "@init/utils/ui"
-
 import { ActivityIndicator } from "~/shared/components/ui/activity-indicator"
 import { Button, buttonTextVariants } from "~/shared/components/ui/button"
 import { Text } from "~/shared/components/ui/text"
@@ -45,11 +43,11 @@ function FormSection({
     >
       {Platform.OS === "ios" && !!ios?.title && (
         <Text
-          variant="footnote"
           className={cn(
             "pb-1 pl-3 text-muted-foreground uppercase",
             ios?.titleClassName
           )}
+          variant="footnote"
         >
           {ios.title}
         </Text>
@@ -119,11 +117,11 @@ function FieldTextInput(props: ComponentProps<typeof TextField>) {
   return (
     <TextField
       {...props}
-      nativeID={field.name}
-      value={field.state.value as string | undefined}
-      onChangeText={field.handleChange}
-      onBlur={field.handleBlur}
       errorMessage={message}
+      nativeID={field.name}
+      onBlur={field.handleBlur}
+      onChangeText={field.handleChange}
+      value={field.state.value as string | undefined}
     />
   )
 }
@@ -136,7 +134,7 @@ function FormSubmitButton(
 
   return (
     <form.Subscribe
-      selector={formState => [formState.canSubmit, formState.isSubmitting]}
+      selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
     >
       {([canSubmit, isSubmitting]) => (
         <Button
@@ -147,8 +145,8 @@ function FormSubmitButton(
           {isSubmitting ? (
             <View className="flex-row items-center gap-2">
               <ActivityIndicator
-                size="small"
                 className="color-muted-foreground"
+                size="small"
               />
               <Text
                 className={cn(
