@@ -12,7 +12,6 @@ import {
 import { createTRPCContext } from "@trpc/tanstack-react-query"
 import { type ReactNode, useState } from "react"
 import superjson from "superjson"
-
 import { getQueryClient } from "~/shared/query-client"
 import type { AppRouter } from "~/shared/trpc/router"
 import { buildApiUrl } from "~/shared/utils"
@@ -49,7 +48,7 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
   )
 
   return (
-    <TRPCProviderBase trpcClient={trpcClient} queryClient={queryClient}>
+    <TRPCProviderBase queryClient={queryClient} trpcClient={trpcClient}>
       {children}
     </TRPCProviderBase>
   )

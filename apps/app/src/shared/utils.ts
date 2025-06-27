@@ -7,6 +7,8 @@ export const buildUrl = createUrlBuilder(
   isProduction ? "https" : "http"
 )
 
+export const baseUrl = buildUrl("/")
+
 // If you are using a separate API, you can use this function to build the API URLs.
 export const buildApiUrl = createUrlBuilder(
   env.NEXT_PUBLIC_API_URL ?? `${env.NEXT_PUBLIC_BASE_URL}/api`,

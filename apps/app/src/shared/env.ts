@@ -9,7 +9,6 @@ export default createEnv({
   },
   server: {
     ANALYZE: z.stringbool().default(false),
-    BASE_URL: z.url(),
 
     // Google Sign In
     GOOGLE_CLIENT_ID: z.string(),
@@ -21,7 +20,7 @@ export default createEnv({
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.url(),
-    NEXT_PUBLIC_API_URL: z.string().optional(),
+    NEXT_PUBLIC_API_URL: z.url().optional(),
   },
   extends: [
     node(),

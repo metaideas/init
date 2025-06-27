@@ -31,7 +31,6 @@ export const auth = () =>
   createEnv({
     server: {
       AUTH_SECRET: z.string(),
-      BASE_URL: z.url(),
     },
     runtimeEnv: process.env,
   })

@@ -1,19 +1,18 @@
 import "server-only"
 
-import { headers } from "next/headers"
-import { cache } from "react"
-
 import { nextCookies } from "@init/auth/nextjs"
 import { createAuth } from "@init/auth/server"
 import { admin } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
-
+import { headers } from "next/headers"
+import { cache } from "react"
 import env from "~/shared/env"
+import { baseUrl } from "~/shared/utils"
 
 export const auth = createAuth(
   {
     secret: env.AUTH_SECRET,
-    baseURL: env.BASE_URL,
+    baseURL: baseUrl,
     database: database(),
     emailAndPassword: {
       enabled: true,
