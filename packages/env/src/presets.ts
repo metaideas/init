@@ -35,41 +35,39 @@ export const auth = () =>
     runtimeEnv: process.env,
   })
 
-export const axiom = () => {
-  createEnv({
-    server: {
-      AXIOM_TOKEN: z.string(),
-      AXIOM_DATASET: z.string(),
-    },
-    runtimeEnv: process.env,
-  })
+export const axiom = {
+  server: () =>
+    createEnv({
+      server: {
+        AXIOM_TOKEN: z.string(),
+        AXIOM_DATASET: z.string(),
+      },
+      runtimeEnv: process.env,
+    }),
+  nextjs: () =>
+    createEnvNextjs({
+      client: {
+        NEXT_PUBLIC_AXIOM_TOKEN: z.string(),
+        NEXT_PUBLIC_AXIOM_DATASET: z.string(),
+      },
+      experimental__runtimeEnv: {
+        NEXT_PUBLIC_AXIOM_TOKEN: process.env.NEXT_PUBLIC_AXIOM_TOKEN,
+        NEXT_PUBLIC_AXIOM_DATASET: process.env.NEXT_PUBLIC_AXIOM_DATASET,
+      },
+    }),
+  expo: () =>
+    createEnv({
+      client: {
+        EXPO_PUBLIC_AXIOM_TOKEN: z.string(),
+        EXPO_PUBLIC_AXIOM_DATASET: z.string(),
+      },
+      clientPrefix: "EXPO_PUBLIC_",
+      runtimeEnvStrict: {
+        EXPO_PUBLIC_AXIOM_TOKEN: process.env.EXPO_PUBLIC_AXIOM_TOKEN,
+        EXPO_PUBLIC_AXIOM_DATASET: process.env.EXPO_PUBLIC_AXIOM_DATASET,
+      },
+    }),
 }
-
-export const axiomNextjs = () => {
-  createEnvNextjs({
-    client: {
-      NEXT_PUBLIC_AXIOM_TOKEN: z.string(),
-      NEXT_PUBLIC_AXIOM_DATASET: z.string(),
-    },
-    experimental__runtimeEnv: {
-      NEXT_PUBLIC_AXIOM_TOKEN: process.env.NEXT_PUBLIC_AXIOM_TOKEN,
-      NEXT_PUBLIC_AXIOM_DATASET: process.env.NEXT_PUBLIC_AXIOM_DATASET,
-    },
-  })
-}
-
-export const axiomExpo = () =>
-  createEnv({
-    client: {
-      EXPO_PUBLIC_AXIOM_TOKEN: z.string(),
-      EXPO_PUBLIC_AXIOM_DATASET: z.string(),
-    },
-    clientPrefix: "EXPO_PUBLIC_",
-    runtimeEnvStrict: {
-      EXPO_PUBLIC_AXIOM_TOKEN: process.env.EXPO_PUBLIC_AXIOM_TOKEN,
-      EXPO_PUBLIC_AXIOM_DATASET: process.env.EXPO_PUBLIC_AXIOM_DATASET,
-    },
-  })
 
 export const db = () =>
   createEnv({
@@ -81,7 +79,7 @@ export const db = () =>
     runtimeEnv: process.env,
   })
 
-export const email = () =>
+export const resend = () =>
   createEnv({
     server: {
       EMAIL_FROM: z.string(),
@@ -185,49 +183,48 @@ export const stripe = () =>
     runtimeEnv: process.env,
   })
 
-export const posthog = () =>
-  createEnv({
-    server: {
-      POSTHOG_HOST: z.url(),
-      POSTHOG_API_KEY: z.string(),
-    },
-    runtimeEnv: process.env,
-  })
-
-export const posthogNextjs = () =>
-  createEnvNextjs({
-    client: {
-      NEXT_PUBLIC_POSTHOG_HOST: z.url(),
-      NEXT_PUBLIC_POSTHOG_API_KEY: z.string(),
-    },
-    experimental__runtimeEnv: {
-      NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      NEXT_PUBLIC_POSTHOG_API_KEY: process.env.NEXT_PUBLIC_POSTHOG_API_KEY,
-    },
-  })
-
-export const posthogExpo = () =>
-  createEnv({
-    client: {
-      EXPO_PUBLIC_POSTHOG_HOST: z.url(),
-      EXPO_PUBLIC_POSTHOG_API_KEY: z.string(),
-    },
-    clientPrefix: "EXPO_PUBLIC_",
-    runtimeEnvStrict: {
-      EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
-      EXPO_PUBLIC_POSTHOG_API_KEY: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
-    },
-  })
-
-export const posthogClient = () =>
-  createEnv({
-    client: {
-      VITE_POSTHOG_HOST: z.url(),
-      VITE_POSTHOG_API_KEY: z.string(),
-    },
-    clientPrefix: "VITE_",
-    runtimeEnvStrict: {
-      VITE_POSTHOG_HOST: process.env.VITE_POSTHOG_HOST,
-      VITE_POSTHOG_API_KEY: process.env.VITE_POSTHOG_API_KEY,
-    },
-  })
+export const posthog = {
+  server: () =>
+    createEnv({
+      server: {
+        POSTHOG_HOST: z.url(),
+        POSTHOG_API_KEY: z.string(),
+      },
+      runtimeEnv: process.env,
+    }),
+  nextjs: () =>
+    createEnvNextjs({
+      client: {
+        NEXT_PUBLIC_POSTHOG_HOST: z.url(),
+        NEXT_PUBLIC_POSTHOG_API_KEY: z.string(),
+      },
+      experimental__runtimeEnv: {
+        NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+        NEXT_PUBLIC_POSTHOG_API_KEY: process.env.NEXT_PUBLIC_POSTHOG_API_KEY,
+      },
+    }),
+  expo: () =>
+    createEnv({
+      client: {
+        EXPO_PUBLIC_POSTHOG_HOST: z.url(),
+        EXPO_PUBLIC_POSTHOG_API_KEY: z.string(),
+      },
+      clientPrefix: "EXPO_PUBLIC_",
+      runtimeEnvStrict: {
+        EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
+        EXPO_PUBLIC_POSTHOG_API_KEY: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
+      },
+    }),
+  wxt: () =>
+    createEnv({
+      client: {
+        VITE_POSTHOG_HOST: z.url(),
+        VITE_POSTHOG_API_KEY: z.string(),
+      },
+      clientPrefix: "VITE_",
+      runtimeEnvStrict: {
+        VITE_POSTHOG_HOST: process.env.VITE_POSTHOG_HOST,
+        VITE_POSTHOG_API_KEY: process.env.VITE_POSTHOG_API_KEY,
+      },
+    }),
+}
