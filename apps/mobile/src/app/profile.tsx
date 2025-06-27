@@ -20,7 +20,8 @@ export default function Screen() {
       email: "",
     },
     onSubmit: async ({ value }) => {
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      // Delay to simulate a network request
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       Alert.alert(JSON.stringify(value))
     },
