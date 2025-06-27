@@ -5,9 +5,9 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
     "./client": "./src/client.ts",
-    "./helpers": "./src/helpers.ts"
+    "./helpers": "./src/helpers.ts",
+    "./browser": "./src/browser.ts"
   },
   "scripts": {
     "check": "biome check --write",
@@ -19,7 +19,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/utils": "workspace:*",
     "@stripe/agent-toolkit": "0.5.3",

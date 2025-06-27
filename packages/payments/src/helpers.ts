@@ -1,29 +1,28 @@
-import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
-
-import env from "@init/env/payments"
-import { redis } from "@init/kv/client"
+import type { Redis } from "@init/kv/client"
 import { buildKeyGenerator } from "@init/utils/key"
-import { type Stripe, stripe } from "./"
+import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
+import type { Stripe } from "stripe"
 
-const kv = redis()
 const generateKey = buildKeyGenerator<"stripe", "customer" | "subscription">()
 
-export const agentToolkit = new StripeAgentToolkit({
-  secretKey: env.STRIPE_SECRET_KEY,
-  configuration: {
-    actions: {
-      paymentLinks: {
-        create: true,
-      },
-      products: {
-        create: true,
-      },
-      prices: {
-        create: true,
+export function createAgentToolkit(secretKey: string) {
+  return new StripeAgentToolkit({
+    secretKey,
+    configuration: {
+      actions: {
+        paymentLinks: {
+          create: true,
+        },
+        products: {
+          create: true,
+        },
+        prices: {
+          create: true,
+        },
       },
     },
-  },
-})
+  })
+}
 
 export type SubscriptionCache =
   | {
@@ -41,73 +40,6 @@ export type SubscriptionCache =
   | {
       status: "none"
     }
-
-export async function syncSubscription(
-  customerId: string
-): Promise<SubscriptionCache> {
-  const cacheKey = generateKey("stripe", "customer", customerId)
-
-  // Fetch latest subscription data from Stripe
-  const subscriptions = await stripe.subscriptions.list({
-    customer: customerId,
-    limit: 1,
-    status: "all",
-    expand: ["data.default_payment_method"],
-  })
-
-  if (subscriptions.data.length === 0) {
-    const data: SubscriptionCache = { status: "none" }
-
-    await kv.set(cacheKey, data)
-
-    return data
-  }
-
-  const subscription = subscriptions.data[0]
-
-  // Store complete subscription state
-  const data: SubscriptionCache = {
-    subscriptionId: subscription.id,
-    status: subscription.status,
-    priceId: subscription.items.data[0].price.id,
-    currentPeriodEnd: subscription.current_period_end,
-    currentPeriodStart: subscription.current_period_start,
-    cancelAtPeriodEnd: subscription.cancel_at_period_end,
-    paymentMethod:
-      subscription.default_payment_method &&
-      typeof subscription.default_payment_method !== "string"
-        ? {
-            brand: subscription.default_payment_method.card?.brand ?? null,
-            last4: subscription.default_payment_method.card?.last4 ?? null,
-          }
-        : null,
-  }
-
-  // Store the data in your KV
-  await kv.set(cacheKey, data)
-
-  return data
-}
-
-export async function parsePaymentWebhook(
-  request: Request
-): Promise<Stripe.Event> {
-  const signature = request.headers.get("stripe-signature")
-
-  if (typeof signature !== "string") {
-    throw new Error("Missing stripe-signature header")
-  }
-
-  const body = await request.text()
-
-  const event = stripe.webhooks.constructEvent(
-    body,
-    signature,
-    env.STRIPE_WEBHOOK_SECRET
-  )
-
-  return event
-}
 
 export const ALLOWED_EVENTS: Stripe.Event.Type[] = [
   "checkout.session.completed",
@@ -129,3 +61,58 @@ export const ALLOWED_EVENTS: Stripe.Event.Type[] = [
   "payment_intent.payment_failed",
   "payment_intent.canceled",
 ]
+
+export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
+  async function syncSubscription(
+    customerId: string
+  ): Promise<SubscriptionCache> {
+    const cacheKey = generateKey("stripe", "customer", customerId)
+
+    // Fetch latest subscription data from Stripe
+    const subscriptions = await client.subscriptions.list({
+      customer: customerId,
+      limit: 1,
+      status: "all",
+      expand: ["data.default_payment_method"],
+    })
+
+    if (subscriptions.data.length === 0) {
+      const data: SubscriptionCache = { status: "none" }
+
+      await kv.set(cacheKey, data)
+
+      return data
+    }
+
+    const subscription = subscriptions.data[0]
+
+    // Store complete subscription state
+    const data: SubscriptionCache = {
+      subscriptionId: subscription.id,
+      status: subscription.status,
+      priceId: subscription.items.data[0].price.id,
+      currentPeriodEnd: subscription.current_period_end,
+      currentPeriodStart: subscription.current_period_start,
+      cancelAtPeriodEnd: subscription.cancel_at_period_end,
+      paymentMethod:
+        subscription.default_payment_method &&
+        typeof subscription.default_payment_method !== "string"
+          ? {
+              brand: subscription.default_payment_method.card?.brand ?? null,
+              last4: subscription.default_payment_method.card?.last4 ?? null,
+            }
+          : null,
+    }
+
+    // Store the data in your KV
+    await kv.set(cacheKey, data)
+
+    return data
+  }
+
+  function checkIsAllowedEvent(event: Stripe.Event): boolean {
+    return ALLOWED_EVENTS.includes(event.type)
+  }
+
+  return { syncSubscription, checkIsAllowedEvent }
+}
