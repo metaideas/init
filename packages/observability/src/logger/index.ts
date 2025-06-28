@@ -1,13 +1,7 @@
-import { isDevelopment, isProduction } from "@init/utils/environment"
+import { isDevelopment } from "@init/utils/environment"
 import pino, { type LoggerOptions } from "pino"
-import "@axiomhq/pino"
 
-export function createLogger(config?: {
-  axiom?: {
-    dataset: string
-    token: string
-  }
-}) {
+export function createLogger() {
   const options: LoggerOptions = {
     level: isDevelopment ? "debug" : "info",
     redact: {
@@ -26,16 +20,6 @@ export function createLogger(config?: {
     options.transport = {
       target: "pino-pretty",
       options: { colorize: true },
-    }
-  }
-
-  if (isProduction && config?.axiom) {
-    options.transport = {
-      target: "@axiomhq/pino",
-      options: {
-        dataset: config.axiom.dataset,
-        token: config.axiom.token,
-      },
     }
   }
 
