@@ -1,15 +1,21 @@
+import * as z from "@init/utils/schema"
 import {
   createRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/shared/trpc"
+import { PublicUserSchema } from "~/shared/validation"
 
 // Normally this would inside a `features/users` folder, but for this example
 // we'll just keep it here.
 const usersRouter = createRouter({
-  list: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.users.findMany()
-  }),
+  list: protectedProcedure
+    .output(z.array(PublicUserSchema))
+    .query(async ({ ctx }) => {
+      const existingUsers = await ctx.db.query.users.findMany()
+
+      return existingUsers
+    }),
 })
 
 /**
