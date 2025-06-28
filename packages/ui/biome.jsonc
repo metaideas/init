@@ -1,0 +1,36 @@
+{
+  "$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+  "root": false,
+  "extends": "//",
+  // We use custom rules for this package since most of the components come from shadcn/ui
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noDocumentCookie": "warn" // Sidebar component needs direct cookie access
+      },
+      "a11y": {
+        "useFocusableInteractive": "warn", // Interactive roles on non-focusable elements
+        "useSemanticElements": "warn", // Using roles instead of semantic elements
+        "useAriaPropsForRole": "warn", // Missing ARIA properties for roles
+        "noRedundantRoles": "warn" // Redundant role attributes on semantic elements
+      },
+      "nursery": {
+        "noNestedComponentDefinitions": "warn", // Component definitions inside other components
+        "noShadow": "warn" // Variable shadowing in component props
+      },
+      "style": {
+        "useBlockStatements": "warn" // Preference for block statements in conditionals
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "warn" // Complex functions in chart components
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "warn" // Chart component needs CSS injection
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "warn" // React hook dependencies sometimes intentionally excluded
+      }
+    }
+  }
+}

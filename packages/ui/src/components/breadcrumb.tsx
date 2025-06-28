@@ -1,8 +1,7 @@
+import { cn } from "@init/utils/ui"
 import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Slot as SlotPrimitive } from "radix-ui"
 import type * as React from "react"
-
-import { cn } from "@init/utils/ui"
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
@@ -11,11 +10,11 @@ function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
-      data-slot="breadcrumb-list"
       className={cn(
         "flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5",
         className
       )}
+      data-slot="breadcrumb-list"
       {...props}
     />
   )
@@ -24,8 +23,8 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
-      data-slot="breadcrumb-item"
       className={cn("inline-flex items-center gap-1.5", className)}
+      data-slot="breadcrumb-item"
       {...props}
     />
   )
@@ -42,8 +41,8 @@ function BreadcrumbLink({
 
   return (
     <Comp
-      data-slot="breadcrumb-link"
       className={cn("transition-colors hover:text-foreground", className)}
+      data-slot="breadcrumb-link"
       {...props}
     />
   )
@@ -52,12 +51,11 @@ function BreadcrumbLink({
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
+      aria-current="page"
+      aria-disabled="true"
+      className={cn("font-normal text-foreground", className)}
       data-slot="breadcrumb-page"
       role="link"
-      aria-disabled="true"
-      aria-current="page"
-      tabIndex={0}
-      className={cn("font-normal text-foreground", className)}
       {...props}
     />
   )
@@ -70,10 +68,10 @@ function BreadcrumbSeparator({
 }: React.ComponentProps<"li">) {
   return (
     <li
-      data-slot="breadcrumb-separator"
-      role="presentation"
       aria-hidden="true"
       className={cn("[&>svg]:size-3.5", className)}
+      data-slot="breadcrumb-separator"
+      role="presentation"
       {...props}
     >
       {children ?? <ChevronRightIcon />}
@@ -87,10 +85,10 @@ function BreadcrumbEllipsis({
 }: React.ComponentProps<"span">) {
   return (
     <span
-      data-slot="breadcrumb-ellipsis"
-      role="presentation"
       aria-hidden="true"
       className={cn("flex size-9 items-center justify-center", className)}
+      data-slot="breadcrumb-ellipsis"
+      role="presentation"
       {...props}
     >
       <DotsHorizontalIcon className="size-4" />

@@ -72,7 +72,7 @@ function NavigationMenuTrigger({
       data-slot="navigation-menu-trigger"
       {...props}
     >
-      {children}
+      {children}{" "}
       <ChevronDownIcon
         aria-hidden="true"
         className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
