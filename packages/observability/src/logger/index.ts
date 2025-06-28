@@ -1,9 +1,8 @@
 import { isDevelopment } from "@init/utils/environment"
-import pino from "pino"
-import pretty from "pino-pretty"
+import pino, { type LoggerOptions } from "pino"
 
-export const logger = pino(
-  {
+export function createLogger() {
+  const options: LoggerOptions = {
     level: isDevelopment ? "debug" : "info",
     redact: {
       paths: [
@@ -15,10 +14,17 @@ export const logger = pino(
       ],
       censor: "[REDACTED]",
     },
-  },
-  pretty({ colorize: true })
-)
+  }
 
-export type Logger = pino.Logger
+  if (isDevelopment) {
+    options.transport = {
+      target: "pino-pretty",
+      options: { colorize: true },
+    }
+  }
+
+  return pino(options)
+}
 
 export { default as styles } from "chalk"
+export type { Logger } from "pino"

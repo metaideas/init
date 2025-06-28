@@ -21,7 +21,6 @@ export function useColorScheme() {
     try {
       await setNavigationBar(scheme)
     } catch (error) {
-      // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
       console.error(`${__filename}`, "setColorScheme", error)
     }
   }
@@ -50,7 +49,6 @@ export function useInitialAndroidBarSync() {
     }
 
     setNavigationBar(colorScheme).catch((error) => {
-      // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
       console.error(`${__filename}`, "useInitialAndroidBarSync", error)
     })
   }, [colorScheme])
@@ -78,7 +76,6 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
-        // biome-ignore lint/suspicious/noConsole: replace with preferred error handling
         console.warn("Error hiding splash screen:", error)
       }
     }

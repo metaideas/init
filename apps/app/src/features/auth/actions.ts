@@ -1,11 +1,9 @@
 "use server"
 
-import { flattenValidationErrors } from "next-safe-action"
+import { slidingWindow } from "@init/security/ratelimit"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-
-import { slidingWindow } from "@init/security/ratelimit"
-
+import { flattenValidationErrors } from "next-safe-action"
 import {
   SignInWithPasswordFormDataSchema,
   SignUpFormDataSchema,

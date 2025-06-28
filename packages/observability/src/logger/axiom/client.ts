@@ -7,9 +7,7 @@ import {
   type Transport,
 } from "@axiomhq/logging"
 import { nextJsFormatters } from "@axiomhq/nextjs/client"
-
 import { singleton } from "@init/utils/singleton"
-
 import axiom from "."
 
 export function createLogger(

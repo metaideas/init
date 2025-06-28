@@ -4,7 +4,7 @@ import { AuthError } from "@init/auth/server"
 import { type Database, database } from "@init/db/client"
 import { type Redis, redis } from "@init/kv/client"
 import { captureException } from "@init/observability/error/nextjs"
-import { type Logger, logger } from "@init/observability/logger"
+import type { Logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
 import * as z from "@init/utils/schema"
 import { geolocation, ipAddress } from "@vercel/functions"
@@ -15,6 +15,7 @@ import {
   DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action"
 import { type Auth, auth, validateRequest } from "~/shared/auth/server"
+import { logger } from "~/shared/logger"
 
 type ActionErrorCode =
   | "BAD_REQUEST"
@@ -100,19 +101,20 @@ export const publicAction = createSafeActionClient({
   },
 })
   // Inject dependencies to the action context
-  .use(({ next, metadata }) => {
-    const requestId = crypto.randomUUID()
-    const childLogger = logger.child({
-      action: metadata.name,
-      requestId,
+  .use(({ next, metadata }) =>
+    next({
+      ctx: {
+        auth,
+        db: database(),
+        kv: redis(),
+        logger: logger.child({
+          group: "action",
+          action: metadata.name,
+          requestId: crypto.randomUUID(),
+        }),
+      } satisfies ActionContext,
     })
-    const db = database()
-    const kv = redis()
-
-    const ctx = { auth, db, kv, logger: childLogger } satisfies ActionContext
-
-    return next({ ctx })
-  })
+  )
   // Logging middleware for action
   .use(async ({ next, metadata }) => {
     const startTime = performance.now()
