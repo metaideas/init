@@ -4,7 +4,7 @@ import Stripe from "stripe"
 export function createPayments(secretKey: string, webhookSecret: string) {
   const client = singleton(
     "payments",
-    () => new Stripe(secretKey, { apiVersion: "2025-02-24.acacia" })
+    () => new Stripe(secretKey, { apiVersion: "2025-05-28.basil" })
   )
 
   async function parsePaymentWebhook(request: Request): Promise<Stripe.Event> {
