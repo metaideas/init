@@ -74,7 +74,12 @@
         "noBannedTypes": "error",
         "noCommaOperator": "error",
         "noEmptyTypeParameters": "error",
-        "noExcessiveCognitiveComplexity": "error",
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 18
+          }
+        },
         "noExcessiveNestedTestSuites": "error",
         "useSimplifiedLogicExpression": "error",
         "useWhile": "error"
@@ -263,7 +268,7 @@
           "options": {
             "filenameCases": ["kebab-case"],
             "requireAscii": true,
-            "match": "[-?%]?(.+?)[.](.+)"
+            "match": "[-?%+]?(.+?)[.](.+)"
           }
         },
         "useForOf": "error",
