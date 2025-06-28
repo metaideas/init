@@ -4,7 +4,7 @@ import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
-import "~/shared/assets/styles/index.css"
+import "~/shared/assets/styles/globals.css"
 import es from "~/shared/localization/translations/es"
 
 const inter = Inter({
@@ -36,7 +36,7 @@ export default async function Layout({
   const { lang } = await params
 
   return (
-    <html lang={lang} className={inter.className} suppressHydrationWarning>
+    <html className={inter.className} lang={lang} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         <RootProvider
           i18n={{

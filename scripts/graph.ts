@@ -30,13 +30,15 @@ async function getWorkspaceTypes() {
 
 async function getEntries(workspaceType: string) {
   const entries = await fs.readdir(workspaceType, { withFileTypes: true })
-  return entries.filter(entry => entry.isDirectory()).map(entry => entry.name)
+  return entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
 }
 
 async function chooseEntries(entries: string[]) {
   const selectedEntries = await prompt.multiselect({
     message: "Which entries would you like to include?",
-    options: entries.map(entry => ({
+    options: entries.map((entry) => ({
       value: entry,
       label: entry,
     })),
@@ -62,9 +64,9 @@ async function main() {
 
   const entries = (
     await Promise.all(
-      workspaceTypes.map(async workspaceType => {
-        const entries = await getEntries(workspaceType)
-        return entries.map(entry => `${workspaceType}/${entry}`)
+      workspaceTypes.map(async (workspaceType) => {
+        const e = await getEntries(workspaceType)
+        return e.map((entry) => `${workspaceType}/${entry}`)
       })
     )
   ).flat()

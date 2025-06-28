@@ -1,8 +1,9 @@
+import { logger } from "@init/observability/logger"
 import { defineContentScript } from "#imports"
 
 export default defineContentScript({
   main() {
-    console.log("Hello content.")
+    logger.info("Hello content.")
   },
   matches: ["*://*.google.com/*"],
 })

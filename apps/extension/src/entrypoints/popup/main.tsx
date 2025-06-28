@@ -18,8 +18,8 @@ if (!rootElement.innerHTML) {
     <React.StrictMode>
       <HashRouter>
         <Routes>
-          <Route index element={<PopupDemo />} />
-          <Route path="/settings" element={<SettingsDemo />} />
+          <Route element={<PopupDemo />} index />
+          <Route element={<SettingsDemo />} path="/settings" />
         </Routes>
       </HashRouter>
     </React.StrictMode>

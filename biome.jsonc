@@ -97,7 +97,7 @@
         "noNodejsModules": "off",
         "noNonoctalDecimalEscape": "error",
         "noPrecisionLoss": "error",
-        "noPrivateImports": "off",
+        "noPrivateImports": "error",
         "noRenderReturnValue": "error",
         "noSelfAssign": "error",
         "noSetterReturn": "error",
@@ -192,7 +192,8 @@
 
         // --------- CSS ---------
         "noImportantStyles": "error",
-        "noUnknownAtRule": "error"
+        // Disabling this rule since we need custom at-rules for Tailwind
+        "noUnknownAtRule": "off"
       },
       "performance": {
         // --------- JavaScript ---------
@@ -426,6 +427,12 @@
   },
   // ----------------------------- FILES -----------------------------
   "files": {
-    "includes": ["**", "!**/.cache", "!**/dist", "!**/.next"]
+    "includes": [
+      "**",
+      "!**/.cache",
+      "!**/dist",
+      "!**/.next",
+      "!**/.content-collections"
+    ]
   }
 }

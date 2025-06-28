@@ -18,19 +18,19 @@ import { COLORS } from "~/shared/theme/colors"
 const buttonVariants = cva("flex-row items-center justify-center gap-2", {
   variants: {
     variant: {
-      primary: "ios:active:opacity-80 bg-primary",
+      primary: "bg-primary ios:active:opacity-80",
       secondary:
-        "ios:border-primary ios:active:bg-primary/5 border border-foreground/40",
+        "border border-foreground/40 ios:border-primary ios:active:bg-primary/5",
       tonal:
-        "ios:bg-primary/10 dark:ios:bg-primary/10 ios:active:bg-primary/15 bg-primary/15 dark:bg-primary/30",
+        "bg-primary/15 ios:bg-primary/10 ios:active:bg-primary/15 dark:bg-primary/30 dark:ios:bg-primary/10",
       plain: "ios:active:opacity-70",
     },
     size: {
       none: "",
-      sm: "py-1 px-2.5 rounded-full",
-      md: "ios:rounded-lg py-2 ios:py-1.5 ios:px-3.5 px-5 rounded-full",
-      lg: "py-2.5 px-5 ios:py-2 rounded-xl gap-2",
-      icon: "ios:rounded-lg h-10 w-10 rounded-full",
+      sm: "rounded-full px-2.5 py-1",
+      md: "ios:rounded-lg rounded-full ios:px-3.5 px-5 ios:py-1.5 py-2",
+      lg: "gap-2 rounded-xl px-5 ios:py-2 py-2.5",
+      icon: "h-10 w-10 ios:rounded-lg rounded-full",
     },
   },
   defaultVariants: {

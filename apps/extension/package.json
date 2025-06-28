@@ -22,6 +22,7 @@
     "zip:firefox": "wxt zip -b firefox"
   },
   "dependencies": {
+    "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@webext-core/isolated-element": "1.1.2",
     "@webext-core/job-scheduler": "1.0.0",
