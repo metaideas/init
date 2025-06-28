@@ -1,9 +1,9 @@
+import { DEFAULT_LOCALE } from "@init/internationalization/locale"
+import { isProduction } from "@init/utils/environment"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
-
 import "@init/ui/globals.css"
-import { DEFAULT_LOCALE } from "@init/internationalization/locale"
 import { cn } from "@init/utils/ui"
 import Providers from "~/shared/components/providers"
 import { WebVitals } from "~/shared/logger"
@@ -20,13 +20,13 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html
-      // TODO: We're passing the default locale instead of getting it from the
-      // cookie because of a build error that happens with not-found.
       className="h-full"
+      // TODO: We're passing the default locale instead of getting it from the
+      // cookie because of a build error that happens with the not-found page.
       lang={DEFAULT_LOCALE}
       suppressHydrationWarning
     >
-      <WebVitals />
+      {isProduction && <WebVitals />}
       <body className={cn("font-sans", inter.variable)}>
         <Providers>{children}</Providers>
       </body>

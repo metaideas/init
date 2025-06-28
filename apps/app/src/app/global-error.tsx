@@ -1,8 +1,7 @@
 "use client"
 
-import NextError from "next/error"
-
 import { useReportError } from "@init/observability/error/nextjs/client"
+import NextError from "next/error"
 
 export default function GlobalError({
   error,
