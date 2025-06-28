@@ -21,10 +21,10 @@
   "dependencies": {
     "@init/kv": "workspace:*",
     "@init/utils": "workspace:*",
-    "@stripe/agent-toolkit": "0.5.3",
+    "@stripe/agent-toolkit": "0.7.10",
     "@stripe/react-stripe-js": "3.7.0",
-    "@stripe/stripe-js": "6.1.0",
-    "stripe": "17.7.0"
+    "@stripe/stripe-js": "7.4.0",
+    "stripe": "18.2.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

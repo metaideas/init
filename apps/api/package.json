@@ -24,8 +24,8 @@
     "typegen:client:watch": "tsup src/client.ts --dts-only --watch"
   },
   "dependencies": {
-    "@hono/trpc-server": "0.3.4",
-    "@hono/zod-validator": "0.4.3",
+    "@hono/trpc-server": "0.4.0",
+    "@hono/zod-validator": "0.7.0",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/bun": "1.2.16",
+    "@types/bun": "1.2.17",
     "tsup": "8.5.0",
     "typescript": "5.8.3"
   }

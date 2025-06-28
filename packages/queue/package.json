@@ -25,12 +25,11 @@
     "@init/utils": "workspace:*",
     "@upstash/qstash": "2.8.1",
     "@upstash/qstash-cli": "2.22.3",
-    "@upstash/workflow": "0.2.13"
+    "@upstash/workflow": "0.2.14"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/bun": "1.2.16",
     "typescript": "5.8.3"
   },
   "peerDependencies": {

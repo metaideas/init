@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "next-intl": "4.1.0"
+    "next-intl": "4.3.1"
   },
   "devDependencies": {
-    "@lingual/i18n-check": "0.8.3",
+    "@lingual/i18n-check": "0.8.4",
     "@tooling/tsconfig": "workspace:*",
     "next": "15.3.4",
     "typescript": "5.8.3"

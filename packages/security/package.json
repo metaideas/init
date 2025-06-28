@@ -21,10 +21,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/ip": "1.0.0-beta.7",
-    "@arcjet/next": "1.0.0-beta.7",
-    "@arcjet/node": "1.0.0-beta.7",
-    "@arcjet/redact": "1.0.0-beta.7",
+    "@arcjet/ip": "1.0.0-beta.8",
+    "@arcjet/next": "1.0.0-beta.8",
+    "@arcjet/node": "1.0.0-beta.8",
+    "@arcjet/redact": "1.0.0-beta.8",
     "@upstash/ratelimit": "2.0.5"
   },
   "devDependencies": {

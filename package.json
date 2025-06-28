@@ -1,7 +1,11 @@
 {
   "name": "init",
   "private": true,
-  "workspaces": ["apps/*", "packages/*", "tooling/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
   "scripts": {
     "boundaries": "turbo boundaries",
     "build": "turbo build",
@@ -34,18 +38,18 @@
     "workspace:update": "bun run scripts/update.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.0",
-    "@turbo/gen": "2.5.3",
-    "@types/bun": "1.2.16",
-    "dependency-cruiser": "16.10.2",
-    "shadcn": "^2.6.3",
-    "sherif": "1.5.0",
+    "@biomejs/biome": "2.0.6",
+    "@turbo/gen": "2.5.4",
+    "@types/bun": "1.2.17",
+    "dependency-cruiser": "16.10.3",
+    "shadcn": "2.7.0",
+    "sherif": "1.6.1",
     "syncpack": "13.0.4",
     "taze": "19.1.0",
-    "turbo": "2.5.3",
+    "turbo": "2.5.4",
     "typescript": "5.8.3"
   },
-  "packageManager": "bun@1.2.13",
+  "packageManager": "bun@1.2.17",
   "engines": {
     "node": ">=24"
   },

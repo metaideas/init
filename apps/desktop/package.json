@@ -20,9 +20,9 @@
     "@init/env": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "@tanstack/react-query": "5.81.4",
-    "@tauri-apps/api": "2.5.0",
-    "@tauri-apps/plugin-opener": "2.2.6",
+    "@tanstack/react-query": "5.81.5",
+    "@tauri-apps/api": "2.6.0",
+    "@tauri-apps/plugin-opener": "2.4.0",
     "@trpc/client": "11.4.3",
     "@trpc/tanstack-react-query": "11.4.3",
     "hono": "4.8.3",
@@ -32,17 +32,12 @@
     "superjson": "2.2.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.6",
-    "@tanstack/router-devtools": "1.120.3",
-    "@tanstack/router-plugin": "1.120.3",
-    "@tauri-apps/cli": "2.5.0",
+    "@tauri-apps/cli": "2.6.1",
     "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.8",
+    "@types/react": "19.0.10",
     "@types/react-dom": "19.1.6",
-    "@vitejs/plugin-react": "4.4.1",
     "api": "workspace:*",
-    "typescript": "5.8.3",
-    "vite": "6.3.5"
+    "typescript": "5.8.3"
   }
 }
