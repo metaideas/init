@@ -1,6 +1,7 @@
 import { database } from "@init/db/client"
 import { redis } from "@init/kv/client"
 import { captureException } from "@init/observability/error/server"
+import { logger } from "@init/observability/logger"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
@@ -11,7 +12,6 @@ import healthRoutes from "~/app/health"
 import testRoutes from "~/app/test"
 import trpcRoutes from "~/app/trpc"
 import { auth } from "~/shared/auth"
-import { logger } from "~/shared/logger"
 import type { AppContext } from "~/shared/types"
 
 const app = new Hono<AppContext>()

@@ -9,7 +9,7 @@
     "./error/nextjs": "./src/error/nextjs/index.ts",
     "./error/nextjs/*": "./src/error/nextjs/*.ts",
     "./logger": "./src/logger/index.ts",
-    "./logger/axiom/*": "./src/logger/axiom/*.ts",
+    "./logger/*": "./src/logger/*.ts",
     "./uptime": "./src/uptime.ts"
   },
   "scripts": {

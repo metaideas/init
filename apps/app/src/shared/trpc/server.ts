@@ -2,6 +2,7 @@ import "server-only"
 
 import { database } from "@init/db/client"
 import { redis } from "@init/kv/client"
+import { logger } from "@init/observability/logger"
 import * as z from "@init/utils/schema"
 import { initTRPC, TRPCError } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
@@ -11,7 +12,6 @@ import { after } from "next/server"
 import { cache } from "react"
 import superjson from "superjson"
 import { auth, validateRequest } from "~/shared/auth/server"
-import { logger } from "~/shared/logger"
 
 export const createContext = cache(
   async (options?: FetchCreateContextFnOptions) => ({

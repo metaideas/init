@@ -1,3 +1,4 @@
+import { logger } from "@init/observability/logger"
 import NetInfo from "@react-native-community/netinfo"
 import { onlineManager } from "@tanstack/react-query"
 import { useFonts } from "expo-font"
@@ -21,7 +22,7 @@ export function useColorScheme() {
     try {
       await setNavigationBar(scheme)
     } catch (error) {
-      console.error(`${__filename}`, "setColorScheme", error)
+      logger.error(`${__filename}`, "setColorScheme", error)
     }
   }
 
@@ -49,7 +50,7 @@ export function useInitialAndroidBarSync() {
     }
 
     setNavigationBar(colorScheme).catch((error) => {
-      console.error(`${__filename}`, "useInitialAndroidBarSync", error)
+      logger.error(`${__filename}`, "useInitialAndroidBarSync", error)
     })
   }, [colorScheme])
 }
@@ -76,7 +77,7 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
-        console.warn("Error hiding splash screen:", error)
+        logger.warn("Error hiding splash screen:", error)
       }
     }
 

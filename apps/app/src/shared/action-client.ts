@@ -5,6 +5,7 @@ import { type Database, database } from "@init/db/client"
 import { type Redis, redis } from "@init/kv/client"
 import { captureException } from "@init/observability/error/nextjs"
 import type { Logger } from "@init/observability/logger"
+import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
 import * as z from "@init/utils/schema"
 import { geolocation, ipAddress } from "@vercel/functions"
@@ -16,7 +17,6 @@ import {
   DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action"
 import { type Auth, auth, validateRequest } from "~/shared/auth/server"
-import { logger } from "~/shared/logger"
 
 type ActionErrorCode =
   | "BAD_REQUEST"

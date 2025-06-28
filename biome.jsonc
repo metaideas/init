@@ -297,6 +297,7 @@
         "noCompareNegZero": "error",
         "noConfusingLabels": "error",
         "noConfusingVoidType": "error",
+        "noConsole": "error",
         "noConstEnum": "error",
         "noControlCharactersInRegex": "error",
         "noDebugger": "error",
