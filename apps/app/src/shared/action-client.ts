@@ -9,6 +9,7 @@ import { createRateLimiter } from "@init/security/ratelimit"
 import * as z from "@init/utils/schema"
 import { geolocation, ipAddress } from "@vercel/functions"
 import { headers } from "next/headers"
+import { after } from "next/server"
 import {
   createMiddleware,
   createSafeActionClient,
@@ -116,41 +117,43 @@ export const publicAction = createSafeActionClient({
     })
   )
   // Logging middleware for action
-  .use(async ({ next, metadata }) => {
+  .use(async ({ next, metadata, ctx }) => {
     const startTime = performance.now()
-
     const result = await next()
+    const duration = performance.now() - startTime
 
-    const duration = (performance.now() - startTime).toFixed(2)
+    // Don't block the response while we log the action result
+    after(async () => {
+      const headersList = await headers()
+      const [ip, geo] = await Promise.all([
+        ipAddress({ headers: headersList }),
+        geolocation({ headers: headersList }),
+      ])
+      const formattedDuration = `${duration.toFixed(2)}ms`
 
-    const headersList = await headers()
-    const [ip, geo] = await Promise.all([
-      ipAddress({ headers: headersList }),
-      geolocation({ headers: headersList }),
-    ])
+      const context = { metadata, duration, ip, geo }
 
-    const actionContext = { metadata, duration, ip, geo }
+      if (result.success || result.navigationKind === "redirect") {
+        // Navigation redirects are considered successful
+        ctx.logger.info(
+          context,
+          `[Action] [${metadata.name}] Succeeded in ${formattedDuration}`
+        )
 
-    // Navigation redirects are considered successful
-    if (result.success || result.navigationKind === "redirect") {
-      logger.info(
-        { ...actionContext },
-        `Action "${metadata.name}" succeeded in ${duration}ms`
-      )
+        return
+      }
 
-      return result
-    }
-
-    logger.error(
-      {
-        ...actionContext,
-        errors: {
-          server: result.serverError,
-          validation: result.validationErrors,
+      ctx.logger.error(
+        {
+          ...context,
+          errors: {
+            server: result.serverError,
+            validation: result.validationErrors,
+          },
         },
-      },
-      `Action "${metadata.name}" failed in ${duration}ms`
-    )
+        `[Action] [${metadata.name}] Failed in ${formattedDuration}`
+      )
+    })
 
     return result
   })

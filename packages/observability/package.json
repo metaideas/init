@@ -25,6 +25,7 @@
     "@axiomhq/js": "^1.3.1",
     "@axiomhq/logging": "^0.1.4",
     "@axiomhq/nextjs": "^0.1.4",
+    "@axiomhq/pino": "1.3.1",
     "@axiomhq/react": "^0.1.4",
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
