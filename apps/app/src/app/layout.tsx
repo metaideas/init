@@ -5,8 +5,8 @@ import type { ReactNode } from "react"
 import "@init/ui/globals.css"
 import { DEFAULT_LOCALE } from "@init/internationalization/locale"
 import { cn } from "@init/utils/ui"
-
 import Providers from "~/shared/components/providers"
+import { WebVitals } from "~/shared/logger"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
@@ -22,10 +22,11 @@ export default function RootLayout({
     <html
       // TODO: We're passing the default locale instead of getting it from the
       // cookie because of a build error that happens with not-found.
-      lang={DEFAULT_LOCALE}
       className="h-full"
+      lang={DEFAULT_LOCALE}
       suppressHydrationWarning
     >
+      <WebVitals />
       <body className={cn("font-sans", inter.variable)}>
         <Providers>{children}</Providers>
       </body>
