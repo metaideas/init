@@ -18,7 +18,7 @@ export function constructId<B extends string, P extends string>(
   brand: B,
   prefix: ConstrainedString<P, 3>
 ) {
-  const IdSchema = z.string().brand(brand)
+  const IdSchema = z.branded(brand)
 
   return {
     id: text()

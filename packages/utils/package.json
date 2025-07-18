@@ -28,7 +28,7 @@
     "nanoid": "5.1.5",
     "schema-dts": "1.1.5",
     "tailwind-merge": "3.3.1",
-    "zod": "3.25.67",
+    "zod": "^4.0.5",
     "zod-form-data": "3.0.0"
   },
   "devDependencies": {
