@@ -1,8 +1,7 @@
 import type { ReactNode } from "react"
-
 import { validateRequest } from "~/shared/auth/server"
 
-export async function SignedIn({ children }: { children: ReactNode }) {
+export async function Authenticated({ children }: { children: ReactNode }) {
   const session = await validateRequest()
 
   if (!session) {
@@ -12,7 +11,7 @@ export async function SignedIn({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-export async function SignedOut({ children }: { children: ReactNode }) {
+export async function Unauthenticated({ children }: { children: ReactNode }) {
   const session = await validateRequest()
 
   if (session) {

@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-
 import { validateRequest } from "~/shared/auth/server"
 
 export async function AdminOnly({
