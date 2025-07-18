@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"
 import { Input } from "./input"
 import { Label } from "./label"
+import { Textarea } from "./textarea"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
@@ -101,6 +102,26 @@ function FieldInput(props: React.ComponentProps<typeof Input>) {
 }
 FieldInput.displayName = "FieldInput"
 
+function FieldTextarea(props: React.ComponentProps<typeof Textarea>) {
+  const field = useFieldContext<string>()
+
+  return (
+    <Textarea
+      {...props}
+      id={field.name}
+      name={field.name}
+      onBlur={() => {
+        field.handleBlur()
+      }}
+      onChange={(e) => {
+        field.handleChange(e.target.value)
+      }}
+      value={field.state.value}
+    />
+  )
+}
+FieldTextarea.displayName = "FieldTextarea"
+
 function FormSubmitButton({
   loadingText = "Submitting...",
   children,
@@ -168,6 +189,7 @@ export const { useAppForm, withForm } = createFormHook({
     Input: FieldInput,
     Label: FieldLabel,
     Message: FieldMessage,
+    Textarea: FieldTextarea,
   },
   formComponents: {
     SubmitButton: FormSubmitButton,
