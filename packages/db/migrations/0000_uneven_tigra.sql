@@ -1,4 +1,4 @@
-CREATE TABLE `accounts` (
+CREATE TABLE `auth_accounts` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
@@ -15,10 +15,10 @@ CREATE TABLE `accounts` (
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `accounts_user_id_idx` ON `accounts` (`user_id`);--> statement-breakpoint
-CREATE INDEX `accounts_provider_idx` ON `accounts` (`provider_id`);--> statement-breakpoint
-CREATE UNIQUE INDEX `accounts_provider_account_unique_idx` ON `accounts` (`provider_id`,`account_id`);--> statement-breakpoint
-CREATE TABLE `activity_logs` (
+CREATE INDEX `auth_accounts_user_id_idx` ON `auth_accounts` (`user_id`);--> statement-breakpoint
+CREATE INDEX `auth_accounts_provider_idx` ON `auth_accounts` (`provider_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `auth_accounts_provider_account_unique_idx` ON `auth_accounts` (`provider_id`,`account_id`);--> statement-breakpoint
+CREATE TABLE `organization_activity_logs` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`organization_id` text,
@@ -26,14 +26,14 @@ CREATE TABLE `activity_logs` (
 	`type` text NOT NULL,
 	`ip_address` text(45),
 	`user_agent` text,
-	FOREIGN KEY (`organization_id`) REFERENCES `organizations`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`member_id`) REFERENCES `members`(`id`) ON UPDATE cascade ON DELETE cascade
+	FOREIGN KEY (`organization_id`) REFERENCES `organizations`(`id`) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY (`member_id`) REFERENCES `organization_members`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `activity_logs_organization_id_idx` ON `activity_logs` (`organization_id`);--> statement-breakpoint
-CREATE INDEX `activity_logs_member_id_idx` ON `activity_logs` (`member_id`);--> statement-breakpoint
-CREATE INDEX `activity_logs_type_idx` ON `activity_logs` (`type`);--> statement-breakpoint
-CREATE TABLE `invitations` (
+CREATE INDEX `organization_activity_logs_organization_id_idx` ON `organization_activity_logs` (`organization_id`);--> statement-breakpoint
+CREATE INDEX `organization_activity_logs_member_id_idx` ON `organization_activity_logs` (`member_id`);--> statement-breakpoint
+CREATE INDEX `organization_activity_logs_type_idx` ON `organization_activity_logs` (`type`);--> statement-breakpoint
+CREATE TABLE `organization_invitations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
@@ -44,13 +44,13 @@ CREATE TABLE `invitations` (
 	`status` text DEFAULT 'pending' NOT NULL,
 	`expires_at` integer NOT NULL,
 	FOREIGN KEY (`organization_id`) REFERENCES `organizations`(`id`) ON UPDATE cascade ON DELETE cascade,
-	FOREIGN KEY (`inviter_id`) REFERENCES `members`(`id`) ON UPDATE cascade ON DELETE cascade
+	FOREIGN KEY (`inviter_id`) REFERENCES `organization_members`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `organization_invitation_unique_idx` ON `invitations` (`organization_id`,`email`);--> statement-breakpoint
-CREATE INDEX `invitations_organization_id_idx` ON `invitations` (`organization_id`);--> statement-breakpoint
-CREATE INDEX `invitations_email_idx` ON `invitations` (`email`);--> statement-breakpoint
-CREATE TABLE `members` (
+CREATE UNIQUE INDEX `organization_invitations_organization_email_unique_idx` ON `organization_invitations` (`organization_id`,`email`);--> statement-breakpoint
+CREATE INDEX `organization_invitations_organization_id_idx` ON `organization_invitations` (`organization_id`);--> statement-breakpoint
+CREATE INDEX `organization_invitations_email_idx` ON `organization_invitations` (`email`);--> statement-breakpoint
+CREATE TABLE `organization_members` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
@@ -61,9 +61,9 @@ CREATE TABLE `members` (
 	FOREIGN KEY (`organization_id`) REFERENCES `organizations`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `user_organization_unique_idx` ON `members` (`user_id`,`organization_id`);--> statement-breakpoint
-CREATE INDEX `members_user_id_idx` ON `members` (`user_id`);--> statement-breakpoint
-CREATE INDEX `members_organization_id_idx` ON `members` (`organization_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `organization_members_user_organization_unique_idx` ON `organization_members` (`user_id`,`organization_id`);--> statement-breakpoint
+CREATE INDEX `organization_members_user_id_idx` ON `organization_members` (`user_id`);--> statement-breakpoint
+CREATE INDEX `organization_members_organization_id_idx` ON `organization_members` (`organization_id`);--> statement-breakpoint
 CREATE TABLE `organizations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
@@ -74,7 +74,9 @@ CREATE TABLE `organizations` (
 	`metadata` text
 );
 --> statement-breakpoint
-CREATE TABLE `sessions` (
+CREATE UNIQUE INDEX `organizations_slug_unique` ON `organizations` (`slug`);--> statement-breakpoint
+CREATE INDEX `organizations_slug_idx` ON `organizations` (`slug`);--> statement-breakpoint
+CREATE TABLE `auth_sessions` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
@@ -90,7 +92,11 @@ CREATE TABLE `sessions` (
 	FOREIGN KEY (`active_organization_id`) REFERENCES `organizations`(`id`) ON UPDATE cascade ON DELETE set null
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `sessions_token_unique` ON `sessions` (`token`);--> statement-breakpoint
+CREATE UNIQUE INDEX `auth_sessions_token_unique` ON `auth_sessions` (`token`);--> statement-breakpoint
+CREATE INDEX `auth_sessions_user_id_idx` ON `auth_sessions` (`user_id`);--> statement-breakpoint
+CREATE INDEX `auth_sessions_token_idx` ON `auth_sessions` (`token`);--> statement-breakpoint
+CREATE INDEX `auth_sessions_expires_at_idx` ON `auth_sessions` (`expires_at`);--> statement-breakpoint
+CREATE INDEX `auth_sessions_active_organization_id_idx` ON `auth_sessions` (`active_organization_id`);--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
@@ -109,7 +115,7 @@ CREATE TABLE `users` (
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
 CREATE INDEX `users_email_idx` ON `users` (`email`);--> statement-breakpoint
 CREATE INDEX `users_role_idx` ON `users` (`role`);--> statement-breakpoint
-CREATE TABLE `verifications` (
+CREATE TABLE `auth_verifications` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
@@ -118,6 +124,6 @@ CREATE TABLE `verifications` (
 	`expires_at` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `verifications_identifier_idx` ON `verifications` (`identifier`);--> statement-breakpoint
-CREATE INDEX `verifications_expires_idx` ON `verifications` (`expires_at`);--> statement-breakpoint
-CREATE UNIQUE INDEX `verifications_value_unique_idx` ON `verifications` (`value`);
+CREATE INDEX `auth_verifications_identifier_idx` ON `auth_verifications` (`identifier`);--> statement-breakpoint
+CREATE INDEX `auth_verifications_expires_idx` ON `auth_verifications` (`expires_at`);--> statement-breakpoint
+CREATE UNIQUE INDEX `auth_verifications_value_unique_idx` ON `auth_verifications` (`value`);

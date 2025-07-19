@@ -73,7 +73,7 @@ export type UserId = User["id"]
 export type UserRole = User["role"]
 
 export const accounts = createTable(
-  "accounts",
+  "auth_accounts",
   {
     ...id("AccountId", "acct"),
     ...timestamps,
@@ -101,9 +101,9 @@ export const accounts = createTable(
     password: text({ length: 255 }),
   },
   (table) => [
-    index("accounts_user_id_idx").on(table.userId),
-    index("accounts_provider_idx").on(table.providerId),
-    uniqueIndex("accounts_provider_account_unique_idx").on(
+    index("auth_accounts_user_id_idx").on(table.userId),
+    index("auth_accounts_provider_idx").on(table.providerId),
+    uniqueIndex("auth_accounts_provider_account_unique_idx").on(
       table.providerId,
       table.accountId
     ),
@@ -114,7 +114,7 @@ export type NewAccount = typeof accounts.$inferInsert
 export type AccountId = Account["id"]
 
 export const verifications = createTable(
-  "verifications",
+  "auth_verifications",
   {
     ...id("VerificationId", "verf"),
     ...timestamps,
@@ -125,16 +125,16 @@ export const verifications = createTable(
     expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
   },
   (table) => [
-    index("verifications_identifier_idx").on(table.identifier),
-    index("verifications_expires_idx").on(table.expiresAt),
-    uniqueIndex("verifications_value_unique_idx").on(table.value),
+    index("auth_verifications_identifier_idx").on(table.identifier),
+    index("auth_verifications_expires_idx").on(table.expiresAt),
+    uniqueIndex("auth_verifications_value_unique_idx").on(table.value),
   ]
 )
 export type Verification = typeof verifications.$inferSelect
 export type NewVerification = typeof verifications.$inferInsert
 
 export const sessions = createTable(
-  "sessions",
+  "auth_sessions",
   {
     ...id("SessionId", "sess"),
     ...timestamps,
@@ -168,10 +168,10 @@ export const sessions = createTable(
       .$type<OrganizationId>(),
   },
   (table) => [
-    index("sessions_user_id_idx").on(table.userId),
-    index("sessions_token_idx").on(table.token),
-    index("sessions_expires_at_idx").on(table.expiresAt),
-    index("sessions_active_organization_id_idx").on(table.activeOrganizationId),
+    index("auth_sessions_user_id_idx").on(table.userId),
+    index("auth_sessions_token_idx").on(table.token),
+    index("auth_sessions_expires_at_idx").on(table.expiresAt),
+    index("auth_sessions_active_organization_id_idx").on(table.activeOrganizationId),
   ]
 )
 export type Session = typeof sessions.$inferSelect
@@ -197,7 +197,7 @@ export type NewOrganization = typeof organizations.$inferInsert
 export type OrganizationId = Organization["id"]
 
 export const members = createTable(
-  "members",
+  "organization_members",
   {
     ...id("MemberId", "memb"),
     ...timestamps,
@@ -220,12 +220,12 @@ export const members = createTable(
       .default("member"),
   },
   (table) => [
-    uniqueIndex("user_organization_unique_idx").on(
+    uniqueIndex("organization_members_user_organization_unique_idx").on(
       table.userId,
       table.organizationId
     ),
-    index("members_user_id_idx").on(table.userId),
-    index("members_organization_id_idx").on(table.organizationId),
+    index("organization_members_user_id_idx").on(table.userId),
+    index("organization_members_organization_id_idx").on(table.organizationId),
   ]
 )
 export type Member = typeof members.$inferSelect
@@ -234,7 +234,7 @@ export type MemberId = Member["id"]
 export type MemberRole = Member["role"]
 
 export const invitations = createTable(
-  "invitations",
+  "organization_invitations",
   {
     ...id("InvitationId", "invt"),
     ...timestamps,
@@ -264,12 +264,12 @@ export const invitations = createTable(
     expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
   },
   (table) => [
-    uniqueIndex("organization_invitation_unique_idx").on(
+    uniqueIndex("organization_invitations_organization_email_unique_idx").on(
       table.organizationId,
       table.email
     ),
-    index("invitations_organization_id_idx").on(table.organizationId),
-    index("invitations_email_idx").on(table.email),
+    index("organization_invitations_organization_id_idx").on(table.organizationId),
+    index("organization_invitations_email_idx").on(table.email),
   ]
 )
 
@@ -278,7 +278,7 @@ export type NewInvitation = typeof invitations.$inferInsert
 export type InvitationId = Invitation["id"]
 
 export const activityLogs = createTable(
-  "activity_logs",
+  "organization_activity_logs",
   {
     ...id("ActivityLogId", "alog"),
 
@@ -329,9 +329,9 @@ export const activityLogs = createTable(
     userAgent: text(),
   },
   (table) => [
-    index("activity_logs_organization_id_idx").on(table.organizationId),
-    index("activity_logs_member_id_idx").on(table.memberId),
-    index("activity_logs_type_idx").on(table.type),
+    index("organization_activity_logs_organization_id_idx").on(table.organizationId),
+    index("organization_activity_logs_member_id_idx").on(table.memberId),
+    index("organization_activity_logs_type_idx").on(table.type),
   ]
 )
 export type ActivityLog = typeof activityLogs.$inferSelect

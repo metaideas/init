@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0bd26e7e-f9cc-4130-996b-839b3b402264",
+  "id": "21fbba9a-c2b1-41f0-ba0c-3a2734cdcff2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "accounts": {
-      "name": "accounts",
+    "auth_accounts": {
+      "name": "auth_accounts",
       "columns": {
         "id": {
           "name": "id",
@@ -100,29 +100,40 @@
         }
       },
       "indexes": {
-        "accounts_user_id_idx": {
-          "name": "accounts_user_id_idx",
-          "columns": ["user_id"],
+        "auth_accounts_user_id_idx": {
+          "name": "auth_accounts_user_id_idx",
+          "columns": [
+            "user_id"
+          ],
           "isUnique": false
         },
-        "accounts_provider_idx": {
-          "name": "accounts_provider_idx",
-          "columns": ["provider_id"],
+        "auth_accounts_provider_idx": {
+          "name": "auth_accounts_provider_idx",
+          "columns": [
+            "provider_id"
+          ],
           "isUnique": false
         },
-        "accounts_provider_account_unique_idx": {
-          "name": "accounts_provider_account_unique_idx",
-          "columns": ["provider_id", "account_id"],
+        "auth_accounts_provider_account_unique_idx": {
+          "name": "auth_accounts_provider_account_unique_idx",
+          "columns": [
+            "provider_id",
+            "account_id"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {
-        "accounts_user_id_users_id_fk": {
-          "name": "accounts_user_id_users_id_fk",
-          "tableFrom": "accounts",
+        "auth_accounts_user_id_users_id_fk": {
+          "name": "auth_accounts_user_id_users_id_fk",
+          "tableFrom": "auth_accounts",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -131,8 +142,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "activity_logs": {
-      "name": "activity_logs",
+    "organization_activity_logs": {
+      "name": "organization_activity_logs",
       "columns": {
         "id": {
           "name": "id",
@@ -185,38 +196,52 @@
         }
       },
       "indexes": {
-        "activity_logs_organization_id_idx": {
-          "name": "activity_logs_organization_id_idx",
-          "columns": ["organization_id"],
+        "organization_activity_logs_organization_id_idx": {
+          "name": "organization_activity_logs_organization_id_idx",
+          "columns": [
+            "organization_id"
+          ],
           "isUnique": false
         },
-        "activity_logs_member_id_idx": {
-          "name": "activity_logs_member_id_idx",
-          "columns": ["member_id"],
+        "organization_activity_logs_member_id_idx": {
+          "name": "organization_activity_logs_member_id_idx",
+          "columns": [
+            "member_id"
+          ],
           "isUnique": false
         },
-        "activity_logs_type_idx": {
-          "name": "activity_logs_type_idx",
-          "columns": ["type"],
+        "organization_activity_logs_type_idx": {
+          "name": "organization_activity_logs_type_idx",
+          "columns": [
+            "type"
+          ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "activity_logs_organization_id_organizations_id_fk": {
-          "name": "activity_logs_organization_id_organizations_id_fk",
-          "tableFrom": "activity_logs",
+        "organization_activity_logs_organization_id_organizations_id_fk": {
+          "name": "organization_activity_logs_organization_id_organizations_id_fk",
+          "tableFrom": "organization_activity_logs",
           "tableTo": "organizations",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         },
-        "activity_logs_member_id_members_id_fk": {
-          "name": "activity_logs_member_id_members_id_fk",
-          "tableFrom": "activity_logs",
-          "tableTo": "members",
-          "columnsFrom": ["member_id"],
-          "columnsTo": ["id"],
+        "organization_activity_logs_member_id_organization_members_id_fk": {
+          "name": "organization_activity_logs_member_id_organization_members_id_fk",
+          "tableFrom": "organization_activity_logs",
+          "tableTo": "organization_members",
+          "columnsFrom": [
+            "member_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -225,8 +250,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "invitations": {
-      "name": "invitations",
+    "organization_invitations": {
+      "name": "organization_invitations",
       "columns": {
         "id": {
           "name": "id",
@@ -295,38 +320,53 @@
         }
       },
       "indexes": {
-        "organization_invitation_unique_idx": {
-          "name": "organization_invitation_unique_idx",
-          "columns": ["organization_id", "email"],
+        "organization_invitations_organization_email_unique_idx": {
+          "name": "organization_invitations_organization_email_unique_idx",
+          "columns": [
+            "organization_id",
+            "email"
+          ],
           "isUnique": true
         },
-        "invitations_organization_id_idx": {
-          "name": "invitations_organization_id_idx",
-          "columns": ["organization_id"],
+        "organization_invitations_organization_id_idx": {
+          "name": "organization_invitations_organization_id_idx",
+          "columns": [
+            "organization_id"
+          ],
           "isUnique": false
         },
-        "invitations_email_idx": {
-          "name": "invitations_email_idx",
-          "columns": ["email"],
+        "organization_invitations_email_idx": {
+          "name": "organization_invitations_email_idx",
+          "columns": [
+            "email"
+          ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "invitations_organization_id_organizations_id_fk": {
-          "name": "invitations_organization_id_organizations_id_fk",
-          "tableFrom": "invitations",
+        "organization_invitations_organization_id_organizations_id_fk": {
+          "name": "organization_invitations_organization_id_organizations_id_fk",
+          "tableFrom": "organization_invitations",
           "tableTo": "organizations",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "invitations_inviter_id_members_id_fk": {
-          "name": "invitations_inviter_id_members_id_fk",
-          "tableFrom": "invitations",
-          "tableTo": "members",
-          "columnsFrom": ["inviter_id"],
-          "columnsTo": ["id"],
+        "organization_invitations_inviter_id_organization_members_id_fk": {
+          "name": "organization_invitations_inviter_id_organization_members_id_fk",
+          "tableFrom": "organization_invitations",
+          "tableTo": "organization_members",
+          "columnsFrom": [
+            "inviter_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -335,8 +375,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "members": {
-      "name": "members",
+    "organization_members": {
+      "name": "organization_members",
       "columns": {
         "id": {
           "name": "id",
@@ -383,38 +423,53 @@
         }
       },
       "indexes": {
-        "user_organization_unique_idx": {
-          "name": "user_organization_unique_idx",
-          "columns": ["user_id", "organization_id"],
+        "organization_members_user_organization_unique_idx": {
+          "name": "organization_members_user_organization_unique_idx",
+          "columns": [
+            "user_id",
+            "organization_id"
+          ],
           "isUnique": true
         },
-        "members_user_id_idx": {
-          "name": "members_user_id_idx",
-          "columns": ["user_id"],
+        "organization_members_user_id_idx": {
+          "name": "organization_members_user_id_idx",
+          "columns": [
+            "user_id"
+          ],
           "isUnique": false
         },
-        "members_organization_id_idx": {
-          "name": "members_organization_id_idx",
-          "columns": ["organization_id"],
+        "organization_members_organization_id_idx": {
+          "name": "organization_members_organization_id_idx",
+          "columns": [
+            "organization_id"
+          ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "members_user_id_users_id_fk": {
-          "name": "members_user_id_users_id_fk",
-          "tableFrom": "members",
+        "organization_members_user_id_users_id_fk": {
+          "name": "organization_members_user_id_users_id_fk",
+          "tableFrom": "organization_members",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "members_organization_id_organizations_id_fk": {
-          "name": "members_organization_id_organizations_id_fk",
-          "tableFrom": "members",
+        "organization_members_organization_id_organizations_id_fk": {
+          "name": "organization_members_organization_id_organizations_id_fk",
+          "tableFrom": "organization_members",
           "tableTo": "organizations",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -476,14 +531,29 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "organizations_slug_unique": {
+          "name": "organizations_slug_unique",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
+        },
+        "organizations_slug_idx": {
+          "name": "organizations_slug_idx",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "sessions": {
-      "name": "sessions",
+    "auth_sessions": {
+      "name": "auth_sessions",
       "columns": {
         "id": {
           "name": "id",
@@ -557,37 +627,79 @@
         }
       },
       "indexes": {
-        "sessions_token_unique": {
-          "name": "sessions_token_unique",
-          "columns": ["token"],
+        "auth_sessions_token_unique": {
+          "name": "auth_sessions_token_unique",
+          "columns": [
+            "token"
+          ],
           "isUnique": true
+        },
+        "auth_sessions_user_id_idx": {
+          "name": "auth_sessions_user_id_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        },
+        "auth_sessions_token_idx": {
+          "name": "auth_sessions_token_idx",
+          "columns": [
+            "token"
+          ],
+          "isUnique": false
+        },
+        "auth_sessions_expires_at_idx": {
+          "name": "auth_sessions_expires_at_idx",
+          "columns": [
+            "expires_at"
+          ],
+          "isUnique": false
+        },
+        "auth_sessions_active_organization_id_idx": {
+          "name": "auth_sessions_active_organization_id_idx",
+          "columns": [
+            "active_organization_id"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {
-        "sessions_user_id_users_id_fk": {
-          "name": "sessions_user_id_users_id_fk",
-          "tableFrom": "sessions",
+        "auth_sessions_user_id_users_id_fk": {
+          "name": "auth_sessions_user_id_users_id_fk",
+          "tableFrom": "auth_sessions",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "sessions_impersonated_by_users_id_fk": {
-          "name": "sessions_impersonated_by_users_id_fk",
-          "tableFrom": "sessions",
+        "auth_sessions_impersonated_by_users_id_fk": {
+          "name": "auth_sessions_impersonated_by_users_id_fk",
+          "tableFrom": "auth_sessions",
           "tableTo": "users",
-          "columnsFrom": ["impersonated_by"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "impersonated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
-        "sessions_active_organization_id_organizations_id_fk": {
-          "name": "sessions_active_organization_id_organizations_id_fk",
-          "tableFrom": "sessions",
+        "auth_sessions_active_organization_id_organizations_id_fk": {
+          "name": "auth_sessions_active_organization_id_organizations_id_fk",
+          "tableFrom": "auth_sessions",
           "tableTo": "organizations",
-          "columnsFrom": ["active_organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "active_organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -690,17 +802,23 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         },
         "users_email_idx": {
           "name": "users_email_idx",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": false
         },
         "users_role_idx": {
           "name": "users_role_idx",
-          "columns": ["role"],
+          "columns": [
+            "role"
+          ],
           "isUnique": false
         }
       },
@@ -709,8 +827,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "verifications": {
-      "name": "verifications",
+    "auth_verifications": {
+      "name": "auth_verifications",
       "columns": {
         "id": {
           "name": "id",
@@ -756,19 +874,25 @@
         }
       },
       "indexes": {
-        "verifications_identifier_idx": {
-          "name": "verifications_identifier_idx",
-          "columns": ["identifier"],
+        "auth_verifications_identifier_idx": {
+          "name": "auth_verifications_identifier_idx",
+          "columns": [
+            "identifier"
+          ],
           "isUnique": false
         },
-        "verifications_expires_idx": {
-          "name": "verifications_expires_idx",
-          "columns": ["expires_at"],
+        "auth_verifications_expires_idx": {
+          "name": "auth_verifications_expires_idx",
+          "columns": [
+            "expires_at"
+          ],
           "isUnique": false
         },
-        "verifications_value_unique_idx": {
-          "name": "verifications_value_unique_idx",
-          "columns": ["value"],
+        "auth_verifications_value_unique_idx": {
+          "name": "auth_verifications_value_unique_idx",
+          "columns": [
+            "value"
+          ],
           "isUnique": true
         }
       },
