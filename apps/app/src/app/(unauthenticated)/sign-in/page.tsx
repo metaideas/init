@@ -5,6 +5,7 @@ import {
   CardTitle,
 } from "@init/ui/components/card"
 import { Separator } from "@init/ui/components/separator"
+import Link from "next/link"
 import SignInWithPasswordForm from "~/features/auth/components/sign-in-with-password-form"
 import {
   SignInWithGitHubButton,
@@ -55,6 +56,16 @@ export default function Page() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <SignInWithGoogleButton className="w-full min-w-[180px] sm:flex-1" />
             <SignInWithGitHubButton className="w-full min-w-[180px] sm:flex-1" />
+          </div>
+
+          <div className="mt-8 text-center text-muted-foreground text-sm">
+            Don't have an account?{" "}
+            <Link
+              className="font-medium text-primary underline-offset-4 hover:text-primary/80 hover:underline"
+              href="/sign-up"
+            >
+              Sign up
+            </Link>
           </div>
         </CardContent>
       </Card>

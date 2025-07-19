@@ -1,6 +1,7 @@
 "use server"
 
 import { slidingWindow } from "@init/security/ratelimit"
+import { generateNoLookalikeId } from "@init/utils/id"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { flattenValidationErrors } from "next-safe-action"
@@ -24,10 +25,18 @@ export const signUp = publicAction
       headers: await headers(),
     })
 
-    ctx.logger.info("Created user", { user })
+    ctx.logger.info({ user }, "Created user")
 
-    // Here you can redirect to the dashboard or an onboarding page where they
-    // can create their first organization
+    const organization = await ctx.auth.api.createOrganization({
+      body: {
+        name: "My Personal Workspace",
+        slug: `workspace-${generateNoLookalikeId(12)}`,
+        userId: user.id,
+      },
+    })
+
+    ctx.logger.info({ organization }, "Created organization")
+
     redirect(AUTHORIZED_PATHNAME)
   })
 
@@ -43,7 +52,7 @@ export const signInWithPassword = publicAction
       headers: await headers(),
     })
 
-    ctx.logger.info("Signed in with password", { user })
+    ctx.logger.info({ user }, "Signed in with password")
 
     redirect(AUTHORIZED_PATHNAME)
   })

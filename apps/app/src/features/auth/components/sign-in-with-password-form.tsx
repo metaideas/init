@@ -24,7 +24,7 @@ export default function SignInWithPasswordForm() {
   return (
     <form
       action={action}
-      className="space-y-4"
+      className="flex flex-col gap-y-4"
       onSubmit={() => form.handleSubmit()}
     >
       <form.AppForm>

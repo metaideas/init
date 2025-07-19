@@ -1,8 +1,7 @@
-import { type BetterAuthPlugin, betterAuth } from "better-auth"
-import { drizzleAdapter } from "better-auth/adapters/drizzle"
-
 import type { Database } from "@init/db/client"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
+import { type BetterAuthPlugin, betterAuth } from "better-auth"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
 const SESSION_EXPIRES_IN = 60 * 60 * 24 * 30 // 30 days
 const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
