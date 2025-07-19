@@ -67,23 +67,54 @@ type StringToArray<
   : Acc
 
 /**
+ * Helper type to check if A <= B using tuple length comparison.
+ */
+type LessThanOrEqual<
+  A extends number,
+  B extends number,
+  CounterA extends readonly unknown[] = [],
+  CounterB extends readonly unknown[] = [],
+> = CounterA["length"] extends A
+  ? CounterB["length"] extends B
+    ? true // A === B
+    : CounterB extends readonly [...CounterA, ...infer Rest]
+      ? Rest["length"] extends 0
+        ? true // A === B
+        : true // A < B (there are remaining items in CounterB)
+      : false // A > B
+  : CounterB["length"] extends B
+    ? false // A > B (CounterA still growing but CounterB reached B)
+    : LessThanOrEqual<
+        A,
+        B,
+        readonly [...CounterA, unknown],
+        readonly [...CounterB, unknown]
+      >
+
+/**
  * A type that validates if a string has the length specified by a number. If
  * valid, it resolves to the string. If invalid, it resolves to an error message
  * string, causing a type error on assignment.
  */
 export type ConstrainedString<
   ActualString extends string,
-  ExpectedLengthSpec extends number,
+  MaxLengthSpec extends number,
   // --- Internal Helper Types ---
-  _TargetNumericLength extends number = ExpectedLengthSpec extends number
-    ? ExpectedLengthSpec // If ExpectedLengthSpec is already a number
-    : ExpectedLengthSpec extends string
-      ? ExpectedLengthSpec // If it's a string like "3", convert to 3
-      : never, // Invalid ExpectedLengthSpec format
+  _MaxNumericLength extends number = MaxLengthSpec extends number
+    ? MaxLengthSpec // If MaxLengthSpec is already a number
+    : MaxLengthSpec extends string
+      ? MaxLengthSpec // If it's a string like "3", convert to 3
+      : never, // Invalid MaxLengthSpec format
   _ActualCharsTuple extends string[] = StringToArray<ActualString>,
   _ActualNumericLength extends number = _ActualCharsTuple["length"],
-> = _TargetNumericLength extends never
-  ? `Error: Invalid length specification "${ExpectedLengthSpec}". Must be a number or a string representation of a number.`
-  : _ActualNumericLength extends _TargetNumericLength
+  // Helper type to check if A <= B
+  _IsLengthValid extends boolean = _ActualNumericLength extends number
+    ? _MaxNumericLength extends number
+      ? LessThanOrEqual<_ActualNumericLength, _MaxNumericLength>
+      : false
+    : false,
+> = _MaxNumericLength extends never
+  ? `Error: Invalid length specification "${MaxLengthSpec}". Must be a number or a string representation of a number.`
+  : _IsLengthValid extends true
     ? ActualString // Validation passed: the type is the string literal itself
-    : `Error: String "${ActualString}" (length: ${_ActualNumericLength}) must be exactly ${_TargetNumericLength} characters.`
+    : `Error: String "${ActualString}" (length: ${_ActualNumericLength}) exceeds maximum length of ${_MaxNumericLength} characters.`

@@ -14,9 +14,9 @@ export const createTable = sqliteTableCreator((name) => name)
 
 export const UNIQUE_ID_LENGTH = 24
 
-export function constructId<B extends string, P extends string>(
+export function id<B extends string, P extends string>(
   brand: B,
-  prefix: ConstrainedString<P, 3>
+  prefix: ConstrainedString<P, 4>
 ) {
   const IdSchema = z.branded(brand)
 
@@ -43,7 +43,7 @@ export const timestamps = {
 export const users = createTable(
   "users",
   {
-    ...constructId("UserId", "usr"),
+    ...id("UserId", "user"),
     ...timestamps,
 
     role: text({ enum: ["user", "admin"] })
@@ -75,7 +75,7 @@ export type UserRole = User["role"]
 export const accounts = createTable(
   "accounts",
   {
-    ...constructId("AccountId", "acc"),
+    ...id("AccountId", "acct"),
     ...timestamps,
 
     userId: text()
@@ -116,7 +116,7 @@ export type AccountId = Account["id"]
 export const verifications = createTable(
   "verifications",
   {
-    ...constructId("VerificationId", "ver"),
+    ...id("VerificationId", "verf"),
     ...timestamps,
 
     identifier: text({ length: 255 }).notNull(),
@@ -136,7 +136,7 @@ export type NewVerification = typeof verifications.$inferInsert
 export const sessions = createTable(
   "sessions",
   {
-    ...constructId("SessionId", "ses"),
+    ...id("SessionId", "sess"),
     ...timestamps,
 
     userId: text()
@@ -181,7 +181,7 @@ export type NewSession = typeof sessions.$inferInsert
 export const organizations = createTable(
   "organizations",
   {
-    ...constructId("OrganizationId", "org"),
+    ...id("OrganizationId", "org"),
     ...timestamps,
 
     name: text({ length: 128 }).notNull(),
@@ -199,7 +199,7 @@ export type OrganizationId = Organization["id"]
 export const members = createTable(
   "members",
   {
-    ...constructId("MemberId", "mbr"),
+    ...id("MemberId", "memb"),
     ...timestamps,
 
     userId: text()
@@ -236,7 +236,7 @@ export type MemberRole = Member["role"]
 export const invitations = createTable(
   "invitations",
   {
-    ...constructId("InvitationId", "inv"),
+    ...id("InvitationId", "invt"),
     ...timestamps,
 
     organizationId: text()
@@ -280,7 +280,7 @@ export type InvitationId = Invitation["id"]
 export const activityLogs = createTable(
   "activity_logs",
   {
-    ...constructId("ActivityLogId", "act"),
+    ...id("ActivityLogId", "alog"),
 
     createdAt: integer({ mode: "timestamp_ms" })
       .notNull()

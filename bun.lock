@@ -29,7 +29,6 @@
         "@init/security": "workspace:*",
         "@init/utils": "workspace:*",
         "@trpc/server": "11.4.3",
-        "drizzle-zod": "0.8.2",
         "hono": "4.8.3",
         "superjson": "2.2.2",
       },
