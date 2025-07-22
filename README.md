@@ -6,7 +6,7 @@
   </p>
 </p>
 
-An opinionated monorepo starter kit for building apps everywhere: web, mobile, desktop, and more.
+A modern monorepo template for shipping TypeScript apps everywhere: web, mobile, desktop, and more.
 
 ## What's included
 
@@ -70,22 +70,22 @@ bun dev # or bun dev --filter <workspace> to start a specific workspace
 
 Apps run in the 3000-3999 range.
 
-- API: 3000
-- App: 3001
-- Mobile: 3002
-- Desktop: 3003
-- Extension: 3004
-- Docs: 3005
-- Web: 3006
+- API: `3000`
+- App: `3001`
+- Mobile: `3002`
+- Desktop: `3003`
+- Extension: `3004`
+- Docs: `3005`
+- Web: `3006`
 
 #### Packages
 
 Packages run in the 8000-8999 range.
 
-- Redis: 8079
-- Database: 8080
-- Email: 8081
-- Queue: 8288
+- Redis: `8079`
+- Database: `8080`
+- Email: `8081`
+- Queue: `8288`
 
 ## Development
 
@@ -93,13 +93,12 @@ Packages run in the 8000-8999 range.
 
 Here are the most common commands you'll use during development:
 
-- `bun dev` - Start all applications in development mode
 - `bun build` - Build all applications
-- `bun lint` - Run linting across the codebase using [Adamantite](https://github.com/adelrodriguez/adamantite)
-- `bun format` - Format code using [Adamantite](https://github.com/adelrodriguez/adamantite)
-- `bun typecheck` - Run TypeScript type checking
-- `bun check` - Run linting and formatting
 - `bun clean` - Clean build artifacts
+- `bun dev` - Start all applications in development mode
+- `bun format` - Format code using [Adamantite](https://github.com/adelrodriguez/adamantite)
+- `bun lint` - Run linting across the codebase using [Adamantite](https://github.com/adelrodriguez/adamantite)
+- `bun typecheck` - Run TypeScript type checking
 
 If you want to run a command for a specific workspace, you can use the following syntax:
 
@@ -110,10 +109,10 @@ bun <command> --filter <workspace>
 ### Managing Dependencies
 
 - `bun deps:check` - Check for outdated dependencies
-- `bun deps:update` - Update dependencies interactively
+- `bun deps:graph` - Generate a dependency graph visualization
 - `bun deps:mismatch` - List version mismatches across the monorepo
 - `bun deps:sync` - Fix version mismatches automatically
-- `bun deps:graph` - Generate a dependency graph visualization
+- `bun deps:update` - Update dependencies interactively
 
 ## Documentation
 
