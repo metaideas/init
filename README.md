@@ -95,8 +95,8 @@ Here are the most common commands you'll use during development:
 
 - `bun dev` - Start all applications in development mode
 - `bun build` - Build all applications
-- `bun lint` - Run linting across the codebase using Biome
-- `bun format` - Format code using Biome
+- `bun lint` - Run linting across the codebase using [Adamantite](https://github.com/adelrodriguez/adamantite)
+- `bun format` - Format code using [Adamantite](https://github.com/adelrodriguez/adamantite)
 - `bun typecheck` - Run TypeScript type checking
 - `bun check` - Run linting and formatting
 - `bun clean` - Clean build artifacts
@@ -117,4 +117,4 @@ bun <command> --filter <workspace>
 
 ## Documentation
 
-- [Project Structure](./.docs/project-structure.md)
+- [Project Structure](./docs/project-structure.md)
