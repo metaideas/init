@@ -10,12 +10,9 @@
     "./client": "./src/client.ts"
   },
   "scripts": {
-    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
-    "format": "biome format --write",
-    "lint": "biome lint --fix",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "push": "drizzle-kit push",

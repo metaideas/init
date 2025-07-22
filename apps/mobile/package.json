@@ -6,7 +6,6 @@
   "scripts": {
     "android": "expo run:android",
     "build:ios:development": "eas build:dev --profile development --platform ios",
-    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
@@ -14,9 +13,7 @@
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",
     "doctor": "expo-doctor",
-    "format": "biome format --write",
     "ios": "expo run:ios",
-    "lint": "biome lint --fix",
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
     "test": "jest --watchAll",

@@ -7,16 +7,13 @@
   "scripts": {
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
-    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "compile": "tsc --noEmit",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
-    "format": "biome format --write",
     "postinstall": "wxt prepare",
-    "lint": "biome lint --fix",
     "typecheck": "tsc --noEmit",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"

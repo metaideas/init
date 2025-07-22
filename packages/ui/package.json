@@ -12,14 +12,11 @@
     "./postcss.config": "./postcss.config.mjs"
   },
   "scripts": {
-    "check": "biome check --write",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "components:add": "shadcn add",
     "components:diff": "shadcn diff",
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
-    "format": "biome format --write",
-    "lint": "biome lint --fix",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

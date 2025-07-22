@@ -35,9 +35,6 @@
   "globalPassThroughEnv": ["NODE_ENV", "CI"],
   "tasks": {
     "build": {},
-    "check": {
-      "dependsOn": ["^check"]
-    },
     "clean": {
       "cache": false,
       "dependsOn": ["^clean"]
@@ -46,10 +43,6 @@
       "cache": false,
       "persistent": true
     },
-    "format": {
-      "cache": false
-    },
-    "lint": {},
     "migrate": {
       "cache": false
     },
