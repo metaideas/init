@@ -6,7 +6,6 @@ import {
 } from "fumadocs-ui/page"
 import { notFound } from "next/navigation"
 import { getMDXComponents } from "~/shared/mdx-components"
-
 import { source } from "~/shared/source"
 
 export default async function Page(props: {
@@ -22,7 +21,7 @@ export default async function Page(props: {
   const MDX = page.data.body
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage full={page.data.full} toc={page.data.toc}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>

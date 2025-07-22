@@ -1,12 +1,10 @@
 "use client"
 
+import { Button } from "@init/ui/components/button"
+import { Input } from "@init/ui/components/input"
 import { useMutation } from "@tanstack/react-query"
 import { invoke } from "@tauri-apps/api/core"
 import { useState } from "react"
-
-import { Button } from "@init/ui/components/button"
-import { Input } from "@init/ui/components/input"
-
 import { useHello } from "~/features/demo/queries"
 
 export default function InvokeDemo() {

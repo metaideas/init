@@ -1,10 +1,8 @@
 "use server"
 
-import { cookies } from "next/headers"
-
-import { LOCALES, LOCALE_COOKIE_NAME } from "@init/internationalization/locale"
+import { LOCALE_COOKIE_NAME, LOCALES } from "@init/internationalization/locale"
 import * as z from "@init/utils/schema"
-
+import { cookies } from "next/headers"
 import { publicAction } from "~/shared/action-client"
 
 export const changeLocale = publicAction

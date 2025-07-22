@@ -1,7 +1,6 @@
-import { Link } from "react-router"
-
 import { Button } from "@init/ui/components/button"
 import { TypographyH1, TypographyP } from "@init/ui/components/typography"
+import { Link } from "react-router"
 
 export default function SettingsDemo() {
   return (

@@ -1,6 +1,5 @@
-import { PostHog, type PostHogOptions } from "posthog-react-native"
-
 import { singleton } from "@init/utils/singleton"
+import { PostHog, type PostHogOptions } from "posthog-react-native"
 
 export function createAnalytics(
   apiKey: string,

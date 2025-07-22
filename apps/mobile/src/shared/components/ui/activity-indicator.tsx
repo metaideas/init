@@ -1,6 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react"
 import { ActivityIndicator as RNActivityIndicator } from "react-native"
-
 import { useColorScheme } from "~/shared/hooks"
 
 function ActivityIndicator(

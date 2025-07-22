@@ -1,5 +1,3 @@
-import * as SecureStore from "expo-secure-store"
-
 import { createAuthClient } from "@init/auth/client"
 import { adminClient, organizationClient } from "@init/auth/client/plugins"
 import { expoClient } from "@init/auth/expo/client"
@@ -10,7 +8,7 @@ import {
   ownerRole,
 } from "@init/auth/permissions"
 import { APP_ID } from "@init/utils/constants"
-
+import * as SecureStore from "expo-secure-store"
 import { buildApiUrl } from "~/shared/utils"
 
 export const auth = createAuthClient(buildApiUrl("/auth"), [

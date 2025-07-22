@@ -20,7 +20,7 @@ const EXCLUDED_DIRS = [
 
 function checkShouldExclude(filePath: string): boolean {
   return EXCLUDED_DIRS.some(
-    dir =>
+    (dir) =>
       filePath.includes(`${path.sep}${dir}${path.sep}`) ||
       filePath.endsWith(`${path.sep}${dir}`)
   )
@@ -115,10 +115,15 @@ async function main() {
   })
 
   const results = await Promise.all(fileProcessingTasks)
-  const successfulResults = results.filter((result): result is { file: string; count: number } => result !== null)
+  const successfulResults = results.filter(
+    (result): result is { file: string; count: number } => result !== null
+  )
 
   filesChanged = successfulResults.length
-  totalReplacements = successfulResults.reduce((sum, result) => sum + result.count, 0)
+  totalReplacements = successfulResults.reduce(
+    (sum, result) => sum + result.count,
+    0
+  )
 
   if (filesChanged > 0) {
     log.success(

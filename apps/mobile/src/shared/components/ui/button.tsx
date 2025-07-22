@@ -1,5 +1,6 @@
+import { cn } from "@init/utils/ui"
 import * as Slot from "@rn-primitives/slot"
-import { type VariantProps, cva } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 import {
   Platform,
@@ -8,9 +9,6 @@ import {
   View,
   type ViewStyle,
 } from "react-native"
-
-import { cn } from "@init/utils/ui"
-
 import { TextClassContext } from "~/shared/components/ui/text"
 import { useColorScheme } from "~/shared/hooks"
 import { COLORS } from "~/shared/theme/colors"
@@ -78,15 +76,23 @@ const buttonTextVariants = cva("font-medium", {
 
 function convertToRGBA(rgb: string, opacity: number): string {
   const rgbValues = rgb.match(/\d+/g)
-  if (!rgbValues || rgbValues.length !== 3) {
+  if (
+    !rgbValues ||
+    rgbValues[0] === undefined ||
+    rgbValues[1] === undefined ||
+    rgbValues[2] === undefined
+  ) {
     throw new Error("Invalid RGB color format")
   }
+
   const red = Number.parseInt(rgbValues[0], 10)
   const green = Number.parseInt(rgbValues[1], 10)
   const blue = Number.parseInt(rgbValues[2], 10)
+
   if (opacity < 0 || opacity > 1) {
     throw new Error("Opacity must be a number between 0 and 1")
   }
+
   return `rgba(${red},${green},${blue},${opacity})`
 }
 
@@ -169,13 +175,13 @@ const Button = React.forwardRef<
           })}
         >
           <Pressable
+            android_ripple={ANDROID_RIPPLE[colorScheme][variant]}
             className={cn(
               props.disabled && "opacity-50",
               buttonVariants({ variant, size, className })
             )}
             ref={ref}
             style={style}
-            android_ripple={ANDROID_RIPPLE[colorScheme][variant]}
             {...props}
           />
         </Root>

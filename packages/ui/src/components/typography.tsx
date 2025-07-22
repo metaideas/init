@@ -1,6 +1,5 @@
-import type React from "react"
-
 import { cn } from "@init/utils/ui"
+import type React from "react"
 
 function TypographyH1({ className, ...props }: React.ComponentProps<"h1">) {
   return (

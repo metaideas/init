@@ -1,9 +1,7 @@
 import { loader } from "fumadocs-core/source"
 import { createMDXSource } from "fumadocs-mdx"
-
-import { docs, meta } from "~~/.source"
-
 import { i18n } from "~/shared/localization"
+import { docs, meta } from "~~/.source"
 
 export const source = loader({
   baseUrl: "/",

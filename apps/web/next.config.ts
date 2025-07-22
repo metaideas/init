@@ -1,5 +1,4 @@
 import { withContentCollections } from "@content-collections/next"
-
 import { withIntl } from "@init/internationalization/nextjs/config"
 import { createConfig, withBundleAnalyzer } from "@tooling/next-config"
 

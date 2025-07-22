@@ -1,9 +1,7 @@
-import { createClient } from "@libsql/client"
-import { drizzle } from "drizzle-orm/libsql"
-
 import { db } from "@init/env/presets"
 import { singleton } from "@init/utils/singleton"
-
+import { createClient } from "@libsql/client"
+import { drizzle } from "drizzle-orm/libsql"
 import * as schema from "./schema"
 
 export function connect(url: string, authToken: string) {

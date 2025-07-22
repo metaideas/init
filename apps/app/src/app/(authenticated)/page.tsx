@@ -1,3 +1,4 @@
+import { getTranslations } from "@init/internationalization/nextjs/server"
 import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
 import {
   Card,
@@ -7,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@init/ui/components/card"
-
-import { getTranslations } from "@init/internationalization/nextjs/server"
 import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
 import { LocaleToggle } from "~/shared/components/locale-toggle"
@@ -33,7 +32,7 @@ export default async function Page() {
           <CardContent className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <Avatar>
-                <AvatarImage src={user.image ?? undefined} alt="Avatar" />
+                <AvatarImage alt="Avatar" src={user.image ?? undefined} />
                 <AvatarFallback>{user.name[0] ?? "U"}</AvatarFallback>
               </Avatar>
               <div>

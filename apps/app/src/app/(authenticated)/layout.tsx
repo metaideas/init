@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-
 import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Layout({

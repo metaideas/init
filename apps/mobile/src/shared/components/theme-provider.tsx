@@ -1,7 +1,6 @@
 import { ThemeProvider as NavigationThemeProvider } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import type { ReactNode } from "react"
-
 import { useColorScheme } from "~/shared/hooks"
 import { NAV_THEME } from "~/shared/theme"
 

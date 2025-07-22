@@ -7,7 +7,6 @@ import {
   initializeErrorMonitoring,
   monitoringWrap,
 } from "@init/observability/error/expo"
-
 import Providers from "~/shared/components/providers"
 import {
   useHideSplashScreen,

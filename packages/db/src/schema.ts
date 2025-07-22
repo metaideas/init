@@ -171,7 +171,9 @@ export const sessions = createTable(
     index("auth_sessions_user_id_idx").on(table.userId),
     index("auth_sessions_token_idx").on(table.token),
     index("auth_sessions_expires_at_idx").on(table.expiresAt),
-    index("auth_sessions_active_organization_id_idx").on(table.activeOrganizationId),
+    index("auth_sessions_active_organization_id_idx").on(
+      table.activeOrganizationId
+    ),
   ]
 )
 export type Session = typeof sessions.$inferSelect
@@ -268,7 +270,9 @@ export const invitations = createTable(
       table.organizationId,
       table.email
     ),
-    index("organization_invitations_organization_id_idx").on(table.organizationId),
+    index("organization_invitations_organization_id_idx").on(
+      table.organizationId
+    ),
     index("organization_invitations_email_idx").on(table.email),
   ]
 )
@@ -329,7 +333,9 @@ export const activityLogs = createTable(
     userAgent: text(),
   },
   (table) => [
-    index("organization_activity_logs_organization_id_idx").on(table.organizationId),
+    index("organization_activity_logs_organization_id_idx").on(
+      table.organizationId
+    ),
     index("organization_activity_logs_member_id_idx").on(table.memberId),
     index("organization_activity_logs_type_idx").on(table.type),
   ]

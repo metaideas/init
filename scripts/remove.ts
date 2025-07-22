@@ -8,7 +8,6 @@ import {
   outro,
   select,
 } from "@clack/prompts"
-
 import { runScript } from "../tooling/helpers"
 
 type WorkspaceType = "app" | "package"
@@ -63,8 +62,8 @@ async function main() {
   const workspaceDir = path.join(__dirname, "..", `${workspaceType}s`)
   const directories = fs
     .readdirSync(workspaceDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => ({
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => ({
       value: dirent.name,
       label: dirent.name,
     }))

@@ -1,12 +1,10 @@
+import { cn } from "@init/utils/ui"
 import { Icon } from "@roninoss/icons"
 import { Pressable, View } from "react-native"
 import Animated, {
   LayoutAnimationConfig,
   ZoomInRotate,
 } from "react-native-reanimated"
-
-import { cn } from "@init/utils/ui"
-
 import { useColorScheme } from "~/shared/hooks"
 import { COLORS } from "~/shared/theme/colors"
 
@@ -17,31 +15,31 @@ export function ThemeToggle() {
     <LayoutAnimationConfig skipEntering>
       <Animated.View
         className="items-center justify-center"
-        key={`toggle-${colorScheme}`}
         entering={ZoomInRotate}
+        key={`toggle-${colorScheme}`}
       >
         <Pressable
+          className="opacity-80"
           onPress={() => {
             setColorScheme(colorScheme === "dark" ? "light" : "dark")
           }}
-          className="opacity-80"
         >
           {colorScheme === "dark"
             ? ({ pressed }) => (
                 <View className={cn("px-0.5", pressed && "opacity-50")}>
                   <Icon
-                    namingScheme="sfSymbol"
-                    name="moon.stars"
                     color={COLORS.white}
+                    name="moon.stars"
+                    namingScheme="sfSymbol"
                   />
                 </View>
               )
             : ({ pressed }) => (
                 <View className={cn("px-0.5", pressed && "opacity-50")}>
                   <Icon
-                    namingScheme="sfSymbol"
-                    name="sun.min"
                     color={COLORS.black}
+                    name="sun.min"
+                    namingScheme="sfSymbol"
                   />
                 </View>
               )}

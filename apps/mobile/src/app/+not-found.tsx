@@ -1,6 +1,5 @@
 import { Stack } from "expo-router"
 import { View } from "react-native"
-
 import { Text } from "~/shared/components/ui/text"
 
 export default function Screen() {

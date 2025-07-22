@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/recommended/tsconfig.json",
+  "extends": "adamantite/presets/tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "resolveJsonModule": true,
@@ -9,15 +9,6 @@
     "skipLibCheck": true,
 
     "lib": ["ESNext"],
-    "strict": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
 
     "checkJs": true,
     "module": "Preserve",

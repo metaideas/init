@@ -32,11 +32,11 @@ export default function OrganizationInvitation({
           <Container className="mx-auto my-10 max-w-2xl rounded-lg bg-white p-8 shadow-sm">
             <Section className="text-center">
               <Img
-                src="/placeholder.svg?height=60&width=200"
                 alt="Company Logo"
                 className="mx-auto mb-6"
-                width={200}
                 height={60}
+                src="/placeholder.svg?height=60&width=200"
+                width={200}
               />
             </Section>
 
@@ -56,8 +56,8 @@ export default function OrganizationInvitation({
 
             <Section className="text-center">
               <Button
-                href={invitationUrl}
                 className="inline-block rounded-md bg-black px-6 py-3 font-medium text-base text-white no-underline"
+                href={invitationUrl}
               >
                 Accept Invitation
               </Button>

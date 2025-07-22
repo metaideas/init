@@ -1,10 +1,9 @@
 import "server-only"
 
-import { flag } from "flags/next"
-import { headers } from "next/headers"
-
 import type { Analytics } from "@init/analytics/product/server"
 import type { Auth } from "@init/auth/server"
+import { flag } from "flags/next"
+import { headers } from "next/headers"
 
 /**
  * Create feature flags for Next.js. These flags are to be used only on the server side.

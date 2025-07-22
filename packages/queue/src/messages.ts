@@ -96,9 +96,15 @@ export function createMessageClient<Events extends EventsSchema>(
       )
     }
 
+    const eventSchema = options.events[messageType]
+
+    if (!eventSchema) {
+      return createFailureResult("Invalid message type", 400)
+    }
+
     const [parsedBody, parseError] = safeParseJSON(
       signatureResult.body,
-      options.events[messageType]
+      eventSchema
     )
 
     if (parseError) {

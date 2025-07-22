@@ -14,6 +14,10 @@ export function addProtocol(url: string, protocol?: "http" | "https") {
     const [existingProtocol, ...rest] = url.split("://")
     const urlWithoutProtocol = rest.join("://")
 
+    if (!existingProtocol) {
+      return url
+    }
+
     if (!protocol) {
       return `${existingProtocol.toLowerCase()}://${urlWithoutProtocol}`
     }

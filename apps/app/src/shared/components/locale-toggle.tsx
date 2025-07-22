@@ -1,8 +1,5 @@
 "use client"
 
-import { LanguagesIcon } from "lucide-react"
-import { useAction } from "next-safe-action/hooks"
-
 import { useTranslations } from "@init/internationalization/nextjs"
 import { Button } from "@init/ui/components/button"
 import {
@@ -11,7 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@init/ui/components/dropdown-menu"
-
+import { LanguagesIcon } from "lucide-react"
+import { useAction } from "next-safe-action/hooks"
 import { changeLocale } from "~/shared/server/actions"
 
 export function LocaleToggle() {
@@ -21,7 +19,7 @@ export function LocaleToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button size="icon" variant="outline">
           <LanguagesIcon className="size-4" />
 
           <span className="sr-only">Toggle theme</span>

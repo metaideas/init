@@ -44,11 +44,11 @@ async function setupWorkspaceEnv(workspacePath: string) {
 function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
   log.step("Removing unselected workspaces...")
 
-  const appsToRemove = Workspaces.APPS.map(app => app.name).filter(
-    app => !apps.includes(app)
+  const appsToRemove = Workspaces.APPS.map((app) => app.name).filter(
+    (app) => !apps.includes(app)
   )
-  const packagesToRemove = Workspaces.PACKAGES.map(pkg => pkg.name).filter(
-    pkg => !packages.includes(pkg)
+  const packagesToRemove = Workspaces.PACKAGES.map((pkg) => pkg.name).filter(
+    (pkg) => !packages.includes(pkg)
   )
 
   let removedCount = 0
@@ -145,10 +145,10 @@ async function setupEnvironmentVariables(apps: string[], packages: string[]) {
       await setupWorkspaceEnv(workspaceDir)
       return true
     }
-      log.warn(
-        `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
-      )
-      return false
+    log.warn(
+      `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
+    )
+    return false
   })
 
   const packageTasks = packages.map(async (pkg) => {
@@ -157,10 +157,10 @@ async function setupEnvironmentVariables(apps: string[], packages: string[]) {
       await setupWorkspaceEnv(workspaceDir)
       return true
     }
-      log.warn(
-        `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
-      )
-      return false
+    log.warn(
+      `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
+    )
+    return false
   })
 
   const results = await Promise.all([...appTasks, ...packageTasks])
@@ -180,7 +180,7 @@ async function setupEnvironmentVariables(apps: string[], packages: string[]) {
 async function getSelectedApps(): Promise<string[]> {
   const apps = await multiselect({
     message: "Select apps to keep (all others will be removed)",
-    options: Workspaces.APPS.map(app => ({
+    options: Workspaces.APPS.map((app) => ({
       name: app.description,
       value: app.name,
     })),
@@ -197,7 +197,7 @@ async function getSelectedApps(): Promise<string[]> {
 async function getSelectedPackages(): Promise<string[]> {
   const packages = await multiselect({
     message: "Select packages to keep (all others will be removed)",
-    options: Workspaces.PACKAGES.map(pkg => ({
+    options: Workspaces.PACKAGES.map((pkg) => ({
       name: pkg.description,
       value: pkg.name,
     })),

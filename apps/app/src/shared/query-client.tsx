@@ -1,8 +1,8 @@
 "use client"
 import {
+  defaultShouldDehydrateQuery,
   QueryClient,
   QueryClientProvider as QueryClientProviderBase,
-  defaultShouldDehydrateQuery,
 } from "@tanstack/react-query"
 import type { ReactNode } from "react"
 import superjson from "superjson"

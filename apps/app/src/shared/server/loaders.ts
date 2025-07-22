@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 import { cache } from "react"
-
 import { validateRequest } from "~/shared/auth/server"
 import { UNAUTHORIZED_PATHNAME } from "~/shared/constants"
 

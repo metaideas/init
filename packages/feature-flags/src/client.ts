@@ -1,7 +1,7 @@
 export {
   PostHogFeature as FeatureFlag,
+  useActiveFeatureFlags,
   useFeatureFlagEnabled,
   useFeatureFlagPayload,
   useFeatureFlagVariantKey,
-  useActiveFeatureFlags,
 } from "posthog-js/react"

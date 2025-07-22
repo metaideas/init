@@ -1,9 +1,7 @@
+import { cn } from "@init/utils/ui"
 import { useAugmentedRef, useControllableState } from "@rn-primitives/hooks"
 import * as React from "react"
 import { Pressable, TextInput, View } from "react-native"
-
-import { cn } from "@init/utils/ui"
-
 import { Text } from "../text"
 import type { TextFieldProps, TextFieldRef } from "./types"
 
@@ -72,16 +70,16 @@ const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
         <View className="flex-row">
           {!!leftView && !label && leftView}
           <TextInput
-            ref={inputRef}
-            editable={editable}
+            accessibilityHint={accessibilityHint ?? errorMessage}
             className={cn(
               "flex-1 px-2.5 py-3 text-[17px] text-foreground",
               className
             )}
-            onChangeText={onChangeText}
-            value={value}
             clearButtonMode="while-editing"
-            accessibilityHint={accessibilityHint ?? errorMessage}
+            editable={editable}
+            onChangeText={onChangeText}
+            ref={inputRef}
+            value={value}
             {...props}
           />
           {rightView}
