@@ -138,31 +138,33 @@ function updatePackageJsonName(projectName: string) {
 
 async function setupEnvironmentVariables(apps: string[], packages: string[]) {
   log.step("Setting up environment files for remaining workspaces...")
-  let processedCount = 0
 
-  for (const app of apps) {
+  const appTasks = apps.map(async (app) => {
     const workspaceDir = path.join(__dirname, "..", "apps", app)
     if (fs.existsSync(workspaceDir)) {
       await setupWorkspaceEnv(workspaceDir)
-      processedCount++
-    } else {
+      return true
+    }
       log.warn(
         `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
       )
-    }
-  }
+      return false
+  })
 
-  for (const pkg of packages) {
+  const packageTasks = packages.map(async (pkg) => {
     const workspaceDir = path.join(__dirname, "..", "packages", pkg)
     if (fs.existsSync(workspaceDir)) {
       await setupWorkspaceEnv(workspaceDir)
-      processedCount++
-    } else {
+      return true
+    }
       log.warn(
         `Workspace directory ${workspaceDir} not found during environment setup. Skipping.`
       )
-    }
-  }
+      return false
+  })
+
+  const results = await Promise.all([...appTasks, ...packageTasks])
+  const processedCount = results.filter(Boolean).length
 
   if (processedCount > 0) {
     log.success(`Processed ${processedCount} workspaces for environment setup.`)

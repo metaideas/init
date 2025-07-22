@@ -52,7 +52,7 @@ function Slider({
         <SliderPrimitive.Thumb
           className="block size-4 shrink-0 rounded-full border border-primary bg-background shadow-sm ring-ring/50 transition-[color,box-shadow] hover:ring-4 focus-visible:outline-hidden focus-visible:ring-4 disabled:pointer-events-none disabled:opacity-50"
           data-slot="slider-thumb"
-          key={index}
+          key={`slider-thumb-${index}-${_values[index] ?? index}`}
         />
       ))}
     </SliderPrimitive.Root>

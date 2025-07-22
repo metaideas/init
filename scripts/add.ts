@@ -1,6 +1,5 @@
-import fs from "node:fs"
+import Bun from "bun"
 import { isCancel, log, multiselect, outro, select, text } from "@clack/prompts"
-
 import { runProcess, runScript } from "../tooling/helpers"
 import { Workspaces } from "./utils"
 
@@ -37,7 +36,7 @@ async function getWorkspaceType(): Promise<WorkspaceType> {
 }
 
 async function chooseWorkspaces(type: WorkspaceType): Promise<string[]> {
-  const options = Workspaces[type === "app" ? "APPS" : "PACKAGES"].map(w => ({
+  const options = Workspaces[type === "app" ? "APPS" : "PACKAGES"].map((w) => ({
     value: w.name,
     label: w.description,
   }))
@@ -69,8 +68,8 @@ async function getWorkspaceName(workspace: string): Promise<string> {
   return workspaceName
 }
 
-function getProjectName() {
-  const packageJson = JSON.parse(fs.readFileSync("package.json", "utf-8"))
+async function getProjectName() {
+  const packageJson = await Bun.file("package.json").json()
   return packageJson.name
 }
 
@@ -85,18 +84,22 @@ async function main() {
 
   const projectName = getProjectName()
 
-  for (const workspace of workspaces) {
-    const workspaceName = isApp ? await getWorkspaceName(workspace) : workspace
+  const workspaceNames = await Promise.all(
+    workspaces.map((workspace) =>
+      isApp ? getWorkspaceName(workspace) : Promise.resolve(workspace)
+    )
+  )
 
+  for (const workspaceName of workspaceNames) {
     runProcess("turbo", [
       "gen",
       "workspace",
       "--copy",
-      `https://github.com/metaideas/init/tree/main/${workspaceType}s/${workspace}`,
+      `https://github.com/metaideas/init/tree/main/${workspaceType}s/${workspaceName}`,
       "--type",
       workspaceType,
       "--name",
-      isApp ? workspaceName : `@${projectName}/${workspace}`,
+      isApp ? workspaceName : `@${projectName}/${workspaceName}`,
     ])
 
     log.success(`Added "${workspaceName}" ${workspaceType} to the workspace`)

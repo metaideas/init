@@ -60,10 +60,12 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
+  const onSelect = React.useCallback((emblaApi: CarouselApi) => {
+    if (!emblaApi) {
+      return
+    }
+    setCanScrollPrev(emblaApi.canScrollPrev())
+    setCanScrollNext(emblaApi.canScrollNext())
   }, [])
 
   const scrollPrev = React.useCallback(() => {
@@ -88,12 +90,16 @@ function Carousel({
   )
 
   React.useEffect(() => {
-    if (!(api && setApi)) return
+    if (!(api && setApi)) {
+      return
+    }
     setApi(api)
   }, [api, setApi])
 
   React.useEffect(() => {
-    if (!api) return
+    if (!api) {
+      return
+    }
     onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)
@@ -117,16 +123,14 @@ function Carousel({
         canScrollNext,
       }}
     >
-      <div
-        aria-roledescription="carousel"
+      <section
         className={cn("relative", className)}
         data-slot="carousel"
         onKeyDownCapture={handleKeyDown}
-        role="region"
         {...props}
       >
         {children}
-      </div>
+      </section>
     </CarouselContext.Provider>
   )
 }

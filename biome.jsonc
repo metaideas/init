@@ -2,12 +2,6 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["adamantite"],
   "files": {
-    "includes": [
-      "**",
-      "!**/.cache",
-      "!**/dist",
-      "!**/.next",
-      "!**/.content-collections"
-    ]
+    "includes": ["**", "!.dependency-cruiser.cjs"]
   }
 }

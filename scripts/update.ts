@@ -1,7 +1,6 @@
 import { copyFile, mkdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { cancel, log, spinner } from "@clack/prompts"
-
 import { executeCommand, runScript } from "../tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
@@ -25,14 +24,20 @@ async function getFileDiff(localFiles: string[], templateFiles: string[]) {
   const filesToUpdate: string[] = []
   const newFiles: string[] = []
 
-  for (const file of templateFiles) {
-    const isNew = !localFiles.includes(file)
-    const hasLocalChanges = await executeCommand(
-      `git diff --quiet HEAD -- ${file}`
-    )
-      .then(() => false)
-      .catch(() => true)
+  const fileChecks = await Promise.all(
+    templateFiles.map(async (file) => {
+      const isNew = !localFiles.includes(file)
+      const hasLocalChanges = await executeCommand(
+        `git diff --quiet HEAD -- ${file}`
+      )
+        .then(() => false)
+        .catch(() => true)
 
+      return { file, isNew, hasLocalChanges }
+    })
+  )
+
+  for (const { file, isNew, hasLocalChanges } of fileChecks) {
     if (isNew) {
       newFiles.push(file)
     } else if (!hasLocalChanges) {
@@ -44,13 +49,15 @@ async function getFileDiff(localFiles: string[], templateFiles: string[]) {
 }
 
 async function copyFiles(files: string[]) {
-  for (const file of files) {
-    const source = join(TEMP_DIR, file)
-    const dest = join(process.cwd(), file)
+  await Promise.all(
+    files.map(async (file) => {
+      const source = join(TEMP_DIR, file)
+      const dest = join(process.cwd(), file)
 
-    await mkdir(dirname(dest), { recursive: true })
-    await copyFile(source, dest)
-  }
+      await mkdir(dirname(dest), { recursive: true })
+      await copyFile(source, dest)
+    })
+  )
 }
 
 async function main() {

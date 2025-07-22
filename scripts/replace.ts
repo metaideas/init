@@ -80,41 +80,45 @@ async function main() {
   let totalReplacements = 0
   let filesChanged = 0
 
-  for (const file of allFiles) {
+  const fileProcessingTasks = allFiles.map(async (file) => {
     try {
       if (file.endsWith("pnpm-lock.yaml")) {
-        continue
+        return null
       }
 
       const content = await fs.promises.readFile(file, "utf8")
       // Check for "@init" to catch instances like "@init/some-package" or "@init" as a whole word.
       if (!content.includes("@init")) {
-        continue
+        return null
       }
 
       const count = getReplacementCount(content, "@init")
       if (!count) {
-        continue
+        return null
       }
 
-      filesChanged++
-      totalReplacements += count
-
       const replaced = content.split("@init").join(`@${projectName}`)
-
       fs.writeFileSync(file, replaced, "utf8")
+
+      return { file, count }
     } catch (error: unknown) {
       if (error instanceof Error) {
         log.warn(
           `Could not process file ${file} for renaming: ${error.message}`
         )
-
-        continue
+        return null
       }
 
       log.warn(`Could not process file ${file} for renaming: Unknown error`)
+      return null
     }
-  }
+  })
+
+  const results = await Promise.all(fileProcessingTasks)
+  const successfulResults = results.filter((result): result is { file: string; count: number } => result !== null)
+
+  filesChanged = successfulResults.length
+  totalReplacements = successfulResults.reduce((sum, result) => sum + result.count, 0)
 
   if (filesChanged > 0) {
     log.success(
