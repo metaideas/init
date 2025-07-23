@@ -59,7 +59,6 @@
       "cache": false,
       "persistent": true
     },
-    "test": {},
     "typecheck": {}
   },
   "ui": "tui"

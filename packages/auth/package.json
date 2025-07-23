@@ -17,8 +17,6 @@
     "deps:check": "taze -l",
     "deps:update": "taze -lw",
     "secret": "pnpx @better-auth/cli@latest secret",
-    "test": "bun test",
-    "test:watch": "bun test --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -140,7 +140,8 @@ async function cleanupInternalFiles() {
     "release-please-config.json", 
     ".github/workflows/release.yml",
     ".template-version",
-    "docs"
+    "docs",
+    "__tests__"
   ]
 
   const tasks = filesToRemove.map(async (file) => {
