@@ -86,6 +86,12 @@ export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
 
     const subscription = subscriptions.data[0]
 
+    if (!subscription?.items.data[0]) {
+      const data: SubscriptionCache = { status: "none" }
+      await kv.set(cacheKey, data)
+      return data
+    }
+
     // Store complete subscription state
     const data: SubscriptionCache = {
       subscriptionId: subscription.id,
