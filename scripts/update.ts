@@ -1,7 +1,6 @@
 import { copyFile, mkdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
-import { cancel, log, spinner } from "@clack/prompts"
-import { executeCommand, runScript } from "../tooling/helpers"
+import { executeCommand, prompt, runScript } from "../tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "git@github.com:metaideas/init.git"
@@ -12,7 +11,12 @@ async function cloneTemplate() {
   await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1`)
 }
 
-async function getLatestRelease(): Promise<{ tag_name: string; name: string; published_at: string; body: string } | null> {
+async function getLatestRelease(): Promise<{
+  tag_name: string
+  name: string
+  published_at: string
+  body: string
+} | null> {
   try {
     const response = await fetch(`${GITHUB_API_URL}/releases/latest`)
     if (!response.ok) {
@@ -22,8 +26,7 @@ async function getLatestRelease(): Promise<{ tag_name: string; name: string; pub
       throw new Error(`Failed to fetch latest release: ${response.statusText}`)
     }
     return await response.json()
-  } catch (error) {
-    log.warn(`Could not fetch latest release: ${error instanceof Error ? error.message : "Unknown error"}`)
+  } catch {
     return null
   }
 }
@@ -47,16 +50,16 @@ async function updateTemplateVersion(version: string): Promise<void> {
 
 function compareVersions(current: string, latest: string): number {
   // Remove 'v' prefix if present
-  const currentClean = current.replace(VERSION_PREFIX, '')
-  const latestClean = latest.replace(VERSION_PREFIX, '')
-  
-  const currentParts = currentClean.split('.').map(Number)
-  const latestParts = latestClean.split('.').map(Number)
-  
+  const currentClean = current.replace(VERSION_PREFIX, "")
+  const latestClean = latest.replace(VERSION_PREFIX, "")
+
+  const currentParts = currentClean.split(".").map(Number)
+  const latestParts = latestClean.split(".").map(Number)
+
   for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
     const currentPart = currentParts[i] || 0
     const latestPart = latestParts[i] || 0
-    
+
     if (currentPart < latestPart) {
       return -1
     }
@@ -64,7 +67,7 @@ function compareVersions(current: string, latest: string): number {
       return 1
     }
   }
-  
+
   return 0
 }
 
@@ -118,105 +121,166 @@ async function copyFiles(files: string[]) {
   )
 }
 
-async function main() {
-  log.message("Starting template synchronization")
+async function checkVersionUpdates() {
+  const s1 = prompt.spinner()
+  s1.start("Checking for template updates")
 
-  const s = spinner()
-  try {
-    // Check for version updates
-    s.start("Checking for template updates")
-    const [currentVersion, latestRelease] = await Promise.all([
-      getCurrentTemplateVersion(),
-      getLatestRelease()
-    ])
-    
-    if (latestRelease) {
-      const latestVersion = latestRelease.tag_name
-      s.stop(`Latest template version: ${latestVersion}`)
-      
-      if (currentVersion) {
-        const comparison = compareVersions(currentVersion, latestVersion)
-        if (comparison === 0) {
-          log.info(`Already up to date (${currentVersion})`)
-          return
-        } else if (comparison > 0) {
-          log.warn(`Local version (${currentVersion}) is newer than latest release (${latestVersion})`)
-        } else {
-          log.info(`Update available: ${currentVersion} → ${latestVersion}`)
-          if (latestRelease.body) {
-            log.message("Release notes:")
-            log.message(latestRelease.body)
-          }
+  const [currentVersion, latestRelease] = await Promise.all([
+    getCurrentTemplateVersion(),
+    getLatestRelease(),
+  ])
+
+  if (latestRelease) {
+    const latestVersion = latestRelease.tag_name
+    s1.stop(`Latest template version: ${latestVersion}`)
+
+    if (currentVersion) {
+      const comparison = compareVersions(currentVersion, latestVersion)
+      if (comparison === 0) {
+        return {
+          shouldExit: true,
+          latestRelease,
+          message: `Already up to date (${currentVersion})`,
         }
-      } else {
-        log.info(`Latest version available: ${latestVersion}`)
       }
-    } else {
-      s.stop("No releases found")
-      log.warn("No template releases found, proceeding with latest main branch")
+      if (comparison > 0) {
+        return {
+          shouldExit: false,
+          latestRelease,
+          warning: `Local version (${currentVersion}) is newer than latest release (${latestVersion})`,
+        }
+      }
+      const releaseNotes = latestRelease.body
+        ? `\nRelease notes:\n${latestRelease.body}`
+        : ""
+      return {
+        shouldExit: false,
+        latestRelease,
+        message: `Update available: ${currentVersion} → ${latestVersion}${releaseNotes}`,
+      }
     }
-
-    // Verify clean working tree
-    s.start("Checking for uncommitted changes")
-    const hasChanges = await checkForUncommittedChanges()
-    if (hasChanges) {
-      cancel("Please commit or stash changes before syncing")
-      process.exit(1)
+    return {
+      shouldExit: false,
+      latestRelease,
+      message: `Latest version available: ${latestVersion}`,
     }
-    s.stop("Working directory clean")
+  }
+  s1.stop("No releases found")
+  return {
+    shouldExit: false,
+    latestRelease,
+    warning: "No template releases found, proceeding with latest main branch",
+  }
+}
 
-    // Set up temporary environment
-    s.start("Setting up temporary directory")
-    await rm(TEMP_DIR, { recursive: true, force: true })
-    await mkdir(TEMP_DIR, { recursive: true })
-    s.stop("Temporary directory created")
+async function verifyCleanWorkingTree() {
+  const s2 = prompt.spinner()
+  s2.start("Checking for uncommitted changes")
 
-    // Clone template
-    s.start("Cloning template repository")
-    await cloneTemplate()
-    s.stop("Template cloned")
+  const hasChanges = await checkForUncommittedChanges()
+  if (hasChanges) {
+    throw new Error("Please commit or stash changes before syncing")
+  }
 
-    // Get file lists
-    s.start("Analyzing file differences")
-    const [localFiles, templateFiles] = await Promise.all([
-      getLocalFiles(),
-      getTemplateFiles(),
-    ])
+  s2.stop("Working directory clean")
+}
 
-    const { filesToUpdate, newFiles } = await getFileDiff(
-      localFiles,
-      templateFiles
-    )
-    s.stop(
-      `Found ${filesToUpdate.length} updates and ${newFiles.length} new files`
-    )
+async function setupTempDirectory() {
+  const s3 = prompt.spinner()
+  s3.start("Setting up temporary directory")
 
-    if (filesToUpdate.length === 0 && newFiles.length === 0) {
-      log.info("No changes to apply - already up to date")
+  await rm(TEMP_DIR, { recursive: true, force: true })
+  await mkdir(TEMP_DIR, { recursive: true })
+
+  s3.stop("Temporary directory created")
+}
+
+async function cloneAndAnalyze() {
+  const s4 = prompt.spinner()
+  s4.start("Cloning template repository")
+
+  await cloneTemplate()
+
+  s4.stop("Template cloned")
+
+  const s5 = prompt.spinner()
+  s5.start("Analyzing file differences")
+
+  const [localFiles, templateFiles] = await Promise.all([
+    getLocalFiles(),
+    getTemplateFiles(),
+  ])
+
+  const { filesToUpdate, newFiles } = await getFileDiff(
+    localFiles,
+    templateFiles
+  )
+
+  s5.stop(
+    `Found ${filesToUpdate.length} updates and ${newFiles.length} new files`
+  )
+
+  return { filesToUpdate, newFiles }
+}
+
+async function applyChanges(
+  filesToUpdate: string[],
+  newFiles: string[],
+  latestRelease: { tag_name: string } | null
+) {
+  const s6 = prompt.spinner()
+  s6.start("Applying template changes")
+
+  await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
+
+  s6.stop("Changes applied")
+
+  await executeCommand("git add .")
+
+  if (latestRelease) {
+    await updateTemplateVersion(latestRelease.tag_name)
+    await executeCommand("git add .template-version")
+  }
+}
+
+async function main() {
+  prompt.intro("Starting template synchronization")
+
+  try {
+    const { shouldExit, latestRelease, message, warning } =
+      await checkVersionUpdates()
+
+    if (message) {
+      prompt.log.info(message)
+    }
+    if (warning) {
+      prompt.log.warn(warning)
+    }
+    if (shouldExit) {
       return
     }
 
-    // Copy changes
-    s.start("Applying template changes")
-    await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
-    s.stop("Changes applied")
+    await verifyCleanWorkingTree()
+    await setupTempDirectory()
 
-    // Stage changes and set commit message
-    await executeCommand("git add .")
+    const { filesToUpdate, newFiles } = await cloneAndAnalyze()
 
-    // Update template version file if we have release information
-    if (latestRelease) {
-      await updateTemplateVersion(latestRelease.tag_name)
-      await executeCommand("git add .template-version")
+    if (filesToUpdate.length === 0 && newFiles.length === 0) {
+      prompt.log.info("No changes to apply - already up to date")
+      return
     }
 
-    log.success("Changes staged")
-    log.message(
+    await applyChanges(filesToUpdate, newFiles, latestRelease)
+
+    prompt.log.success("Changes staged")
+    prompt.log.message(
       "Template sync completed. Please review the changes and commit them to your repository."
     )
+    prompt.outro("🎉 Template sync completed successfully!")
   } catch (error) {
-    s.stop("Sync failed")
-    log.error(error instanceof Error ? error.message : "Unknown error occurred")
+    prompt.cancel(
+      `Sync failed: ${error instanceof Error ? error.message : "Unknown error occurred"}`
+    )
     process.exit(1)
   } finally {
     await rm(TEMP_DIR, { recursive: true, force: true })

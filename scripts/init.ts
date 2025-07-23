@@ -50,10 +50,11 @@ async function promptForProjectName(): Promise<string> {
   return projectName
 }
 
-async function updatePackageJsonName(projectName: string) {
+async function updatePackageJson(projectName: string) {
   const packageJson = await Bun.file("package.json").json()
 
   packageJson.name = projectName
+  packageJson.version = "0.0.1"
   await Bun.write("package.json", `${JSON.stringify(packageJson, null, 2)}\n`)
 }
 
@@ -133,6 +134,32 @@ async function setupRemoteBranch() {
   }
 }
 
+async function cleanupInternalFiles() {
+  const filesToRemove = [
+    ".release-please-manifest.json",
+    "release-please-config.json", 
+    ".github/workflows/release.yml",
+    ".template-version",
+    "docs"
+  ]
+
+  const tasks = filesToRemove.map(async (file) => {
+    try {
+      if (await Bun.file(file).exists()) {
+        await executeCommand(`rm -rf ${file}`)
+      }
+    } catch {
+      // File doesn't exist or failed to remove, continuing...
+    }
+  })
+
+  await Promise.all(tasks)
+}
+
+async function createNewReadme(projectName: string) {
+  await Bun.write("README.md", `# ${projectName}\n`)
+}
+
 async function main() {
   prompt.intro(title)
   prompt.log.info("Starting project setup...")
@@ -148,7 +175,7 @@ async function main() {
     if (projectName !== "init") {
       const s1 = prompt.spinner()
       s1.start("Updating project name in package.json...")
-      await updatePackageJsonName(projectName)
+      await updatePackageJson(projectName)
       s1.stop("Project name updated in package.json.")
 
       const s2 = prompt.spinner()
@@ -173,6 +200,16 @@ async function main() {
       await setupRemoteBranch()
     }
     s4.stop("Remote template branch setup complete.")
+
+    const s5 = prompt.spinner()
+    s5.start("Cleaning up internal template files...")
+    await cleanupInternalFiles()
+    s5.stop("Internal template files removed.")
+
+    const s6 = prompt.spinner()
+    s6.start("Creating new README...")
+    await createNewReadme(projectName)
+    s6.stop("README created.")
 
     prompt.outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
