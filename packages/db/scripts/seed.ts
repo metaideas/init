@@ -42,7 +42,7 @@ async function main() {
 
   const end = performance.now()
 
-  prompt.log.success(`Database seeded in ${end - start}ms`)
+  prompt.outro(`Database seeded in ${end - start}ms`)
 }
 
 runScript(main)

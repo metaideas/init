@@ -41,7 +41,7 @@ bun docker:up
 3. Run the `setup` script:
 
 ```bash
-bun workspace:setup
+bun setup
 ```
 
 This will:

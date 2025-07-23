@@ -19,9 +19,7 @@ async function main() {
   // @ts-expect-error - Type error with drizzle-seed and LibSQL
   await reset(db, schema)
 
-  prompt.log.success(
-    "All tables dropped successfully. Database reset complete!"
-  )
+  prompt.outro("All tables dropped successfully. Database reset complete!")
 }
 
 runScript(main)

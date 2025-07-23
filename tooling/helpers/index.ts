@@ -1,6 +1,5 @@
 import { type ExecSyncOptions, exec, execSync } from "node:child_process"
 import { promisify } from "node:util"
-import * as prompt from "@clack/prompts"
 import pino from "pino"
 import pretty from "pino-pretty"
 
@@ -12,22 +11,22 @@ export const logger = pino(pretty())
  * @param fn - The script to run
  */
 export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
-  prompt.intro("Starting script execution...")
+  logger.debug("Starting script execution...")
 
   const startTime = performance.now()
 
   try {
     await fn()
   } catch (error) {
+    logger.error("Script execution failed")
     logger.error(error)
-    prompt.outro("Script execution failed")
     process.exit(1)
   }
 
   const endTime = performance.now()
   const executionTime = endTime - startTime
 
-  prompt.outro(`Script executed in ${executionTime.toFixed(2)}ms`)
+  logger.debug(`Script executed in ${executionTime.toFixed(2)}ms`)
 
   process.exit()
 }
@@ -38,7 +37,7 @@ export function runProcess(
   options: Omit<ExecSyncOptions, "stdio"> = {}
 ) {
   const commandWithArgs = `${command} ${args.join(" ")}`
-  logger.info(`Running command: ${commandWithArgs}`)
+  logger.debug(`Running command: ${commandWithArgs}`)
 
   execSync(commandWithArgs, { ...options, stdio: "inherit" })
 }

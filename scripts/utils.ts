@@ -1,7 +1,12 @@
+import Bun from "bun"
+import path from "node:path"
+
 export const REMOTE_URL = "git@github.com:metaideas/init.git"
 
-export const Workspaces = {
-  APPS: [
+export type WorkspaceType = "apps" | "packages"
+
+export const workspaces = {
+  apps: [
     {
       name: "api",
       description: "api - Hono API running on Node.js",
@@ -33,7 +38,7 @@ export const Workspaces = {
       description: "web - Next.js marketing site and blog",
     },
   ],
-  PACKAGES: [
+  packages: [
     {
       name: "ai",
       description:
@@ -110,10 +115,88 @@ export const Workspaces = {
       description: "utils - Shared utilities and helpers",
     },
   ],
-} satisfies Record<
-  string,
-  {
-    name: string
-    description: string
-  }[]
->
+} as const
+
+const EXCLUDED_DIRS = [
+  "node_modules",
+  ".git",
+  ".next",
+  "dist",
+  "build",
+  "out",
+  ".turbo",
+  ".vercel",
+  ".DS_Store",
+  ".cache",
+  ".pnpm-store",
+  ".yarn",
+] as const
+
+function checkShouldExclude(filePath: string): boolean {
+  return EXCLUDED_DIRS.some(
+    (dir) =>
+      filePath.includes(`${path.sep}${dir}${path.sep}`) ||
+      filePath.endsWith(`${path.sep}${dir}`)
+  )
+}
+
+export async function getAllFiles(dir = ".") {
+  try {
+    const glob = new Bun.Glob("**/*")
+    const files: string[] = []
+
+    for await (const file of glob.scan({ cwd: dir, onlyFiles: true })) {
+      const filePath = `${dir}/${file}`
+
+      if (!checkShouldExclude(filePath)) {
+        files.push(filePath)
+      }
+    }
+
+    return files
+  } catch {
+    // Silently fail and return empty array
+    return []
+  }
+}
+
+export async function replaceProjectNameInProjectFiles(projectName: string) {
+  const allFiles = await getAllFiles(".")
+
+  // Only process text/code files
+  const textFileExtensions = [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".json",
+    ".md",
+    ".txt",
+    ".yml",
+    ".yaml",
+    ".toml",
+    ".env",
+    ".example",
+  ]
+  const textFiles = allFiles.filter(
+    (file) =>
+      textFileExtensions.some((ext) => file.endsWith(ext)) ||
+      file.includes("package.json") ||
+      file.includes("tsconfig") ||
+      file.includes("README")
+  )
+
+  const tasks = textFiles.map(async (file) => {
+    try {
+      const content = await Bun.file(file).text()
+      const replaced = content.replaceAll("@init", `@${projectName}`)
+      if (content !== replaced) {
+        await Bun.write(file, replaced)
+      }
+    } catch {
+      // Failed to process file, continuing...
+    }
+  })
+
+  await Promise.all(tasks)
+}
