@@ -1,5 +1,6 @@
 {
   "name": "init",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -28,12 +29,13 @@
     "lint:repo": "sherif --fix",
     "setup": "bun run scripts/init.ts",
     "start": "turbo run start",
+    "template:check": "bun run scripts/check.ts",
+    "template:sync": "bun run scripts/update.ts",
     "test": "turbo test",
     "typecheck": "turbo typecheck --continue",
     "workspace:add": "bun run scripts/add.ts",
     "workspace:graph": "bun run scripts/graph.ts",
-    "workspace:remove": "bun run scripts/remove.ts",
-    "workspace:update": "bun run scripts/update.ts"
+    "workspace:remove": "bun run scripts/remove.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",

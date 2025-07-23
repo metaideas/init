@@ -1,0 +1,11 @@
+{
+  "release-type": "node",
+  "tag-separator": "@",
+  "include-component-in-tag": true,
+  "packages": {
+    ".": {
+      "package-name": "init",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
