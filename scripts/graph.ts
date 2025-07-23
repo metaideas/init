@@ -1,5 +1,5 @@
 import fs from "node:fs/promises"
-import { prompt, runProcess, runScript } from "../tooling/helpers"
+import { prompt, runProcess } from "@tooling/helpers"
 
 async function getWorkspaceTypes() {
   const workspaceType = await prompt.multiselect({
@@ -57,7 +57,7 @@ async function chooseEntries(entries: string[]) {
   return selectedEntries
 }
 
-async function main() {
+async function graph() {
   prompt.log.info("Generating a dependency graph")
 
   const workspaceTypes = await getWorkspaceTypes()
@@ -114,4 +114,4 @@ async function main() {
   prompt.log.info("Generated dependency graph at dependency-graph.svg")
 }
 
-runScript(main)
+export default graph

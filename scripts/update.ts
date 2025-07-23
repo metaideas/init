@@ -1,6 +1,6 @@
 import { copyFile, mkdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
-import { executeCommand, prompt, runScript } from "../tooling/helpers"
+import { executeCommand, prompt } from "@tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "git@github.com:metaideas/init.git"
@@ -243,7 +243,7 @@ async function applyChanges(
   }
 }
 
-async function main() {
+async function update() {
   prompt.intro("Starting template synchronization")
 
   try {
@@ -292,4 +292,4 @@ async function checkForUncommittedChanges(): Promise<boolean> {
   return status.length > 0
 }
 
-runScript(main)
+export default update

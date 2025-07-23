@@ -1,6 +1,6 @@
 import Bun from "bun"
 import { rmdir } from "node:fs/promises"
-import { executeCommand, prompt, runScript } from "@tooling/helpers"
+import { executeCommand, prompt } from "@tooling/helpers"
 import {
   REMOTE_URL,
   replaceProjectNameInProjectFiles,
@@ -137,11 +137,11 @@ async function setupRemoteBranch() {
 async function cleanupInternalFiles() {
   const filesToRemove = [
     ".release-please-manifest.json",
-    "release-please-config.json", 
+    "release-please-config.json",
     ".github/workflows/release.yml",
     ".template-version",
     "docs",
-    "__tests__"
+    "__tests__",
   ]
 
   const tasks = filesToRemove.map(async (file) => {
@@ -161,7 +161,7 @@ async function createNewReadme(projectName: string) {
   await Bun.write("README.md", `# ${projectName}\n`)
 }
 
-async function main() {
+async function init() {
   prompt.intro(title)
   prompt.log.info("Starting project setup...")
 
@@ -218,4 +218,4 @@ async function main() {
   }
 }
 
-runScript(main)
+export default init

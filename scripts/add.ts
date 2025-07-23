@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { executeCommand, prompt, runScript } from "@tooling/helpers"
+import { executeCommand, prompt } from "@tooling/helpers"
 import {
   replaceProjectNameInProjectFiles,
   type WorkspaceType,
@@ -64,7 +64,7 @@ async function getProjectName(): Promise<string> {
   return packageJson.name
 }
 
-async function main() {
+async function add() {
   prompt.intro("Add workspaces to your monorepo")
   prompt.log.info(
     "This script helps you add new apps or packages to your workspace..."
@@ -111,4 +111,4 @@ async function main() {
   }
 }
 
-runScript(main)
+export default add
