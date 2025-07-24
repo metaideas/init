@@ -153,7 +153,6 @@ async function cleanupInternalFiles() {
     ".release-please-manifest.json",
     "release-please-config.json",
     ".github/workflows/release.yml",
-    ".template-version",
     "docs",
     "__tests__",
   ]
