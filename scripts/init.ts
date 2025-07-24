@@ -194,42 +194,42 @@ async function init() {
       s2.start("Replacing @init with project name in project files...")
       await replaceProjectNameInProjectFiles(projectName)
       s2.stop("Project name replaced in project files.")
-
-      const s3 = prompt.spinner()
-      s3.start("Reinstalling dependencies after package name changes...")
-      await executeCommand("bun install")
-      s3.stop("Dependencies reinstalled.")
     }
 
-    const s4 = prompt.spinner()
-    s4.start("Setting up environment files for workspaces...")
+    const s3 = prompt.spinner()
+    s3.start("Setting up environment files for workspaces...")
     await setupEnvironmentVariables([
       ...selectedApps.map((app) => `apps/${app}`),
       ...selectedPackages.map((pkg) => `packages/${pkg}`),
     ])
-    s4.stop("Environment files setup complete.")
+    s3.stop("Environment files setup complete.")
+
+    const s4 = prompt.spinner()
+    s4.start("Initializing Git repository...")
+    await setupGit()
+    s4.stop("Git repository initialized.")
 
     const s5 = prompt.spinner()
-    s5.start("Initializing Git repository...")
-    await setupGit()
-    s5.stop("Git repository initialized.")
-
-    const s6 = prompt.spinner()
-    s6.start("Setting up remote template branch for updates...")
+    s5.start("Setting up remote template branch for updates...")
     if (setupRemoteBranchConfirmed) {
       await setupRemoteBranch()
     }
-    s6.stop("Remote template branch setup complete.")
+    s5.stop("Remote template branch setup complete.")
+
+    const s6 = prompt.spinner()
+    s6.start("Cleaning up internal template files...")
+    await cleanupInternalFiles()
+    s6.stop("Internal template files removed.")
 
     const s7 = prompt.spinner()
-    s7.start("Cleaning up internal template files...")
-    await cleanupInternalFiles()
-    s7.stop("Internal template files removed.")
+    s7.start("Creating new README...")
+    await createNewReadme(projectName)
+    s7.stop("README created.")
 
     const s8 = prompt.spinner()
-    s8.start("Creating new README...")
-    await createNewReadme(projectName)
-    s8.stop("README created.")
+    s8.start("Re-installing dependencies...")
+    await executeCommand("bun install")
+    s8.stop("Dependencies installed.")
 
     prompt.outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
