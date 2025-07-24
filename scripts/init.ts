@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { rmdir } from "node:fs/promises"
+import { rm, rmdir } from "node:fs/promises"
 import { executeCommand, prompt } from "@tooling/helpers"
 import {
   REMOTE_URL,
@@ -160,7 +160,7 @@ async function cleanupInternalFiles() {
 
   const tasks = filesToRemove.map(async (file) => {
     try {
-      await Bun.file(file).delete()
+      await rm(file, { recursive: true, force: true })
     } catch {
       // File doesn't exist or failed to remove, continuing...
     }
