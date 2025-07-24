@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { rmdir } from "node:fs/promises"
+import { rm, rmdir, stat } from "node:fs/promises"
 import { executeCommand, prompt } from "@tooling/helpers"
 import {
   REMOTE_URL,
@@ -124,6 +124,20 @@ async function confirmSetupRemoteBranch() {
   return confirmed
 }
 
+async function setupGitIfNeeded() {
+  const isInitialized = await stat(".git")
+
+  if (isInitialized) {
+    return
+  }
+
+  try {
+    await executeCommand("git init")
+  } catch (error) {
+    throw new Error(`Failed to initialize Git: ${error}`)
+  }
+}
+
 async function setupRemoteBranch() {
   try {
     // Check if template remote already exists
@@ -147,7 +161,7 @@ async function cleanupInternalFiles() {
   const tasks = filesToRemove.map(async (file) => {
     try {
       if (await Bun.file(file).exists()) {
-        await executeCommand(`rm -rf ${file}`)
+        await rm(file, { recursive: true, force: true })
       }
     } catch {
       // File doesn't exist or failed to remove, continuing...
@@ -196,21 +210,26 @@ async function init() {
     s3.stop("Environment files setup complete.")
 
     const s4 = prompt.spinner()
-    s4.start("Setting up remote template branch for updates...")
+    s4.start("Initializing Git repository if needed...")
+    await setupGitIfNeeded()
+    s4.stop("Git repository initialized.")
+
+    const s5 = prompt.spinner()
+    s5.start("Setting up remote template branch for updates...")
     if (setupRemoteBranchConfirmed) {
       await setupRemoteBranch()
     }
-    s4.stop("Remote template branch setup complete.")
-
-    const s5 = prompt.spinner()
-    s5.start("Cleaning up internal template files...")
-    await cleanupInternalFiles()
-    s5.stop("Internal template files removed.")
+    s5.stop("Remote template branch setup complete.")
 
     const s6 = prompt.spinner()
-    s6.start("Creating new README...")
+    s6.start("Cleaning up internal template files...")
+    await cleanupInternalFiles()
+    s6.stop("Internal template files removed.")
+
+    const s7 = prompt.spinner()
+    s7.start("Creating new README...")
     await createNewReadme(projectName)
-    s6.stop("README created.")
+    s7.stop("README created.")
 
     prompt.outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
