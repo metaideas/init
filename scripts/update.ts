@@ -3,18 +3,19 @@ import { dirname, join } from "node:path"
 import { executeCommand, prompt } from "@tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
-const REMOTE_URL = "git@github.com:metaideas/init.git"
+const REMOTE_URL = "https://github.com/metaideas/init.git"
 const GITHUB_API_URL = "https://api.github.com/repos/metaideas/init"
 const TEMPLATE_VERSION_FILE = ".template-version"
 
 async function cloneTemplate() {
-  await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1`)
+  // Use HTTPS URL and add flags to avoid interactive prompts
+  await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1 --quiet`)
 }
 
 async function getLatestRelease(): Promise<{
-  tag_name: string
+  tagName: string
   name: string
-  published_at: string
+  publishedAt: string
   body: string
 } | null> {
   try {
@@ -131,7 +132,7 @@ async function checkVersionUpdates() {
   ])
 
   if (latestRelease) {
-    const latestVersion = latestRelease.tag_name
+    const latestVersion = latestRelease.tagName
     s1.stop(`Latest template version: ${latestVersion}`)
 
     if (currentVersion) {
@@ -226,7 +227,7 @@ async function cloneAndAnalyze() {
 async function applyChanges(
   filesToUpdate: string[],
   newFiles: string[],
-  latestRelease: { tag_name: string } | null
+  latestRelease: { tagName: string } | null
 ) {
   const s6 = prompt.spinner()
   s6.start("Applying template changes")
@@ -238,7 +239,7 @@ async function applyChanges(
   await executeCommand("git add .")
 
   if (latestRelease) {
-    await updateTemplateVersion(latestRelease.tag_name)
+    await updateTemplateVersion(latestRelease.tagName)
     await executeCommand("git add .template-version")
   }
 }
