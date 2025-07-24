@@ -124,7 +124,7 @@ async function confirmSetupRemoteBranch() {
   return confirmed
 }
 
-async function setupGitIfNeeded() {
+async function setupGit() {
   const isInitialized = await Bun.file(".git").exists()
 
   if (isInitialized) {
@@ -196,38 +196,43 @@ async function init() {
       await replaceProjectNameInProjectFiles(projectName)
       s2.stop("Project name replaced in project files.")
 
+      const s3 = prompt.spinner()
+      s3.start("Reinstalling dependencies after package name changes...")
+      await executeCommand("bun install")
+      s3.stop("Dependencies reinstalled.")
+
       prompt.log.success("✅ Project renaming steps complete!")
     }
 
-    const s3 = prompt.spinner()
-    s3.start("Setting up environment files for workspaces...")
+    const s4 = prompt.spinner()
+    s4.start("Setting up environment files for workspaces...")
     await setupEnvironmentVariables([
       ...selectedApps.map((app) => `apps/${app}`),
       ...selectedPackages.map((pkg) => `packages/${pkg}`),
     ])
-    s3.stop("Environment files setup complete.")
-
-    const s4 = prompt.spinner()
-    s4.start("Initializing Git repository if needed...")
-    await setupGitIfNeeded()
-    s4.stop("Git repository initialized.")
+    s4.stop("Environment files setup complete.")
 
     const s5 = prompt.spinner()
-    s5.start("Setting up remote template branch for updates...")
+    s5.start("Initializing Git repository...")
+    await setupGit()
+    s5.stop("Git repository initialized.")
+
+    const s6 = prompt.spinner()
+    s6.start("Setting up remote template branch for updates...")
     if (setupRemoteBranchConfirmed) {
       await setupRemoteBranch()
     }
-    s5.stop("Remote template branch setup complete.")
-
-    const s6 = prompt.spinner()
-    s6.start("Cleaning up internal template files...")
-    await cleanupInternalFiles()
-    s6.stop("Internal template files removed.")
+    s6.stop("Remote template branch setup complete.")
 
     const s7 = prompt.spinner()
-    s7.start("Creating new README...")
+    s7.start("Cleaning up internal template files...")
+    await cleanupInternalFiles()
+    s7.stop("Internal template files removed.")
+
+    const s8 = prompt.spinner()
+    s8.start("Creating new README...")
     await createNewReadme(projectName)
-    s7.stop("README created.")
+    s8.stop("README created.")
 
     prompt.outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
