@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/metaideas/init/compare/init@v0.2.0...init@v0.2.1) (2025-07-24)
+
+
+### Bug Fixes
+
+* add octokit for typesafety ([2b32441](https://github.com/metaideas/init/commit/2b32441f6eb8b6ca118fc6d475a509a8f833ae18))
+* do not remove template sync ([ed66f7d](https://github.com/metaideas/init/commit/ed66f7d0afe9dfea9e9a3fa1c5fef1243d3127ad))
+* use https for git clone ([5cb983c](https://github.com/metaideas/init/commit/5cb983c2c1bf5b3b0d2385cd223a69c962491f40))
+
 ## [0.2.0](https://github.com/metaideas/init/compare/init@v0.1.0...init@v0.2.0) (2025-07-24)
 
 
