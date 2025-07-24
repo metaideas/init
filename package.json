@@ -26,7 +26,7 @@
     "format": "adamantite format",
     "generate": "turbo generate",
     "lint": "adamantite lint",
-    "lint:repo": "sherif --fix",
+    "lint:monorepo": "adamantite monorepo",
     "start": "turbo run start",
     "template": "bun run scripts/index.ts",
     "test": "bun test",
@@ -34,11 +34,11 @@
     "typecheck": "turbo typecheck --continue"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
+    "@biomejs/biome": "2.1.2",
     "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.4",
     "@types/bun": "1.2.17",
-    "adamantite": "0.2.0",
+    "adamantite": "0.3.4",
     "commander": "14.0.0",
     "dependency-cruiser": "16.10.3",
     "pino": "9.7.0",
