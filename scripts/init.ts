@@ -200,8 +200,6 @@ async function init() {
       s3.start("Reinstalling dependencies after package name changes...")
       await executeCommand("bun install")
       s3.stop("Dependencies reinstalled.")
-
-      prompt.log.success("✅ Project renaming steps complete!")
     }
 
     const s4 = prompt.spinner()
