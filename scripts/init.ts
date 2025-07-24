@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { rm, rmdir, stat } from "node:fs/promises"
+import { rmdir } from "node:fs/promises"
 import { executeCommand, prompt } from "@tooling/helpers"
 import {
   REMOTE_URL,
@@ -125,7 +125,7 @@ async function confirmSetupRemoteBranch() {
 }
 
 async function setupGitIfNeeded() {
-  const isInitialized = await stat(".git")
+  const isInitialized = await Bun.file(".git").exists()
 
   if (isInitialized) {
     return
@@ -160,9 +160,7 @@ async function cleanupInternalFiles() {
 
   const tasks = filesToRemove.map(async (file) => {
     try {
-      if (await Bun.file(file).exists()) {
-        await rm(file, { recursive: true, force: true })
-      }
+      await Bun.file(file).delete()
     } catch {
       // File doesn't exist or failed to remove, continuing...
     }
