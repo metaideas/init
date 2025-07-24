@@ -1,7 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "extends": ["//"],
-  "globalEnv": ["NEXT_PUBLIC_BASE_URL", "NEXT_PUBLIC_API_URL"],
   "tasks": {
     "build": {
       "outputs": [
@@ -10,7 +9,38 @@
         "next-env.d.ts",
         ".content-collections/**"
       ],
-      "env": ["VERCEL_URL"]
+      "env": [
+        "AXIOM_DATASET",
+        "AXIOM_TOKEN",
+
+        "AUTH_SECRET",
+
+        "DATABASE_URL",
+        "DATABASE_AUTH_TOKEN",
+
+        "EMAIL_FROM",
+
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+
+        "QSTASH_CURRENT_SIGNING_KEY",
+        "QSTASH_NEXT_SIGNING_KEY",
+        "QSTASH_TOKEN",
+        "QSTASH_URL",
+
+        "RESEND_API_KEY",
+
+        "SENTRY_AUTH_TOKEN",
+        "SENTRY_DSN",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT",
+
+        "UPSTASH_REDIS_REST_TOKEN",
+        "UPSTASH_REDIS_REST_URL"
+      ]
     }
   }
 }
