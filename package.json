@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
+    "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.4",
     "@types/bun": "1.2.17",
     "adamantite": "0.2.0",

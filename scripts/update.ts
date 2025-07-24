@@ -1,10 +1,10 @@
 import { copyFile, mkdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
+import { Octokit } from "@octokit/rest"
 import { executeCommand, prompt } from "@tooling/helpers"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "https://github.com/metaideas/init.git"
-const GITHUB_API_URL = "https://api.github.com/repos/metaideas/init"
 const TEMPLATE_VERSION_FILE = ".template-version"
 
 async function cloneTemplate() {
@@ -19,14 +19,18 @@ async function getLatestRelease(): Promise<{
   body: string
 } | null> {
   try {
-    const response = await fetch(`${GITHUB_API_URL}/releases/latest`)
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null // No releases yet
-      }
-      throw new Error(`Failed to fetch latest release: ${response.statusText}`)
+    const octokit = new Octokit()
+    const response = await octokit.repos.getLatestRelease({
+      owner: "metaideas",
+      repo: "init",
+    })
+
+    return {
+      tagName: response.data.tag_name,
+      name: response.data.name || "",
+      publishedAt: response.data.published_at || "",
+      body: response.data.body || "",
     }
-    return await response.json()
   } catch {
     return null
   }
@@ -123,9 +127,6 @@ async function copyFiles(files: string[]) {
 }
 
 async function checkVersionUpdates() {
-  const s1 = prompt.spinner()
-  s1.start("Checking for template updates")
-
   const [currentVersion, latestRelease] = await Promise.all([
     getCurrentTemplateVersion(),
     getLatestRelease(),
@@ -133,7 +134,6 @@ async function checkVersionUpdates() {
 
   if (latestRelease) {
     const latestVersion = latestRelease.tagName
-    s1.stop(`Latest template version: ${latestVersion}`)
 
     if (currentVersion) {
       const comparison = compareVersions(currentVersion, latestVersion)
@@ -166,7 +166,6 @@ async function checkVersionUpdates() {
       message: `Latest version available: ${latestVersion}`,
     }
   }
-  s1.stop("No releases found")
   return {
     shouldExit: false,
     latestRelease,
@@ -175,37 +174,19 @@ async function checkVersionUpdates() {
 }
 
 async function verifyCleanWorkingTree() {
-  const s2 = prompt.spinner()
-  s2.start("Checking for uncommitted changes")
-
   const hasChanges = await checkForUncommittedChanges()
   if (hasChanges) {
     throw new Error("Please commit or stash changes before syncing")
   }
-
-  s2.stop("Working directory clean")
 }
 
 async function setupTempDirectory() {
-  const s3 = prompt.spinner()
-  s3.start("Setting up temporary directory")
-
   await rm(TEMP_DIR, { recursive: true, force: true })
   await mkdir(TEMP_DIR, { recursive: true })
-
-  s3.stop("Temporary directory created")
 }
 
 async function cloneAndAnalyze() {
-  const s4 = prompt.spinner()
-  s4.start("Cloning template repository")
-
   await cloneTemplate()
-
-  s4.stop("Template cloned")
-
-  const s5 = prompt.spinner()
-  s5.start("Analyzing file differences")
 
   const [localFiles, templateFiles] = await Promise.all([
     getLocalFiles(),
@@ -217,10 +198,6 @@ async function cloneAndAnalyze() {
     templateFiles
   )
 
-  s5.stop(
-    `Found ${filesToUpdate.length} updates and ${newFiles.length} new files`
-  )
-
   return { filesToUpdate, newFiles }
 }
 
@@ -229,12 +206,7 @@ async function applyChanges(
   newFiles: string[],
   latestRelease: { tagName: string } | null
 ) {
-  const s6 = prompt.spinner()
-  s6.start("Applying template changes")
-
   await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
-
-  s6.stop("Changes applied")
 
   await executeCommand("git add .")
 
@@ -244,12 +216,15 @@ async function applyChanges(
   }
 }
 
-async function update() {
+export default async function update() {
   prompt.intro("Starting template synchronization")
 
   try {
+    const s1 = prompt.spinner()
+    s1.start("Checking for template updates...")
     const { shouldExit, latestRelease, message, warning } =
       await checkVersionUpdates()
+    s1.stop("Template version check complete.")
 
     if (message) {
       prompt.log.info(message)
@@ -261,20 +236,37 @@ async function update() {
       return
     }
 
+    const s2 = prompt.spinner()
+    s2.start("Checking for uncommitted changes...")
     await verifyCleanWorkingTree()
-    await setupTempDirectory()
+    s2.stop("Working directory clean.")
 
+    const s3 = prompt.spinner()
+    s3.start("Setting up temporary directory...")
+    await setupTempDirectory()
+    s3.stop("Temporary directory created.")
+
+    const s4 = prompt.spinner()
+    s4.start("Cloning template repository...")
     const { filesToUpdate, newFiles } = await cloneAndAnalyze()
+    s4.stop("Template repository cloned.")
 
     if (filesToUpdate.length === 0 && newFiles.length === 0) {
       prompt.log.info("No changes to apply - already up to date")
       return
     }
 
+    const s5 = prompt.spinner()
+    s5.start("Analyzing file differences...")
+    s5.stop("File analysis complete.")
+
+    const s6 = prompt.spinner()
+    s6.start("Applying template changes...")
     await applyChanges(filesToUpdate, newFiles, latestRelease)
+    s6.stop("Template changes applied.")
 
     prompt.log.success("Changes staged")
-    prompt.log.message(
+    prompt.log.info(
       "Template sync completed. Please review the changes and commit them to your repository."
     )
     prompt.outro("🎉 Template sync completed successfully!")
@@ -292,5 +284,3 @@ async function checkForUncommittedChanges(): Promise<boolean> {
   const status = await executeCommand("git status --porcelain")
   return status.length > 0
 }
-
-export default update
