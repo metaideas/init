@@ -7,11 +7,9 @@ import graph from "./graph"
 import init from "./init"
 import update from "./update"
 
-const packageJson = await Bun.file("package.json").json()
-
 const program = new Command()
 
-program.version(packageJson.version)
+program.version(await Bun.file(".template-version").text())
 
 program
   .name("Init")
