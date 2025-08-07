@@ -59,12 +59,7 @@
     "@sentry/cli",
     "@tailwindcss/oxide",
     "@upstash/qstash-cli",
-    "core-js",
-    "core-js-pure",
     "docs",
-    "es5-ext",
-    "extension",
-    "protobufjs",
-    "spawn-sync"
+    "extension"
   ]
 }
