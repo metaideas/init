@@ -1,4 +1,4 @@
-import { copyFile, mkdir, rm } from "node:fs/promises"
+import { copyFile, mkdir, readdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { Octokit } from "@octokit/rest"
 import { executeCommand, prompt } from "@tooling/helpers"
@@ -126,6 +126,42 @@ async function copyFiles(files: string[]) {
   )
 }
 
+async function getExistingWorkspaceNames(
+  workspaceRoot: "apps" | "packages"
+): Promise<Set<string>> {
+  try {
+    const entries = await readdir(join(process.cwd(), workspaceRoot), {
+      withFileTypes: true,
+    })
+    return new Set(entries.filter((e) => e.isDirectory()).map((e) => e.name))
+  } catch {
+    // If the directory doesn't exist, treat as no existing workspaces
+    return new Set()
+  }
+}
+
+async function filterNewFilesForExistingWorkspaces(
+  newFiles: string[]
+): Promise<string[]> {
+  const [existingApps, existingPackages] = await Promise.all([
+    getExistingWorkspaceNames("apps"),
+    getExistingWorkspaceNames("packages"),
+  ])
+
+  return newFiles.filter((filePath) => {
+    if (filePath.startsWith("apps/")) {
+      const [, appName] = filePath.split("/")
+      return existingApps.has(appName)
+    }
+    if (filePath.startsWith("packages/")) {
+      const [, packageName] = filePath.split("/")
+      return existingPackages.has(packageName)
+    }
+    // For any files outside apps/ or packages/, allow them by default
+    return true
+  })
+}
+
 async function checkVersionUpdates() {
   const [currentVersion, latestRelease] = await Promise.all([
     getCurrentTemplateVersion(),
@@ -202,11 +238,12 @@ async function cloneAndAnalyze() {
 }
 
 async function applyChanges(
-  filesToUpdate: string[],
-  newFiles: string[],
+  filesToCopy: string[],
   latestRelease: { tagName: string } | null
 ) {
-  await Promise.all([copyFiles(filesToUpdate), copyFiles(newFiles)])
+  // Update existing files and add only new files that belong to existing workspaces
+  const uniqueFilesToCopy = Array.from(new Set(filesToCopy))
+  await copyFiles(uniqueFilesToCopy)
 
   await executeCommand("git add .")
 
@@ -251,18 +288,17 @@ export default async function update() {
     const { filesToUpdate, newFiles } = await cloneAndAnalyze()
     s4.stop("Template repository cloned.")
 
-    if (filesToUpdate.length === 0 && newFiles.length === 0) {
-      prompt.log.info("No changes to apply - already up to date")
+    const allowedNewFiles = await filterNewFilesForExistingWorkspaces(newFiles)
+    const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
+
+    if (filesToCopy.length === 0) {
+      prompt.log.info("No updates to apply - already up to date")
       return
     }
 
-    const s5 = prompt.spinner()
-    s5.start("Analyzing file differences...")
-    s5.stop("File analysis complete.")
-
     const s6 = prompt.spinner()
     s6.start("Applying template changes...")
-    await applyChanges(filesToUpdate, newFiles, latestRelease)
+    await applyChanges(filesToCopy, latestRelease)
     s6.stop("Template changes applied.")
 
     prompt.log.success("Changes staged")
