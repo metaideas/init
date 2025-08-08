@@ -130,6 +130,7 @@ const EXCLUDED_DIRS = [
   ".cache",
   ".pnpm-store",
   ".yarn",
+  "scripts",
 ] as const
 
 function checkShouldExclude(filePath: string): boolean {
