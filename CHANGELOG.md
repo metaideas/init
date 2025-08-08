@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/metaideas/init/compare/init@v0.3.0...init@v0.3.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* add pull request target ([8ec2e5e](https://github.com/metaideas/init/commit/8ec2e5e8e4feef71e0ee33bbada71609135c4df0))
+* remove api dependency in projects ([ea0f28d](https://github.com/metaideas/init/commit/ea0f28dd6a0eb71958bd88b80771d75f4aed4f75))
+
 ## [0.3.0](https://github.com/metaideas/init/compare/init@v0.2.0...init@v0.3.0) (2025-08-08)
 
 
