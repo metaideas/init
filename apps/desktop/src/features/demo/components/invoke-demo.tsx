@@ -5,7 +5,6 @@ import { Input } from "@init/ui/components/input"
 import { useMutation } from "@tanstack/react-query"
 import { invoke } from "@tauri-apps/api/core"
 import { useState } from "react"
-import { useHello } from "~/features/demo/queries"
 
 export default function InvokeDemo() {
   const [name, setName] = useState("")
@@ -16,11 +15,8 @@ export default function InvokeDemo() {
     },
   })
 
-  const { data } = useHello()
-
   return (
     <div className="flex flex-col gap-2">
-      <p>{data?.message}</p>
       <form
         className="flex flex-row gap-2"
         onSubmit={(e) => {

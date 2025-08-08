@@ -84,7 +84,6 @@
     "@types/react": "19.0.10",
     "@types/react-dom": "19.1.6",
     "@types/react-test-renderer": "18.3.1",
-    "api": "workspace:*",
     "eas-cli": "16.5.0",
     "expo-dev-client": "~5.2.2",
     "expo-doctor": "^1.13.3",
