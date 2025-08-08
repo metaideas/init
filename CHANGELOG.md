@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.0](https://github.com/metaideas/init/compare/init@v0.2.0...init@v0.3.0) (2025-08-08)
+
+
+### Features
+
+* show version from .template-version file ([427fff7](https://github.com/metaideas/init/commit/427fff730231eb2c2faeb909f95e3fa747a59fef))
+
+
+### Bug Fixes
+
+* add octokit for typesafety ([2b32441](https://github.com/metaideas/init/commit/2b32441f6eb8b6ca118fc6d475a509a8f833ae18))
+* clean trusted deps ([0ec6e31](https://github.com/metaideas/init/commit/0ec6e3129e7f560137864fe5d64c096735de28d1))
+* do not remove template sync ([ed66f7d](https://github.com/metaideas/init/commit/ed66f7d0afe9dfea9e9a3fa1c5fef1243d3127ad))
+* do not update script files ([c0bfd9c](https://github.com/metaideas/init/commit/c0bfd9cdde3d01f96673b0668b8851d38470b562))
+* run on ci on PRs to main ([921219a](https://github.com/metaideas/init/commit/921219a55ec51026f7581ccd0581342df1c79cee))
+* use https for git clone ([5cb983c](https://github.com/metaideas/init/commit/5cb983c2c1bf5b3b0d2385cd223a69c962491f40))
+
 ## [0.2.0](https://github.com/metaideas/init/compare/init@v0.1.0...init@v0.2.0) (2025-07-24)
 
 
