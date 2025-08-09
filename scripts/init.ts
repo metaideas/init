@@ -166,7 +166,16 @@ async function cleanupInternalFiles() {
 }
 
 async function createNewReadme(projectName: string) {
-  await Bun.write("README.md", `# ${projectName}\n`)
+  await Bun.write(
+    "README.md",
+    `
+<div align="center">
+  <h1 align="center"><code>${projectName}</code></h1>
+</div>
+
+Made with [init](https://github.com/metaideas/init)
+    `
+  )
 }
 
 async function init() {
