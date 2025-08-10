@@ -41,9 +41,9 @@
   "devDependencies": {
     "@tooling/next-config": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "24.0.7",
+    "@types/node": "24.2.1",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.1.6",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   }
 }

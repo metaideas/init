@@ -34,11 +34,11 @@
     "typecheck": "turbo typecheck --continue"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2",
+    "@biomejs/biome": "2.1.4",
     "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.4",
     "@types/bun": "1.2.17",
-    "adamantite": "0.3.4",
+    "adamantite": "0.4.0",
     "commander": "14.0.0",
     "dependency-cruiser": "16.10.3",
     "pino": "9.7.0",
@@ -48,9 +48,9 @@
     "syncpack": "13.0.4",
     "taze": "19.1.0",
     "turbo": "2.5.4",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
-  "packageManager": "bun@1.2.17",
+  "packageManager": "bun@1.2.19",
   "engines": {
     "node": ">=24"
   },

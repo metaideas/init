@@ -23,6 +23,6 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "next": "15.3.4",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   }
 }
