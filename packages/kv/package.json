@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@upstash/redis": "1.35.0"
+    "@upstash/redis": "1.35.3"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -19,9 +19,9 @@
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@upstash/qstash": "2.8.1",
-    "@upstash/qstash-cli": "2.22.3",
-    "@upstash/workflow": "0.2.14"
+    "@upstash/qstash": "2.8.2",
+    "@upstash/qstash-cli": "2.30.4",
+    "@upstash/workflow": "0.2.17"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",

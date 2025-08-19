@@ -12,8 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "15.3.4",
+    "@next/bundle-analyzer": "15.4.7",
     "@tooling/tsconfig": "workspace:*",
-    "next": "15.3.4"
+    "next": "15.4.7"
   }
 }

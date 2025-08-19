@@ -20,12 +20,12 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "next-intl": "4.3.1"
+    "next-intl": "4.3.4"
   },
   "devDependencies": {
-    "@lingual/i18n-check": "0.8.4",
+    "@lingual/i18n-check": "0.8.5",
     "@tooling/tsconfig": "workspace:*",
-    "next": "15.3.4",
+    "next": "15.4.7",
     "typescript": "5.9.2"
   },
   "peerDependencies": {
