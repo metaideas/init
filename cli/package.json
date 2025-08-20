@@ -1,0 +1,39 @@
+{
+  "name": "init-now",
+  "version": "0.0.6",
+  "description": "A modern monorepo template for shipping TypeScript apps everywhere",
+  "keywords": [
+    "template",
+    "monorepo",
+    "typescript",
+    "cli",
+    "scaffolding"
+  ],
+  "type": "module",
+  "bin": {
+    "init-now": "./bin/init-now"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "prebuild": "bun run scripts/prebuild.ts",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "local-release": "bun run build && bun publish --access public"
+  },
+  "dependencies": {
+    "@clack/prompts": "0.11.0",
+    "@octokit/rest": "^22.0.0",
+    "commander": "14.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "1.2.20",
+    "tsdown": "0.14.1",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
