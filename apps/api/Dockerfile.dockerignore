@@ -72,9 +72,6 @@ packages/ui
 # React Email
 **/*.react-email
 
-# Dependency Graph
-**/dependency-graph.svg
-
 # Content Collections
 **/.content-collections
 

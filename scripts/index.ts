@@ -3,7 +3,6 @@ import Bun from "bun"
 import { Command } from "commander"
 import add from "./add"
 import check from "./check"
-import graph from "./graph"
 import init from "./init"
 import update from "./update"
 
@@ -34,9 +33,5 @@ program
 
 program.command("check").description("Check template consistency").action(check)
 
-program
-  .command("graph")
-  .description("Generate dependency graph visualization")
-  .action(graph)
 
 program.parse()
