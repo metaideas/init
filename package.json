@@ -34,11 +34,11 @@
     "typecheck": "turbo typecheck --continue"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.4",
+    "@biomejs/biome": "2.2.0",
     "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.6",
     "@types/bun": "1.2.20",
-    "adamantite": "0.4.0",
+    "adamantite": "0.5.1",
     "commander": "14.0.0",
     "pino": "9.9.0",
     "pino-pretty": "13.1.1",

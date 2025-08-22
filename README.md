@@ -6,7 +6,7 @@
   </p>
 
   <p align="center">
-    <code>bunx degit metaideas/init init</code>
+    <code>bunx init-now@latest init</code>
   </p>
 </div>
 

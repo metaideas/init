@@ -212,7 +212,7 @@ const innerRootVariants = cva("flex-row rounded", {
   variants: {
     variant: {
       outlined: "border border-border",
-      filled: "rounded-b-none border-b bg-border/70 ",
+      filled: "rounded-b-none border-b bg-border/70",
     },
     state: {
       idle: "border-foreground/30",

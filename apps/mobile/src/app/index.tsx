@@ -12,7 +12,7 @@ export default function WelcomeConsentScreen() {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
+      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4">
         <View className="ios:pt-8 pt-12">
           <Text
             className="ios:text-left text-center font-bold ios:font-black"

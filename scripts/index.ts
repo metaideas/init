@@ -33,5 +33,4 @@ program
 
 program.command("check").description("Check template consistency").action(check)
 
-
 program.parse()
