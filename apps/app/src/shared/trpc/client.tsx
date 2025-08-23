@@ -16,13 +16,13 @@ import { getQueryClient } from "~/shared/query-client"
 import type { AppRouter } from "~/shared/trpc/router"
 import { buildApiUrl } from "~/shared/utils"
 
+const url = buildApiUrl("/trpc")
+
 export const {
   useTRPC,
   useTRPCClient,
   TRPCProvider: TRPCProviderBase,
 } = createTRPCContext<AppRouter>()
-
-const url = buildApiUrl("/trpc")
 
 export function TRPCProvider({ children }: { children: ReactNode }) {
   const queryClient = getQueryClient()

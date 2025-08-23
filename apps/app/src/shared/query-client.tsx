@@ -7,6 +7,8 @@ import {
 import type { ReactNode } from "react"
 import superjson from "superjson"
 
+let browserQueryClient: QueryClient | undefined
+
 export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
@@ -26,8 +28,6 @@ export function makeQueryClient() {
     },
   })
 }
-
-let browserQueryClient: QueryClient | undefined
 
 export const getQueryClient = () => {
   if (typeof window === "undefined") {

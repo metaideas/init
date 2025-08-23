@@ -1,3 +1,5 @@
+// biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
+
 import { cn } from "@init/utils/ui"
 import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Slot as SlotPrimitive } from "radix-ui"

@@ -1,3 +1,35 @@
+type StringToArray<
+  S extends string,
+  Acc extends string[] = [],
+> = S extends `${infer Char}${infer Rest}`
+  ? StringToArray<Rest, [...Acc, Char]>
+  : Acc
+
+/**
+ * Helper type to check if A <= B using tuple length comparison.
+ */
+type LessThanOrEqual<
+  A extends number,
+  B extends number,
+  CounterA extends readonly unknown[] = [],
+  CounterB extends readonly unknown[] = [],
+> = CounterA["length"] extends A
+  ? CounterB["length"] extends B
+    ? true // A === B
+    : CounterB extends readonly [...CounterA, ...infer Rest]
+      ? Rest["length"] extends 0
+        ? true // A === B
+        : true // A < B (there are remaining items in CounterB)
+      : false // A > B
+  : CounterB["length"] extends B
+    ? false // A > B (CounterA still growing but CounterB reached B)
+    : LessThanOrEqual<
+        A,
+        B,
+        readonly [...CounterA, unknown],
+        readonly [...CounterB, unknown]
+      >
+
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>
 
 /**
@@ -58,38 +90,6 @@ export type DeepMerge<T, U> = Omit<T, keyof U> & {
 export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
-
-type StringToArray<
-  S extends string,
-  Acc extends string[] = [],
-> = S extends `${infer Char}${infer Rest}`
-  ? StringToArray<Rest, [...Acc, Char]>
-  : Acc
-
-/**
- * Helper type to check if A <= B using tuple length comparison.
- */
-type LessThanOrEqual<
-  A extends number,
-  B extends number,
-  CounterA extends readonly unknown[] = [],
-  CounterB extends readonly unknown[] = [],
-> = CounterA["length"] extends A
-  ? CounterB["length"] extends B
-    ? true // A === B
-    : CounterB extends readonly [...CounterA, ...infer Rest]
-      ? Rest["length"] extends 0
-        ? true // A === B
-        : true // A < B (there are remaining items in CounterB)
-      : false // A > B
-  : CounterB["length"] extends B
-    ? false // A > B (CounterA still growing but CounterB reached B)
-    : LessThanOrEqual<
-        A,
-        B,
-        readonly [...CounterA, unknown],
-        readonly [...CounterB, unknown]
-      >
 
 /**
  * A type that validates if a string has the length specified by a number. If

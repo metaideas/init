@@ -25,7 +25,6 @@ export default function InvokeDemo() {
         }}
       >
         <Input
-          id="greet-input"
           onChange={(e) => setName(e.currentTarget.value)}
           placeholder="Enter a name..."
           value={name}

@@ -1,3 +1,5 @@
+// biome-ignore-all lint/nursery/useAnchorHref: shadcn/ui
+
 import { cn } from "@init/utils/ui"
 import {
   ChevronLeftIcon,

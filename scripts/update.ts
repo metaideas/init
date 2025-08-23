@@ -253,6 +253,11 @@ async function applyChanges(
   }
 }
 
+async function checkForUncommittedChanges(): Promise<boolean> {
+  const status = await executeCommand("git status --porcelain")
+  return status.length > 0
+}
+
 export default async function update() {
   prompt.intro("Starting template synchronization")
 
@@ -314,9 +319,4 @@ export default async function update() {
   } finally {
     await rm(TEMP_DIR, { recursive: true, force: true })
   }
-}
-
-async function checkForUncommittedChanges(): Promise<boolean> {
-  const status = await executeCommand("git status --porcelain")
-  return status.length > 0
 }

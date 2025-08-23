@@ -1,6 +1,30 @@
 import Bun from "bun"
 import path from "node:path"
 
+const EXCLUDED_DIRS = [
+  "node_modules",
+  ".git",
+  ".next",
+  "dist",
+  "build",
+  "out",
+  ".turbo",
+  ".vercel",
+  ".DS_Store",
+  ".cache",
+  ".pnpm-store",
+  ".yarn",
+  "scripts",
+] as const
+
+function checkShouldExclude(filePath: string): boolean {
+  return EXCLUDED_DIRS.some(
+    (dir) =>
+      filePath.includes(`${path.sep}${dir}${path.sep}`) ||
+      filePath.endsWith(`${path.sep}${dir}`)
+  )
+}
+
 export const REMOTE_URL = "git@github.com:metaideas/init.git"
 
 export type WorkspaceType = "apps" | "packages"
@@ -116,30 +140,6 @@ export const workspaces = {
     },
   ],
 } as const
-
-const EXCLUDED_DIRS = [
-  "node_modules",
-  ".git",
-  ".next",
-  "dist",
-  "build",
-  "out",
-  ".turbo",
-  ".vercel",
-  ".DS_Store",
-  ".cache",
-  ".pnpm-store",
-  ".yarn",
-  "scripts",
-] as const
-
-function checkShouldExclude(filePath: string): boolean {
-  return EXCLUDED_DIRS.some(
-    (dir) =>
-      filePath.includes(`${path.sep}${dir}${path.sep}`) ||
-      filePath.endsWith(`${path.sep}${dir}`)
-  )
-}
 
 export async function getAllFiles(dir = ".") {
   try {

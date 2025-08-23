@@ -6,18 +6,6 @@ type JsonLdProps = {
   code: WithContext<Thing>
 }
 
-export function JsonLd({ code }: JsonLdProps) {
-  return (
-    <script
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: This is a JSON-LD script, not user-generated content.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(code) }}
-      type="application/ld+json"
-    />
-  )
-}
-
-export * from "schema-dts" // Re-exporting schema-dts types
-
 type MetadataCreator = (
   args: Omit<Metadata, "description" | "title" | "twitter"> & {
     title: string
@@ -126,3 +114,15 @@ export function buildMetadataCreator({
     return metadata
   }
 }
+
+export function JsonLd({ code }: JsonLdProps) {
+  return (
+    <script
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: This is a JSON-LD script, not user-generated content.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(code) }}
+      type="application/ld+json"
+    />
+  )
+}
+
+export * from "schema-dts" // Re-exporting schema-dts types

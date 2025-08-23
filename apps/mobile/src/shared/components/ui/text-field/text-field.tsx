@@ -162,8 +162,6 @@ const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
 
 TextField.displayName = "TextField"
 
-export { TextField }
-
 type InputState = "idle" | "focused" | "error" | "errorAndFocused" | "disabled"
 
 type GetInputArgs = {
@@ -368,3 +366,5 @@ function MaterialErrorIcon() {
     </Animated.View>
   )
 }
+
+export { TextField }

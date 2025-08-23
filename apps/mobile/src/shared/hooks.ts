@@ -9,6 +9,18 @@ import { useEffect } from "react"
 import { Platform } from "react-native"
 import { COLORS } from "~/shared/theme/colors"
 
+function setNavigationBar(colorScheme: "light" | "dark") {
+  return Promise.all([
+    NavigationBar.setButtonStyleAsync(
+      colorScheme === "dark" ? "light" : "dark"
+    ),
+    NavigationBar.setPositionAsync("absolute"),
+    NavigationBar.setBackgroundColorAsync(
+      colorScheme === "dark" ? "#00000030" : "#ffffff80"
+    ),
+  ])
+}
+
 export function useColorScheme() {
   const { colorScheme, setColorScheme: setNativeWindColorScheme } =
     useNativewindColorScheme()
@@ -22,7 +34,7 @@ export function useColorScheme() {
     try {
       await setNavigationBar(scheme)
     } catch (error) {
-      logger.error(`${__filename}`, "setColorScheme", error)
+      logger.error(error, "Error setting navigation bar:")
     }
   }
 
@@ -50,21 +62,9 @@ export function useInitialAndroidBarSync() {
     }
 
     setNavigationBar(colorScheme).catch((error) => {
-      logger.error(`${__filename}`, "useInitialAndroidBarSync", error)
+      logger.error(error, "Error setting navigation bar:")
     })
   }, [colorScheme])
-}
-
-function setNavigationBar(colorScheme: "light" | "dark") {
-  return Promise.all([
-    NavigationBar.setButtonStyleAsync(
-      colorScheme === "dark" ? "light" : "dark"
-    ),
-    NavigationBar.setPositionAsync("absolute"),
-    NavigationBar.setBackgroundColorAsync(
-      colorScheme === "dark" ? "#00000030" : "#ffffff80"
-    ),
-  ])
 }
 
 export function useHideSplashScreen(loaded: boolean) {
@@ -77,11 +77,11 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
-        logger.warn("Error hiding splash screen:", error)
+        logger.warn(error, "Error hiding splash screen:")
       }
     }
 
-    hideSplash()
+    void hideSplash()
   }, [loaded])
 }
 

@@ -6,12 +6,12 @@ export function createIndex<T extends Record<string, unknown> = never>(
   env?: { url: string; token: string }
 ) {
   return Index.fromEnv(
-    env
-      ? {
+    env === undefined
+      ? undefined
+      : {
           UPSTASH_VECTOR_REST_TOKEN: env.token,
           UPSTASH_VECTOR_REST_URL: env.url,
-        }
-      : undefined,
+        },
     options
   ) as Index<T>
 }

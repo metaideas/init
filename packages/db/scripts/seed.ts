@@ -45,4 +45,4 @@ async function main() {
   prompt.outro(`Database seeded in ${end - start}ms`)
 }
 
-runScript(main)
+void runScript(main)

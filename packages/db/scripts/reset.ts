@@ -22,4 +22,4 @@ async function main() {
   prompt.outro("All tables dropped successfully. Database reset complete!")
 }
 
-runScript(main)
+void runScript(main)

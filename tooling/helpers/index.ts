@@ -3,6 +3,8 @@ import { promisify } from "node:util"
 import pino from "pino"
 import pretty from "pino-pretty"
 
+const execAsync = promisify(exec)
+
 export const logger = pino(pretty())
 
 /**
@@ -41,8 +43,6 @@ export function runProcess(
 
   execSync(commandWithArgs, { ...options, stdio: "inherit" })
 }
-
-const execAsync = promisify(exec)
 
 export async function executeCommand(command: string): Promise<string> {
   const { stdout } = await execAsync(command)

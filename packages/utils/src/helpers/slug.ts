@@ -20,13 +20,13 @@ export function generateSlug(
     slug = String(slug)
   }
 
-  const trim = options?.trim ?? true
-  const strict = options?.strict ?? true
-  const lower = options?.lower ?? true
-  const replacement = options?.replacement ?? "-"
+  const trim = options?.trim
+  const strict = options?.strict
+  const lower = options?.lower
+  const replacement = options?.replacement
   const locale = options?.locale ? locales[options.locale] : {}
   const remove = options?.remove ?? /[^\w\s$*_+~.()'"!\-:@]+/g
-  const append = options?.append ?? false
+  const append = options?.append
 
   slug = slug
     .normalize()
@@ -72,7 +72,7 @@ export function generateSlug(
   return slug
 }
 
-const charMap: Record<string, string> = {
+export const charMap: Record<string, string> = {
   $: "dollar",
   "%": "percent",
   "&": "and",
@@ -715,7 +715,7 @@ const charMap: Record<string, string> = {
   ﻹ: "lai",
   ﻻ: "la",
 }
-const locales: Record<string, Record<string, string>> = {
+export const locales: Record<string, Record<string, string>> = {
   bg: {
     Й: "Y",
     Ц: "Ts",

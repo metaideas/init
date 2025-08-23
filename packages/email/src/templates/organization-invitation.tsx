@@ -12,7 +12,7 @@ import {
   Text,
 } from "@react-email/components"
 
-export default function OrganizationInvitation({
+function OrganizationInvitation({
   organizationName,
   inviterName,
   inviterEmail,
@@ -75,3 +75,5 @@ export default function OrganizationInvitation({
 }
 
 OrganizationInvitation.displayName = "OrganizationInvitation"
+
+export default OrganizationInvitation

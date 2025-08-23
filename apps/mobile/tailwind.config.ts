@@ -3,6 +3,22 @@ import nativewind from "nativewind/preset"
 import { hairlineWidth, platformSelect } from "nativewind/theme"
 import type { Config } from "tailwindcss"
 
+// biome-ignore lint/suspicious/noExplicitAny: Nativewind UI requires this.
+function withOpacity(variableName: string): any {
+  return ({ opacityValue }: { opacityValue: number }) => {
+    if (opacityValue !== undefined) {
+      return platformSelect({
+        ios: `rgb(var(--${variableName}) / ${opacityValue})`,
+        android: `rgb(var(--android-${variableName}) / ${opacityValue})`,
+      })
+    }
+    return platformSelect({
+      ios: `rgb(var(--${variableName}))`,
+      android: `rgb(var(--android-${variableName}))`,
+    })
+  }
+}
+
 export default {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -54,19 +70,3 @@ export default {
   },
   plugins: [],
 } satisfies Config
-
-// biome-ignore lint/suspicious/noExplicitAny: Nativewind UI requires this.
-function withOpacity(variableName: string): any {
-  return ({ opacityValue }: { opacityValue: number }) => {
-    if (opacityValue !== undefined) {
-      return platformSelect({
-        ios: `rgb(var(--${variableName}) / ${opacityValue})`,
-        android: `rgb(var(--android-${variableName}) / ${opacityValue})`,
-      })
-    }
-    return platformSelect({
-      ios: `rgb(var(--${variableName}))`,
-      android: `rgb(var(--android-${variableName}))`,
-    })
-  }
-}

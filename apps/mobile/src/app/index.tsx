@@ -7,6 +7,26 @@ import { Button } from "~/shared/components/ui/button"
 import { Text } from "~/shared/components/ui/text"
 import { useColorScheme } from "~/shared/hooks"
 
+const FEATURES = [
+  {
+    title: "Profile Management",
+    description:
+      "Easily update and manage your personal information, settings, and preferences",
+    icon: "account-circle-outline",
+  },
+  {
+    title: "Secure Messaging",
+    description: "Chat securely with friends and family in real-time.",
+    icon: "message-processing",
+  },
+  {
+    title: "Activity Tracking",
+    description:
+      "Monitor your daily activities and track your progress over time.",
+    icon: "chart-timeline-variant",
+  },
+] as const
+
 export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme()
 
@@ -86,23 +106,3 @@ export default function WelcomeConsentScreen() {
     </SafeAreaView>
   )
 }
-
-const FEATURES = [
-  {
-    title: "Profile Management",
-    description:
-      "Easily update and manage your personal information, settings, and preferences",
-    icon: "account-circle-outline",
-  },
-  {
-    title: "Secure Messaging",
-    description: "Chat securely with friends and family in real-time.",
-    icon: "message-processing",
-  },
-  {
-    title: "Activity Tracking",
-    description:
-      "Monitor your daily activities and track your progress over time.",
-    icon: "chart-timeline-variant",
-  },
-] as const

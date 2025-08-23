@@ -1,3 +1,5 @@
+// biome-ignore-all lint/style/useExplicitLengthCheck: shadcn/ui
+
 "use client"
 
 import { cn } from "@init/utils/ui"
