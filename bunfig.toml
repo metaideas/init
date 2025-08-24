@@ -1,2 +1,2 @@
-# [install]
-# linker = "isolated"
+[install]
+linker = "isolated"
