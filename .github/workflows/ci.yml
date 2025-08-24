@@ -28,7 +28,7 @@ jobs:
         run: bun install
 
       - name: Run linting
-        run: bun run lint
+        run: bun adamantite ci --monorepo
 
   typecheck:
     runs-on: ubuntu-latest
