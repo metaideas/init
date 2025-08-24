@@ -1,1 +1,1 @@
-export * from "ai/rsc"
+export * from "@ai-sdk/rsc"
