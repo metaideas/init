@@ -54,6 +54,9 @@
   "engines": {
     "node": ">=24"
   },
+  "overrides": {
+    "import-in-the-middle": "1.14.2"
+  },
   "trustedDependencies": [
     "@parcel/watcher",
     "@sentry/cli",
