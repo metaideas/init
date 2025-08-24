@@ -5,7 +5,8 @@
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
-    }
+    },
+    "plugins": [{ "name": "next" }]
   },
   "exclude": ["node_modules"],
   "include": [
