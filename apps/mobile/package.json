@@ -42,8 +42,8 @@
     "@tanstack/react-form": "1.19.2",
     "@tanstack/react-query": "5.85.5",
     "@tanstack/react-query-persist-client": "5.85.5",
-    "@trpc/client": "11.4.4",
-    "@trpc/tanstack-react-query": "11.4.4",
+    "@trpc/client": "11.5.0",
+    "@trpc/tanstack-react-query": "11.5.0",
     "class-variance-authority": "0.7.1",
     "expo": "53.0.20",
     "expo-blur": "~14.1.4",
@@ -92,7 +92,7 @@
     "metro-cache": "^0.82.3",
     "react-native-css-interop": "0.1.22",
     "react-test-renderer": "19.1.1",
-    "tailwindcss": "4.1.11",
+    "tailwindcss": "4.1.12",
     "typescript": "5.9.2"
   }
 }
