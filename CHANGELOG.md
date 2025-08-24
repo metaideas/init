@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0](https://github.com/metaideas/init/compare/init@v0.3.1...init@v0.4.0) (2025-08-24)
+
+
+### Features
+
+* consolidate version files ([851123c](https://github.com/metaideas/init/commit/851123c67e2cc908f1384a5cb75f45b9204bd899))
+
+
+### Bug Fixes
+
+* add github flag ([7b9cd6c](https://github.com/metaideas/init/commit/7b9cd6cd7519ac0626a671df8bf33b828743e0e6))
+* prepare for new adamantite version ([7aab839](https://github.com/metaideas/init/commit/7aab839e24372165174f8b48358958d79825c19c))
+* type issues ([b63d995](https://github.com/metaideas/init/commit/b63d995eb38965e9157de9a2bd7227a686dc35af))
+
 ## [0.3.1](https://github.com/metaideas/init/compare/init@v0.3.0...init@v0.3.1) (2025-08-08)
 
 
