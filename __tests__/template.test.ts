@@ -19,35 +19,47 @@ describe("template configuration", () => {
   })
 
   test("workspace app dependencies match actual package.json dependencies", async () => {
-    for (const app of workspaces.apps) {
-      const packageJsonPath = `apps/${app.name}/package.json`
-      const packageJsonFile = Bun.file(packageJsonPath)
+    const checks = await Promise.all(
+      workspaces.apps.map(async (app) => {
+        const packageJsonPath = `apps/${app.name}/package.json`
+        const packageJsonFile = Bun.file(packageJsonPath)
 
-      if (!(await packageJsonFile.exists())) {
-        continue
+        if (!(await packageJsonFile.exists())) {
+          return null
+        }
+
+        const packageJson = await packageJsonFile.json()
+        const dependencies = packageJson.dependencies || {}
+
+        // Extract @init dependencies
+        const actualDeps = Object.keys(dependencies)
+          .filter((dep) => dep.startsWith("@init/"))
+          .map((dep) => dep.replace("@init/", ""))
+          .sort()
+
+        // Compare with declared dependencies
+        const declaredDeps = app.dependencies
+          ? [...app.dependencies].sort()
+          : []
+
+        return { actualDeps, declaredDeps }
+      })
+    )
+
+    for (const check of checks) {
+      if (check) {
+        expect(check.actualDeps).toEqual(check.declaredDeps)
       }
-
-      const packageJson = await packageJsonFile.json()
-      const dependencies = packageJson.dependencies || {}
-
-      // Extract @init dependencies
-      const actualDeps = Object.keys(dependencies)
-        .filter((dep) => dep.startsWith("@init/"))
-        .map((dep) => dep.replace("@init/", ""))
-        .sort()
-
-      // Compare with declared dependencies
-      const declaredDeps = app.dependencies ? [...app.dependencies].sort() : []
-
-      expect(actualDeps).toEqual(declaredDeps)
     }
   })
 
-  test("all @init dependencies in apps are valid package names", async () => {
+  test("all @init dependencies in apps are valid package names", () => {
     const validPackageNames = workspaces.packages.map((pkg) => pkg.name)
 
     for (const app of workspaces.apps) {
-      if (!app.dependencies) continue
+      if (!app.dependencies) {
+        continue
+      }
 
       for (const dep of app.dependencies) {
         expect(validPackageNames).toContain(dep)
