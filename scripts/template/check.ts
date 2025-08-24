@@ -1,7 +1,7 @@
-import { log } from "@clack/prompts"
+import { prompt } from "@tooling/helpers"
+import { getVersion } from "./utils"
 
 const GITHUB_API_URL = "https://api.github.com/repos/metaideas/init"
-const TEMPLATE_VERSION_FILE = ".template-version"
 
 async function getLatestRelease(): Promise<{
   tag_name: string
@@ -19,32 +19,16 @@ async function getLatestRelease(): Promise<{
     }
     return await response.json()
   } catch (error) {
-    log.warn(
+    prompt.log.warn(
       `Could not fetch latest release: ${error instanceof Error ? error.message : "Unknown error"}`
     )
     return null
   }
 }
 
-async function getCurrentTemplateVersion(): Promise<string | null> {
-  try {
-    const { readFile } = await import("node:fs/promises")
-    const version = await readFile(TEMPLATE_VERSION_FILE, "utf-8")
-    return version.trim()
-  } catch {
-    return null
-  }
-}
-
-const VERSION_PREFIX = /^v/
-
 function compareVersions(current: string, latest: string): number {
-  // Remove 'v' prefix if present
-  const currentClean = current.replace(VERSION_PREFIX, "")
-  const latestClean = latest.replace(VERSION_PREFIX, "")
-
-  const currentParts = currentClean.split(".").map(Number)
-  const latestParts = latestClean.split(".").map(Number)
+  const currentParts = current.split(".").map(Number)
+  const latestParts = latest.split(".").map(Number)
 
   for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
     const currentPart = currentParts[i] || 0
@@ -62,26 +46,26 @@ function compareVersions(current: string, latest: string): number {
 }
 
 async function check() {
-  log.message("Checking for template updates...")
+  prompt.log.info("Checking for template updates...")
 
   try {
     const [currentVersion, latestRelease] = await Promise.all([
-      getCurrentTemplateVersion(),
+      getVersion(),
       getLatestRelease(),
     ])
 
     if (!latestRelease) {
-      log.warn("No template releases found")
+      prompt.log.warn("No template releases found")
       return
     }
 
     const latestVersion = latestRelease.tag_name
 
-    log.info(`Current template version: ${currentVersion || "Unknown"}`)
-    log.info(`Latest template version: ${latestVersion}`)
+    prompt.log.info(`Current template version: ${currentVersion || "Unknown"}`)
+    prompt.log.info(`Latest template version: ${latestVersion}`)
 
     if (!currentVersion) {
-      log.warn(
+      prompt.log.warn(
         "No local template version found. Run 'bun template:sync' to initialize."
       )
       return
@@ -90,22 +74,24 @@ async function check() {
     const comparison = compareVersions(currentVersion, latestVersion)
 
     if (comparison === 0) {
-      log.success("✅ Template is up to date!")
+      prompt.log.success("✅ Template is up to date!")
     } else if (comparison > 0) {
-      log.warn(
+      prompt.log.warn(
         `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})`
       )
     } else {
-      log.info(`🆙 Update available: ${currentVersion} → ${latestVersion}`)
-      log.message("Run 'bun template:sync' to update your template")
+      prompt.log.info(
+        `🆙 Update available: ${currentVersion} → ${latestVersion}`
+      )
+      prompt.log.message("Run 'bun template:sync' to update your template")
 
       if (latestRelease.body) {
-        log.message("Release notes:")
-        log.message(latestRelease.body)
+        prompt.log.message("Release notes:")
+        prompt.log.message(latestRelease.body)
       }
     }
   } catch (error) {
-    log.error(
+    prompt.log.error(
       `Failed to check for updates: ${error instanceof Error ? error.message : "Unknown error"}`
     )
     process.exit(1)

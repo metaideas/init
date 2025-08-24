@@ -24,7 +24,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
+          manifest-file: .template-version.json
 
       # Optional: Add additional steps after release is created
       - name: Checkout code

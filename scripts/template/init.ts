@@ -152,7 +152,7 @@ async function setupRemoteBranch() {
 
 async function cleanupInternalFiles() {
   const filesToRemove = [
-    ".release-please-manifest.json",
+    ".template-version.json",
     "release-please-config.json",
     ".github/workflows/release.yml",
     "docs",

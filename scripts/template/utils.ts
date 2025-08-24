@@ -161,6 +161,11 @@ export async function getAllFiles(dir = ".") {
   }
 }
 
+export async function getVersion(): Promise<string> {
+  const templateVersionData = await Bun.file(".template-version.json").json()
+  return templateVersionData["."]
+}
+
 export async function replaceProjectNameInProjectFiles(projectName: string) {
   const allFiles = await getAllFiles(".")
 

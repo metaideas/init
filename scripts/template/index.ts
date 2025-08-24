@@ -1,17 +1,17 @@
 // These are commands to manage the `init` template itself. You can run them by running `bun template`
 
-import Bun from "bun"
 import { Command } from "commander"
 import add from "./add"
 import check from "./check"
 import init from "./init"
 import update from "./update"
+import { getVersion } from "./utils"
 
 const program = new Command()
   .name("template")
   .description("Commands to manage the `init` template")
 
-program.version(await Bun.file(".template-version").text())
+program.version(await getVersion())
 
 program
   .command("init")

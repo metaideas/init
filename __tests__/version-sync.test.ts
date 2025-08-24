@@ -2,9 +2,10 @@ import { expect, test } from "bun:test"
 import Bun from "bun"
 
 test("template version matches package.json version", async () => {
-  // Read .template-version file
-  const templateVersionFile = Bun.file(".template-version")
-  const templateVersion = (await templateVersionFile.text()).trim()
+  // Read .template-version.json file
+  const templateVersionFile = Bun.file(".template-version.json")
+  const templateVersionData = await templateVersionFile.json()
+  const templateVersion = templateVersionData["."]
 
   // Read package.json version
   const packageJsonFile = Bun.file("package.json")

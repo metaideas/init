@@ -1,11 +1,13 @@
+import Bun from "bun"
 import { copyFile, mkdir, readdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { Octokit } from "@octokit/rest"
 import { executeCommand, prompt } from "@tooling/helpers"
+import { getVersion } from "./utils"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "https://github.com/metaideas/init.git"
-const TEMPLATE_VERSION_FILE = ".template-version"
+const TEMPLATE_VERSION_FILE = ".template-version.json"
 
 async function cloneTemplate() {
   // Use HTTPS URL and add flags to avoid interactive prompts
@@ -38,19 +40,9 @@ async function getLatestRelease(): Promise<{
 
 const VERSION_PREFIX = /^v/
 
-async function getCurrentTemplateVersion(): Promise<string | null> {
-  try {
-    const { readFile } = await import("node:fs/promises")
-    const version = await readFile(TEMPLATE_VERSION_FILE, "utf-8")
-    return version.trim()
-  } catch {
-    return null
-  }
-}
-
 async function updateTemplateVersion(version: string): Promise<void> {
-  const { writeFile } = await import("node:fs/promises")
-  await writeFile(TEMPLATE_VERSION_FILE, version, "utf-8")
+  const data = { ".": version }
+  await Bun.write(TEMPLATE_VERSION_FILE, `${JSON.stringify(data, null, 2)}\n`)
 }
 
 function compareVersions(current: string, latest: string): number {
@@ -164,7 +156,7 @@ async function filterNewFilesForExistingWorkspaces(
 
 async function checkVersionUpdates() {
   const [currentVersion, latestRelease] = await Promise.all([
-    getCurrentTemplateVersion(),
+    getVersion(),
     getLatestRelease(),
   ])
 
@@ -249,7 +241,7 @@ async function applyChanges(
 
   if (latestRelease) {
     await updateTemplateVersion(latestRelease.tagName)
-    await executeCommand("git add .template-version")
+    await executeCommand("git add .template-version.json")
   }
 }
 

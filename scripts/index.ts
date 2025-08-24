@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
-import Bun from "bun"
 import { Command } from "commander"
 import template from "./template"
+import { getVersion } from "./template/utils"
 
 const program = new Command()
   .name("Scripts")
@@ -9,7 +9,7 @@ const program = new Command()
     "Scripts for your monorepo. Add any scripts you want here as commands."
   )
 
-program.version(await Bun.file(".template-version").text())
+program.version(await getVersion())
 
 // Run `bun scripts template` to see the available commands
 program.addCommand(template)
