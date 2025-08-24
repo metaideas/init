@@ -4,6 +4,7 @@ import type { NextConfig } from "next"
 export function createConfig(config: NextConfig = {}): NextConfig {
   return {
     ...config,
+    typedRoutes: true,
     serverExternalPackages: ["pino", "@axiomhq/pino"],
     transpilePackages: [
       "@init/ai",
