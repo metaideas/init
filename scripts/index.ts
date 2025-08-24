@@ -1,36 +1,17 @@
 #!/usr/bin/env bun
 import Bun from "bun"
 import { Command } from "commander"
-import add from "./add"
-import check from "./check"
-import init from "./init"
-import update from "./update"
+import template from "./template"
 
 const program = new Command()
+  .name("Scripts")
+  .description(
+    "Scripts for your monorepo. Add any scripts you want here as commands."
+  )
 
 program.version(await Bun.file(".template-version").text())
 
-program
-  .name("Init")
-  .description(
-    "A modern monorepo template for shipping TypeScript apps everywhere: web, mobile, desktop, and more."
-  )
-
-program
-  .command("init")
-  .description("Initialize project and clean up template files")
-  .action(init)
-
-program
-  .command("add")
-  .description("Add workspaces to your monorepo")
-  .action(add)
-
-program
-  .command("update")
-  .description("Sync with template updates")
-  .action(update)
-
-program.command("check").description("Check template consistency").action(check)
+// Run `bun scripts template` to see the available commands
+program.addCommand(template)
 
 program.parse()
