@@ -1,9 +1,6 @@
-import { type ExecSyncOptions, exec, execSync } from "node:child_process"
-import { promisify } from "node:util"
+import Bun from "bun"
 import pino from "pino"
 import pretty from "pino-pretty"
-
-const execAsync = promisify(exec)
 
 export const logger = pino(pretty())
 
@@ -33,20 +30,40 @@ export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
   process.exit()
 }
 
-export function runProcess(
+export async function runProcess(
   command: string,
   args: string[] = [],
-  options: Omit<ExecSyncOptions, "stdio"> = {}
+  options: { cwd?: string; env?: Record<string, string> } = {}
 ) {
-  const commandWithArgs = `${command} ${args.join(" ")}`
-  logger.debug(`Running command: ${commandWithArgs}`)
+  logger.debug(`Running command: ${command} ${args.join(" ")}`)
 
-  execSync(commandWithArgs, { ...options, stdio: "inherit" })
+  const proc = Bun.spawn([command, ...args], {
+    ...options,
+    stdout: "inherit",
+    stderr: "inherit",
+    stdin: "inherit",
+  })
+
+  await proc.exited
+
+  if (proc.exitCode !== 0) {
+    throw new Error(`Command failed with exit code ${proc.exitCode}`)
+  }
 }
 
 export async function executeCommand(command: string): Promise<string> {
-  const { stdout } = await execAsync(command)
-  return stdout
+  const proc = Bun.spawn(command.split(" "), {
+    stdout: "pipe",
+  })
+
+  const text = await new Response(proc.stdout).text()
+  await proc.exited
+
+  if (proc.exitCode !== 0) {
+    throw new Error(`Command failed with exit code ${proc.exitCode}`)
+  }
+
+  return text
 }
 
 export * as prompt from "@clack/prompts"
