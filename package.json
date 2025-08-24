@@ -2,11 +2,23 @@
   "name": "init",
   "version": "0.4.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "tooling/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*",
+      "tooling/*"
+    ],
+    "catalogs": {
+      "mobile": {
+        "@types/react-dom": "19.1.6",
+        "@types/react": "19.0.10",
+        "react-dom": "19.0.0",
+        "react": "19.0.0",
+        "tailwindcss": "3.4.17",
+        "typescript": "~5.8.3"
+      }
+    }
+  },
   "scripts": {
     "boundaries": "turbo boundaries",
     "build": "turbo build",
@@ -15,10 +27,6 @@
     "db:push": "turbo --filter @init/db push",
     "db:studio": "turbo --filter @init/db studio",
     "deps:check": "taze -rl",
-    "deps:list": "syncpack list",
-    "deps:mismatch": "syncpack list-mismatches --types dev,prod",
-    "deps:sync": "syncpack fix-mismatches --types dev,prod",
-    "deps:sync:prompt": "syncpack prompt --types dev,prod",
     "deps:update": "taze -rlw",
     "dev": "turbo dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
@@ -45,7 +53,6 @@
     "pino-pretty": "13.1.1",
     "shadcn": "2.10.0",
     "sherif": "1.6.1",
-    "syncpack": "13.0.4",
     "taze": "19.1.0",
     "turbo": "2.5.6",
     "typescript": "5.9.2"
