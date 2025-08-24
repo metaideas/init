@@ -97,13 +97,26 @@ async function selectApps(): Promise<string[]> {
   return apps
 }
 
-async function selectPackages(): Promise<string[]> {
+async function selectPackages(selectedApps: string[]): Promise<string[]> {
+  // Get all package dependencies from selected apps
+  const requiredPackages = new Set<string>()
+  for (const appName of selectedApps) {
+    const app = workspaces.apps.find((a) => a.name === appName)
+    if (app?.dependencies) {
+      for (const dep of app.dependencies) {
+        requiredPackages.add(dep)
+      }
+    }
+  }
+
   const packages = await prompt.multiselect({
-    message: "Select packages to keep (all others will be removed)",
+    message:
+      "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
     options: workspaces.packages.map((pkg) => ({
       name: pkg.description,
       value: pkg.name,
     })),
+    initialValues: Array.from(requiredPackages),
   })
 
   if (prompt.isCancel(packages)) {
@@ -152,10 +165,8 @@ async function setupRemoteBranch() {
 
 async function cleanupInternalFiles() {
   const filesToRemove = [
-    ".template-version.json",
     "release-please-config.json",
     ".github/workflows/release.yml",
-    "docs",
     "__tests__",
   ]
 
@@ -190,7 +201,7 @@ async function init() {
   try {
     const projectName = await promptForProjectName()
     const selectedApps = await selectApps()
-    const selectedPackages = await selectPackages()
+    const selectedPackages = await selectPackages(selectedApps)
     const setupRemoteBranchConfirmed = await confirmSetupRemoteBranch()
 
     await removeUnselectedWorkspaces(selectedApps, selectedPackages)

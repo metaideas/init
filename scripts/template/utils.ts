@@ -34,32 +34,66 @@ export const workspaces = {
     {
       name: "api",
       description: "api - Hono API running on Node.js",
+      dependencies: [
+        "auth",
+        "db",
+        "env",
+        "kv",
+        "observability",
+        "security",
+        "utils",
+      ],
     },
     {
       name: "app",
       description:
         "app - Full-stack Next.js application with next-safe-action and TRPC",
+      dependencies: [
+        "analytics",
+        "auth",
+        "db",
+        "email",
+        "env",
+        "internationalization",
+        "kv",
+        "observability",
+        "security",
+        "ui",
+        "utils",
+      ],
     },
     {
       name: "desktop",
       description:
         "desktop - Tauri desktop application with Vite and Tanstack Router",
+      dependencies: ["env", "ui", "utils"],
     },
     {
       name: "docs",
       description: "docs - Documentation site using Fumadocs",
+      dependencies: ["env", "internationalization", "ui", "utils"],
     },
     {
       name: "extension",
       description: "extension - Browser extension using WXT",
+      dependencies: ["observability", "ui"],
     },
     {
       name: "mobile",
       description: "mobile - Expo application deployed with EAS",
+      dependencies: ["auth", "env", "observability", "utils"],
     },
     {
       name: "web",
       description: "web - Next.js marketing site and blog",
+      dependencies: [
+        "analytics",
+        "env",
+        "internationalization",
+        "observability",
+        "ui",
+        "utils",
+      ],
     },
   ],
   packages: [
