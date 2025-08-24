@@ -12,10 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@init/analytics": "workspace:*",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
-    "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/kv": "workspace:*",

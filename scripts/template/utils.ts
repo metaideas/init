@@ -49,10 +49,8 @@ export const workspaces = {
       description:
         "app - Full-stack Next.js application with next-safe-action and TRPC",
       dependencies: [
-        "analytics",
         "auth",
         "db",
-        "email",
         "env",
         "internationalization",
         "kv",
