@@ -1,7 +1,7 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs"
 import { notFound } from "next/navigation"
 import type { ReactNode } from "react"
-import { baseOptions } from "~/app/layout.config"
+import { baseOptions } from "~/shared/layout.config"
 import { source } from "~/shared/source"
 
 export default async function Layout({
@@ -18,7 +18,7 @@ export default async function Layout({
   }
 
   return (
-    <DocsLayout tree={source.pageTree[lang]} {...baseOptions}>
+    <DocsLayout tree={source.pageTree[lang]} {...baseOptions()}>
       {children}
     </DocsLayout>
   )

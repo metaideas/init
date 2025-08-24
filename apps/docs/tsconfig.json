@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
     },
-    "allowJs": true
+    "plugins": [{ "name": "next" }]
   },
   "exclude": ["node_modules"],
   "extends": "@tooling/tsconfig/web",
