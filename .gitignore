@@ -67,3 +67,6 @@ lerna-debug.log*
 
 # i18n
 **/translations/*.d.json.ts
+
+# Mobile
+.expo
