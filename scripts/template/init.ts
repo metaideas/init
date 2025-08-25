@@ -1,7 +1,18 @@
 import Bun from "bun"
 import { rm, rmdir } from "node:fs/promises"
-import { executeCommand, prompt } from "@tooling/helpers"
 import {
+  cancel,
+  confirm,
+  intro,
+  isCancel,
+  log,
+  multiselect,
+  outro,
+  spinner,
+  text,
+} from "@clack/prompts"
+import {
+  executeCommand,
   REMOTE_URL,
   replaceProjectNameInProjectFiles,
   workspaces,
@@ -38,14 +49,14 @@ async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
 }
 
 async function promptForProjectName(): Promise<string> {
-  const projectName = await prompt.text({
+  const projectName = await text({
     message:
       "Enter your project name (for @[project-name] monorepo alias). Leave as 'init' or empty to skip renaming.",
     defaultValue: "init",
     placeholder: "init",
   })
 
-  if (prompt.isCancel(projectName)) {
+  if (isCancel(projectName)) {
     throw new Error("Setup cancelled. No changes have been made.")
   }
 
@@ -82,7 +93,7 @@ async function setupEnvironmentVariables(paths: string[]) {
 }
 
 async function selectApps(): Promise<string[]> {
-  const apps = await prompt.multiselect({
+  const apps = await multiselect({
     message: "Select apps to keep (all others will be removed)",
     options: workspaces.apps.map((app) => ({
       name: app.description,
@@ -90,7 +101,7 @@ async function selectApps(): Promise<string[]> {
     })),
   })
 
-  if (prompt.isCancel(apps)) {
+  if (isCancel(apps)) {
     throw new Error("Setup cancelled. No changes have been made.")
   }
 
@@ -109,7 +120,7 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
     }
   }
 
-  const packages = await prompt.multiselect({
+  const packages = await multiselect({
     message:
       "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
     options: workspaces.packages.map((pkg) => ({
@@ -119,7 +130,7 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
     initialValues: Array.from(requiredPackages),
   })
 
-  if (prompt.isCancel(packages)) {
+  if (isCancel(packages)) {
     throw new Error("Setup cancelled. No changes have been made.")
   }
 
@@ -127,12 +138,12 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
 }
 
 async function confirmSetupRemoteBranch() {
-  const confirmed = await prompt.confirm({
+  const confirmed = await confirm({
     message: "Would you like to setup a remote template branch for updates?",
     initialValue: true,
   })
 
-  if (prompt.isCancel(confirmed)) {
+  if (isCancel(confirmed)) {
     throw new Error("Setup cancelled. No changes have been made.")
   }
 
@@ -195,8 +206,8 @@ Made with [init](https://github.com/metaideas/init)
 }
 
 async function init() {
-  prompt.intro(title)
-  prompt.log.info("Starting project setup...")
+  intro(title)
+  log.info("Starting project setup...")
 
   try {
     const projectName = await promptForProjectName()
@@ -207,18 +218,18 @@ async function init() {
     await removeUnselectedWorkspaces(selectedApps, selectedPackages)
 
     if (projectName !== "init") {
-      const s1 = prompt.spinner()
+      const s1 = spinner()
       s1.start("Updating project name in package.json...")
       await updatePackageJson(projectName)
       s1.stop("Project name updated in package.json.")
 
-      const s2 = prompt.spinner()
+      const s2 = spinner()
       s2.start("Replacing @init with project name in project files...")
       await replaceProjectNameInProjectFiles(projectName)
       s2.stop("Project name replaced in project files.")
     }
 
-    const s3 = prompt.spinner()
+    const s3 = spinner()
     s3.start("Setting up environment files for workspaces...")
     await setupEnvironmentVariables([
       ...selectedApps.map((app) => `apps/${app}`),
@@ -226,36 +237,36 @@ async function init() {
     ])
     s3.stop("Environment files setup complete.")
 
-    const s4 = prompt.spinner()
+    const s4 = spinner()
     s4.start("Initializing Git repository...")
     await setupGit()
     s4.stop("Git repository initialized.")
 
-    const s5 = prompt.spinner()
+    const s5 = spinner()
     s5.start("Setting up remote template branch for updates...")
     if (setupRemoteBranchConfirmed) {
       await setupRemoteBranch()
     }
     s5.stop("Remote template branch setup complete.")
 
-    const s6 = prompt.spinner()
+    const s6 = spinner()
     s6.start("Cleaning up internal template files...")
     await cleanupInternalFiles()
     s6.stop("Internal template files removed.")
 
-    const s7 = prompt.spinner()
+    const s7 = spinner()
     s7.start("Creating new README...")
     await createNewReadme(projectName)
     s7.stop("README created.")
 
-    const s8 = prompt.spinner()
+    const s8 = spinner()
     s8.start("Re-installing dependencies...")
     await executeCommand("bun install")
     s8.stop("Dependencies installed.")
 
-    prompt.outro("🎉 All setup steps complete! Your project is ready.")
+    outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
-    prompt.cancel(`Operation cancelled: ${error}`)
+    cancel(`Operation cancelled: ${error}`)
   }
 }
 
