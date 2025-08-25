@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.0.10",
+    "@types/react": "19.1.11",
     "next": "15.5.0",
     "typescript": "5.9.2"
   },

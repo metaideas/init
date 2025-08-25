@@ -9,13 +9,8 @@
       "tooling/*"
     ],
     "catalogs": {
-      "mobile": {
-        "@types/react-dom": "19.1.6",
-        "@types/react": "19.0.10",
-        "react-dom": "19.0.0",
-        "react": "19.0.0",
-        "tailwindcss": "3.4.17",
-        "typescript": "~5.8.3"
+      "tailwind3": {
+        "tailwindcss": "3.4.17"
       }
     }
   },
