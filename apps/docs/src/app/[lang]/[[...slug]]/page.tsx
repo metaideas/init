@@ -1,17 +1,19 @@
+import { createRelativeLink } from "fumadocs-ui/mdx"
 import {
   DocsBody,
   DocsDescription,
   DocsPage,
   DocsTitle,
 } from "fumadocs-ui/page"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getMDXComponents } from "~/shared/mdx-components"
 import { source } from "~/shared/source"
 
-export default async function Page(props: {
-  params: Promise<{ slug?: string[]; lang: string }>
-}) {
-  const { slug, lang } = await props.params
+export default async function Page({
+  params,
+}: PageProps<"/[lang]/[[...slug]]">) {
+  const { slug, lang } = await params
   const page = source.getPage(slug, lang)
 
   if (!page) {
@@ -25,8 +27,12 @@ export default async function Page(props: {
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <p>{page.data.content}</p>
-        <MDX components={getMDXComponents()} />
+        <MDX
+          components={getMDXComponents({
+            // this allows you to link to other pages with relative file paths
+            a: createRelativeLink(source, page),
+          })}
+        />
       </DocsBody>
     </DocsPage>
   )
@@ -38,9 +44,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ slug?: string[]; lang: string }>
-}) {
+}: PageProps<"/[lang]/[[...slug]]">): Promise<Metadata> {
   const { slug, lang } = await params
   const page = source.getPage(slug, lang)
 

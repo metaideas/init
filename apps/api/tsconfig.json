@@ -6,8 +6,7 @@
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
     },
-    "outDir": "dist",
-    "types": ["bun-types"]
+    "outDir": "dist"
   },
   "include": ["src", "reset.d.ts"]
 }

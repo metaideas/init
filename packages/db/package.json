@@ -23,7 +23,7 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "@libsql/client": "^0.15.12",
+    "@libsql/client": "0.15.12",
     "drizzle-orm": "^0.44.4",
     "drizzle-zod": "0.8.3"
   },

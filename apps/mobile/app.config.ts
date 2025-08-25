@@ -1,119 +1,55 @@
-import { withSentry } from "@sentry/react-native/expo"
 import type { ConfigContext, ExpoConfig } from "expo/config"
 
 const APP_ID = "init"
-const APP_NAME = "Init Mobile"
+const APP_NAME = "Init"
+const APP_OWNER = "metaideas"
+const APP_BUNDLE_IDENTIFIER = `app.${APP_OWNER}.${APP_ID}`
+const VERSION = "1.0.0"
 
-let expoConfig: ExpoConfig = {
-  android: {
-    package: "com.init.mobile",
-    adaptiveIcon: {
-      backgroundColor: "#ffffff",
-      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
-    },
-  },
-  experiments: {
-    typedRoutes: true,
-  },
-  icon: "./src/shared/assets/images/icon.png",
-  ios: {
-    bundleIdentifier: "com.init.mobile",
-    infoPlist: {
-      ITSAppUsesNonExemptEncryption: false,
-    },
-    privacyManifests: {
-      NSPrivacyAccessedAPITypes: [
-        {
-          NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryUserDefaults",
-          NSPrivacyAccessedAPITypeReasons: ["CA92.1"],
-        },
-        {
-          NSPrivacyAccessedAPIType:
-            "NSPrivacyAccessedAPICategorySystemBootTime",
-          NSPrivacyAccessedAPITypeReasons: ["35F9.1"],
-        },
-        {
-          NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryFileTimestamp",
-          NSPrivacyAccessedAPITypeReasons: ["C617.1"],
-        },
-      ],
-      // Required for Sentry to work:
-      NSPrivacyCollectedDataTypes: [
-        {
-          NSPrivacyCollectedDataType: "NSPrivacyCollectedDataTypeCrashData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-          NSPrivacyCollectedDataTypeTracking: false,
-        },
-        {
-          NSPrivacyCollectedDataType:
-            "NSPrivacyCollectedDataTypePerformanceData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-          NSPrivacyCollectedDataTypeTracking: false,
-        },
-        {
-          NSPrivacyCollectedDataType:
-            "NSPrivacyCollectedDataTypeOtherDiagnosticData",
-          NSPrivacyCollectedDataTypeLinked: false,
-          NSPrivacyCollectedDataTypePurposes: [
-            "NSPrivacyCollectedDataTypePurposeAppFunctionality",
-          ],
-          NSPrivacyCollectedDataTypeTracking: false,
-        },
-      ],
-    },
-    supportsTablet: true,
-  },
+const expoConfig: ExpoConfig = {
   name: APP_NAME,
-  newArchEnabled: true,
+  slug: APP_ID,
+  owner: APP_OWNER,
+  version: VERSION,
   orientation: "portrait",
+  icon: "./src/shared/assets/images/icon.png",
+  scheme: APP_ID,
+  userInterfaceStyle: "automatic",
+  newArchEnabled: true,
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: APP_BUNDLE_IDENTIFIER,
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
+      backgroundColor: "#ffffff",
+    },
+    edgeToEdgeEnabled: true,
+    predictiveBackGestureEnabled: false,
+    package: APP_BUNDLE_IDENTIFIER,
+  },
+  web: {
+    output: "static",
+    favicon: "./src/shared/assets/images/favicon.png",
+  },
   plugins: [
-    "expo-font",
     "expo-router",
-    "expo-web-browser",
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#ffffff",
         image: "./src/shared/assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
-      },
-    ],
-    [
-      "expo-dev-client",
-      {
-        launcherMode: "most-recent",
+        backgroundColor: "#ffffff",
       },
     ],
   ],
-  scheme: APP_ID,
-  slug: APP_ID,
-  userInterfaceStyle: "automatic",
-  version: "1.0.0",
-  web: {
-    bundler: "metro",
-    favicon: "./src/shared/assets/images/favicon.png",
-    output: "static",
+  experiments: {
+    typedRoutes: true,
+    reactCompiler: true,
   },
-  extra: {
-    eas: {
-      projectId: "31c6d602-965b-4a19-a82b-3ce97f244581",
-    },
-  },
-  owner: "metaideas",
 }
-
-expoConfig = withSentry(expoConfig, {
-  organization: process.env.EXPO_PUBLIC_SENTRY_ORG,
-  project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
-  url: process.env.EXPO_PUBLIC_SENTRY_URL,
-})
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,

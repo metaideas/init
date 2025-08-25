@@ -1,44 +1,12 @@
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
+import { useHideSplashScreen } from "~/shared/hooks"
 
-import "react-native-reanimated"
-
-import {
-  initializeErrorMonitoring,
-  monitoringWrap,
-} from "@init/observability/error/expo"
-import Providers from "~/shared/components/providers"
-import {
-  useHideSplashScreen,
-  useInitialAndroidBarSync,
-  useLoadFonts,
-  useOnlineStatus,
-} from "~/shared/hooks"
-
-import "~/shared/assets/styles/globals.css"
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-initializeErrorMonitoring()
+export default function RootLayout() {
+  // Set any conditions to be met before hiding the splash screen
+  useHideSplashScreen(true)
 
-function RootLayout() {
-  useInitialAndroidBarSync()
-
-  // Track online status for React Query
-  useOnlineStatus()
-
-  const fontsLoaded = useLoadFonts()
-  useHideSplashScreen(fontsLoaded)
-
-  return (
-    <Providers>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </Providers>
-  )
+  return <Stack />
 }
-
-export default monitoringWrap(RootLayout)

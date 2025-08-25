@@ -1,13 +1,24 @@
 import Bun from "bun"
-import { executeCommand, prompt } from "@tooling/helpers"
 import {
+  cancel,
+  intro,
+  isCancel,
+  log,
+  multiselect,
+  outro,
+  select,
+  spinner,
+  text,
+} from "@clack/prompts"
+import {
+  executeCommand,
   replaceProjectNameInProjectFiles,
   type WorkspaceType,
   workspaces,
 } from "./utils"
 
 async function selectWorkspaceType(): Promise<WorkspaceType> {
-  const workspaceType = await prompt.select({
+  const workspaceType = await select({
     message: "Which type of workspace would you like to add?",
     options: [
       {
@@ -21,7 +32,7 @@ async function selectWorkspaceType(): Promise<WorkspaceType> {
     ],
   })
 
-  if (prompt.isCancel(workspaceType)) {
+  if (isCancel(workspaceType)) {
     throw new Error("Canceled adding workspace")
   }
 
@@ -34,12 +45,12 @@ async function selectWorkspaces(type: WorkspaceType): Promise<string[]> {
     label: w.description,
   }))
 
-  const selectedWorkspaces = await prompt.multiselect({
+  const selectedWorkspaces = await multiselect({
     message: `Which ${type}(s) would you like to add?`,
     options,
   })
 
-  if (prompt.isCancel(selectedWorkspaces)) {
+  if (isCancel(selectedWorkspaces)) {
     throw new Error("Canceled adding package")
   }
 
@@ -47,12 +58,12 @@ async function selectWorkspaces(type: WorkspaceType): Promise<string[]> {
 }
 
 async function getWorkspaceName(workspace: string): Promise<string> {
-  const workspaceName = await prompt.text({
+  const workspaceName = await text({
     message: `What is the name of the ${workspace} app?`,
     defaultValue: workspace,
   })
 
-  if (prompt.isCancel(workspaceName)) {
+  if (isCancel(workspaceName)) {
     throw new Error("Setup cancelled. No changes have been made.")
   }
 
@@ -65,8 +76,8 @@ async function getProjectName(): Promise<string> {
 }
 
 async function add() {
-  prompt.intro("Add workspaces to your monorepo")
-  prompt.log.info(
+  intro("Add workspaces to your monorepo")
+  log.info(
     "This script helps you add new apps or packages to your workspace..."
   )
 
@@ -82,7 +93,7 @@ async function add() {
       )
     )
 
-    const s1 = prompt.spinner()
+    const s1 = spinner()
     s1.start("Adding selected workspaces...")
 
     const tasks = workspaceNames.map(async (workspaceName) => {
@@ -98,16 +109,14 @@ async function add() {
     await Promise.all(tasks)
     s1.stop("Workspaces added successfully.")
 
-    const s2 = prompt.spinner()
+    const s2 = spinner()
     s2.start("Replacing project name in added workspaces...")
     await replaceProjectNameInProjectFiles(projectName)
     s2.stop("Project name replaced in workspace files.")
 
-    prompt.outro(
-      "🎉 All workspaces added successfully! Your project is updated."
-    )
+    outro("🎉 All workspaces added successfully! Your project is updated.")
   } catch (error) {
-    prompt.cancel(`Operation cancelled: ${error}`)
+    cancel(`Operation cancelled: ${error}`)
   }
 }
 

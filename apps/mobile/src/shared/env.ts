@@ -1,5 +1,4 @@
 import { createEnv } from "@init/env/core"
-import { sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -7,6 +6,6 @@ export default createEnv({
     EXPO_PUBLIC_API_URL: z.string(),
   },
   clientPrefix: "EXPO_PUBLIC_",
-  extends: [sentry.expo()],
+  extends: [],
   runtimeEnv: process.env,
 })
