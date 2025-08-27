@@ -4,14 +4,22 @@
   "main": "src/index.ts",
   "scripts": {
     "android": "expo run:android",
+    "clean": "git clean -xdf .cache .turbo .expo dist node_modules",
+    "deps:check": "taze -l",
+    "deps:update": "taze -lw",
+    "dev": "expo start --port 3002",
+    "dev:android": "expo start --android",
+    "dev:ios": "expo start --ios",
+    "doctor": "expo-doctor",
     "ios": "expo run:ios",
-    "lint": "expo lint",
-    "reset-project": "node ./scripts/reset-project.js",
+    "prebuild": "expo prebuild --clean",
     "start": "expo start",
+    "typecheck": "tsc --noEmit",
     "web": "expo start --web"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.0",
+    "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "@react-navigation/bottom-tabs": "^7.4.0",
@@ -24,6 +32,7 @@
     "expo-image": "~3.0.3",
     "expo-linking": "~8.0.3",
     "expo-router": "~6.0.0-beta.7",
+    "expo-secure-store": "~15.0.3",
     "expo-splash-screen": "~31.0.4",
     "expo-status-bar": "~3.0.4",
     "expo-symbols": "~1.0.3",
@@ -35,7 +44,7 @@
     "react-native-gesture-handler": "~2.28.0",
     "react-native-nitro-modules": "^0.28.1",
     "react-native-reanimated": "~4.0.2",
-    "react-native-safe-area-context": "~5.6.0",
+    "react-native-safe-area-context": "^5.6.1",
     "react-native-screens": "~4.15.0",
     "react-native-unistyles": "^3.0.10",
     "react-native-web": "~0.21.0",
@@ -43,8 +52,8 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "~19.1.0",
+    "@types/react": "19.1.11",
     "babel-preset-expo": "~14.0.3",
-    "typescript": "~5.9.2"
+    "typescript": "5.9.2"
   }
 }

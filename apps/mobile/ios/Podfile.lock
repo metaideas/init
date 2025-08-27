@@ -71,6 +71,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - ExpoSecureStore (15.0.3):
+    - ExpoModulesCore
   - ExpoSplashScreen (31.0.4):
     - ExpoModulesCore
   - ExpoSymbols (1.0.3):
@@ -2054,6 +2056,7 @@ DEPENDENCIES:
   - "ExpoKeepAwake (from `../../../node_modules/.bun/expo-keep-awake@15.0.3+c8760848147f19f1/node_modules/expo-keep-awake/ios`)"
   - "ExpoLinking (from `../../../node_modules/.bun/expo-linking@8.0.3+c4f544aaf64b69ca/node_modules/expo-linking/ios`)"
   - "ExpoModulesCore (from `../../../node_modules/.bun/expo-modules-core@3.0.6+b11985b05f9ae77a/node_modules/expo-modules-core`)"
+  - "ExpoSecureStore (from `../../../node_modules/.bun/expo-secure-store@15.0.3+c4f544aaf64b69ca/node_modules/expo-secure-store/ios`)"
   - "ExpoSplashScreen (from `../../../node_modules/.bun/expo-splash-screen@31.0.4+c4f544aaf64b69ca/node_modules/expo-splash-screen/ios`)"
   - "ExpoSymbols (from `../../../node_modules/.bun/expo-symbols@1.0.3+c4f544aaf64b69ca/node_modules/expo-symbols/ios`)"
   - "ExpoWebBrowser (from `../../../node_modules/.bun/expo-web-browser@15.0.3+c4f544aaf64b69ca/node_modules/expo-web-browser/ios`)"
@@ -2166,6 +2169,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.bun/expo-linking@8.0.3+c4f544aaf64b69ca/node_modules/expo-linking/ios"
   ExpoModulesCore:
     :path: "../../../node_modules/.bun/expo-modules-core@3.0.6+b11985b05f9ae77a/node_modules/expo-modules-core"
+  ExpoSecureStore:
+    :path: "../../../node_modules/.bun/expo-secure-store@15.0.3+c4f544aaf64b69ca/node_modules/expo-secure-store/ios"
   ExpoSplashScreen:
     :path: "../../../node_modules/.bun/expo-splash-screen@31.0.4+c4f544aaf64b69ca/node_modules/expo-splash-screen/ios"
   ExpoSymbols:
@@ -2334,6 +2339,7 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 44a0f029efacb4df7508f30fe8d68b497bc43716
   ExpoLinking: b198472f69cc43efe77722b72ea0504bdd3bf68b
   ExpoModulesCore: 294923d8ba7648bfe589d7915a78a79a15788dd7
+  ExpoSecureStore: 6ace75e6d81529f785b1afbb65807be1edcfb8ad
   ExpoSplashScreen: 98561b244fba777cb103ac72bd71532010258aea
   ExpoSymbols: 388eb9e9955b95bd4b39d3b081e99bf1117554f1
   ExpoWebBrowser: 8a4f46ca3bef49775e3227ae2eb2bc8bb1dc4417
@@ -2419,6 +2425,6 @@ SPEC CHECKSUMS:
   Unistyles: 29a56427995406bc06900a9b70a21724b2d24d6f
   Yoga: 355cfee956cde5ae34c4e0cd752ec7096d665f7b
 
-PODFILE CHECKSUM: 44e96ba2968f0fe0741ee7355719efbe58ebef25
+PODFILE CHECKSUM: 6557a38ff9c7b98e3b82c3e47c894802d963b4b8
 
 COCOAPODS: 1.16.2

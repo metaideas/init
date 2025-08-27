@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process"
+import Bun from "bun"
 import type { PlopTypes } from "@turbo/gen"
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
@@ -35,8 +35,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
          * Install deps and format everything
          */
         if ("name" in answers && typeof answers.name === "string") {
-          execSync("bun sherif --fix", { stdio: "inherit" })
-          execSync("bun i", { stdio: "inherit" })
+          Bun.spawnSync(["bun", "lint:monorepo"])
+          Bun.spawnSync(["bun", "i"])
 
           return "Package scaffolded"
         }
