@@ -1,7 +1,10 @@
-import { getLocale } from "@init/internationalization/nextjs/server"
+import { Locales } from "@init/internationalization/locale"
 import { createFromSource } from "fumadocs-core/search/server"
 import { source } from "~/shared/source"
 
 export const { GET } = createFromSource(source, {
-  language: await getLocale(),
+  localeMap: {
+    [Locales.EN]: { language: "english" },
+    [Locales.ES]: { language: "spanish" },
+  },
 })
