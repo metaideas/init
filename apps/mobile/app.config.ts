@@ -34,6 +34,7 @@ const expoConfig: ExpoConfig = {
     favicon: "./src/shared/assets/images/favicon.png",
   },
   plugins: [
+    "expo-font",
     "expo-router",
     "expo-secure-store",
     [
@@ -45,6 +46,7 @@ const expoConfig: ExpoConfig = {
         backgroundColor: "#ffffff",
       },
     ],
+    ["expo-dev-client", { launchMode: "most-recent" }],
   ],
   experiments: {
     typedRoutes: true,
