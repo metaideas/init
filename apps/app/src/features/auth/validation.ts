@@ -13,7 +13,7 @@ export const PasswordSchema = z
 
 // Used in the form component
 export const SignUpFormSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { error: "Name is required" }),
   email: EmailSchema,
   password: PasswordSchema,
   confirmPassword: PasswordSchema,
