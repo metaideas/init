@@ -253,6 +253,8 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (6.0.3):
     - ExpoModulesCore
+  - ExpoUI (0.2.0-canary-20250826-f475166):
+    - ExpoModulesCore
   - ExpoWebBrowser (15.0.3):
     - ExpoModulesCore
   - EXUpdatesInterface (2.0.0):
@@ -1626,6 +1628,28 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - react-native-uitextview (2.1.0-rc.0):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - React-NativeModulesApple (0.81.0):
     - hermes-engine
     - React-callinvoker
@@ -2266,6 +2290,7 @@ DEPENDENCIES:
   - "ExpoSplashScreen (from `../../../node_modules/.bun/expo-splash-screen@31.0.5+84ce6f9832898af4/node_modules/expo-splash-screen/ios`)"
   - "ExpoSymbols (from `../../../node_modules/.bun/expo-symbols@1.0.3+84ce6f9832898af4/node_modules/expo-symbols/ios`)"
   - "ExpoSystemUI (from `../../../node_modules/.bun/expo-system-ui@6.0.3+84ce6f9832898af4/node_modules/expo-system-ui/ios`)"
+  - "ExpoUI (from `../../../node_modules/.bun/@expo+ui@0.2.0-canary-20250826-f475166+84ce6f9832898af4/node_modules/@expo/ui/ios`)"
   - "ExpoWebBrowser (from `../../../node_modules/.bun/expo-web-browser@15.0.3+84ce6f9832898af4/node_modules/expo-web-browser/ios`)"
   - "EXUpdatesInterface (from `../../../node_modules/.bun/expo-updates-interface@2.0.0+84ce6f9832898af4/node_modules/expo-updates-interface/ios`)"
   - "FBLazyVector (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/Libraries/FBLazyVector`)"
@@ -2306,6 +2331,7 @@ DEPENDENCIES:
   - "React-Mapbuffer (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon`)"
   - "React-microtasksnativemodule (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)"
   - "react-native-safe-area-context (from `../../../node_modules/.bun/react-native-safe-area-context@5.6.1+b11985b05f9ae77a/node_modules/react-native-safe-area-context`)"
+  - "react-native-uitextview (from `../../../node_modules/.bun/react-native-uitextview@2.1.0-rc.0+b11985b05f9ae77a/node_modules/react-native-uitextview`)"
   - "React-NativeModulesApple (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)"
   - "React-oscompat (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/oscompat`)"
   - "React-perflogger (from `../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/reactperflogger`)"
@@ -2398,6 +2424,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.bun/expo-symbols@1.0.3+84ce6f9832898af4/node_modules/expo-symbols/ios"
   ExpoSystemUI:
     :path: "../../../node_modules/.bun/expo-system-ui@6.0.3+84ce6f9832898af4/node_modules/expo-system-ui/ios"
+  ExpoUI:
+    :path: "../../../node_modules/.bun/@expo+ui@0.2.0-canary-20250826-f475166+84ce6f9832898af4/node_modules/@expo/ui/ios"
   ExpoWebBrowser:
     :path: "../../../node_modules/.bun/expo-web-browser@15.0.3+84ce6f9832898af4/node_modules/expo-web-browser/ios"
   EXUpdatesInterface:
@@ -2477,6 +2505,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-safe-area-context:
     :path: "../../../node_modules/.bun/react-native-safe-area-context@5.6.1+b11985b05f9ae77a/node_modules/react-native-safe-area-context"
+  react-native-uitextview:
+    :path: "../../../node_modules/.bun/react-native-uitextview@2.1.0-rc.0+b11985b05f9ae77a/node_modules/react-native-uitextview"
   React-NativeModulesApple:
     :path: "../../../node_modules/.bun/react-native@0.81.0+b11985b05f9ae77a/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -2576,6 +2606,7 @@ SPEC CHECKSUMS:
   ExpoSplashScreen: 407cebbf896e8bfddc341b6bf82c314c8c373df4
   ExpoSymbols: 388eb9e9955b95bd4b39d3b081e99bf1117554f1
   ExpoSystemUI: 5d2a1cd36e9e961f561af4375b1e93fc99418c07
+  ExpoUI: 885a19165594b37ee4e4a1671253a79fd7df7188
   ExpoWebBrowser: 8a4f46ca3bef49775e3227ae2eb2bc8bb1dc4417
   EXUpdatesInterface: 5adf50cb41e079c861da6d9b4b954c3db9a50734
   FBLazyVector: ab4b9b95d08c7d60f758a8ec05e83803eea069b4
@@ -2618,6 +2649,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 79ba3ee7405add8758e3c6d2df9d8e5deb5546ee
   React-microtasksnativemodule: d7f49e916033c30e1f64bb6b91e5db6c619df220
   react-native-safe-area-context: 42a1b4f8774b577d03b53de7326e3d5757fe9513
+  react-native-uitextview: d24acf59b5d64c9f0ddcd86d23629655460c1f3f
   React-NativeModulesApple: a93cccc5bd37290cf1e2f40cb32718e74df6e8b5
   React-oscompat: eef0d02e3175b37e2c0eb99f69df82ea2f85f943
   React-perflogger: 3e93a5384103e04f176c257ee463ba810254856c

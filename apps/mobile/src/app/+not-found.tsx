@@ -20,7 +20,7 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: "center",
   },
   text: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.grey3,
     fontSize: theme.typography.fontSize.xl,
   },
 }))
