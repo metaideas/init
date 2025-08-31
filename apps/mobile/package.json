@@ -61,7 +61,6 @@
     "react-native-reanimated": "~4.0.2",
     "react-native-safe-area-context": "5.6.1",
     "react-native-screens": "~4.15.3",
-    "react-native-uitextview": "2.1.0-rc.0",
     "react-native-unistyles": "3.0.10",
     "react-native-web": "~0.21.0",
     "react-native-worklets": "~0.4.1",

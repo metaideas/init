@@ -1,6 +1,6 @@
-import { type ComponentPropsWithoutRef, createContext, useContext } from "react"
+import { createContext, useContext } from "react"
 import type { TextStyle } from "react-native"
-import { UITextView } from "react-native-uitextview"
+import { Text as RNText, type TextProps } from "react-native"
 import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
 
 const styles = StyleSheet.create((theme) => ({
@@ -63,15 +63,13 @@ const styles = StyleSheet.create((theme) => ({
           color: theme.colors.foreground,
         },
         secondary: {
-          color: theme.colors.white,
-          opacity: 0.9,
+          color: theme.utils.hexToRgba(theme.colors.foreground, 0.9),
         },
         tertiary: {
           color: theme.colors.grey3,
         },
         quarternary: {
-          color: theme.colors.grey3,
-          opacity: 0.5,
+          color: theme.utils.hexToRgba(theme.colors.grey3, 0.5),
         },
       },
     },
@@ -85,8 +83,7 @@ function Text({
   color = "primary",
   style,
   ...props
-}: UnistylesVariants<typeof styles> &
-  ComponentPropsWithoutRef<typeof UITextView>) {
+}: UnistylesVariants<typeof styles> & TextProps) {
   const textStyle = useContext(TextStyleContext)
 
   styles.useVariants({
@@ -94,7 +91,7 @@ function Text({
     color,
   })
 
-  return <UITextView style={[styles.text, textStyle, style]} {...props} />
+  return <RNText style={[styles.text, textStyle, style]} {...props} />
 }
 
 export { Text, TextStyleContext, styles as textStyles }

@@ -4,7 +4,7 @@ import { Pressable } from "react-native"
 import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
 import { TextStyleContext } from "./text"
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
   button: ({ pressed }: { pressed: boolean }) => ({
     flexDirection: "row",
     alignItems: "center",
@@ -16,27 +16,36 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       variant: {
         primary: {
-          backgroundColor: theme.colors.primary,
-          opacity: pressed ? 0.8 : 1,
+          backgroundColor: pressed
+            ? theme.utils.hexToRgba(theme.colors.primary, 0.8)
+            : theme.colors.primary,
         },
         secondary: {
           borderColor: theme.colors.primary,
           borderWidth: 1,
           backgroundColor: pressed
-            ? theme.utils.hexToRgba(theme.colors.primary, 0.05)
+            ? theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.15 : 0.05
+              )
             : "transparent",
         },
         tonal: {
           backgroundColor: pressed
-            ? theme.utils.hexToRgba(theme.colors.primary, 0.15)
-            : theme.utils.hexToRgba(theme.colors.primary, 0.1),
+            ? theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.2 : 0.15
+              )
+            : theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.15 : 0.1
+              ),
         },
         plain: {
           opacity: pressed ? 0.7 : 1,
         },
       },
       size: {
-        none: {},
         sm: {
           paddingVertical: theme.spacing[1],
           paddingHorizontal: theme.spacing[2.5],
@@ -46,6 +55,18 @@ const styles = StyleSheet.create((theme) => ({
           paddingVertical: theme.spacing[2],
           paddingHorizontal: theme.spacing[3],
           borderRadius: theme.borderRadius.lg,
+        },
+        lg: {
+          paddingVertical: theme.spacing[2.5],
+          paddingHorizontal: theme.spacing[5],
+          borderRadius: theme.borderRadius.xl,
+          gap: theme.spacing[2],
+        },
+        xl: {
+          paddingVertical: theme.spacing[4],
+          paddingHorizontal: theme.spacing[8],
+          borderRadius: theme.borderRadius["2xl"],
+          gap: theme.spacing[3],
         },
         icon: {
           borderRadius: theme.borderRadius.lg,
@@ -72,7 +93,6 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
       size: {
-        none: {},
         icon: {},
         sm: {
           fontSize: theme.typography.fontSize.sm,
@@ -82,6 +102,9 @@ const styles = StyleSheet.create((theme) => ({
         },
         lg: {
           fontSize: theme.typography.fontSize.base,
+        },
+        xl: {
+          fontSize: theme.typography.fontSize.lg,
         },
       },
     },

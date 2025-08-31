@@ -4,6 +4,7 @@ const baseTheme = {
   sizing: {
     "0": 0,
     px: 1,
+    "0.5": 2,
     "1": 4,
     "2": 8,
     "3": 12,
@@ -25,6 +26,7 @@ const baseTheme = {
   spacing: {
     "0": 0,
     px: 1,
+    "0.5": 2,
     "1": 4,
     "2": 8,
     "2.5": 10,
@@ -156,12 +158,12 @@ const lightTheme = {
     card: "#f5f7f9",
     destructive: "#ff382b",
     foreground: "#030405",
-    grey: "#9da1a6",
-    grey2: "#b2b6ba",
-    grey3: "#d2d4d7",
-    grey4: "#e2e4e5",
-    grey5: "#edeeef",
-    grey6: "#f8f8f9",
+    grey: "#9BA0A5",
+    grey2: "#737980",
+    grey3: "#4A4E52",
+    grey4: "#373A3D",
+    grey5: "#2B2D2F",
+    grey6: "#1A1B1C",
     primary: "#007bff",
     root: "#f5f7f9",
     white: "#ffffff",
@@ -176,12 +178,12 @@ const darkTheme = {
     card: "#000204",
     destructive: "#FE4336",
     foreground: "#F7FBFF",
-    grey: "#9BA0A5",
-    grey2: "#737980",
-    grey3: "#4A4E52",
-    grey4: "#373A3D",
-    grey5: "#2B2D2F",
-    grey6: "#1A1B1C",
+    grey: "#9da1a6",
+    grey2: "#b2b6ba",
+    grey3: "#d2d4d7",
+    grey4: "#e2e4e5",
+    grey5: "#edeeef",
+    grey6: "#f8f8f9",
     primary: "#007BFF",
     root: "#000204",
     white: "#ffffff",
@@ -192,7 +194,7 @@ const darkTheme = {
 const themes = {
   light: lightTheme,
   dark: darkTheme,
-}
+} as const
 
 // you can also add custom width breakpoints just like the web!
 // If your app will be used on tablets, phones and screens with
@@ -220,7 +222,7 @@ declare module "react-native-unistyles" {
 
 StyleSheet.configure({
   settings: {
-    initialTheme: "light",
+    adaptiveThemes: true,
   },
   breakpoints,
   themes,

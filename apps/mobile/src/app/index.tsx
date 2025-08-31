@@ -1,21 +1,27 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { ActivityIndicator, View } from "react-native"
 import { StyleSheet, useUnistyles } from "react-native-unistyles"
 import { Button } from "~/shared/components/ui/button"
-import { LargeTitleHeader } from "~/shared/components/ui/large-title-header"
+import {
+  LargeTitleHeader,
+  type LargeTitleSearchBarRef,
+} from "~/shared/components/ui/large-title-header"
 import { Text } from "~/shared/components/ui/text"
-import { Toggle } from "~/shared/components/ui/toggle"
 import env from "~/shared/env"
 
 export default function Screen() {
   const { theme } = useUnistyles()
   const [isLoading, setIsLoading] = useState(false)
+  const searchBarRef = useRef<LargeTitleSearchBarRef>(null)
 
   return (
     <>
       <LargeTitleHeader
         backgroundColor={theme.colors.background}
+        searchBar={{
+          ref: searchBarRef,
+        }}
         title="Home"
       />
       <View style={styles.container}>
@@ -30,7 +36,7 @@ export default function Screen() {
         <View style={styles.buttonContainer}>
           <Button onPress={() => setIsLoading(!isLoading)}>
             {isLoading ? <ActivityIndicator /> : null}
-            <Text>Primary</Text>
+            <Text>Test Loading</Text>
           </Button>
           <Button variant="secondary">
             <Text>Secondary</Text>
@@ -44,10 +50,6 @@ export default function Screen() {
           <Button size="icon" variant="tonal">
             <FontAwesome color={theme.colors.primary} name="heart" size={21} />
           </Button>
-          <Toggle
-            onValueChange={() => setIsLoading(!isLoading)}
-            value={isLoading}
-          />
         </View>
       </View>
     </>
@@ -60,6 +62,7 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     gap: theme.spacing[8],
+    backgroundColor: theme.colors.background,
   },
   textContainer: {
     alignItems: "center",

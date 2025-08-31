@@ -1,10 +1,10 @@
 import { Stack } from "expo-router"
 import * as React from "react"
-import type {
-  NativeSyntheticEvent,
-  TextInputSubmitEditingEvent,
+import {
+  type NativeSyntheticEvent,
+  type TextInputSubmitEditingEvent,
+  View,
 } from "react-native"
-import { View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 import type { SearchBarCommands } from "react-native-screens"
 import { StyleSheet, useUnistyles } from "react-native-unistyles"
@@ -61,6 +61,25 @@ type LargeTitleSearchBarRef = Omit<
   "blur" | "toggleCancelButton"
 >
 
+const styles = StyleSheet.create((theme) => ({
+  header: {
+    backgroundColor: theme.colors.background,
+  },
+  headerLeft: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: theme.spacing[4],
+  },
+  headerRight: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: theme.spacing[4],
+  },
+  searchBar: {
+    zIndex: 99_999,
+  },
+}))
+
 function LargeTitleHeader({
   shown,
   title,
@@ -79,7 +98,6 @@ function LargeTitleHeader({
    */
   iosBlurEffect?: HeaderOptions["headerBlurEffect"] | "none"
   materialPreset?: "stack" | "inline"
-  materialTitleClassName?: string
   backVisible?: boolean
   /**
    * iOS - iosBlurEffect must be set to 'none' for this to work
@@ -134,21 +152,20 @@ function LargeTitleHeader({
           headerShadowVisible: props.shadowVisible,
           headerLeft: leftView
             ? (headerProps) => (
-                <View className="flex-row justify-center gap-4">
-                  {leftView(headerProps)}
-                </View>
+                <View style={styles.headerLeft}>{leftView(headerProps)}</View>
               )
             : undefined,
           headerRight: rightView
             ? (headerProps) => (
-                <View className="flex-row justify-center gap-4">
-                  {rightView(headerProps)}
-                </View>
+                <View style={styles.headerRight}>{rightView(headerProps)}</View>
               )
             : undefined,
           headerShown: shown,
           headerTitle: title,
           headerTransparent: iosBlurEffect !== "none",
+          headerTitleStyle: {
+            color: theme.colors.foreground,
+          },
           headerLargeStyle: {
             backgroundColor: props.backgroundColor ?? theme.colors.background,
           },
@@ -193,10 +210,9 @@ function LargeTitleHeader({
       />
       {searchBar?.content && (isFocused || searchValue.length > 0) && (
         <Animated.View
-          className="z-[99999]"
           entering={FadeIn.delay(100).duration(200)}
           exiting={FadeOut}
-          style={StyleSheet.absoluteFill}
+          style={[styles.searchBar, StyleSheet.absoluteFill]}
         >
           <Animated.View
             entering={FadeIn.delay(200).duration(400)}
@@ -210,4 +226,4 @@ function LargeTitleHeader({
   )
 }
 
-export { LargeTitleHeader }
+export { LargeTitleHeader, type LargeTitleSearchBarRef }
