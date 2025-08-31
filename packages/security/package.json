@@ -26,8 +26,5 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "typescript": "5.9.2"
-  },
-  "peerDependencies": {
-    "@init/kv": "*"
   }
 }

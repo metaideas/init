@@ -25,13 +25,5 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "typescript": "5.9.2"
-  },
-  "peerDependencies": {
-    "react": "*"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
   }
 }

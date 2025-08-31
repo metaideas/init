@@ -2,8 +2,7 @@
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
     "lib": ["ESNext"],
-    "rootDir": ".",
-    "types": ["bun-types"]
+    "rootDir": "."
   },
   "include": ["src", "reset.d.ts"],
   "exclude": ["node_modules"]
