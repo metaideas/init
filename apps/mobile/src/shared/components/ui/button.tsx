@@ -125,11 +125,9 @@ function Button({
     <TextStyleContext.Provider value={styles.text}>
       <Slot.Pressable
         ref={ref}
-        style={({ pressed }) => [
-          styles.button({ pressed }),
-          // @ts-expect-error - `hovered` is not a valid argument for the style
-          // function
-          typeof style === "function" ? style({ pressed }) : style,
+        style={(state) => [
+          styles.button(state),
+          typeof style === "function" ? style(state) : style,
         ]}
         {...props}
       >
