@@ -127,9 +127,9 @@ function Button({
         ref={ref}
         style={({ pressed }) => [
           styles.button({ pressed }),
-          typeof style === "function"
-            ? style({ pressed, hovered: false })
-            : style,
+          // @ts-expect-error - `hovered` is not a valid argument for the style
+          // function
+          typeof style === "function" ? style({ pressed }) : style,
         ]}
         {...props}
       >
