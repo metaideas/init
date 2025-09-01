@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/metaideas/init/compare/init@v0.5.0...init@v0.6.0) (2025-09-01)
+
+
+### Features
+
+* use postgres as the database (again) ([#19](https://github.com/metaideas/init/issues/19)) ([ddbf307](https://github.com/metaideas/init/commit/ddbf307289f2899860fa1937b407e0c9c69379ed))
+
 ## [0.5.0](https://github.com/metaideas/init/compare/init@v0.4.0...init@v0.5.0) (2025-09-01)
 
 
