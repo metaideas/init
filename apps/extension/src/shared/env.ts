@@ -1,4 +1,5 @@
 import { createEnv } from "@init/env/core"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -8,5 +9,5 @@ export default createEnv({
   clientPrefix: "VITE_",
   extends: [],
   runtimeEnv: process.env,
-  skipValidation: process.env.CI === "true",
+  skipValidation: isCI,
 })

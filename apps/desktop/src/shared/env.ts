@@ -1,4 +1,5 @@
 import { createEnv } from "@init/env/nextjs"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -11,5 +12,5 @@ export default createEnv({
   experimental__runtimeEnv: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
-  skipValidation: process.env.CI === "true",
+  skipValidation: isCI,
 })

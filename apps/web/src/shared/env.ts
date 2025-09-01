@@ -1,5 +1,6 @@
 import { createEnv } from "@init/env/nextjs"
 import { vercel } from "@init/env/presets"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -13,5 +14,5 @@ export default createEnv({
     NEXT_PUBLIC_API_URL: z.string().optional(),
   },
   extends: [vercel()],
-  skipValidation: process.env.CI === "true",
+  skipValidation: isCI,
 })

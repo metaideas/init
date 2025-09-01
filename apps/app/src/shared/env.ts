@@ -8,6 +8,7 @@ import {
   upstashRedis,
   vercel,
 } from "@init/env/presets"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { addProtocol } from "@init/utils/url"
 
@@ -46,5 +47,5 @@ export default createEnv({
     axiom.nextjs(),
     upstashRedis(),
   ],
-  skipValidation: process.env.CI === "true",
+  skipValidation: isCI,
 })

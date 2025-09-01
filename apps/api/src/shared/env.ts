@@ -1,6 +1,6 @@
 import { createEnv } from "@init/env/core"
-// Packages
 import { auth, db, node, sentry, upstashRedis } from "@init/env/presets"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -17,5 +17,5 @@ export default createEnv({
     upstashRedis(),
   ],
   runtimeEnv: process.env,
-  skipValidation: process.env.CI === "true",
+  skipValidation: isCI,
 })
