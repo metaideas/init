@@ -519,6 +519,7 @@
         "clsx": "2.1.1",
         "defu": "^6.1.4",
         "nanoid": "5.1.5",
+        "react": "19.1.0",
         "schema-dts": "1.1.5",
         "tailwind-merge": "3.3.1",
         "zod": "4.0.17",
