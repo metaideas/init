@@ -46,4 +46,5 @@ export default createEnv({
     axiom.nextjs(),
     upstashRedis(),
   ],
+  skipValidation: process.env.CI === "true",
 })

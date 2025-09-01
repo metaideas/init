@@ -73,7 +73,7 @@ export const workspaces = {
     {
       name: "extension",
       description: "extension - Browser extension using WXT",
-      dependencies: ["observability", "ui"],
+      dependencies: ["env", "observability", "ui", "utils"],
     },
     {
       name: "mobile",

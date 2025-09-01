@@ -9,4 +9,5 @@ export default createEnv({
     ANALYZE: z.stringbool().default(false),
   },
   extends: [vercel()],
+  skipValidation: process.env.CI === "true",
 })

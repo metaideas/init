@@ -17,4 +17,5 @@ export default createEnv({
     upstashRedis(),
   ],
   runtimeEnv: process.env,
+  skipValidation: process.env.CI === "true",
 })

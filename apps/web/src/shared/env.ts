@@ -13,4 +13,5 @@ export default createEnv({
     NEXT_PUBLIC_API_URL: z.string().optional(),
   },
   extends: [vercel()],
+  skipValidation: process.env.CI === "true",
 })
