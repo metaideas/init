@@ -120,6 +120,8 @@ apps/app
 
 ### Mobile
 
+This is a cross-platform mobile application built with Expo and React Native, featuring authentication and native capabilities.
+
 ```sh
 apps/mobile
   ├── src/                    # Source code
@@ -157,6 +159,8 @@ apps/mobile
 
 ### API
 
+This is a high-performance API server built with Hono, providing RPC endpoints and running on Node.js with TypeScript.
+
 ```sh
 apps/api
   └── src/                    # Source code
@@ -183,6 +187,8 @@ apps/api
 ```
 
 ### Desktop
+
+This is a cross-platform desktop application built with Tauri, combining a Rust backend with a Next.js frontend for native performance.
 
 ```sh
 apps/desktop
@@ -221,6 +227,8 @@ apps/desktop
 ```
 
 ### Extension
+
+This is a cross-browser web extension built with WXT framework, providing enhanced web browsing capabilities across Chrome, Firefox, and other browsers.
 
 ```sh
 apps/extension
@@ -264,6 +272,8 @@ apps/extension
 
 ### Docs
 
+This is a documentation website built with Next.js and Fumadocs, providing comprehensive project documentation with search and navigation features.
+
 ```sh
 apps/docs
   ├── src/                    # Source code
@@ -285,9 +295,7 @@ apps/docs
 
 ### Web
 
-Similar to the app, but focusing on static content like marketing pages. This leads to have a simpler structure, as it doesn't need to support authentication or server actions.
-
-It uses content collections to manage the blog and other static pages, and has i18n support through routing.
+This is a marketing website and blog built with Next.js, focusing on static content and SEO optimization. It features content collections for blog management and internationalization support.
 
 ```sh
 apps/web
