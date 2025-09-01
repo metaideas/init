@@ -1,14 +1,11 @@
 import { db } from "@init/env/presets"
 import { singleton } from "@init/utils/singleton"
-import { createClient } from "@libsql/client"
-import { drizzle } from "drizzle-orm/libsql"
+import { drizzle } from "drizzle-orm/postgres-js"
+import postgres from "postgres"
 import * as schema from "./schema"
 
-export function connect(url: string, authToken: string) {
-  const client = createClient({
-    url,
-    authToken,
-  })
+export function connect(url: string) {
+  const client = postgres(url)
 
   return drizzle({
     client,
@@ -21,7 +18,7 @@ export function database() {
   return singleton("database", () => {
     const env = db()
 
-    return connect(env.DATABASE_URL, env.DATABASE_AUTH_TOKEN)
+    return connect(env.DATABASE_URL)
   })
 }
 

@@ -15,10 +15,9 @@ if (
 export default defineConfig({
   schema: "./src/schema.ts",
   out: "./migrations",
-  dialect: "turso",
+  dialect: "postgresql",
   dbCredentials: {
     url: env.DATABASE_URL,
-    authToken: env.DATABASE_AUTH_TOKEN,
   },
   casing: "snake_case",
   breakpoints: true,

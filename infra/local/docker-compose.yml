@@ -19,11 +19,13 @@ services:
     depends_on:
       - redis
 
-  libsql:
-    image: ghcr.io/tursodatabase/libsql-server:latest
-    platform: linux/amd64
+  postgres:
+    image: postgres:17
     ports:
-      - "8080:8080"
-      - "5001:5001"
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: main
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - ./.data/libsql:/var/lib/sqld
+      - ./.data/postgres:/var/lib/postgresql/data

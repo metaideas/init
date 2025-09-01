@@ -23,9 +23,9 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "@libsql/client": "0.15.14",
-    "drizzle-orm": "^0.44.4",
-    "drizzle-zod": "0.8.3"
+    "drizzle-orm": "0.44.5",
+    "drizzle-zod": "0.8.3",
+    "postgres": "3.4.7"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",

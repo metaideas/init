@@ -1,16 +1,10 @@
 import { generatePrefixedId } from "@init/utils/id"
 import * as z from "@init/utils/schema"
 import type { ConstrainedString } from "@init/utils/type"
+import * as pg from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm/relations"
-import {
-  index,
-  integer,
-  sqliteTableCreator,
-  text,
-  uniqueIndex,
-} from "drizzle-orm/sqlite-core"
 
-export const createTable = sqliteTableCreator((name) => name)
+export const createTable = pg.pgTableCreator((name) => name)
 
 export const UNIQUE_ID_LENGTH = 24
 
@@ -21,7 +15,8 @@ export function id<B extends string, P extends string>(
   const IdSchema = z.branded(brand)
 
   return {
-    id: text()
+    id: pg
+      .text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => generatePrefixedId(prefix, UNIQUE_ID_LENGTH))
@@ -30,41 +25,52 @@ export function id<B extends string, P extends string>(
 }
 
 export const timestamps = {
-  createdAt: integer({ mode: "timestamp_ms" })
+  createdAt: pg.timestamp({ withTimezone: true }).notNull().defaultNow(),
+  updatedAt: pg
+    .timestamp({ withTimezone: true })
     .notNull()
-    .$defaultFn(() => new Date()),
-  updatedAt: integer({ mode: "timestamp_ms" })
-    .notNull()
-    .$defaultFn(() => new Date())
+    .defaultNow()
     .$onUpdateFn(() => new Date()),
 }
 
-// Auth tables
-export const users = createTable(
+// Insert your tables here
+export const documents = createTable("documents", {
+  ...id("DocumentId", "doc"),
+  ...timestamps,
+
+  name: pg.text().notNull(),
+  content: pg.text().notNull(),
+})
+
+// ==========================AUTH==========================
+export const authSchema = pg.pgSchema("auth")
+
+export const userRole = authSchema.enum("user_role", ["user", "admin"])
+
+export const users = authSchema.table(
   "users",
   {
     ...id("UserId", "user"),
     ...timestamps,
 
-    role: text({ enum: ["user", "admin"] })
-      .notNull()
-      .default("user"),
+    role: userRole().notNull().default("user"),
 
-    name: text({ length: 128 }).notNull(),
-    image: text(),
+    name: pg.text().notNull(),
+    image: pg.text(),
 
-    email: text({ length: 255 }).notNull().unique(),
-    emailVerified: integer({ mode: "boolean" }).notNull().default(false),
+    email: pg.text().notNull().unique(),
+    emailVerified: pg.boolean().notNull().default(false),
 
-    banned: integer({ mode: "boolean" }).notNull().default(false),
-    banReason: text(),
-    banExpiresAt: integer({ mode: "timestamp_ms" }),
+    banned: pg.boolean().notNull().default(false),
+    banReason: pg.text(),
+    banExpiresAt: pg.timestamp({ withTimezone: true }),
 
-    metadata: text({ mode: "json" }),
+    metadata: pg.jsonb(),
   },
   (table) => [
-    index("users_email_idx").on(table.email),
-    index("users_role_idx").on(table.role),
+    pg.index("users_email_idx").on(table.email),
+    pg.index("users_role_idx").on(table.role),
+    pg.index("auth_users_banned_idx").on(table.banned),
   ]
 )
 export type User = typeof users.$inferSelect
@@ -72,13 +78,14 @@ export type NewUser = typeof users.$inferInsert
 export type UserId = User["id"]
 export type UserRole = User["role"]
 
-export const accounts = createTable(
-  "auth_accounts",
+export const accounts = authSchema.table(
+  "accounts",
   {
     ...id("AccountId", "acct"),
     ...timestamps,
 
-    userId: text()
+    userId: pg
+      .text()
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
@@ -86,60 +93,60 @@ export const accounts = createTable(
       })
       .$type<UserId>(),
 
-    accountId: text().notNull(),
-    providerId: text().notNull(),
+    accountId: pg.text().notNull(),
+    providerId: pg.text().notNull(),
 
-    accessToken: text(),
-    refreshToken: text(),
+    accessToken: pg.text(),
+    refreshToken: pg.text(),
 
-    accessTokenExpiresAt: integer({ mode: "timestamp_ms" }),
-    refreshTokenExpiresAt: integer({ mode: "timestamp_ms" }),
+    accessTokenExpiresAt: pg.timestamp({ withTimezone: true }),
+    refreshTokenExpiresAt: pg.timestamp({ withTimezone: true }),
 
-    scope: text(),
-    idToken: text(),
+    scope: pg.text(),
+    idToken: pg.text(),
 
-    password: text({ length: 255 }),
+    password: pg.text(),
   },
   (table) => [
-    index("auth_accounts_user_id_idx").on(table.userId),
-    index("auth_accounts_provider_idx").on(table.providerId),
-    uniqueIndex("auth_accounts_provider_account_unique_idx").on(
-      table.providerId,
-      table.accountId
-    ),
+    pg.index("auth_accounts_user_id_idx").on(table.userId),
+    pg.index("auth_accounts_provider_idx").on(table.providerId),
+    pg
+      .uniqueIndex("auth_accounts_provider_account_unique_idx")
+      .on(table.providerId, table.accountId),
   ]
 )
 export type Account = typeof accounts.$inferSelect
 export type NewAccount = typeof accounts.$inferInsert
 export type AccountId = Account["id"]
 
-export const verifications = createTable(
-  "auth_verifications",
+export const verifications = authSchema.table(
+  "verifications",
   {
     ...id("VerificationId", "verf"),
     ...timestamps,
 
-    identifier: text({ length: 255 }).notNull(),
-    value: text({ length: 255 }).notNull(),
+    identifier: pg.text().notNull(),
+    value: pg.text().notNull(),
 
-    expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
+    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
   },
   (table) => [
-    index("auth_verifications_identifier_idx").on(table.identifier),
-    index("auth_verifications_expires_idx").on(table.expiresAt),
-    uniqueIndex("auth_verifications_value_unique_idx").on(table.value),
+    pg.index("auth_verifications_identifier_idx").on(table.identifier),
+    pg.index("auth_verifications_expires_idx").on(table.expiresAt),
+    pg.uniqueIndex("auth_verifications_value_unique_idx").on(table.value),
   ]
 )
 export type Verification = typeof verifications.$inferSelect
 export type NewVerification = typeof verifications.$inferInsert
 
-export const sessions = createTable(
-  "auth_sessions",
+export const sessions = authSchema.table(
+  "sessions",
   {
     ...id("SessionId", "sess"),
     ...timestamps,
 
-    userId: text()
+    userId: pg
+      .text()
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
@@ -147,20 +154,22 @@ export const sessions = createTable(
       })
       .$type<UserId>(),
 
-    token: text().notNull().unique(),
-    expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
+    token: pg.text().notNull().unique(),
+    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
 
-    impersonatedBy: text()
+    impersonatedBy: pg
+      .text()
       .references(() => users.id, {
         onDelete: "set null",
         onUpdate: "cascade",
       })
       .$type<UserId>(),
 
-    ipAddress: text({ length: 45 }),
-    userAgent: text(),
+    ipAddress: pg.text(),
+    userAgent: pg.text(),
 
-    activeOrganizationId: text()
+    activeOrganizationId: pg
+      .text()
       .references(() => organizations.id, {
         onDelete: "set null",
         onUpdate: "cascade",
@@ -168,48 +177,59 @@ export const sessions = createTable(
       .$type<OrganizationId>(),
   },
   (table) => [
-    index("auth_sessions_user_id_idx").on(table.userId),
-    index("auth_sessions_token_idx").on(table.token),
-    index("auth_sessions_expires_at_idx").on(table.expiresAt),
-    index("auth_sessions_active_organization_id_idx").on(
-      table.activeOrganizationId
-    ),
+    pg.index("auth_sessions_user_id_idx").on(table.userId),
+    pg.index("auth_sessions_token_idx").on(table.token),
+    pg.index("auth_sessions_expires_at_idx").on(table.expiresAt),
+    pg.index("auth_sessions_ip_address_idx").on(table.ipAddress),
+    pg
+      .index("auth_sessions_active_organization_id_idx")
+      .on(table.activeOrganizationId),
   ]
 )
 export type Session = typeof sessions.$inferSelect
 export type NewSession = typeof sessions.$inferInsert
 
-// Organization tables
-export const organizations = createTable(
+// ==========================ORGANIZATION==========================
+export const organizationSchema = pg.pgSchema("organization")
+
+export const organizations = organizationSchema.table(
   "organizations",
   {
     ...id("OrganizationId", "org"),
     ...timestamps,
 
-    name: text({ length: 128 }).notNull(),
-    slug: text({ length: 128 }).notNull().unique(),
+    name: pg.text().notNull(),
+    slug: pg.text().notNull().unique(),
 
-    logo: text(),
-    metadata: text({ mode: "json" }),
+    logo: pg.text(),
+    metadata: pg.jsonb(),
   },
-  (table) => [index("organizations_slug_idx").on(table.slug)]
+  (table) => [pg.index("organizations_slug_idx").on(table.slug)]
 )
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
 export type OrganizationId = Organization["id"]
 
-export const members = createTable(
-  "organization_members",
+export const memberRole = organizationSchema.enum("member_role", [
+  "member",
+  "admin",
+  "owner",
+])
+
+export const members = organizationSchema.table(
+  "members",
   {
     ...id("MemberId", "memb"),
     ...timestamps,
 
-    userId: text()
+    userId: pg
+      .text()
       .notNull()
       .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
       .$type<UserId>(),
 
-    organizationId: text()
+    organizationId: pg
+      .text()
       .notNull()
       .references(() => organizations.id, {
         onDelete: "cascade",
@@ -217,17 +237,16 @@ export const members = createTable(
       })
       .$type<OrganizationId>(),
 
-    role: text({ enum: ["member", "admin", "owner"] })
-      .notNull()
-      .default("member"),
+    role: memberRole().notNull().default("member"),
   },
   (table) => [
-    uniqueIndex("organization_members_user_organization_unique_idx").on(
-      table.userId,
-      table.organizationId
-    ),
-    index("organization_members_user_id_idx").on(table.userId),
-    index("organization_members_organization_id_idx").on(table.organizationId),
+    pg
+      .uniqueIndex("organization_members_user_organization_unique_idx")
+      .on(table.userId, table.organizationId),
+    pg.index("organization_members_user_id_idx").on(table.userId),
+    pg
+      .index("organization_members_organization_id_idx")
+      .on(table.organizationId),
   ]
 )
 export type Member = typeof members.$inferSelect
@@ -235,13 +254,21 @@ export type NewMember = typeof members.$inferInsert
 export type MemberId = Member["id"]
 export type MemberRole = Member["role"]
 
-export const invitations = createTable(
-  "organization_invitations",
+export const invitationStatus = organizationSchema.enum("invitation_status", [
+  "pending",
+  "accepted",
+  "rejected",
+  "canceled",
+])
+
+export const invitations = organizationSchema.table(
+  "invitations",
   {
     ...id("InvitationId", "invt"),
     ...timestamps,
 
-    organizationId: text()
+    organizationId: pg
+      .text()
       .notNull()
       .references(() => organizations.id, {
         onDelete: "cascade",
@@ -249,95 +276,94 @@ export const invitations = createTable(
       })
       .$type<OrganizationId>(),
 
-    inviterId: text()
+    inviterId: pg
+      .text()
       .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
       .$type<MemberId>(),
 
-    email: text({ length: 255 }).notNull(),
-    role: text({ enum: ["member", "admin", "owner"] })
-      .notNull()
-      .default("member"),
-    status: text({ enum: ["pending", "accepted", "rejected", "canceled"] })
-      .notNull()
-      .default("pending"),
-    expiresAt: integer({ mode: "timestamp_ms" }).notNull(),
+    email: pg.text().notNull(),
+    role: memberRole().notNull().default("member"),
+    status: invitationStatus().notNull().default("pending"),
+    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
   },
   (table) => [
-    uniqueIndex("organization_invitations_organization_email_unique_idx").on(
-      table.organizationId,
-      table.email
-    ),
-    index("organization_invitations_organization_id_idx").on(
-      table.organizationId
-    ),
-    index("organization_invitations_email_idx").on(table.email),
+    pg
+      .uniqueIndex("organization_invitations_organization_email_unique_idx")
+      .on(table.organizationId, table.email),
+    pg
+      .index("organization_invitations_organization_id_idx")
+      .on(table.organizationId),
+    pg.index("organization_invitations_email_idx").on(table.email),
   ]
 )
 
 export type Invitation = typeof invitations.$inferSelect
 export type NewInvitation = typeof invitations.$inferInsert
 export type InvitationId = Invitation["id"]
+export type InvitationStatus = Invitation["status"]
 
-export const activityLogs = createTable(
-  "organization_activity_logs",
+export const activityLogs = organizationSchema.table(
+  "activity_logs",
   {
     ...id("ActivityLogId", "alog"),
 
-    createdAt: integer({ mode: "timestamp_ms" })
-      .notNull()
-      .$defaultFn(() => new Date()),
+    createdAt: pg.timestamp({ withTimezone: true }).notNull().defaultNow(),
 
-    organizationId: text()
+    organizationId: pg
+      .text()
       .references(() => organizations.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
       .$type<OrganizationId>(),
-    memberId: text()
+    memberId: pg
+      .text()
       .references(() => members.id, {
         onDelete: "cascade",
         onUpdate: "cascade",
       })
       .$type<MemberId>(),
 
-    type: text({
-      enum: [
-        "accepted_invitation",
-        "created_asset",
-        "created_organization",
-        "declined_invitation",
-        "deleted_account",
-        "invited_member",
-        "marked_asset_as_uploaded",
-        "marked_email_as_verified",
-        "removed_member",
-        "requested_email_verification",
-        "requested_password_reset",
-        "requested_sign_in_code",
-        "reset_password",
-        "signed_in_with_code",
-        "signed_in_with_github",
-        "signed_in_with_google",
-        "signed_in_with_password",
-        "signed_out",
-        "signed_up_with_code",
-        "signed_up_with_github",
-        "signed_up_with_google",
-        "signed_up_with_password",
-      ],
-    }).notNull(),
-    ipAddress: text({ length: 45 }),
-    userAgent: text(),
+    type: pg
+      .text({
+        enum: [
+          "accepted_invitation",
+          "created_asset",
+          "created_organization",
+          "declined_invitation",
+          "deleted_account",
+          "invited_member",
+          "marked_asset_as_uploaded",
+          "marked_email_as_verified",
+          "removed_member",
+          "requested_email_verification",
+          "requested_password_reset",
+          "requested_sign_in_code",
+          "reset_password",
+          "signed_in_with_code",
+          "signed_in_with_github",
+          "signed_in_with_google",
+          "signed_in_with_password",
+          "signed_out",
+          "signed_up_with_code",
+          "signed_up_with_github",
+          "signed_up_with_google",
+          "signed_up_with_password",
+        ],
+      })
+      .notNull(),
+    ipAddress: pg.text(),
+    userAgent: pg.text(),
   },
   (table) => [
-    index("organization_activity_logs_organization_id_idx").on(
-      table.organizationId
-    ),
-    index("organization_activity_logs_member_id_idx").on(table.memberId),
-    index("organization_activity_logs_type_idx").on(table.type),
+    pg
+      .index("organization_activity_logs_organization_id_idx")
+      .on(table.organizationId),
+    pg.index("organization_activity_logs_member_id_idx").on(table.memberId),
+    pg.index("organization_activity_logs_type_idx").on(table.type),
   ]
 )
 export type ActivityLog = typeof activityLogs.$inferSelect
