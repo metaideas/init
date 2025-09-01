@@ -1,13 +1,20 @@
 {
-  "extends": "@tooling/tsconfig/web",
+  "extends": "@tooling/tsconfig/base",
   "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"],
       "content-collections": ["./.content-collections/generated"]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "noEmit": true
   },
   "exclude": ["node_modules"],
   "include": [

@@ -1,9 +1,9 @@
 {
-  "extends": ["expo/tsconfig.base", "@tooling/tsconfig/base.json"],
+  "extends": ["expo/tsconfig.base", "@tooling/tsconfig/base"],
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Bundler",
-    "strict": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     }
