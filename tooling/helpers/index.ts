@@ -51,19 +51,4 @@ export async function runProcess(
   }
 }
 
-export async function executeCommand(command: string): Promise<string> {
-  const proc = Bun.spawn(command.split(" "), {
-    stdout: "pipe",
-  })
-
-  const text = await new Response(proc.stdout).text()
-  await proc.exited
-
-  if (proc.exitCode !== 0) {
-    throw new Error(`Command failed with exit code ${proc.exitCode}`)
-  }
-
-  return text
-}
-
 export * as prompt from "@clack/prompts"

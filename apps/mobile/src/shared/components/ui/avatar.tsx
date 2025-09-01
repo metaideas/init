@@ -1,44 +1,52 @@
-import { cn } from "@init/utils/ui"
 import * as AvatarPrimitive from "@rn-primitives/avatar"
-import type { ComponentProps } from "react"
+import type { Ref } from "react"
+import { StyleSheet } from "react-native-unistyles"
 
-function Avatar(props: ComponentProps<typeof AvatarPrimitive.Root>) {
-  const { alt, className, ...rest } = props
+const styles = StyleSheet.create((theme) => ({
+  avatar: {
+    position: "relative",
+    height: theme.spacing[10],
+    width: theme.spacing[10],
+    shrink: 0,
+    overflow: "hidden",
+    rounded: theme.borderRadius.full,
+  },
+  image: {
+    aspectRatio: 1,
+    height: "100%",
+    width: "100%",
+  },
+  fallback: {
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    rounded: theme.borderRadius.full,
+    backgroundColor: theme.colors.grey6,
+  },
+}))
+
+function Avatar({
+  style,
+  ...props
+}: AvatarPrimitive.RootProps & { ref: Ref<AvatarPrimitive.RootRef> }) {
+  return <AvatarPrimitive.Root style={[styles.avatar, style]} {...props} />
+}
+
+function AvatarImage({
+  style,
+  ...props
+}: AvatarPrimitive.ImageProps & { ref?: Ref<AvatarPrimitive.ImageRef> }) {
+  return <AvatarPrimitive.Image style={[styles.image, style]} {...props} />
+}
+
+function AvatarFallback({
+  style,
+  ...props
+}: AvatarPrimitive.FallbackProps & { ref?: Ref<AvatarPrimitive.FallbackRef> }) {
   return (
-    <AvatarPrimitive.Root
-      alt={alt}
-      className={cn(
-        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-        className
-      )}
-      {...rest}
-    />
+    <AvatarPrimitive.Fallback style={[styles.fallback, style]} {...props} />
   )
 }
 
-function AvatarImage(props: ComponentProps<typeof AvatarPrimitive.Image>) {
-  const { className, ...rest } = props
-  return (
-    <AvatarPrimitive.Image
-      className={cn("aspect-square h-full w-full", className)}
-      {...rest}
-    />
-  )
-}
-
-function AvatarFallback(
-  props: ComponentProps<typeof AvatarPrimitive.Fallback>
-) {
-  const { className, ...rest } = props
-  return (
-    <AvatarPrimitive.Fallback
-      className={cn(
-        "flex h-full w-full items-center justify-center rounded-full bg-muted",
-        className
-      )}
-      {...rest}
-    />
-  )
-}
-
-export { Avatar, AvatarFallback, AvatarImage }
+export { Avatar, AvatarImage, AvatarFallback }

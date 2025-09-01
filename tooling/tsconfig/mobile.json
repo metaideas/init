@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["./base.json"],
   "compilerOptions": {
-    "module": "preserve",
-    "jsx": "preserve"
-  },
-  "extends": ["./base.json", "@tsconfig/react-native/tsconfig.json"]
+    "jsx": "preserve",
+    "module": "preserve"
+  }
 }

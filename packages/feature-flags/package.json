@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "flags": "4.0.1",
+    "next": "15.5.2",
     "posthog-js": "1.260.1",
     "posthog-react-native": "4.4.0",
     "server-only": "0.0.1"
@@ -24,15 +25,7 @@
     "@init/analytics": "workspace:*",
     "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.0.10",
+    "@types/react": "19.1.12",
     "typescript": "5.9.2"
-  },
-  "peerDependencies": {
-    "next": "*"
-  },
-  "peerDependenciesMeta": {
-    "next": {
-      "optional": true
-    }
   }
 }

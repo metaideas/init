@@ -15,9 +15,9 @@ root
   ├── apps                # Cross-platform applications
   │   ├── app               # Next.js web application
   │   ├── api               # Hono API with RPC client running on Node.js
-  │   ├── desktop           # Tauri desktop application
+  │   ├── desktop           # Tauri desktop application with Next.js
   │   ├── docs              # Documentation site
-  │   ├── extensions        # WXT browser extension
+  │   ├── extension         # WXT browser extension
   │   ├── mobile            # Expo mobile application
   │   └── web               # Next.js marketing site with content collections for blog and other static pages
   │
@@ -27,18 +27,20 @@ root
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
-  │   ├── auth              # Authentication utilities
+  │   ├── auth              # Authentication utilities using Better Auth (depends on: utils)
   │   ├── core              # Shared core logic and business rules
-  │   ├── db                # Database client and ORM using Drizzle
+  │   ├── db                # Database client and ORM using Drizzle (depends on: env, utils)
   │   ├── email             # Email templating and sending service using Resend
   │   ├── env               # Environment variable management and validation
+  │   ├── feature-flags     # Feature flag utilities for managing and toggling features
+  │   ├── internationalization # Internationalization utilities and translation files
   │   ├── kv                # Redis client and vector database integration using Upstash
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments          # Payment processing utilities using Stripe
   │   ├── queue             # Serverless job queue and workflow management using Upstash
-  │   ├── security          # Security utilities and best practices using Arcjet
+  │   ├── security          # Security utilities and best practices using Arcjet (depends on: kv)
   │   ├── storage           # Shared storage utilities using UploadThing
-  │   ├── ui                # Reusable UI components and design system using Shadcn/UI
+  │   ├── ui                # Reusable UI components and design system using Shadcn/UI (depends on: utils)
   │   └── utils             # Shared helpers and constants for packages and apps
   │
   ├── scripts             # Scripts for random tasks
@@ -68,7 +70,7 @@ Feature folders are also vertical slices of the app and do not have any dependen
 
 ### App
 
-This is a web application using Next.js.
+This is a web application using Next.js with authentication and full-stack features.
 
 ```sh
 apps/app
@@ -118,6 +120,8 @@ apps/app
 
 ### Mobile
 
+This is a cross-platform mobile application built with Expo and React Native, featuring authentication and native capabilities.
+
 ```sh
 apps/mobile
   ├── src/                    # Source code
@@ -155,6 +159,8 @@ apps/mobile
 
 ### API
 
+This is a high-performance API server built with Hono, providing RPC endpoints and running on Node.js with TypeScript.
+
 ```sh
 apps/api
   └── src/                    # Source code
@@ -181,6 +187,8 @@ apps/api
 ```
 
 ### Desktop
+
+This is a cross-platform desktop application built with Tauri, combining a Rust backend with a Next.js frontend for native performance.
 
 ```sh
 apps/desktop
@@ -218,10 +226,12 @@ apps/desktop
   └── content                 # Blog and other static content
 ```
 
-### Extensions
+### Extension
+
+This is a cross-browser web extension built with WXT framework, providing enhanced web browsing capabilities across Chrome, Firefox, and other browsers.
 
 ```sh
-apps/extensions
+apps/extension
   ├── src/                    # Source code
   │   ├── entrypoints/          # Entrypoints
   │   │   ├── popup/              # Popup entrypoint
@@ -262,6 +272,8 @@ apps/extensions
 
 ### Docs
 
+This is a documentation website built with Next.js and Fumadocs, providing comprehensive project documentation with search and navigation features.
+
 ```sh
 apps/docs
   ├── src/                    # Source code
@@ -283,9 +295,7 @@ apps/docs
 
 ### Web
 
-Similar to the app, but focusing on static content like marketing pages. This leads to have a simpler structure, as it doesn't need to support authentication or server actions.
-
-It uses content collections to manage the blog and other static pages, and has i18n support through routing.
+This is a marketing website and blog built with Next.js, focusing on static content and SEO optimization. It features content collections for blog management and internationalization support.
 
 ```sh
 apps/web

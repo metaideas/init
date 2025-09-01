@@ -1,6 +1,6 @@
 import { createEnv } from "@init/env/nextjs"
-// Packages
-import { vercel } from "@init/env/presets"
+import { node, vercel } from "@init/env/presets"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
@@ -8,5 +8,6 @@ export default createEnv({
   server: {
     ANALYZE: z.stringbool().default(false),
   },
-  extends: [vercel()],
+  extends: [node(), vercel()],
+  skipValidation: isCI,
 })

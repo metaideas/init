@@ -26,12 +26,9 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.0.10",
-    "react": "19.0.0",
+    "@types/react": "19.1.12",
+    "react": "19.1.0",
     "react-email": "4.2.8",
     "typescript": "5.9.2"
-  },
-  "peerDependencies": {
-    "react": "*"
   }
 }

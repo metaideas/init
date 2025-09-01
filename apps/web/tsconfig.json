@@ -6,7 +6,8 @@
       "~/*": ["./src/*"],
       "~~/*": ["./*"],
       "content-collections": ["./.content-collections/generated"]
-    }
+    },
+    "plugins": [{ "name": "next" }]
   },
   "exclude": ["node_modules"],
   "include": [

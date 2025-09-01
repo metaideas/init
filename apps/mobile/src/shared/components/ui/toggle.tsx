@@ -1,16 +1,15 @@
-import type { ComponentPropsWithoutRef } from "react"
-import { Switch } from "react-native"
-import { useColorScheme } from "~/shared/hooks"
-import { COLORS } from "~/shared/theme/colors"
+import { Switch, type SwitchProps } from "react-native"
+import { useUnistyles } from "react-native-unistyles"
 
-function Toggle(props: ComponentPropsWithoutRef<typeof Switch>) {
-  const { colors } = useColorScheme()
+function Toggle(props: SwitchProps) {
+  const { theme } = useUnistyles()
+
   return (
     <Switch
-      thumbColor={COLORS.white}
+      thumbColor={theme.colors.white}
       trackColor={{
-        true: colors.primary,
-        false: colors.grey,
+        true: theme.colors.primary,
+        false: theme.colors.grey,
       }}
       {...props}
     />

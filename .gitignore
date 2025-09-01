@@ -67,3 +67,38 @@ lerna-debug.log*
 
 # i18n
 **/translations/*.d.json.ts
+
+# Mobile
+.expo
+
+# Extension App
+.wxt
+web-ext.config.ts
+.output
+stats.html
+stats-*.json
+
+# Desktop App
+dist-ssr
+*.local
+
+# Tauri (Rust)
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/gen/schemas
+
+# Docs App
+.contentlayer
+.source
+
+# Mobile/React Native/Expo
+expo-env.d.ts
+
+# Editor directories and files (additional)
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

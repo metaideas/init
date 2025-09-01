@@ -18,34 +18,17 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
+    "next": "15.5.2",
     "next-plausible": "3.12.4",
     "posthog-js": "1.260.1",
     "posthog-node": "5.7.0",
     "posthog-react-native": "4.4.0",
+    "react": "19.1.0",
     "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/react": "19.1.12",
     "typescript": "5.9.2"
-  },
-  "peerDependencies": {
-    "next": "*",
-    "react": "*",
-    "react-dom": "*",
-    "react-native": "*"
-  },
-  "peerDependenciesMeta": {
-    "next": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    },
-    "react-native": {
-      "optional": true
-    }
   }
 }

@@ -1,196 +1,140 @@
-import { cn } from "@init/utils/ui"
 import * as Slot from "@rn-primitives/slot"
-import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
-import {
-  Platform,
-  Pressable,
-  type PressableProps,
-  View,
-  type ViewStyle,
-} from "react-native"
-import { TextClassContext } from "~/shared/components/ui/text"
-import { useColorScheme } from "~/shared/hooks"
-import { COLORS } from "~/shared/theme/colors"
+import type { ComponentProps } from "react"
+import { Pressable } from "react-native"
+import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
+import { TextStyleContext } from "./text"
 
-const buttonVariants = cva("flex-row items-center justify-center gap-2", {
-  variants: {
-    variant: {
-      primary: "bg-primary ios:active:opacity-80",
-      secondary:
-        "border border-foreground/40 ios:border-primary ios:active:bg-primary/5",
-      tonal:
-        "bg-primary/15 ios:bg-primary/10 ios:active:bg-primary/15 dark:bg-primary/30 dark:ios:bg-primary/10",
-      plain: "ios:active:opacity-70",
+const styles = StyleSheet.create((theme, rt) => ({
+  button: ({ pressed }: { pressed: boolean }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing[2],
+    transform: [{ scale: pressed ? 0.98 : 1 }],
+    transitionDuration: "150ms",
+
+    variants: {
+      variant: {
+        primary: {
+          backgroundColor: pressed
+            ? theme.utils.hexToRgba(theme.colors.primary, 0.8)
+            : theme.colors.primary,
+        },
+        secondary: {
+          borderColor: theme.colors.primary,
+          borderWidth: 1,
+          backgroundColor: pressed
+            ? theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.15 : 0.05
+              )
+            : "transparent",
+        },
+        tonal: {
+          backgroundColor: pressed
+            ? theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.2 : 0.15
+              )
+            : theme.utils.hexToRgba(
+                theme.colors.primary,
+                rt.themeName === "dark" ? 0.15 : 0.1
+              ),
+        },
+        plain: {
+          opacity: pressed ? 0.7 : 1,
+        },
+      },
+      size: {
+        sm: {
+          paddingVertical: theme.spacing[1],
+          paddingHorizontal: theme.spacing[2.5],
+          borderRadius: theme.borderRadius.full,
+        },
+        md: {
+          paddingVertical: theme.spacing[2],
+          paddingHorizontal: theme.spacing[3],
+          borderRadius: theme.borderRadius.lg,
+        },
+        lg: {
+          paddingVertical: theme.spacing[2.5],
+          paddingHorizontal: theme.spacing[5],
+          borderRadius: theme.borderRadius.xl,
+          gap: theme.spacing[2],
+        },
+        xl: {
+          paddingVertical: theme.spacing[4],
+          paddingHorizontal: theme.spacing[8],
+          borderRadius: theme.borderRadius["2xl"],
+          gap: theme.spacing[3],
+        },
+        icon: {
+          borderRadius: theme.borderRadius.lg,
+          height: theme.spacing[10],
+          width: theme.spacing[10],
+        },
+      },
     },
-    size: {
-      none: "",
-      sm: "rounded-full px-2.5 py-1",
-      md: "ios:rounded-lg rounded-full ios:px-3.5 px-5 ios:py-1.5 py-2",
-      lg: "gap-2 rounded-xl px-5 ios:py-2 py-2.5",
-      icon: "h-10 w-10 ios:rounded-lg rounded-full",
+  }),
+  text: {
+    variants: {
+      variant: {
+        primary: {
+          color: theme.colors.white,
+        },
+        secondary: {
+          color: theme.colors.primary,
+        },
+        tonal: {
+          color: theme.colors.primary,
+        },
+        plain: {
+          color: theme.colors.foreground,
+        },
+      },
+      size: {
+        icon: {},
+        sm: {
+          fontSize: theme.typography.fontSize.sm,
+        },
+        md: {
+          fontSize: theme.typography.fontSize.base,
+        },
+        lg: {
+          fontSize: theme.typography.fontSize.base,
+        },
+        xl: {
+          fontSize: theme.typography.fontSize.lg,
+        },
+      },
     },
   },
-  defaultVariants: {
-    variant: "primary",
-    size: "md",
-  },
-})
+}))
 
-const androidRootVariants = cva("overflow-hidden", {
-  variants: {
-    size: {
-      none: "",
-      icon: "rounded-full",
-      sm: "rounded-full",
-      md: "rounded-full",
-      lg: "rounded-xl",
-    },
-  },
-  defaultVariants: {
-    size: "md",
-  },
-})
+function Button({
+  style,
+  variant = "primary",
+  size = "md",
+  ref,
+  children,
+  ...props
+}: UnistylesVariants<typeof styles> & ComponentProps<typeof Pressable>) {
+  styles.useVariants({ variant, size })
 
-const buttonTextVariants = cva("font-medium", {
-  variants: {
-    variant: {
-      primary: "text-white",
-      secondary: "ios:text-primary text-foreground",
-      tonal: "ios:text-primary text-foreground",
-      plain: "text-foreground",
-    },
-    size: {
-      none: "",
-      icon: "",
-      sm: "text-[15px] leading-5",
-      md: "text-[17px] leading-7",
-      lg: "text-[17px] leading-7",
-    },
-  },
-  defaultVariants: {
-    variant: "primary",
-    size: "md",
-  },
-})
-
-function convertToRGBA(rgb: string, opacity: number): string {
-  const rgbValues = rgb.match(/\d+/g)
-  if (
-    !rgbValues ||
-    rgbValues[0] === undefined ||
-    rgbValues[1] === undefined ||
-    rgbValues[2] === undefined
-  ) {
-    throw new Error("Invalid RGB color format")
-  }
-
-  const red = Number.parseInt(rgbValues[0], 10)
-  const green = Number.parseInt(rgbValues[1], 10)
-  const blue = Number.parseInt(rgbValues[2], 10)
-
-  if (opacity < 0 || opacity > 1) {
-    throw new Error("Opacity must be a number between 0 and 1")
-  }
-
-  return `rgba(${red},${green},${blue},${opacity})`
+  return (
+    <TextStyleContext.Provider value={styles.text}>
+      <Slot.Pressable
+        ref={ref}
+        style={(state) => [
+          styles.button(state),
+          typeof style === "function" ? style(state) : style,
+        ]}
+        {...props}
+      >
+        <Pressable>{children}</Pressable>
+      </Slot.Pressable>
+    </TextStyleContext.Provider>
+  )
 }
 
-const ANDROID_RIPPLE = {
-  dark: {
-    primary: {
-      color: convertToRGBA(COLORS.dark.grey3, 0.4),
-      borderless: false,
-    },
-    secondary: {
-      color: convertToRGBA(COLORS.dark.grey5, 0.8),
-      borderless: false,
-    },
-    plain: { color: convertToRGBA(COLORS.dark.grey5, 0.8), borderless: false },
-    tonal: { color: convertToRGBA(COLORS.dark.grey5, 0.8), borderless: false },
-  },
-  light: {
-    primary: {
-      color: convertToRGBA(COLORS.light.grey4, 0.4),
-      borderless: false,
-    },
-    secondary: {
-      color: convertToRGBA(COLORS.light.grey5, 0.4),
-      borderless: false,
-    },
-    plain: { color: convertToRGBA(COLORS.light.grey5, 0.4), borderless: false },
-    tonal: { color: convertToRGBA(COLORS.light.grey6, 0.4), borderless: false },
-  },
-}
-
-// Add as class when possible: https://github.com/marklawlor/nativewind/issues/522
-const BORDER_CURVE: ViewStyle = {
-  borderCurve: "continuous",
-}
-
-type ButtonVariantProps = Omit<
-  VariantProps<typeof buttonVariants>,
-  "variant"
-> & {
-  variant?: Exclude<VariantProps<typeof buttonVariants>["variant"], null>
-}
-
-type AndroidOnlyButtonProps = {
-  /**
-   * ANDROID ONLY: The class name of root responsible for hidding the ripple overflow.
-   */
-  androidRootClassName?: string
-}
-
-type ButtonProps = PressableProps & ButtonVariantProps & AndroidOnlyButtonProps
-
-const Root = Platform.OS === "android" ? View : Slot.Pressable
-
-const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  ButtonProps
->(
-  (
-    {
-      className,
-      variant = "primary",
-      size,
-      style = BORDER_CURVE,
-      androidRootClassName,
-      ...props
-    },
-    ref
-  ) => {
-    const { colorScheme } = useColorScheme()
-
-    return (
-      <TextClassContext.Provider value={buttonTextVariants({ variant, size })}>
-        <Root
-          className={Platform.select({
-            ios: undefined,
-            default: androidRootVariants({
-              size,
-              className: androidRootClassName,
-            }),
-          })}
-        >
-          <Pressable
-            android_ripple={ANDROID_RIPPLE[colorScheme][variant]}
-            className={cn(
-              props.disabled && "opacity-50",
-              buttonVariants({ variant, size, className })
-            )}
-            ref={ref}
-            style={style}
-            {...props}
-          />
-        </Root>
-      </TextClassContext.Provider>
-    )
-  }
-)
-
-Button.displayName = "Button"
-
-export { Button, buttonTextVariants, buttonVariants }
-export type { ButtonProps }
+export { Button }

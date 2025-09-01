@@ -5,9 +5,10 @@ import {
   db,
   node,
   sentry,
-  upstashRedis,
+  upstash,
   vercel,
 } from "@init/env/presets"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { addProtocol } from "@init/utils/url"
 
@@ -44,6 +45,7 @@ export default createEnv({
 
     sentry.nextjs(),
     axiom.nextjs(),
-    upstashRedis(),
+    upstash.redis(),
   ],
+  skipValidation: isCI,
 })

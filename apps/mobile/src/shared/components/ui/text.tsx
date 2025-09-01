@@ -1,52 +1,103 @@
-import { cn } from "@init/utils/ui"
-import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
-import { Text as RNText } from "react-native"
+import * as Slot from "@rn-primitives/slot"
+import { createContext, useContext } from "react"
+import type { TextStyle } from "react-native"
+import { Text as RNText, type TextProps } from "react-native"
+import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
 
-const textVariants = cva("text-foreground", {
-  variants: {
-    variant: {
-      largeTitle: "text-4xl",
-      title1: "text-2xl",
-      title2: "text-[22px] leading-7",
-      title3: "text-xl",
-      heading: "font-semibold text-[17px] leading-6",
-      body: "text-[17px] leading-6",
-      callout: "text-base",
-      subhead: "text-[15px] leading-6",
-      footnote: "text-[13px] leading-5",
-      caption1: "text-xs",
-      caption2: "text-[11px] leading-4",
-    },
-    color: {
-      primary: "",
-      secondary: "text-secondary-foreground/90",
-      tertiary: "text-muted-foreground/90",
-      quarternary: "text-muted-foreground/50",
+const styles = StyleSheet.create((theme) => ({
+  text: {
+    variants: {
+      variant: {
+        largeTitle: {
+          fontSize: theme.typography.fontSize["4xl"],
+          lineHeight: theme.typography.lineHeight["4xl"],
+          fontWeight: theme.typography.fontWeight.bold,
+        },
+        title1: {
+          fontSize: theme.typography.fontSize["2xl"],
+          lineHeight: theme.typography.lineHeight["2xl"],
+          fontWeight: theme.typography.fontWeight.base,
+        },
+        title2: {
+          fontSize: theme.typography.fontSize.xl + 2,
+          lineHeight: theme.typography.lineHeight.xl + 2,
+          fontWeight: theme.typography.fontWeight.base,
+        },
+        title3: {
+          fontSize: theme.typography.fontSize.xl,
+          lineHeight: theme.typography.lineHeight.xl + 2,
+          fontWeight: theme.typography.fontWeight.base,
+        },
+        heading: {
+          fontSize: theme.typography.fontSize.base,
+          lineHeight: theme.typography.lineHeight.base,
+          fontWeight: theme.typography.fontWeight.semibold,
+        },
+        body: {
+          fontSize: theme.typography.fontSize.base,
+          lineHeight: theme.typography.lineHeight.base,
+        },
+        callout: {
+          fontSize: theme.typography.fontSize.base,
+          lineHeight: theme.typography.lineHeight.base,
+        },
+        subhead: {
+          fontSize: theme.typography.fontSize.sm,
+          lineHeight: theme.typography.lineHeight.sm,
+          fontWeight: theme.typography.fontWeight.medium,
+        },
+        footnote: {
+          fontSize: theme.typography.fontSize.xs,
+          lineHeight: theme.typography.lineHeight.xs,
+        },
+        caption1: {
+          fontSize: theme.typography.fontSize.xs,
+          lineHeight: theme.typography.lineHeight.xs,
+        },
+        caption2: {
+          fontSize: theme.typography.fontSize.xs,
+          lineHeight: theme.typography.lineHeight.xs,
+        },
+      },
+      color: {
+        primary: {
+          color: theme.colors.foreground,
+        },
+        secondary: {
+          color: theme.utils.hexToRgba(theme.colors.foreground, 0.9),
+        },
+        tertiary: {
+          color: theme.colors.grey3,
+        },
+        quarternary: {
+          color: theme.utils.hexToRgba(theme.colors.grey3, 0.5),
+        },
+      },
     },
   },
-  defaultVariants: {
-    variant: "body",
-    color: "primary",
-  },
-})
+}))
 
-const TextClassContext = React.createContext<string | undefined>(undefined)
+const TextStyleContext = createContext<TextStyle | undefined>(undefined)
 
 function Text({
-  className,
-  variant,
-  color,
+  variant = "body",
+  color = "primary",
+  children,
+  style,
   ...props
-}: React.ComponentPropsWithoutRef<typeof RNText> &
-  VariantProps<typeof textVariants>) {
-  const textClassName = React.useContext(TextClassContext)
+}: UnistylesVariants<typeof styles> & TextProps) {
+  const textStyle = useContext(TextStyleContext)
+
+  styles.useVariants({
+    variant,
+    color,
+  })
+
   return (
-    <RNText
-      className={cn(textVariants({ variant, color }), textClassName, className)}
-      {...props}
-    />
+    <Slot.Text style={[styles.text, textStyle, style]} {...props}>
+      <RNText>{children}</RNText>
+    </Slot.Text>
   )
 }
 
-export { Text, TextClassContext, textVariants }
+export { Text, TextStyleContext }

@@ -13,7 +13,7 @@ export const PasswordSchema = z
 
 // Used in the form component
 export const SignUpFormSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { error: "Name is required" }),
   email: EmailSchema,
   password: PasswordSchema,
   confirmPassword: PasswordSchema,
@@ -32,7 +32,7 @@ export const SignUpFormDataSchema = z.form
     path: ["confirmPassword"],
   })
 
-export type SignUpFormData = z.infer<typeof SignUpFormSchema>
+export type SignUpFormData = z.infer<typeof SignUpFormDataSchema>
 
 // Used in the form component
 export const SignInWithPasswordFormSchema = z.object({
