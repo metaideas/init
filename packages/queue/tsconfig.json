@@ -1,7 +1,7 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "."
   },
   "include": ["src", "reset.d.ts"],

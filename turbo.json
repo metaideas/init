@@ -59,7 +59,9 @@
       "cache": false,
       "persistent": true
     },
-    "typecheck": {},
+    "typecheck": {
+      "dependsOn": ["^typegen"]
+    },
     "typegen": {}
   },
   "ui": "tui"

@@ -32,7 +32,7 @@ export const SignUpFormDataSchema = z.form
     path: ["confirmPassword"],
   })
 
-export type SignUpFormData = z.infer<typeof SignUpFormSchema>
+export type SignUpFormData = z.infer<typeof SignUpFormDataSchema>
 
 // Used in the form component
 export const SignInWithPasswordFormSchema = z.object({

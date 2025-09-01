@@ -62,8 +62,7 @@ export const workspaces = {
     },
     {
       name: "desktop",
-      description:
-        "desktop - Tauri desktop application with Vite and Tanstack Router",
+      description: "desktop - Tauri desktop application with Next.js",
       dependencies: ["env", "ui", "utils"],
     },
     {
@@ -99,76 +98,93 @@ export const workspaces = {
       name: "ai",
       description:
         "ai - AI SDK and vector database for building AI applications",
+      dependencies: [],
     },
     {
       name: "analytics",
       description: "analytics - Web and product analytics",
+      dependencies: [],
     },
     {
       name: "auth",
-      description: "auth - Authentication utilities",
+      description: "auth - Authentication utilities using Better Auth",
+      dependencies: ["utils"],
     },
     {
       name: "core",
       description: "core - Core application and business logic",
+      dependencies: [],
     },
     {
       name: "db",
       description: "db - Database client and ORM using Drizzle",
+      dependencies: ["env", "utils"],
     },
     {
       name: "email",
       description: "email - Email templating and sending service using Resend",
+      dependencies: [],
     },
     {
       name: "env",
       description: "env - Environment variable management and validation",
+      dependencies: [],
     },
     {
       name: "feature-flags",
       description:
         "feature-flags - Feature flag utilities for managing and toggling features",
+      dependencies: [],
     },
     {
       name: "internationalization",
       description:
         "internationalization - Internationalization utilities and translation files",
+      dependencies: [],
     },
     {
       name: "kv",
       description: "kv - Redis client database integration using Upstash",
+      dependencies: [],
     },
     {
       name: "observability",
       description:
         "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
+      dependencies: [],
     },
     {
       name: "payments",
       description: "payments - Payment processing utilities using Stripe",
+      dependencies: [],
     },
     {
       name: "queue",
       description:
         "queue - Serverless message queue and workflow management using Upstash",
+      dependencies: [],
     },
     {
       name: "security",
       description:
         "security - Security utilities and best practices using Arcjet and rate-limiting using Upstash",
+      dependencies: ["kv"],
     },
     {
       name: "storage",
       description: "storage - Shared storage utilities using UploadThing",
+      dependencies: [],
     },
     {
       name: "ui",
       description:
         "ui - Reusable UI components and design system using shadcn/ui",
+      dependencies: ["utils"],
     },
     {
       name: "utils",
       description: "utils - Shared utilities and helpers",
+      dependencies: [],
     },
   ],
 } as const

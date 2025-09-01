@@ -15,9 +15,9 @@ root
   ├── apps                # Cross-platform applications
   │   ├── app               # Next.js web application
   │   ├── api               # Hono API with RPC client running on Node.js
-  │   ├── desktop           # Tauri desktop application
+  │   ├── desktop           # Tauri desktop application with Next.js
   │   ├── docs              # Documentation site
-  │   ├── extensions        # WXT browser extension
+  │   ├── extension         # WXT browser extension
   │   ├── mobile            # Expo mobile application
   │   └── web               # Next.js marketing site with content collections for blog and other static pages
   │
@@ -27,18 +27,20 @@ root
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                # AI utilities
   │   ├── analytics         # Web and product analytics
-  │   ├── auth              # Authentication utilities
+  │   ├── auth              # Authentication utilities using Better Auth (depends on: utils)
   │   ├── core              # Shared core logic and business rules
-  │   ├── db                # Database client and ORM using Drizzle
+  │   ├── db                # Database client and ORM using Drizzle (depends on: env, utils)
   │   ├── email             # Email templating and sending service using Resend
   │   ├── env               # Environment variable management and validation
+  │   ├── feature-flags     # Feature flag utilities for managing and toggling features
+  │   ├── internationalization # Internationalization utilities and translation files
   │   ├── kv                # Redis client and vector database integration using Upstash
   │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments          # Payment processing utilities using Stripe
   │   ├── queue             # Serverless job queue and workflow management using Upstash
-  │   ├── security          # Security utilities and best practices using Arcjet
+  │   ├── security          # Security utilities and best practices using Arcjet (depends on: kv)
   │   ├── storage           # Shared storage utilities using UploadThing
-  │   ├── ui                # Reusable UI components and design system using Shadcn/UI
+  │   ├── ui                # Reusable UI components and design system using Shadcn/UI (depends on: utils)
   │   └── utils             # Shared helpers and constants for packages and apps
   │
   ├── scripts             # Scripts for random tasks
@@ -68,7 +70,7 @@ Feature folders are also vertical slices of the app and do not have any dependen
 
 ### App
 
-This is a web application using Next.js.
+This is a web application using Next.js with authentication and full-stack features.
 
 ```sh
 apps/app
@@ -218,10 +220,10 @@ apps/desktop
   └── content                 # Blog and other static content
 ```
 
-### Extensions
+### Extension
 
 ```sh
-apps/extensions
+apps/extension
   ├── src/                    # Source code
   │   ├── entrypoints/          # Entrypoints
   │   │   ├── popup/              # Popup entrypoint

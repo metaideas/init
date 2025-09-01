@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import type { ReactNode } from "react"
 
 import "@init/ui/globals.css"
 
 import { Plausible } from "@init/analytics/web"
+import { getLocale } from "@init/internationalization/nextjs/server"
 import { cn } from "@init/utils/ui"
 import Providers from "~/shared/components/providers"
 
@@ -15,14 +15,8 @@ export const metadata: Metadata = {
   title: "Init Web",
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: Readonly<{
-  children: ReactNode
-  params: Promise<{ locale: string }>
-}>) {
-  const { locale } = await params
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const locale = await getLocale()
 
   return (
     <html className="h-full" lang={locale} suppressHydrationWarning>

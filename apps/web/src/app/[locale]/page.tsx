@@ -29,11 +29,7 @@ function GitHubIcon() {
   )
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>
-}) {
+export default async function Page({ params }: PageProps<"/[locale]">) {
   const { locale } = await params
   const t = await getTranslations("web.home")
 
@@ -74,7 +70,7 @@ export default async function Page({
           </div>
         </section>
         <section className="w-full text-center">
-          <TypographySmall>{t(`locale.${locale}`)}</TypographySmall>
+          <TypographySmall>{t(`locale.${locale as Locale}`)}</TypographySmall>
         </section>
       </main>
       <footer className="flex w-full shrink-0 justify-center gap-2 border-t px-4 py-6 md:px-6">

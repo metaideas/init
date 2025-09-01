@@ -23,7 +23,7 @@
     "db:studio": "turbo --filter @init/db studio",
     "deps:check": "taze -rl",
     "deps:update": "taze -rlw",
-    "dev": "turbo dev",
+    "dev": "turbo run dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
     "format": "adamantite format",
@@ -34,8 +34,8 @@
     "start": "turbo run start",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "typegen": "turbo typegen --continue",
-    "typecheck": "turbo typecheck --continue"
+    "typegen": "turbo run typegen --continue",
+    "typecheck": "turbo run typecheck --continue"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
