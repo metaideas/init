@@ -167,28 +167,6 @@ export const anthropic = () =>
     skipValidation: isCI,
   })
 
-export const upstashVector = () =>
-  createEnv({
-    server: {
-      UPSTASH_VECTOR_REST_TOKEN: z.string(),
-      UPSTASH_VECTOR_REST_URL: z.string().url(),
-    },
-    runtimeEnv: process.env,
-    skipValidation: isCI,
-  })
-
-export const qstash = () =>
-  createEnv({
-    server: {
-      QSTASH_URL: z.url().optional(),
-      QSTASH_TOKEN: z.string(),
-      QSTASH_CURRENT_SIGNING_KEY: z.string(),
-      QSTASH_NEXT_SIGNING_KEY: z.string(),
-    },
-    runtimeEnv: process.env,
-    skipValidation: isCI,
-  })
-
 export const stripe = () =>
   createEnv({
     server: {
@@ -245,6 +223,38 @@ export const posthog = {
         VITE_POSTHOG_HOST: process.env.VITE_POSTHOG_HOST,
         VITE_POSTHOG_API_KEY: process.env.VITE_POSTHOG_API_KEY,
       },
+      skipValidation: isCI,
+    }),
+}
+
+export const upstash = {
+  redis: () =>
+    createEnv({
+      server: {
+        UPSTASH_REDIS_REST_TOKEN: z.string(),
+        UPSTASH_REDIS_REST_URL: z.url(),
+      },
+      runtimeEnv: process.env,
+      skipValidation: isCI,
+    }),
+  qstash: () =>
+    createEnv({
+      server: {
+        QSTASH_URL: z.url().optional(),
+        QSTASH_TOKEN: z.string(),
+        QSTASH_CURRENT_SIGNING_KEY: z.string(),
+        QSTASH_NEXT_SIGNING_KEY: z.string(),
+      },
+      runtimeEnv: process.env,
+      skipValidation: isCI,
+    }),
+  vector: () =>
+    createEnv({
+      server: {
+        UPSTASH_VECTOR_REST_TOKEN: z.string(),
+        UPSTASH_VECTOR_REST_URL: z.string().url(),
+      },
+      runtimeEnv: process.env,
       skipValidation: isCI,
     }),
 }
