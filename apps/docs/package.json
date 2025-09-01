@@ -11,6 +11,7 @@
     "fumadocs": "fumadocs",
     "postinstall": "fumadocs-mdx",
     "start": "next start",
+    "typegen": "next typegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

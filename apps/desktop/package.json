@@ -10,6 +10,7 @@
     "dev": "tauri dev",
     "next:build": "next build",
     "next:dev": "next dev --turbopack --port 3003",
+    "typegen": "next typegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

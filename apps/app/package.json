@@ -9,6 +9,7 @@
     "deps:update": "taze -lw",
     "dev": "next dev --turbopack --port 3001",
     "start": "next start",
+    "typegen": "next typegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

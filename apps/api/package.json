@@ -15,8 +15,8 @@
     "dev": "bun --hot src/index.ts",
     "start": "bun run src/index.ts",
     "typecheck": "tsc --noEmit",
-    "typegen:client": "tsup src/client.ts --dts-only",
-    "typegen:client:watch": "tsup src/client.ts --dts-only --watch"
+    "typegen": "tsup src/client.ts --dts-only",
+    "typegen:watch": "tsup src/client.ts --dts-only --watch"
   },
   "dependencies": {
     "@hono/trpc-server": "0.4.0",
