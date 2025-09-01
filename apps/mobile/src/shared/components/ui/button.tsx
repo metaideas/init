@@ -116,23 +116,27 @@ function Button({
   variant = "primary",
   size = "md",
   ref,
+  children,
   ...props
 }: UnistylesVariants<typeof styles> & ComponentProps<typeof Pressable>) {
   styles.useVariants({ variant, size })
 
   return (
     <TextStyleContext.Provider value={styles.text}>
-      <Slot.Pressable ref={ref}>
-        <Pressable
-          style={({ pressed, hovered }) => [
-            styles.button({ pressed }),
-            typeof style === "function" ? style({ pressed, hovered }) : style,
-          ]}
-          {...props}
-        />
+      <Slot.Pressable
+        ref={ref}
+        style={({ pressed }) => [
+          styles.button({ pressed }),
+          typeof style === "function"
+            ? style({ pressed, hovered: false })
+            : style,
+        ]}
+        {...props}
+      >
+        <Pressable>{children}</Pressable>
       </Slot.Pressable>
     </TextStyleContext.Provider>
   )
 }
 
-export { Button, styles as buttonStyles }
+export { Button }

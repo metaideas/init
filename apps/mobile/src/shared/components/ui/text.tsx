@@ -1,3 +1,4 @@
+import * as Slot from "@rn-primitives/slot"
 import { createContext, useContext } from "react"
 import type { TextStyle } from "react-native"
 import { Text as RNText, type TextProps } from "react-native"
@@ -81,6 +82,7 @@ const TextStyleContext = createContext<TextStyle | undefined>(undefined)
 function Text({
   variant = "body",
   color = "primary",
+  children,
   style,
   ...props
 }: UnistylesVariants<typeof styles> & TextProps) {
@@ -91,7 +93,11 @@ function Text({
     color,
   })
 
-  return <RNText style={[styles.text, textStyle, style]} {...props} />
+  return (
+    <Slot.Text style={[styles.text, textStyle, style]} {...props}>
+      <RNText>{children}</RNText>
+    </Slot.Text>
+  )
 }
 
-export { Text, TextStyleContext, styles as textStyles }
+export { Text, TextStyleContext }
