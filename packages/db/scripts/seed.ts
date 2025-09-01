@@ -12,7 +12,6 @@ async function main() {
 
   const start = performance.now()
 
-  // @ts-expect-error - Type error with drizzle-seed and LibSQL
   await seed(db, schema).refine((f) => ({
     users: {
       columns: {

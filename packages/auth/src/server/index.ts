@@ -19,7 +19,7 @@ export function createAuth<const Plugins extends BetterAuthPlugin[]>(
   return betterAuth({
     appName: APP_NAME,
     database: drizzleAdapter(database, {
-      provider: "sqlite",
+      provider: "pg",
       usePlural: true,
     }),
     advanced: {

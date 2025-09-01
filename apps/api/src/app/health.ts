@@ -12,7 +12,7 @@ export default new Hono<AppContext>().get(
   "/",
   rateLimitByIp("health", slidingWindow(60, "1 m")),
   async (c) => {
-    await c.var.db.run(sql`SELECT 1`)
+    await c.var.db.execute(sql`SELECT 1`)
 
     return c.text("ok")
   }
