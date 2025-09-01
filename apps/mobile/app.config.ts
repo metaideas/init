@@ -48,6 +48,14 @@ const expoConfig: ExpoConfig = {
       },
     ],
     ["expo-dev-client", { launchMode: "most-recent" }],
+    [
+      "@sentry/react-native/expo",
+      {
+        url: process.env.EXPO_PUBLIC_SENTRY_URL,
+        project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
+        organization: process.env.EXPO_PUBLIC_SENTRY_ORG,
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,
