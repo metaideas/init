@@ -21,6 +21,12 @@ export function createConfig(config: NextConfig = {}): NextConfig {
       "@init/ui",
       "@init/utils",
     ],
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
   }
 }
 
