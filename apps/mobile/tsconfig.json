@@ -1,5 +1,5 @@
 {
-  "extends": ["expo/tsconfig.base", "@tooling/tsconfig/base"],
+  "extends": ["@tooling/tsconfig/base", "expo/tsconfig.base"],
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
     "jsx": "preserve",

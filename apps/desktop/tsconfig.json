@@ -21,6 +21,6 @@
     "src",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    "ext.config.ts"
+    "next.config.ts"
   ]
 }

@@ -7,7 +7,7 @@
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"],
-      "content-collections": ["./.content-collections/generated"]
+      "~/content-collections": ["./src/.content-collections/generated"]
     },
     "plugins": [
       {
@@ -16,14 +16,15 @@
     ],
     "noEmit": true
   },
-  "exclude": ["node_modules"],
   "include": [
     ".next/types/**/*.ts",
     "global.d.ts",
     "next-env.d.ts",
     "next.config.ts",
-    "scripts",
     "src",
-    "reset.d.ts"
-  ]
+    "content",
+    "reset.d.ts",
+    "src/content-collections.ts"
+  ],
+  "exclude": ["node_modules"]
 }

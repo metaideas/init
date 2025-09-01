@@ -21,7 +21,6 @@
     "global.d.ts",
     "next-env.d.ts",
     "next.config.ts",
-    "scripts",
     "src",
     "reset.d.ts"
   ]

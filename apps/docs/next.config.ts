@@ -5,7 +5,7 @@ import { createMDX } from "fumadocs-mdx/next"
 import "~/shared/env"
 
 const withMDX = createMDX({
-  configPath: "source.config.ts",
+  configPath: "src/source.config.ts",
 })
 
 let nextConfig = createConfig()
