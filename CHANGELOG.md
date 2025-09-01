@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.0](https://github.com/metaideas/init/compare/init@v0.4.0...init@v0.5.0) (2025-09-01)
+
+
+### Features
+
+* add isolated installs ([#17](https://github.com/metaideas/init/issues/17)) ([61d60ea](https://github.com/metaideas/init/commit/61d60eae94ab0f2a95359eb31aacc49561a73b01))
+* add typedRoutes to next config ([ad2bc1e](https://github.com/metaideas/init/commit/ad2bc1ee4627a3d91b4947433bd37ef1f9bbe2e7))
+
+
+### Bug Fixes
+
+* add package pre-selection during init ([6eb9a0d](https://github.com/metaideas/init/commit/6eb9a0d4dda342d3391ddbe4fed5359596b791b4))
+* lint issues ([6c953d4](https://github.com/metaideas/init/commit/6c953d4478ae5999a4b2d51152ceb8519f33d6da))
+* remove unused dependencies ([c7a4074](https://github.com/metaideas/init/commit/c7a40741a49667a296ef963dc3bd28a6202ca07f))
+
 ## [0.4.0](https://github.com/metaideas/init/compare/init@v0.3.1...init@v0.4.0) (2025-08-24)
 
 
