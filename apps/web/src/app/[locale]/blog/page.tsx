@@ -1,5 +1,5 @@
 import { MDXContent } from "@content-collections/mdx/react"
-import { allPosts } from "content-collections"
+import { allPosts } from "~/content-collections"
 
 export default function Page() {
   return (

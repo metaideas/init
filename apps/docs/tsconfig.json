@@ -1,22 +1,29 @@
 {
+  "extends": "@tooling/tsconfig/base",
   "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "noEmit": true
   },
-  "exclude": ["node_modules"],
-  "extends": "@tooling/tsconfig/web",
   "include": [
-    "next-env.d.ts",
-    "**/*.mjs",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.mdx",
     ".next/types/**/*.ts",
+    "global.d.ts",
+    "next-env.d.ts",
+    "next.config.ts",
+    "src",
+    "content",
     "reset.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

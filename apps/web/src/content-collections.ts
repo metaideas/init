@@ -1,11 +1,13 @@
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
+// We're importing the zod package directly for the prebuild script
+import { z } from "zod"
 
 const posts = defineCollection({
-  directory: "content/posts",
+  directory: "../content/posts",
   include: ["**/*.md", "**/*.mdx"],
   name: "posts",
-  schema: (z) => ({
+  schema: z.object({
     summary: z.string(),
     title: z.string(),
   }),

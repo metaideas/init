@@ -9,7 +9,7 @@
     "deps:update": "taze -lw",
     "dev": "next dev --port 3005 --turbopack",
     "fumadocs": "fumadocs",
-    "postinstall": "fumadocs-mdx",
+    "postinstall": "fumadocs-mdx src/source.config.ts",
     "start": "next start",
     "typegen": "next typegen",
     "typecheck": "tsc --noEmit"
