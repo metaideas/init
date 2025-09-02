@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/metaideas/init/compare/init@v0.7.0...init@v0.8.0) (2025-09-02)
+
+
+### Features
+
+* simplify feature generator ([#24](https://github.com/metaideas/init/issues/24)) ([128d1de](https://github.com/metaideas/init/commit/128d1de25bc2e340441b4fbab4af452f0d67722e))
+
 ## [0.7.0](https://github.com/metaideas/init/compare/init@v0.6.0...init@v0.7.0) (2025-09-02)
 
 
