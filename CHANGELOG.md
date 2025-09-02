@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/metaideas/init/compare/init@v0.6.0...init@v0.7.0) (2025-09-02)
+
+
+### Features
+
+* create cli ([#21](https://github.com/metaideas/init/issues/21)) ([a860243](https://github.com/metaideas/init/commit/a860243b837ee010379263c4b4e2fbc32bd5f4a8))
+
+
+### Bug Fixes
+
+* change docker port for db ([626eb13](https://github.com/metaideas/init/commit/626eb133cbd68b7d0b475b48558802207a69ff47))
+
 ## [0.6.0](https://github.com/metaideas/init/compare/init@v0.5.0...init@v0.6.0) (2025-09-01)
 
 
