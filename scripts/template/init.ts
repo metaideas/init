@@ -201,7 +201,7 @@ async function createNewReadme(projectName: string) {
   <h1 align="center"><code>${projectName}</code></h1>
 </div>
 
-Made with [init](https://github.com/metaideas/init)
+Made with [▶︎ \`init\`](https://github.com/metaideas/init)
     `
   )
 }
