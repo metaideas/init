@@ -19,14 +19,14 @@ import {
 } from "./utils"
 
 const title = `
-  ███              ███   █████   
- ░░░              ░░░   ░░███    
- ████  ████████   ████  ███████  
-░░███ ░░███░░███ ░░███ ░░░███░   
- ░███  ░███ ░███  ░███   ░███    
+  ███              ███   █████
+ ░░░              ░░░   ░░███
+ ████  ████████   ████  ███████
+░░███ ░░███░░███ ░░███ ░░░███░
+ ░███  ░███ ░███  ░███   ░███
  ░███  ░███ ░███  ░███   ░███ ███
- █████ ████ █████ █████  ░░█████ 
-░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░  
+ █████ ████ █████ █████  ░░█████
+░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
 `
 
 async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
@@ -179,6 +179,7 @@ async function cleanupInternalFiles() {
     "release-please-config.json",
     ".github/workflows/release.yml",
     "__tests__",
+    "cli",
   ]
 
   const tasks = filesToRemove.map(async (file) => {
