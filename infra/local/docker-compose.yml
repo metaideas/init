@@ -22,7 +22,7 @@ services:
   postgres:
     image: postgres:17
     ports:
-      - "5432:5432"
+      - "8080:5432"
     environment:
       POSTGRES_DB: main
       POSTGRES_USER: postgres

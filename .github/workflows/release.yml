@@ -25,28 +25,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .template-version.json
-
-      # Optional: Add additional steps after release is created
-      - name: Checkout code
-        if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        if: ${{ steps.release.outputs.release_created }}
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        if: ${{ steps.release.outputs.release_created }}
-        run: bun install
-
-      - name: Run tests
-        if: ${{ steps.release.outputs.release_created }}
-        run: bun test
-        continue-on-error: true
-
-      - name: Build project
-        if: ${{ steps.release.outputs.release_created }}
-        run: bun run build
-        continue-on-error: true
