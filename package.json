@@ -7,12 +7,7 @@
       "apps/*",
       "packages/*",
       "tooling/*"
-    ],
-    "catalogs": {
-      "tailwind3": {
-        "tailwindcss": "3.4.17"
-      }
-    }
+    ]
   },
   "scripts": {
     "boundaries": "turbo boundaries",
@@ -32,10 +27,11 @@
     "lint:monorepo": "adamantite monorepo",
     "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
+    "template": "bun run scripts/index.ts template",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "typegen": "turbo run typegen --continue",
-    "typecheck": "turbo run typecheck --continue"
+    "typecheck": "turbo run typecheck --continue",
+    "typegen": "turbo run typegen --continue"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
