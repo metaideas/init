@@ -137,18 +137,6 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
   return packages
 }
 
-async function confirmSetupRemoteBranch() {
-  const confirmed = await confirm({
-    message: "Would you like to setup a remote template branch for updates?",
-    initialValue: true,
-  })
-
-  if (isCancel(confirmed)) {
-    throw new Error("Setup cancelled. No changes have been made.")
-  }
-
-  return confirmed
-}
 
 async function setupGit() {
   const isInitialized = await Bun.file(".git").exists()
@@ -164,15 +152,6 @@ async function setupGit() {
   }
 }
 
-async function setupRemoteBranch() {
-  try {
-    // Check if template remote already exists
-    await executeCommand("git remote get-url template")
-  } catch {
-    // Remote doesn't exist, add it
-    await executeCommand(`git remote add template ${REMOTE_URL}`)
-  }
-}
 
 async function cleanupInternalFiles() {
   const filesToRemove = [
@@ -214,7 +193,6 @@ async function init() {
     const projectName = await promptForProjectName()
     const selectedApps = await selectApps()
     const selectedPackages = await selectPackages(selectedApps)
-    const setupRemoteBranchConfirmed = await confirmSetupRemoteBranch()
 
     await removeUnselectedWorkspaces(selectedApps, selectedPackages)
 
@@ -243,27 +221,21 @@ async function init() {
     await setupGit()
     s4.stop("Git repository initialized.")
 
+
     const s5 = spinner()
-    s5.start("Setting up remote template branch for updates...")
-    if (setupRemoteBranchConfirmed) {
-      await setupRemoteBranch()
-    }
-    s5.stop("Remote template branch setup complete.")
+    s5.start("Cleaning up internal template files...")
+    await cleanupInternalFiles()
+    s5.stop("Internal template files removed.")
 
     const s6 = spinner()
-    s6.start("Cleaning up internal template files...")
-    await cleanupInternalFiles()
-    s6.stop("Internal template files removed.")
+    s6.start("Creating new README...")
+    await createNewReadme(projectName)
+    s6.stop("README created.")
 
     const s7 = spinner()
-    s7.start("Creating new README...")
-    await createNewReadme(projectName)
-    s7.stop("README created.")
-
-    const s8 = spinner()
-    s8.start("Re-installing dependencies...")
+    s7.start("Re-installing dependencies...")
     await executeCommand("bun install")
-    s8.stop("Dependencies installed.")
+    s7.stop("Dependencies installed.")
 
     outro("🎉 All setup steps complete! Your project is ready.")
   } catch (error) {
