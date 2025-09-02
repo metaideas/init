@@ -10,7 +10,7 @@
         "@octokit/rest": "^22.0.0",
         "@turbo/gen": "2.5.6",
         "@types/bun": "1.2.20",
-        "adamantite": "^0.7.2",
+        "adamantite": "0.8.0",
         "commander": "14.0.0",
         "sherif": "1.6.1",
         "taze": "19.1.0",
@@ -571,11 +571,6 @@
   ],
   "overrides": {
     "import-in-the-middle": "1.14.2",
-  },
-  "catalogs": {
-    "tailwind3": {
-      "tailwindcss": "3.4.17",
-    },
   },
   "packages": {
     "@0no-co/graphql.web": ["@0no-co/graphql.web@1.1.2", "", { "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0" }, "optionalPeers": ["graphql"] }, "sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw=="],
@@ -2148,7 +2143,7 @@
 
     "acorn-walk": ["acorn-walk@8.3.4", "", { "dependencies": { "acorn": "^8.11.0" } }, "sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g=="],
 
-    "adamantite": ["adamantite@0.7.2", "", { "dependencies": { "@clack/prompts": "0.11.0", "@commander-js/extra-typings": "^14.0.0", "commander": "14.0.0", "defu": "6.1.4", "jsonc-parser": "3.3.1", "nypm": "0.6.1" }, "peerDependencies": { "typescript": ">=5.8" }, "bin": { "adamantite": "bin/adamantite" } }, "sha512-kLlehrw1FdqB/FyAjg9mfCWVVBZ9IRGW4aNzvMmYfZE21EhIlKYA7Zel1eNpmDEIoEnQgNIRx8Udk3t8KvgNbA=="],
+    "adamantite": ["adamantite@0.8.0", "", { "dependencies": { "@clack/prompts": "0.11.0", "@commander-js/extra-typings": "^14.0.0", "commander": "14.0.0", "defu": "6.1.4", "jsonc-parser": "3.3.1", "nypm": "0.6.1" }, "peerDependencies": { "typescript": ">=5.8" }, "bin": { "adamantite": "bin/adamantite" } }, "sha512-4QOsTwjCR7Karr7awlJ/sVaFweVrv5FIsVLvqD745cRNVc0Z5xKABxlREdywv+kRL6UrxWxl8zzXZry6JaLYxQ=="],
 
     "adm-zip": ["adm-zip@0.5.16", "", {}, "sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ=="],
 
