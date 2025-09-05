@@ -6,10 +6,14 @@ const NO_LOOKALIKE_ALPHABET =
 // Custom alphabet with non lookalike characters
 const nanoid = customAlphabet(NO_LOOKALIKE_ALPHABET)
 
-export function generateNoLookalikeId(size = 24) {
-  return nanoid(size)
-}
+export function createIdGenerator(
+  { prefix, size }: { prefix?: string; size: number } = { size: 24 }
+) {
+  return () => {
+    if (prefix) {
+      return `${prefix}_${nanoid(size)}`
+    }
 
-export function generatePrefixedId(prefix: string, size = 24) {
-  return `${prefix}_${generateNoLookalikeId(size)}`
+    return nanoid(size)
+  }
 }

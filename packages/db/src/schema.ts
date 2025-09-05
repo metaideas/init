@@ -1,4 +1,4 @@
-import { generatePrefixedId } from "@init/utils/id"
+import { createIdGenerator } from "@init/utils/id"
 import * as z from "@init/utils/schema"
 import type { ConstrainedString } from "@init/utils/type"
 import * as pg from "drizzle-orm/pg-core"
@@ -14,12 +14,14 @@ export function id<B extends string, P extends string>(
 ) {
   const IdSchema = z.branded(brand)
 
+  const generateId = createIdGenerator({ prefix, size: UNIQUE_ID_LENGTH })
+
   return {
     id: pg
       .text()
       .notNull()
       .primaryKey()
-      .$defaultFn(() => generatePrefixedId(prefix, UNIQUE_ID_LENGTH))
+      .$defaultFn(() => generateId())
       .$type<z.infer<typeof IdSchema>>(),
   }
 }
