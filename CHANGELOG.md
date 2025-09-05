@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1](https://github.com/metaideas/init/compare/init@v0.8.0...init@v0.8.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* remove template branch setup during init ([53b888c](https://github.com/metaideas/init/commit/53b888c6f8e922d60f342d5f2272546ce38160d2))
+* remove unused imports ([f28221f](https://github.com/metaideas/init/commit/f28221f8f317203ed0d19dffebda977601a93a90))
+
 ## [0.8.0](https://github.com/metaideas/init/compare/init@v0.7.0...init@v0.8.0) (2025-09-02)
 
 
