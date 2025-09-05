@@ -25,8 +25,6 @@ function checkShouldExclude(filePath: string): boolean {
   )
 }
 
-export const REMOTE_URL = "git@github.com:metaideas/init.git"
-
 export type WorkspaceType = "apps" | "packages"
 
 export const workspaces = {

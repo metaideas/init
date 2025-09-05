@@ -2,7 +2,6 @@ import Bun from "bun"
 import { rm, rmdir } from "node:fs/promises"
 import {
   cancel,
-  confirm,
   intro,
   isCancel,
   log,
@@ -13,7 +12,6 @@ import {
 } from "@clack/prompts"
 import {
   executeCommand,
-  REMOTE_URL,
   replaceProjectNameInProjectFiles,
   workspaces,
 } from "./utils"
@@ -137,7 +135,6 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
   return packages
 }
 
-
 async function setupGit() {
   const isInitialized = await Bun.file(".git").exists()
 
@@ -151,7 +148,6 @@ async function setupGit() {
     throw new Error(`Failed to initialize Git: ${error}`)
   }
 }
-
 
 async function cleanupInternalFiles() {
   const filesToRemove = [
@@ -220,7 +216,6 @@ async function init() {
     s4.start("Initializing Git repository...")
     await setupGit()
     s4.stop("Git repository initialized.")
-
 
     const s5 = spinner()
     s5.start("Cleaning up internal template files...")
