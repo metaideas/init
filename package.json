@@ -34,13 +34,13 @@
     "typegen": "turbo run typegen --continue"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.4",
     "@clack/prompts": "0.11.0",
     "@commander-js/extra-typings": "14.0.0",
     "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.6",
     "@types/bun": "1.2.20",
-    "adamantite": "0.8.0",
+    "adamantite": "0.9.1",
     "commander": "14.0.0",
     "sherif": "1.6.1",
     "taze": "19.1.0",
