@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.2](https://github.com/metaideas/init/compare/init@v0.8.1...init@v0.8.2) (2025-09-19)
+
+
+### Bug Fixes
+
+* import correct id generator ([c2f127f](https://github.com/metaideas/init/commit/c2f127fc37e597b31b2bf148fc84ae14c07739a8))
+
 ## [0.8.1](https://github.com/metaideas/init/compare/init@v0.8.0...init@v0.8.1) (2025-09-05)
 
 
