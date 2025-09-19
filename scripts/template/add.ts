@@ -4,20 +4,13 @@ import {
   intro,
   isCancel,
   log,
-  multiselect,
   outro,
   select,
-  spinner,
   text,
 } from "@clack/prompts"
-import {
-  executeCommand,
-  replaceProjectNameInProjectFiles,
-  type WorkspaceType,
-  workspaces,
-} from "./utils"
+import { workspaces } from "./utils"
 
-async function selectWorkspaceType(): Promise<WorkspaceType> {
+async function selectWorkspaceType() {
   const workspaceType = await select({
     message: "Which type of workspace would you like to add?",
     options: [
@@ -39,22 +32,22 @@ async function selectWorkspaceType(): Promise<WorkspaceType> {
   return workspaceType
 }
 
-async function selectWorkspaces(type: WorkspaceType): Promise<string[]> {
+async function selectWorkspace(type: "apps" | "packages"): Promise<string> {
   const options = workspaces[type].map((w) => ({
     value: w.name,
     label: w.description,
   }))
 
-  const selectedWorkspaces = await multiselect({
-    message: `Which ${type}(s) would you like to add?`,
+  const selectedWorkspace = await select({
+    message: `Which ${type.slice(0, -1)} would you like to add?`,
     options,
   })
 
-  if (isCancel(selectedWorkspaces)) {
-    throw new Error("Canceled adding package")
+  if (isCancel(selectedWorkspace)) {
+    throw new Error("Canceled adding workspace")
   }
 
-  return selectedWorkspaces
+  return selectedWorkspace
 }
 
 async function getWorkspaceName(workspace: string): Promise<string> {
@@ -83,38 +76,30 @@ async function add() {
 
   try {
     const selectedWorkspaceType = await selectWorkspaceType()
-    const selectedWorkspaces = await selectWorkspaces(selectedWorkspaceType)
+    const selectedWorkspace = await selectWorkspace(selectedWorkspaceType)
     const isApp = selectedWorkspaceType === "apps"
     const projectName = await getProjectName()
 
-    const workspaceNames = await Promise.all(
-      selectedWorkspaces.map((workspace) =>
-        isApp ? getWorkspaceName(workspace) : Promise.resolve(workspace)
-      )
-    )
+    const workspaceName = isApp
+      ? await getWorkspaceName(selectedWorkspace)
+      : selectedWorkspace
 
-    const s1 = spinner()
-    s1.start("Adding selected workspaces...")
+    const type = isApp ? "app" : "package"
+    const name = (
+      isApp ? workspaceName : `@${projectName}/${workspaceName}`
+    ).replace(/["\\]/g, "\\$&")
+    const command = `turbo gen workspace --copy https://github.com/metaideas/init/tree/main/${selectedWorkspaceType}/${selectedWorkspace} --type ${type} --name "${name}"`
 
-    const tasks = workspaceNames.map(async (workspaceName) => {
-      try {
-        await executeCommand(
-          `turbo gen workspace --copy https://github.com/metaideas/init/tree/main/${selectedWorkspaceType}/${workspaceName} --type ${selectedWorkspaceType} --name ${isApp ? workspaceName : `@${projectName}/${workspaceName}`}`
-        )
-      } catch {
-        // Failed to add workspace, continuing...
-      }
-    })
+    log.info("Generated command:")
+    log.info(command)
+    log.info("")
+    log.info("Next steps:")
+    log.info("1. Copy the command above")
+    log.info("2. Run it in your terminal")
+    log.info("3. Run 'bun install' to install dependencies")
+    log.info("4. Update any workspace-specific configuration")
 
-    await Promise.all(tasks)
-    s1.stop("Workspaces added successfully.")
-
-    const s2 = spinner()
-    s2.start("Replacing project name in added workspaces...")
-    await replaceProjectNameInProjectFiles(projectName)
-    s2.stop("Project name replaced in workspace files.")
-
-    outro("🎉 All workspaces added successfully! Your project is updated.")
+    outro("🎉 Command generated successfully!")
   } catch (error) {
     cancel(`Operation cancelled: ${error}`)
   }

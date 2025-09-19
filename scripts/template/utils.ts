@@ -25,8 +25,6 @@ function checkShouldExclude(filePath: string): boolean {
   )
 }
 
-export type WorkspaceType = "apps" | "packages"
-
 export const workspaces = {
   apps: [
     {
@@ -254,14 +252,21 @@ export async function replaceProjectNameInProjectFiles(projectName: string) {
 }
 
 export async function executeCommand(command: string): Promise<string> {
-  const proc = Bun.spawn(command.split(" "), { stdout: "pipe" })
+  const proc = Bun.spawn(["sh", "-c", command], {
+    stdout: "pipe",
+    stderr: "pipe",
+  })
 
-  const text = await new Response(proc.stdout).text()
+  const [stdout, stderr] = await Promise.all([
+    new Response(proc.stdout).text(),
+    new Response(proc.stderr).text(),
+  ])
+
   await proc.exited
 
   if (proc.exitCode !== 0) {
-    throw new Error(`Command failed with exit code ${proc.exitCode}`)
+    throw new Error(`Command failed with exit code ${proc.exitCode}: ${stderr}`)
   }
 
-  return text
+  return stdout
 }
