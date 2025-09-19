@@ -1,7 +1,7 @@
 "use server"
 
 import { slidingWindow } from "@init/security/ratelimit"
-import { generateNoLookalikeId } from "@init/utils/id"
+import { createIdGenerator } from "@init/utils/id"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { flattenValidationErrors } from "next-safe-action"
@@ -11,6 +11,8 @@ import {
 } from "~/features/auth/validation"
 import { publicAction, withRateLimitByIp } from "~/shared/action-client"
 import { AUTHORIZED_PATHNAME } from "~/shared/constants"
+
+const generateId = createIdGenerator({ size: 12 })
 
 export const signUp = publicAction
   .metadata({ name: "auth.signUp" })
@@ -30,7 +32,7 @@ export const signUp = publicAction
     const organization = await ctx.auth.api.createOrganization({
       body: {
         name: "My Personal Workspace",
-        slug: `workspace-${generateNoLookalikeId(12)}`,
+        slug: `workspace-${generateId()}`,
         userId: user.id,
       },
     })
