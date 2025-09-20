@@ -3,28 +3,20 @@
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+
+    // Properly support importing CJS modules in ESM
+    "esModuleInterop": true,
+
+    "plugins": [{ "name": "@astrojs/ts-plugin" }],
+
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "~~/*": ["./*"],
-      "~/content-collections": ["./src/.content-collections/generated"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "noEmit": true
+      "~~/*": ["./*"]
+    }
   },
-  "include": [
-    ".next/types/**/*.ts",
-    "global.d.ts",
-    "next-env.d.ts",
-    "next.config.ts",
-    "src",
-    "content",
-    "reset.d.ts",
-    "src/content-collections.ts"
-  ],
-  "exclude": ["node_modules"]
+  "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

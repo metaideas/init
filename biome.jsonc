@@ -7,5 +7,23 @@
         "noImportCycles": "error"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          },
+
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }

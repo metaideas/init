@@ -21,7 +21,6 @@ export function createSemanticCache(
   options: { namespace?: string; minProximity: number } = { minProximity: 0.5 }
 ) {
   return new SemanticCache({
-    // @ts-expect-error - Index generic doesn't match
     index,
     minProximity: options.minProximity,
     namespace: options.namespace,

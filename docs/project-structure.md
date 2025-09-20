@@ -19,7 +19,7 @@ root
   │   ├── docs              # Documentation site
   │   ├── extension         # WXT browser extension
   │   ├── mobile            # Expo mobile application
-  │   └── web               # Next.js marketing site with content collections for blog and other static pages
+  │   └── web               # Astro marketing site and blog
   │
   ├── infra               # Infrastructure as code for cloud providers
   │   └── local             # Docker Compose configuration for local development
@@ -295,33 +295,27 @@ apps/docs
 
 ### Web
 
-This is a marketing website and blog built with Next.js, focusing on static content and SEO optimization. It features content collections for blog management and internationalization support.
+This is a marketing website and blog built with Astro, focusing on static content and SEO optimization.
 
 ```sh
 apps/web
   ├── src/                    # Source code
-  │   ├── app/                  # App router for Next.js
+  │   ├── pages/                 # Pages
   │   │   └── [locale]/          # Localized routes
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/               # Static assets shared across the app (images, icons, etc.)
+  │   │   ├── assets/             # Static assets shared across the app (images, icons, etc.)
   │   │   ├── components/         # Reusable components
-  │   │   ├── hooks/              # Custom React hooks
-  │   │   ├── i18n/               # Internationalization setup
-  │   │   ├── middlewares/        # Global middleware to be imported into middleware.ts
-  │   │   ├── stores/             # Global state management stores
   │   │   ├── env.ts              # Environment variable configuration
   │   │   ├── constants.ts        # Constant values and enums
-  │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
   │   │   ├── types.ts            # TypeScript type definitions
+  │   │   ├── styles/             # Shared styles
   │   │   ├── utils.ts            # General utility functions
   │   │   └── validation.ts       # Form and data validation schemas
   │   │
-  │   ├── middleware.ts         # Next.js middleware for request/response modification
-  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
+  │   └── middleware.ts         # Astro middleware (to enable i18n for static builds)
   │
-  ├── translations              # Internationalization translation files
-  └── global.d.ts               # Global TypeScript declarations
+  └── content/                # Content in MDX format
 ```
 
 ## Package structure

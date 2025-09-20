@@ -1,12 +1,14 @@
 import { DEFAULT_LOCALE } from "@init/internationalization/locale"
 import { isProduction } from "@init/utils/environment"
+import { cn } from "@init/utils/ui"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
-import "@init/ui/globals.css"
-import { cn } from "@init/utils/ui"
 import Providers from "~/shared/components/providers"
 import { WebVitals } from "~/shared/logger"
+
+// @ts-expect-error - TODO: will be fixed when moved to TanStack Start
+import "@init/ui/globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 

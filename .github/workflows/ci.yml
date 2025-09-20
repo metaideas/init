@@ -51,9 +51,6 @@ jobs:
       - name: Generate types
         run: bun run typegen
 
-      - name: Generate content collections
-        run: cd apps/web && bun run prebuild
-
       - name: Run type checking
         run: bun run typecheck
 

@@ -1,0 +1,20 @@
+---
+import Layout from "~/shared/components/layout.astro"
+import { getCollection } from "astro:content"
+
+const blog = await getCollection("blog")
+const posts = blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+---
+
+<Layout>
+  <h1 class="text-2xl font-bold">Init</h1>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}`}>{post.data.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
