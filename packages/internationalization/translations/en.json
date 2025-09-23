@@ -1,19 +1,9 @@
 {
-  "app": {
-    "dashboard": {
-      "home": {
-        "welcome": "Welcome back, {name}!"
-      }
-    }
-  },
-  "web": {
-    "home": {
-      "title": "Home",
-      "description": "This is the home page of the project",
-      "locale": {
-        "en": "English",
-        "es": "Spanish"
-      }
-    }
-  }
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "example_message": "Hello world {username}",
+  "spanish": "Spanish",
+  "english": "English",
+  "german": "German",
+  "switch_locale": "Switch locale",
+  "not_found": "Not Found"
 }

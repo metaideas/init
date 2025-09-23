@@ -1,4 +1,4 @@
-import { Locales } from "@init/internationalization/locale"
+import { locales } from "@init/internationalization/runtime"
 import type { Translations } from "fumadocs-ui/i18n"
 import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
@@ -16,17 +16,6 @@ const translations: Record<string, Partial<Translations>> = {
   es,
 }
 
-const locales = [
-  {
-    locale: Locales.EN,
-    name: "English",
-  },
-  {
-    locale: Locales.ES,
-    name: "Spanish",
-  },
-]
-
 export default async function Layout({
   params,
   children,
@@ -42,7 +31,10 @@ export default async function Layout({
         <RootProvider
           i18n={{
             locale: lang,
-            locales,
+            locales: [
+              { locale: locales[0], name: "English" },
+              { locale: locales[1], name: "Spanish" },
+            ],
             translations: translations[lang],
           }}
         >

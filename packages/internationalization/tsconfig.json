@@ -1,7 +1,9 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
-    "rootDir": "."
+    "allowJs": true,
+    "rootDir": ".",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": [
     "*.ts",

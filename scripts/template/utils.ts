@@ -79,7 +79,7 @@ export const workspaces = {
     {
       name: "web",
       description: "web - Astro marketing site and blog",
-      dependencies: ["env", "ui", "utils"],
+      dependencies: ["env", "internationalization", "ui", "utils"],
     },
   ],
   packages: [

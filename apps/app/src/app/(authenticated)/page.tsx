@@ -1,4 +1,3 @@
-import { getTranslations } from "@init/internationalization/nextjs/server"
 import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
 import {
   Card,
@@ -15,16 +14,13 @@ import { getCurrentUser } from "~/shared/server/loaders"
 
 export default async function Page() {
   const user = await getCurrentUser()
-  const t = await getTranslations("app")
 
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-8">
       <div className="mx-auto w-full max-w-md space-y-4">
         <Card className="">
           <CardHeader>
-            <CardTitle>
-              {t("dashboard.home.welcome", { name: user.name })}
-            </CardTitle>
+            <CardTitle>Dashboard</CardTitle>
             <AdminOnly>
               <CardDescription>Only admins can see this</CardDescription>
             </AdminOnly>

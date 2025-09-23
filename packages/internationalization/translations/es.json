@@ -1,19 +1,9 @@
 {
-  "app": {
-    "dashboard": {
-      "home": {
-        "welcome": "¡Bienvenido de nuevo, {name}!"
-      }
-    }
-  },
-  "web": {
-    "home": {
-      "title": "Inicio",
-      "description": "Esta es la página de inicio del proyecto",
-      "locale": {
-        "en": "Inglés",
-        "es": "Español"
-      }
-    }
-  }
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "example_message": "Hola mundo {username}",
+  "spanish": "Español",
+  "english": "Inglés",
+  "german": "Alemán",
+  "switch_locale": "Cambiar configuración regional",
+  "not_found": "No encontrado"
 }

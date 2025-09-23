@@ -1,8 +1,8 @@
-import { DEFAULT_LOCALE, Locales } from "@init/internationalization/locale"
+import { baseLocale, locales } from "@init/internationalization/runtime"
 import { defineI18n } from "fumadocs-core/i18n"
 
 export const i18n = defineI18n({
-  defaultLanguage: DEFAULT_LOCALE,
+  defaultLanguage: baseLocale,
   hideLocale: "default-locale",
-  languages: [Locales.EN, Locales.ES],
+  languages: [...locales],
 })

@@ -4,28 +4,23 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./locale": "./src/locale.ts",
-    "./nextjs": "./src/nextjs/index.ts",
-    "./nextjs/*": "./src/nextjs/*.ts",
-    "./nextjs/types": "./src/nextjs/types.d.ts",
-    "./translations/*": "./translations/*.json"
+    "./translations/*": "./translations/*.json",
+    "./plugin": "./src/plugin.ts",
+    "./*": "./src/_generated/*.js"
   },
   "scripts": {
+    "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
-    "translations:generate": "echo 'Not implemented yet'",
     "translations:check": "i18n-check --source en --locales translations",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@init/utils": "workspace:*",
-    "next-intl": "4.3.5"
+    "translations:generate": "inlang machine translate --project project.inlang",
+    "typecheck": "tsc --noEmit",
+    "typegen": "bunx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/_generated"
   },
   "devDependencies": {
+    "@inlang/cli": "^3.0.0",
+    "@inlang/paraglide-js": "2.3.2",
     "@lingual/i18n-check": "0.8.6",
     "@tooling/tsconfig": "workspace:*",
-    "next": "15.5.2",
     "typescript": "5.9.2"
   }
 }

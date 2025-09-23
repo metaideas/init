@@ -1,8 +1,5 @@
 import Bun from "bun"
-import pino from "pino"
-import pretty from "pino-pretty"
-
-export const logger = pino(pretty())
+import { intro, log, outro } from "@clack/prompts"
 
 /**
  * Run a script and log the execution time. Make sure to import this at the top
@@ -10,22 +7,25 @@ export const logger = pino(pretty())
  * @param fn - The script to run
  */
 export async function runScript(fn: (...args: unknown[]) => Promise<void>) {
-  logger.debug("Starting script execution...")
+  intro("Starting script execution...")
 
   const startTime = performance.now()
 
   try {
     await fn()
   } catch (error) {
-    logger.error("Script execution failed")
-    logger.error(error)
+    log.error("Script execution failed")
+
+    // biome-ignore lint/suspicious/noConsole: output to console if we crash
+    console.error(error)
+
     process.exit(1)
   }
 
   const endTime = performance.now()
   const executionTime = endTime - startTime
 
-  logger.debug(`Script executed in ${executionTime.toFixed(2)}ms`)
+  outro(`Script executed in ${executionTime.toFixed(2)}ms`)
 
   process.exit()
 }
@@ -35,7 +35,7 @@ export async function runProcess(
   args: string[] = [],
   options: { cwd?: string; env?: Record<string, string> } = {}
 ) {
-  logger.debug(`Running command: ${command} ${args.join(" ")}`)
+  log.info(`Running command: ${command} ${args.join(" ")}`)
 
   const proc = Bun.spawn([command, ...args], {
     ...options,

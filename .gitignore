@@ -105,3 +105,6 @@ expo-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# inlang
+**/project.inlang/cache
