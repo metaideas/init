@@ -26,8 +26,7 @@
     "@upstash/search": "0.1.5",
     "@upstash/semantic-cache": "1.0.5",
     "@upstash/vector": "1.2.2",
-    "ai": "5.0.22",
-    "orate": "2.0.6"
+    "ai": "5.0.22"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
