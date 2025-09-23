@@ -1,7 +1,7 @@
 import "server-only"
 
 import { nextCookies } from "@init/auth/nextjs"
-import { createAuth } from "@init/auth/server"
+import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { headers } from "next/headers"
@@ -10,10 +10,10 @@ import env from "~/shared/env"
 import { baseUrl } from "~/shared/utils"
 
 export const auth = createAuth(
+  databaseAdapter(database),
   {
     secret: env.AUTH_SECRET,
     baseURL: baseUrl,
-    database: database(),
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,

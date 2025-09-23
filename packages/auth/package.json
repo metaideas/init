@@ -13,8 +13,8 @@
     "./server/plugins": "./src/server/plugins.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "secret": "pnpx @better-auth/cli@latest secret",
     "typecheck": "tsc --noEmit"
   },
