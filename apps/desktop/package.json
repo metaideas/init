@@ -5,8 +5,7 @@
   "scripts": {
     "build": "tauri build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
+    "bump:deps": "bun update --interactive",
     "dev": "tauri dev",
     "next:build": "next build",
     "next:dev": "next dev --turbopack --port 3003",

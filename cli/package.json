@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "bump:deps": "bun update --interactive",
     "dev": "tsdown --watch",
     "prepublishOnly": "cp ../README.md ./README.md"
   },

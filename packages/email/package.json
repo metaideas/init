@@ -9,8 +9,7 @@
   "scripts": {
     "build": "email build --dir src/templates",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
+    "bump:deps": "bun update --interactive",
     "dev": "email dev --dir src/templates --port 8081",
     "export": "email export --dir src/templates",
     "typecheck": "tsc --noEmit"

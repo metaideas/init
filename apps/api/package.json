@@ -10,8 +10,7 @@
   "scripts": {
     "build:docker": "docker build -t init-api -f Dockerfile ../..",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
+    "bump:deps": "bun update --interactive",
     "dev": "bun --hot src/index.ts",
     "start": "bun run src/index.ts",
     "typecheck": "tsc --noEmit",

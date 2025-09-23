@@ -11,8 +11,7 @@
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
+    "bump:deps": "bun update --interactive",
     "dev": "qstash dev --port 8288",
     "typecheck": "tsc --noEmit"
   },

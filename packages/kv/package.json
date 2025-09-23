@@ -8,8 +8,7 @@
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "deps:check": "taze -l",
-    "deps:update": "taze -lw",
+    "bump:deps": "bun update --interactive",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
