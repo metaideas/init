@@ -8,7 +8,7 @@
     "source.organizeImports.biome": "explicit",
     "source.fixAll.biome": "explicit"
   },
-  "[javascript][typescript][javascriptreact][typescriptreact][json][jsonc][css][graphql]": {
+  "[javascript][typescript][javascriptreact][typescriptreact][json][jsonc][css][graphql][astro]": {
     "editor.defaultFormatter": "biomejs.biome"
   }
 }

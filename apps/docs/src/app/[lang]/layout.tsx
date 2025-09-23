@@ -4,6 +4,7 @@ import { RootProvider } from "fumadocs-ui/provider"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
 
+// @ts-expect-error - TODO: will be fixed when moved to TanStack Start
 import "~/shared/assets/styles/globals.css"
 import es from "~/shared/localization/translations/es"
 

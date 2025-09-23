@@ -1,11 +1,12 @@
+import { cn } from "@init/utils/ui"
 import { Inter } from "next/font/google"
 import type { ReactNode } from "react"
+import Providers from "~/shared/components/providers"
+
+// @ts-expect-error - TODO: will be fixed when moved to TanStack Router
+import "@init/ui/globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-
-import "@init/ui/globals.css"
-import { cn } from "@init/utils/ui"
-import Providers from "~/shared/components/providers"
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

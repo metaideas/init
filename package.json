@@ -40,14 +40,14 @@
     "@octokit/rest": "^22.0.0",
     "@turbo/gen": "2.5.6",
     "@types/bun": "1.2.20",
-    "adamantite": "0.9.1",
+    "adamantite": "0.9.2",
     "commander": "14.0.0",
     "sherif": "1.6.1",
     "taze": "19.1.0",
     "turbo": "2.5.6",
     "typescript": "5.9.2"
   },
-  "packageManager": "bun@1.2.19",
+  "packageManager": "bun@1.2.22",
   "engines": {
     "node": ">=24"
   },

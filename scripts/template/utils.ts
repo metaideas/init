@@ -78,15 +78,8 @@ export const workspaces = {
     },
     {
       name: "web",
-      description: "web - Next.js marketing site and blog",
-      dependencies: [
-        "analytics",
-        "env",
-        "internationalization",
-        "observability",
-        "ui",
-        "utils",
-      ],
+      description: "web - Astro marketing site and blog",
+      dependencies: ["env", "ui", "utils"],
     },
   ],
   packages: [

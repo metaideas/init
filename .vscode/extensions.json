@@ -1,7 +1,8 @@
 {
   "recommendations": [
+    "astro-build.astro-vscode",
     "biomejs.biome",
-    "tauri-apps.tauri-vscode",
-    "rust-lang.rust-analyzer"
+    "rust-lang.rust-analyzer",
+    "tauri-apps.tauri-vscode"
   ]
 }
