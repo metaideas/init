@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE } from "@init/internationalization/locale"
+import { baseLocale } from "@init/internationalization/runtime"
 import { isProduction } from "@init/utils/environment"
 import { cn } from "@init/utils/ui"
 import type { Metadata } from "next"
@@ -25,7 +25,7 @@ export default function RootLayout({
       className="h-full"
       // TODO: We're passing the default locale instead of getting it from the
       // cookie because of a build error that happens with the not-found page.
-      lang={DEFAULT_LOCALE}
+      lang={baseLocale}
       suppressHydrationWarning
     >
       {isProduction && <WebVitals />}

@@ -1,10 +1,9 @@
 ---
 title: Hello World
 date: 2025-01-01
-slug: hello-world
 description: This is a test blog post.
 ---
 
-# Hello World
+# Hola Mundo
 
-This is a test blog post.
+Este es un post de prueba.

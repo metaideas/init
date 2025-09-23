@@ -1,8 +1,16 @@
 ---
+import { baseLocale, type Locale } from "@init/internationalization/runtime"
 import "@init/ui/globals.css"
+
+type Props = {
+  lang?: Locale
+}
+
+const { lang } = Astro.props
 ---
 
-<html lang="en">
+<!doctype html>
+<html lang={lang || baseLocale}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

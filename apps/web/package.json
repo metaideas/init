@@ -8,13 +8,14 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "astro dev",
     "preview": "astro preview",
-    "pretypecheck": "astro check",
+    "typegen": "astro sync",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.5",
     "@astrojs/react": "4.3.1",
     "@init/env": "workspace:*",
+    "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "astro": "5.13.9",

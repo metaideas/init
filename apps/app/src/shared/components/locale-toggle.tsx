@@ -1,6 +1,6 @@
 "use client"
 
-import { useTranslations } from "@init/internationalization/nextjs"
+import { m } from "@init/internationalization/messages"
 import { Button } from "@init/ui/components/button"
 import {
   DropdownMenu,
@@ -13,7 +13,6 @@ import { useAction } from "next-safe-action/hooks"
 import { changeLocale } from "~/shared/server/actions"
 
 export function LocaleToggle() {
-  const t = useTranslations("web.home.locale")
   const { execute } = useAction(changeLocale)
 
   return (
@@ -27,10 +26,10 @@ export function LocaleToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => execute({ locale: "es" })}>
-          🇪🇸 {t("es")}
+          🇪🇸 {m.spanish()}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => execute({ locale: "en" })}>
-          🇺🇸 {t("en")}
+          🇺🇸 {m.english()}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
