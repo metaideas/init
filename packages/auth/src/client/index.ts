@@ -18,8 +18,6 @@ export function createAuthClient<Plugin extends BetterAuthClientPlugin>(
   })
 }
 
-export type AuthClient = ReturnType<typeof createAuthClient>
-
 /**
  * Creates a function to get the error message for a given locale and error code.
  *
@@ -43,7 +41,7 @@ export type AuthClient = ReturnType<typeof createAuthClient>
  */
 export function createErrorHandler<
   T extends string,
-  K extends keyof AuthClient["$ERROR_CODES"],
+  K extends keyof ReturnType<typeof createAuthClient>["$ERROR_CODES"],
 >(_locales: T[], errorCodes: Record<K, Partial<Record<T, string>>>) {
   return (locale: T, code: K) => {
     return errorCodes[code]?.[locale] ?? ""
