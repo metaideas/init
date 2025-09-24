@@ -5,24 +5,19 @@
   "type": "module",
   "exports": {
     "./expo": "./src/expo.ts",
-    "./nextjs": "./src/nextjs.ts",
-    "./client": "./src/client.ts"
+    "./client": "./src/client.ts",
+    "./server": "./src/server.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "flags": "4.0.1",
-    "next": "15.5.2",
     "posthog-js": "1.260.1",
-    "posthog-react-native": "4.4.0",
-    "server-only": "0.0.1"
+    "posthog-react-native": "4.4.0"
   },
   "devDependencies": {
-    "@init/analytics": "workspace:*",
-    "@init/auth": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.12",
     "typescript": "5.9.2"
