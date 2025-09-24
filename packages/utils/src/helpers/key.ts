@@ -1,21 +1,33 @@
-import type { FirstArg, JoinedRest, RestArgs } from "./type"
+import type { Join } from "./type"
 
-type KeyFormat<
-  T extends string,
-  Args extends string[],
-> = `${T}:${FirstArg<Args>}${JoinedRest<RestArgs<Args>>}`
-
-export function buildKeyGenerator<
-  const TopKey extends string,
-  const SubKeys extends string,
->(): <C extends TopKey, Args extends [SubKeys, ...string[]]>(
-  category: C,
+export function key<Args extends readonly (string | number)[]>(
   ...args: Args
-) => KeyFormat<C, Args> {
-  return <C extends TopKey, Args extends [SubKeys, ...string[]]>(
-    category: C,
-    ...args: Args
-  ): KeyFormat<C, Args> => {
-    return [category, ...args].join(":") as KeyFormat<C, Args>
-  }
+): Join<Args> {
+  return args.map(String).join(":") as Join<Args>
+}
+export function namespacedKey<Namespace extends string>(
+  namespace: Namespace
+): <Args extends readonly (string | number)[]>(
+  ...args: Args
+) => Join<[Namespace, ...Args]>
+
+export function namespacedKey<
+  Namespace extends string,
+  const Categories extends readonly string[],
+>(
+  namespace: Namespace,
+  categories: Categories
+): <
+  First extends Categories[number],
+  Rest extends readonly (string | number)[],
+>(
+  first: First,
+  ...rest: Rest
+) => Join<[Namespace, First, ...Rest]>
+
+export function namespacedKey<
+  Namespace extends string,
+  const Categories extends readonly string[] = never[],
+>(namespace: Namespace, _categories?: Categories) {
+  return (...args: (string | number)[]) => key(namespace, ...args)
 }

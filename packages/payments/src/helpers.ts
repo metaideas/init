@@ -1,9 +1,9 @@
 import type { Redis } from "@init/kv/client"
-import { buildKeyGenerator } from "@init/utils/key"
+import { namespacedKey } from "@init/utils/key"
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 import type { Stripe } from "stripe"
 
-const generateKey = buildKeyGenerator<"stripe", "customer" | "subscription">()
+const stripeKey = namespacedKey("stripe", ["customer", "subscription"])
 
 export function createAgentToolkit(secretKey: string) {
   return new StripeAgentToolkit({
@@ -66,7 +66,7 @@ export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
   async function syncSubscription(
     customerId: string
   ): Promise<SubscriptionCache> {
-    const cacheKey = generateKey("stripe", "customer", customerId)
+    const cacheKey = stripeKey("customer", customerId)
 
     // Fetch latest subscription data from Stripe
     const subscriptions = await client.subscriptions.list({
