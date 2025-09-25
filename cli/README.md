@@ -15,7 +15,7 @@ A modern monorepo template for shipping TypeScript apps everywhere: web, mobile,
 ## What's included
 
 - Fullstack application using [Next.js](https://nextjs.org/) and [TRPC](https://trpc.io/)
-- Documentation site using [Fumadocs](http://fumadocs.vercel.app)
+- Documentation site using [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
 - Marketing site and blog using [Next.js](https://nextjs.org/) and [Content Collections](https://www.content-collections.dev/)
 - Mobile application using [Expo](https://expo.dev/)
 - API using [Hono](https://hono.dev/)

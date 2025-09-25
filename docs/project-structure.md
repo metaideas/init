@@ -272,25 +272,28 @@ apps/extension
 
 ### Docs
 
-This is a documentation website built with Next.js and Fumadocs, providing comprehensive project documentation with search and navigation features.
+This is a documentation website built with Astro and Starlight, providing comprehensive project documentation with search and navigation features.
 
 ```sh
 apps/docs
   ├── src/                    # Source code
-  │   ├── app/                  # App router for Next.js
+  │   ├── content/              # Documentation content
+  │   │   └── docs/             # Documentation pages
+  │   │       ├── guides/       # Guide articles
+  │   │       ├── reference/    # Reference documentation
+  │   │       ├── es/           # Spanish translations
+  │   │       │   ├── guides/   # Spanish guides
+  │   │       │   └── reference/ # Spanish reference
+  │   │       └── index.mdx     # Homepage
   │   │
-  │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/            # Static assets shared across the app
-  │   │   ├── components/        # Shared components
-  │   │   ├── constants.ts       # Constant values and enums
-  │   │   ├── env.ts             # Environment variables
-  │   │   ├── middlewares/       # Global middleware
-  │   │   ├── source.ts          # Documentation source
-  │   │   └── utils.ts           # Shared utilities for the app
+  │   ├── shared/               # Shared utilities and assets
+  │   │   ├── assets/           # Images and static files
+  │   │   └── styles/           # Global styles
   │   │
-  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
+  │   └── content.config.ts     # Content collection configuration
   │
-  └── content/                # Documentation content in MDX format
+  ├── public/                   # Static assets
+  └── astro.config.ts           # Astro and Starlight configuration
 ```
 
 ### Web
@@ -300,22 +303,26 @@ This is a marketing website and blog built with Astro, focusing on static conten
 ```sh
 apps/web
   ├── src/                    # Source code
-  │   ├── pages/                 # Pages
-  │   │   └── [locale]/          # Localized routes
+  │   ├── pages/                # Pages
+  │   │   ├── [lang]/           # Localized routes
+  │   │   │   ├── blog/         # Blog pages
+  │   │   │   │   └── [slug].astro # Dynamic blog post pages
+  │   │   │   ├── 404.astro     # Not found page
+  │   │   │   └── index.astro   # Homepage
+  │   │   └── index.astro       # Root redirect page
+  │   │
+  │   ├── content/              # Content collections
+  │   │   └── blog/             # Blog content
+  │   │       ├── en/           # English blog posts
+  │   │       └── es/           # Spanish blog posts
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/             # Static assets shared across the app (images, icons, etc.)
-  │   │   ├── components/         # Reusable components
-  │   │   ├── env.ts              # Environment variable configuration
-  │   │   ├── constants.ts        # Constant values and enums
-  │   │   ├── types.ts            # TypeScript type definitions
-  │   │   ├── styles/             # Shared styles
-  │   │   ├── utils.ts            # General utility functions
-  │   │   └── validation.ts       # Form and data validation schemas
+  │   │   ├── components/       # Reusable components
+  │   │   │   └── layout.astro  # Main layout component
+  │   │   └── env.ts            # Environment variable configuration
   │   │
+  │   ├── content.config.ts     # Content collections configuration
   │   └── middleware.ts         # Astro middleware (to enable i18n for static builds)
-  │
-  └── content/                # Content in MDX format
 ```
 
 ## Package structure

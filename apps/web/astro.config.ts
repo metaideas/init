@@ -16,6 +16,7 @@ export default defineConfig({
 
   vite: {
     plugins: [
+      // @ts-expect-error - conflict due to multiple Vite versions
       tailwindcss(),
       internationalization({
         cookieName: "init-locale",

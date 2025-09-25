@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "4.1.1",
-    "@expo/ui": "~0.2.0-alpha.5",
+    "@expo/ui": "~0.2.0-beta.4",
     "@expo/vector-icons": "^15.0.2",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
@@ -69,7 +69,7 @@
   "devDependencies": {
     "@sentry/cli": "2.53.0",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.12",
+    "@types/react": "19.1.13",
     "babel-preset-expo": "~14.0.3",
     "expo-doctor": "1.17.0",
     "typescript": "5.9.2"

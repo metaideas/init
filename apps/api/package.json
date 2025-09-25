@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@hono/trpc-server": "0.4.0",
-    "@hono/zod-validator": "0.7.2",
+    "@hono/zod-validator": "0.7.3",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",

@@ -12,6 +12,7 @@ export default defineConfig({
     baseIconPath: "shared/assets/icon.svg",
   },
   srcDir: "src",
+  // @ts-expect-error - conflict due to multiple Vite versions
   vite: () => ({
     plugins: [tailwindcss()],
   }),
