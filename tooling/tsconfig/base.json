@@ -6,7 +6,7 @@
     "target": "ESNext",
     "resolveJsonModule": true,
     "moduleDetection": "force",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "skipLibCheck": true,
 
     "lib": ["ESNext"],
