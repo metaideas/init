@@ -29,7 +29,7 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
   const [trpcClient] = useState(() =>
     createTRPCClient<AppRouter>({
       links: [
-        loggerLink({ enabled: () => isDevelopment, colorMode: "ansi" }),
+        loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
         splitLink({
           condition: (op) =>
             Boolean(op.context.skipBatching) ||

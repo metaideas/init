@@ -8,19 +8,8 @@
       "~/*": ["./src/*"],
       "~~/*": ["./*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "noEmit": true
   },
   "exclude": ["node_modules"],
-  "include": [
-    "reset.d.ts",
-    "src",
-    ".next/types/**/*.ts",
-    "next-env.d.ts",
-    "next.config.ts"
-  ]
+  "include": ["reset.d.ts", "src"]
 }

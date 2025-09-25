@@ -25,7 +25,7 @@ export function addProtocol(url: string, protocol?: "http" | "https") {
     return `${protocol}://${urlWithoutProtocol}`
   }
 
-  const defaultProtocol = isProduction ? "https" : "http"
+  const defaultProtocol = isProduction() ? "https" : "http"
   return `${protocol ?? defaultProtocol}://${url}`
 }
 

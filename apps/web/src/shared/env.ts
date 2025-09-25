@@ -11,5 +11,5 @@ export default createEnv({
   },
   clientPrefix: "PUBLIC_",
   runtimeEnv: import.meta.env,
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })

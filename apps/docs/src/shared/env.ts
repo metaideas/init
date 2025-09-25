@@ -9,5 +9,5 @@ export default createEnv({
     ANALYZE: z.stringbool().default(false),
   },
   extends: [node(), vercel()],
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })

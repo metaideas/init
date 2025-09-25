@@ -3,13 +3,13 @@
 import { Button } from "@init/ui/components/button"
 import { Input } from "@init/ui/components/input"
 import { useMutation } from "@tanstack/react-query"
-import { invoke } from "@tauri-apps/api/core"
 import { useState } from "react"
+import { demoOptions } from "~/features/demo/mutations"
 
 export default function InvokeDemo() {
   const [name, setName] = useState("")
   const greet = useMutation({
-    mutationFn: () => invoke<string>("greet", { name }),
+    ...demoOptions,
     onSuccess: () => {
       setName("")
     },
@@ -21,7 +21,7 @@ export default function InvokeDemo() {
         className="flex flex-row gap-2"
         onSubmit={(e) => {
           e.preventDefault()
-          greet.mutate()
+          greet.mutate(name)
         }}
       >
         <Input

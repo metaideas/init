@@ -1,4 +1,4 @@
-import React from "react"
+import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { HashRouter, Route, Routes } from "react-router"
 
@@ -15,13 +15,13 @@ if (!rootElement) {
 
 if (!rootElement.innerHTML) {
   ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
+    <StrictMode>
       <HashRouter>
         <Routes>
           <Route element={<PopupDemo />} index />
           <Route element={<SettingsDemo />} path="/settings" />
         </Routes>
       </HashRouter>
-    </React.StrictMode>
+    </StrictMode>
   )
 }

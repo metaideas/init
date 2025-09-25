@@ -10,5 +10,5 @@ export default createEnv({
   clientPrefix: "EXPO_PUBLIC_",
   extends: [sentry.expo()],
   runtimeEnv: process.env,
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })

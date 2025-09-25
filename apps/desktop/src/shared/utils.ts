@@ -3,6 +3,6 @@ import { createUrlBuilder } from "@init/utils/url"
 import env from "~/shared/env"
 
 export const buildApiUrl = createUrlBuilder(
-  env.NEXT_PUBLIC_API_URL,
-  isProduction ? "https" : "http"
+  env.PUBLIC_API_URL,
+  isProduction() ? "https" : "http"
 )

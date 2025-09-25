@@ -17,5 +17,5 @@ export default createEnv({
     upstash.redis(),
   ],
   runtimeEnv: process.env,
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })
