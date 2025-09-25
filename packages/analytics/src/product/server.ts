@@ -19,5 +19,3 @@ export function createAnalytics(
       })
   )
 }
-
-export type Analytics = ReturnType<typeof createAnalytics>

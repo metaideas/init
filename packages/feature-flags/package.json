@@ -4,9 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./expo": "./src/expo.ts",
-    "./client": "./src/client.ts",
-    "./server": "./src/server.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
@@ -14,8 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "posthog-js": "1.260.1",
-    "posthog-react-native": "4.4.0"
+    "@init/utils": "workspace:*"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
