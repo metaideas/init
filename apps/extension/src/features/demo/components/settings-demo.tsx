@@ -1,6 +1,6 @@
 import { Button } from "@init/ui/components/button"
 import { TypographyH1, TypographyP } from "@init/ui/components/typography"
-import { Link } from "react-router"
+import { Link } from "wouter"
 
 export default function SettingsDemo() {
   return (
@@ -11,7 +11,7 @@ export default function SettingsDemo() {
         message.
       </TypographyP>
       <Button asChild>
-        <Link to="/">Go back to home</Link>
+        <Link href="/">Go back to home</Link>
       </Button>
     </div>
   )

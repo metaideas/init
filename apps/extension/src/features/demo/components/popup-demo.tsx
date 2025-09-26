@@ -1,6 +1,6 @@
 import { Button } from "@init/ui/components/button"
 import { TypographyH1, TypographyP } from "@init/ui/components/typography"
-import { Link } from "react-router"
+import { Link } from "wouter"
 import { getTestService } from "~/shared/services"
 
 const testService = getTestService()
@@ -19,7 +19,7 @@ export default function PopupDemo() {
       <Button onClick={() => testService.test()}>Log a message</Button>
 
       <Button asChild>
-        <Link to="/settings">Go to settings</Link>
+        <Link href="/settings">Go to settings</Link>
       </Button>
     </div>
   )

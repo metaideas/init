@@ -40,9 +40,9 @@
     "@turbo/gen": "2.5.8",
     "@types/bun": "1.2.22",
     "adamantite": "0.9.2",
-    "commander": "14.0.0",
+    "commander": "14.0.1",
     "sherif": "1.6.1",
-    "turbo": "2.5.6",
+    "turbo": "2.5.8",
     "typescript": "5.9.2"
   },
   "packageManager": "bun@1.2.22",
