@@ -2,7 +2,7 @@ import { isDevelopment } from "@init/utils/environment"
 import pino, { type LoggerOptions } from "pino"
 
 const options: LoggerOptions = {
-  level: isDevelopment ? "debug" : "info",
+  level: isDevelopment() ? "debug" : "info",
   redact: {
     paths: [
       "password",
@@ -15,7 +15,7 @@ const options: LoggerOptions = {
   },
 }
 
-if (isDevelopment) {
+if (isDevelopment()) {
   options.transport = {
     target: "pino-pretty",
     options: { colorize: true },

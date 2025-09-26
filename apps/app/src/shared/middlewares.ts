@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 
 export function csrfProtectionMiddleware(request: NextRequest) {
-  if (isDevelopment) {
+  if (isDevelopment()) {
     return null
   }
 

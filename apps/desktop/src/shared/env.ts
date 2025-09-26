@@ -1,16 +1,14 @@
-import { createEnv } from "@init/env/nextjs"
+import { createEnv } from "@init/env/core"
+import { tauri } from "@init/env/presets"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({
   client: {
-    NEXT_PUBLIC_API_URL: z.url(),
+    PUBLIC_API_URL: z.url(),
   },
-  server: {
-    TAURI_DEV_HOST: z.string().optional(),
-  },
-  experimental__runtimeEnv: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-  },
-  skipValidation: isCI,
+  runtimeEnv: import.meta.env,
+  clientPrefix: "PUBLIC_",
+  extends: [tauri()],
+  skipValidation: isCI(),
 })

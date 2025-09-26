@@ -28,7 +28,7 @@ export default function RootLayout({
       lang={baseLocale}
       suppressHydrationWarning
     >
-      {isProduction && <WebVitals />}
+      {isProduction() && <WebVitals />}
       <body className={cn("font-sans", inter.variable)}>
         <Providers>{children}</Providers>
       </body>

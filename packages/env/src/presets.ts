@@ -9,7 +9,7 @@ export const node = () =>
       NODE_ENV: z.env(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 // Presets for system environment variables from popular services (Vercel,
@@ -27,7 +27,7 @@ export const arcjet = () =>
       ARCJET_KEY: z.string(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const auth = () =>
@@ -36,7 +36,7 @@ export const auth = () =>
       AUTH_SECRET: z.string(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const axiom = {
@@ -47,7 +47,7 @@ export const axiom = {
         AXIOM_DATASET: z.string(),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   nextjs: () =>
     createEnvNextjs({
@@ -59,7 +59,7 @@ export const axiom = {
         NEXT_PUBLIC_AXIOM_TOKEN: process.env.NEXT_PUBLIC_AXIOM_TOKEN,
         NEXT_PUBLIC_AXIOM_DATASET: process.env.NEXT_PUBLIC_AXIOM_DATASET,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   expo: () =>
     createEnv({
@@ -72,7 +72,7 @@ export const axiom = {
         EXPO_PUBLIC_AXIOM_TOKEN: process.env.EXPO_PUBLIC_AXIOM_TOKEN,
         EXPO_PUBLIC_AXIOM_DATASET: process.env.EXPO_PUBLIC_AXIOM_DATASET,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
 }
 
@@ -83,7 +83,7 @@ export const db = () =>
       RUN_PRODUCTION_MIGRATIONS: z.stringbool().default(false),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const resend = () =>
@@ -94,7 +94,7 @@ export const resend = () =>
       MOCK_RESEND: z.stringbool().default(false),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const sentry = {
@@ -108,7 +108,7 @@ export const sentry = {
         SENTRY_DEBUG: z.stringbool().default(false),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   expo: () =>
     createEnv({
@@ -144,7 +144,7 @@ export const sentry = {
       experimental__runtimeEnv: {
         NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
 }
 
@@ -154,7 +154,7 @@ export const openai = () =>
       OPENAI_API_KEY: z.string(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const anthropic = () =>
@@ -163,7 +163,7 @@ export const anthropic = () =>
       ANTHROPIC_API_KEY: z.string(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const stripe = () =>
@@ -173,7 +173,7 @@ export const stripe = () =>
       STRIPE_WEBHOOK_SECRET: z.string(),
     },
     runtimeEnv: process.env,
-    skipValidation: isCI,
+    skipValidation: isCI(),
   })
 
 export const posthog = {
@@ -184,7 +184,7 @@ export const posthog = {
         POSTHOG_API_KEY: z.string(),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   nextjs: () =>
     createEnvNextjs({
@@ -196,7 +196,7 @@ export const posthog = {
         NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
         NEXT_PUBLIC_POSTHOG_API_KEY: process.env.NEXT_PUBLIC_POSTHOG_API_KEY,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   expo: () =>
     createEnv({
@@ -209,7 +209,7 @@ export const posthog = {
         EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
         EXPO_PUBLIC_POSTHOG_API_KEY: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   wxt: () =>
     createEnv({
@@ -222,7 +222,7 @@ export const posthog = {
         VITE_POSTHOG_HOST: process.env.VITE_POSTHOG_HOST,
         VITE_POSTHOG_API_KEY: process.env.VITE_POSTHOG_API_KEY,
       },
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
 }
 
@@ -234,7 +234,7 @@ export const upstash = {
         UPSTASH_REDIS_REST_URL: z.url(),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   qstash: () =>
     createEnv({
@@ -245,7 +245,7 @@ export const upstash = {
         QSTASH_NEXT_SIGNING_KEY: z.string(),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
   vector: () =>
     createEnv({
@@ -254,6 +254,21 @@ export const upstash = {
         UPSTASH_VECTOR_REST_URL: z.string().url(),
       },
       runtimeEnv: process.env,
-      skipValidation: isCI,
+      skipValidation: isCI(),
     }),
 }
+
+export const tauri = () =>
+  createEnv({
+    client: {
+      TAURI_ENV_DEBUG: z.stringbool().default(false),
+      TAURI_ENV_TARGET_TRIPLE: z.string().optional(),
+      TAURI_ENV_ARCH: z.string().optional(),
+      TAURI_ENV_PLATFORM: z.string().optional(),
+      TAURI_ENV_PLATFORM_VERSION: z.string().optional(),
+      TAURI_ENV_FAMILY: z.string().optional(),
+    },
+    runtimeEnv: import.meta.env,
+    clientPrefix: "TAURI_ENV_",
+    skipValidation: isCI(),
+  })

@@ -27,8 +27,8 @@
     "@init/observability": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
-    "@trpc/server": "11.5.0",
-    "hono": "4.9.4",
+    "@trpc/server": "11.6.0",
+    "hono": "4.9.8",
     "superjson": "2.2.2"
   },
   "devDependencies": {

@@ -47,5 +47,5 @@ export default createEnv({
     axiom.nextjs(),
     upstash.redis(),
   ],
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })

@@ -9,5 +9,5 @@ export default createEnv({
   clientPrefix: "VITE_",
   extends: [],
   runtimeEnv: process.env,
-  skipValidation: isCI,
+  skipValidation: isCI(),
 })

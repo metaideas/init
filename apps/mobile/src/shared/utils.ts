@@ -5,7 +5,7 @@ import env from "~/shared/env"
 
 export const buildApiUrl = createUrlBuilder(
   env.EXPO_PUBLIC_API_URL,
-  isProduction ? "https" : "http"
+  isProduction() ? "https" : "http"
 )
 
 export const isIOS = Platform.OS === "ios"

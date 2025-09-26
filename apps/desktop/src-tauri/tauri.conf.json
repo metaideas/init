@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "identifier": "com.desktop.app",
   "build": {
-    "beforeBuildCommand": "bun next:build",
-    "beforeDevCommand": "bun next:dev",
+    "beforeBuildCommand": "bun vite build",
+    "beforeDevCommand": "bun vite dev",
     "devUrl": "http://localhost:3003",
     "frontendDist": "../out"
   },
