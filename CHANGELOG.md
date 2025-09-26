@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.0](https://github.com/metaideas/init/compare/init@v0.8.2...init@v0.9.0) (2025-09-26)
+
+
+### Features
+
+* auth database adapter ([#32](https://github.com/metaideas/init/issues/32)) ([67325be](https://github.com/metaideas/init/commit/67325bec154ea567953413d524a8bc54e2295977))
+* migrate desktop app to tanstack router ([#34](https://github.com/metaideas/init/issues/34)) ([a878f96](https://github.com/metaideas/init/commit/a878f96cc04ab49b39572064066de1534d811b30))
+* new flags implementation ([#33](https://github.com/metaideas/init/issues/33)) ([b2e12f8](https://github.com/metaideas/init/commit/b2e12f8a3052a698a9e5a0ac6ed53912ebe6ae4a))
+* setup paraglide for i18n ([#30](https://github.com/metaideas/init/issues/30)) ([25b1b15](https://github.com/metaideas/init/commit/25b1b15010db11bfa295bd191fb86603177fdd74))
+* **web:** replace next with astro ([#29](https://github.com/metaideas/init/issues/29)) ([2935f66](https://github.com/metaideas/init/commit/2935f661aa6af8f890a6fd004497504a489bf8e0))
+
+
+### Bug Fixes
+
+* remove orate package ([8085e1b](https://github.com/metaideas/init/commit/8085e1b9a3df37b09cddcfe9f3ce752c1bff75b5))
+
 ## [0.8.2](https://github.com/metaideas/init/compare/init@v0.8.1...init@v0.8.2) (2025-09-19)
 
 
