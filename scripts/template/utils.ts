@@ -63,8 +63,8 @@ export const workspaces = {
     },
     {
       name: "docs",
-      description: "docs - Documentation site using Fumadocs",
-      dependencies: ["env", "internationalization", "ui", "utils"],
+      description: "docs - Documentation site using Astro + Starlight",
+      dependencies: [],
     },
     {
       name: "extension",

@@ -1,6 +1,7 @@
 {
   "name": "web",
   "private": true,
+  "type": "module",
   "scripts": {
     "astro": "astro",
     "build": "astro build",
@@ -8,17 +9,17 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "astro dev",
     "preview": "astro preview",
-    "typegen": "astro sync",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/mdx": "4.3.5",
-    "@astrojs/react": "4.3.1",
+    "@astrojs/mdx": "4.3.6",
+    "@astrojs/react": "4.4.0",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "astro": "5.13.9",
+    "astro": "5.14.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
@@ -27,8 +28,9 @@
     "@astrojs/ts-plugin": "1.10.4",
     "@tailwindcss/vite": "4.1.13",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.12",
+    "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
+    "tailwindcss": "4.1.13",
     "typescript": "5.9.2"
   }
 }
