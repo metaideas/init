@@ -1,10 +1,8 @@
 import type { ReactNode } from "react"
-import { validateRequest } from "~/shared/auth/server"
+import { useSession } from "~/shared/auth/client"
 
-export async function AdminOnly({
-  children,
-}: Readonly<{ children: ReactNode }>) {
-  const session = await validateRequest()
+export function AdminOnly({ children }: Readonly<{ children: ReactNode }>) {
+  const { data: session } = useSession()
 
   if (session?.user.role !== "admin") {
     return null
@@ -13,12 +11,10 @@ export async function AdminOnly({
   return <>{children}</>
 }
 
-export async function UserOnly({
-  children,
-}: Readonly<{ children: ReactNode }>) {
-  const session = await validateRequest()
+export function UserOnly({ children }: Readonly<{ children: ReactNode }>) {
+  const { data: session } = useSession()
 
-  if (session?.user.role !== "user") {
+  if (session?.user.role !== "admin") {
     return null
   }
 

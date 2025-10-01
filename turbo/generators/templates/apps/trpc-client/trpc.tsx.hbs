@@ -22,30 +22,27 @@ export const {
 
 const url = buildApiUrl("/trpc")
 
+export const trpcClient = createTRPCClient<AppRouter>({
+  links: [
+    loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
+    splitLink({
+      condition: (op) =>
+        Boolean(op.context.skipBatching) ||
+        isNonJsonSerializable(op.context.result),
+      false: httpBatchLink({
+        transformer: superjson,
+        url,
+      }),
+      true: httpLink({
+        transformer: superjson,
+        url,
+      }),
+    }),
+  ],
+})
+
 export function TRPCProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient()
-  const [trpcClient] = useState(() =>
-    createTRPCClient<TRPCClient>({
-      links: [
-        loggerLink({ enabled: () => isDevelopment, colorMode: "ansi" }),
-        splitLink({
-          condition: (op) =>
-            Boolean(op.context.skipBatching) ||
-            isNonJsonSerializable(op.context.result),
-          false: httpBatchLink({
-            transformer: superjson,
-            url,
-          }),
-          true: httpLink({
-            transformer: superjson,
-            url,
-            // In mobile, we use the auth provider to get the headers
-            // headers: getAuthHeaders(),
-          }),
-        }),
-      ],
-    })
-  )
 
   return (
     <TRPCProviderBase queryClient={queryClient} trpcClient={trpcClient}>

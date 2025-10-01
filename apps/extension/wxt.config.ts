@@ -4,7 +4,7 @@ import { defineConfig } from "wxt"
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   dev: {
-    server: { port: 3004 },
+    server: { port: 3005 },
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
@@ -12,7 +12,6 @@ export default defineConfig({
     baseIconPath: "shared/assets/icon.svg",
   },
   srcDir: "src",
-  // @ts-expect-error - conflict due to multiple Vite versions
   vite: () => ({
     plugins: [tailwindcss()],
   }),

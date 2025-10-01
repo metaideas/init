@@ -1,12 +1,10 @@
-"use client"
-
 import { Button } from "@init/ui/components/button"
 import { toast } from "@init/ui/components/sonner"
 import { cn } from "@init/utils/ui"
 import { Loader2Icon } from "lucide-react"
 import { useState } from "react"
+import { AUTHENTICATED_PATHNAME } from "~/features/auth/constants"
 import { signIn } from "~/shared/auth/client"
-import { AUTHORIZED_PATHNAME } from "~/shared/constants"
 
 function GitHubIcon() {
   return (
@@ -62,7 +60,7 @@ export function SignInWithGoogleButton({ className }: { className?: string }) {
         setLoading(true)
 
         signIn.social({
-          callbackURL: AUTHORIZED_PATHNAME,
+          callbackURL: AUTHENTICATED_PATHNAME,
           provider: "google",
           fetchOptions: {
             onError() {
@@ -100,7 +98,7 @@ export function SignInWithGitHubButton({ className }: { className?: string }) {
         setLoading(true)
 
         signIn.social({
-          callbackURL: AUTHORIZED_PATHNAME,
+          callbackURL: AUTHENTICATED_PATHNAME,
           provider: "github",
           fetchOptions: {
             onError() {

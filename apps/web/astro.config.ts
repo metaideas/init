@@ -19,7 +19,6 @@ export default defineConfig({
       // @ts-expect-error - conflict due to multiple Vite versions
       tailwindcss(),
       internationalization({
-        cookieName: "init-locale",
         project: "../../packages/internationalization/project.inlang",
         outdir: "../../packages/internationalization/src/_generated",
         strategy: ["url", "baseLocale"],

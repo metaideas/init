@@ -19,15 +19,16 @@
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
     "@init/utils": "workspace:*",
-    "@react-email/components": "0.5.0",
-    "@react-email/render": "1.2.0",
-    "resend": "6.0.1"
+    "@react-email/components": "0.5.5",
+    "@react-email/render": "1.3.1",
+    "resend": "6.1.2"
   },
   "devDependencies": {
+    "@react-email/preview-server": "4.2.12",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
     "react": "19.1.0",
-    "react-email": "4.2.8",
-    "typescript": "5.9.2"
+    "react-email": "4.2.12",
+    "typescript": "5.9.3"
   }
 }

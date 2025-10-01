@@ -1,4 +1,4 @@
-import { CustomError, parseError } from "@init/utils/error"
+import { Fault } from "@init/utils/fault"
 import { namespacedKey } from "@init/utils/key"
 
 /**
@@ -12,13 +12,6 @@ type FlagOptions = {
   identity?: Identity
 }
 
-class FlagError extends CustomError {
-  constructor(message: string, context: { key: string; identity?: Identity }) {
-    super(message, context)
-    this.name = "FlagError"
-  }
-}
-
 type FlagsConfig = {
   identify: () => Promise<Identity | undefined>
   decide: (key: string, identity: Identity) => Promise<boolean | undefined>
@@ -26,7 +19,7 @@ type FlagsConfig = {
     get: (key: string) => boolean | undefined | Promise<boolean | undefined>
     set: (key: string, value: boolean) => void | Promise<void>
   }
-  onError?: (error: FlagError) => void
+  onError?: (error: Fault) => void
 }
 
 /**
@@ -96,7 +89,10 @@ export function flags(options: FlagsConfig) {
         return result
       } catch (error) {
         options.onError?.(
-          new FlagError(parseError(error), { key: keyName, identity })
+          Fault.wrap(error, "FEATURE_FLAG_ERROR", {
+            internal: `Error while evaluating feature flag ${keyName}`,
+            context: { key: keyName, identity },
+          })
         )
 
         return defaultValue

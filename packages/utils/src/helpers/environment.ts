@@ -1,16 +1,14 @@
+/// <reference types="vite/client" />
+
 export const isDevelopment = () =>
-  import.meta.env
-    ? import.meta.env.NODE_ENV === "development"
-    : process.env.NODE_ENV === "development"
+  import.meta.env ? import.meta.env.DEV : process.env.NODE_ENV === "development"
 
 export const isProduction = () =>
-  import.meta.env
-    ? import.meta.env.NODE_ENV === "production"
-    : process.env.NODE_ENV === "production"
+  import.meta.env ? import.meta.env.PROD : process.env.NODE_ENV === "production"
 
 export const isTest = () =>
   import.meta.env
-    ? import.meta.env.NODE_ENV === "test"
+    ? import.meta.env.TEST === "true"
     : process.env.NODE_ENV === "test"
 
 export const isCI = () =>

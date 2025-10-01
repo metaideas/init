@@ -1,33 +1,36 @@
-"use client"
-
 import { useAppForm } from "@init/ui/components/form"
-import { mergeForm, useTransform } from "@tanstack/react-form"
-import { useActionState } from "react"
-import { signUp } from "~/features/auth/actions"
+import { useNavigate } from "@tanstack/react-router"
+import { useServerFn } from "@tanstack/react-start"
+import { AUTHENTICATED_PATHNAME } from "~/features/auth/constants"
+import { checkEmailAvailability } from "~/features/auth/server/functions"
 import { SignUpFormSchema as schema } from "~/features/auth/validation"
-import { useTRPCClient } from "~/shared/trpc/client"
+import { signUp } from "~/shared/auth/client"
 
 export default function SignUpForm() {
-  const trpcClient = useTRPCClient()
-  const [state, action] = useActionState(signUp, {})
-
+  const execute = useServerFn(checkEmailAvailability)
+  const navigate = useNavigate()
   const form = useAppForm({
     defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
     validators: {
       onSubmit: schema,
     },
-    transform: useTransform(
-      (baseForm) =>
-        mergeForm(baseForm, { errorMap: { onServer: state.serverError } }),
-      [state]
-    ),
+    onSubmit: async ({ value }) => {
+      await signUp.email(value, {
+        onSuccess: () => {
+          void navigate({ to: AUTHENTICATED_PATHNAME })
+        },
+      })
+    },
   })
 
   return (
     <form
-      action={action}
       className="flex flex-col gap-y-4"
-      onSubmit={() => form.handleSubmit()}
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
     >
       <form.AppForm>
         <form.AppField name="name" validators={{ onBlur: schema.shape.name }}>
@@ -46,10 +49,7 @@ export default function SignUpForm() {
           validators={{
             onBlur: schema.shape.email,
             onBlurAsync: async ({ value }) => {
-              const { isAvailable } =
-                await trpcClient.auth.checkEmailAvailability.query({
-                  email: value,
-                })
+              const { isAvailable } = await execute({ data: { email: value } })
 
               if (isAvailable) {
                 return null

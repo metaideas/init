@@ -1,7 +1,7 @@
 import { sql } from "@init/db/helpers"
 import { slidingWindow } from "@init/security/ratelimit"
 import { Hono } from "hono"
-import { rateLimitByIp } from "~/shared/middlewares"
+import { rateLimitByIp } from "~/shared/middleware"
 import type { AppContext } from "~/shared/types"
 
 /**

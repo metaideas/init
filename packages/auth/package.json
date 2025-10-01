@@ -6,11 +6,11 @@
     "./client": "./src/client/index.ts",
     "./client/plugins": "./src/client/plugins.ts",
     "./expo/*": "./src/expo/*.ts",
-    "./nextjs": "./src/nextjs.ts",
     "./permissions": "./src/permissions.ts",
     "./schema": "./src/schema.ts",
     "./server": "./src/server/index.ts",
-    "./server/plugins": "./src/server/plugins.ts"
+    "./server/plugins": "./src/server/plugins.ts",
+    "./start": "./src/start.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
@@ -27,6 +27,6 @@
   "devDependencies": {
     "@init/db": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }

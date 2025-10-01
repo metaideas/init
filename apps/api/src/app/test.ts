@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import { requireSession } from "~/shared/middlewares"
+import { requireSession } from "~/shared/middleware"
 import type { AppContext } from "~/shared/types"
 
 const test = new Hono<AppContext>()
