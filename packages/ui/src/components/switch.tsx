@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { Switch as SwitchPrimitive } from "radix-ui"
 import type * as React from "react"

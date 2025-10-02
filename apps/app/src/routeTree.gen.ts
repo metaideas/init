@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ApiTestRouteImport } from './routes/api/test'
 import { Route as unauthenticatedLayoutRouteImport } from './routes/(unauthenticated)/_layout'
@@ -17,6 +19,17 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as unauthenticatedLayoutSignUpRouteImport } from './routes/(unauthenticated)/_layout/sign-up'
 import { Route as unauthenticatedLayoutSignInRouteImport } from './routes/(unauthenticated)/_layout/sign-in'
 
+const unauthenticatedRouteImport = createFileRoute('/(unauthenticated)')()
+const authenticatedRouteImport = createFileRoute('/(authenticated)')()
+
+const unauthenticatedRoute = unauthenticatedRouteImport.update({
+  id: '/(unauthenticated)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authenticatedRoute = authenticatedRouteImport.update({
+  id: '/(authenticated)',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTestRoute = ApiTestRouteImport.update({
   id: '/api/test',
   path: '/api/test',
@@ -55,22 +68,24 @@ const unauthenticatedLayoutSignInRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof authenticatedLayoutIndexRoute
   '/api/test': typeof ApiTestRoute
   '/sign-in': typeof unauthenticatedLayoutSignInRoute
   '/sign-up': typeof unauthenticatedLayoutSignUpRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/': typeof authenticatedLayoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof authenticatedLayoutIndexRoute
   '/api/test': typeof ApiTestRoute
   '/sign-in': typeof unauthenticatedLayoutSignInRoute
   '/sign-up': typeof unauthenticatedLayoutSignUpRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/': typeof authenticatedLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(authenticated)': typeof authenticatedRouteWithChildren
   '/(authenticated)/_layout': typeof authenticatedLayoutRouteWithChildren
+  '/(unauthenticated)': typeof unauthenticatedRouteWithChildren
   '/(unauthenticated)/_layout': typeof unauthenticatedLayoutRouteWithChildren
   '/api/test': typeof ApiTestRoute
   '/(unauthenticated)/_layout/sign-in': typeof unauthenticatedLayoutSignInRoute
@@ -80,12 +95,14 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$' | '/'
+  fullPaths: '/' | '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$' | '/'
+  to: '/' | '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$'
   id:
     | '__root__'
+    | '/(authenticated)'
     | '/(authenticated)/_layout'
+    | '/(unauthenticated)'
     | '/(unauthenticated)/_layout'
     | '/api/test'
     | '/(unauthenticated)/_layout/sign-in'
@@ -95,12 +112,28 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  authenticatedRoute: typeof authenticatedRouteWithChildren
+  unauthenticatedRoute: typeof unauthenticatedRouteWithChildren
   ApiTestRoute: typeof ApiTestRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/(unauthenticated)': {
+      id: '/(unauthenticated)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof unauthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authenticated)': {
+      id: '/(authenticated)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/test': {
       id: '/api/test'
       path: '/api/test'
@@ -110,15 +143,15 @@ declare module '@tanstack/react-router' {
     }
     '/(unauthenticated)/_layout': {
       id: '/(unauthenticated)/_layout'
-      path: ''
-      fullPath: ''
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof unauthenticatedLayoutRouteImport
       parentRoute: typeof unauthenticatedRoute
     }
     '/(authenticated)/_layout': {
       id: '/(authenticated)/_layout'
-      path: ''
-      fullPath: ''
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof authenticatedLayoutRouteImport
       parentRoute: typeof authenticatedRoute
     }
@@ -153,7 +186,59 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface authenticatedLayoutRouteChildren {
+  authenticatedLayoutIndexRoute: typeof authenticatedLayoutIndexRoute
+}
+
+const authenticatedLayoutRouteChildren: authenticatedLayoutRouteChildren = {
+  authenticatedLayoutIndexRoute: authenticatedLayoutIndexRoute,
+}
+
+const authenticatedLayoutRouteWithChildren =
+  authenticatedLayoutRoute._addFileChildren(authenticatedLayoutRouteChildren)
+
+interface authenticatedRouteChildren {
+  authenticatedLayoutRoute: typeof authenticatedLayoutRouteWithChildren
+}
+
+const authenticatedRouteChildren: authenticatedRouteChildren = {
+  authenticatedLayoutRoute: authenticatedLayoutRouteWithChildren,
+}
+
+const authenticatedRouteWithChildren = authenticatedRoute._addFileChildren(
+  authenticatedRouteChildren,
+)
+
+interface unauthenticatedLayoutRouteChildren {
+  unauthenticatedLayoutSignInRoute: typeof unauthenticatedLayoutSignInRoute
+  unauthenticatedLayoutSignUpRoute: typeof unauthenticatedLayoutSignUpRoute
+}
+
+const unauthenticatedLayoutRouteChildren: unauthenticatedLayoutRouteChildren = {
+  unauthenticatedLayoutSignInRoute: unauthenticatedLayoutSignInRoute,
+  unauthenticatedLayoutSignUpRoute: unauthenticatedLayoutSignUpRoute,
+}
+
+const unauthenticatedLayoutRouteWithChildren =
+  unauthenticatedLayoutRoute._addFileChildren(
+    unauthenticatedLayoutRouteChildren,
+  )
+
+interface unauthenticatedRouteChildren {
+  unauthenticatedLayoutRoute: typeof unauthenticatedLayoutRouteWithChildren
+}
+
+const unauthenticatedRouteChildren: unauthenticatedRouteChildren = {
+  unauthenticatedLayoutRoute: unauthenticatedLayoutRouteWithChildren,
+}
+
+const unauthenticatedRouteWithChildren = unauthenticatedRoute._addFileChildren(
+  unauthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
+  authenticatedRoute: authenticatedRouteWithChildren,
+  unauthenticatedRoute: unauthenticatedRouteWithChildren,
   ApiTestRoute: ApiTestRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

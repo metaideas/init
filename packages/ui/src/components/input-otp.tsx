@@ -1,9 +1,7 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { OTPInput, OTPInputContext } from "input-otp"
-import { MinusIcon } from "lucide-react"
 import * as React from "react"
+import { Icon } from "./icon"
 
 function InputOTP({
   className,
@@ -72,7 +70,7 @@ function InputOTPSeparator({
   return (
     <div className={cn("flex items-center", className)} {...props}>
       <hr className="border-none" data-slot="input-otp-separator" />
-      <MinusIcon className="text-muted-foreground" />
+      <Icon.Minus className="text-muted-foreground" />
     </div>
   )
 }

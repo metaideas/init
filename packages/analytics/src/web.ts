@@ -1,1 +1,1 @@
-export { default as Plausible } from "next-plausible"
+export * from "@plausible-analytics/tracker"

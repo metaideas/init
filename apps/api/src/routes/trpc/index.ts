@@ -1,6 +1,6 @@
 import { trpcServer } from "@hono/trpc-server"
 import { Hono } from "hono"
-import { trpcRouter } from "~/app/trpc/router"
+import { trpcRouter } from "~/routes/trpc/router"
 import { createTRPCContext } from "~/shared/trpc"
 import type { AppContext } from "~/shared/types"
 

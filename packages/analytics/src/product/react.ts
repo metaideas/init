@@ -2,14 +2,14 @@ import { singleton } from "@init/utils/singleton"
 import posthog, { type PostHogConfig } from "posthog-js"
 import { usePostHog } from "posthog-js/react"
 import { useEffect } from "react"
-import { config } from "./config"
 
-export function createAnalytics(apiKey: string, options?: PostHogConfig) {
+export function createAnalytics(apiKey: string, config?: PostHogConfig) {
   return singleton("analytics-client", () =>
     posthog.init(apiKey, {
-      ...config,
-      ...(options ?? {}),
+      person_profiles: "identified_only",
+      capture_pageview: "history_change", // Capture pageview on history change
       persistence: "localStorage+cookie",
+      ...(config ?? {}),
     })
   )
 }

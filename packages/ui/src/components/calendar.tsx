@@ -1,11 +1,4 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react"
 import * as React from "react"
 import {
   type DayButton,
@@ -13,6 +6,7 @@ import {
   getDefaultClassNames,
 } from "react-day-picker"
 import { Button, buttonVariants } from "./button"
+import { Icon } from "./icon"
 
 function CalendarRoot({
   className,
@@ -41,14 +35,14 @@ function CalendarChevron({
   orientation?: "left" | "right" | "up" | "down"
 } & React.ComponentProps<"svg">) {
   if (orientation === "left") {
-    return <ChevronLeftIcon className={cn("size-4", className)} {...props} />
+    return <Icon.ChevronLeft className={cn("size-4", className)} {...props} />
   }
 
   if (orientation === "right") {
-    return <ChevronRightIcon className={cn("size-4", className)} {...props} />
+    return <Icon.ChevronRight className={cn("size-4", className)} {...props} />
   }
 
-  return <ChevronDownIcon className={cn("size-4", className)} {...props} />
+  return <Icon.ChevronDown className={cn("size-4", className)} {...props} />
 }
 
 function CalendarWeekNumber({

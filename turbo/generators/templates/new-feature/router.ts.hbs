@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import type { AppContext } from "~/lib/types"
+import type { AppContext } from "~/shared/types"
 
 const router = new Hono<AppContext>()
   .get("/ping", c => c.text("pong"))

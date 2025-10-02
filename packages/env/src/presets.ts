@@ -1,7 +1,10 @@
+import {
+  EXPO_PUBLIC_ENV_PREFIX,
+  REACT_PUBLIC_ENV_PREFIX,
+} from "@init/utils/constants"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
-import { createEnv as createEnvNextjs } from "@t3-oss/env-nextjs"
 
 export const node = () =>
   createEnv({
@@ -12,8 +15,8 @@ export const node = () =>
     skipValidation: isCI(),
   })
 
-// Presets for system environment variables from popular services (Vercel,
-// Neon, Supabase, Render, etc.)
+// Presets for system environment variables from popular services (Vercel, Neon,
+// Supabase, Render, etc.)
 export * from "@t3-oss/env-core/presets-zod"
 
 // Package presets.
@@ -40,7 +43,7 @@ export const auth = () =>
   })
 
 export const axiom = {
-  client: () =>
+  react: () =>
     createEnv({
       client: {
         PUBLIC_AXIOM_TOKEN: z.string(),
@@ -48,7 +51,7 @@ export const axiom = {
       },
       runtimeEnv: import.meta.env,
       skipValidation: isCI(),
-      clientPrefix: "PUBLIC_",
+      clientPrefix: REACT_PUBLIC_ENV_PREFIX,
     }),
   server: () =>
     createEnv({
@@ -59,25 +62,13 @@ export const axiom = {
       runtimeEnv: process.env,
       skipValidation: isCI(),
     }),
-  nextjs: () =>
-    createEnvNextjs({
-      client: {
-        NEXT_PUBLIC_AXIOM_TOKEN: z.string(),
-        NEXT_PUBLIC_AXIOM_DATASET: z.string(),
-      },
-      experimental__runtimeEnv: {
-        NEXT_PUBLIC_AXIOM_TOKEN: process.env.NEXT_PUBLIC_AXIOM_TOKEN,
-        NEXT_PUBLIC_AXIOM_DATASET: process.env.NEXT_PUBLIC_AXIOM_DATASET,
-      },
-      skipValidation: isCI(),
-    }),
   expo: () =>
     createEnv({
       client: {
         EXPO_PUBLIC_AXIOM_TOKEN: z.string(),
         EXPO_PUBLIC_AXIOM_DATASET: z.string(),
       },
-      clientPrefix: "EXPO_PUBLIC_",
+      clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
       runtimeEnvStrict: {
         EXPO_PUBLIC_AXIOM_TOKEN: process.env.EXPO_PUBLIC_AXIOM_TOKEN,
         EXPO_PUBLIC_AXIOM_DATASET: process.env.EXPO_PUBLIC_AXIOM_DATASET,
@@ -116,6 +107,7 @@ export const sentry = {
         SENTRY_ORG: z.string(),
         SENTRY_PROJECT: z.string(),
         SENTRY_DEBUG: z.stringbool().default(false),
+        SENTRY_SPOTLIGHT: z.stringbool().default(false),
       },
       runtimeEnv: process.env,
       skipValidation: isCI(),
@@ -131,7 +123,7 @@ export const sentry = {
         SENTRY_PROJECT: z.string(),
         SENTRY_DEBUG: z.stringbool().default(false),
       },
-      clientPrefix: "EXPO_PUBLIC_",
+      clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
       runtimeEnvStrict: {
         EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
         SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
@@ -140,20 +132,14 @@ export const sentry = {
         SENTRY_DEBUG: process.env.SENTRY_DEBUG,
       },
     }),
-  nextjs: () =>
-    createEnvNextjs({
+  react: () =>
+    createEnv({
       client: {
-        NEXT_PUBLIC_SENTRY_DSN: z.string(),
+        PUBLIC_SENTRY_DSN: z.string(),
+        PUBLIC_SENTRY_DEBUG: z.stringbool().default(false),
       },
-      server: {
-        SENTRY_AUTH_TOKEN: z.string(),
-        SENTRY_ORG: z.string(),
-        SENTRY_PROJECT: z.string(),
-        SENTRY_DEBUG: z.stringbool().default(false),
-      },
-      experimental__runtimeEnv: {
-        NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
-      },
+      runtimeEnv: import.meta.env,
+      clientPrefix: REACT_PUBLIC_ENV_PREFIX,
       skipValidation: isCI(),
     }),
 }
@@ -196,42 +182,24 @@ export const posthog = {
       runtimeEnv: process.env,
       skipValidation: isCI(),
     }),
-  nextjs: () =>
-    createEnvNextjs({
-      client: {
-        NEXT_PUBLIC_POSTHOG_HOST: z.url(),
-        NEXT_PUBLIC_POSTHOG_API_KEY: z.string(),
-      },
-      experimental__runtimeEnv: {
-        NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-        NEXT_PUBLIC_POSTHOG_API_KEY: process.env.NEXT_PUBLIC_POSTHOG_API_KEY,
-      },
-      skipValidation: isCI(),
-    }),
   expo: () =>
     createEnv({
       client: {
         EXPO_PUBLIC_POSTHOG_HOST: z.url(),
         EXPO_PUBLIC_POSTHOG_API_KEY: z.string(),
       },
-      clientPrefix: "EXPO_PUBLIC_",
-      runtimeEnvStrict: {
-        EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
-        EXPO_PUBLIC_POSTHOG_API_KEY: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
-      },
+      clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
+      runtimeEnv: process.env,
       skipValidation: isCI(),
     }),
-  wxt: () =>
+  react: () =>
     createEnv({
       client: {
-        VITE_POSTHOG_HOST: z.url(),
-        VITE_POSTHOG_API_KEY: z.string(),
+        PUBLIC_POSTHOG_HOST: z.url(),
+        PUBLIC_POSTHOG_API_KEY: z.string(),
       },
-      clientPrefix: "VITE_",
-      runtimeEnvStrict: {
-        VITE_POSTHOG_HOST: process.env.VITE_POSTHOG_HOST,
-        VITE_POSTHOG_API_KEY: process.env.VITE_POSTHOG_API_KEY,
-      },
+      clientPrefix: REACT_PUBLIC_ENV_PREFIX,
+      runtimeEnv: import.meta.env,
       skipValidation: isCI(),
     }),
 }

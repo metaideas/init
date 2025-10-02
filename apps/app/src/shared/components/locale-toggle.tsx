@@ -7,14 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@init/ui/components/dropdown-menu"
-import { LanguagesIcon } from "lucide-react"
+import { Icon } from "@init/ui/components/icon"
 
 export function LocaleToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="outline">
-          <LanguagesIcon className="size-4" />
+          <Icon.Languages className="size-4" />
 
           <span className="sr-only">Toggle theme</span>
         </Button>

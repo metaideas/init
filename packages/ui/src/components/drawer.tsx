@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import type * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"

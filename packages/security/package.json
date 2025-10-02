@@ -4,24 +4,27 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./nextjs": "./src/nextjs.ts",
-    "./hono": "./src/hono.ts",
+    ".": "./src/index.ts",
     "./ratelimit": "./src/ratelimit.ts",
     "./rules": "./src/rules.ts",
     "./tools": "./src/tools.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/ip": "1.0.0-beta.8",
-    "@arcjet/next": "1.0.0-beta.8",
-    "@arcjet/node": "1.0.0-beta.8",
-    "@arcjet/redact": "1.0.0-beta.8",
+    "@arcjet/astro": "^1.0.0-beta.12",
+    "@arcjet/bun": "^1.0.0-beta.12",
+    "@arcjet/inspect": "^1.0.0-beta.12",
+    "@arcjet/ip": "1.0.0-beta.12",
+    "@arcjet/node": "1.0.0-beta.12",
+    "@arcjet/redact": "1.0.0-beta.12",
     "@init/kv": "workspace:*",
-    "@upstash/ratelimit": "2.0.5"
+    "@upstash/ratelimit": "2.0.6",
+    "arcjet": "1.0.0-beta.12",
+    "nosecone": "1.0.0-beta.12"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

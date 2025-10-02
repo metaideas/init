@@ -1,13 +1,9 @@
 // biome-ignore-all lint/nursery/useAnchorHref: shadcn/ui
 
 import { cn } from "@init/utils/ui"
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MoreHorizontalIcon,
-} from "lucide-react"
 import type * as React from "react"
 import { type Button, buttonVariants } from "./button"
+import { Icon } from "./icon"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -76,7 +72,7 @@ function PaginationPrevious({
       size="default"
       {...props}
     >
-      <ChevronLeftIcon />
+      <Icon.ChevronLeft />
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   )
@@ -94,7 +90,7 @@ function PaginationNext({
       {...props}
     >
       <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
+      <Icon.ChevronRight />
     </PaginationLink>
   )
 }
@@ -110,7 +106,7 @@ function PaginationEllipsis({
       data-slot="pagination-ellipsis"
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <Icon.DotsHorizontal className="size-4" />
       <span className="sr-only">More pages</span>
     </span>
   )

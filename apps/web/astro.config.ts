@@ -18,6 +18,7 @@ export default defineConfig({
     plugins: [
       // @ts-expect-error - conflict due to multiple Vite versions
       tailwindcss(),
+      // @ts-expect-error - conflict due to multiple Vite versions
       internationalization({
         project: "../../packages/internationalization/project.inlang",
         outdir: "../../packages/internationalization/src/_generated",

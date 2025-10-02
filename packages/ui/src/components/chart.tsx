@@ -1,7 +1,5 @@
 // biome-ignore-all lint: shadcn/ui
 
-"use client"
-
 import { cn } from "@init/utils/ui"
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"

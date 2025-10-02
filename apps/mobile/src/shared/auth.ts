@@ -1,6 +1,6 @@
 import { createAuthClient } from "@init/auth/client"
 import { adminClient, organizationClient } from "@init/auth/client/plugins"
-import { expoClient } from "@init/auth/expo/client"
+import { expoClient } from "@init/auth/expo"
 import {
   accessControl,
   adminRole,

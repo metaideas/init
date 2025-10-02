@@ -1,7 +1,7 @@
-"use client"
-
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
+import { THEME_STORAGE_KEY, type themes } from "@init/utils/constants"
 import {
+  // We're using next-themes even though is specialized in Next.js, it works in
+  // other environments such as Vite apps
   ThemeProvider as NextThemeProvider,
   type ThemeProviderProps as NextThemeProviderProps,
   useTheme,
@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu"
+import { Icon } from "./icon"
 
 export function ThemeProvider({ children, ...props }: NextThemeProviderProps) {
   return (
@@ -20,7 +21,10 @@ export function ThemeProvider({ children, ...props }: NextThemeProviderProps) {
       attribute="class"
       defaultTheme="system"
       disableTransitionOnChange
+      enableColorScheme
       enableSystem
+      storageKey={THEME_STORAGE_KEY}
+      themes={["light", "dark", "system"] satisfies typeof themes}
       {...props}
     >
       {children}
@@ -35,8 +39,8 @@ export function ThemeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="outline">
-          <SunIcon className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
-          <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Icon.Sun className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
+          <Icon.Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

@@ -1,13 +1,11 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
-import { AlertCircle, Loader2Icon } from "lucide-react"
 import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
 import type React from "react"
 import { useFormStatus } from "react-dom"
 import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"
+import { Icon } from "./icon"
 import { Input } from "./input"
 import { Label } from "./label"
 import { Textarea } from "./textarea"
@@ -138,7 +136,7 @@ function FormSubmitButton({
         <Button {...props} disabled={!canSubmit || status.pending}>
           {isSubmitting || status.pending ? (
             <>
-              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+              <Icon.Loader className="mr-2 h-4 w-4 animate-spin" />
               {loadingText}
             </>
           ) : (
@@ -168,7 +166,7 @@ function FormServerError({
 
         return (
           <Alert variant="destructive" {...props}>
-            <AlertCircle className="h-4 w-4" />
+            <Icon.AlertCircle className="h-4 w-4" />
             <AlertTitle>{title}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>

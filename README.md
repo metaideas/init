@@ -14,11 +14,11 @@ A modern monorepo template for shipping TypeScript apps everywhere: web, mobile,
 
 ## What's included
 
-- Fullstack application using [Next.js](https://nextjs.org/) and [TRPC](https://trpc.io/)
-- Documentation site using [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
+- Fullstack application using [TanStack Start](https://tanstack.com/start)
 - Marketing site and blog using [Astro](https://astro.build/)
+- Documentation site using [Astro](https://astro.build/) with [Starlight](https://starlight.astro.build/)
 - Mobile application using [Expo](https://expo.dev/)
-- API using [Hono](https://hono.dev/)
+- API with [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 

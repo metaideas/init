@@ -1,14 +1,12 @@
 // biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
 
-"use client"
-
 import { cn } from "@init/utils/ui"
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 import * as React from "react"
 import { Button } from "./button"
+import { Icon } from "./icon"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -200,7 +198,7 @@ function CarouselPrevious({
       variant={variant}
       {...props}
     >
-      <ArrowLeftIcon />
+      <Icon.ArrowLeft />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -230,7 +228,7 @@ function CarouselNext({
       variant={variant}
       {...props}
     >
-      <ArrowRightIcon />
+      <Icon.ArrowRight />
       <span className="sr-only">Next slide</span>
     </Button>
   )

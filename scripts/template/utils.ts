@@ -9,7 +9,6 @@ const EXCLUDED_DIRS = [
   "build",
   "out",
   ".turbo",
-  ".vercel",
   ".DS_Store",
   ".cache",
   ".pnpm-store",
@@ -43,7 +42,7 @@ export const workspaces = {
     {
       name: "app",
       description:
-        "app - Full-stack Next.js application with next-safe-action and TRPC",
+        "app - Full-stack TanStack Start application with server functions",
       dependencies: [
         "auth",
         "db",
@@ -58,7 +57,7 @@ export const workspaces = {
     },
     {
       name: "desktop",
-      description: "desktop - Tauri desktop application with Next.js",
+      description: "desktop - Tauri desktop application with TanStack Router",
       dependencies: ["env", "observability", "ui", "utils"],
     },
     {

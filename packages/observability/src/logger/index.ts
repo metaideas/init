@@ -3,6 +3,11 @@ import pino, { type LoggerOptions } from "pino"
 
 const options: LoggerOptions = {
   level: isDevelopment() ? "debug" : "info",
+  serializers: {
+    req: pino.stdSerializers.req,
+    res: pino.stdSerializers.res,
+    err: pino.stdSerializers.err,
+  },
   redact: {
     paths: [
       "password",
@@ -13,13 +18,18 @@ const options: LoggerOptions = {
     ],
     censor: "[REDACTED]",
   },
-}
-
-if (isDevelopment()) {
-  options.transport = {
-    target: "pino-pretty",
-    options: { colorize: true },
-  }
+  ...(isDevelopment() && {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        colorize: true,
+        translateTime: "HH:MM:ss Z",
+        messageFormat: true,
+        hideObject: false,
+        singleLine: false,
+      },
+    },
+  }),
 }
 
 export const logger = pino(options)
