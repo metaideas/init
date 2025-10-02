@@ -59,7 +59,7 @@ export const workspaces = {
     {
       name: "desktop",
       description: "desktop - Tauri desktop application with Next.js",
-      dependencies: ["env", "ui", "utils"],
+      dependencies: ["env", "observability", "ui", "utils"],
     },
     {
       name: "docs",

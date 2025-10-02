@@ -29,6 +29,7 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
     "next": "15.5.2",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3",
+    "vite": "7.1.7"
   }
 }

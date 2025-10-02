@@ -1,3 +1,5 @@
+import { type Logger, logger } from "@init/observability/logger"
+import type { QueryClient } from "@tanstack/react-query"
 import {
   createHashHistory,
   createRouter,
@@ -11,12 +13,20 @@ import { routeTree } from "./routeTree.gen"
 
 import "@init/ui/globals.css"
 
+export type RouterContext = {
+  queryClient: QueryClient
+  logger: Logger
+}
+
 const history = createHashHistory()
 
 const router = createRouter({
   routeTree,
   history,
-  context: { queryClient },
+  context: {
+    queryClient,
+    logger: logger.child({ group: "router" }),
+  } satisfies RouterContext,
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,

@@ -51,8 +51,8 @@ Apps run in the 3000-3999 range.
 - App: `3001`
 - Mobile: `3002`
 - Desktop: `3003`
-- Extension: `3004`
-- Docs: `3005`
+- Docs: `3004`
+- Extension: `3005`
 - Web: `3006`
 
 #### Packages

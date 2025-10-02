@@ -40,6 +40,16 @@ export const auth = () =>
   })
 
 export const axiom = {
+  client: () =>
+    createEnv({
+      client: {
+        PUBLIC_AXIOM_TOKEN: z.string(),
+        PUBLIC_AXIOM_DATASET: z.string(),
+      },
+      runtimeEnv: import.meta.env,
+      skipValidation: isCI(),
+      clientPrefix: "PUBLIC_",
+    }),
   server: () =>
     createEnv({
       server: {

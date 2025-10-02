@@ -5,7 +5,7 @@ import { defineConfig } from "astro/config"
 
 export default defineConfig({
   server: {
-    port: 3003,
+    port: 3004,
   },
   integrations: [
     starlight({

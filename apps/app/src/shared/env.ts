@@ -1,51 +1,28 @@
-import { createEnv } from "@init/env/nextjs"
-import {
-  auth,
-  axiom,
-  db,
-  node,
-  sentry,
-  upstash,
-  vercel,
-} from "@init/env/presets"
+import { createEnv } from "@init/env/core"
+import { auth, axiom, db, node } from "@init/env/presets"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { addProtocol } from "@init/utils/url"
 
 export default createEnv({
-  experimental__runtimeEnv: {
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  client: {
+    PUBLIC_BASE_URL: z
+      .string()
+      .pipe(z.preprocess((url) => addProtocol(url), z.url())),
+    PUBLIC_API_URL: z.url().optional(),
   },
   server: {
-    ANALYZE: z.stringbool().default(false),
-
-    // Google Sign In
-    GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string(),
-
     // Github Sign In
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
+    // Google Sign In
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
-  client: {
-    NEXT_PUBLIC_BASE_URL: z
-      .string()
-      .pipe(z.preprocess((url) => addProtocol(url), z.url())),
-
-    NEXT_PUBLIC_API_URL: z.url().optional(),
-  },
-  extends: [
-    node(),
-    vercel(),
-
-    // Packages
-    auth(),
-    db(),
-
-    sentry.nextjs(),
-    axiom.nextjs(),
-    upstash.redis(),
-  ],
+  extends: [node(), axiom.client(), auth(), db()],
+  clientPrefix: "PUBLIC_",
+  // Load server environment variables (process.env) and client environment
+  // variables (import.meta.env)
+  runtimeEnv: { ...import.meta.env, ...process.env },
   skipValidation: isCI(),
 })

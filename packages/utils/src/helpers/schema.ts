@@ -22,5 +22,12 @@ export function branded<T extends string>(_: T) {
   return z.string().brand<T>()
 }
 
+/**
+ * Validates IPv4 and IPv6 addresses.
+ */
+export function ip() {
+  return z.union([z.ipv4(), z.ipv6()])
+}
+
 export * from "zod"
 export * as form from "zod-form-data"

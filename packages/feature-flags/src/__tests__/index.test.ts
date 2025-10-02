@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "bun:test"
-import type { CustomError } from "@init/utils/error"
+import type { Fault } from "@init/utils/fault"
 import { flags } from "../index"
 
 describe("flags", () => {
@@ -301,7 +301,7 @@ describe("flags", () => {
     })
 
     it("should call onError when provided", async () => {
-      let errorReceived: CustomError | undefined
+      let errorReceived: Fault | undefined
 
       const flag = flags({
         identify: mockIdentify,
@@ -316,7 +316,7 @@ describe("flags", () => {
       const betaFeature = flag("beta", false)
       await betaFeature()
 
-      expect(errorReceived?.name).toBe("FlagError")
+      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
       expect(errorReceived?.message).toBe("Service error")
       expect(errorReceived?.context).toEqual({
         key: "beta",
@@ -325,7 +325,7 @@ describe("flags", () => {
     })
 
     it("should wrap errors in FlagError in onError", async () => {
-      let errorReceived: CustomError | undefined
+      let errorReceived: Fault | undefined
       const originalError = new Error("Original error")
       originalError.stack = "original stack trace"
 
@@ -342,7 +342,7 @@ describe("flags", () => {
       const betaFeature = flag("beta", false)
       await betaFeature()
 
-      expect(errorReceived?.name).toBe("FlagError")
+      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
       expect(errorReceived?.message).toBe("Original error")
       expect(errorReceived?.context).toEqual({
         key: "beta",
@@ -351,7 +351,7 @@ describe("flags", () => {
     })
 
     it("should handle Error objects in FlagError", async () => {
-      let errorReceived: CustomError | undefined
+      let errorReceived: Fault | undefined
 
       const flag = flags({
         identify: mockIdentify,
@@ -366,7 +366,7 @@ describe("flags", () => {
       const betaFeature = flag("beta", false)
       await betaFeature()
 
-      expect(errorReceived?.name).toBe("FlagError")
+      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
       expect(errorReceived?.message).toBe("String error")
       expect(errorReceived?.context).toEqual({
         key: "beta",

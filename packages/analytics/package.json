@@ -28,6 +28,6 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }

@@ -1,16 +1,13 @@
-"use client"
-
 import {
   createLogger,
   createUseLogger,
   createWebVitalsComponent,
-} from "@init/observability/logger/react"
+} from "@init/observability/logger/client"
 import env from "~/shared/env"
 
 export const logger = createLogger(
-  env.NEXT_PUBLIC_AXIOM_TOKEN,
-  env.NEXT_PUBLIC_AXIOM_DATASET,
-  { nextjs: true }
+  env.PUBLIC_AXIOM_TOKEN,
+  env.PUBLIC_AXIOM_DATASET
 )
 
 export const useLogger = createUseLogger(logger)

@@ -1,6 +1,5 @@
-"use client"
-
 import { m } from "@init/internationalization/messages"
+import { setLocale } from "@init/internationalization/runtime"
 import { Button } from "@init/ui/components/button"
 import {
   DropdownMenu,
@@ -9,12 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@init/ui/components/dropdown-menu"
 import { LanguagesIcon } from "lucide-react"
-import { useAction } from "next-safe-action/hooks"
-import { changeLocale } from "~/shared/server/actions"
 
 export function LocaleToggle() {
-  const { execute } = useAction(changeLocale)
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,10 +20,10 @@ export function LocaleToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => execute({ locale: "es" })}>
+        <DropdownMenuItem onClick={() => setLocale("es")}>
           🇪🇸 {m.spanish()}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => execute({ locale: "en" })}>
+        <DropdownMenuItem onClick={() => setLocale("en")}>
           🇺🇸 {m.english()}
         </DropdownMenuItem>
       </DropdownMenuContent>

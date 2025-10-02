@@ -3,12 +3,7 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "next-env.d.ts",
-        ".content-collections/**"
-      ],
+      "outputs": ["dist/**", ".content-collections/**"],
       "env": [
         "AXIOM_DATASET",
         "AXIOM_TOKEN",

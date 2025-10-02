@@ -1,14 +1,12 @@
-"use client"
-
 import { Button } from "@init/ui/components/button"
+import { useNavigate } from "@tanstack/react-router"
 import { Loader2Icon } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { UNAUTHENTICATED_PATHNAME } from "~/features/auth/constants"
 import { signOut } from "~/shared/auth/client"
-import { UNAUTHORIZED_PATHNAME } from "~/shared/constants"
 
 export default function SignOutButton() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   return (
@@ -20,7 +18,7 @@ export default function SignOutButton() {
         signOut({
           fetchOptions: {
             onSuccess: () => {
-              router.push(UNAUTHORIZED_PATHNAME)
+              void navigate({ to: UNAUTHENTICATED_PATHNAME })
             },
             onError: () => {
               setLoading(false)

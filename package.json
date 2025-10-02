@@ -19,6 +19,8 @@
     "db:studio": "turbo --filter @init/db studio",
     "bump:deps": "bun update --interactive --recursive",
     "dev": "turbo run dev",
+    "dev:apps": "turbo run dev --filter=!@init/*",
+    "dev:packages": "turbo run dev --filter=@init/*",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
     "fix": "adamantite fix",
@@ -39,18 +41,19 @@
     "@octokit/rest": "22.0.0",
     "@turbo/gen": "2.5.8",
     "@types/bun": "1.2.22",
-    "adamantite": "0.9.2",
+    "adamantite": "0.9.5",
     "commander": "14.0.1",
     "sherif": "1.6.1",
     "turbo": "2.5.8",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "packageManager": "bun@1.2.22",
   "engines": {
     "node": ">=24"
   },
   "overrides": {
-    "import-in-the-middle": "1.14.2"
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9"
   },
   "trustedDependencies": [
     "@parcel/watcher",
