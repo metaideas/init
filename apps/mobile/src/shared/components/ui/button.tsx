@@ -17,14 +17,14 @@ const styles = StyleSheet.create((theme, rt) => ({
       variant: {
         primary: {
           backgroundColor: pressed
-            ? theme.utils.hexToRgba(theme.colors.primary, 0.8)
+            ? theme.utils.alpha(theme.colors.primary, 0.8)
             : theme.colors.primary,
         },
         secondary: {
           borderColor: theme.colors.primary,
           borderWidth: 1,
           backgroundColor: pressed
-            ? theme.utils.hexToRgba(
+            ? theme.utils.alpha(
                 theme.colors.primary,
                 rt.themeName === "dark" ? 0.15 : 0.05
               )
@@ -32,11 +32,11 @@ const styles = StyleSheet.create((theme, rt) => ({
         },
         tonal: {
           backgroundColor: pressed
-            ? theme.utils.hexToRgba(
+            ? theme.utils.alpha(
                 theme.colors.primary,
                 rt.themeName === "dark" ? 0.2 : 0.15
               )
-            : theme.utils.hexToRgba(
+            : theme.utils.alpha(
                 theme.colors.primary,
                 rt.themeName === "dark" ? 0.15 : 0.1
               ),
