@@ -1,6 +1,7 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { HashRouter, Route, Routes } from "react-router"
+import { Route, Router, Switch } from "wouter"
+import { useHashLocation } from "wouter/use-hash-location"
 
 import "@init/ui/globals.css"
 
@@ -16,12 +17,12 @@ if (!rootElement) {
 if (!rootElement.innerHTML) {
   ReactDOM.createRoot(rootElement).render(
     <StrictMode>
-      <HashRouter>
-        <Routes>
-          <Route element={<PopupDemo />} index />
-          <Route element={<SettingsDemo />} path="/settings" />
-        </Routes>
-      </HashRouter>
+      <Router hook={useHashLocation}>
+        <Switch>
+          <Route component={PopupDemo} path="/" />
+          <Route component={SettingsDemo} path="/settings" />
+        </Switch>
+      </Router>
     </StrictMode>
   )
 }
