@@ -15,6 +15,7 @@
     "ios": "expo run:ios",
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
+    "test": "bun test",
     "typecheck": "tsc --noEmit",
     "web": "expo start --web"
   },

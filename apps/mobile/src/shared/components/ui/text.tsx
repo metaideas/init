@@ -64,13 +64,13 @@ const styles = StyleSheet.create((theme) => ({
           color: theme.colors.foreground,
         },
         secondary: {
-          color: theme.utils.hexToRgba(theme.colors.foreground, 0.9),
+          color: theme.utils.alpha(theme.colors.foreground, 0.9),
         },
         tertiary: {
           color: theme.colors.grey3,
         },
         quarternary: {
-          color: theme.utils.hexToRgba(theme.colors.grey3, 0.5),
+          color: theme.utils.alpha(theme.colors.grey3, 0.5),
         },
       },
     },

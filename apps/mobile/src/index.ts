@@ -1,5 +1,5 @@
 import { initializeErrorMonitoring } from "@init/observability/error/expo"
-import "~/shared/unistyles"
+import "~/shared/theme"
 
 initializeErrorMonitoring()
 
