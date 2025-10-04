@@ -36,6 +36,6 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.2.22",
     "tsup": "8.5.0",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }
