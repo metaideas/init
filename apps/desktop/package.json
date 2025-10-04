@@ -24,8 +24,8 @@
     "@trpc/client": "11.6.0",
     "@trpc/tanstack-react-query": "11.6.0",
     "hono": "4.9.8",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "superjson": "2.2.2"
   },
   "devDependencies": {
@@ -34,10 +34,10 @@
     "@tanstack/router-plugin": "1.132.7",
     "@tauri-apps/cli": "2.8.4",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "5.0.4",
-    "typescript": "5.9.3",
-    "vite": "7.1.7"
+    "typescript": "catalog:",
+    "vite": "catalog:"
   }
 }
