@@ -2,7 +2,13 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["adamantite"],
   "files": {
-    "includes": ["**", "!**/routeTree.gen.ts"]
+    "includes": [
+      "**",
+      // Ignore route tree generated files
+      "!**/routeTree.gen.ts",
+      // Ignore Convex generated files
+      "!packages/backend/src/_generated"
+    ]
   },
   "linter": {
     "rules": {

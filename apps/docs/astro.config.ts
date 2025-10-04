@@ -58,9 +58,6 @@ export default defineConfig({
     react(),
   ],
   vite: {
-    plugins: [
-      // @ts-expect-error - conflict due to multiple Vite versions
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
 })

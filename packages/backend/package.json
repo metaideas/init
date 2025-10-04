@@ -1,0 +1,36 @@
+{
+  "name": "@init/backend",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./client": "./src/client/index.ts",
+    "./client/*": "./src/client/*.ts",
+    "./api": "./src/_generated/api.js"
+  },
+  "scripts": {
+    "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "convex dev",
+    "env:set": "convex env set",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@convex-dev/better-auth": "0.8.8",
+    "@convex-dev/react-query": "0.0.0-alpha.11",
+    "@init/auth": "workspace:*",
+    "@init/env": "workspace:*",
+    "@init/observability": "workspace:*",
+    "@init/utils": "workspace:*",
+    "@tanstack/react-query": "5.90.2",
+    "convex": "1.27.3",
+    "convex-helpers": "0.1.104"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

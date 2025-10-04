@@ -77,6 +77,29 @@ export const axiom = {
     }),
 }
 
+export const convex = {
+  react: () =>
+    createEnv({
+      client: {
+        PUBLIC_CONVEX_URL: z.url(),
+        PUBLIC_CONVEX_SITE_URL: z.url(),
+      },
+      clientPrefix: REACT_PUBLIC_ENV_PREFIX,
+      runtimeEnv: import.meta.env,
+      skipValidation: isCI(),
+    }),
+  expo: () =>
+    createEnv({
+      client: {
+        EXPO_PUBLIC_CONVEX_URL: z.url(),
+        EXPO_PUBLIC_CONVEX_SITE_URL: z.url(),
+      },
+      clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
+      runtimeEnv: process.env,
+      skipValidation: isCI(),
+    }),
+}
+
 export const db = () =>
   createEnv({
     server: {

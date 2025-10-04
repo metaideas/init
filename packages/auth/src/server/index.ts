@@ -10,33 +10,27 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 const SESSION_EXPIRES_IN = 60 * 60 * 24 * 30 // 30 days
 const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
 
-export function createAuth<T>(
+export function createAuth<T extends BetterAuthPlugin[]>(
   database: BetterAuthOptions["database"],
   options: Omit<
     BetterAuthOptions,
     "appName" | "secret" | "database" | "session" | "plugins"
   > & { secret: string },
-  plugins: T extends BetterAuthPlugin[] ? T : never
+  plugins: T
 ) {
-  const { advanced, ...rest } = options
-
   return betterAuth({
     appName: APP_NAME,
     database,
     advanced: {
-      ...advanced,
-      database: {
-        // We rely on the database to generate ids
-        generateId: false,
-      },
       cookiePrefix: APP_ID,
+      ...options.advanced,
     },
     session: {
       expiresIn: SESSION_EXPIRES_IN,
       updateAge: SESSION_UPDATE_AGE,
     },
     plugins,
-    ...rest,
+    ...options,
   })
 }
 
