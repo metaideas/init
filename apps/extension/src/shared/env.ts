@@ -1,4 +1,4 @@
-import { createEnv } from "@init/env/core"
+import { createEnv } from "@init/env"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 

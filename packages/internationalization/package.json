@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@inlang/cli": "^3.0.0",
-    "@inlang/paraglide-js": "2.3.2",
+    "@inlang/paraglide-js": "2.4.0",
     "@lingual/i18n-check": "0.8.6",
     "@tooling/tsconfig": "workspace:*",
     "typescript": "5.9.3"

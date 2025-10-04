@@ -5,12 +5,6 @@
     "rootDir": ".",
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": [
-    "*.ts",
-    "src",
-    "src/nextjs/types.d.ts",
-    "translations",
-    "reset.d.ts"
-  ],
+  "include": ["*.ts", "src", "translations", "reset.d.ts"],
   "exclude": ["node_modules"]
 }

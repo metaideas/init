@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@init/ui/components/button"
 import { Input } from "@init/ui/components/input"
 import { useMutation } from "@tanstack/react-query"

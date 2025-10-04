@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { Slider as SliderPrimitive } from "radix-ui"
 import * as React from "react"

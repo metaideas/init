@@ -1,5 +1,5 @@
-import type { router } from "~/app"
-import type { trpcRouter } from "~/app/trpc/router"
+import type { router } from "~/routes"
+import type { trpcRouter } from "~/routes/trpc/router"
 
 /**
  * This is the type of the client that is exported from the API to use with

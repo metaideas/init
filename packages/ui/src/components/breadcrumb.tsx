@@ -1,9 +1,9 @@
 // biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
 
 import { cn } from "@init/utils/ui"
-import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Slot as SlotPrimitive } from "radix-ui"
 import type * as React from "react"
+import { Icon } from "./icon"
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
@@ -77,7 +77,7 @@ function BreadcrumbSeparator({
       role="presentation"
       {...props}
     >
-      {children ?? <ChevronRightIcon />}
+      {children ?? <Icon.ChevronRight />}
     </li>
   )
 }
@@ -94,7 +94,7 @@ function BreadcrumbEllipsis({
       role="presentation"
       {...props}
     >
-      <DotsHorizontalIcon className="size-4" />
+      <Icon.DotsHorizontal className="size-4" />
       <span className="sr-only">More</span>
     </span>
   )

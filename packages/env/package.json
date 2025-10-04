@@ -4,9 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./*": "./src/packages/*.ts",
-    "./core": "./src/core.ts",
-    "./nextjs": "./src/nextjs.ts",
+    ".": "./src/index.ts",
     "./presets": "./src/presets.ts"
   },
   "scripts": {
@@ -16,12 +14,10 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@t3-oss/env-core": "0.13.8",
-    "@t3-oss/env-nextjs": "0.13.8"
+    "@t3-oss/env-core": "0.13.8"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "next": "15.5.2",
     "typescript": "5.9.3"
   }
 }

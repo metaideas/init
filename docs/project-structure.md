@@ -13,10 +13,10 @@ The project is divided into the following folders:
 ```sh
 root
   ├── apps                # Cross-platform applications
-  │   ├── app               # Next.js web application
-  │   ├── api               # Hono API with RPC client running on Node.js
-  │   ├── desktop           # Tauri desktop application with Next.js
-  │   ├── docs              # Documentation site
+  │   ├── app               # TanStack Start web application
+  │   ├── api               # Hono API with RPC client running on Bun
+  │   ├── desktop           # Tauri desktop application with TanStack Router
+  │   ├── docs              # Astro Starlight documentation site
   │   ├── extension         # WXT browser extension
   │   ├── mobile            # Expo mobile application
   │   └── web               # Astro marketing site and blog
@@ -25,23 +25,23 @@ root
   │   └── local             # Docker Compose configuration for local development
   │
   ├── packages            # Shared internal packages for use across apps
-  │   ├── ai                # AI utilities
-  │   ├── analytics         # Web and product analytics
-  │   ├── auth              # Authentication utilities using Better Auth (depends on: utils)
-  │   ├── core              # Shared core logic and business rules
-  │   ├── db                # Database client and ORM using Drizzle (depends on: env, utils)
-  │   ├── email             # Email templating and sending service using Resend
-  │   ├── env               # Environment variable management and validation
-  │   ├── feature-flags     # Feature flag utilities for managing and toggling features
-  │   ├── internationalization # Internationalization utilities and translation files
-  │   ├── kv                # Redis client and vector database integration using Upstash
-  │   ├── observability     # Logging, error tracking, and monitoring using Sentry and Axiom
-  │   ├── payments          # Payment processing utilities using Stripe
-  │   ├── queue             # Serverless job queue and workflow management using Upstash
-  │   ├── security          # Security utilities and best practices using Arcjet (depends on: kv)
-  │   ├── storage           # Shared storage utilities using UploadThing
-  │   ├── ui                # Reusable UI components and design system using Shadcn/UI (depends on: utils)
-  │   └── utils             # Shared helpers and constants for packages and apps
+  │   ├── ai                    # AI utilities
+  │   ├── analytics             # Web and product analytics
+  │   ├── auth                  # Authentication utilities using Better Auth
+  │   ├── core                  # Shared core logic and business rules
+  │   ├── db                    # Database client and ORM using Drizzle
+  │   ├── email                 # Email templating and sending service using Resend
+  │   ├── env                   # Environment variable management and validation
+  │   ├── feature-flags         # Feature flag utilities for managing and toggling features
+  │   ├── internationalization  # Internationalization utilities and translation files
+  │   ├── kv                    # Redis client database integration using Upstash
+  │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
+  │   ├── payments              # Payment processing utilities using Stripe
+  │   ├── queue                 # Serverless message queue and workflow management using Upstash
+  │   ├── security              # Security utilities using Arcjet and rate-limiting using Upstash
+  │   ├── storage               # Shared storage utilities using UploadThing
+  │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
+  │   └── utils                 # Shared helpers and constants for packages and apps
   │
   ├── scripts             # Scripts for random tasks
   │
@@ -59,7 +59,7 @@ Each app has a `src` folder that contains the source code for the app.
 
 Apps are usually organized in three folders:
 
-- The main router (e.g., `app` for Next.js and Expo, `routes` for Vite projects).
+- The main router (e.g., `app` for Expo, `routes` for TanStack Start and Vite projects).
   - Some projects, like the browser extension, have an extra folder that can be considered part of the routing logic.
 - A `shared` folder for shared utilities and components.
 - A `features` folder for feature-based modules.
@@ -68,110 +68,23 @@ We follow a unidirectional import flow between these three folders. The code onl
 
 Feature folders are also vertical slices of the app and do not have any dependencies between them. This keeps the code organized and easier to understand. If you find yourself needing to import something from a different feature, you should first consider if it can be moved to the `shared` folder.
 
-### App
-
-This is a web application using Next.js with authentication and full-stack features.
-
-```sh
-apps/app
-  ├── src/                    # Source code
-  │   ├── app/                  # App router for Next.js
-  │   │   ├── (unauthenticated)/ # Unauthenticated routes (sign in, sign up, etc.)
-  │   │   ├── (authenticated)/   # Authenticated routes (dashboard, settings, etc.)
-  │   │   └── api/               # API routes
-  │   │
-  │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/               # Static assets shared across the app (images, icons, etc.)
-  │   │   ├── auth/               # Authentication client and helpers
-  │   │   ├── components/         # Reusable components
-  │   │   ├── hooks/              # Custom React hooks
-  │   │   ├── i18n/               # Internationalization setup
-  │   │   ├── middlewares/        # Global middleware to be imported into middleware.ts
-  │   │   ├── server/             # Server-side code
-  │   │   │   ├── data/               # Data access layer (e.g., database queries)
-  │   │   │   ├── loaders.ts          # Shared data fetching functions for server components
-  │   │   │   └── actions.ts          # Shared server actions for handling form submissions and mutations
-  │   │   ├── stores/             # Global state management stores
-  │   │   ├── env.ts              # Environment variable configuration
-  │   │   ├── constants.ts        # Constant values and enums
-  │   │   ├── safe-action.ts      # Type-safe server actions client and middleware
-  │   │   ├── types.ts            # TypeScript type definitions
-  │   │   ├── utils.ts            # General utility functions
-  │   │   └── validation.ts       # Form and data validation schemas
-  │   │
-  │   ├── features/             # Feature-based modules
-  │   │   └──[feature]/           # Specific feature (e.g., auth, dashboard, settings)
-  │   │       ├── assets/           # Feature-specific assets
-  │   │       ├── components/       # Feature-specific components
-  │   │       ├── actions.ts        # Feature-specific server actions
-  │   │       ├── hooks.ts          # Feature-specific custom hooks
-  │   │       ├── loaders.ts        # Feature-specific data loaders
-  │   │       ├── stores.ts         # Feature-specific state stores
-  │   │       ├── types.ts          # Feature-specific type definitions
-  │   │       ├── utils.ts          # Feature-specific utility functions
-  │   │       └── validation.ts     # Feature-specific validation schemas
-  │   │
-  │   ├── middleware.ts         # Next.js middleware for request/response modification
-  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
-  │
-  ├── translations              # Internationalization translation files
-  └── global.d.ts               # Global TypeScript declarations
-```
-
-### Mobile
-
-This is a cross-platform mobile application built with Expo and React Native, featuring authentication and native capabilities.
-
-```sh
-apps/mobile
-  ├── src/                    # Source code
-  │   ├── app/                  # App router
-  │   │
-  │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/            # Static assets shared across the app
-  │   │   │   └── styles/          # Global styles
-  │   │   ├── components/        # Shared components used across the entire app
-  │   │   ├── auth/             # Authentication client and helpers
-  │   │   ├── hooks/            # Custom React hooks
-  │   │   ├── i18n/             # Internationalization setup
-  │   │   ├── stores/           # Global state stores
-  │   │   ├── api.ts            # Global API and query client
-  │   │   ├── constants.ts      # Constant values and enums
-  │   │   ├── env.ts            # Environment variables
-  │   │   ├── types.ts          # Shared types
-  │   │   ├── utils.ts          # Shared utilities for the app
-  │   │   └── validation.ts     # Shared validation schemas
-  │   │
-  │   └── features/             # Feature based modules
-  │       └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-  │           ├── assets/          # Feature-specific assets
-  │           ├── components/      # Feature-specific components
-  │           ├── hooks.ts         # Feature-specific hooks
-  │           ├── mutations.ts     # Feature-specific mutations
-  │           ├── queries.ts       # Feature-specific queries
-  │           ├── stores.ts        # Feature-specific global state stores
-  │           ├── types.ts         # Feature-specific types
-  │           ├── utils.ts         # Feature-specific utilities
-  │           └── validation.ts    # Feature-specific validation schemas
-  │
-  └── translations            # Translations files
-```
-
 ### API
 
-This is a high-performance API server built with Hono, providing RPC endpoints and running on Node.js with TypeScript.
+This is a high-performance API server built with Hono, providing TRPC endpoints and running on Bun with TypeScript.
 
 ```sh
 apps/api
   └── src/                    # Source code
       ├── index.ts              # Entry point to the worker
-      ├── client.ts             # RPC client type to be used in other apps
+      ├── client.ts             # Hono and TRPC client type to be used in other apps
+      ├── instrument.ts         # Error monitoring instrumentation
+      │
       ├── routes/               # Routing
       │   ├── index.tsx           # Router entrypoint
       │   └── ...                 # Other routes
       │
       ├── shared/               # Shared utilities and helpers
-      │   ├── middlewares/        # Global middleware
+      │   ├── middleware.ts       # Global middleware
       │   ├── constants.ts        # Constant values and enums
       │   ├── env.ts              # Environment variables
       │   ├── types.ts            # Shared types
@@ -186,29 +99,75 @@ apps/api
               └── validation.ts     # Feature-specific validation schemas
 ```
 
-### Desktop
+### App
 
-This is a cross-platform desktop application built with Tauri, combining a Rust backend with a Next.js frontend for native performance.
+This is a web application using TanStack Start with authentication and full-stack features.
 
 ```sh
-apps/desktop
+apps/app
   ├── src/                    # Source code
-  │   ├── app/                  # Entry point to the desktop app
+  │   ├── routes/               # File-based routing for TanStack Start
+  │   │   ├── (unauthenticated)/ # Unauthenticated routes (sign in, sign up, etc.)
+  │   │   ├── (authenticated)/   # Authenticated routes (dashboard, settings, etc.)
+  │   │   └── api/               # API routes
+  │   │
+  │   ├── shared/               # Shared utilities and helpers
+  │   │   ├── assets/             # Static assets shared across the app (images, icons, etc.)
+  │   │   ├── auth/               # Authentication client and helpers
+  │   │   ├── components/         # Reusable components
+  │   │   ├── hooks/              # Custom React hooks
+  │   │   ├── server/             # Server-side code
+  │   │   │   ├── middleware.ts       # Global middleware
+  │   │   │   └── functions.ts        # Shared server functions for data fetching and mutations
+  │   │   ├── stores/             # Global state management stores
+  │   │   ├── styles/             # Global styles
+  │   │   ├── env.ts              # Environment variable configuration
+  │   │   ├── constants.ts        # Constant values and enums
+  │   │   ├── types.ts            # TypeScript type definitions
+  │   │   ├── utils.ts            # General utility functions
+  │   │   └── validation.ts       # Form and data validation schemas
+  │   │
+  │   ├── features/             # Feature-based modules
+  │   │   └──[feature]/           # Specific feature (e.g., auth, dashboard, settings)
+  │   │       ├── assets/           # Feature-specific assets
+  │   │       ├── components/       # Feature-specific components
+  │   │       ├── server/           # Feature-specific server functions
+  │   │       │   ├── middleware.ts       # Feature-specific middleware
+  │   │       │   └── functions.ts        # Feature-specific server functions for data fetching and mutations
+  │   │       ├── hooks.ts          # Feature-specific custom hooks
+  │   │       ├── stores.ts         # Feature-specific state stores
+  │   │       ├── types.ts          # Feature-specific type definitions
+  │   │       ├── utils.ts          # Feature-specific utility functions
+  │   │       └── validation.ts     # Feature-specific validation schemas
+  │   │
+  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
+  │
+  └── global.d.ts               # Global TypeScript declarations
+```
+
+### Mobile
+
+This is a cross-platform mobile application built with Expo and React Native, featuring authentication and native capabilities.
+
+```sh
+apps/mobile
+  ├── src/                    # Source code
+  │   ├── app/                  # App router
   │   │
   │   ├── shared/               # Shared utilities and helpers
   │   │   ├── assets/            # Static assets shared across the app
-  │   │   │   └── styles/          # Global styles
+  │   │   ├── styles/            # Global styles
   │   │   ├── components/        # Shared components used across the entire app
-  │   │   ├── auth/             # Authentication client and helpers
-  │   │   ├── hooks/            # Custom React hooks
-  │   │   ├── i18n/             # Internationalization setup
-  │   │   ├── stores/           # Global state stores
-  │   │   ├── api.ts            # Global API and query client
-  │   │   ├── constants.ts      # Constant values and enums
-  │   │   ├── env.ts            # Environment variables
-  │   │   ├── types.ts          # Shared types
-  │   │   ├── utils.ts          # Shared utilities for the app
-  │   │   └── validation.ts     # Shared validation schemas
+  │   │   ├── hooks.ts           # Custom React hooks
+  │   │   ├── i18n.ts            # Internationalization setup
+  │   │   ├── stores.ts          # Global state stores
+  │   │   ├── auth.ts            # Authentication client and helpers
+  │   │   ├── api.ts             # Global API and query client
+  │   │   ├── constants.ts       # Constant values and enums
+  │   │   ├── env.ts             # Environment variables
+  │   │   ├── types.ts           # Shared types
+  │   │   ├── utils.ts           # Shared utilities for the app
+  │   │   └── validation.ts      # Shared validation schemas
   │   │
   │   └── features/             # Feature based modules
   │       └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
@@ -222,8 +181,44 @@ apps/desktop
   │           ├── utils.ts         # Feature-specific utilities
   │           └── validation.ts    # Feature-specific validation schemas
   │
-  ├── translations            # Translations files
-  └── content                 # Blog and other static content
+  └── app.config.ts             # Expo configuration
+```
+
+### Desktop
+
+This is a cross-platform desktop application built with Tauri, combining a Rust backend with a TanStack Router frontend for native performance.
+
+```sh
+apps/desktop
+  └── src/                    # Source code
+      ├── routes/               # File-based routing for TanStack Router
+      │
+      ├── shared/               # Shared utilities and helpers
+      │   ├── assets/            # Static assets shared across the app
+      │   ├── styles/            # Global styles
+      │   ├── components/        # Shared components used across the entire app
+      │   ├── auth.ts            # Authentication client and helpers
+      │   ├── hooks.ts           # Custom React hooks
+      │   ├── stores.ts          # Global state stores
+      │   ├── api.ts             # Global API and query client
+      │   ├── constants.ts       # Constant values and enums
+      │   ├── env.ts             # Environment variables
+      │   ├── types.ts           # Shared types
+      │   ├── utils.ts           # Shared utilities for the app
+      │   └── validation.ts      # Shared validation schemas
+      │
+      └── features/             # Feature based modules
+          └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
+              ├── assets/          # Feature-specific assets
+              ├── components/      # Feature-specific components
+              ├── hooks.ts         # Feature-specific hooks
+              ├── mutations.ts     # Feature-specific mutations
+              ├── queries.ts       # Feature-specific queries
+              ├── stores.ts        # Feature-specific global state stores
+              ├── types.ts         # Feature-specific types
+              ├── utils.ts         # Feature-specific utilities
+              └── validation.ts    # Feature-specific validation schemas
+  │
 ```
 
 ### Extension
@@ -240,7 +235,7 @@ apps/extension
   │   │
   │   ├── shared/               # Shared utilities and helpers
   │   │   ├── assets/            # Assets processed by WXT
-  │   │   │   └── styles/          # Global styles
+  │   │   ├── styles/            # Global styles
   │   │   ├── components/        # Shared components used across the entire extension
   │   │   ├── services/          # Shared services
   │   │   ├── stores/            # Global state stores
@@ -279,15 +274,19 @@ apps/docs
   ├── src/                    # Source code
   │   ├── content/              # Documentation content
   │   │   └── docs/             # Documentation pages
-  │   │       ├── guides/       # Guide articles
-  │   │       ├── reference/    # Reference documentation
-  │   │       ├── es/           # Spanish translations
-  │   │       │   ├── guides/   # Spanish guides
-  │   │       │   └── reference/ # Spanish reference
+  │   │       ├── .../         # Other documentation pages
+  │   │       ├── [/lang]/      # Localized routes
+  │   │       │   ├── .../      # Localized pages
+  │   │       │   └── index.mdx # Localized homepage
   │   │       └── index.mdx     # Homepage
   │   │
   │   ├── shared/               # Shared utilities and assets
   │   │   ├── assets/           # Images and static files
+  │   │   ├── components/       # Reusable components
+  │   │   ├── i18n.ts           # Internationalization setup
+  │   │   ├── stores.ts         # Global state stores
+  │   │   ├── auth.ts           # Authentication client and helpers
+  │   │   ├── api.ts            # Global API and query client
   │   │   └── styles/           # Global styles
   │   │
   │   └── content.config.ts     # Content collection configuration
@@ -304,22 +303,24 @@ This is a marketing website and blog built with Astro, focusing on static conten
 apps/web
   ├── src/                    # Source code
   │   ├── pages/                # Pages
-  │   │   ├── [lang]/           # Localized routes
-  │   │   │   ├── blog/         # Blog pages
-  │   │   │   │   └── [slug].astro # Dynamic blog post pages
-  │   │   │   ├── 404.astro     # Not found page
-  │   │   │   └── index.astro   # Homepage
-  │   │   └── index.astro       # Root redirect page
+  │   │   ├── [lang]/              # Localized routes
+  │   │   │   ├── .../             # Other pages
+  │   │   │   │   └── [slug].astro # Dynamic pages
+  │   │   │   ├── 404.astro        # Not found page
+  │   │   │   └── index.astro      # Homepage
+  │   │   └── index.astro          # Root redirect page
   │   │
   │   ├── content/              # Content collections
-  │   │   └── blog/             # Blog content
-  │   │       ├── en/           # English blog posts
-  │   │       └── es/           # Spanish blog posts
+  │   │   └── .../                # Other content collections
+  │   │       ├── [/lang]/        # Localized routes
+  │   │       │   ├── .../        # Localized pages
+  │   │       │   └── index.mdx   # Localized homepage
+  │   │       └── index.mdx       # Homepage
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── components/       # Reusable components
-  │   │   │   └── layout.astro  # Main layout component
-  │   │   └── env.ts            # Environment variable configuration
+  │   │   ├── components/         # Reusable components
+  │   │   │   └── layout.astro    # Main layout component
+  │   │   └── env.ts              # Environment variable configuration
   │   │
   │   ├── content.config.ts     # Content collections configuration
   │   └── middleware.ts         # Astro middleware (to enable i18n for static builds)

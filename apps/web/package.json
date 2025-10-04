@@ -19,7 +19,7 @@
     "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "astro": "5.14.0",
+    "astro": "5.14.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

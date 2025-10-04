@@ -1,8 +1,9 @@
-"use client"
-
 import { Axiom } from "@axiomhq/js"
 import { AxiomJSTransport, Logger, ProxyTransport } from "@axiomhq/logging"
 
+/**
+ * Create logger for client-side logging
+ */
 export function createLogger(
   token: string,
   dataset: string,

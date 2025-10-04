@@ -50,27 +50,22 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             checked: true,
           },
           {
-            name: "actions.ts - Server actions (web apps)",
-            value: "actions",
+            name: "server/functions.ts - Server functions (web apps)",
+            value: "server/functions",
             checked: false,
           },
           {
-            name: "loaders.ts - Data loaders (web apps)",
-            value: "loaders",
-            checked: false,
-          },
-          {
-            name: "queries.ts - Query functions",
+            name: "queries.ts - Query hooks",
             value: "queries",
             checked: false,
           },
           {
-            name: "mutations.ts - Mutation functions",
+            name: "mutations.ts - Mutation hooks",
             value: "mutations",
             checked: false,
           },
           {
-            name: "services.ts - Service functions",
+            name: "services.ts - Service functions (browser extensions)",
             value: "services",
             checked: false,
           },
@@ -80,7 +75,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             checked: false,
           },
           {
-            name: "procedures.ts - API procedures (api apps)",
+            name: "procedures.ts - TRPC procedures (api apps)",
             value: "procedures",
             checked: false,
           },
@@ -168,10 +163,9 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       (answers) => {
         /**
-         * Install deps and format everything
+         * Install deps everything
          */
         if ("name" in answers && typeof answers.name === "string") {
-          execSync("bun fix:monorepo")
           execSync("bun install")
 
           return "Package scaffolded"
@@ -195,7 +189,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/shared/trpc.tsx",
-        templateFile: "templates/apps/trpc-client/trpc.tsx.hbs",
+        templateFile: "templates/trpc-client/trpc.tsx.hbs",
       },
     ],
   })
@@ -213,32 +207,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       {
         type: "add",
         path: "apps/{{kebabCase app}}/src/shared/api.ts",
-        templateFile: "templates/apps/hono-client/api.ts.hbs",
-      },
-    ],
-  })
-
-  plop.setGenerator("instrumentation", {
-    description:
-      "Generate instrumentation files for error monitoring in an app",
-    prompts: [
-      {
-        type: "input",
-        name: "app",
-        message: "What is the name of the app to add instrumentation to?",
-      },
-    ],
-    actions: [
-      {
-        type: "add",
-        path: "apps/{{kebabCase app}}/src/instrumentation.ts",
-        templateFile: "templates/apps/instrumentation/instrumentation.ts.hbs",
-      },
-      {
-        type: "add",
-        path: "apps/{{kebabCase app}}/src/instrumentation-client.ts",
-        templateFile:
-          "templates/apps/instrumentation/instrumentation-client.ts.hbs",
+        templateFile: "templates/hono-client/api.ts.hbs",
       },
     ],
   })

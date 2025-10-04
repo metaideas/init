@@ -1,7 +1,5 @@
 // biome-ignore-all lint/style/useExplicitLengthCheck: shadcn/ui
 
-"use client"
-
 import { cn } from "@init/utils/ui"
 import type { VariantProps } from "class-variance-authority"
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"

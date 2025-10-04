@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { ScrollArea as ScrollAreaPrimitive } from "radix-ui"
 import type * as React from "react"

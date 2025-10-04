@@ -1,14 +1,12 @@
 // biome-ignore-all lint: shadcn/ui
 
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { cva, type VariantProps } from "class-variance-authority"
-import { PanelLeftIcon } from "lucide-react"
 import { Slot as SlotPrimitive } from "radix-ui"
 import * as React from "react"
 import { useIsMobile } from "src/hooks/use-mobile"
 import { Button } from "./button"
+import { Icon } from "./icon"
 import { Input } from "./input"
 import { Separator } from "./separator"
 import {
@@ -277,7 +275,7 @@ function SidebarTrigger({
       variant="ghost"
       {...props}
     >
-      <PanelLeftIcon />
+      <Icon.PanelLeft />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

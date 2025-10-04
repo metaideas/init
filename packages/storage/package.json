@@ -5,11 +5,9 @@
   "type": "module",
   "exports": {
     "./expo": "./src/expo.ts",
-    "./nextjs": "./src/nextjs.ts",
     "./react": "./src/react.ts",
     "./server": "./src/server.ts",
-    "./ssr": "./src/ssr.ts",
-    "./tailwind": "./src/tailwind.ts"
+    "./styles": "./src/styles.css"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",

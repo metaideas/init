@@ -4,10 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./product/client": "./src/product/client.tsx",
-    "./product/expo": "./src/product/expo.ts",
-    "./product/nextjs": "./src/product/nextjs.ts",
-    "./product/server": "./src/product/server.ts",
+    "./product/*": "./src/product/*.ts",
     "./web": "./src/web.ts"
   },
   "scripts": {
@@ -17,13 +14,11 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "next": "15.5.2",
-    "next-plausible": "3.12.4",
+    "@plausible-analytics/tracker": "0.4.3",
     "posthog-js": "1.260.1",
     "posthog-node": "5.7.0",
     "posthog-react-native": "4.4.0",
-    "react": "19.1.0",
-    "server-only": "0.0.1"
+    "react": "19.1.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

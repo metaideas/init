@@ -4,7 +4,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./features/**": "./src/features/**/*.ts"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",

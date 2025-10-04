@@ -1,6 +1,6 @@
 import { Button } from "@init/ui/components/button"
+import { Icon } from "@init/ui/components/icon"
 import { Link, useCanGoBack, useRouter } from "@tanstack/react-router"
-import { ArrowLeft, Home, Search } from "lucide-react"
 
 export default function NotFound() {
   const router = useRouter()
@@ -30,7 +30,7 @@ export default function NotFound() {
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button asChild className="min-w-[140px]" size="lg" variant="default">
             <Link to="/">
-              <Home className="mr-2 size-4" />
+              <Icon.Home className="mr-2 size-4" />
               Go Home
             </Link>
           </Button>
@@ -42,14 +42,14 @@ export default function NotFound() {
               size="lg"
               variant="outline"
             >
-              <ArrowLeft className="mr-2 size-4" />
+              <Icon.ArrowLeft className="mr-2 size-4" />
               Go Back
             </Button>
           )}
         </div>
 
         <div className="mt-12 flex items-center justify-center gap-2 text-muted-foreground text-sm">
-          <Search className="size-4" />
+          <Icon.Search className="size-4" />
           <p>Lost? Try searching or return to the homepage</p>
         </div>
       </div>

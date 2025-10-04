@@ -35,11 +35,7 @@ packages/ui
 **/.turbo
 **/.cache
 
-# Vercel
-**/.vercel
-
 # Build Outputs
-**/.next
 **/out
 **/build
 **/dist
@@ -55,7 +51,6 @@ packages/ui
 
 # TypeScript
 **/*.tsbuildinfo
-**/next-env.d.ts
 
 # Wrangler
 **/.wrangler

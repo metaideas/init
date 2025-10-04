@@ -1,5 +1,3 @@
-"use client"
-
 import { cn } from "@init/utils/ui"
 import { Avatar as AvatarPrimitive } from "radix-ui"
 import type * as React from "react"

@@ -2,7 +2,7 @@ import {
   createLogger,
   createUseLogger,
   createWebVitalsComponent,
-} from "@init/observability/logger/client"
+} from "@init/observability/logger/react"
 import env from "~/shared/env"
 
 export const logger = createLogger(
