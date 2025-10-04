@@ -7,17 +7,24 @@
       "apps/*",
       "packages/*",
       "tooling/*"
-    ]
+    ],
+    "catalog": {
+      "@types/react": "19.1.13",
+      "@types/react-dom": "19.1.9",
+      "better-auth": "1.3.26",
+      "typescript": "5.9.3",
+      "vite": "7.1.7"
+    }
   },
   "scripts": {
     "boundaries": "turbo boundaries",
     "build": "turbo build",
+    "bump:deps": "bun update --interactive --recursive",
     "check": "adamantite check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "db:migrate": "turbo --filter @init/db migrate",
     "db:push": "turbo --filter @init/db push",
     "db:studio": "turbo --filter @init/db studio",
-    "bump:deps": "bun update --interactive --recursive",
     "dev": "turbo run dev",
     "dev:apps": "turbo run dev --filter=!@init/*",
     "dev:packages": "turbo run dev --filter=@init/*",
@@ -52,8 +59,10 @@
     "node": ">=24"
   },
   "overrides": {
-    "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9"
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "better-auth": "catalog:",
+    "vite": "catalog:"
   },
   "trustedDependencies": [
     "@parcel/watcher",

@@ -1,10 +1,7 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons"
 import type { ReactNode } from "react"
 import {
+  LuArrowLeft,
+  LuArrowRight,
   LuCheck,
   LuChevronDown,
   LuChevronLeft,
@@ -12,6 +9,7 @@ import {
   LuChevronUp,
   LuCircle,
   LuCircleAlert,
+  LuEllipsis,
   LuGripVertical,
   LuHouse,
   LuLanguages,
@@ -44,6 +42,7 @@ export function SVGIcon({
   className,
   children,
   viewBox,
+  title,
 }: SVGIconProps) {
   const intrinsicContentDimension = 20
   const defaultViewBox = `0 0 ${intrinsicContentDimension} ${intrinsicContentDimension}`
@@ -62,6 +61,7 @@ export function SVGIcon({
       width={size}
       xmlns="http://www.w3.org/2000/svg"
     >
+      {title && <title>{title}</title>}
       {children}
     </svg>
   )
@@ -75,9 +75,9 @@ export const Icon = {
   ChevronLeft: LuChevronLeft,
   ChevronRight: LuChevronRight,
   ChevronUp: LuChevronUp,
-  DotsHorizontal: DotsHorizontalIcon,
-  ArrowLeft: ArrowLeftIcon,
-  ArrowRight: ArrowRightIcon,
+  DotsHorizontal: LuEllipsis,
+  ArrowLeft: LuArrowLeft,
+  ArrowRight: LuArrowRight,
   Google: (props: SVGIconProps) => (
     <svg
       height="1em"
