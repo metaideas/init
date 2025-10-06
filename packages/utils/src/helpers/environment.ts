@@ -27,3 +27,17 @@ export const isTest = () =>
 
 export const isCI = () =>
   typeof process !== "undefined" && process.env.CI === "true"
+
+export function isServer() {
+  return (
+    typeof globalThis !== "undefined" &&
+    (globalThis as unknown as { window: unknown }).window === undefined
+  )
+}
+
+export function isClient() {
+  return (
+    typeof globalThis !== "undefined" &&
+    (globalThis as unknown as { window: unknown }).window !== undefined
+  )
+}
