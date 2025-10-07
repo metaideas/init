@@ -1,448 +1,608 @@
 import { beforeEach, describe, expect, it } from "bun:test"
-import type { Fault } from "@init/utils/fault"
-import { flags } from "../index"
+import { buildFlags } from "../index"
+import type { Decision, HookContext, Identity } from "../types"
 
-describe("flags", () => {
-  let mockCache: Map<string, boolean>
-  let mockIdentify: () => Promise<string>
-  let mockDecide: (
-    key: string,
-    identity: string | number
-  ) => Promise<boolean | undefined>
+describe("buildFlags", () => {
+  let mockIdentity: Identity
+  let mockDecide: (key: string, identity: Identity) => Promise<Decision>
 
   beforeEach(() => {
-    mockCache = new Map<string, boolean>()
-    mockIdentify = async () => "user123"
-    mockDecide = async () => true
+    mockIdentity = { distinctId: "user123" }
+    mockDecide = async () => ({ value: true })
   })
 
   describe("basic functionality", () => {
-    it("should return default value when identity is null", async () => {
-      const flag = flags({
-        identify: () => Promise.resolve(undefined),
-        decide: mockDecide,
+    it("should return default boolean value when decide returns boolean", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: false }),
       })
 
-      const betaFeature = flag("beta", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: true,
+      })
       const result = await betaFeature()
 
       expect(result).toBe(false)
     })
 
-    it("should return default value when identity is undefined", async () => {
-      const flag = flags({
-        identify: () => Promise.resolve(undefined),
+    it("should return default value when identity is null", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(null),
         decide: mockDecide,
       })
 
-      const betaFeature = flag("beta", true)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
       const result = await betaFeature()
 
-      expect(result).toBe(true)
+      expect(result).toBe(false)
     })
 
-    it("should allow 0 as valid identity", async () => {
-      const flag = flags({
-        identify: async () => 0,
-        decide: async () => true,
+    it("should allow 0 as valid distinctId", async () => {
+      const createFlag = buildFlags({
+        identify: async () => ({ distinctId: 0 }),
+        decide: async () => ({ value: true }),
       })
 
-      const betaFeature = flag("beta", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
       const result = await betaFeature()
 
       expect(result).toBe(true)
     })
 
     it("should call decide function with correct parameters", async () => {
-      let calledWith: { key: string; identity: string | number } | undefined
+      let calledWith: { key: string; identity: Identity } | undefined
 
-      const flag = flags({
-        identify: async () => "user456",
+      const createFlag = buildFlags({
+        identify: async () => ({ distinctId: "user456" }),
         decide: (key, identity) => {
           calledWith = { key, identity }
-          return Promise.resolve(true)
+          return Promise.resolve({ value: true })
         },
       })
 
-      const betaFeature = flag("beta-feature", false)
+      const betaFeature = createFlag({
+        key: "beta-feature",
+        defaultValue: false,
+      })
       await betaFeature()
 
       expect(calledWith).toEqual({
         key: "beta-feature",
-        identity: "user456",
+        identity: { distinctId: "user456" },
       })
     })
 
     it("should return decide result when available", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => true,
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: true }),
       })
 
-      const betaFeature = flag("beta", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
       const result = await betaFeature()
 
       expect(result).toBe(true)
-    })
-
-    it("should fallback to default when decide returns undefined", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: () => Promise.resolve(undefined),
-      })
-
-      const betaFeature = flag("beta", false)
-      const result = await betaFeature()
-
-      expect(result).toBe(false)
     })
   })
 
-  describe("override functionality", () => {
-    it("should return override value when provided", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => false,
+  describe("variant functionality", () => {
+    it("should handle variant flags correctly", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ variant: "dark" }),
       })
 
-      const betaFeature = flag("beta", false)
-      const result = await betaFeature({ override: true })
-
-      expect(result).toBe(true)
-    })
-
-    it("should return override false even when decide would return true", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => true,
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark", "system"],
       })
+      const result = await theme()
 
-      const betaFeature = flag("beta", true)
-      const result = await betaFeature({ override: false })
-
-      expect(result).toBe(false)
+      expect(result).toBe("dark")
     })
 
-    it("should use custom identity when provided", async () => {
-      let calledWith: string | number | undefined
-
-      const flag = flags({
-        identify: async () => "defaultUser",
-        decide: (_key, identity) => {
-          calledWith = identity
-          return Promise.resolve(true)
+    it("should return default variant when decide fails", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: () => {
+          throw new Error("Service down")
         },
       })
 
-      const betaFeature = flag("beta", false)
-      await betaFeature({ identity: "customUser" })
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark", "system"],
+      })
+      const result = await theme()
 
-      expect(calledWith).toBe("customUser")
+      expect(result).toBe("light")
+    })
+
+    it("should return default value when variant doesn't match allowed variants", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ variant: "invalid" }),
+      })
+
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark"],
+      })
+      const result = await theme()
+
+      // Should return default due to invalid variant error
+      expect(result).toBe("light")
+    })
+
+    it("should call error hook when variant is invalid", async () => {
+      let errorReceived: unknown
+      const logs: string[] = []
+
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ variant: "purple" }),
+        hooks: [
+          {
+            error: (context, error) => {
+              errorReceived = error
+              const errorMessage =
+                error instanceof Error ? error.message : String(error)
+              logs.push(`Error in flag "${context.flagKey}": ${errorMessage}`)
+            },
+          },
+        ],
+      })
+
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark", "system"],
+      })
+      const result = await theme()
+
+      expect(result).toBe("light")
+      expect(errorReceived).toBeDefined()
+      expect(logs).toHaveLength(1)
+      expect(logs[0]).toContain("Invalid variant")
+      expect(logs[0]).toContain("theme")
+    })
+
+    it("should work with const arrays for type inference", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ variant: "system" }),
+      })
+
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark", "system"],
+      })
+      const result = await theme()
+
+      expect(result).toBe("system")
+    })
+  })
+
+  describe("override identity", () => {
+    it("should use custom identity when provided", async () => {
+      let calledWith: Identity | undefined
+
+      const createFlag = buildFlags({
+        identify: async () => ({ distinctId: "defaultUser" }),
+        decide: (_key, identity) => {
+          calledWith = identity
+          return Promise.resolve({ value: true })
+        },
+      })
+
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature({ distinctId: "customUser" })
+
+      expect(calledWith).toEqual({ distinctId: "customUser" })
     })
 
     it("should not call identify when custom identity provided", async () => {
       let identifyCalled = false
 
-      const flag = flags({
+      const createFlag = buildFlags({
         identify: () => {
           identifyCalled = true
-          return Promise.resolve("defaultUser")
+          return Promise.resolve({ distinctId: "defaultUser" })
         },
-        decide: mockDecide,
+        decide: async () => ({ value: true }),
       })
 
-      const betaFeature = flag("beta", false)
-      await betaFeature({ identity: "customUser" })
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature({ distinctId: "customUser" })
 
       expect(identifyCalled).toBe(false)
     })
+
+    it("should support additional properties in identity", async () => {
+      const customIdentity = {
+        distinctId: "user123",
+        email: "user@example.com",
+        plan: "premium",
+      } satisfies Identity
+
+      let receivedIdentity: Identity | undefined
+
+      const createFlag = buildFlags({
+        identify: async () => mockIdentity,
+        decide: (_key, identity) => {
+          receivedIdentity = identity
+          return Promise.resolve({ value: true })
+        },
+      })
+
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature(customIdentity)
+
+      expect(receivedIdentity).toEqual(customIdentity)
+    })
   })
 
-  describe("caching", () => {
-    it("should return cached value when available", async () => {
-      let decideCallCount = 0
+  describe("hooks", () => {
+    it("should call before hook", async () => {
+      let beforeCalled = false
+      let beforeContext: HookContext<Identity> | undefined
 
-      const flag = flags({
-        identify: mockIdentify,
-        decide: () => {
-          decideCallCount++
-          return Promise.resolve(true)
-        },
-        cache: {
-          get: (key) => mockCache.get(key),
-          set: (key, value) => {
-            mockCache.set(key, value)
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: true }),
+        hooks: [
+          {
+            before: (context) => {
+              beforeCalled = true
+              beforeContext = context
+            },
           },
-        },
+        ],
       })
 
-      // Set cache value
-      mockCache.set("flag:beta:user123", false)
-
-      const betaFeature = flag("beta", true)
-      const result = await betaFeature()
-
-      expect(result).toBe(false)
-      expect(decideCallCount).toBe(0)
-    })
-
-    it("should cache the result after decide call", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => true,
-        cache: {
-          get: (key) => mockCache.get(key),
-          set: (key, value) => {
-            mockCache.set(key, value)
-          },
-        },
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
       })
-
-      const betaFeature = flag("beta", false)
       await betaFeature()
 
-      expect(mockCache.get("flag:beta:user123")).toBe(true)
+      expect(beforeCalled).toBe(true)
+      expect(beforeContext).toEqual({
+        flagKey: "beta",
+        identity: mockIdentity,
+      })
     })
 
-    it("should cache default value when decide returns undefined", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: () => Promise.resolve(undefined),
-        cache: {
-          get: (key) => mockCache.get(key),
-          set: (key, value) => {
-            mockCache.set(key, value)
+    it("should call after hook with decision", async () => {
+      let afterCalled = false
+      let afterContext: HookContext<Identity> | undefined
+      let afterDecision: Decision | undefined
+
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: true }),
+        hooks: [
+          {
+            after: (context, decision) => {
+              afterCalled = true
+              afterContext = context
+              afterDecision = decision
+            },
           },
-        },
+        ],
       })
 
-      const betaFeature = flag("beta", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
       await betaFeature()
 
-      expect(mockCache.get("flag:beta:user123")).toBe(false)
+      expect(afterCalled).toBe(true)
+      expect(afterContext).toEqual({
+        flagKey: "beta",
+        identity: mockIdentity,
+      })
+      expect(afterDecision).toEqual({ value: true })
     })
 
-    it("should handle cached false values correctly", async () => {
-      let decideCallCount = 0
+    it("should call error hook when decide fails", async () => {
+      let errorCalled = false
+      let errorContext: HookContext<Identity> | undefined
+      let errorReceived: unknown
 
-      const flag = flags({
-        identify: mockIdentify,
+      const testError = new Error("Service down")
+
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
         decide: () => {
-          decideCallCount++
-          return Promise.resolve(true)
+          throw testError
         },
-        cache: {
-          get: (key) => mockCache.get(key),
-          set: (key, value) => {
-            mockCache.set(key, value)
+        hooks: [
+          {
+            error: (context, error) => {
+              errorCalled = true
+              errorContext = context
+              errorReceived = error
+            },
           },
-        },
+        ],
       })
 
-      // Explicitly cache false
-      mockCache.set("flag:beta:user123", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature()
 
-      const betaFeature = flag("beta", true)
-      const result = await betaFeature()
-
-      expect(result).toBe(false)
-      expect(decideCallCount).toBe(0)
+      expect(errorCalled).toBe(true)
+      expect(errorContext?.flagKey).toBe("beta")
+      expect(errorReceived).toBe(testError)
     })
 
-    it("should work with async cache operations", async () => {
-      const asyncCache = new Map<string, boolean>()
+    it("should call finally hook always", async () => {
+      let finallyCalled = 0
 
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => true,
-        cache: {
-          get: async (key) => asyncCache.get(key),
-          set: (key, value) => {
-            asyncCache.set(key, value)
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: true }),
+        hooks: [
+          {
+            finally: () => {
+              finallyCalled++
+            },
           },
-        },
+        ],
       })
 
-      const betaFeature = flag("beta", false)
-      const result = await betaFeature()
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
 
-      expect(result).toBe(true)
-      expect(asyncCache.get("flag:beta:user123")).toBe(true)
+      await betaFeature()
+      expect(finallyCalled).toBe(1)
+
+      await betaFeature()
+      expect(finallyCalled).toBe(2)
+    })
+
+    it("should call finally hook even when error occurs", async () => {
+      let finallyCalled = false
+
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: () => {
+          throw new Error("Service down")
+        },
+        hooks: [
+          {
+            finally: () => {
+              finallyCalled = true
+            },
+          },
+        ],
+      })
+
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature()
+
+      expect(finallyCalled).toBe(true)
+    })
+
+    it("should support multiple hooks", async () => {
+      const calls: string[] = []
+
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
+        decide: async () => ({ value: true }),
+        hooks: [
+          {
+            before: () => {
+              calls.push("hook1-before")
+            },
+            after: () => {
+              calls.push("hook1-after")
+            },
+          },
+          {
+            before: () => {
+              calls.push("hook2-before")
+            },
+            after: () => {
+              calls.push("hook2-after")
+            },
+          },
+        ],
+      })
+
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
+      await betaFeature()
+
+      expect(calls).toEqual([
+        "hook1-before",
+        "hook2-before",
+        "hook1-after",
+        "hook2-after",
+      ])
     })
   })
 
   describe("error handling", () => {
     it("should return default value when identify throws", async () => {
-      const flag = flags({
+      const createFlag = buildFlags({
         identify: () => {
           throw new Error("Identity service down")
         },
         decide: mockDecide,
       })
 
-      const betaFeature = flag("beta", false)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: false,
+      })
       const result = await betaFeature()
 
       expect(result).toBe(false)
     })
 
     it("should return default value when decide throws", async () => {
-      const flag = flags({
-        identify: mockIdentify,
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
         decide: () => {
           throw new Error("Feature flag service down")
         },
       })
 
-      const betaFeature = flag("beta", true)
+      const betaFeature = createFlag({
+        key: "beta",
+        defaultValue: true,
+      })
       const result = await betaFeature()
 
       expect(result).toBe(true)
     })
 
-    it("should call onError when provided", async () => {
-      let errorReceived: Fault | undefined
-
-      const flag = flags({
-        identify: mockIdentify,
+    it("should handle error in variant flags", async () => {
+      const createFlag = buildFlags({
+        identify: () => Promise.resolve(mockIdentity),
         decide: () => {
-          throw new Error("Service error")
-        },
-        onError: (error) => {
-          errorReceived = error
+          throw new Error("Service down")
         },
       })
 
-      const betaFeature = flag("beta", false)
-      await betaFeature()
-
-      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
-      expect(errorReceived?.message).toBe("Service error")
-      expect(errorReceived?.context).toEqual({
-        key: "beta",
-        identity: "user123",
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark"],
       })
-    })
+      const result = await theme()
 
-    it("should wrap errors in FlagError in onError", async () => {
-      let errorReceived: Fault | undefined
-      const originalError = new Error("Original error")
-      originalError.stack = "original stack trace"
-
-      const flag = flags({
-        identify: mockIdentify,
-        decide: () => {
-          throw originalError
-        },
-        onError: (error) => {
-          errorReceived = error
-        },
-      })
-
-      const betaFeature = flag("beta", false)
-      await betaFeature()
-
-      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
-      expect(errorReceived?.message).toBe("Original error")
-      expect(errorReceived?.context).toEqual({
-        key: "beta",
-        identity: "user123",
-      })
-    })
-
-    it("should handle Error objects in FlagError", async () => {
-      let errorReceived: Fault | undefined
-
-      const flag = flags({
-        identify: mockIdentify,
-        decide: () => {
-          throw new Error("String error")
-        },
-        onError: (error) => {
-          errorReceived = error
-        },
-      })
-
-      const betaFeature = flag("beta", false)
-      await betaFeature()
-
-      expect(errorReceived?.name).toBe("FEATURE_FLAG_ERROR")
-      expect(errorReceived?.message).toBe("String error")
-      expect(errorReceived?.context).toEqual({
-        key: "beta",
-        identity: "user123",
-      })
-    })
-
-    it("should handle cache errors gracefully", async () => {
-      const flag = flags({
-        identify: mockIdentify,
-        decide: async () => true,
-        cache: {
-          get: () => {
-            throw new Error("Cache read error")
-          },
-          set: () => {
-            throw new Error("Cache write error")
-          },
-        },
-      })
-
-      const betaFeature = flag("beta", false)
-      const result = await betaFeature()
-
-      // Should still work despite cache errors
-      expect(result).toBe(false) // Returns default due to error
+      expect(result).toBe("light")
     })
   })
 
   describe("integration scenarios", () => {
     it("should work end-to-end with all features", async () => {
-      let onErrorCalled = false
+      const calls: string[] = []
+      let errorCalled = false
 
-      const flag = flags({
-        identify: async () => "user789",
+      const createFlag = buildFlags({
+        identify: async () => ({ distinctId: "user789", plan: "premium" }),
         decide: (key, identity) => {
-          if (key === "premium" && identity === "user789") {
-            return Promise.resolve(true)
+          if (key === "premium" && identity.distinctId === "user789") {
+            return Promise.resolve({ value: true })
           }
-          return Promise.resolve(false)
+          return Promise.resolve({ value: false })
         },
-        cache: {
-          get: (key) => mockCache.get(key),
-          set: (key, value) => {
-            mockCache.set(key, value)
+        hooks: [
+          {
+            before: (context) => {
+              calls.push(`before:${context.flagKey}`)
+            },
+            after: (context) => {
+              calls.push(`after:${context.flagKey}`)
+            },
+            error: () => {
+              errorCalled = true
+            },
           },
-        },
-        onError: () => {
-          onErrorCalled = true
-        },
+        ],
       })
 
-      const premiumFeature = flag("premium", false)
-      const basicFeature = flag("basic", true)
+      const premiumFeature = createFlag({
+        key: "premium",
+        defaultValue: false,
+      })
+      const basicFeature = createFlag({
+        key: "basic",
+        defaultValue: true,
+      })
 
       // Test normal operation
       const premiumResult = await premiumFeature()
       expect(premiumResult).toBe(true)
 
-      // Test caching
-      const cachedResult = await premiumFeature()
-      expect(cachedResult).toBe(true)
-      expect(mockCache.get("flag:premium:user789")).toBe(true)
-
-      // Test override
-      const overrideResult = await premiumFeature({ override: false })
-      expect(overrideResult).toBe(false)
-
-      // Test custom identity
+      // Test override identity
       const customIdentityResult = await basicFeature({
-        identity: "different-user",
+        distinctId: "different-user",
+        plan: "basic",
       })
       expect(customIdentityResult).toBe(false)
 
+      // Test hooks were called
+      expect(calls).toEqual([
+        "before:premium",
+        "after:premium",
+        "before:basic",
+        "after:basic",
+      ])
+
       // No errors should have occurred
-      expect(onErrorCalled).toBe(false)
+      expect(errorCalled).toBe(false)
+    })
+
+    it("should work with variant flags end-to-end", async () => {
+      const createFlag = buildFlags({
+        identify: async () => ({
+          distinctId: "user123",
+          preferences: { theme: "dark" },
+        }),
+        decide: (key, identity) => {
+          if (key === "theme" && identity.preferences?.theme) {
+            return Promise.resolve({
+              variant: identity.preferences.theme as string,
+            })
+          }
+          return Promise.resolve({ variant: "light" })
+        },
+      })
+
+      const theme = createFlag({
+        key: "theme",
+        defaultValue: "light",
+        variants: ["light", "dark", "system"],
+      })
+
+      const result = await theme()
+      expect(result).toBe("dark")
+
+      // Test with override
+      const overrideResult = await theme({
+        distinctId: "user456",
+        preferences: { theme: "system" },
+      })
+      expect(overrideResult).toBe("system")
     })
   })
 })

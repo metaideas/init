@@ -4,7 +4,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./react": "./src/react.tsx"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
@@ -14,8 +15,25 @@
   "dependencies": {
     "@init/utils": "workspace:*"
   },
+  "peerDependencies": {
+    "@tanstack/react-query": "*",
+    "react": "*"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "@happy-dom/global-registrator": "19.0.2",
+    "@tanstack/react-query": "5.90.2",
+    "@testing-library/react": "16.3.0",
     "@tooling/tsconfig": "workspace:*",
+    "@types/react": "catalog:",
+    "react": "catalog:",
     "typescript": "catalog:"
   }
 }

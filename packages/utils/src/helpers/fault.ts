@@ -64,6 +64,10 @@ export class Fault extends Error {
     })
   }
 
+  static isFault(error: unknown): error is Fault {
+    return error instanceof Fault
+  }
+
   /**
    * Get full debugging message (public + internal)
    */
