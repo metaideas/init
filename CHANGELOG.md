@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0](https://github.com/metaideas/init/compare/init@v0.9.0...init@v0.10.0) (2025-10-07)
+
+
+### Features
+
+* add app choices in template generator ([e36ef94](https://github.com/metaideas/init/commit/e36ef943f02f1a761a1cc42108a1bb0b9cf990df))
+
+
+### Bug Fixes
+
+* add backend package to deps ([24e9840](https://github.com/metaideas/init/commit/24e9840822934a19408012874d26362ff96e773c))
+
 ## [0.9.0](https://github.com/metaideas/init/compare/init@v0.8.2...init@v0.9.0) (2025-10-07)
 
 
