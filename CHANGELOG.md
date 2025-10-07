@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.9.0](https://github.com/metaideas/init/compare/init@v0.8.2...init@v0.9.0) (2025-10-07)
+
+
+### Features
+
+* add hook functions to feature flags ([#43](https://github.com/metaideas/init/issues/43)) ([b758d53](https://github.com/metaideas/init/commit/b758d535d651f6443564de016d465a322e914de7))
+* auth database adapter ([#32](https://github.com/metaideas/init/issues/32)) ([67325be](https://github.com/metaideas/init/commit/67325bec154ea567953413d524a8bc54e2295977))
+* migrate desktop app to tanstack router ([#34](https://github.com/metaideas/init/issues/34)) ([a878f96](https://github.com/metaideas/init/commit/a878f96cc04ab49b39572064066de1534d811b30))
+* migrate extension to wouter ([#36](https://github.com/metaideas/init/issues/36))e ([46c8bcd](https://github.com/metaideas/init/commit/46c8bcd138f76bc997020fcdf2e231c2b3674a51))
+* migrate from nextjs to tanstack start ([#38](https://github.com/metaideas/init/issues/38)) ([c767feb](https://github.com/metaideas/init/commit/c767febeaa890a4e1166e4871ef63146b8d0811e))
+* new flags implementation ([#33](https://github.com/metaideas/init/issues/33)) ([b2e12f8](https://github.com/metaideas/init/commit/b2e12f8a3052a698a9e5a0ac6ed53912ebe6ae4a))
+* remove references to nextjs ([#40](https://github.com/metaideas/init/issues/40)) ([0c2b7ae](https://github.com/metaideas/init/commit/0c2b7ae16b0f26b4206f3049d7a347ac2bd12847))
+* setup backend package with convex ([#41](https://github.com/metaideas/init/issues/41)) ([0e75e55](https://github.com/metaideas/init/commit/0e75e55c7291596f65545a3b3dbeff1246dfb4ee))
+* setup paraglide for i18n ([#30](https://github.com/metaideas/init/issues/30)) ([25b1b15](https://github.com/metaideas/init/commit/25b1b15010db11bfa295bd191fb86603177fdd74))
+* use catalog references for dependencies ([#42](https://github.com/metaideas/init/issues/42)) ([929ddc1](https://github.com/metaideas/init/commit/929ddc1ec8896d1e888e865e745e541bf388b360))
+* utils for mobile theme ([#39](https://github.com/metaideas/init/issues/39)) ([e05b783](https://github.com/metaideas/init/commit/e05b78346f567026d90938af1b83bec4983a6b87))
+* **web:** replace next with astro ([#29](https://github.com/metaideas/init/issues/29)) ([2935f66](https://github.com/metaideas/init/commit/2935f661aa6af8f890a6fd004497504a489bf8e0))
+
+
+### Bug Fixes
+
+* nitro modules error for expo sdk 54 ([#37](https://github.com/metaideas/init/issues/37)) ([86a089a](https://github.com/metaideas/init/commit/86a089a480ecee956e8ef24a3ed90886cca9cb1f))
+* remove orate package ([8085e1b](https://github.com/metaideas/init/commit/8085e1b9a3df37b09cddcfe9f3ce752c1bff75b5))
+
 ## [0.8.2](https://github.com/metaideas/init/compare/init@v0.8.1...init@v0.8.2) (2025-09-19)
 
 
