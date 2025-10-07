@@ -99,6 +99,11 @@ export const workspaces = {
       dependencies: ["utils"],
     },
     {
+      name: "backend",
+      description: "backend - Convex backend with Better Auth integration",
+      dependencies: ["auth", "env", "observability", "utils"],
+    },
+    {
       name: "core",
       description: "core - Core application and business logic",
       dependencies: [],
