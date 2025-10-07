@@ -11,12 +11,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "list",
         name: "app",
         message: "Which app would you like to add the feature to?",
-        choices: () => {
-          const apps = getAvailableApps()
-          return apps.length > 0
-            ? apps.map((app) => ({ name: app, value: app }))
-            : [{ name: "No apps found", value: "" }]
-        },
+        choices: getAppChoices,
       },
       {
         type: "input",
@@ -70,12 +65,12 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             checked: false,
           },
           {
-            name: "router.ts - API router (api apps)",
+            name: "router.ts - API router (API apps)",
             value: "router",
             checked: false,
           },
           {
-            name: "procedures.ts - TRPC procedures (api apps)",
+            name: "procedures.ts - tRPC procedures (API apps)",
             value: "procedures",
             checked: false,
           },
@@ -163,7 +158,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       (answers) => {
         /**
-         * Install deps everything
+         * Install all dependencies
          */
         if ("name" in answers && typeof answers.name === "string") {
           execSync("bun install")
@@ -177,12 +172,13 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
   })
 
   plop.setGenerator("trpc-client", {
-    description: "Generate a new tRPC client setup for an app",
+    description: "Set up a tRPC client for an app",
     prompts: [
       {
-        type: "input",
+        type: "list",
         name: "app",
-        message: "What is the name of the app to add the tRPC client to?",
+        message: "Which app would you like to add the tRPC client to?",
+        choices: getAppChoices,
       },
     ],
     actions: [
@@ -195,12 +191,13 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
   })
 
   plop.setGenerator("hono-client", {
-    description: "Generate a new Hono client setup for an app",
+    description: "Set up a Hono client for an app",
     prompts: [
       {
-        type: "input",
+        type: "list",
         name: "app",
-        message: "What is the name of the app to add the Hono client to?",
+        message: "Which app would you like to add the Hono client to?",
+        choices: getAppChoices,
       },
     ],
     actions: [
@@ -222,4 +219,11 @@ function getAvailableApps(): string[] {
   } catch {
     return []
   }
+}
+
+function getAppChoices() {
+  const apps = getAvailableApps()
+  return apps.length > 0
+    ? apps.map((app) => ({ name: app, value: app }))
+    : [{ name: "No apps found", value: "" }]
 }
