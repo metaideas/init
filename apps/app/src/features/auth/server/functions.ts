@@ -33,7 +33,10 @@ export const validateSession = createIsomorphicFn()
 
 export const checkEmailAvailability = publicFunction
   .middleware([
-    withRateLimitByIp("auth.check-email-availability", slidingWindow(1, "1 m")),
+    withRateLimitByIp(
+      "auth.check-email-availability",
+      slidingWindow(10, "1 m")
+    ),
   ])
   .inputValidator(z.object({ email: z.email() }))
   .handler(async ({ data, context }) => {
@@ -42,4 +45,17 @@ export const checkEmailAvailability = publicFunction
     })
 
     return { isAvailable: !user }
+  })
+
+export const forgotPassword = publicFunction
+  .middleware([
+    withRateLimitByIp("auth.forgot-password", slidingWindow(10, "1 m")),
+  ])
+  .inputValidator(z.object({ email: z.email() }))
+  .handler(async ({ data, context }) => {
+    context.logger.info(data, "Mocking forgot password")
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    return { success: true }
   })

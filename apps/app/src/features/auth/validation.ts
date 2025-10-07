@@ -50,3 +50,9 @@ export const SignInWithPasswordFormDataSchema = z.form.formData({
 export type SignInWithPasswordFormData = z.infer<
   typeof SignInWithPasswordFormDataSchema
 >
+
+// Used in the form component
+export const ForgotPasswordFormSchema = z.object({
+  email: EmailSchema,
+})
+export type ForgotPasswordForm = z.infer<typeof ForgotPasswordFormSchema>

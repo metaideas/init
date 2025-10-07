@@ -18,6 +18,7 @@ import { Route as authenticatedLayoutIndexRouteImport } from './routes/(authenti
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as unauthenticatedLayoutSignUpRouteImport } from './routes/(unauthenticated)/_layout/sign-up'
 import { Route as unauthenticatedLayoutSignInRouteImport } from './routes/(unauthenticated)/_layout/sign-in'
+import { Route as unauthenticatedLayoutForgotPasswordRouteImport } from './routes/(unauthenticated)/_layout/forgot-password'
 
 const unauthenticatedRouteImport = createFileRoute('/(unauthenticated)')()
 const authenticatedRouteImport = createFileRoute('/(authenticated)')()
@@ -66,10 +67,17 @@ const unauthenticatedLayoutSignInRoute =
     path: '/sign-in',
     getParentRoute: () => unauthenticatedLayoutRoute,
   } as any)
+const unauthenticatedLayoutForgotPasswordRoute =
+  unauthenticatedLayoutForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => unauthenticatedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof authenticatedLayoutIndexRoute
   '/api/test': typeof ApiTestRoute
+  '/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
   '/sign-in': typeof unauthenticatedLayoutSignInRoute
   '/sign-up': typeof unauthenticatedLayoutSignUpRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -77,6 +85,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof authenticatedLayoutIndexRoute
   '/api/test': typeof ApiTestRoute
+  '/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
   '/sign-in': typeof unauthenticatedLayoutSignInRoute
   '/sign-up': typeof unauthenticatedLayoutSignUpRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -88,6 +97,7 @@ export interface FileRoutesById {
   '/(unauthenticated)': typeof unauthenticatedRouteWithChildren
   '/(unauthenticated)/_layout': typeof unauthenticatedLayoutRouteWithChildren
   '/api/test': typeof ApiTestRoute
+  '/(unauthenticated)/_layout/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
   '/(unauthenticated)/_layout/sign-in': typeof unauthenticatedLayoutSignInRoute
   '/(unauthenticated)/_layout/sign-up': typeof unauthenticatedLayoutSignUpRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -95,9 +105,21 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/api/test'
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/test' | '/sign-in' | '/sign-up' | '/api/auth/$'
+  to:
+    | '/'
+    | '/api/test'
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/(authenticated)'
@@ -105,6 +127,7 @@ export interface FileRouteTypes {
     | '/(unauthenticated)'
     | '/(unauthenticated)/_layout'
     | '/api/test'
+    | '/(unauthenticated)/_layout/forgot-password'
     | '/(unauthenticated)/_layout/sign-in'
     | '/(unauthenticated)/_layout/sign-up'
     | '/api/auth/$'
@@ -183,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof unauthenticatedLayoutSignInRouteImport
       parentRoute: typeof unauthenticatedLayoutRoute
     }
+    '/(unauthenticated)/_layout/forgot-password': {
+      id: '/(unauthenticated)/_layout/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof unauthenticatedLayoutForgotPasswordRouteImport
+      parentRoute: typeof unauthenticatedLayoutRoute
+    }
   }
 }
 
@@ -210,11 +240,14 @@ const authenticatedRouteWithChildren = authenticatedRoute._addFileChildren(
 )
 
 interface unauthenticatedLayoutRouteChildren {
+  unauthenticatedLayoutForgotPasswordRoute: typeof unauthenticatedLayoutForgotPasswordRoute
   unauthenticatedLayoutSignInRoute: typeof unauthenticatedLayoutSignInRoute
   unauthenticatedLayoutSignUpRoute: typeof unauthenticatedLayoutSignUpRoute
 }
 
 const unauthenticatedLayoutRouteChildren: unauthenticatedLayoutRouteChildren = {
+  unauthenticatedLayoutForgotPasswordRoute:
+    unauthenticatedLayoutForgotPasswordRoute,
   unauthenticatedLayoutSignInRoute: unauthenticatedLayoutSignInRoute,
   unauthenticatedLayoutSignUpRoute: unauthenticatedLayoutSignUpRoute,
 }

@@ -34,7 +34,7 @@ function RouteComponent() {
         <CardContent>
           {/* <SignInWithCodeForm /> */}
 
-          <div className="relative my-10">
+          <div className="relative my-6">
             <div
               aria-hidden="true"
               className="absolute inset-0 flex items-center"
@@ -50,7 +50,7 @@ function RouteComponent() {
 
           <SignInWithPasswordForm />
 
-          <div className="relative my-10">
+          <div className="relative my-6">
             <div
               aria-hidden="true"
               className="absolute inset-0 flex items-center"

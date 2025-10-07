@@ -1,84 +1,26 @@
-import { cn } from "@init/utils/ui"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
-import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
 import type React from "react"
 import { useFormStatus } from "react-dom"
 import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Button } from "./button"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from "./field"
 import { Icon } from "./icon"
 import { Input } from "./input"
-import { Label } from "./label"
 import { Textarea } from "./textarea"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
-
-function FieldItem(props: React.ComponentProps<"div">) {
-  return <div {...props} className={cn("space-y-2", props.className)} />
-}
-FieldItem.displayName = "FieldItem"
-
-function FieldControl(props: React.ComponentProps<"div">) {
-  const field = useFieldContext()
-  const hasError = field.state.meta.errors.length > 0
-
-  return (
-    <SlotPrimitive.Slot
-      {...props}
-      aria-invalid={hasError}
-      className={cn(hasError && "text-destructive", props.className)}
-    />
-  )
-}
-FieldControl.displayName = "FieldControl"
-
-function FieldLabel(props: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  const field = useFieldContext()
-  const hasError = field.state.meta.errors.length > 0
-
-  return (
-    <Label
-      {...props}
-      className={cn(hasError && "text-destructive", props.className)}
-      htmlFor={field.name}
-    />
-  )
-}
-FieldLabel.displayName = "FieldLabel"
-
-function FieldDescription(props: React.ComponentProps<"div">) {
-  return (
-    <div
-      {...props}
-      className={cn("text-[0.8rem] text-muted-foreground", props.className)}
-    />
-  )
-}
-FieldDescription.displayName = "FieldDescription"
-
-function FieldMessage(props: React.ComponentProps<"div">) {
-  const field = useFieldContext()
-  const error = field.state.meta.errors[0]
-
-  const body = error ? String(error?.message) : props.children
-
-  if (!body) {
-    return null
-  }
-
-  return (
-    <div
-      {...props}
-      className={cn(
-        "font-medium text-[0.8rem] text-destructive",
-        props.className
-      )}
-    >
-      {body}
-    </div>
-  )
-}
-FieldMessage.displayName = "FieldMessage"
 
 function FieldInput(props: React.ComponentProps<typeof Input>) {
   const field = useFieldContext<string>()
@@ -120,7 +62,7 @@ function FieldTextarea(props: React.ComponentProps<typeof Textarea>) {
 }
 FieldTextarea.displayName = "FieldTextarea"
 
-function FormSubmitButton({
+function FormSubmit({
   loadingText = "Submitting...",
   children,
   ...props
@@ -147,7 +89,6 @@ function FormSubmitButton({
     </form.Subscribe>
   )
 }
-FormSubmitButton.displayName = "FormSubmitButton"
 
 function FormServerError({
   title = "Error",
@@ -177,20 +118,36 @@ function FormServerError({
 }
 FormServerError.displayName = "FormServerError"
 
-export const { useAppForm, withForm } = createFormHook({
+export const { useAppForm: useForm, withForm } = createFormHook({
   fieldContext,
   formContext,
   fieldComponents: {
-    Control: FieldControl,
+    Content: FieldContent,
     Description: FieldDescription,
-    Item: FieldItem,
+    Error: FieldError,
+    Field: (props: React.ComponentProps<typeof Field>) => {
+      const field = useFieldContext()
+
+      return (
+        <Field data-invalid={field.state.meta.errors.length > 0} {...props} />
+      )
+    },
+    Group: FieldGroup,
+    Label: (props: React.ComponentProps<typeof FieldLabel>) => {
+      const field = useFieldContext()
+
+      return <FieldLabel {...props} htmlFor={field.name} />
+    },
+    Legend: FieldLegend,
+    Separator: FieldSeparator,
+    Set: FieldSet,
+    Title: FieldTitle,
+
     Input: FieldInput,
-    Label: FieldLabel,
-    Message: FieldMessage,
     Textarea: FieldTextarea,
   },
   formComponents: {
-    SubmitButton: FormSubmitButton,
+    Submit: FormSubmit,
     ServerError: FormServerError,
   },
 })

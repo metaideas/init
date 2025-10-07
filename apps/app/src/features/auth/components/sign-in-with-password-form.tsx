@@ -1,17 +1,15 @@
 import { Button } from "@init/ui/components/button"
-import { useAppForm } from "@init/ui/components/form"
+import { FieldGroup } from "@init/ui/components/field"
+import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/sonner"
 import { Link, useNavigate } from "@tanstack/react-router"
-import {
-  AUTHENTICATED_PATHNAME,
-  UNAUTHENTICATED_PATHNAME,
-} from "~/features/auth/constants"
+import { AUTHENTICATED_PATHNAME } from "~/features/auth/constants"
 import { SignInWithPasswordFormSchema as schema } from "~/features/auth/validation"
 import { signIn } from "~/shared/auth/client"
 
 export default function SignInWithPasswordForm() {
   const navigate = useNavigate()
-  const form = useAppForm({
+  const form = useForm({
     defaultValues: { email: "", password: "" },
     validators: { onSubmit: schema },
     onSubmit: async ({ value }) => {
@@ -31,7 +29,6 @@ export default function SignInWithPasswordForm() {
 
   return (
     <form
-      className="flex flex-col gap-y-4"
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -39,39 +36,43 @@ export default function SignInWithPasswordForm() {
       }}
     >
       <form.AppForm>
-        <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
-          {(field) => (
-            <field.Item>
-              <field.Label>Email address</field.Label>
-              <field.Control>
+        <FieldGroup>
+          <form.AppField
+            name="email"
+            validators={{ onBlur: schema.shape.email }}
+          >
+            {(field) => (
+              <field.Field>
+                <field.Label>Email address</field.Label>
                 <field.Input autoComplete="email" type="email" />
-              </field.Control>
 
-              <field.Message />
-            </field.Item>
-          )}
-        </form.AppField>
-        <form.AppField
-          name="password"
-          validators={{ onBlur: schema.shape.password }}
-        >
-          {(field) => (
-            <field.Item>
-              <field.Label>Password</field.Label>
-              <field.Control>
+                <field.Error errors={field.state.meta.errors} />
+              </field.Field>
+            )}
+          </form.AppField>
+          <form.AppField
+            name="password"
+            validators={{ onBlur: schema.shape.password }}
+          >
+            {(field) => (
+              <field.Field>
+                <field.Label>Password</field.Label>
                 <field.Input autoComplete="current-password" type="password" />
-              </field.Control>
-              <field.Message />
-              <Button asChild className="p-0" variant="link">
-                <Link to={UNAUTHENTICATED_PATHNAME}>Forgot password?</Link>
-              </Button>
-            </field.Item>
-          )}
-        </form.AppField>
-        <form.ServerError title="Form Error" />
-        <form.SubmitButton className="w-full" loadingText="Signing in...">
-          Sign in
-        </form.SubmitButton>
+                <field.Error errors={field.state.meta.errors} />
+              </field.Field>
+            )}
+          </form.AppField>
+
+          <form.ServerError />
+          <form.Submit className="w-full" loadingText="Signing in...">
+            Sign in
+          </form.Submit>
+          <div className="flex w-full justify-center">
+            <Button asChild variant="link">
+              <Link to="/forgot-password">Forgot password?</Link>
+            </Button>
+          </div>
+        </FieldGroup>
       </form.AppForm>
     </form>
   )
