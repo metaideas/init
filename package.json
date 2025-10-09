@@ -37,7 +37,6 @@
     "generate": "turbo generate",
     "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
-    "template": "bun run scripts/index.ts template",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "typecheck": "turbo run typecheck --continue",
