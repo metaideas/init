@@ -24,15 +24,15 @@ const { fieldContext, formContext, useFieldContext, useFormContext } =
 
 function FieldInput(props: React.ComponentProps<typeof Input>) {
   const field = useFieldContext<string>()
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
   return (
     <Input
       {...props}
+      aria-invalid={isInvalid}
       id={field.name}
       name={field.name}
-      onBlur={() => {
-        field.handleBlur()
-      }}
+      onBlur={field.handleBlur}
       onChange={(e) => {
         field.handleChange(e.target.value)
       }}
@@ -44,15 +44,15 @@ FieldInput.displayName = "FieldInput"
 
 function FieldTextarea(props: React.ComponentProps<typeof Textarea>) {
   const field = useFieldContext<string>()
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
   return (
     <Textarea
       {...props}
+      aria-invalid={isInvalid}
       id={field.name}
       name={field.name}
-      onBlur={() => {
-        field.handleBlur()
-      }}
+      onBlur={field.handleBlur}
       onChange={(e) => {
         field.handleChange(e.target.value)
       }}
@@ -127,10 +127,9 @@ export const { useAppForm: useForm, withForm } = createFormHook({
     Error: FieldError,
     Field: (props: React.ComponentProps<typeof Field>) => {
       const field = useFieldContext()
+      const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-      return (
-        <Field data-invalid={field.state.meta.errors.length > 0} {...props} />
-      )
+      return <Field {...props} data-invalid={isInvalid} />
     },
     Group: FieldGroup,
     Label: (props: React.ComponentProps<typeof FieldLabel>) => {
