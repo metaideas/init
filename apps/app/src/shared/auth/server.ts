@@ -5,7 +5,7 @@ import env from "~/shared/env"
 import { baseUrl } from "~/shared/utils"
 
 export const auth = createAuth(
-  databaseAdapter(database),
+  databaseAdapter(database()),
   {
     secret: env.AUTH_SECRET,
     baseURL: baseUrl,

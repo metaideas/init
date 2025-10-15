@@ -23,7 +23,6 @@
     "better-auth": "catalog:"
   },
   "devDependencies": {
-    "@init/db": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"
   }

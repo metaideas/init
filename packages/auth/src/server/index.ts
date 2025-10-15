@@ -1,11 +1,10 @@
-import type { database as databaseFn } from "@init/db/client"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
 import {
   type BetterAuthOptions,
   type BetterAuthPlugin,
   betterAuth,
 } from "better-auth"
-import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { type DB, drizzleAdapter } from "better-auth/adapters/drizzle"
 
 const SESSION_EXPIRES_IN = 60 * 60 * 24 * 30 // 30 days
 const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
@@ -34,8 +33,8 @@ export function createAuth<T extends BetterAuthPlugin[]>(
   })
 }
 
-export function databaseAdapter(database: typeof databaseFn) {
-  return drizzleAdapter(database(), {
+export function databaseAdapter(database: DB) {
+  return drizzleAdapter(database, {
     // By default, we use PostgreSQL. Change this to another provider if needed.
     provider: "pg",
     usePlural: true,

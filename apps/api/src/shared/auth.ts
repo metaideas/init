@@ -12,7 +12,7 @@ export type Auth = ReturnType<typeof createAuth<typeof plugins>>
 // We add a type annotation to the auth function to avoid type inference issues
 // during type generation
 export const auth: Auth = createAuth(
-  databaseAdapter(database),
+  databaseAdapter(database()),
   {
     basePath: "/auth",
     secret: env.AUTH_SECRET,
