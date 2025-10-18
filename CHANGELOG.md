@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.0](https://github.com/metaideas/init/compare/init@v0.10.0...init@v0.11.0) (2025-10-18)
+
+
+### Features
+
+* add invalid to form items ([7bc4df6](https://github.com/metaideas/init/commit/7bc4df6bd377504a8e70b63e26c9e399bef11be7))
+* remove db dependency from auth ([fa14320](https://github.com/metaideas/init/commit/fa1432085891159cb6240815fb386a62447e687c))
+
+
+### Bug Fixes
+
+* lint rules ([1ff97fa](https://github.com/metaideas/init/commit/1ff97fab6aea62841b6552b0a1cadef6ae110b07))
+
 ## [0.10.0](https://github.com/metaideas/init/compare/init@v0.9.0...init@v0.10.0) (2025-10-07)
 
 
