@@ -14,9 +14,7 @@ import { LocaleToggle } from "~/shared/components/locale-toggle"
 
 export const Route = createFileRoute("/_authenticated/")({
   component: RouteComponent,
-  loader: ({ context }) => {
-    return { user: context.session.user }
-  },
+  loader: ({ context }) => ({ user: context.session.user }),
 })
 
 function RouteComponent() {

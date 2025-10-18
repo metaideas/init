@@ -43,7 +43,5 @@ export function createErrorHandler<
   T extends string,
   K extends keyof ReturnType<typeof createAuthClient>["$ERROR_CODES"],
 >(_locales: T[], errorCodes: Record<K, Partial<Record<T, string>>>) {
-  return (locale: T, code: K) => {
-    return errorCodes[code]?.[locale] ?? ""
-  }
+  return (locale: T, code: K) => errorCodes[code]?.[locale] ?? ""
 }

@@ -6,11 +6,10 @@ export const Route = createFileRoute("/api/test")({
   server: {
     middleware: [requireSession],
     handlers: {
-      GET: () => {
-        return json({
+      GET: () =>
+        json({
           message: 'Hello "/api/test"!',
-        })
-      },
+        }),
     },
   },
 })

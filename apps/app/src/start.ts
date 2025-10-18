@@ -1,8 +1,6 @@
 import { createStart } from "@tanstack/react-start"
 
-export const startInstance = createStart(() => {
-  return {
-    functionMiddleware: [],
-    requestMiddleware: [],
-  }
-})
+export const startInstance = createStart(() => ({
+  functionMiddleware: [],
+  requestMiddleware: [],
+}))
