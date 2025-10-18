@@ -12,7 +12,7 @@ import { AdminOnly } from "~/features/auth/components/roles"
 import SignOutButton from "~/features/auth/components/sign-out-button"
 import { LocaleToggle } from "~/shared/components/locale-toggle"
 
-export const Route = createFileRoute("/(authenticated)/_layout/")({
+export const Route = createFileRoute("/_authenticated/")({
   component: RouteComponent,
   loader: ({ context }) => {
     return { user: context.session.user }

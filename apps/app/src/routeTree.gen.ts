@@ -8,154 +8,141 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as ApiTestRouteImport } from './routes/api/test'
-import { Route as unauthenticatedLayoutRouteImport } from './routes/(unauthenticated)/_layout'
-import { Route as authenticatedLayoutRouteImport } from './routes/(authenticated)/_layout'
-import { Route as authenticatedLayoutIndexRouteImport } from './routes/(authenticated)/_layout/index'
+import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
+import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
+import { Route as UnauthenticatedForgotPasswordRouteImport } from './routes/_unauthenticated/forgot-password'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
-import { Route as unauthenticatedLayoutSignUpRouteImport } from './routes/(unauthenticated)/_layout/sign-up'
-import { Route as unauthenticatedLayoutSignInRouteImport } from './routes/(unauthenticated)/_layout/sign-in'
-import { Route as unauthenticatedLayoutForgotPasswordRouteImport } from './routes/(unauthenticated)/_layout/forgot-password'
 
-const unauthenticatedRouteImport = createFileRoute('/(unauthenticated)')()
-const authenticatedRouteImport = createFileRoute('/(authenticated)')()
-
-const unauthenticatedRoute = unauthenticatedRouteImport.update({
-  id: '/(unauthenticated)',
+const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
+  id: '/_unauthenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const authenticatedRoute = authenticatedRouteImport.update({
-  id: '/(authenticated)',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiTestRoute = ApiTestRouteImport.update({
   id: '/api/test',
   path: '/api/test',
   getParentRoute: () => rootRouteImport,
 } as any)
-const unauthenticatedLayoutRoute = unauthenticatedLayoutRouteImport.update({
-  id: '/_layout',
-  getParentRoute: () => unauthenticatedRoute,
+const UnauthenticatedSignUpRoute = UnauthenticatedSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => UnauthenticatedRouteRoute,
 } as any)
-const authenticatedLayoutRoute = authenticatedLayoutRouteImport.update({
-  id: '/_layout',
-  getParentRoute: () => authenticatedRoute,
+const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => UnauthenticatedRouteRoute,
 } as any)
-const authenticatedLayoutIndexRoute =
-  authenticatedLayoutIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => authenticatedLayoutRoute,
+const UnauthenticatedForgotPasswordRoute =
+  UnauthenticatedForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => UnauthenticatedRouteRoute,
   } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const unauthenticatedLayoutSignUpRoute =
-  unauthenticatedLayoutSignUpRouteImport.update({
-    id: '/sign-up',
-    path: '/sign-up',
-    getParentRoute: () => unauthenticatedLayoutRoute,
-  } as any)
-const unauthenticatedLayoutSignInRoute =
-  unauthenticatedLayoutSignInRouteImport.update({
-    id: '/sign-in',
-    path: '/sign-in',
-    getParentRoute: () => unauthenticatedLayoutRoute,
-  } as any)
-const unauthenticatedLayoutForgotPasswordRoute =
-  unauthenticatedLayoutForgotPasswordRouteImport.update({
-    id: '/forgot-password',
-    path: '/forgot-password',
-    getParentRoute: () => unauthenticatedLayoutRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof authenticatedLayoutIndexRoute
+  '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
-  '/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
-  '/sign-in': typeof unauthenticatedLayoutSignInRoute
-  '/sign-up': typeof unauthenticatedLayoutSignUpRoute
+  '/': typeof AuthenticatedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof authenticatedLayoutIndexRoute
+  '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
-  '/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
-  '/sign-in': typeof unauthenticatedLayoutSignInRoute
-  '/sign-up': typeof unauthenticatedLayoutSignUpRoute
+  '/': typeof AuthenticatedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/(authenticated)': typeof authenticatedRouteWithChildren
-  '/(authenticated)/_layout': typeof authenticatedLayoutRouteWithChildren
-  '/(unauthenticated)': typeof unauthenticatedRouteWithChildren
-  '/(unauthenticated)/_layout': typeof unauthenticatedLayoutRouteWithChildren
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_unauthenticated': typeof UnauthenticatedRouteRouteWithChildren
+  '/_unauthenticated/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
+  '/_unauthenticated/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
-  '/(unauthenticated)/_layout/forgot-password': typeof unauthenticatedLayoutForgotPasswordRoute
-  '/(unauthenticated)/_layout/sign-in': typeof unauthenticatedLayoutSignInRoute
-  '/(unauthenticated)/_layout/sign-up': typeof unauthenticatedLayoutSignUpRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/(authenticated)/_layout/': typeof authenticatedLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/api/test'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
+    | '/api/test'
+    | '/'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/api/test'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
+    | '/api/test'
+    | '/'
     | '/api/auth/$'
   id:
     | '__root__'
-    | '/(authenticated)'
-    | '/(authenticated)/_layout'
-    | '/(unauthenticated)'
-    | '/(unauthenticated)/_layout'
+    | '/_authenticated'
+    | '/_unauthenticated'
+    | '/_unauthenticated/forgot-password'
+    | '/_unauthenticated/sign-in'
+    | '/_unauthenticated/sign-up'
     | '/api/test'
-    | '/(unauthenticated)/_layout/forgot-password'
-    | '/(unauthenticated)/_layout/sign-in'
-    | '/(unauthenticated)/_layout/sign-up'
+    | '/_authenticated/'
     | '/api/auth/$'
-    | '/(authenticated)/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  authenticatedRoute: typeof authenticatedRouteWithChildren
-  unauthenticatedRoute: typeof unauthenticatedRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  UnauthenticatedRouteRoute: typeof UnauthenticatedRouteRouteWithChildren
   ApiTestRoute: typeof ApiTestRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(unauthenticated)': {
-      id: '/(unauthenticated)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof unauthenticatedRouteImport
+    '/_unauthenticated': {
+      id: '/_unauthenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof UnauthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(authenticated)': {
-      id: '/(authenticated)'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof authenticatedRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/test': {
       id: '/api/test'
@@ -164,26 +151,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(unauthenticated)/_layout': {
-      id: '/(unauthenticated)/_layout'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof unauthenticatedLayoutRouteImport
-      parentRoute: typeof unauthenticatedRoute
+    '/_unauthenticated/sign-up': {
+      id: '/_unauthenticated/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof UnauthenticatedSignUpRouteImport
+      parentRoute: typeof UnauthenticatedRouteRoute
     }
-    '/(authenticated)/_layout': {
-      id: '/(authenticated)/_layout'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof authenticatedLayoutRouteImport
-      parentRoute: typeof authenticatedRoute
+    '/_unauthenticated/sign-in': {
+      id: '/_unauthenticated/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof UnauthenticatedSignInRouteImport
+      parentRoute: typeof UnauthenticatedRouteRoute
     }
-    '/(authenticated)/_layout/': {
-      id: '/(authenticated)/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof authenticatedLayoutIndexRouteImport
-      parentRoute: typeof authenticatedLayoutRoute
+    '/_unauthenticated/forgot-password': {
+      id: '/_unauthenticated/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof UnauthenticatedForgotPasswordRouteImport
+      parentRoute: typeof UnauthenticatedRouteRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -192,86 +179,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(unauthenticated)/_layout/sign-up': {
-      id: '/(unauthenticated)/_layout/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof unauthenticatedLayoutSignUpRouteImport
-      parentRoute: typeof unauthenticatedLayoutRoute
-    }
-    '/(unauthenticated)/_layout/sign-in': {
-      id: '/(unauthenticated)/_layout/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof unauthenticatedLayoutSignInRouteImport
-      parentRoute: typeof unauthenticatedLayoutRoute
-    }
-    '/(unauthenticated)/_layout/forgot-password': {
-      id: '/(unauthenticated)/_layout/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof unauthenticatedLayoutForgotPasswordRouteImport
-      parentRoute: typeof unauthenticatedLayoutRoute
-    }
   }
 }
 
-interface authenticatedLayoutRouteChildren {
-  authenticatedLayoutIndexRoute: typeof authenticatedLayoutIndexRoute
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
-const authenticatedLayoutRouteChildren: authenticatedLayoutRouteChildren = {
-  authenticatedLayoutIndexRoute: authenticatedLayoutIndexRoute,
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
-const authenticatedLayoutRouteWithChildren =
-  authenticatedLayoutRoute._addFileChildren(authenticatedLayoutRouteChildren)
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface authenticatedRouteChildren {
-  authenticatedLayoutRoute: typeof authenticatedLayoutRouteWithChildren
+interface UnauthenticatedRouteRouteChildren {
+  UnauthenticatedForgotPasswordRoute: typeof UnauthenticatedForgotPasswordRoute
+  UnauthenticatedSignInRoute: typeof UnauthenticatedSignInRoute
+  UnauthenticatedSignUpRoute: typeof UnauthenticatedSignUpRoute
 }
 
-const authenticatedRouteChildren: authenticatedRouteChildren = {
-  authenticatedLayoutRoute: authenticatedLayoutRouteWithChildren,
+const UnauthenticatedRouteRouteChildren: UnauthenticatedRouteRouteChildren = {
+  UnauthenticatedForgotPasswordRoute: UnauthenticatedForgotPasswordRoute,
+  UnauthenticatedSignInRoute: UnauthenticatedSignInRoute,
+  UnauthenticatedSignUpRoute: UnauthenticatedSignUpRoute,
 }
 
-const authenticatedRouteWithChildren = authenticatedRoute._addFileChildren(
-  authenticatedRouteChildren,
-)
-
-interface unauthenticatedLayoutRouteChildren {
-  unauthenticatedLayoutForgotPasswordRoute: typeof unauthenticatedLayoutForgotPasswordRoute
-  unauthenticatedLayoutSignInRoute: typeof unauthenticatedLayoutSignInRoute
-  unauthenticatedLayoutSignUpRoute: typeof unauthenticatedLayoutSignUpRoute
-}
-
-const unauthenticatedLayoutRouteChildren: unauthenticatedLayoutRouteChildren = {
-  unauthenticatedLayoutForgotPasswordRoute:
-    unauthenticatedLayoutForgotPasswordRoute,
-  unauthenticatedLayoutSignInRoute: unauthenticatedLayoutSignInRoute,
-  unauthenticatedLayoutSignUpRoute: unauthenticatedLayoutSignUpRoute,
-}
-
-const unauthenticatedLayoutRouteWithChildren =
-  unauthenticatedLayoutRoute._addFileChildren(
-    unauthenticatedLayoutRouteChildren,
-  )
-
-interface unauthenticatedRouteChildren {
-  unauthenticatedLayoutRoute: typeof unauthenticatedLayoutRouteWithChildren
-}
-
-const unauthenticatedRouteChildren: unauthenticatedRouteChildren = {
-  unauthenticatedLayoutRoute: unauthenticatedLayoutRouteWithChildren,
-}
-
-const unauthenticatedRouteWithChildren = unauthenticatedRoute._addFileChildren(
-  unauthenticatedRouteChildren,
-)
+const UnauthenticatedRouteRouteWithChildren =
+  UnauthenticatedRouteRoute._addFileChildren(UnauthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  authenticatedRoute: authenticatedRouteWithChildren,
-  unauthenticatedRoute: unauthenticatedRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  UnauthenticatedRouteRoute: UnauthenticatedRouteRouteWithChildren,
   ApiTestRoute: ApiTestRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

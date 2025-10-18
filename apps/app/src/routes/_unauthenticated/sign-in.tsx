@@ -13,7 +13,7 @@ import {
 } from "~/features/auth/components/sign-in-with-social-buttons"
 import { authClient } from "~/shared/auth/client"
 
-export const Route = createFileRoute("/(unauthenticated)/_layout/sign-in")({
+export const Route = createFileRoute("/_unauthenticated/sign-in")({
   component: RouteComponent,
   loader: async () => {
     const session = await authClient.getSession()
