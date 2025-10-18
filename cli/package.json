@@ -1,6 +1,6 @@
 {
   "name": "init-now",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/metaideas/init",
   "bugs": {
     "url": "https://github.com/metaideas/init/issues"
@@ -22,15 +22,18 @@
     "build": "tsdown",
     "bump:deps": "bun update --interactive",
     "dev": "tsdown --watch",
-    "prepublishOnly": "cp ../README.md ./README.md"
+    "prepublishOnly": "cp ../README.md ./README.md",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@clack/prompts": "0.11.0",
-    "degit": "2.8.4"
+    "@octokit/rest": "^22.0.0",
+    "citty": "0.1.6",
+    "fast-glob": "^3.3.3"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/degit": "2.8.6",
+    "@types/node": "^24.7.0",
     "tsdown": "0.14.2",
     "typescript": "5.9.2"
   }
