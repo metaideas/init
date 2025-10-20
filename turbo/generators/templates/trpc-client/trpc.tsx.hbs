@@ -10,7 +10,7 @@ import {
 } from "@trpc/client"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
 import type { TRPCClient } from "api/client"
-import { type ReactNode } from "react"
+import type { ReactNode } from "react"
 import superjson from "superjson"
 import { buildApiUrl } from "~/shared/utils"
 
@@ -22,7 +22,7 @@ export const {
 
 const url = buildApiUrl("/trpc")
 
-export const trpcClient = createTRPCClient<AppRouter>({
+export const trpcClient = createTRPCClient<TRPCClient>({
   links: [
     loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
     splitLink({

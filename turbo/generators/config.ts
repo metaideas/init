@@ -1,6 +1,4 @@
-import { execSync } from "node:child_process"
-import { readdirSync } from "node:fs"
-import { join } from "node:path"
+import Bun from "bun"
 import type { PlopTypes } from "@turbo/gen"
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
@@ -156,12 +154,12 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "packages/{{ name }}/src/index.ts",
         template: "export const name = '{{ name }}';",
       },
-      (answers) => {
+      async (answers) => {
         /**
          * Install all dependencies
          */
         if ("name" in answers && typeof answers.name === "string") {
-          execSync("bun install")
+          await Bun.$`bun install`
 
           return "Package scaffolded"
         }
@@ -187,17 +185,18 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "apps/{{kebabCase app}}/src/shared/trpc.tsx",
         templateFile: "templates/trpc-client/trpc.tsx.hbs",
       },
-      (answers) => {
+      async (answers) => {
         /**
          * Install tRPC client packages and api package
          */
         if ("app" in answers && typeof answers.app === "string") {
           const appPath = `apps/${answers.app}`
-          execSync(
-            "bun add @trpc/client @trpc/react-query @tanstack/react-query",
-            { cwd: appPath }
-          )
-          execSync("bun add -D api@workspace:*", { cwd: appPath })
+
+          // Install npm packages
+          await Bun.$`cd ${appPath} && bun add @trpc/client @trpc/tanstack-react-query @tanstack/react-query`
+
+          // Add workspace dependencies
+          await addWorkspaceDependencies(appPath, ["api"], true)
 
           return "Packages installed"
         }
@@ -223,14 +222,18 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "apps/{{kebabCase app}}/src/shared/api.ts",
         templateFile: "templates/hono-client/api.ts.hbs",
       },
-      (answers) => {
+      async (answers) => {
         /**
          * Install hono and api package
          */
         if ("app" in answers && typeof answers.app === "string") {
           const appPath = `apps/${answers.app}`
-          execSync("bun add hono", { cwd: appPath })
-          execSync("bun add -D api@workspace:*", { cwd: appPath })
+
+          // Install npm packages
+          await Bun.$`cd ${appPath} && bun add hono`
+
+          // Add workspace dependencies
+          await addWorkspaceDependencies(appPath, ["api"], true)
 
           return "Packages installed"
         }
@@ -241,20 +244,48 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
   })
 }
 
-function getAvailableApps(): string[] {
+async function getAvailableApps(): Promise<string[]> {
   try {
-    return readdirSync(join(process.cwd(), "apps"), { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name)
+    const appsDir = `${process.cwd()}/apps`
+    const glob = new Bun.Glob("*/package.json")
+    const entries = await Array.fromAsync(glob.scan({ cwd: appsDir }))
+    return entries
+      .map((entry) => entry.split("/")[0])
+      .filter((dir): dir is string => dir !== undefined)
       .sort()
   } catch {
     return []
   }
 }
 
-function getAppChoices() {
-  const apps = getAvailableApps()
+async function getAppChoices() {
+  const apps = await getAvailableApps()
   return apps.length > 0
     ? apps.map((app) => ({ name: app, value: app }))
     : [{ name: "No apps found", value: "" }]
+}
+
+async function addWorkspaceDependencies(
+  packagePath: string,
+  packages: string[],
+  dev = false
+): Promise<void> {
+  const pkgJsonPath = `${packagePath}/package.json`
+  const pkgJson = await Bun.file(pkgJsonPath).json()
+
+  const depKey = dev ? "devDependencies" : "dependencies"
+
+  if (!pkgJson[depKey]) {
+    pkgJson[depKey] = {}
+  }
+
+  for (const pkg of packages) {
+    pkgJson[depKey][pkg] = "workspace:*"
+  }
+
+  // Write updated package.json
+  await Bun.write(pkgJsonPath, `${JSON.stringify(pkgJson, null, 2)}\n`)
+
+  // Install all dependencies
+  await Bun.$`cd ${packagePath} && bun install`
 }
