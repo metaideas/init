@@ -26,7 +26,6 @@
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "db:migrate": "turbo --filter @init/db migrate",
     "db:push": "turbo --filter @init/db push",
-    "db:studio": "turbo --filter @init/db studio",
     "dev": "turbo run dev",
     "dev:apps": "turbo run dev --filter=!@init/*",
     "dev:packages": "turbo run dev --filter=@init/*",

@@ -9,14 +9,14 @@
     "./client": "./src/client.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "drizzle-kit studio",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "push": "drizzle-kit push",
     "reset": "bun run ./scripts/reset.ts",
     "seed": "bun run ./scripts/seed.ts",
-    "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
