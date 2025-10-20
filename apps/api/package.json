@@ -3,7 +3,7 @@
   "exports": {
     "./client": {
       "import": {
-        "types": "./dist/client.d.ts"
+        "types": "./dist/client.d.mts"
       }
     }
   },
@@ -14,8 +14,8 @@
     "dev": "bun --hot src/index.ts",
     "start": "bun run src/index.ts",
     "typecheck": "tsc --noEmit",
-    "typegen": "tsup src/client.ts --dts-only",
-    "typegen:watch": "tsup src/client.ts --dts-only --watch"
+    "typegen": "tsdown",
+    "typegen:watch": "tsdown --watch"
   },
   "dependencies": {
     "@hono/trpc-server": "0.4.0",
@@ -35,7 +35,7 @@
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.3.0",
-    "tsup": "8.5.0",
+    "tsdown": "0.15.8",
     "typescript": "catalog:"
   }
 }
