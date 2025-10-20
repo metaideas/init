@@ -1,9 +1,11 @@
 {
   "name": "api",
+  "private": true,
+  "type": "module",
   "exports": {
     "./client": {
       "import": {
-        "types": "./dist/client.d.mts"
+        "types": "./dist/client.d.ts"
       }
     }
   },
@@ -28,7 +30,7 @@
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
     "@trpc/server": "11.6.0",
-    "hono": "4.9.8",
+    "hono": "4.10.1",
     "superjson": "2.2.2"
   },
   "devDependencies": {
