@@ -21,9 +21,6 @@
     "@tanstack/react-router-devtools": "1.132.31",
     "@tauri-apps/api": "2.8.0",
     "@tauri-apps/plugin-opener": "2.5.0",
-    "@trpc/client": "11.6.0",
-    "@trpc/tanstack-react-query": "11.6.0",
-    "hono": "4.9.8",
     "react": "catalog:",
     "react-dom": "catalog:",
     "superjson": "2.2.2"

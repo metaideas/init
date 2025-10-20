@@ -187,6 +187,23 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "apps/{{kebabCase app}}/src/shared/trpc.tsx",
         templateFile: "templates/trpc-client/trpc.tsx.hbs",
       },
+      (answers) => {
+        /**
+         * Install tRPC client packages and api package
+         */
+        if ("app" in answers && typeof answers.app === "string") {
+          const appPath = `apps/${answers.app}`
+          execSync(
+            "bun add @trpc/client @trpc/react-query @tanstack/react-query",
+            { cwd: appPath }
+          )
+          execSync("bun add -D api@workspace:*", { cwd: appPath })
+
+          return "Packages installed"
+        }
+
+        return "Packages not installed"
+      },
     ],
   })
 
@@ -205,6 +222,20 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "add",
         path: "apps/{{kebabCase app}}/src/shared/api.ts",
         templateFile: "templates/hono-client/api.ts.hbs",
+      },
+      (answers) => {
+        /**
+         * Install hono and api package
+         */
+        if ("app" in answers && typeof answers.app === "string") {
+          const appPath = `apps/${answers.app}`
+          execSync("bun add hono", { cwd: appPath })
+          execSync("bun add -D api@workspace:*", { cwd: appPath })
+
+          return "Packages installed"
+        }
+
+        return "Packages not installed"
       },
     ],
   })
