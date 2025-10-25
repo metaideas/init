@@ -22,8 +22,7 @@
     "@tauri-apps/api": "2.8.0",
     "@tauri-apps/plugin-opener": "2.5.0",
     "react": "catalog:",
-    "react-dom": "catalog:",
-    "superjson": "2.2.2"
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.14",

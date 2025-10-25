@@ -31,7 +31,7 @@
     "@init/utils": "workspace:*",
     "@trpc/server": "11.6.0",
     "hono": "4.10.1",
-    "superjson": "2.2.2"
+    "superjson": "2.2.5"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
