@@ -124,12 +124,6 @@ export const workspaces = {
       dependencies: [],
     },
     {
-      name: "feature-flags",
-      description:
-        "feature-flags - Feature flag utilities for managing and toggling features",
-      dependencies: [],
-    },
-    {
       name: "internationalization",
       description:
         "internationalization - Internationalization utilities and translation files",

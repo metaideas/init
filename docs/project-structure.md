@@ -32,7 +32,6 @@ root
   │   ├── db                    # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── env                   # Environment variable management and validation
-  │   ├── feature-flags         # Feature flag utilities for managing and toggling features
   │   ├── internationalization  # Internationalization utilities and translation files
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
