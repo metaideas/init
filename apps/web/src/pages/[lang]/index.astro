@@ -1,36 +1,34 @@
 ---
-import * as m from "@init/internationalization/messages"
-import { locales } from "@init/internationalization/runtime"
-import type { GetStaticPathsResult } from "astro"
-import Layout from "~/shared/components/layout.astro"
-import { getCollection } from "astro:content"
+  import * as m from "@init/internationalization/messages"
+  import { locales } from "@init/internationalization/runtime"
+  import type { GetStaticPathsResult } from "astro"
+  import Layout from "~/shared/components/layout.astro"
+  import { getCollection } from "astro:content"
 
-export function getStaticPaths() {
-  const paths = locales.map((locale) => ({
-    params: { lang: locale },
-  })) satisfies GetStaticPathsResult
+  export function getStaticPaths() {
+    const paths = locales.map((locale) => ({
+      params: { lang: locale },
+    })) satisfies GetStaticPathsResult
 
-  return paths
-}
+    return paths
+  }
 
-const collection = await getCollection("blog")
+  const collection = await getCollection("blog")
 
-const { lang } = Astro.params
+  const { lang } = Astro.params
 
-const posts = collection
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .map((post) => ({
-    ...post,
-    slug: post.id.split("/").slice(1).join("/"),
-  }))
+  const posts = collection
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .map((post) => ({
+      ...post,
+      slug: post.id.split("/").slice(1).join("/"),
+    }))
 ---
-
 <Layout lang={lang}>
   <h1 class="text-2xl font-bold">Init</h1>
   <p>{m.example_message({ username: "John" })}</p>
   <ul>
-    {
-      posts.map((post) => (
+    {posts.map((post) => (
         <li>
           <a href={`/${lang}/blog/${post.slug}`}>{post.data.title}</a>
         </li>
@@ -38,4 +36,3 @@ const posts = collection
     }
   </ul>
 </Layout>
-

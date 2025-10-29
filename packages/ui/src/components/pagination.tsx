@@ -1,5 +1,3 @@
-// biome-ignore-all lint/nursery/useAnchorHref: shadcn/ui
-
 import { cn } from "@init/utils/ui"
 import type * as React from "react"
 import { type Button, buttonVariants } from "./button"

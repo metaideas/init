@@ -8,8 +8,8 @@
     "./features/**": "./src/features/**/*.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

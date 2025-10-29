@@ -1,26 +1,25 @@
 ---
-import Layout from "~/shared/components/layout.astro"
-import { getCollection, render } from "astro:content"
+  import Layout from "~/shared/components/layout.astro"
+  import { getCollection, render } from "astro:content"
 
-export async function getStaticPaths() {
-  const collection = await getCollection("blog")
+  export async function getStaticPaths() {
+    const collection = await getCollection("blog")
 
-  const paths = collection.map((page) => {
-    const [lang, ...slug] = page.id.split("/")
-    return {
-      params: { lang, slug: slug.join("/") || undefined },
-      props: { post: page },
-    }
-  })
+    const paths = collection.map((page) => {
+      const [lang, ...slug] = page.id.split("/")
+      return {
+        params: { lang, slug: slug.join("/") || undefined },
+        props: { post: page },
+      }
+    })
 
-  return paths
-}
+    return paths
+  }
 
-const { post } = Astro.props
+  const { post } = Astro.props
 
-const { Content } = await render(post)
+  const { Content } = await render(post)
 ---
-
 <Layout>
   <Content />
 </Layout>
