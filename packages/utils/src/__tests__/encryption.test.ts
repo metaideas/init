@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "bun:test"
-import { clearKeyCache, decrypt, encrypt, hash } from "../encryption"
+import { decrypt, encrypt, hash } from "../encryption"
 
 // Set up a valid 32-byte (64-character hex) encryption key for tests
 beforeAll(() => {
@@ -192,24 +192,20 @@ describe("error handling", () => {
   it("should throw error when INIT_ENCRYPTION_KEY is not set", () => {
     const originalKey = process.env.INIT_ENCRYPTION_KEY
     delete process.env.INIT_ENCRYPTION_KEY
-    clearKeyCache() // Clear cache to force re-reading env var
 
     expect(() => encrypt("test")).toThrow("INIT_ENCRYPTION_KEY")
 
-    // Restore key and cache
+    // Restore key
     process.env.INIT_ENCRYPTION_KEY = originalKey
-    clearKeyCache()
   })
 
   it("should throw error when INIT_ENCRYPTION_KEY is invalid length", () => {
     const originalKey = process.env.INIT_ENCRYPTION_KEY
     process.env.INIT_ENCRYPTION_KEY = "tooshort"
-    clearKeyCache() // Clear cache to force re-reading env var
 
     expect(() => encrypt("test")).toThrow("64-character hex string")
 
-    // Restore key and cache
+    // Restore key
     process.env.INIT_ENCRYPTION_KEY = originalKey
-    clearKeyCache()
   })
 })

@@ -22,23 +22,12 @@ const AUTH_TAG_LENGTH = 16
 const MIN_PAYLOAD_LENGTH = IV_LENGTH + AUTH_TAG_LENGTH
 
 /**
- * Cached encryption key to avoid re-parsing the environment variable on every
- * operation.
- */
-let cachedKey: Buffer | null = null
-
-/**
- * Gets and validates the encryption key from environment variables. The key is
- * cached after the first successful retrieval to improve performance.
+ * Gets and validates the encryption key from environment variables.
  *
  * @throws {Error} If INIT_ENCRYPTION_KEY is not set or invalid
  * @returns The 32-byte encryption key as a Buffer
  */
 function getKey(): Buffer {
-  if (cachedKey) {
-    return cachedKey
-  }
-
   const key = process.env.INIT_ENCRYPTION_KEY
 
   if (!key) {
@@ -53,8 +42,7 @@ function getKey(): Buffer {
     )
   }
 
-  cachedKey = keyBuffer
-  return cachedKey
+  return keyBuffer
 }
 
 /**
@@ -183,14 +171,4 @@ export function decrypt(encryptedPayload: string): string {
  */
 export function hash(text: string): string {
   return crypto.createHash("sha256").update(text).digest("hex")
-}
-
-/**
- * Clears the cached encryption key. This is primarily useful for testing
- * purposes when you need to force re-validation of the environment variable.
- *
- * @internal
- */
-export function clearKeyCache(): void {
-  cachedKey = null
 }
