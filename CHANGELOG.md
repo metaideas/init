@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.11.0](https://github.com/metaideas/init/compare/init@v0.10.0...init@v0.11.0) (2025-10-29)
+
+
+### Features
+
+* add cache wrapper using kv ([59e0926](https://github.com/metaideas/init/commit/59e0926174fb2e4a70d0da9dd641ba121cd16b8a))
+* add encryption utils ([bb98254](https://github.com/metaideas/init/commit/bb98254a29db157b8c515e4744fac21ccf9d68e1))
+* add invalid to form items ([7bc4df6](https://github.com/metaideas/init/commit/7bc4df6bd377504a8e70b63e26c9e399bef11be7))
+* add serialize helper ([d91c659](https://github.com/metaideas/init/commit/d91c659ace72823d450f1139d639835a84bfc227))
+* remove db dependency from auth ([fa14320](https://github.com/metaideas/init/commit/fa1432085891159cb6240815fb386a62447e687c))
+
+
+### Bug Fixes
+
+* api declarations ([b40636a](https://github.com/metaideas/init/commit/b40636a2118e02b1f330a9355901783f62fc0572))
+* lint rules ([1ff97fa](https://github.com/metaideas/init/commit/1ff97fab6aea62841b6552b0a1cadef6ae110b07))
+* remove unused util ([f0f2098](https://github.com/metaideas/init/commit/f0f209851309deb288bdce09444977fa88f84d99))
+
 ## [0.10.0](https://github.com/metaideas/init/compare/init@v0.9.0...init@v0.10.0) (2025-10-07)
 
 
