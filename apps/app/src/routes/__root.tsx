@@ -11,8 +11,14 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { ReactNode } from "react"
 import type { RouterContext } from "~/router"
+import Providers from "~/shared/components/providers"
+import { getServerCookies } from "~/shared/server/functions"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: async () => {
+    const cookies = await getServerCookies()
+    return { cookies }
+  },
   head: () => ({
     meta: [
       {
@@ -34,7 +40,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <Providers>
+        <Outlet />
+      </Providers>
       <TanStackDevtools
         config={{
           position: "bottom-left",

@@ -1,4 +1,4 @@
-import { THEME_STORAGE_KEY, type themes } from "@init/utils/constants"
+import { THEME_COOKIE_NAME, type themes } from "@init/utils/constants"
 import {
   // We're using next-themes even though is specialized in Next.js, it works in
   // other environments such as Vite apps
@@ -23,7 +23,7 @@ export function ThemeProvider({ children, ...props }: NextThemeProviderProps) {
       disableTransitionOnChange
       enableColorScheme
       enableSystem
-      storageKey={THEME_STORAGE_KEY}
+      storageKey={THEME_COOKIE_NAME}
       themes={["light", "dark", "system"] satisfies typeof themes}
       {...props}
     >
