@@ -1,4 +1,5 @@
 import { type Logger, logger } from "@init/observability/logger"
+import { initializeErrorMonitoring } from "@init/observability/monitoring"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
@@ -30,6 +31,10 @@ export function getRouter() {
     defaultNotFoundComponent: NotFound,
     Wrap: ({ children }) => <Providers>{children}</Providers>,
   })
+
+  if (!router.isServer) {
+    void initializeErrorMonitoring("client")
+  }
 
   setupRouterSsrQueryIntegration({
     router,

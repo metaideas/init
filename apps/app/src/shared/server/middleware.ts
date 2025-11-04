@@ -17,7 +17,12 @@ export const withLogger = createMiddleware()
   .middleware([withRequestId])
   .server(({ next, context }) =>
     next({
-      context: { logger: logger.child({ requestId: context.requestId }) },
+      context: {
+        logger: logger.child({
+          group: "middleware",
+          requestId: context.requestId,
+        }),
+      },
     })
   )
 

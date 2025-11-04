@@ -155,7 +155,7 @@ export const sentry = {
         SENTRY_DEBUG: process.env.SENTRY_DEBUG,
       },
     }),
-  react: () =>
+  client: () =>
     createEnv({
       client: {
         PUBLIC_SENTRY_DSN: z.string(),

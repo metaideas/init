@@ -1,9 +1,10 @@
 import { sentry } from "@init/env/presets"
+import { isProduction } from "@init/utils/environment"
 import * as Sentry from "@sentry/react-native"
-import { MONITORING_SAMPLE_RATE } from "./config"
 
 export function initializeErrorMonitoring() {
   const env = sentry.expo()
+  const monitoringSampleRate = isProduction() ? 0.1 : 1
 
   Sentry.init({
     dsn: env.EXPO_PUBLIC_SENTRY_DSN,
@@ -13,9 +14,9 @@ export function initializeErrorMonitoring() {
     // https://docs.sentry.io/platforms/react-native/data-management/data-collected/
     sendDefaultPii: true,
 
-    tracesSampleRate: MONITORING_SAMPLE_RATE,
+    tracesSampleRate: monitoringSampleRate,
     replaysOnErrorSampleRate: 1,
-    replaysSessionSampleRate: MONITORING_SAMPLE_RATE,
+    replaysSessionSampleRate: monitoringSampleRate,
     integrations: [Sentry.mobileReplayIntegration()],
 
     // uncomment the line below to enable Spotlight (https://spotlightjs.com)

@@ -1,3 +1,3 @@
-import { registerErrorMonitoring } from "@init/observability/error/server"
+import { initializeErrorMonitoring } from "@init/observability/monitoring"
 
-registerErrorMonitoring()
+void initializeErrorMonitoring("server")
