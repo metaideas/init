@@ -1,6 +1,6 @@
-import { initializeErrorMonitoring } from "@init/observability/error/expo"
+import { initializeErrorMonitoring } from "@init/observability/monitoring/expo"
 import "~/shared/theme"
 
-initializeErrorMonitoring()
+void initializeErrorMonitoring()
 
 import "expo-router/entry"

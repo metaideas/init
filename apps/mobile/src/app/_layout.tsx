@@ -1,4 +1,4 @@
-import { monitoringWrap } from "@init/observability/error/expo"
+import { monitoringWrap } from "@init/observability/monitoring/expo"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
 import Providers from "~/shared/components/providers"

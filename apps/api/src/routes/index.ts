@@ -1,7 +1,7 @@
 import { database } from "@init/db/client"
 import { redis } from "@init/kv/client"
-import { captureException } from "@init/observability/error/server"
 import { logger } from "@init/observability/logger"
+import { captureException } from "@init/observability/monitoring"
 import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"

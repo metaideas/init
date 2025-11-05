@@ -1,4 +1,4 @@
-import { logger, styles } from "@init/observability/logger"
+import { logger } from "@init/observability/logger"
 import { type QstashClient, resend as resendQstash } from "@init/queue/messages"
 import { render } from "@react-email/render"
 import type { ReactElement } from "react"
@@ -79,18 +79,14 @@ export function createClient(
   }
 
   function mockEmail(emails: string[], html: string, isQueued = false) {
-    logger.warn(styles.bold.yellowBright("📪 env.MOCK_RESEND is set!"))
-
-    if (isQueued) {
-      logger.info(styles.green("📫 Queueing email to", emails.join(", ")))
-    } else {
-      logger.info(styles.green("📫 Sending email to", emails.join(", ")))
-    }
-
-    logger.info(styles.green("📝 Email content:"))
-    logger.info(styles.gray("----------------------------------------"))
-    logger.info(styles.gray.italic(html))
-    logger.info(styles.gray("----------------------------------------"))
+    logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
+    logger.info(
+      `📫 ${isQueued ? "Would queue" : "Would send"} email to: ${emails.join(", ")}`
+    )
+    logger.info("📝 Email content preview:")
+    logger.info("=".repeat(50))
+    logger.info(html)
+    logger.info("=".repeat(50))
   }
 
   return { resend, sendEmail }
