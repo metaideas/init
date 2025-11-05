@@ -11,7 +11,7 @@ export async function initializeErrorMonitoring(type: "server" | "client") {
 
     Sentry.init({
       dsn: env.PUBLIC_SENTRY_DSN,
-      debug: true,
+      debug: env.PUBLIC_SENTRY_DEBUG,
       tracesSampleRate: monitoringSampleRate,
 
       replaysOnErrorSampleRate: 1,

@@ -19,7 +19,6 @@ export const withLogger = createMiddleware()
     next({
       context: {
         logger: logger.child({
-          group: "middleware",
           requestId: context.requestId,
         }),
       },
