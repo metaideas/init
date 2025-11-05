@@ -1,120 +1,134 @@
-import { safeParseJSON } from "@init/utils/json"
+import { logger } from "@init/observability/logger"
+import { jsonCodec } from "@init/utils/codec"
 import type * as z from "@init/utils/schema"
 import { Client, Receiver, type VerifyRequest } from "@upstash/qstash"
 
-type EventsSchema = Record<string, z.ZodType>
+type EventsSchema = Record<string, z.core.$ZodType>
 type MessageType<Events extends EventsSchema> = keyof Events & string
-type MessageBody<
-  Events extends EventsSchema,
-  T extends MessageType<Events>,
-> = z.infer<Events[T]>
 
-type MessageClientConfig = {
-  token: string
-  currentSigningKey: string
-  nextSigningKey: string
-}
-
-type MessageClientOptions<Events extends EventsSchema> = {
-  baseUrl: string
-  events: Events
-}
-
-type VerifyResult<Events extends EventsSchema, T extends MessageType<Events>> =
-  | { success: true; body: MessageBody<Events, T> }
-  | { success: false; error: Response }
-
-type SignatureResult =
-  | { success: true; body: string }
-  | { success: false; message: string; status: number }
-
-function createFailureResult(message: string, status: number) {
-  return {
-    success: false as const,
-    error: new Response(message, { status }),
+type MessagePayload<Events extends EventsSchema> = {
+  [T in MessageType<Events>]: {
+    type: T
+    body: z.infer<Events[T]>
   }
-}
+}[MessageType<Events>]
 
-async function verifyRequestSignature(
-  request: Request,
-  receiver: Receiver,
-  clockTolerance?: number
-): Promise<SignatureResult> {
-  const body = await request.clone().text()
-  const signature = request.headers.get("upstash-signature")
+type ClientConfig = Pick<
+  NonNullable<ConstructorParameters<typeof Client>[0]>,
+  "token"
+>
 
-  if (!signature) {
-    return {
-      success: false,
-      message: "Missing upstash-signature header",
-      status: 400,
-    }
-  }
-
-  const isValid = await receiver.verify({ signature, body, clockTolerance })
-
-  return isValid
-    ? { success: true, body }
-    : { success: false, message: "Invalid signature", status: 401 }
-}
+type ReceiverConfig = Pick<
+  NonNullable<ConstructorParameters<typeof Receiver>[0]>,
+  "currentSigningKey" | "nextSigningKey"
+>
 
 export function createMessageClient<Events extends EventsSchema>(
-  config: MessageClientConfig,
-  options: MessageClientOptions<Events>
+  config: ClientConfig &
+    ReceiverConfig & {
+      /**
+       * The base URL of your API.
+       */
+      baseUrl: string
+      /**
+       * The events schema of your API.
+       */
+      events: Events
+    }
 ) {
   const client = new Client({ token: config.token })
+
   const receiver = new Receiver({
     currentSigningKey: config.currentSigningKey,
     nextSigningKey: config.nextSigningKey,
   })
 
-  function getPublishBody<T extends MessageType<Events>>(
-    type: T,
-    body: MessageBody<Events, T>
-  ) {
-    return {
-      url: `${options.baseUrl}/${type}`,
-      body,
-    }
-  }
-
-  async function verifyMessageRequest<T extends MessageType<Events>>(
+  async function verify(
     request: Request,
-    messageType: T,
-    verifierOptions?: Pick<VerifyRequest, "clockTolerance">
-  ): Promise<VerifyResult<Events, T>> {
-    const signatureResult = await verifyRequestSignature(
-      request,
-      receiver,
-      verifierOptions?.clockTolerance
-    )
+    handler: (payload: MessagePayload<Events>) => Promise<Response>,
+    options?: Pick<VerifyRequest, "clockTolerance">
+  ): Promise<Response> {
+    const signature = request.headers.get("upstash-signature")
 
-    if (!signatureResult.success) {
-      return createFailureResult(
-        signatureResult.message,
-        signatureResult.status
+    if (!signature) {
+      return new Response("`Upstash-Signature` header is missing", {
+        status: 400,
+      })
+    }
+
+    if (typeof signature !== "string") {
+      logger.error(
+        { requestUrl: request.url },
+        "`Upstash-Signature` header is not a string"
+      )
+
+      throw new TypeError("`Upstash-Signature` header is not a string")
+    }
+
+    const body = await request.clone().text()
+
+    const isValid = await receiver.verify({
+      signature,
+      body,
+      clockTolerance: options?.clockTolerance,
+    })
+
+    if (!isValid) {
+      logger.error({ requestUrl: request.url }, "Invalid signature")
+
+      return new Response("Invalid signature", {
+        status: 403,
+      })
+    }
+
+    const url = new URL(request.url)
+    const path = url.pathname.split("/").at(-1)
+
+    if (!path) {
+      logger.error({ requestUrl: request.url }, "Invalid path")
+
+      return new Response(
+        `Invalid path. Your message type must be able to be extracted from the URL path. Request URL: ${request.url}`,
+        { status: 400 }
       )
     }
 
-    const eventSchema = options.events[messageType]
+    const eventSchema = config.events[path as MessageType<Events>]
 
     if (!eventSchema) {
-      return createFailureResult("Invalid message type", 400)
+      logger.error({ path }, "Invalid message type")
+
+      return new Response(`Invalid message type: \`${path}\``, {
+        status: 400,
+      })
     }
 
-    const [parsedBody, parseError] = safeParseJSON(
-      signatureResult.body,
-      eventSchema
-    )
+    const parsed = jsonCodec(eventSchema).safeDecode(body)
 
-    if (parseError) {
-      return createFailureResult("Invalid message structure", 400)
+    if (!parsed.success) {
+      return new Response("Invalid message structure", {
+        status: 400,
+      })
     }
 
-    return { success: true, body: parsedBody }
+    return handler({ type: path, body: parsed.data })
   }
 
-  return { client, getPublishBody, verifyMessageRequest }
+  return {
+    publish: client.publishJSON.bind(client),
+    batch: client.batchJSON.bind(client),
+    /**
+     * Create a payload for the given event type.
+     */
+    payload: (
+      type: MessageType<Events>,
+      body: z.infer<Events[MessageType<Events>]>
+    ) => ({
+      url: `${config.baseUrl}/${type}`,
+      body,
+    }),
+    verify,
+  }
 }
 
 export {
