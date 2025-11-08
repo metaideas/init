@@ -1,45 +1,95 @@
 import { beforeEach, describe, expect, it, mock } from "bun:test"
 import Bun from "bun"
+import SuperJSON from "superjson"
 
-// Mock storage
+type KeyPart = string | number
+type Key = string | KeyPart[]
+
+// Mock storage - stores serialized values
 const mockStorage = new Map<string, string>()
-const mockTTLs = new Map<string, number>()
 
-// Mock redis client
-const mockRedis = {
-  get: mock((key: string) => mockStorage.get(key) ?? null),
-  set: mock(
-    (key: string, value: string, options?: Partial<SetCommandOptions>) => {
-      mockStorage.set(key, value)
-      if (options?.ex) {
-        mockTTLs.set(key, options.ex)
-      }
-      return "OK"
-    }
-  ),
+function keyToString(key: Key): string {
+  return typeof key === "string" ? key : key.map(String).join(":")
+}
+
+// Mock redis client methods
+const mockKv = {
+  get: mock((key: Key) => {
+    const keyString = keyToString(key)
+    const value = mockStorage.get(keyString)
+    return value ? SuperJSON.parse(value) : null
+  }),
+  set: mock((key: Key, value: unknown) => {
+    const keyString = keyToString(key)
+    mockStorage.set(keyString, SuperJSON.stringify(value))
+  }),
+  expire: mock((_key: Key, _ttl: number) => {
+    // Track expire calls for assertions
+  }),
+  del: mock((key: Key) => {
+    const keyString = keyToString(key)
+    mockStorage.delete(keyString)
+  }),
+  health: mock(() => Promise.resolve(true)),
 }
 
 // Mock the redis client module
 mock.module("../client", () => ({
-  redis: () => mockRedis,
+  kv: (_namespace?: string, config?: { ttl?: number }) => {
+    const defaultTtl = config?.ttl
+
+    const setWithExpire = mock(
+      (key: Key, value: unknown, options?: { ex?: number }): Promise<void> => {
+        mockKv.set(key, value)
+        const ttl = options?.ex ?? defaultTtl
+        if (ttl !== undefined) {
+          mockKv.expire(key, ttl)
+        }
+        return Promise.resolve()
+      }
+    )
+
+    return {
+      get: mockKv.get,
+      set: setWithExpire,
+      expire: mockKv.expire,
+      delete: mockKv.del,
+      health: mockKv.health,
+    }
+  },
 }))
 
-// Import after mocking
-import type { SetCommandOptions } from "@upstash/redis"
+// Import after mocking - cache depends on kv() which we've mocked
 import { cache } from "../cache"
+
+// Test helpers
+function createMockFn<TArgs extends unknown[], TReturn>(
+  fn: (...args: TArgs) => TReturn
+) {
+  return mock(async (...args: TArgs) => fn(...args))
+}
+
+function createCachedFn<TArgs extends unknown[], TReturn>(
+  fn: (...args: TArgs) => Promise<TReturn>,
+  parts: KeyPart[] = ["test"],
+  ttl = 60
+) {
+  return cache(fn, parts, ttl)
+}
 
 describe("cache", () => {
   beforeEach(() => {
     mockStorage.clear()
-    mockTTLs.clear()
-    mockRedis.get.mockClear()
-    mockRedis.set.mockClear()
+    mockKv.get.mockClear()
+    mockKv.set.mockClear()
+    mockKv.expire.mockClear()
+    mockKv.del.mockClear()
   })
 
   describe("basic caching", () => {
     it("should execute function on first call", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn)
 
       const result = await cached(5)
 
@@ -49,8 +99,8 @@ describe("cache", () => {
     })
 
     it("should return cached value on second call", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached(5)
       const result2 = await cached(5)
@@ -61,20 +111,20 @@ describe("cache", () => {
     })
 
     it("should store value in redis", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn)
 
       await cached(5)
 
-      expect(mockRedis.set).toHaveBeenCalledTimes(1)
+      expect(mockKv.set).toHaveBeenCalledTimes(1)
       expect(mockStorage.size).toBe(1)
     })
   })
 
   describe("cache key generation", () => {
     it("should create different cache keys for different arguments", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached(5)
       const result2 = await cached(10)
@@ -86,10 +136,10 @@ describe("cache", () => {
     })
 
     it("should use keyParts in cache key", async () => {
-      const fn1 = mock(async (x: number) => x * 2)
-      const fn2 = mock(async (x: number) => x * 3)
-      const cached1 = cache(fn1, ["function1"])
-      const cached2 = cache(fn2, ["function2"])
+      const fn1 = createMockFn((x: number) => x * 2)
+      const fn2 = createMockFn((x: number) => x * 3)
+      const cached1 = createCachedFn(fn1, ["function1"])
+      const cached2 = createCachedFn(fn2, ["function2"])
 
       await cached1(5)
       await cached2(5)
@@ -100,8 +150,8 @@ describe("cache", () => {
     })
 
     it("should handle multiple keyParts", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["namespace", "function", "v1"])
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn, ["namespace", "function", "v1"])
 
       await cached(5)
 
@@ -120,7 +170,7 @@ describe("cache", () => {
         await Bun.sleep(50)
         return x * 2
       })
-      const cached = cache(fn, ["test"])
+      const cached = createCachedFn(fn)
 
       // Start first call but don't await yet
       const promise1 = cached(5)
@@ -144,7 +194,7 @@ describe("cache", () => {
         await Bun.sleep(10)
         return x * 2
       })
-      const cached = cache(fn, ["test"])
+      const cached = createCachedFn(fn)
 
       const [result1, result2] = await Promise.all([cached(5), cached(10)])
 
@@ -155,58 +205,48 @@ describe("cache", () => {
   })
 
   describe("TTL handling", () => {
-    it("should pass TTL to redis set command", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"], { ttl: 60_000 })
+    it("should set TTL using expire after set", async () => {
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn)
 
       await cached(5)
 
-      expect(mockRedis.set).toHaveBeenCalledTimes(1)
-      const [, , options] = mockRedis.set.mock.calls[0] as [
-        string,
-        string,
-        Partial<SetCommandOptions>?,
-      ]
-      expect(options).toEqual({ ex: 60 })
-      const key = Array.from(mockStorage.keys())[0] ?? ""
-      expect(key).toBeDefined()
-      expect(mockTTLs.get(key)).toBe(60)
+      expect(mockKv.set).toHaveBeenCalledTimes(1)
+      expect(mockKv.expire).toHaveBeenCalledTimes(1)
+      const expireCall = mockKv.expire.mock.calls[0]
+      expect(expireCall?.[1]).toBe(60)
     })
 
-    it("should convert milliseconds to seconds", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"], { ttl: 5000 })
+    it("should use custom TTL when provided", async () => {
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn, ["test"], 120)
 
       await cached(5)
 
-      const [, , options] = mockRedis.set.mock.calls[0] as [
-        string,
-        string,
-        Partial<SetCommandOptions>?,
-      ]
-      expect(options).toEqual({ ex: 5 })
+      expect(mockKv.set).toHaveBeenCalledTimes(1)
+      expect(mockKv.expire).toHaveBeenCalledTimes(1)
+      const expireCall = mockKv.expire.mock.calls[0]
+      expect(expireCall?.[1]).toBe(120)
     })
 
-    it("should not set TTL when not provided", async () => {
-      const fn = mock(async (x: number) => x * 2)
-      const cached = cache(fn, ["test"])
+    it("should call expire with 0 when TTL is 0", async () => {
+      const fn = createMockFn((x: number) => x * 2)
+      const cached = createCachedFn(fn, ["test"], 0)
 
       await cached(5)
 
-      const [, , options] = mockRedis.set.mock.calls[0] as [
-        string,
-        string,
-        Partial<SetCommandOptions>?,
-      ]
-      expect(options).toEqual({})
+      expect(mockKv.set).toHaveBeenCalledTimes(1)
+      expect(mockKv.expire).toHaveBeenCalledTimes(1)
+      const expireCall = mockKv.expire.mock.calls[0]
+      expect(expireCall?.[1]).toBe(0)
     })
   })
 
   describe("complex types with SuperJSON", () => {
     it("should cache Date objects", async () => {
       const date = new Date("2024-01-01")
-      const fn = mock(async () => date)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn(() => date)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached()
       const result2 = await cached()
@@ -219,8 +259,8 @@ describe("cache", () => {
 
     it("should cache Set objects", async () => {
       const set = new Set([1, 2, 3])
-      const fn = mock(async () => set)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn(() => set)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached()
       const result2 = await cached()
@@ -236,8 +276,8 @@ describe("cache", () => {
         ["a", 1],
         ["b", 2],
       ])
-      const fn = mock(async () => map)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn(() => map)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached()
       const result2 = await cached()
@@ -249,10 +289,10 @@ describe("cache", () => {
     })
 
     it("should cache undefined", async () => {
-      const fn = mock(async () => {
+      const fn = createMockFn(() => {
         // no-op
       })
-      const cached = cache(fn, ["test"])
+      const cached = createCachedFn(fn)
 
       const result1 = await cached()
       const result2 = await cached()
@@ -265,8 +305,10 @@ describe("cache", () => {
 
   describe("multiple arguments", () => {
     it("should handle functions with multiple arguments", async () => {
-      const fn = mock(async (a: number, b: number, c: string) => `${a + b}${c}`)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn(
+        (a: number, b: number, c: string) => `${a + b}${c}`
+      )
+      const cached = createCachedFn(fn)
 
       const result = await cached(1, 2, "x")
 
@@ -275,8 +317,8 @@ describe("cache", () => {
     })
 
     it("should create different keys for different argument combinations", async () => {
-      const fn = mock(async (a: number, b: number) => a + b)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((a: number, b: number) => a + b)
+      const cached = createCachedFn(fn)
 
       await cached(1, 2)
       await cached(2, 1)
@@ -286,8 +328,8 @@ describe("cache", () => {
     })
 
     it("should handle object arguments", async () => {
-      const fn = mock(async (obj: { x: number; y: number }) => obj.x + obj.y)
-      const cached = cache(fn, ["test"])
+      const fn = createMockFn((obj: { x: number; y: number }) => obj.x + obj.y)
+      const cached = createCachedFn(fn)
 
       const result1 = await cached({ x: 1, y: 2 })
       const result2 = await cached({ x: 1, y: 2 })

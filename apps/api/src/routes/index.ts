@@ -1,5 +1,5 @@
 import { database } from "@init/db/client"
-import { redis } from "@init/kv/client"
+import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { captureException } from "@init/observability/monitoring"
 import { Hono } from "hono"
@@ -22,12 +22,9 @@ app.use(contextStorage())
 
 // Add context dependencies
 app.use(async (c, next) => {
-  const db = database()
-  const kv = redis()
-
   c.set("auth", auth)
-  c.set("db", db)
-  c.set("kv", kv)
+  c.set("db", database())
+  c.set("kv", kv())
   c.set("logger", logger)
 
   await next()

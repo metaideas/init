@@ -1,15 +1,5 @@
-import { key } from "@init/utils/key"
 import { stableSerialize } from "@init/utils/serialize"
-import type { SetCommandOptions } from "@upstash/redis"
-import SuperJSON from "superjson"
-import { redis } from "./client"
-
-type CacheOptions = {
-  /**
-   * Time to live in milliseconds
-   */
-  ttl?: number
-}
+import { type KeyPart, kv } from "./client"
 
 /**
  * Creates a function wrapped in a KV cache.
@@ -24,23 +14,19 @@ type CacheOptions = {
  */
 export function cache<A extends unknown[], R>(
   fn: (...args: A) => Promise<R>,
-  keyParts: string[],
-  cacheOptions: CacheOptions = {}
+  parts: KeyPart[],
+  ttl = 60
 ): (...args: A) => Promise<R> {
   // Create storage based on strategy
-  const kv = redis()
-  const commandOptions: Partial<SetCommandOptions> = {}
-
-  if (cacheOptions.ttl) {
-    commandOptions.ex = Math.floor(cacheOptions.ttl / 1000)
-  }
+  const client = kv("function-cache", { ttl })
 
   // In-flight deduplication map (always local, per-function instance)
   const inflight = new Map<string, Promise<R>>()
 
   return async function wrapped(...args: A): Promise<R> {
     const serializedArgs = args.map(stableSerialize)
-    const cacheKey = key(...keyParts, ...serializedArgs)
+    const keyParts = [...parts, ...serializedArgs]
+    const cacheKey = keyParts.map(String).join(":")
 
     // Check in-flight requests
     const existing = inflight.get(cacheKey)
@@ -49,19 +35,19 @@ export function cache<A extends unknown[], R>(
     }
 
     // Check cache store
-    const cached = await kv.get(cacheKey)
+    const cached = await client.get<R>(keyParts)
 
     // If we have the value cached, return it
-    if (cached !== null && typeof cached === "string") {
-      return SuperJSON.parse<R>(cached)
+    if (cached !== null) {
+      return cached
     }
 
     // Execute and cache
     const promise = (async () => {
       try {
-        const val = await fn(...args)
-        await kv.set(cacheKey, SuperJSON.stringify(val), commandOptions)
-        return val
+        const value = await fn(...args)
+        await client.set(keyParts, value)
+        return value
       } finally {
         inflight.delete(cacheKey)
       }

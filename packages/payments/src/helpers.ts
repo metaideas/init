@@ -1,9 +1,6 @@
-import type { Redis } from "@init/kv/client"
-import { namespacedKey } from "@init/utils/key"
+import { kv } from "@init/kv/client"
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 import type { Stripe } from "stripe"
-
-const stripeKey = namespacedKey("stripe", ["customer", "subscription"])
 
 export function createAgentToolkit(secretKey: string) {
   return new StripeAgentToolkit({
@@ -62,11 +59,12 @@ export const ALLOWED_EVENTS: Stripe.Event.Type[] = [
   "payment_intent.canceled",
 ]
 
-export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
+export function buildSubscriptionHelpers(client: Stripe) {
+  const cache = kv("payments")
   async function syncSubscription(
     customerId: string
   ): Promise<SubscriptionCache> {
-    const cacheKey = stripeKey("customer", customerId)
+    const keyParts = ["customer", customerId]
 
     // Fetch latest subscription data from Stripe
     const subscriptions = await client.subscriptions.list({
@@ -79,7 +77,7 @@ export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
     if (subscriptions.data.length === 0) {
       const data: SubscriptionCache = { status: "none" }
 
-      await kv.set(cacheKey, data)
+      await cache.set(keyParts, data)
 
       return data
     }
@@ -88,7 +86,7 @@ export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
 
     if (!subscription?.items.data[0]) {
       const data: SubscriptionCache = { status: "none" }
-      await kv.set(cacheKey, data)
+      await cache.set(keyParts, data)
       return data
     }
 
@@ -111,7 +109,7 @@ export function buildSubscriptionHelpers(client: Stripe, kv: Redis) {
     }
 
     // Store the data in your KV
-    await kv.set(cacheKey, data)
+    await cache.set(keyParts, data)
 
     return data
   }

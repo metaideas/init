@@ -1,6 +1,5 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
-import { redis } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { createRateLimiter } from "@init/security/ratelimit"
 import { Fault } from "@init/utils/fault"
@@ -35,7 +34,6 @@ export function withRateLimitByIp(
 ) {
   const rateLimiter = createRateLimiter(name, {
     limiter,
-    redis: redis(),
   })
 
   return createMiddleware()

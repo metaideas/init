@@ -6,4 +6,4 @@ import env from "~/shared/env"
 export default {
   port: env.PORT,
   fetch: app.fetch,
-}
+} satisfies Bun.Serve.Options<unknown>

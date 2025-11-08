@@ -110,6 +110,15 @@ export const db = () =>
     skipValidation: isCI(),
   })
 
+export const kv = () =>
+  createEnv({
+    server: {
+      KV_URL: z.url(),
+    },
+    runtimeEnv: process.env,
+    skipValidation: isCI(),
+  })
+
 export const resend = () =>
   createEnv({
     server: {

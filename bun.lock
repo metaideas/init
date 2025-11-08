@@ -375,8 +375,8 @@
     "packages/kv": {
       "name": "@init/kv",
       "dependencies": {
+        "@init/env": "workspace:*",
         "@init/utils": "workspace:*",
-        "@upstash/redis": "1.35.3",
         "superjson": "2.2.5",
       },
       "devDependencies": {
