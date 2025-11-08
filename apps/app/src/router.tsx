@@ -6,11 +6,11 @@ import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query
 import superjson from "superjson"
 import NotFound from "~/shared/components/not-found"
 import { routeTree } from "./routeTree.gen"
-import Providers from "./shared/components/providers"
 
 export type RouterContext = {
   queryClient: QueryClient
   logger: Logger
+  cookies: Record<string, string | undefined>
 }
 
 export function getRouter() {
@@ -27,9 +27,9 @@ export function getRouter() {
     context: {
       queryClient,
       logger: logger.child({ group: "router" }),
+      cookies: {},
     } satisfies RouterContext,
     defaultNotFoundComponent: NotFound,
-    Wrap: ({ children }) => <Providers>{children}</Providers>,
   })
 
   if (!router.isServer) {
