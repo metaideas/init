@@ -5,7 +5,6 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./ratelimit": "./src/ratelimit.ts",
     "./rules": "./src/rules.ts",
     "./tools": "./src/tools.ts"
   },
@@ -15,16 +14,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@arcjet/astro": "^1.0.0-beta.12",
-    "@arcjet/bun": "^1.0.0-beta.12",
-    "@arcjet/inspect": "^1.0.0-beta.12",
-    "@arcjet/ip": "1.0.0-beta.12",
-    "@arcjet/node": "1.0.0-beta.12",
-    "@arcjet/redact": "1.0.0-beta.12",
+    "@arcjet/bun": "^1.0.0-beta.15",
+    "@arcjet/decorate": "1.0.0-beta.15",
+    "@arcjet/inspect": "^1.0.0-beta.15",
+    "@arcjet/ip": "1.0.0-beta.15",
+    "@arcjet/redact": "1.0.0-beta.15",
+    "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
-    "@upstash/ratelimit": "2.0.6",
-    "arcjet": "1.0.0-beta.12",
-    "nosecone": "1.0.0-beta.12"
+    "@init/observability": "workspace:*",
+    "arcjet": "1.0.0-beta.15"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

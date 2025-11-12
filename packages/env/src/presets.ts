@@ -42,37 +42,29 @@ export const auth = () =>
     skipValidation: isCI(),
   })
 
-export const axiom = {
-  react: () =>
-    createEnv({
-      client: {
-        PUBLIC_AXIOM_TOKEN: z.string(),
-        PUBLIC_AXIOM_DATASET: z.string(),
-      },
-      runtimeEnv: import.meta.env,
-      skipValidation: isCI(),
-      clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-    }),
-  server: () =>
+auth.providers = {
+  /**
+   * Sign in with GitHub
+   */
+  github: () =>
     createEnv({
       server: {
-        AXIOM_TOKEN: z.string(),
-        AXIOM_DATASET: z.string(),
+        GITHUB_CLIENT_ID: z.string(),
+        GITHUB_CLIENT_SECRET: z.string(),
       },
       runtimeEnv: process.env,
       skipValidation: isCI(),
     }),
-  expo: () =>
+  /**
+   * Sign in with Google
+   */
+  google: () =>
     createEnv({
-      client: {
-        EXPO_PUBLIC_AXIOM_TOKEN: z.string(),
-        EXPO_PUBLIC_AXIOM_DATASET: z.string(),
+      server: {
+        GOOGLE_CLIENT_ID: z.string(),
+        GOOGLE_CLIENT_SECRET: z.string(),
       },
-      clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
-      runtimeEnvStrict: {
-        EXPO_PUBLIC_AXIOM_TOKEN: process.env.EXPO_PUBLIC_AXIOM_TOKEN,
-        EXPO_PUBLIC_AXIOM_DATASET: process.env.EXPO_PUBLIC_AXIOM_DATASET,
-      },
+      runtimeEnv: process.env,
       skipValidation: isCI(),
     }),
 }
@@ -156,13 +148,14 @@ export const sentry = {
         SENTRY_DEBUG: z.stringbool().default(false),
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
-      runtimeEnvStrict: {
-        EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
-        SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
-        SENTRY_ORG: process.env.SENTRY_ORG,
-        SENTRY_PROJECT: process.env.SENTRY_PROJECT,
-        SENTRY_DEBUG: process.env.SENTRY_DEBUG,
-      },
+      runtimeEnv: process.env,
+      // runtimeEnvStrict: {
+      //   EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
+      //   SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+      //   SENTRY_ORG: process.env.SENTRY_ORG,
+      //   SENTRY_PROJECT: process.env.SENTRY_PROJECT,
+      //   SENTRY_DEBUG: process.env.SENTRY_DEBUG,
+      // },
     }),
   client: () =>
     createEnv({

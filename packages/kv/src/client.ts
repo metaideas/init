@@ -48,28 +48,20 @@ class KvClient {
    * Sets a value in the cache
    * @param key - The key to set
    * @param value - The value to set. Will be serialized using SuperJSON.
-   * @param ttl - The time to live in seconds
+   * @param expiresIn - The time to live in seconds
    */
-  async set(
-    key: string,
-    value: unknown,
-    options?: { ex?: number }
-  ): Promise<void>
-  async set(
-    key: KeyPart[],
-    value: unknown,
-    options?: { ex?: number }
-  ): Promise<void>
+  async set(key: string, value: unknown, expiresIn?: number): Promise<void>
+  async set(key: KeyPart[], value: unknown, expiresIn?: number): Promise<void>
   async set(
     key: string | KeyPart[],
     value: unknown,
-    options?: { ex?: number }
+    expiresIn?: number
   ): Promise<void> {
     const keyString = typeof key === "string" ? key : this.key(key)
 
     await this.client.set(keyString, SuperJSON.stringify(value))
 
-    const ttl = options?.ex ?? this.defaultTtl
+    const ttl = expiresIn ?? this.defaultTtl
 
     if (ttl !== undefined) {
       await this.client.expire(keyString, ttl)

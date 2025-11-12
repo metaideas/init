@@ -22,12 +22,14 @@ export async function createTRPCContext(
   return {
     auth: c.var.auth,
     db: c.var.db,
+    decision: c.var.decision,
     info: opts.info,
     kv: c.var.kv,
     logger: c.var.logger.child({ group: "trpc" }),
     req: opts.req,
     resHeaders: opts.resHeaders,
     session,
+    security: c.var.security,
   }
 }
 

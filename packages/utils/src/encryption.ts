@@ -85,9 +85,7 @@ export function encrypt(text: string): string {
   const authTag = cipher.getAuthTag()
 
   // Concatenate IV, auth tag, and encrypted data, then encode as base64
-  const payload = Buffer.concat([iv, authTag, encryptedData]).toString(
-    "base64"
-  )
+  const payload = Buffer.concat([iv, authTag, encryptedData]).toString("base64")
 
   return payload
 }

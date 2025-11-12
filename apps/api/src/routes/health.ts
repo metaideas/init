@@ -1,7 +1,6 @@
 import { sql } from "@init/db/helpers"
-import { slidingWindow } from "@init/security/ratelimit"
 import { Hono } from "hono"
-import { rateLimitByIp } from "~/shared/middleware"
+import { withRateLimiting } from "~/shared/middleware"
 import type { AppContext } from "~/shared/types"
 
 /**
@@ -10,7 +9,7 @@ import type { AppContext } from "~/shared/types"
  */
 export default new Hono<AppContext>().get(
   "/",
-  rateLimitByIp("health", slidingWindow(60, "1 m")),
+  withRateLimiting("1m", 60),
   async (c) => {
     await c.var.db.execute(sql`SELECT 1`)
 

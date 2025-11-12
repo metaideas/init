@@ -1,13 +1,20 @@
-import { createRateLimiter } from "@init/security/ratelimit"
+import { findIp } from "@init/security/tools"
+import { type Duration, duration } from "@init/utils/duration"
 import type { DeepMerge } from "@init/utils/type"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
+import { rateLimiter } from "hono-rate-limiter"
 import type { Session } from "~/shared/auth"
 import type { AppContext } from "~/shared/types"
 
 export const requireSession = createMiddleware<
   DeepMerge<AppContext, { Variables: { session: Session } }>
 >(async (c, next) => {
+  if (c.var.session) {
+    await next()
+    return
+  }
+
   const session = await c.var.auth.api.getSession({
     headers: c.req.raw.headers,
   })
@@ -21,32 +28,14 @@ export const requireSession = createMiddleware<
   await next()
 })
 
-export function rateLimitByIp(
-  name: string,
-  limiter: Parameters<typeof createRateLimiter>[1]["limiter"]
-) {
-  const rateLimiter = createRateLimiter(name, { limiter })
-
-  return createMiddleware<AppContext>(async (c, next) => {
-    const ip =
-      c.req.header("CF-Connecting-IP") ??
-      c.req.header("X-Forwarded-For") ??
-      c.req.header("X-Real-IP") ??
-      "anonymous"
-
-    const { success, limit, remaining, reset } = await rateLimiter.limit(ip)
-
-    c.res.headers.set("X-RateLimit-Limit", limit.toString())
-    c.res.headers.set("X-RateLimit-Remaining", remaining.toString())
-    c.res.headers.set("X-RateLimit-Reset", reset.toString())
-
-    if (!success) {
-      throw new HTTPException(429, {
-        message: "Too many requests",
-        cause: { limit, remaining, reset },
-      })
-    }
-
-    await next()
+/**
+ * Adds basic rate limiting protection with a fixed window to the request.
+ */
+export const withRateLimiting = (interval: Duration, limit: number) =>
+  rateLimiter<AppContext>({
+    windowMs: duration(interval),
+    limit,
+    standardHeaders: "draft-7",
+    keyGenerator: (c) =>
+      c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
   })
-}

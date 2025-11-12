@@ -1,7 +1,8 @@
 import type { Database } from "@init/db/client"
 import type { KeyValue } from "@init/kv/client"
 import type { Logger } from "@init/observability/logger"
-import type { Auth } from "~/shared/auth"
+import type { Auth, Session } from "~/shared/auth"
+import type { Security } from "~/shared/security"
 
 export type AppContext = {
   Variables: {
@@ -9,5 +10,7 @@ export type AppContext = {
     db: Database
     kv: KeyValue
     logger: Logger
+    security: Security
+    session: Session | null
   }
 }
