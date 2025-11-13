@@ -1,13 +1,9 @@
-import { Hono } from "hono"
 import { requireSession } from "~/shared/middleware"
-import type { AppContext } from "~/shared/types"
+import { factory } from "~/shared/utils"
 
-const test = new Hono<AppContext>()
+const test = factory
+  .createApp()
   .get("/ping", (c) => c.text("pong"))
-  .get("/me", requireSession, async (c) => {
-    const user = await c.var.session.user
-
-    return c.json(user)
-  })
+  .get("/me", requireSession, (c) => c.json(c.var.session.user))
 
 export default test

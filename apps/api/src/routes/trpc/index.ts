@@ -1,10 +1,9 @@
 import { trpcServer } from "@hono/trpc-server"
-import { Hono } from "hono"
 import { trpcRouter } from "~/routes/trpc/router"
 import { createTRPCContext } from "~/shared/trpc"
-import type { AppContext } from "~/shared/types"
+import { factory } from "~/shared/utils"
 
-const trpc = new Hono<AppContext>().use(
+const trpc = factory.createApp().use(
   "/*",
   trpcServer({
     createContext: createTRPCContext,

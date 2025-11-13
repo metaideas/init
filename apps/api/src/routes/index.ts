@@ -2,8 +2,6 @@ import { database } from "@init/db/client"
 import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { captureException } from "@init/observability/monitoring"
-// import { secureHeaders } from "@init/security/middleware"
-import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
@@ -15,9 +13,9 @@ import testRoutes from "~/routes/test"
 import trpcRoutes from "~/routes/trpc"
 import { auth } from "~/shared/auth"
 import { security } from "~/shared/security"
-import type { AppContext } from "~/shared/types"
+import { factory } from "~/shared/utils"
 
-const app = new Hono<AppContext>()
+const app = factory.createApp()
 
 app.use(cors({ credentials: true, origin: "*" }))
 app.use(honoLogger((message, ...rest) => logger.info(rest, message)))
