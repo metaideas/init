@@ -4,7 +4,7 @@ import { logger } from "@init/observability/logger"
 import { Fault } from "@init/utils/fault"
 import { createMiddleware } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
-import { auth } from "~/shared/auth/server"
+import { auth } from "#shared/auth/server.ts"
 
 export const withRequestId = createMiddleware().server(({ next }) =>
   next({ context: { requestId: crypto.randomUUID() } })

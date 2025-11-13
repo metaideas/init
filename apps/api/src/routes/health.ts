@@ -1,6 +1,6 @@
 import { sql } from "@init/db/helpers"
-import { withRateLimiting } from "~/shared/middleware"
-import { factory } from "~/shared/utils"
+import { withRateLimiting } from "#shared/middleware.ts"
+import { factory } from "#shared/utils.ts"
 
 /**
  * The health check endpoint is used to verify that the API is running with all

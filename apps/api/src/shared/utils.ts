@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory"
-import type { AppContext } from "~/shared/types"
+import type { AppContext } from "#shared/types.ts"
 
 /**
  * A utility function that allows us to create Hono apps and middlewares with

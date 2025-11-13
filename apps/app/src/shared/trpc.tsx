@@ -9,20 +9,20 @@ import {
   splitLink,
 } from "@trpc/client"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
-import type { TRPCClient } from "api/client"
+import type { TRPCRouter } from "api/client"
 import type { ReactNode } from "react"
 import superjson from "superjson"
-import { buildApiUrl } from "#shared/utils"
+import { buildApiUrl } from "#shared/utils.ts"
 
 export const {
   useTRPC,
   useTRPCClient,
   TRPCProvider: TRPCProviderBase,
-} = createTRPCContext<TRPCClient>()
+} = createTRPCContext<TRPCRouter>()
 
 const url = buildApiUrl("/trpc")
 
-export const trpcClient = createTRPCClient<TRPCClient>({
+export const trpcClient = createTRPCClient<TRPCRouter>({
   links: [
     loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
     splitLink({

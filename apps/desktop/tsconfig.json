@@ -4,10 +4,6 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    },
     "noEmit": true
   },
   "exclude": ["node_modules"],

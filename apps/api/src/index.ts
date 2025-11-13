@@ -1,8 +1,8 @@
-import "~/instrument"
+import "#instrument.ts"
 
-import app from "~/routes"
-import env from "~/shared/env"
-import { security } from "~/shared/security"
+import app from "#routes/index.ts"
+import env from "#shared/env.ts"
+import { security } from "#shared/security.ts"
 
 export default {
   port: env.PORT,

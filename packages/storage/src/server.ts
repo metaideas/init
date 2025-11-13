@@ -1,10 +1,9 @@
-import { createUploadthing } from "uploadthing/server"
+import type { Router } from "@better-upload/server"
 
-export {
-  createRouteHandler,
-  extractRouterConfig,
-  type FileRouter,
-  UploadThingError as UploadError,
-} from "uploadthing/server"
+export function createStorage(options: Router) {
+  return options
+}
 
-export const storage = createUploadthing()
+export { handleRequest, route } from "@better-upload/server"
+export * from "@better-upload/server/clients"
+export * from "@better-upload/server/helpers"

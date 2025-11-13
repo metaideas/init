@@ -3,35 +3,27 @@ import { initTRPC, TRPCError } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
 import superjson from "superjson"
-import type { Session } from "~/shared/auth"
-import type { AppContext } from "~/shared/types"
+import type { AppContext } from "#shared/types.ts"
 
 const transformer = superjson
 
-type TRPCContext = FetchCreateContextFnOptions &
-  AppContext["Variables"] & {
-    session: Session | null
-  }
-
-export async function createTRPCContext(
+export function createTRPCContext(
   opts: FetchCreateContextFnOptions,
   c: Context<AppContext>
-): Promise<TRPCContext> {
-  const session = await c.var.auth.api.getSession({ headers: opts.req.headers })
-
+) {
   return {
     auth: c.var.auth,
     db: c.var.db,
-    decision: c.var.decision,
     info: opts.info,
     kv: c.var.kv,
     logger: c.var.logger.child({ group: "trpc" }),
     req: opts.req,
     resHeaders: opts.resHeaders,
-    session,
     security: c.var.security,
   }
 }
+
+export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
 
 export const t = initTRPC.context<TRPCContext>().create({
   transformer,
@@ -51,10 +43,12 @@ export const middleware = t.middleware
 export const createRouter = t.router
 
 export const publicProcedure = t.procedure
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session) {
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  const session = await ctx.auth.api.getSession({ headers: ctx.req.headers })
+
+  if (!session) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
 
-  return next({ ctx: { ...ctx.session } })
+  return next({ ctx: { ...ctx, session } })
 })

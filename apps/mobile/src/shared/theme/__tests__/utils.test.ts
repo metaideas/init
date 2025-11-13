@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { alpha, leading, scale, shadow } from "../utils"
+import { alpha, leading, scale, shadow } from "#shared/theme/utils.ts"
 
 describe("alpha", () => {
   test("converts 6-digit hex color with opacity", () => {

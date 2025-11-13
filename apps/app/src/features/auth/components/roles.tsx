@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { useSession } from "~/shared/auth/client"
+import { useSession } from "#shared/auth/client.ts"
 
 export function AdminOnly({ children }: Readonly<{ children: ReactNode }>) {
   const { data: session } = useSession()

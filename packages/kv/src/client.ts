@@ -13,8 +13,8 @@ type ClientConfig = {
 export type KeyPart = string | number
 
 class KvClient {
-  private defaultTtl?: number
-  private namespace?: string
+  defaultTtl?: number
+  namespace?: string
 
   client: RedisClient
 
@@ -30,7 +30,7 @@ class KvClient {
     this.client = singleton("redis", () => new RedisClient(url))
   }
 
-  private key(parts: KeyPart[]): string {
+  key(parts: KeyPart[]): string {
     return this.namespace
       ? [this.namespace, ...parts].map(String).join(":")
       : parts.map(String).join(":")

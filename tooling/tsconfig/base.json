@@ -18,6 +18,7 @@
     "incremental": true,
     "isolatedModules": true,
     "allowJs": true,
+    "allowImportingTsExtensions": true,
     "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
     "disableSourceOfProjectReferenceRedirect": true
   },

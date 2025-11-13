@@ -4,7 +4,7 @@ import {
   requireSession,
   withDatabase,
   withLogger,
-} from "~/shared/server/middleware"
+} from "#shared/server/middleware.ts"
 
 export const publicFunction = createServerFn().middleware([
   withDatabase,

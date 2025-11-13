@@ -3,9 +3,9 @@
 import { z } from "@init/utils/schema"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
-import { authClient } from "~/shared/auth/client"
-import { auth } from "~/shared/auth/server"
-import { publicFunction } from "~/shared/server/functions"
+import { authClient } from "#shared/auth/client.ts"
+import { auth } from "#shared/auth/server.ts"
+import { publicFunction } from "#shared/server/functions.ts"
 
 export const validateSession = createIsomorphicFn()
   .client(async () => {

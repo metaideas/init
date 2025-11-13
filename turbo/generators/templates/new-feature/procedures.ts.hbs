@@ -1,9 +1,3 @@
-import { createRouter, publicProcedure } from "~/shared/trpc"
-
-export default createRouter({
-  hello: publicProcedure.query(() => {
-    return {
-      message: "Hello, this message is from the TRPC server!",
-    }
-  }),
-})
+import { createRouter, publicProcedure } from "#shared/trpc" export default
+createRouter({ hello: publicProcedure.query(() => { return { message: "Hello,
+this message is from the TRPC server!", } }), })

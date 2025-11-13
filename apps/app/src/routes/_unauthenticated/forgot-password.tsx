@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@init/ui/components/card"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import ForgotPasswordForm from "~/features/auth/components/forgot-password-form"
+import ForgotPasswordForm from "#features/auth/components/forgot-password-form.tsx"
 
 export const Route = createFileRoute("/_unauthenticated/forgot-password")({
   component: RouteComponent,

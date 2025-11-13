@@ -7,9 +7,9 @@ import {
 } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import Providers from "~/shared/components/providers"
-import { queryClient } from "~/shared/query-client"
-import { routeTree } from "./routeTree.gen"
+import { routeTree } from "#routeTree.gen.ts"
+import Providers from "#shared/components/providers.tsx"
+import { queryClient } from "#shared/query-client.ts"
 
 import "@init/ui/globals.css"
 

@@ -4,8 +4,8 @@ import type { DeepMerge } from "@init/utils/type"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 import { rateLimiter } from "hono-rate-limiter"
-import type { Session } from "~/shared/auth"
-import type { AppContext } from "~/shared/types"
+import type { Session } from "#shared/auth.ts"
+import type { AppContext } from "#shared/types.ts"
 
 export const requireSession = createMiddleware<
   DeepMerge<AppContext, { Variables: { session: Session } }>

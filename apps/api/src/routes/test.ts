@@ -1,5 +1,5 @@
-import { requireSession } from "~/shared/middleware"
-import { factory } from "~/shared/utils"
+import { requireSession } from "#shared/middleware.ts"
+import { factory } from "#shared/utils.ts"
 
 const test = factory
   .createApp()

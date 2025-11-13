@@ -1,13 +1,10 @@
 {
   "extends": "@tooling/tsconfig/base",
   "compilerOptions": {
+    "rootDir": ".",
     "baseUrl": ".",
     "jsx": "react-jsx",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    },
-    "outDir": "dist"
+    "noEmit": true
   },
   "include": ["src", "reset.d.ts"]
 }

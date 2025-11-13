@@ -1,6 +1,6 @@
 ---
   import { locales } from "@init/internationalization/runtime"
-  import Layout from "~/shared/components/layout.astro"
+  import Layout from "#shared/components/layout.astro"
 
   export function getStaticPaths() {
     return locales.map((locale) => ({ params: { lang: locale } }))

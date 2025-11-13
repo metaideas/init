@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { ReactNode } from "react"
-import type { RouterContext } from "~/router"
+import type { RouterContext } from "#router.tsx"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({

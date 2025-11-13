@@ -2,13 +2,13 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { useRef, useState } from "react"
 import { ActivityIndicator, View } from "react-native"
 import { StyleSheet, useUnistyles } from "react-native-unistyles"
-import { Button } from "~/shared/components/ui/button"
+import { Button } from "#shared/components/ui/button.tsx"
 import {
   LargeTitleHeader,
   type LargeTitleSearchBarRef,
-} from "~/shared/components/ui/large-title-header"
-import { Text } from "~/shared/components/ui/text"
-import env from "~/shared/env"
+} from "#shared/components/ui/large-title-header.tsx"
+import { Text } from "#shared/components/ui/text.tsx"
+import env from "#shared/env.ts"
 
 export default function Screen() {
   const { theme } = useUnistyles()

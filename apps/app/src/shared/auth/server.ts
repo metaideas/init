@@ -1,8 +1,8 @@
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
-import env from "~/shared/env"
-import { baseUrl } from "~/shared/utils"
+import env from "#shared/env.ts"
+import { baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth(
   databaseAdapter(database()),

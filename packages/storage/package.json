@@ -15,9 +15,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uploadthing/expo": "7.2.6",
-    "@uploadthing/react": "7.3.3",
-    "uploadthing": "7.7.4"
+    "@better-upload/client": "^3.0.2",
+    "@better-upload/server": "^3.0.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

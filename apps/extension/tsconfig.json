@@ -3,10 +3,6 @@
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    }
+    "baseUrl": "."
   }
 }

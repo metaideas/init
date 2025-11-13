@@ -1,4 +1,3 @@
-import path from "node:path"
 import { internationalization } from "@init/internationalization/plugin"
 import { cookieName } from "@init/internationalization/runtime"
 import tailwindcss from "@tailwindcss/vite"
@@ -14,7 +13,6 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart(),
     react(),
-    // @ts-expect-error - conflict due to multiple Vite versions
     internationalization({
       cookieName,
       project: "../../packages/internationalization/project.inlang",
@@ -23,10 +21,4 @@ export default defineConfig({
     }),
   ],
   envPrefix: ["PUBLIC_"],
-  resolve: {
-    alias: {
-      "~": path.resolve(__dirname, "src"),
-      "~~": path.resolve(__dirname, "."),
-    },
-  },
 })

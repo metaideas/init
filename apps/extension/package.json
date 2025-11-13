@@ -3,6 +3,9 @@
   "private": true,
   "description": "manifest.json description",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
