@@ -72,7 +72,7 @@ async function updatePackageJson(projectName: string) {
 async function setupEnvironmentVariables(paths: string[]) {
   const tasks = paths.map(async (workspacePath) => {
     try {
-      const examplePath = `${workspacePath}/.env.example`
+      const templatePath = `${workspacePath}/.env.template`
       const localPath = `${workspacePath}/.env.local`
 
       // Check if .env.local already exists
@@ -80,8 +80,8 @@ async function setupEnvironmentVariables(paths: string[]) {
         return
       }
 
-      // Try to copy .env.example to .env.local
-      await Bun.write(localPath, await Bun.file(examplePath).text())
+      // Try to copy .env.template to .env.local
+      await Bun.write(localPath, await Bun.file(templatePath).text())
     } catch {
       // Do nothing for now
     }

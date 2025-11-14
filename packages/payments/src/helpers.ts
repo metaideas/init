@@ -1,10 +1,12 @@
+import { stripe as env } from "@init/env/presets"
 import { kv } from "@init/kv/client"
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 import type { Stripe } from "stripe"
+import { payments } from "./client"
 
-export function createAgentToolkit(secretKey: string) {
+export function createAgentToolkit() {
   return new StripeAgentToolkit({
-    secretKey,
+    secretKey: env().STRIPE_SECRET_KEY,
     configuration: {
       actions: {
         paymentLinks: {
@@ -38,7 +40,7 @@ export type SubscriptionCache =
       status: "none"
     }
 
-export const ALLOWED_EVENTS: Stripe.Event.Type[] = [
+export const ALLOWED_EVENTS = [
   "checkout.session.completed",
   "customer.subscription.created",
   "customer.subscription.updated",
@@ -57,66 +59,81 @@ export const ALLOWED_EVENTS: Stripe.Event.Type[] = [
   "payment_intent.succeeded",
   "payment_intent.payment_failed",
   "payment_intent.canceled",
-]
+] as const satisfies Stripe.Event.Type[]
+type AllowedEvent = (typeof ALLOWED_EVENTS)[number]
 
-export function buildSubscriptionHelpers(client: Stripe) {
+export async function syncSubscription(
+  customerId: string
+): Promise<SubscriptionCache> {
+  const cacheKey = ["customer", customerId]
   const cache = kv("payments")
-  async function syncSubscription(
-    customerId: string
-  ): Promise<SubscriptionCache> {
-    const keyParts = ["customer", customerId]
 
-    // Fetch latest subscription data from Stripe
-    const subscriptions = await client.subscriptions.list({
-      customer: customerId,
-      limit: 1,
-      status: "all",
-      expand: ["data.default_payment_method"],
-    })
+  let data: SubscriptionCache
 
-    if (subscriptions.data.length === 0) {
-      const data: SubscriptionCache = { status: "none" }
+  // Fetch latest subscription data from Stripe
+  const subscriptions = await payments().subscriptions.list({
+    customer: customerId,
+    limit: 1,
+    status: "all",
+    expand: ["data.default_payment_method"],
+  })
 
-      await cache.set(keyParts, data)
+  const subscription = subscriptions.data[0]
 
-      return data
-    }
-
-    const subscription = subscriptions.data[0]
-
-    if (!subscription?.items.data[0]) {
-      const data: SubscriptionCache = { status: "none" }
-      await cache.set(keyParts, data)
-      return data
-    }
-
-    // Store complete subscription state
-    const data: SubscriptionCache = {
-      subscriptionId: subscription.id,
-      status: subscription.status,
-      priceId: subscription.items.data[0].price.id,
-      currentPeriodEnd: subscription.items.data[0].current_period_end,
-      currentPeriodStart: subscription.items.data[0].current_period_start,
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      paymentMethod:
-        subscription.default_payment_method &&
-        typeof subscription.default_payment_method !== "string"
-          ? {
-              brand: subscription.default_payment_method.card?.brand ?? null,
-              last4: subscription.default_payment_method.card?.last4 ?? null,
-            }
-          : null,
-    }
-
-    // Store the data in your KV
-    await cache.set(keyParts, data)
-
+  if (!subscription?.items.data[0]) {
+    data = { status: "none" }
+    await cache.set(cacheKey, data)
     return data
   }
 
-  function checkIsAllowedEvent(event: Stripe.Event): boolean {
-    return ALLOWED_EVENTS.includes(event.type)
+  // Store complete subscription state
+  data = {
+    subscriptionId: subscription.id,
+    status: subscription.status,
+    priceId: subscription.items.data[0].price.id,
+    currentPeriodEnd: subscription.items.data[0].current_period_end,
+    currentPeriodStart: subscription.items.data[0].current_period_start,
+    cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    paymentMethod:
+      subscription.default_payment_method &&
+      typeof subscription.default_payment_method !== "string"
+        ? {
+            brand: subscription.default_payment_method.card?.brand ?? null,
+            last4: subscription.default_payment_method.card?.last4 ?? null,
+          }
+        : null,
   }
 
-  return { syncSubscription, checkIsAllowedEvent }
+  // Store the data in your KV
+  await cache.set(cacheKey, data)
+
+  return data
+}
+
+export function checkIsAllowedEvent(
+  event: Stripe.Event
+): event is Stripe.Event & { type: AllowedEvent } {
+  return ALLOWED_EVENTS.includes(event.type)
+}
+
+export async function parseWebhook(request: Request) {
+  const signature = request.headers.get("stripe-signature")
+
+  if (typeof signature !== "string") {
+    throw new Error("Missing stripe-signature header")
+  }
+
+  const body = await request.text()
+
+  const event = payments().webhooks.constructEvent(
+    body,
+    signature,
+    env().STRIPE_WEBHOOK_SECRET
+  )
+
+  if (!checkIsAllowedEvent(event)) {
+    throw new Error("Invalid event")
+  }
+
+  return event
 }

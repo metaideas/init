@@ -4,7 +4,9 @@
     "rootDir": ".",
     "baseUrl": ".",
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", "reset.d.ts"]
+  "include": ["src", "reset.d.ts"],
+  "exclude": ["node_modules", "../../node_modules"]
 }

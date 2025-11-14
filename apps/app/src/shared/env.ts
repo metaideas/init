@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { auth, db, kv, node } from "@init/env/presets"
+import { auth, db, node } from "@init/env/presets"
 import { REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
@@ -19,7 +19,6 @@ export default createEnv({
     auth.providers.github(),
     auth.providers.google(),
     db(),
-    kv(),
   ],
   clientPrefix: REACT_PUBLIC_ENV_PREFIX,
   // Load server environment variables (process.env) and client environment

@@ -1,6 +1,6 @@
 import { logger } from "@init/observability/logger"
 import { browser } from "wxt/browser"
-import { defineBackground } from "#imports"
+import { defineBackground } from "wxt/utils/define-background"
 import { registerTestService } from "#shared/services.ts"
 
 export default defineBackground(() => {

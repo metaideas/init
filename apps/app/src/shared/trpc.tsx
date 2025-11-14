@@ -27,8 +27,7 @@ export const trpcClient = createTRPCClient<TRPCRouter>({
     loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
     splitLink({
       condition: (op) =>
-        Boolean(op.context.skipBatching) ||
-        isNonJsonSerializable(op.context.result),
+        Boolean(op.context.skipBatch) || isNonJsonSerializable(op.input),
       false: httpBatchLink({
         transformer: superjson,
         url,

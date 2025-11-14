@@ -34,7 +34,7 @@
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/bun": "1.3.2",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
 }

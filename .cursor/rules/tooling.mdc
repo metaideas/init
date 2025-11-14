@@ -3,6 +3,7 @@ description: Instructions on developing tooling and scripts
 globs: apps/**/scripts/*.ts,packages/**/scripts/*.ts,scripts/*.ts
 alwaysApply: false
 ---
+
 - For all scripts, use the tooling inside [index.ts](mdc:tooling/helpers/index.ts).
 - All Node.js packages should be imported using the `node:` prefix.
 - Project wide scripts go inside the root `scripts` folder, and should have a command added in `package.json`. Follow existing conventions in naming the command.

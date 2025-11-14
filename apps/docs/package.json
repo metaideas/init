@@ -2,6 +2,9 @@
   "name": "docs",
   "private": true,
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "astro": "astro",
     "build": "astro build",

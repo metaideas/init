@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalPassThroughEnv": ["NODE_ENV", "CI"],
+  "concurrency": "15",
   "tasks": {
     "build": {
       "env": [
@@ -8,6 +9,8 @@
         "AXIOM_TOKEN",
 
         "AUTH_SECRET",
+
+        "ARCJET_KEY",
 
         "DATABASE_URL",
         "DATABASE_AUTH_TOKEN",
@@ -24,6 +27,8 @@
         "QSTASH_NEXT_SIGNING_KEY",
         "QSTASH_TOKEN",
         "QSTASH_URL",
+
+        "REDIS_URL",
 
         "RESEND_API_KEY",
 

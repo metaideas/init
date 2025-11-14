@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
 }

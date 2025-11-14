@@ -1,5 +1,6 @@
+import { kv } from "@init/kv/client"
 import { findIp } from "@init/security/tools"
-import { type Duration, duration } from "@init/utils/duration"
+import { type Duration, toMilliseconds } from "@init/utils/duration"
 import type { DeepMerge } from "@init/utils/type"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
@@ -31,11 +32,20 @@ export const requireSession = createMiddleware<
 /**
  * Adds basic rate limiting protection with a fixed window to the request.
  */
-export const withRateLimiting = (interval: Duration, limit: number) =>
-  rateLimiter<AppContext>({
-    windowMs: duration(interval),
+export function withRateLimiting(interval: Duration, limit: number) {
+  return rateLimiter<AppContext>({
+    windowMs: toMilliseconds(interval),
     limit,
     standardHeaders: "draft-7",
     keyGenerator: (c) =>
       c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
   })
+}
+
+export function withNamespacedKV(namespace: string) {
+  return createMiddleware<AppContext>(async (c, next) => {
+    c.set("kv", kv(namespace))
+
+    await next()
+  })
+}

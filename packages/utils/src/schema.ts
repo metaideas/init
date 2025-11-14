@@ -1,7 +1,6 @@
 import * as z from "zod"
 
 // Create custom zod types here and import them to other packages under the `z` namespace.
-
 const PROTOCOL_REGEX = /^https?$/
 
 /**
