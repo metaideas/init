@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.0.0](https://github.com/metaideas/init/compare/init@v0.11.1...init@v1.0.0) (2025-11-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* cli to bun
+* remove tooling helpers
+
+### Features
+
+* restore dockerfile ([4ebea44](https://github.com/metaideas/init/commit/4ebea441a0f17a25c48253c2fa051466302d334e))
+
+
+### Bug Fixes
+
+* exclude template scripts from replace ([6e0e87c](https://github.com/metaideas/init/commit/6e0e87ccac00ea18ebe39f208253dcb4f91ff81c))
+* make readme cli a symlink ([9aa8a81](https://github.com/metaideas/init/commit/9aa8a81981fef74e2385c1d293d455488efb0b68))
+* multiselect type error ([536ee9b](https://github.com/metaideas/init/commit/536ee9bee2936c977432daf4e4e2f35487a19b3c))
+
+
+### Code Refactoring
+
+* cli to bun ([daf5d30](https://github.com/metaideas/init/commit/daf5d305985abbf06ccdfa39cc9a5fc43fa18ca8))
+* remove tooling helpers ([fe2fdd5](https://github.com/metaideas/init/commit/fe2fdd57fd0a13614fe3fc4be74134b200ec4920))
+
 ## [0.11.1](https://github.com/metaideas/init/compare/init@v0.11.0...init@v0.11.1) (2025-11-15)
 
 
