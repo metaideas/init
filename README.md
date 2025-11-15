@@ -10,7 +10,7 @@
   </p>
 </div>
 
-A modern monorepo template for shipping TypeScript apps everywhere: web, mobile, desktop, and more.
+A modern monorepo template for shipping TypeScript apps everywhere: web, mobile, desktop, browser extensions, and more.
 
 ## What's included
 
