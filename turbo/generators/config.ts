@@ -229,11 +229,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         if ("app" in answers && typeof answers.app === "string") {
           const appPath = `apps/${answers.app}`
 
-          // Install npm packages
-          await Bun.$`cd ${appPath} && bun add hono`
-
           // Add workspace dependencies
-          await addWorkspaceDependencies(appPath, ["api"], true)
+          await addWorkspaceDependencies(appPath, ["api"])
 
           return "Packages installed"
         }

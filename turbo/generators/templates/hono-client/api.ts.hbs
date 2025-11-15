@@ -1,5 +1,4 @@
-import type { AppClient } from "api/client"
-import { hc } from "hono/client"
-import { buildApiUrl } from "#shared/utils"
+import { createClient } from "api/client"
+import { buildApiUrl } from "#shared/utils.ts"
 
-export const api = hc<AppClient>(buildApiUrl("/"))
+export const api = createClient(buildApiUrl("/"))

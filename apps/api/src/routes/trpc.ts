@@ -20,12 +20,13 @@ export type TRPCRouter = typeof trpcRouter
 export type TRPCRouterOutput = inferRouterOutputs<typeof trpcRouter>
 export type TRPCRouterInput = inferRouterInputs<typeof trpcRouter>
 
-const trpc = factory.createApp().use(
+/**
+ * The TRPC router is used to handle all TRPC requests by the TRPC client.
+ */
+export default factory.createApp().use(
   "/*",
   trpcServer({
     createContext: createTRPCContext,
     router: trpcRouter,
   })
 )
-
-export default trpc
