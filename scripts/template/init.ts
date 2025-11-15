@@ -133,12 +133,17 @@ export default defineCommand({
         throw new Error("Setup cancelled. No changes have been made.")
       }
 
+      // Fix an issue with the type returned by the multiselect prompt
+      const apps = selectedApps.map((app) =>
+        typeof app === "string" ? app : app.value
+      )
+
       // Get all package dependencies from selected apps
       const requiredPackages = new Set<string>()
-      for (const selectedApp of selectedApps) {
-        const app = workspaces.apps.find((a) => a.name === selectedApp.value)
-        if (app?.dependencies) {
-          for (const dep of app.dependencies) {
+      for (const app of apps) {
+        const foundApp = workspaces.apps.find((a) => a.name === app)
+        if (foundApp?.dependencies) {
+          for (const dep of foundApp.dependencies) {
             requiredPackages.add(dep)
           }
         }
@@ -161,10 +166,12 @@ export default defineCommand({
         throw new Error("Setup cancelled. No changes have been made.")
       }
 
-      await removeUnselectedWorkspaces(
-        selectedApps.map((app) => app.value),
-        selectedPackages.map((pkg) => pkg.value)
+      // Fix an issue with the type returned by the multiselect prompt
+      const packages = selectedPackages.map((pkg) =>
+        typeof pkg === "string" ? pkg : pkg.value
       )
+
+      await removeUnselectedWorkspaces(apps, packages)
 
       if (projectName !== "init") {
         consola.start("Updating project name in package.json...")
@@ -178,8 +185,8 @@ export default defineCommand({
 
       consola.start("Setting up environment files for workspaces...")
       await setupEnvironmentVariables([
-        ...selectedApps.map((app) => `apps/${app.value}`),
-        ...selectedPackages.map((pkg) => `packages/${pkg.value}`),
+        ...apps.map((app) => `apps/${app}`),
+        ...packages.map((pkg) => `packages/${pkg}`),
       ])
       consola.success("Environment files setup complete.")
 
