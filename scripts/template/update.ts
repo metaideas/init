@@ -1,6 +1,6 @@
 import Bun from "bun"
 import { dirname, join } from "node:path"
-import { cancel, intro, log, outro, spinner } from "@clack/prompts"
+import consola from "consola"
 import { defineCommand } from "../helpers"
 import {
   compareVersions,
@@ -204,61 +204,56 @@ export default defineCommand({
   command: "update",
   describe: "Sync with template updates",
   handler: async () => {
-    intro("Starting template synchronization")
+    consola.info("Starting template synchronization")
 
     try {
-      const s1 = spinner()
-      s1.start("Checking for template updates...")
+      consola.start("Checking for template updates...")
       const { shouldExit, latestRelease, message, warning } =
         await checkVersionUpdates()
-      s1.stop("Template version check complete.")
+      consola.success("Template version check complete.")
 
       if (message) {
-        log.info(message)
+        consola.info(message)
       }
       if (warning) {
-        log.warn(warning)
+        consola.warn(warning)
       }
       if (shouldExit) {
         return
       }
 
-      const s2 = spinner()
-      s2.start("Checking for uncommitted changes...")
+      consola.start("Checking for uncommitted changes...")
       await verifyCleanWorkingTree()
-      s2.stop("Working directory clean.")
+      consola.success("Working directory clean.")
 
-      const s3 = spinner()
-      s3.start("Setting up temporary directory...")
+      consola.start("Setting up temporary directory...")
       await setupTempDirectory()
-      s3.stop("Temporary directory created.")
+      consola.success("Temporary directory created.")
 
-      const s4 = spinner()
-      s4.start("Cloning template repository...")
+      consola.start("Cloning template repository...")
       const { filesToUpdate, newFiles } = await cloneAndAnalyze()
-      s4.stop("Template repository cloned.")
+      consola.success("Template repository cloned.")
 
       const allowedNewFiles =
         await filterNewFilesForExistingWorkspaces(newFiles)
       const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
 
       if (filesToCopy.length === 0) {
-        log.info("No updates to apply - already up to date")
+        consola.info("No updates to apply - already up to date")
         return
       }
 
-      const s6 = spinner()
-      s6.start("Applying template changes...")
+      consola.start("Applying template changes...")
       await applyChanges(filesToCopy, latestRelease)
-      s6.stop("Template changes applied.")
+      consola.success("Template changes applied.")
 
-      log.success("Changes staged")
-      log.info(
+      consola.success("Changes staged")
+      consola.info(
         "Template sync completed. Please review the changes and commit them to your repository."
       )
-      outro("🎉 Template sync completed successfully!")
+      consola.success("🎉 Template sync completed successfully!")
     } catch (error) {
-      cancel(
+      consola.error(
         `Sync failed: ${error instanceof Error ? error.message : "Unknown error occurred"}`
       )
       process.exit(1)

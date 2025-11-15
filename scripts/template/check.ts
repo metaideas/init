@@ -1,4 +1,4 @@
-import { log, spinner } from "@clack/prompts"
+import consola from "consola"
 import { defineCommand } from "../helpers"
 import { compareVersions, getLatestRelease, getVersion } from "./utils"
 
@@ -7,26 +7,25 @@ export default defineCommand({
   describe: "Check template version",
   handler: async () => {
     try {
-      const s = spinner()
-      s.start("Checking for template updates...")
+      consola.start("Checking for template updates...")
       const [currentVersion, latestRelease] = await Promise.all([
         getVersion(),
         getLatestRelease(),
       ])
-      s.stop("Template version check complete.")
+      consola.success("Template version check complete.")
 
       if (!latestRelease) {
-        log.warn("No template releases found")
+        consola.warn("No template releases found")
         return
       }
 
       const latestVersion = latestRelease.tagName
 
-      log.info(`Current template version: ${currentVersion || "Unknown"}`)
-      log.info(`Latest template version: ${latestVersion}`)
+      consola.info(`Current template version: ${currentVersion || "Unknown"}`)
+      consola.info(`Latest template version: ${latestVersion}`)
 
       if (!currentVersion) {
-        log.warn(
+        consola.warn(
           "No local template version found. Run 'bun template update' to initialize."
         )
         return
@@ -35,22 +34,24 @@ export default defineCommand({
       const comparison = compareVersions(currentVersion, latestVersion)
 
       if (comparison === 0) {
-        log.success("✅ Template is up to date!")
+        consola.success("✅ Template is up to date!")
       } else if (comparison > 0) {
-        log.warn(
+        consola.warn(
           `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})`
         )
       } else {
-        log.info(`🆙 Update available: ${currentVersion} → ${latestVersion}`)
-        log.message("Run 'bun template update' to update your template")
+        consola.info(
+          `🆙 Update available: ${currentVersion} → ${latestVersion}`
+        )
+        consola.log("Run 'bun template update' to update your template")
 
         if (latestRelease.body) {
-          log.message("Release notes:")
-          log.message(latestRelease.body)
+          consola.log("Release notes:")
+          consola.log(latestRelease.body)
         }
       }
     } catch (error) {
-      log.error(
+      consola.error(
         `Failed to check for updates: ${error instanceof Error ? error.message : "Unknown error"}`
       )
       process.exit(1)

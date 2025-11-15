@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { cancel, intro, isCancel, outro, spinner, text } from "@clack/prompts"
+import consola from "consola"
 import { defineCommand } from "../helpers"
 import { replaceProjectNameInProjectFiles } from "./utils"
 
@@ -14,15 +14,19 @@ export default defineCommand({
   command: "rename",
   describe: "Rename the project and update all @init references",
   handler: async () => {
-    intro("Starting project rename...")
+    consola.info("Starting project rename...")
 
     try {
-      const newProjectName = await text({
-        message: "Enter your new project name",
-        placeholder: "my-app",
-      })
+      const newProjectName = await consola.prompt(
+        "Enter your new project name",
+        {
+          type: "text",
+          placeholder: "my-app",
+          cancel: "undefined",
+        }
+      )
 
-      if (isCancel(newProjectName)) {
+      if (newProjectName === undefined) {
         throw new Error("Rename cancelled. No changes have been made.")
       }
 
@@ -30,21 +34,25 @@ export default defineCommand({
       const currentProjectName = packageJson.name as string
       const isInit = currentProjectName === "init"
 
-      const s1 = spinner()
-      s1.start(`Updating project name to ${newProjectName} in package.json...`)
-      await updatePackageJson(newProjectName)
-      s1.stop("Project name updated in package.json.")
-
-      const s2 = spinner()
-      s2.start(
-        `Replacing @init${isInit ? "" : ` and @${currentProjectName}`} with @${newProjectName} in project files...`
+      consola.start(
+        `Updating project name to ${newProjectName as string} in package.json...`
       )
-      await replaceProjectNameInProjectFiles(newProjectName, currentProjectName)
-      s2.stop("References updated in project files.")
+      await updatePackageJson(newProjectName as string)
+      consola.success("Project name updated in package.json.")
 
-      outro("🎉 Project rename complete!")
+      consola.start(
+        `Replacing @init${isInit ? "" : ` and @${currentProjectName}`} with @${newProjectName as string} in project files...`
+      )
+      await replaceProjectNameInProjectFiles(
+        newProjectName as string,
+        currentProjectName
+      )
+      consola.success("References updated in project files.")
+
+      consola.success("🎉 Project rename complete!")
     } catch (error) {
-      cancel(`Operation cancelled: ${error}`)
+      consola.error(`Operation cancelled: ${error}`)
+      process.exit(1)
     }
   },
 })

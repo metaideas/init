@@ -1,13 +1,5 @@
 import Bun from "bun"
-import {
-  cancel,
-  intro,
-  isCancel,
-  multiselect,
-  outro,
-  spinner,
-  text,
-} from "@clack/prompts"
+import consola from "consola"
 import { defineCommand } from "../helpers"
 import { replaceProjectNameInProjectFiles, workspaces } from "./utils"
 
@@ -28,21 +20,6 @@ async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
   })
 
   await Promise.all(tasks)
-}
-
-async function promptForProjectName(): Promise<string> {
-  const projectName = await text({
-    message:
-      "Enter your project name (for @[project-name] monorepo alias). Leave as 'init' or empty to skip renaming.",
-    defaultValue: "init",
-    placeholder: "init",
-  })
-
-  if (isCancel(projectName)) {
-    throw new Error("Setup cancelled. No changes have been made.")
-  }
-
-  return projectName
 }
 
 async function updatePackageJson(projectName: string) {
@@ -72,51 +49,6 @@ async function setupEnvironmentVariables(paths: string[]) {
   })
 
   await Promise.all(tasks)
-}
-
-async function selectApps(): Promise<string[]> {
-  const apps = await multiselect({
-    message: "Select apps to keep (all others will be removed)",
-    options: workspaces.apps.map((app) => ({
-      name: app.description,
-      value: app.name,
-    })),
-  })
-
-  if (isCancel(apps)) {
-    throw new Error("Setup cancelled. No changes have been made.")
-  }
-
-  return apps
-}
-
-async function selectPackages(selectedApps: string[]): Promise<string[]> {
-  // Get all package dependencies from selected apps
-  const requiredPackages = new Set<string>()
-  for (const appName of selectedApps) {
-    const app = workspaces.apps.find((a) => a.name === appName)
-    if (app?.dependencies) {
-      for (const dep of app.dependencies) {
-        requiredPackages.add(dep)
-      }
-    }
-  }
-
-  const packages = await multiselect({
-    message:
-      "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
-    options: workspaces.packages.map((pkg) => ({
-      name: pkg.description,
-      value: pkg.name,
-    })),
-    initialValues: Array.from(requiredPackages),
-  })
-
-  if (isCancel(packages)) {
-    throw new Error("Setup cancelled. No changes have been made.")
-  }
-
-  return packages
 }
 
 async function setupGit() {
@@ -168,58 +100,109 @@ export default defineCommand({
   command: "init",
   describe: "Initialize project and clean up template files",
   handler: async () => {
-    intro("Starting project setup...")
+    consola.info("Starting project setup...")
 
     try {
-      const projectName = await promptForProjectName()
-      const selectedApps = await selectApps()
-      const selectedPackages = await selectPackages(selectedApps)
+      const projectName = await consola.prompt(
+        "Enter your project name (for @[project-name] monorepo alias). Leave as 'init' or empty to skip renaming.",
+        {
+          type: "text",
+          default: "init",
+          placeholder: "init",
+          cancel: "undefined",
+        }
+      )
 
-      await removeUnselectedWorkspaces(selectedApps, selectedPackages)
-
-      if (projectName !== "init") {
-        const s1 = spinner()
-        s1.start("Updating project name in package.json...")
-        await updatePackageJson(projectName)
-        s1.stop("Project name updated in package.json.")
-
-        const s2 = spinner()
-        s2.start("Replacing @init with project name in project files...")
-        await replaceProjectNameInProjectFiles(projectName)
-        s2.stop("Project name replaced in project files.")
+      if (projectName === undefined) {
+        throw new Error("Setup cancelled. No changes have been made.")
       }
 
-      const s3 = spinner()
-      s3.start("Setting up environment files for workspaces...")
+      const selectedApps = await consola.prompt(
+        "Select apps to keep (all others will be removed)",
+        {
+          type: "multiselect",
+          options: workspaces.apps.map((app) => ({
+            label: app.description,
+            value: app.name,
+          })),
+          cancel: "undefined",
+        }
+      )
+
+      if (selectedApps === undefined) {
+        throw new Error("Setup cancelled. No changes have been made.")
+      }
+
+      // Get all package dependencies from selected apps
+      const requiredPackages = new Set<string>()
+      for (const selectedApp of selectedApps) {
+        const app = workspaces.apps.find((a) => a.name === selectedApp.value)
+        if (app?.dependencies) {
+          for (const dep of app.dependencies) {
+            requiredPackages.add(dep)
+          }
+        }
+      }
+
+      const selectedPackages = await consola.prompt(
+        "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
+        {
+          type: "multiselect",
+          options: workspaces.packages.map((pkg) => ({
+            label: pkg.description,
+            value: pkg.name,
+          })),
+          initial: Array.from(requiredPackages),
+          cancel: "undefined",
+        }
+      )
+
+      if (selectedPackages === undefined) {
+        throw new Error("Setup cancelled. No changes have been made.")
+      }
+
+      await removeUnselectedWorkspaces(
+        selectedApps.map((app) => app.value),
+        selectedPackages.map((pkg) => pkg.value)
+      )
+
+      if (projectName !== "init") {
+        consola.start("Updating project name in package.json...")
+        await updatePackageJson(projectName)
+        consola.success("Project name updated in package.json.")
+
+        consola.start("Replacing @init with project name in project files...")
+        await replaceProjectNameInProjectFiles(projectName)
+        consola.success("Project name replaced in project files.")
+      }
+
+      consola.start("Setting up environment files for workspaces...")
       await setupEnvironmentVariables([
-        ...selectedApps.map((app) => `apps/${app}`),
-        ...selectedPackages.map((pkg) => `packages/${pkg}`),
+        ...selectedApps.map((app) => `apps/${app.value}`),
+        ...selectedPackages.map((pkg) => `packages/${pkg.value}`),
       ])
-      s3.stop("Environment files setup complete.")
+      consola.success("Environment files setup complete.")
 
-      const s4 = spinner()
-      s4.start("Initializing Git repository...")
+      consola.start("Initializing Git repository...")
       await setupGit()
-      s4.stop("Git repository initialized.")
+      consola.success("Git repository initialized.")
 
-      const s5 = spinner()
-      s5.start("Cleaning up internal template files...")
+      consola.start("Cleaning up internal template files...")
       await cleanupInternalFiles()
-      s5.stop("Internal template files removed.")
+      consola.success("Internal template files removed.")
 
-      const s6 = spinner()
-      s6.start("Creating new README...")
+      consola.start("Creating new README...")
       await createNewReadme(projectName)
-      s6.stop("README created.")
+      consola.success("README created.")
 
-      const s7 = spinner()
-      s7.start("Re-installing dependencies...")
+      consola.start("Re-installing dependencies...")
       await Bun.$`bun install`
-      s7.stop("Dependencies installed.")
+      consola.success("Dependencies installed.")
 
-      outro("🎉 All setup steps complete! Your project is ready.")
+      consola.success("🎉 All setup steps complete! Your project is ready.")
     } catch (error) {
-      cancel(`Operation cancelled: ${error}`)
+      consola.error(`Operation cancelled: ${error}`)
+      process.exit(1)
     }
   },
 })

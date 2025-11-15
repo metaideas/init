@@ -1,82 +1,70 @@
 import { existsSync } from "node:fs"
 import process from "node:process"
-import {
-  cancel,
-  confirm,
-  intro,
-  isCancel,
-  log,
-  outro,
-  text,
-} from "@clack/prompts"
+import consola from "consola"
 import { downloadTemplate } from "giget"
 
 const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
 
 const TITLE = `
-   ███              ███   █████
-  ░░░              ░░░   ░░███
-  ████  ████████   ████  ███████
- ░░███ ░░███░░███ ░░███ ░░░███░
-  ░███  ░███ ░███  ░███   ░███
-  ░███  ░███ ░███  ░███   ░███ ███
-  █████ ████ █████ █████  ░░█████
- ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
+         ███              ███   █████         
+        ░░░              ░░░   ░░███          
+        ████  ████████   ████  ███████        
+       ░░███ ░░███░░███ ░░███ ░░░███░         
+        ░███  ░███ ░███  ░███   ░███          
+        ░███  ░███ ░███  ░███   ░███ ███      
+        █████ ████ █████ █████  ░░█████       
+       ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░        
 `
 
-function centerText(input: string): string {
-  const lines = input
-    .trim()
-    .split("\n")
-    .map((line) => line.trimEnd()) // Remove trailing spaces
-    .filter((line) => line.length > 0) // Remove empty lines
-  const terminalWidth = process.stdout.columns || 80
-  const maxLineLength = Math.max(...lines.map((line) => line.length))
+async function promptProjectName(): Promise<string> {
+  const projectName = await consola.prompt(
+    "What is the name of your project?",
+    {
+      type: "text",
+      cancel: "undefined",
+    }
+  )
 
-  // Account for the border that @clack/prompts intro() adds (┌ + space = ~2 chars)
-  // and some additional padding it might add
-  const borderWidth = 2
-  const availableWidth = terminalWidth - borderWidth
-
-  // Calculate padding needed to center the longest line
-  const padding = Math.max(0, Math.floor((availableWidth - maxLineLength) / 2))
-
-  // Apply padding to each line
-  return lines.map((line) => " ".repeat(padding) + line).join("\n")
-}
-
-async function main() {
-  intro(centerText(TITLE))
-
-  const projectName = await text({
-    message: "What is the name of your project?",
-    validate: (value) => {
-      if (!value || value.trim().length === 0) {
-        return "Project name is required."
-      }
-
-      if (!PROJECT_NAME_REGEX.test(value.trim())) {
-        return "Project name can only contain letters, numbers, hyphens, and underscores."
-      }
-    },
-  })
-
-  if (!projectName || isCancel(projectName)) {
-    cancel("Please provide a name for your project.")
+  if (projectName === undefined) {
+    consola.error("Please provide a name for your project.")
     process.exit(1)
   }
 
   const name = projectName.trim()
 
+  if (!name || name.length === 0) {
+    consola.error("Project name is required.")
+    return promptProjectName()
+  }
+
+  if (!PROJECT_NAME_REGEX.test(name)) {
+    consola.error(
+      "Project name can only contain letters, numbers, hyphens, and underscores."
+    )
+    return promptProjectName()
+  }
+
+  return name
+}
+
+async function main() {
+  consola.log(TITLE)
+
+  const name = await promptProjectName()
+
   // Check if directory exists and ask for confirmation
   if (existsSync(name)) {
-    const shouldOverwrite = await confirm({
-      message: `Directory "${name}" already exists. Do you want to overwrite it?`,
-      initialValue: false,
-    })
+    const shouldOverwrite = await consola.prompt(
+      `Directory "${name}" already exists. Do you want to overwrite it?`,
+      {
+        type: "confirm",
+        initial: false,
+        cancel: "undefined",
+      }
+    )
 
-    if (isCancel(shouldOverwrite) || !shouldOverwrite) {
-      cancel("Operation cancelled.")
+    if (shouldOverwrite === undefined || !shouldOverwrite) {
+      consola.error("Operation cancelled.")
       process.exit(1)
     }
   }
@@ -84,14 +72,14 @@ async function main() {
   try {
     await downloadTemplate("github:metaideas/init", { dir: name })
 
-    log.success(`Created "${name}" using ▶︎ init.`)
-    log.message(
+    consola.success(`Created "${name}" using ▶︎ init.`)
+    consola.log(
       `Run \`cd ${name} && bun install\` to install your dependencies.`
     )
-    log.message("Run `bun template init` to initialize your project.")
-    outro("Build something using great! 🚀")
+    consola.log("Run `bun template init` to initialize your project.")
+    consola.success("Build something great! 🚀")
   } catch (error) {
-    cancel(`Failed to create project: ${error}`)
+    consola.error(`Failed to create project: ${error}`)
     process.exit(1)
   }
 }
