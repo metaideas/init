@@ -2,8 +2,12 @@ CREATE SCHEMA "auth";
 --> statement-breakpoint
 CREATE SCHEMA "organization";
 --> statement-breakpoint
+CREATE SCHEMA "storage";
+--> statement-breakpoint
+CREATE TYPE "storage"."asset_status" AS ENUM('pending', 'uploading', 'available', 'processing', 'failed', 'deleted');--> statement-breakpoint
 CREATE TYPE "organization"."invitation_status" AS ENUM('pending', 'accepted', 'rejected', 'canceled');--> statement-breakpoint
 CREATE TYPE "organization"."member_role" AS ENUM('member', 'admin', 'owner');--> statement-breakpoint
+CREATE TYPE "storage"."storage_provider" AS ENUM('s3', 'r2');--> statement-breakpoint
 CREATE TYPE "auth"."user_role" AS ENUM('user', 'admin');--> statement-breakpoint
 CREATE TABLE "auth"."accounts" (
 	"id" text PRIMARY KEY NOT NULL,
@@ -29,6 +33,32 @@ CREATE TABLE "organization"."activity_logs" (
 	"type" text NOT NULL,
 	"ip_address" text,
 	"user_agent" text
+);
+--> statement-breakpoint
+CREATE TABLE "storage"."assets" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"name" text NOT NULL,
+	"key" text NOT NULL,
+	"bucket" text NOT NULL,
+	"provider" "storage"."storage_provider" DEFAULT 's3' NOT NULL,
+	"mime_type" text NOT NULL,
+	"size" integer NOT NULL,
+	"status" "storage"."asset_status" DEFAULT 'pending' NOT NULL,
+	"error_message" text,
+	"uploader_id" text NOT NULL,
+	"organization_id" text,
+	"metadata" jsonb,
+	"expires_at" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE "documents" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"name" text NOT NULL,
+	"content" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "organization"."invitations" (
@@ -105,6 +135,8 @@ CREATE TABLE "auth"."verifications" (
 ALTER TABLE "auth"."accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."activity_logs" ADD CONSTRAINT "activity_logs_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."activity_logs" ADD CONSTRAINT "activity_logs_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "organization"."members"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "storage"."assets" ADD CONSTRAINT "assets_uploader_id_users_id_fk" FOREIGN KEY ("uploader_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "storage"."assets" ADD CONSTRAINT "assets_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."invitations" ADD CONSTRAINT "invitations_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."invitations" ADD CONSTRAINT "invitations_inviter_id_members_id_fk" FOREIGN KEY ("inviter_id") REFERENCES "organization"."members"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."members" ADD CONSTRAINT "members_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
@@ -118,6 +150,13 @@ CREATE UNIQUE INDEX "auth_accounts_provider_account_unique_idx" ON "auth"."accou
 CREATE INDEX "organization_activity_logs_organization_id_idx" ON "organization"."activity_logs" USING btree ("organization_id");--> statement-breakpoint
 CREATE INDEX "organization_activity_logs_member_id_idx" ON "organization"."activity_logs" USING btree ("member_id");--> statement-breakpoint
 CREATE INDEX "organization_activity_logs_type_idx" ON "organization"."activity_logs" USING btree ("type");--> statement-breakpoint
+CREATE INDEX "storage_assets_uploader_id_idx" ON "storage"."assets" USING btree ("uploader_id");--> statement-breakpoint
+CREATE INDEX "storage_assets_organization_id_idx" ON "storage"."assets" USING btree ("organization_id");--> statement-breakpoint
+CREATE INDEX "storage_assets_bucket_idx" ON "storage"."assets" USING btree ("bucket");--> statement-breakpoint
+CREATE INDEX "storage_assets_provider_idx" ON "storage"."assets" USING btree ("provider");--> statement-breakpoint
+CREATE INDEX "storage_assets_status_idx" ON "storage"."assets" USING btree ("status");--> statement-breakpoint
+CREATE INDEX "storage_assets_expires_at_idx" ON "storage"."assets" USING btree ("expires_at");--> statement-breakpoint
+CREATE UNIQUE INDEX "storage_assets_bucket_key_unique_idx" ON "storage"."assets" USING btree ("bucket","key");--> statement-breakpoint
 CREATE UNIQUE INDEX "organization_invitations_organization_email_unique_idx" ON "organization"."invitations" USING btree ("organization_id","email");--> statement-breakpoint
 CREATE INDEX "organization_invitations_organization_id_idx" ON "organization"."invitations" USING btree ("organization_id");--> statement-breakpoint
 CREATE INDEX "organization_invitations_email_idx" ON "organization"."invitations" USING btree ("email");--> statement-breakpoint

@@ -1,6 +1,6 @@
 // These are commands to manage the `init` template itself. You can run them by running `bun template`
 
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import add from "./add"
 import check from "./check"
 import init from "./init"

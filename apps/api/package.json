@@ -32,7 +32,6 @@
     "superjson": "2.2.5"
   },
   "devDependencies": {
-    "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "catalog:",
     "typescript": "catalog:"

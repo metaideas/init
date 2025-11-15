@@ -1,14 +1,49 @@
+import Bun from "bun"
 import { database } from "@init/db/client"
+import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
-import { prompt, runProcess, runScript } from "@tooling/helpers"
+import { db as env } from "@init/env/presets"
+import consola from "consola"
 import { seed } from "drizzle-seed"
 
+const CONFIRM_PROMPT = "seed production database"
+
 async function main() {
-  prompt.log.info("Seeding database...")
+  consola.info("Running the database seed script")
+
+  if (!checkIsLocalDatabase(env().DATABASE_URL)) {
+    consola.warn(
+      "You are about to seed the production database. This action will add data to the database."
+    )
+    consola.box("DATABASE_URL", env().DATABASE_URL)
+
+    const confirm = await consola.prompt("Are you sure you want to proceed?", {
+      type: "confirm",
+    })
+
+    if (!confirm) {
+      consola.error("Database seed cancelled")
+      process.exit(0)
+    }
+
+    const confirmPrompt = await consola.prompt(
+      "Type 'seed production database' to confirm",
+      { type: "text" }
+    )
+
+    if (confirmPrompt !== CONFIRM_PROMPT) {
+      consola.error("Database seed cancelled")
+      process.exit(0)
+    }
+  }
 
   const db = database()
 
-  await runProcess("drizzle-kit", ["push"])
+  consola.start("Pushing database schema...")
+  await Bun.$`drizzle-kit push`
+  consola.success("Database schema pushed")
+
+  consola.start("Seeding database...")
 
   const start = performance.now()
 
@@ -41,7 +76,14 @@ async function main() {
 
   const end = performance.now()
 
-  prompt.outro(`Database seeded in ${end - start}ms`)
+  consola.success(
+    `Database seeded successfully in ${Math.round(end - start)}ms`
+  )
 }
 
-void runScript(main)
+void main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    consola.fatal(error)
+    process.exit(1)
+  })

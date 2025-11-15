@@ -1,5 +1,5 @@
 import { log, spinner } from "@clack/prompts"
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import { compareVersions, getLatestRelease, getVersion } from "./utils"
 
 export default defineCommand({

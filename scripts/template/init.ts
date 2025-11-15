@@ -8,7 +8,7 @@ import {
   spinner,
   text,
 } from "@clack/prompts"
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import { replaceProjectNameInProjectFiles, workspaces } from "./utils"
 
 async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {

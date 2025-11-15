@@ -50,6 +50,7 @@
     "@types/bun": "1.3.2",
     "@types/yargs": "17.0.35",
     "adamantite": "0.13.0",
+    "consola": "3.4.2",
     "sherif": "1.7.0",
     "turbo": "2.6.1",
     "typescript": "5.9.3",

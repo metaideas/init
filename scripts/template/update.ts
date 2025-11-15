@@ -1,7 +1,7 @@
 import Bun from "bun"
 import { dirname, join } from "node:path"
 import { cancel, intro, log, outro, spinner } from "@clack/prompts"
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import {
   compareVersions,
   getLatestRelease,

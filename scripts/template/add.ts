@@ -8,7 +8,7 @@ import {
   select,
   text,
 } from "@clack/prompts"
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import { workspaces } from "./utils"
 
 async function getWorkspaceName(workspace: string): Promise<string> {

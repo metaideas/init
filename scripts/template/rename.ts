@@ -1,6 +1,6 @@
 import Bun from "bun"
 import { cancel, intro, isCancel, outro, spinner, text } from "@clack/prompts"
-import { defineCommand } from "../../tooling/helpers"
+import { defineCommand } from "../helpers"
 import { replaceProjectNameInProjectFiles } from "./utils"
 
 async function updatePackageJson(projectName: string) {
