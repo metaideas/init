@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.1](https://github.com/metaideas/init/compare/init@v0.11.0...init@v0.11.1) (2025-11-15)
+
+
+### Bug Fixes
+
+* random ([6fda51d](https://github.com/metaideas/init/commit/6fda51d1e3848d06f9e6c14d3e369445fd2fa0eb))
+* type issues ([3a19e96](https://github.com/metaideas/init/commit/3a19e965fdc7c9a7020c4b26bb435f697bdf4f6d))
+
 ## [0.11.0](https://github.com/metaideas/init/compare/init@v0.10.0...init@v0.11.0) (2025-10-29)
 
 
