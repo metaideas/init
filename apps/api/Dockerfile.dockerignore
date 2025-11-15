@@ -1,0 +1,32 @@
+# Allowlist minimal files needed for turbo prune + bun install
+# This uses an allowlist-first strategy to minimize build context size
+
+# Exclude everything by default
+*
+
+# Root workspace configuration files
+!package.json
+!turbo.json
+!bunfig.toml
+!bun.lock
+
+# The api app itself (needed for turbo prune)
+!apps/api/**
+
+# All package.json files in packages (needed for dependency resolution)
+!packages/**/package.json
+
+# Source code for packages (needed for turbo prune to copy dependencies)
+!packages/**/src/**
+
+# TypeScript configs for packages (needed for module resolution)
+!packages/**/tsconfig.json
+
+# All package.json files in tooling (workspace includes tooling/*)
+!tooling/**/package.json
+
+# Source code for tooling (needed for turbo prune to copy dependencies)
+!tooling/**/src/**
+
+# TypeScript configs for tooling (needed for module resolution)
+!tooling/**/tsconfig.json
