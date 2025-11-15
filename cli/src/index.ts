@@ -9,28 +9,47 @@ import {
   outro,
   text,
 } from "@clack/prompts"
-import degit from "degit"
+import { downloadTemplate } from "giget"
 
-const OWNER = "metaideas"
-const REPO = "init"
 const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
 
-const title = `
-  ███              ███   █████
- ░░░              ░░░   ░░███
- ████  ████████   ████  ███████
-░░███ ░░███░░███ ░░███ ░░░███░
- ░███  ░███ ░███  ░███   ░███
- ░███  ░███ ░███  ░███   ░███ ███
- █████ ████ █████ █████  ░░█████
-░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
+const TITLE = `
+   ███              ███   █████
+  ░░░              ░░░   ░░███
+  ████  ████████   ████  ███████
+ ░░███ ░░███░░███ ░░███ ░░░███░
+  ░███  ░███ ░███  ░███   ░███
+  ░███  ░███ ░███  ░███   ░███ ███
+  █████ ████ █████ █████  ░░█████
+ ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
 `
 
+function centerText(input: string): string {
+  const lines = input
+    .trim()
+    .split("\n")
+    .map((line) => line.trimEnd()) // Remove trailing spaces
+    .filter((line) => line.length > 0) // Remove empty lines
+  const terminalWidth = process.stdout.columns || 80
+  const maxLineLength = Math.max(...lines.map((line) => line.length))
+
+  // Account for the border that @clack/prompts intro() adds (┌ + space = ~2 chars)
+  // and some additional padding it might add
+  const borderWidth = 2
+  const availableWidth = terminalWidth - borderWidth
+
+  // Calculate padding needed to center the longest line
+  const padding = Math.max(0, Math.floor((availableWidth - maxLineLength) / 2))
+
+  // Apply padding to each line
+  return lines.map((line) => " ".repeat(padding) + line).join("\n")
+}
+
 async function main() {
-  intro(title)
+  intro(centerText(TITLE))
 
   const projectName = await text({
-    message: "What do you want to name your project?",
+    message: "What is the name of your project?",
     validate: (value) => {
       if (!value || value.trim().length === 0) {
         return "Project name is required."
@@ -62,16 +81,9 @@ async function main() {
     }
   }
 
-  const emitter = degit(`${OWNER}/${REPO}`, {
-    cache: true,
-    force: true,
-    verbose: true,
-  })
-
-  emitter.on("info", (info) => log.info(info.message))
-
   try {
-    await emitter.clone(name)
+    await downloadTemplate("github:metaideas/init", { dir: name })
+
     log.success(`Created "${name}" using ▶︎ init.`)
     log.message(
       `Run \`cd ${name} && bun install\` to install your dependencies.`
