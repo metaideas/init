@@ -1,5 +1,10 @@
 import Bun from "bun"
 import { intro, log, outro } from "@clack/prompts"
+import type { CommandModule } from "yargs"
+
+export function defineCommand<T, U>(input: CommandModule<T, U>) {
+  return input
+}
 
 /**
  * Run a script and log the execution time. Make sure to import this at the top

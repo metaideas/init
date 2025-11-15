@@ -1,33 +1,25 @@
 // These are commands to manage the `init` template itself. You can run them by running `bun template`
 
-import { Command } from "commander"
+import { defineCommand } from "../../tooling/helpers"
 import add from "./add"
 import check from "./check"
 import init from "./init"
 import update from "./update"
-import { getVersion } from "./utils"
 
-const program = new Command()
-  .name("template")
-  .description("Commands to manage the `init` template")
-
-program.version(await getVersion())
-
-program
-  .command("init")
-  .description("Initialize project and clean up template files")
-  .action(init)
-
-program
-  .command("add")
-  .description("Add workspaces to your monorepo")
-  .action(add)
-
-program
-  .command("update")
-  .description("Sync with template updates")
-  .action(update)
-
-program.command("check").description("Check template version").action(check)
-
-export default program
+export default defineCommand({
+  command: "template",
+  describe: "Commands to manage the `init` template",
+  handler: () => {
+    // Handler required by yargs, but demandCommand(1) ensures
+    // help is shown when no subcommand is provided
+  },
+  builder: (yargs) =>
+    yargs
+      .command(add)
+      .command(init)
+      .command(update)
+      .command(check)
+      .demandCommand(1)
+      .strict()
+      .showHelpOnFail(true),
+})

@@ -3,6 +3,7 @@ import { copyFile, mkdir, readdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { cancel, intro, log, outro, spinner } from "@clack/prompts"
 import { Octokit } from "@octokit/rest"
+import { defineCommand } from "../../tooling/helpers"
 import { executeCommand, getVersion } from "./utils"
 
 const TEMP_DIR = ".template-sync-tmp"
@@ -250,65 +251,70 @@ async function checkForUncommittedChanges(): Promise<boolean> {
   return status.length > 0
 }
 
-export default async function update() {
-  intro("Starting template synchronization")
+export default defineCommand({
+  command: "update",
+  describe: "Sync with template updates",
+  handler: async () => {
+    intro("Starting template synchronization")
 
-  try {
-    const s1 = spinner()
-    s1.start("Checking for template updates...")
-    const { shouldExit, latestRelease, message, warning } =
-      await checkVersionUpdates()
-    s1.stop("Template version check complete.")
+    try {
+      const s1 = spinner()
+      s1.start("Checking for template updates...")
+      const { shouldExit, latestRelease, message, warning } =
+        await checkVersionUpdates()
+      s1.stop("Template version check complete.")
 
-    if (message) {
-      log.info(message)
+      if (message) {
+        log.info(message)
+      }
+      if (warning) {
+        log.warn(warning)
+      }
+      if (shouldExit) {
+        return
+      }
+
+      const s2 = spinner()
+      s2.start("Checking for uncommitted changes...")
+      await verifyCleanWorkingTree()
+      s2.stop("Working directory clean.")
+
+      const s3 = spinner()
+      s3.start("Setting up temporary directory...")
+      await setupTempDirectory()
+      s3.stop("Temporary directory created.")
+
+      const s4 = spinner()
+      s4.start("Cloning template repository...")
+      const { filesToUpdate, newFiles } = await cloneAndAnalyze()
+      s4.stop("Template repository cloned.")
+
+      const allowedNewFiles =
+        await filterNewFilesForExistingWorkspaces(newFiles)
+      const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
+
+      if (filesToCopy.length === 0) {
+        log.info("No updates to apply - already up to date")
+        return
+      }
+
+      const s6 = spinner()
+      s6.start("Applying template changes...")
+      await applyChanges(filesToCopy, latestRelease)
+      s6.stop("Template changes applied.")
+
+      log.success("Changes staged")
+      log.info(
+        "Template sync completed. Please review the changes and commit them to your repository."
+      )
+      outro("🎉 Template sync completed successfully!")
+    } catch (error) {
+      cancel(
+        `Sync failed: ${error instanceof Error ? error.message : "Unknown error occurred"}`
+      )
+      process.exit(1)
+    } finally {
+      await rm(TEMP_DIR, { recursive: true, force: true })
     }
-    if (warning) {
-      log.warn(warning)
-    }
-    if (shouldExit) {
-      return
-    }
-
-    const s2 = spinner()
-    s2.start("Checking for uncommitted changes...")
-    await verifyCleanWorkingTree()
-    s2.stop("Working directory clean.")
-
-    const s3 = spinner()
-    s3.start("Setting up temporary directory...")
-    await setupTempDirectory()
-    s3.stop("Temporary directory created.")
-
-    const s4 = spinner()
-    s4.start("Cloning template repository...")
-    const { filesToUpdate, newFiles } = await cloneAndAnalyze()
-    s4.stop("Template repository cloned.")
-
-    const allowedNewFiles = await filterNewFilesForExistingWorkspaces(newFiles)
-    const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
-
-    if (filesToCopy.length === 0) {
-      log.info("No updates to apply - already up to date")
-      return
-    }
-
-    const s6 = spinner()
-    s6.start("Applying template changes...")
-    await applyChanges(filesToCopy, latestRelease)
-    s6.stop("Template changes applied.")
-
-    log.success("Changes staged")
-    log.info(
-      "Template sync completed. Please review the changes and commit them to your repository."
-    )
-    outro("🎉 Template sync completed successfully!")
-  } catch (error) {
-    cancel(
-      `Sync failed: ${error instanceof Error ? error.message : "Unknown error occurred"}`
-    )
-    process.exit(1)
-  } finally {
-    await rm(TEMP_DIR, { recursive: true, force: true })
-  }
-}
+  },
+})

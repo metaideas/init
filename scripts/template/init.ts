@@ -4,28 +4,17 @@ import {
   cancel,
   intro,
   isCancel,
-  log,
   multiselect,
   outro,
   spinner,
   text,
 } from "@clack/prompts"
+import { defineCommand } from "../../tooling/helpers"
 import {
   executeCommand,
   replaceProjectNameInProjectFiles,
   workspaces,
 } from "./utils"
-
-const title = `
-  ███              ███   █████
- ░░░              ░░░   ░░███
- ████  ████████   ████  ███████
-░░███ ░░███░░███ ░░███ ░░░███░
- ░███  ░███ ░███  ░███   ░███
- ░███  ░███ ░███  ░███   ░███ ███
- █████ ████ █████ █████  ░░█████
-░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
-`
 
 async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
   const appsToRemove = workspaces.apps
@@ -181,61 +170,62 @@ Made with [▶︎ \`init\`](https://github.com/metaideas/init)
   )
 }
 
-async function init() {
-  intro(title)
-  log.info("Starting project setup...")
+export default defineCommand({
+  command: "init",
+  describe: "Initialize project and clean up template files",
+  handler: async () => {
+    intro("Starting project setup...")
 
-  try {
-    const projectName = await promptForProjectName()
-    const selectedApps = await selectApps()
-    const selectedPackages = await selectPackages(selectedApps)
+    try {
+      const projectName = await promptForProjectName()
+      const selectedApps = await selectApps()
+      const selectedPackages = await selectPackages(selectedApps)
 
-    await removeUnselectedWorkspaces(selectedApps, selectedPackages)
+      await removeUnselectedWorkspaces(selectedApps, selectedPackages)
 
-    if (projectName !== "init") {
-      const s1 = spinner()
-      s1.start("Updating project name in package.json...")
-      await updatePackageJson(projectName)
-      s1.stop("Project name updated in package.json.")
+      if (projectName !== "init") {
+        const s1 = spinner()
+        s1.start("Updating project name in package.json...")
+        await updatePackageJson(projectName)
+        s1.stop("Project name updated in package.json.")
 
-      const s2 = spinner()
-      s2.start("Replacing @init with project name in project files...")
-      await replaceProjectNameInProjectFiles(projectName)
-      s2.stop("Project name replaced in project files.")
+        const s2 = spinner()
+        s2.start("Replacing @init with project name in project files...")
+        await replaceProjectNameInProjectFiles(projectName)
+        s2.stop("Project name replaced in project files.")
+      }
+
+      const s3 = spinner()
+      s3.start("Setting up environment files for workspaces...")
+      await setupEnvironmentVariables([
+        ...selectedApps.map((app) => `apps/${app}`),
+        ...selectedPackages.map((pkg) => `packages/${pkg}`),
+      ])
+      s3.stop("Environment files setup complete.")
+
+      const s4 = spinner()
+      s4.start("Initializing Git repository...")
+      await setupGit()
+      s4.stop("Git repository initialized.")
+
+      const s5 = spinner()
+      s5.start("Cleaning up internal template files...")
+      await cleanupInternalFiles()
+      s5.stop("Internal template files removed.")
+
+      const s6 = spinner()
+      s6.start("Creating new README...")
+      await createNewReadme(projectName)
+      s6.stop("README created.")
+
+      const s7 = spinner()
+      s7.start("Re-installing dependencies...")
+      await executeCommand("bun install")
+      s7.stop("Dependencies installed.")
+
+      outro("🎉 All setup steps complete! Your project is ready.")
+    } catch (error) {
+      cancel(`Operation cancelled: ${error}`)
     }
-
-    const s3 = spinner()
-    s3.start("Setting up environment files for workspaces...")
-    await setupEnvironmentVariables([
-      ...selectedApps.map((app) => `apps/${app}`),
-      ...selectedPackages.map((pkg) => `packages/${pkg}`),
-    ])
-    s3.stop("Environment files setup complete.")
-
-    const s4 = spinner()
-    s4.start("Initializing Git repository...")
-    await setupGit()
-    s4.stop("Git repository initialized.")
-
-    const s5 = spinner()
-    s5.start("Cleaning up internal template files...")
-    await cleanupInternalFiles()
-    s5.stop("Internal template files removed.")
-
-    const s6 = spinner()
-    s6.start("Creating new README...")
-    await createNewReadme(projectName)
-    s6.stop("README created.")
-
-    const s7 = spinner()
-    s7.start("Re-installing dependencies...")
-    await executeCommand("bun install")
-    s7.stop("Dependencies installed.")
-
-    outro("🎉 All setup steps complete! Your project is ready.")
-  } catch (error) {
-    cancel(`Operation cancelled: ${error}`)
-  }
-}
-
-export default init
+  },
+})

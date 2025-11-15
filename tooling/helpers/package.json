@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "@clack/prompts": "0.11.0",
-    "@tooling/tsconfig": "workspace:*"
+    "@tooling/tsconfig": "workspace:*",
+    "@types/yargs": "17.0.35",
+    "yargs": "18.0.0"
   }
 }

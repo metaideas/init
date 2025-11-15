@@ -1,4 +1,5 @@
 import { log } from "@clack/prompts"
+import { defineCommand } from "../../tooling/helpers"
 import { getVersion } from "./utils"
 
 const GITHUB_API_URL = "https://api.github.com/repos/metaideas/init"
@@ -45,55 +46,57 @@ function compareVersions(current: string, latest: string): number {
   return 0
 }
 
-async function check() {
-  log.info("Checking for template updates...")
+export default defineCommand({
+  command: "check",
+  describe: "Check template version",
+  handler: async () => {
+    log.info("Checking for template updates...")
 
-  try {
-    const [currentVersion, latestRelease] = await Promise.all([
-      getVersion(),
-      getLatestRelease(),
-    ])
+    try {
+      const [currentVersion, latestRelease] = await Promise.all([
+        getVersion(),
+        getLatestRelease(),
+      ])
 
-    if (!latestRelease) {
-      log.warn("No template releases found")
-      return
-    }
-
-    const latestVersion = latestRelease.tag_name
-
-    log.info(`Current template version: ${currentVersion || "Unknown"}`)
-    log.info(`Latest template version: ${latestVersion}`)
-
-    if (!currentVersion) {
-      log.warn(
-        "No local template version found. Run 'bun template:sync' to initialize."
-      )
-      return
-    }
-
-    const comparison = compareVersions(currentVersion, latestVersion)
-
-    if (comparison === 0) {
-      log.success("✅ Template is up to date!")
-    } else if (comparison > 0) {
-      log.warn(
-        `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})`
-      )
-    } else {
-      log.info(`🆙 Update available: ${currentVersion} → ${latestVersion}`)
-      log.message("Run 'bun template:sync' to update your template")
-
-      if (latestRelease.body) {
-        log.message("Release notes:")
-        log.message(latestRelease.body)
+      if (!latestRelease) {
+        log.warn("No template releases found")
+        return
       }
-    }
-  } catch (error) {
-    log.error(
-      `Failed to check for updates: ${error instanceof Error ? error.message : "Unknown error"}`
-    )
-    process.exit(1)
-  }
-}
 
-export default check
+      const latestVersion = latestRelease.tag_name
+
+      log.info(`Current template version: ${currentVersion || "Unknown"}`)
+      log.info(`Latest template version: ${latestVersion}`)
+
+      if (!currentVersion) {
+        log.warn(
+          "No local template version found. Run 'bun template:sync' to initialize."
+        )
+        return
+      }
+
+      const comparison = compareVersions(currentVersion, latestVersion)
+
+      if (comparison === 0) {
+        log.success("✅ Template is up to date!")
+      } else if (comparison > 0) {
+        log.warn(
+          `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})`
+        )
+      } else {
+        log.info(`🆙 Update available: ${currentVersion} → ${latestVersion}`)
+        log.message("Run 'bun template:sync' to update your template")
+
+        if (latestRelease.body) {
+          log.message("Release notes:")
+          log.message(latestRelease.body)
+        }
+      }
+    } catch (error) {
+      log.error(
+        `Failed to check for updates: ${error instanceof Error ? error.message : "Unknown error"}`
+      )
+      process.exit(1)
+    }
+  },
+})
