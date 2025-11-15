@@ -1,5 +1,4 @@
 import Bun from "bun"
-import { rm, rmdir } from "node:fs/promises"
 import {
   cancel,
   intro,
@@ -10,11 +9,7 @@ import {
   text,
 } from "@clack/prompts"
 import { defineCommand } from "../../tooling/helpers"
-import {
-  executeCommand,
-  replaceProjectNameInProjectFiles,
-  workspaces,
-} from "./utils"
+import { replaceProjectNameInProjectFiles, workspaces } from "./utils"
 
 async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
   const appsToRemove = workspaces.apps
@@ -26,7 +21,7 @@ async function removeUnselectedWorkspaces(apps: string[], packages: string[]) {
 
   const tasks = [...appsToRemove, ...packagesToRemove].map(async (path) => {
     try {
-      await rmdir(path, { recursive: true })
+      await Bun.$`rm -rf ${path}`.quiet()
     } catch {
       // Failed to remove directory, continuing...
     }
@@ -125,14 +120,13 @@ async function selectPackages(selectedApps: string[]): Promise<string[]> {
 }
 
 async function setupGit() {
-  const isInitialized = await Bun.file(".git").exists()
-
-  if (isInitialized) {
+  // Check if git repo exists by checking if .git directory exists
+  if (await Bun.file(".git").exists()) {
     return
   }
 
   try {
-    await executeCommand("git init")
+    await Bun.$`git init`
   } catch (error) {
     throw new Error(`Failed to initialize Git: ${error}`)
   }
@@ -148,7 +142,7 @@ async function cleanupInternalFiles() {
 
   const tasks = filesToRemove.map(async (file) => {
     try {
-      await rm(file, { recursive: true, force: true })
+      await Bun.$`rm -rf ${file}`.quiet()
     } catch {
       // File doesn't exist or failed to remove, continuing...
     }
@@ -220,7 +214,7 @@ export default defineCommand({
 
       const s7 = spinner()
       s7.start("Re-installing dependencies...")
-      await executeCommand("bun install")
+      await Bun.$`bun install`
       s7.stop("Dependencies installed.")
 
       outro("🎉 All setup steps complete! Your project is ready.")

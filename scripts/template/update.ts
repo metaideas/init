@@ -1,81 +1,29 @@
 import Bun from "bun"
-import { copyFile, mkdir, readdir, rm } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { cancel, intro, log, outro, spinner } from "@clack/prompts"
-import { Octokit } from "@octokit/rest"
 import { defineCommand } from "../../tooling/helpers"
-import { executeCommand, getVersion } from "./utils"
+import {
+  compareVersions,
+  getLatestRelease,
+  getVersion,
+  updateTemplateVersion,
+} from "./utils"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "https://github.com/metaideas/init.git"
-const TEMPLATE_VERSION_FILE = ".template-version.json"
 
 async function cloneTemplate() {
   // Use HTTPS URL and add flags to avoid interactive prompts
-  await executeCommand(`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1 --quiet`)
-}
-
-async function getLatestRelease(): Promise<{
-  tagName: string
-  name: string
-  publishedAt: string
-  body: string
-} | null> {
-  try {
-    const octokit = new Octokit()
-    const response = await octokit.repos.getLatestRelease({
-      owner: "metaideas",
-      repo: "init",
-    })
-
-    return {
-      tagName: response.data.tag_name,
-      name: response.data.name || "",
-      publishedAt: response.data.published_at || "",
-      body: response.data.body || "",
-    }
-  } catch {
-    return null
-  }
-}
-
-const VERSION_PREFIX = /^v/
-
-async function updateTemplateVersion(version: string): Promise<void> {
-  const data = { ".": version }
-  await Bun.write(TEMPLATE_VERSION_FILE, `${JSON.stringify(data, null, 2)}\n`)
-}
-
-function compareVersions(current: string, latest: string): number {
-  // Remove 'v' prefix if present
-  const currentClean = current.replace(VERSION_PREFIX, "")
-  const latestClean = latest.replace(VERSION_PREFIX, "")
-
-  const currentParts = currentClean.split(".").map(Number)
-  const latestParts = latestClean.split(".").map(Number)
-
-  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
-    const currentPart = currentParts[i] || 0
-    const latestPart = latestParts[i] || 0
-
-    if (currentPart < latestPart) {
-      return -1
-    }
-    if (currentPart > latestPart) {
-      return 1
-    }
-  }
-
-  return 0
+  await Bun.$`git clone ${REMOTE_URL} ${TEMP_DIR} --depth 1 --quiet`
 }
 
 async function getTemplateFiles(): Promise<string[]> {
-  const output = await executeCommand(`git -C ${TEMP_DIR} ls-files`)
+  const output = await Bun.$`git -C ${TEMP_DIR} ls-files`.text()
   return output.split("\n").filter(Boolean)
 }
 
 async function getLocalFiles(): Promise<string[]> {
-  const output = await executeCommand("git ls-files")
+  const output = await Bun.$`git ls-files`.text()
   return output.split("\n").filter(Boolean)
 }
 
@@ -86,9 +34,8 @@ async function getFileDiff(localFiles: string[], templateFiles: string[]) {
   const fileChecks = await Promise.all(
     templateFiles.map(async (file) => {
       const isNew = !localFiles.includes(file)
-      const hasLocalChanges = await executeCommand(
-        `git diff --quiet HEAD -- ${file}`
-      )
+      const hasLocalChanges = await Bun.$`git diff --quiet HEAD -- ${file}`
+        .quiet()
         .then(() => false)
         .catch(() => true)
 
@@ -113,8 +60,8 @@ async function copyFiles(files: string[]) {
       const source = join(TEMP_DIR, file)
       const dest = join(process.cwd(), file)
 
-      await mkdir(dirname(dest), { recursive: true })
-      await copyFile(source, dest)
+      await Bun.$`mkdir -p ${dirname(dest)}`.quiet()
+      await Bun.write(dest, await Bun.file(source).arrayBuffer())
     })
   )
 }
@@ -123,12 +70,12 @@ async function getExistingWorkspaceNames(
   workspaceRoot: "apps" | "packages"
 ): Promise<Set<string>> {
   try {
-    const entries = await readdir(join(process.cwd(), workspaceRoot), {
-      withFileTypes: true,
-    })
-    return new Set(entries.filter((e) => e.isDirectory()).map((e) => e.name))
+    // List directories only, get basename of each
+    const output =
+      await Bun.$`sh -c "for dir in ${workspaceRoot}/*/; do [ -d \"\$dir\" ] && basename \"\$dir\"; done"`.text()
+    return new Set(output.split("\n").filter(Boolean))
   } catch {
-    // If the directory doesn't exist, treat as no existing workspaces
+    // If the directory doesn't exist or is empty, treat as no existing workspaces
     return new Set()
   }
 }
@@ -210,8 +157,10 @@ async function verifyCleanWorkingTree() {
 }
 
 async function setupTempDirectory() {
-  await rm(TEMP_DIR, { recursive: true, force: true })
-  await mkdir(TEMP_DIR, { recursive: true })
+  await Bun.$`rm -rf ${TEMP_DIR}`.quiet().catch(() => {
+    // Directory doesn't exist, that's fine
+  })
+  await Bun.$`mkdir -p ${TEMP_DIR}`.quiet()
 }
 
 async function cloneAndAnalyze() {
@@ -238,16 +187,16 @@ async function applyChanges(
   const uniqueFilesToCopy = Array.from(new Set(filesToCopy))
   await copyFiles(uniqueFilesToCopy)
 
-  await executeCommand("git add .")
+  await Bun.$`git add .`
 
   if (latestRelease) {
     await updateTemplateVersion(latestRelease.tagName)
-    await executeCommand("git add .template-version.json")
+    await Bun.$`git add .template-version.json`
   }
 }
 
 async function checkForUncommittedChanges(): Promise<boolean> {
-  const status = await executeCommand("git status --porcelain")
+  const status = await Bun.$`git status --porcelain`.text()
   return status.length > 0
 }
 
@@ -314,7 +263,9 @@ export default defineCommand({
       )
       process.exit(1)
     } finally {
-      await rm(TEMP_DIR, { recursive: true, force: true })
+      await Bun.$`rm -rf ${TEMP_DIR}`.quiet().catch(() => {
+        // Failed to remove temp directory, that's fine
+      })
     }
   },
 })

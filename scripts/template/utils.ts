@@ -1,5 +1,6 @@
 import Bun from "bun"
 import path from "node:path"
+import { Octokit } from "@octokit/rest"
 
 const EXCLUDED_DIRS = [
   "node_modules",
@@ -9,19 +10,76 @@ const EXCLUDED_DIRS = [
   "build",
   "out",
   ".turbo",
-  ".DS_Store",
   ".cache",
   ".pnpm-store",
   ".yarn",
   "scripts",
 ] as const
 
+const EXCLUDED_FILES = [".DS_Store"] as const
+
 function checkShouldExclude(filePath: string): boolean {
-  return EXCLUDED_DIRS.some(
+  // Check if file path contains any excluded directory
+  const containsExcludedDir = EXCLUDED_DIRS.some(
     (dir) =>
       filePath.includes(`${path.sep}${dir}${path.sep}`) ||
       filePath.endsWith(`${path.sep}${dir}`)
   )
+
+  if (containsExcludedDir) {
+    return true
+  }
+
+  // Check if file path ends with any excluded file name
+  const endsWithExcludedFile = EXCLUDED_FILES.some(
+    (file) => filePath.endsWith(`${path.sep}${file}`) || filePath === file
+  )
+
+  return endsWithExcludedFile
+}
+
+/**
+ * Execute promises with a concurrency limit.
+ * Useful for limiting concurrent file operations or API calls.
+ *
+ * @param tasks - Array of async functions to execute
+ * @param limit - Maximum number of concurrent executions (default: 10)
+ * @returns Array of results in the same order as tasks
+ */
+async function limitConcurrency<T>(
+  tasks: (() => Promise<T>)[],
+  limit = 10
+): Promise<T[]> {
+  const results: T[] = new Array(tasks.length)
+  const queue = tasks.map((task, index) => ({ task, index }))
+  const executing: Promise<void>[] = []
+
+  const processQueue = async (): Promise<void> => {
+    const next = queue.shift()
+    if (!next) {
+      return
+    }
+
+    try {
+      results[next.index] = await next.task()
+    } catch {
+      // Failed to process task, continuing...
+    }
+
+    // Process next item in queue
+    if (queue.length > 0) {
+      executing.push(processQueue())
+    }
+  }
+
+  // Start initial batch of workers
+  const initialBatch = Math.min(limit, tasks.length)
+  for (let i = 0; i < initialBatch; i++) {
+    executing.push(processQueue())
+  }
+
+  await Promise.all(executing)
+  return results
 }
 
 export const workspaces = {
@@ -176,7 +234,7 @@ export const workspaces = {
   ],
 } as const
 
-export async function getAllFiles(dir = ".") {
+async function getAllFiles(dir = ".") {
   try {
     const glob = new Bun.Glob("**/*")
     const files: string[] = []
@@ -196,23 +254,33 @@ export async function getAllFiles(dir = ".") {
   }
 }
 
-export async function replaceProjectNameInProjectFiles(projectName: string) {
+export async function replaceProjectNameInProjectFiles(
+  projectName: string,
+  currentProjectName?: string
+) {
   const allFiles = await getAllFiles(".")
 
   // Only process text/code files
   const textFileExtensions = [
-    ".ts",
-    ".tsx",
-    ".js",
-    ".jsx",
-    ".json",
-    ".md",
-    ".txt",
-    ".yml",
-    ".yaml",
-    ".toml",
+    ".astro",
+    ".css",
     ".env",
     ".example",
+    ".hbs",
+    ".html",
+    ".js",
+    ".json",
+    ".jsx",
+    ".md",
+    ".mdc",
+    ".mdx",
+    ".scss",
+    ".toml",
+    ".ts",
+    ".tsx",
+    ".txt",
+    ".yaml",
+    ".yml",
   ]
   const textFiles = allFiles.filter(
     (file) =>
@@ -222,10 +290,19 @@ export async function replaceProjectNameInProjectFiles(projectName: string) {
       file.includes("README")
   )
 
-  const tasks = textFiles.map(async (file) => {
+  const tasks = textFiles.map((file) => async (): Promise<void> => {
     try {
       const content = await Bun.file(file).text()
-      const replaced = content.replaceAll("@init", `@${projectName}`)
+      let replaced = content.replaceAll("@init", `@${projectName}`)
+
+      // If currentProjectName is provided, also replace it
+      if (currentProjectName && currentProjectName !== "init") {
+        replaced = replaced.replaceAll(
+          `@${currentProjectName}`,
+          `@${projectName}`
+        )
+      }
+
       if (content !== replaced) {
         await Bun.write(file, replaced)
       }
@@ -234,32 +311,23 @@ export async function replaceProjectNameInProjectFiles(projectName: string) {
     }
   })
 
-  await Promise.all(tasks)
+  // Limit concurrent file operations to avoid overwhelming the system
+  await limitConcurrency(tasks, 10)
 }
 
-export async function executeCommand(command: string): Promise<string> {
-  const proc = Bun.spawn(["sh", "-c", command], {
-    stdout: "pipe",
-    stderr: "pipe",
-  })
-
-  const [stdout, stderr] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
-  ])
-
-  await proc.exited
-
-  if (proc.exitCode !== 0) {
-    throw new Error(`Command failed with exit code ${proc.exitCode}: ${stderr}`)
-  }
-
-  return stdout
+export interface ReleaseInfo {
+  tagName: string
+  name: string
+  publishedAt: string
+  body: string
 }
+
+const TEMPLATE_VERSION_FILE = ".template-version.json"
+const VERSION_PREFIX_REGEX = /^v/
 
 export async function getVersion(): Promise<string | null> {
   try {
-    const file = Bun.file(".template-version.json")
+    const file = Bun.file(TEMPLATE_VERSION_FILE)
     if (await file.exists()) {
       const data = await file.json()
       return data["."] || null
@@ -268,4 +336,51 @@ export async function getVersion(): Promise<string | null> {
   } catch {
     return null
   }
+}
+
+export async function getLatestRelease(): Promise<ReleaseInfo | null> {
+  try {
+    const octokit = new Octokit()
+    const response = await octokit.repos.getLatestRelease({
+      owner: "metaideas",
+      repo: "init",
+    })
+
+    return {
+      tagName: response.data.tag_name,
+      name: response.data.name || "",
+      publishedAt: response.data.published_at || "",
+      body: response.data.body || "",
+    }
+  } catch {
+    return null
+  }
+}
+
+export function compareVersions(current: string, latest: string): number {
+  // Remove 'v' prefix if present
+  const currentClean = current.replace(VERSION_PREFIX_REGEX, "")
+  const latestClean = latest.replace(VERSION_PREFIX_REGEX, "")
+
+  const currentParts = currentClean.split(".").map(Number)
+  const latestParts = latestClean.split(".").map(Number)
+
+  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
+    const currentPart = currentParts[i] || 0
+    const latestPart = latestParts[i] || 0
+
+    if (currentPart < latestPart) {
+      return -1
+    }
+    if (currentPart > latestPart) {
+      return 1
+    }
+  }
+
+  return 0
+}
+
+export async function updateTemplateVersion(version: string): Promise<void> {
+  const data = { ".": version }
+  await Bun.write(TEMPLATE_VERSION_FILE, `${JSON.stringify(data, null, 2)}\n`)
 }

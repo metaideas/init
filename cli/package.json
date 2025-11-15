@@ -1,6 +1,6 @@
 {
   "name": "init-now",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/metaideas/init",
   "bugs": {
     "url": "https://github.com/metaideas/init/issues"
@@ -16,7 +16,8 @@
   },
   "files": [
     "bin",
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsdown",

@@ -4,6 +4,7 @@ import { defineCommand } from "../../tooling/helpers"
 import add from "./add"
 import check from "./check"
 import init from "./init"
+import rename from "./rename"
 import update from "./update"
 
 export default defineCommand({
@@ -17,6 +18,7 @@ export default defineCommand({
     yargs
       .command(add)
       .command(init)
+      .command(rename)
       .command(update)
       .command(check)
       .demandCommand(1)
