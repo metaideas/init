@@ -1,11 +1,11 @@
-import { defineConfig } from "tsdown"
+import { defineConfig } from "bunup"
 
 export default defineConfig({
   dts: true,
   entry: ["src/index.ts"],
   minify: true,
   outDir: "dist",
-  platform: "neutral",
+  target: "bun",
   sourcemap: false,
-  nodeProtocol: "strip",
+  external: ["giget", "consola"],
 })

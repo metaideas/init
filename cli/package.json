@@ -1,6 +1,6 @@
 {
   "name": "init-now",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "homepage": "https://github.com/metaideas/init",
   "bugs": {
     "url": "https://github.com/metaideas/init/issues"
@@ -20,16 +20,16 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "bunup",
     "bump:deps": "bun update --interactive",
-    "dev": "tsdown --watch"
+    "dev": "bunup --watch"
   },
   "dependencies": {
     "consola": "3.4.2",
     "giget": "2.0.0"
   },
   "devDependencies": {
-    "tsdown": "0.14.2",
+    "bunup": "0.15.14",
     "typescript": "5.9.2"
   }
 }

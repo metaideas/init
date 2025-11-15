@@ -9,7 +9,6 @@
     "./client": "./src/client.ts"
   },
   "scripts": {
-    "build": "tsdown",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --hot src/index.ts",

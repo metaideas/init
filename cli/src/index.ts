@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs"
+import Bun from "bun"
 import process from "node:process"
 import consola from "consola"
 import { downloadTemplate } from "giget"
@@ -52,8 +52,13 @@ async function main() {
 
   const name = await promptProjectName()
 
+  const exists = await Bun.file(name)
+    .stat()
+    .then((stat) => stat.isDirectory())
+    .catch(() => false)
+
   // Check if directory exists and ask for confirmation
-  if (existsSync(name)) {
+  if (exists) {
     const shouldOverwrite = await consola.prompt(
       `Directory "${name}" already exists. Do you want to overwrite it?`,
       {
@@ -73,10 +78,23 @@ async function main() {
     await downloadTemplate("github:metaideas/init", { dir: name })
 
     consola.success(`Created "${name}" using ▶︎ init.`)
-    consola.log(
-      `Run \`cd ${name} && bun install\` to install your dependencies.`
+
+    const confirm = await consola.prompt(
+      "Do you want to install dependencies?",
+      {
+        type: "confirm",
+        initial: true,
+        cancel: "undefined",
+      }
     )
-    consola.log("Run `bun template init` to initialize your project.")
+
+    if (confirm) {
+      await Bun.$`cd ${name} && bun install`
+    }
+
+    consola.info(
+      "Remember to run `bun template init` to initialize your project."
+    )
     consola.success("Build something great! 🚀")
   } catch (error) {
     consola.error(`Failed to create project: ${error}`)
