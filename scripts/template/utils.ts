@@ -1,5 +1,4 @@
 import Bun from "bun"
-import path from "node:path"
 import { Octokit } from "@octokit/rest"
 
 const EXCLUDED_DIRS = [
@@ -13,18 +12,28 @@ const EXCLUDED_DIRS = [
   ".cache",
   ".pnpm-store",
   ".yarn",
-  "scripts",
+  "scripts/template",
 ] as const
 
 const EXCLUDED_FILES = [".DS_Store"] as const
+const PATH_NORMALIZE_REGEX = /^\.\//
+const PATH_SEP_NORMALIZE_REGEX = /\\/g
 
 function checkShouldExclude(filePath: string): boolean {
+  // Normalize path separators and remove leading ./
+  const normalizedPath = filePath
+    .replace(PATH_NORMALIZE_REGEX, "")
+    .replace(PATH_SEP_NORMALIZE_REGEX, "/")
+
   // Check if file path contains any excluded directory
-  const containsExcludedDir = EXCLUDED_DIRS.some(
-    (dir) =>
-      filePath.includes(`${path.sep}${dir}${path.sep}`) ||
-      filePath.endsWith(`${path.sep}${dir}`)
-  )
+  const containsExcludedDir = EXCLUDED_DIRS.some((dir) => {
+    // Check if path contains the directory
+    return (
+      normalizedPath.includes(`/${dir}/`) ||
+      normalizedPath.endsWith(`/${dir}`) ||
+      normalizedPath.startsWith(`${dir}/`)
+    )
+  })
 
   if (containsExcludedDir) {
     return true
@@ -32,7 +41,7 @@ function checkShouldExclude(filePath: string): boolean {
 
   // Check if file path ends with any excluded file name
   const endsWithExcludedFile = EXCLUDED_FILES.some(
-    (file) => filePath.endsWith(`${path.sep}${file}`) || filePath === file
+    (file) => normalizedPath.endsWith(`/${file}`) || normalizedPath === file
   )
 
   return endsWithExcludedFile
