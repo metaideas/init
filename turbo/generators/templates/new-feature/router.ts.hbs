@@ -1,7 +1,2 @@
-import { Hono } from "hono"
-import type { AppContext } from "~/shared/types"
-
-const router = new Hono<AppContext>()
-  .get("/ping", c => c.text("pong"))
-
-export default router
+import { factory } from "#shared/utils" const router =
+factory.createApp().get("/ping", c => c.text("pong")) export default router

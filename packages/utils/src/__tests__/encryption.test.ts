@@ -1,6 +1,10 @@
 import { beforeAll, describe, expect, it } from "bun:test"
 import { decrypt, encrypt, hash } from "../encryption"
 
+// Regex patterns for validation
+const BASE64_PATTERN = /^[A-Za-z0-9+/=]+$/
+const HEX_PATTERN = /^[a-f0-9]{64}$/
+
 // Set up a valid 32-byte (64-character hex) encryption key for tests
 beforeAll(() => {
   process.env.INIT_ENCRYPTION_KEY =
@@ -13,7 +17,7 @@ describe("encrypt", () => {
     const encrypted = encrypt(plaintext)
 
     // Base64 strings only contain these characters
-    expect(encrypted).toMatch(/^[A-Za-z0-9+/=]+$/)
+    expect(encrypted).toMatch(BASE64_PATTERN)
   })
 
   it("should produce different output each time due to random IV", () => {
@@ -85,7 +89,7 @@ describe("decrypt", () => {
     const encrypted = encrypt(plaintext)
 
     // Tamper with the encrypted data by changing a character
-    const tampered = encrypted.slice(0, -5) + "XXXXX"
+    const tampered = `${encrypted.slice(0, -5)}XXXXX`
 
     expect(() => decrypt(tampered)).toThrow()
   })
@@ -108,7 +112,7 @@ describe("round-trip encryption", () => {
   })
 
   it("should handle long strings", () => {
-    const plaintext = "a".repeat(10000)
+    const plaintext = "a".repeat(10_000)
     const encrypted = encrypt(plaintext)
     const decrypted = decrypt(encrypted)
 
@@ -152,7 +156,7 @@ describe("hash", () => {
     const hashed = hash(input)
 
     // SHA-256 produces 64 hex characters
-    expect(hashed).toMatch(/^[a-f0-9]{64}$/)
+    expect(hashed).toMatch(HEX_PATTERN)
   })
 
   it("should be deterministic", () => {
@@ -172,12 +176,12 @@ describe("hash", () => {
 
   it("should handle empty string", () => {
     const hashed = hash("")
-    expect(hashed).toMatch(/^[a-f0-9]{64}$/)
+    expect(hashed).toMatch(HEX_PATTERN)
   })
 
   it("should handle unicode", () => {
     const hashed = hash("Hello 世界 🌍")
-    expect(hashed).toMatch(/^[a-f0-9]{64}$/)
+    expect(hashed).toMatch(HEX_PATTERN)
   })
 
   it("should produce known hash for known input", () => {
@@ -191,7 +195,7 @@ describe("hash", () => {
 describe("error handling", () => {
   it("should throw error when INIT_ENCRYPTION_KEY is not set", () => {
     const originalKey = process.env.INIT_ENCRYPTION_KEY
-    delete process.env.INIT_ENCRYPTION_KEY
+    process.env.INIT_ENCRYPTION_KEY = undefined
 
     expect(() => encrypt("test")).toThrow("INIT_ENCRYPTION_KEY")
 

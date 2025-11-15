@@ -1,12 +1,12 @@
 {
-  "extends": ["@tooling/tsconfig/base", "./.wxt/tsconfig.json"],
+  "extends": "@tooling/tsconfig/base",
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    }
-  }
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "reset.d.ts", "./.wxt/wxt.d.ts"],
+  "exclude": ["node_modules"]
 }

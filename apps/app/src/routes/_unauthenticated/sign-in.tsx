@@ -6,12 +6,12 @@ import {
 } from "@init/ui/components/card"
 import { Separator } from "@init/ui/components/separator"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import SignInWithPasswordForm from "~/features/auth/components/sign-in-with-password-form"
+import SignInWithPasswordForm from "#features/auth/components/sign-in-with-password-form.tsx"
 import {
   SignInWithGitHubButton,
   SignInWithGoogleButton,
-} from "~/features/auth/components/sign-in-with-social-buttons"
-import { authClient } from "~/shared/auth/client"
+} from "#features/auth/components/sign-in-with-social-buttons.tsx"
+import { authClient } from "#shared/auth/client.ts"
 
 export const Route = createFileRoute("/_unauthenticated/sign-in")({
   component: RouteComponent,

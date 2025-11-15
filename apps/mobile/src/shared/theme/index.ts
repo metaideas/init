@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native-unistyles"
+import { colors } from "#shared/theme/colors.ts"
 import {
   borderRadius,
   breakpoints,
   spacing,
   typography,
-} from "~/shared/theme/tokens"
-import * as utils from "~/shared/theme/utils"
-import { colors } from "./colors"
+} from "#shared/theme/tokens.ts"
+import * as utils from "#shared/theme/utils.ts"
 
 const baseTheme = {
   spacing,

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
-import InvokeDemo from "~/features/demo/components/invoke-demo"
+import InvokeDemo from "#features/demo/components/invoke-demo.tsx"
 
 export const Route = createFileRoute("/demo")({
   component: Component,

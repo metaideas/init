@@ -2,10 +2,10 @@ import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { useNavigate } from "@tanstack/react-router"
 import { useServerFn } from "@tanstack/react-start"
-import { AUTHENTICATED_PATHNAME } from "~/features/auth/constants"
-import { checkEmailAvailability } from "~/features/auth/server/functions"
-import { SignUpFormSchema as schema } from "~/features/auth/validation"
-import { signUp } from "~/shared/auth/client"
+import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
+import { checkEmailAvailability } from "#features/auth/server/functions.ts"
+import { SignUpFormSchema as schema } from "#features/auth/validation.ts"
+import { signUp } from "#shared/auth/client.ts"
 
 export default function SignUpForm() {
   const execute = useServerFn(checkEmailAvailability)

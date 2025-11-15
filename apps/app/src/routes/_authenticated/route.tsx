@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
-import { UNAUTHENTICATED_PATHNAME } from "~/features/auth/constants"
-import { validateSession } from "~/features/auth/server/functions"
+import { UNAUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
+import { validateSession } from "#features/auth/server/functions.ts"
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async () => {

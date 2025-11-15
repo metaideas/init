@@ -2,26 +2,23 @@
   "name": "api",
   "private": true,
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
-    "./client": {
-      "import": {
-        "types": "./dist/client.d.ts"
-      }
-    }
+    "./client": "./src/client.ts"
   },
   "scripts": {
-    "build:docker": "docker build -t init-api -f Dockerfile ../..",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "build": "tsdown",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --hot src/index.ts",
-    "start": "bun run src/index.ts",
-    "typecheck": "tsc --noEmit",
-    "typegen": "tsdown",
-    "typegen:watch": "tsdown --watch"
+    "start": "bun --bun src/index.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hono/trpc-server": "0.4.0",
-    "@hono/zod-validator": "0.7.3",
+    "@hono/zod-validator": "0.7.4",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
@@ -29,15 +26,15 @@
     "@init/observability": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
-    "@trpc/server": "11.6.0",
-    "hono": "4.10.1",
+    "@trpc/server": "11.7.1",
+    "hono": "4.10.5",
+    "hono-rate-limiter": "0.4.2",
     "superjson": "2.2.5"
   },
   "devDependencies": {
     "@tooling/helpers": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
-    "@types/bun": "1.3.0",
-    "tsdown": "0.15.8",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
 }

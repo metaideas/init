@@ -4,9 +4,9 @@ import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
 import superjson from "superjson"
-import NotFound from "~/shared/components/not-found"
-import { routeTree } from "./routeTree.gen"
-import Providers from "./shared/components/providers"
+import { routeTree } from "#routeTree.gen.ts"
+import NotFound from "#shared/components/not-found.tsx"
+import Providers from "#shared/components/providers.tsx"
 
 export type RouterContext = {
   queryClient: QueryClient

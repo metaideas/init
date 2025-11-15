@@ -1,7 +1,9 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
-    "rootDir": "."
+    "rootDir": ".",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src", "reset.d.ts"],
   "exclude": ["node_modules"]

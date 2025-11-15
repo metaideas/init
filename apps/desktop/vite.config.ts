@@ -1,4 +1,3 @@
-import path from "node:path"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
@@ -30,12 +29,6 @@ export default defineConfig({
       process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
     minify: process.env.TAURI_ENV_DEBUG ? false : "esbuild",
     sourcemap: !!process.env.TAURI_ENV_DEBUG,
-  },
-  resolve: {
-    alias: {
-      "~": path.resolve(__dirname, "src"),
-      "~~": path.resolve(__dirname, "."),
-    },
   },
   plugins: [
     devtools(),

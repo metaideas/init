@@ -2,16 +2,11 @@ import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { APP_ID } from "@init/utils/constants"
-import env from "~/shared/env"
-
-// Define the plugins outside of the auth function to avoid type inference issues
-const plugins = [admin(), organization()]
-
-export type Auth = ReturnType<typeof createAuth<typeof plugins>>
+import env from "#shared/env.ts"
 
 // We add a type annotation to the auth function to avoid type inference issues
 // during type generation
-export const auth: Auth = createAuth(
+export const auth = createAuth(
   databaseAdapter(database()),
   {
     basePath: "/auth",
@@ -27,7 +22,8 @@ export const auth: Auth = createAuth(
       autoSignIn: true,
     },
   },
-  plugins
+  [admin(), organization()]
 )
 
+export type Auth = typeof auth
 export type Session = Auth["$Infer"]["Session"]

@@ -1,5 +1,5 @@
 import { initializeErrorMonitoring } from "@init/observability/monitoring/expo"
-import "~/shared/theme"
+import "#shared/theme/index.ts"
 
 void initializeErrorMonitoring()
 

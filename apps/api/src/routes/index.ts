@@ -1,20 +1,21 @@
 import { database } from "@init/db/client"
-import { redis } from "@init/kv/client"
+import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { captureException } from "@init/observability/monitoring"
-import { Hono } from "hono"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { logger as honoLogger } from "hono/logger"
-import authRoutes from "~/routes/auth"
-import healthRoutes from "~/routes/health"
-import testRoutes from "~/routes/test"
-import trpcRoutes from "~/routes/trpc"
-import { auth } from "~/shared/auth"
-import type { AppContext } from "~/shared/types"
+import { secureHeaders } from "hono/secure-headers"
+import authRoutes from "#routes/auth.ts"
+import healthRoutes from "#routes/health.ts"
+import testRoutes from "#routes/test.ts"
+import trpcRoutes from "#routes/trpc.ts"
+import { auth } from "#shared/auth.ts"
+import { security } from "#shared/security.ts"
+import { factory } from "#shared/utils.ts"
 
-const app = new Hono<AppContext>()
+const app = factory.createApp()
 
 app.use(cors({ credentials: true, origin: "*" }))
 app.use(honoLogger((message, ...rest) => logger.info(rest, message)))
@@ -22,13 +23,12 @@ app.use(contextStorage())
 
 // Add context dependencies
 app.use(async (c, next) => {
-  const db = database()
-  const kv = redis()
-
   c.set("auth", auth)
-  c.set("db", db)
-  c.set("kv", kv)
+  c.set("db", database())
+  c.set("kv", kv())
   c.set("logger", logger)
+  c.set("security", security)
+  c.set("session", null)
 
   await next()
 })
@@ -42,9 +42,12 @@ app.onError((err, c) => {
 
   // Capture the exception in monitoring
   captureException(err)
+  logger.error(err)
 
   return c.text("Internal Server Error", 500)
 })
+
+app.use(secureHeaders())
 
 export const router = app
   .get("/ping", (c) => c.text(Date.now().toString()))

@@ -4,11 +4,8 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~~/*": ["./*"]
-    },
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src", "reset.d.ts"],
   "exclude": ["node_modules"]

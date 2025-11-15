@@ -3,8 +3,8 @@ import { Icon } from "@init/ui/components/icon"
 import { toast } from "@init/ui/components/sonner"
 import { cn } from "@init/utils/ui"
 import { useState } from "react"
-import { AUTHENTICATED_PATHNAME } from "~/features/auth/constants"
-import { signIn } from "~/shared/auth/client"
+import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
+import { signIn } from "#shared/auth/client.ts"
 
 export function SignInWithGoogleButton({ className }: { className?: string }) {
   const [loading, setLoading] = useState(false)

@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { auth, db, node, sentry, upstash } from "@init/env/presets"
+import { arcjet, auth, db, kv, node, sentry } from "@init/env/presets"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
@@ -13,8 +13,9 @@ export default createEnv({
     // Packages
     auth(),
     db(),
+    kv(),
+    arcjet(),
     sentry.server(),
-    upstash.redis(),
   ],
   runtimeEnv: process.env,
   skipValidation: isCI(),

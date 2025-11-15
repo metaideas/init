@@ -41,6 +41,48 @@ bun docker:up
 bun dev # or bun dev --filter <workspace> to start a specific workspace
 ```
 
+### Environment Setup
+
+Each workspace includes a `.env.template` file that defines the required and optional environment variables for that workspace. The `bun template init` script automatically copies these templates to `.env.local` files (which are git-ignored).
+
+#### Environment Variable Prefixes
+
+Different platforms require different prefixes for client-side environment variables:
+
+- **Web/App/Desktop (Vite)**: `PUBLIC_` - Variables prefixed with `PUBLIC_` are exposed to the browser
+- **Extension (Vite/WXT)**: `VITE_` - Variables prefixed with `VITE_` are exposed to the extension
+- **Mobile (Expo)**: `EXPO_PUBLIC_` - Variables prefixed with `EXPO_PUBLIC_` are exposed to the mobile app
+- **Desktop (Tauri)**: `TAURI_ENV_` - Automatically set by Tauri, plus `PUBLIC_` for app-level client config
+
+Server-side variables (used in API routes, server functions, etc.) do not require a prefix.
+
+#### Manual Setup
+
+If you need to manually set up environment variables:
+
+1. Copy the `.env.template` file to `.env.local` in each workspace you're using:
+   ```bash
+   cp apps/api/.env.template apps/api/.env.local
+   cp apps/app/.env.template apps/app/.env.local
+   # ... etc
+   ```
+
+2. Fill in the required values in each `.env.local` file. The template files include comments explaining what each variable is for.
+
+3. Never commit `.env.local` files - they're automatically git-ignored.
+
+#### Required Variables
+
+Most workspaces require at minimum:
+- **API**: `BASE_URL`, `PORT`, `AUTH_SECRET`, `DATABASE_URL`, `REDIS_URL`
+- **App**: `PUBLIC_BASE_URL`, `AUTH_SECRET`, `DATABASE_URL`, OAuth provider credentials
+- **Web**: `PUBLIC_API_URL`, `TEST_VAR`
+- **Mobile**: `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_SENTRY_DSN`
+- **Desktop**: `PUBLIC_API_URL`
+- **Extension**: `VITE_API_URL`
+
+See each workspace's `.env.template` file for the complete list of required and optional variables.
+
 ### Ports
 
 #### Apps

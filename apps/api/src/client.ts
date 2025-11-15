@@ -1,14 +1,12 @@
-import type { router } from "~/routes"
-import type { trpcRouter } from "~/routes/trpc/router"
+import { hc } from "hono/client"
+import type { router } from "#routes/index.ts"
+import type { trpcRouter } from "#routes/trpc.ts"
 
-/**
- * This is the type of the client that is exported from the API to use with
- * `hono/client` to have a type-safe RPC client. This is for the REST API routes.
- * For the TRPC routes, see `TRPCClient`.
- */
-export type AppClient = typeof router
+export const client = (
+  ...args: Parameters<typeof hc>
+): ReturnType<typeof hc<typeof router>> => hc<typeof router>(...args)
 
 /**
  * This is the type of the TRPC client to be used on clients.
  */
-export type TRPCClient = typeof trpcRouter
+export type TRPCRouter = typeof trpcRouter

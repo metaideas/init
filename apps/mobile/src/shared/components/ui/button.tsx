@@ -2,7 +2,7 @@ import * as Slot from "@rn-primitives/slot"
 import type { ComponentProps } from "react"
 import { Pressable } from "react-native"
 import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
-import { TextStyleContext } from "./text"
+import { TextStyleContext } from "#shared/components/ui/text.tsx"
 
 const styles = StyleSheet.create((theme, rt) => ({
   button: ({ pressed }: { pressed: boolean }) => ({

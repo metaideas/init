@@ -2,22 +2,11 @@ name: init
 
 services:
   redis:
-    image: redis:7.4.0
+    image: redis:8.2.0
     ports:
-      - "6379:6379"
+      - "8079:6379"
     volumes:
       - ./.data/redis-data:/data
-
-  serverless-redis-http:
-    ports:
-      - "8079:80"
-    image: hiett/serverless-redis-http:0.0.10
-    environment:
-      SRH_MODE: env
-      SRH_TOKEN: "my-redis-rest-token"
-      SRH_CONNECTION_STRING: "redis://redis:6379"
-    depends_on:
-      - redis
 
   postgres:
     image: postgres:17
@@ -29,3 +18,15 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./.data/postgres:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "8081:9000"
+      - "8082:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - ./.data/minio:/data
+    command: server /data --console-address ":9001"

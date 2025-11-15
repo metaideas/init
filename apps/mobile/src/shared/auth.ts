@@ -9,7 +9,7 @@ import {
 } from "@init/auth/permissions"
 import { APP_ID } from "@init/utils/constants"
 import * as SecureStore from "expo-secure-store"
-import { buildApiUrl } from "~/shared/utils"
+import { buildApiUrl } from "#shared/utils.ts"
 
 export const auth = createAuthClient(buildApiUrl("/auth"), [
   expoClient({

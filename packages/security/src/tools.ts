@@ -1,4 +1,8 @@
-export * from "@arcjet/inspect"
-export { default as ip } from "@arcjet/ip"
+export { setRateLimitHeaders } from "@arcjet/decorate"
+export {
+  isMissingUserAgent,
+  isSpoofedBot,
+  isVerifiedBot,
+} from "@arcjet/inspect"
+export { findIp } from "@arcjet/ip"
 export { redact } from "@arcjet/redact"
-export { default as headers } from "nosecone"

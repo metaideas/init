@@ -30,32 +30,7 @@ type LessThanOrEqual<
         readonly [...CounterB, unknown]
       >
 
-/**
- * Joins an array of strings or numbers with a separator.
- */
-export type Join<
-  T extends readonly (string | number)[],
-  Sep extends string = ":",
-> = T extends readonly [
-  infer First extends string | number,
-  ...infer Rest extends readonly (string | number)[],
-]
-  ? Rest extends readonly []
-    ? `${First}`
-    : `${First}${Sep}${Join<Rest, Sep>}`
-  : ""
-
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>
-
-/**
- * Returns the first argument of an array.
- */
-export type FirstArg<Args extends string[]> = Args extends [
-  infer First extends string,
-  ...unknown[],
-]
-  ? First
-  : never
 
 /**
  * Converts a union to an intersection.

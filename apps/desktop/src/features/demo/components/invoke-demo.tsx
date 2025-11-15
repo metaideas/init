@@ -2,7 +2,7 @@ import { Button } from "@init/ui/components/button"
 import { Input } from "@init/ui/components/input"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
-import { demoOptions } from "~/features/demo/mutations"
+import { demoOptions } from "#features/demo/mutations.ts"
 
 export default function InvokeDemo() {
   const [name, setName] = useState("")

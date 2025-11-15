@@ -1,9 +1,9 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "aliases": {
-    "components": "~/shared/components",
-    "hooks": "~/shared/hooks",
-    "lib": "~/shared/utils",
+    "components": "#shared/components",
+    "hooks": "#shared/hooks",
+    "lib": "#shared/utils",
     "ui": "@init/ui/components",
     "utils": "@init/utils/ui"
   },

@@ -1,8 +1,8 @@
 import { monitoringWrap } from "@init/observability/monitoring/expo"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
-import Providers from "~/shared/components/providers"
-import { useHideSplashScreen } from "~/shared/hooks"
+import Providers from "#shared/components/providers.tsx"
+import { useHideSplashScreen } from "#shared/hooks.ts"
 
 SplashScreen.preventAutoHideAsync()
 

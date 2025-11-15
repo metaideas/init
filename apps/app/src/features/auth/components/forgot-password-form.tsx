@@ -2,8 +2,8 @@ import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/sonner"
 import { useServerFn } from "@tanstack/react-start"
-import { forgotPassword } from "~/features/auth/server/functions"
-import { ForgotPasswordFormSchema as schema } from "~/features/auth/validation"
+import { forgotPassword } from "#features/auth/server/functions.ts"
+import { ForgotPasswordFormSchema as schema } from "#features/auth/validation.ts"
 
 export default function ForgotPasswordForm() {
   const execute = useServerFn(forgotPassword)

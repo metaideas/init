@@ -1,5 +1,5 @@
 import type { TextStyle } from "react-native"
-import { typography } from "./tokens"
+import { typography } from "#shared/theme/tokens.ts"
 
 /**
  * Converts a color to rgba with the given opacity

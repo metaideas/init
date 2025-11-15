@@ -2,11 +2,15 @@
   "name": "app",
   "private": true,
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
-    "build": "vite build",
+    "build": "bun --bun vite build",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "vite dev",
+    "dev": "bun --bun vite dev",
+    "preview": "bun --bun vite preview",
     "start": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit"
   },
@@ -22,12 +26,15 @@
     "@init/utils": "workspace:*",
     "@tanstack/react-devtools": "0.7.1",
     "@tanstack/react-form": "1.23.5",
-    "@tanstack/react-query": "5.90.2",
+    "@tanstack/react-query": "^5.90.8",
     "@tanstack/react-query-devtools": "5.90.2",
     "@tanstack/react-router": "1.132.31",
     "@tanstack/react-router-devtools": "1.132.31",
     "@tanstack/react-router-ssr-query": "1.132.31",
     "@tanstack/react-start": "1.132.31",
+    "@trpc/client": "^11.7.1",
+    "@trpc/tanstack-react-query": "^11.7.1",
+    "api": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
     "superjson": "2.2.5"
@@ -35,10 +42,11 @@
   "devDependencies": {
     "@tailwindcss/vite": "4.1.14",
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "24.6.2",
+    "@types/node": "24.9.2",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "5.0.4",
+    "nitro": "3.0.1-alpha.1",
     "tailwindcss": "4.1.14",
     "typescript": "catalog:",
     "vite": "catalog:"

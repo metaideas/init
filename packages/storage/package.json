@@ -4,10 +4,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./expo": "./src/expo.ts",
-    "./react": "./src/react.ts",
-    "./server": "./src/server.ts",
-    "./styles": "./src/styles.css"
+    "./client": "./src/client.ts",
+    "./helpers": "./src/helpers.ts"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -15,12 +13,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uploadthing/expo": "7.2.6",
-    "@uploadthing/react": "7.3.3",
-    "uploadthing": "7.7.4"
+    "@init/env": "workspace:*",
+    "@init/utils": "workspace:*",
+    "mime": "4.1.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
 }

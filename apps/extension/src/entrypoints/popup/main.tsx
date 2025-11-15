@@ -5,8 +5,8 @@ import { useHashLocation } from "wouter/use-hash-location"
 
 import "@init/ui/globals.css"
 
-import PopupDemo from "~/features/demo/components/popup-demo"
-import SettingsDemo from "~/features/demo/components/settings-demo"
+import PopupDemo from "#features/demo/components/popup-demo.tsx"
+import SettingsDemo from "#features/demo/components/settings-demo.tsx"
 
 const rootElement = document.getElementById("root")
 
