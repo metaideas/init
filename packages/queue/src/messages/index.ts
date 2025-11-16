@@ -150,3 +150,7 @@ export {
   openai,
   resend,
 } from "@upstash/qstash"
+
+// Re-export nested events functionality
+export { defineEvents, flattenEvents, createMessages, toFlatMap } from "./events"
+
