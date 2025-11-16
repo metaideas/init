@@ -1,22 +1,64 @@
 import { logger } from "@init/observability/logger"
+import { assertUnreachable } from "@init/utils/assert"
 import { jsonCodec } from "@init/utils/codec"
-import type * as z from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 import { Client, Receiver, type VerifyRequest } from "@upstash/qstash"
+import type {
+  ClientConfig,
+  EventsSchema,
+  FlattenedEventsSchema,
+  MessageProxy,
+  MessageType,
+  ProxyCallback,
+  ReceiverConfig,
+} from "./types"
 
-type EventsSchema = Record<string, z.core.$ZodType>
-type MessageType<Events extends EventsSchema> = keyof Events & string
+function flattenEvents(
+  events: EventsSchema,
+  prefix = ""
+): Record<string, z.core.$ZodType> {
+  const result: Record<string, z.core.$ZodType> = {}
 
-type ClientConfig = Pick<
-  NonNullable<ConstructorParameters<typeof Client>[0]>,
-  "token"
->
+  for (const [key, value] of Object.entries(events)) {
+    const path = prefix ? `${prefix}.${key}` : key
 
-type ReceiverConfig = Pick<
-  NonNullable<ConstructorParameters<typeof Receiver>[0]>,
-  "currentSigningKey" | "nextSigningKey"
->
+    if (value instanceof z.core.$ZodType) {
+      result[path] = value
+    } else if (typeof value === "object" && value !== null) {
+      Object.assign(result, flattenEvents(value as EventsSchema, path))
+    }
+  }
 
-export function buildMessageClient<Events extends EventsSchema>(
+  return result
+}
+
+function createRecursiveProxy(
+  callback: ProxyCallback,
+  path: readonly string[]
+) {
+  const proxy: unknown = new Proxy(
+    () => {
+      // dummy no-op function since we don't have any client-side target we want
+      // to remap to
+    },
+    {
+      get(_obj, key) {
+        if (typeof key !== "string") {
+          return
+        }
+
+        return createRecursiveProxy(callback, [...path, key])
+      },
+      apply(_1, _2, args) {
+        return callback({ path, args })
+      },
+    }
+  )
+
+  return proxy
+}
+
+export function buildMessageClient<TEvents extends EventsSchema>(
   config: ClientConfig &
     ReceiverConfig & {
       /**
@@ -26,7 +68,7 @@ export function buildMessageClient<Events extends EventsSchema>(
       /**
        * The events schema of your API.
        */
-      events: Events
+      events: TEvents
     }
 ) {
   const client = new Client({ token: config.token })
@@ -36,11 +78,41 @@ export function buildMessageClient<Events extends EventsSchema>(
     nextSigningKey: config.nextSigningKey,
   })
 
+  const flattenedEvents = flattenEvents(config.events)
+
+  function createMessageProxy() {
+    return createRecursiveProxy((options) => {
+      const path = [...options.path]
+      const method = path.pop() as "publish" | "options" | "$path" | "$schema"
+      const pathString = path.join(".")
+      const url = `${config.baseUrl}/${pathString}`
+      const [body] = options.args
+
+      if (method === "publish") {
+        return client.publishJSON({ url, body })
+      }
+
+      if (method === "options") {
+        return { url, body }
+      }
+
+      if (method === "$path") {
+        return pathString
+      }
+
+      if (method === "$schema") {
+        return flattenedEvents[pathString]
+      }
+
+      assertUnreachable(method)
+    }, []) as MessageProxy<TEvents>
+  }
+
   async function handler<
     H extends {
-      [T in MessageType<Events>]: (
-        body: z.infer<Events[T]>
-      ) => Promise<Response> | Response
+      [K in MessageType<TEvents>]: (
+        body: z.infer<FlattenedEventsSchema<TEvents>[K]>
+      ) => unknown
     },
   >(
     request: Request,
@@ -92,8 +164,18 @@ export function buildMessageClient<Events extends EventsSchema>(
       )
     }
 
-    const messageType = path as MessageType<Events>
-    const eventSchema = config.events[messageType]
+    const messageType = path as MessageType<TEvents>
+
+    if (!(messageType in flattenedEvents)) {
+      logger.error({ path }, "Invalid message type")
+
+      return new Response(`Invalid message type: \`${path}\``, {
+        status: 400,
+      })
+    }
+
+    const eventSchema =
+      flattenedEvents[messageType as keyof typeof flattenedEvents]
 
     if (!eventSchema) {
       logger.error({ path }, "Invalid message type")
@@ -111,35 +193,77 @@ export function buildMessageClient<Events extends EventsSchema>(
       })
     }
 
+    const startTime = Date.now()
+
     const handlerFn = handlers[messageType]
 
     if (!handlerFn) {
-      logger.error({ messageType }, "No handler for message type")
+      logger.error(
+        { messageType: String(messageType) },
+        "No handler for message type"
+      )
+
       return new Response(
-        `No handler provided for message type: \`${messageType}\``,
+        `No handler provided for message type: \`${String(messageType)}\``,
         { status: 501 }
       )
     }
 
-    await handlerFn(parsed.data)
+    // TypeScript can't narrow messageType to a literal type, so we use a type assertion.
+    // The runtime validation above ensures messageType is valid and parsed.data matches the schema.
+    // biome-ignore lint/suspicious/noExplicitAny: Runtime validation ensures type safety
+    const result = await handlerFn(parsed.data as any)
 
-    return new Response("Message processed", { status: 200 })
+    return new Response(
+      JSON.stringify({
+        message: "Message processed successfully",
+        completedAt: new Date().toISOString(),
+        duration: `${Date.now() - startTime}ms`,
+        result,
+      }),
+      { status: 200 }
+    )
   }
 
   return {
     client,
-    publish: client.publishJSON.bind(client),
-    batch: client.batchJSON.bind(client),
+    receiver,
     /**
-     * Create a payload for the given event type.
+    /**
+     * The messages proxy for the events schema.
+     *
+     * This object provides strongly-typed helpers for each event defined in your schema. Each leaf exposes:
+     *   - `.publish(body)`: Publishes a message of this type with the correct payload shape, inferred from your schema.
+     *   - `$path`: The unique path (string) identifying this message type (e.g. "stripe.payment.updated").
+     *   - `$schema`: The Zod schema for this message type.
+     *   - `options(body)`: Helper that returns the URL and body payload for publishing (internal use).
+     *
+     * You can access nested events intuitively:
+     *
+     * @example
+     * ```ts
+     * // Suppose your events schema looks like:
+     * const events = {
+     *   stripe: {
+     *     checkout: {
+     *       created: z.object({ id: z.string() })
+     *     }
+     *   }
+     * }
+     *
+     * const { messages } = buildMessageClient({ ... })
+     *
+     * // Type-safe usage
+     * const result = await messages.stripe.checkout.created.publish({ id: "evt_123" })
+     *
+     * // You have access to the underlying path and schema:
+     * const path = messages.stripe.checkout.created.$path // "stripe.checkout.created"
+     * const schema = messages.stripe.checkout.created.$schema
+     * ```
      */
-    payload: (
-      type: MessageType<Events>,
-      body: z.infer<Events[MessageType<Events>]>
-    ) => ({
-      url: `${config.baseUrl}/${type}`,
-      body,
-    }),
+    messages: createMessageProxy(),
+    publishMessage: client.publishJSON.bind(client),
+    batchMessages: client.batchJSON.bind(client),
     handler,
   }
 }
@@ -150,7 +274,3 @@ export {
   openai,
   resend,
 } from "@upstash/qstash"
-
-// Re-export nested events functionality
-export { defineEvents, flattenEvents, createMessages, toFlatMap } from "./events"
-

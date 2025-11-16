@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./messages": "./src/messages.ts",
+    "./messages": "./src/messages/index.ts",
     "./workflows": "./src/workflows/index.ts",
     "./workflows/*": "./src/workflows/serve/*.ts",
     "./workflows/integrations": "./src/workflows/integrations.ts"
