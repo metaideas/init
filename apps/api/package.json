@@ -23,6 +23,7 @@
     "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/observability": "workspace:*",
+    "@init/queue": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
     "@trpc/server": "11.7.1",
