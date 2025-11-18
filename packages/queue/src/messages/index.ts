@@ -1,6 +1,7 @@
 import { logger } from "@init/observability/logger"
 import { assertUnreachable } from "@init/utils/assert"
 import { jsonCodec } from "@init/utils/codec"
+import { createRecursiveProxy } from "@init/utils/proxy"
 import * as z from "@init/utils/schema"
 import {
   anthropic,
@@ -16,7 +17,6 @@ import type {
   FlattenedEventsSchema,
   MessageProxy,
   MessageType,
-  ProxyCallback,
   ReceiverConfig,
 } from "./types"
 
@@ -57,27 +57,6 @@ export class MessageClient<TEvents extends EventsSchema> {
     return result
   }
 
-  #createRecursiveProxy(callback: ProxyCallback, path: readonly string[]) {
-    const proxy: unknown = new Proxy(
-      () => {
-        // dummy no-op function since we don't have any client-side target we want
-        // to remap to
-      },
-      {
-        get: (_obj, key) => {
-          if (typeof key !== "string") {
-            return
-          }
-
-          return this.#createRecursiveProxy(callback, [...path, key])
-        },
-        apply: (_1, _2, args) => callback({ path, args }),
-      }
-    )
-
-    return proxy
-  }
-
   /**
    * The messages proxy for the events schema.
    *
@@ -111,7 +90,7 @@ export class MessageClient<TEvents extends EventsSchema> {
    * ```
    */
   get events() {
-    return this.#createRecursiveProxy((options) => {
+    return createRecursiveProxy((options) => {
       const path = [...options.path]
       const method = path.pop() as "publish" | "options" | "$path" | "$schema"
       const pathString = path.join(".")

@@ -1,32 +1,19 @@
-import type * as zod from "@init/utils/schema"
 import type * as z from "@init/utils/schema"
 import type { UnionToIntersection } from "@init/utils/type"
 import type { Client, Receiver } from "@upstash/qstash"
 
 /**
- * Type helper to infer the payload type from a Zod schema.
- */
-export type InferPayload<T extends zod.core.$ZodType> = zod.infer<T>
-
-type ProxyCallbackOptions = {
-  path: readonly string[]
-  args: readonly unknown[]
-}
-
-export type ProxyCallback = (opts: ProxyCallbackOptions) => unknown
-
-/**
  * Type for a leaf node in the messages proxy.
  * Each leaf exposes `options`, `path`, and `schema`.
  */
-export type MessageLeaf<T extends zod.core.$ZodType> = {
+export type MessageLeaf<T extends z.core.$ZodType> = {
   /**
    * Publish a message with the typed payload.
    * For now, this is a stub that returns the path and payload.
    */
-  options: (payload: InferPayload<T>) => {
+  options: (payload: z.core.infer<T>) => {
     url: string
-    body: InferPayload<T>
+    body: z.core.infer<T>
   }
   /**
    * The dotted path to this event (e.g., "stripe.checkout.created").
@@ -39,14 +26,14 @@ export type MessageLeaf<T extends zod.core.$ZodType> = {
   /**
    * The function to publish this event.
    */
-  publish: (body: InferPayload<T>) => ReturnType<Client["publishJSON"]>
+  publish: (body: z.core.infer<T>) => ReturnType<Client["publishJSON"]>
 }
 
 /**
  * Type for the nested messages proxy. Recursively creates nested objects until
  * reaching a Zod schema leaf.
  */
-export type MessageProxy<T> = T extends zod.core.$ZodType
+export type MessageProxy<T> = T extends z.core.$ZodType
   ? MessageLeaf<T>
   : T extends Record<string, unknown>
     ? {
