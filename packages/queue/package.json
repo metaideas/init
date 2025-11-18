@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./messages": "./src/messages/index.ts",
+    "./messages/integrations": "./src/messages/integrations.ts",
     "./workflows": "./src/workflows/index.ts",
     "./workflows/*": "./src/workflows/serve/*.ts",
     "./workflows/integrations": "./src/workflows/integrations.ts"
