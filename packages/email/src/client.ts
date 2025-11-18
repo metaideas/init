@@ -1,93 +1,102 @@
+import { resend } from "@init/env/presets"
 import { logger } from "@init/observability/logger"
-import { type QstashClient, resend as resendQstash } from "@init/queue/messages"
+import { type Duration, toMilliseconds } from "@init/utils/duration"
+import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
-import type { ReactElement } from "react"
+import { addMilliseconds } from "date-fns"
+import type { ReactNode } from "react"
 import { Resend } from "resend"
 
-export function createClient(
-  apiKey: string,
-  options: {
-    /**
-     * The default from address to use for emails.
-     */
-    from: string
-    /**
-     * If true, the email will be mocked and not sent.
-     */
-    mock?: boolean
-  }
-) {
-  const resend = new Resend(apiKey)
+type EmailSendParams = {
+  emails: string[]
+  subject: string
+  sendAt?: Date | Duration
+  from?: string
+}
 
-  async function sendEmail(
-    body: ReactElement,
-    {
-      emails,
-      subject,
-      sendAt,
-      from = options.from,
-      queue,
-    }: {
-      emails: string[]
-      subject: string
-      sendAt?: Date | string
-      from?: string
-      /**
-       * If provided, the email will be queued to be sent later using Upstash Qstash.
-       */
-      queue?: QstashClient
-    }
-  ) {
-    if (options?.mock) {
-      const text = await render(body, { plainText: true })
-      mockEmail(emails, text)
+export const email = singleton(
+  "email",
+  () => new Resend(resend().RESEND_API_KEY)
+)
 
-      return
-    }
+export async function sendEmail(body: ReactNode, params: EmailSendParams) {
+  const env = resend()
+  const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
 
-    if (queue) {
-      await queue.publishJSON({
-        api: {
-          name: "email",
-          provider: resendQstash({ token: apiKey }),
-        },
-        body: {
-          from,
-          to: emails,
-          subject,
-          react: body,
-          sendAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
-        },
-      })
+  if (env.MOCK_RESEND) {
+    const html = await render(body, { plainText: true })
 
-      return
-    }
-
-    const { error } = await resend.emails.send({
-      from,
-      to: emails,
-      react: body as ReactElement,
-      subject,
-      scheduledAt: typeof sendAt === "string" ? sendAt : sendAt?.toISOString(),
-    })
-
-    if (error) {
-      throw new Error(
-        `Unable to send email to ${emails.join(", ")}: ${error.message}`
-      )
-    }
-  }
-
-  function mockEmail(emails: string[], html: string, isQueued = false) {
     logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
-    logger.info(
-      `📫 ${isQueued ? "Would queue" : "Would send"} email to: ${emails.join(", ")}`
-    )
     logger.info("📝 Email content preview:")
+    logger.info(`FROM: ${from}`)
+    logger.info(`TO: ${emails.join(", ")}`)
+    logger.info(`SUBJECT: ${subject}`)
+    logger.info(`SEND AT: ${sendAt}`)
     logger.info("=".repeat(50))
     logger.info(html)
     logger.info("=".repeat(50))
+
+    return
   }
 
-  return { resend, sendEmail }
+  const { error } = await email.emails.send({
+    from,
+    to: emails,
+    react: body,
+    subject,
+    scheduledAt:
+      sendAt !== undefined
+        ? sendAt instanceof Date
+          ? sendAt.toISOString()
+          : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString()
+        : undefined,
+  })
+
+  if (error) {
+    throw new Error(
+      `Unable to send email to ${emails.join(", ")}: ${error.message}`
+    )
+  }
+}
+
+export async function batchEmails(
+  payload: (EmailSendParams & { body: ReactNode })[]
+) {
+  const env = resend()
+
+  if (env.MOCK_RESEND) {
+    const promises = payload.map(async ({ body, ...params }) => {
+      const html = await render(body, { plainText: true })
+      logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
+      logger.info("📝 Email content preview:")
+      logger.info(`FROM: ${params.from}`)
+      logger.info(`TO: ${params.emails.join(", ")}`)
+      logger.info(`SUBJECT: ${params.subject}`)
+      logger.info(`SEND AT: ${params.sendAt}`)
+      logger.info("=".repeat(50))
+      logger.info(html)
+      logger.info("=".repeat(50))
+
+      return
+    })
+
+    await Promise.all(promises)
+
+    return
+  }
+
+  await email.batch.send(
+    payload.map(({ body, emails, subject, sendAt, from = env.EMAIL_FROM }) => ({
+      from,
+      to: emails,
+      subject,
+      react: body,
+      scheduledAt:
+        sendAt !== undefined
+          ? sendAt instanceof Date
+            ? sendAt.toISOString()
+            : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString()
+          : undefined,
+    }))
+  )
 }
