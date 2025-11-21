@@ -1,3 +1,4 @@
+import { getContext } from "hono/context-storage"
 import { createFactory } from "hono/factory"
 import type { AppContext } from "#shared/types.ts"
 
@@ -6,3 +7,5 @@ import type { AppContext } from "#shared/types.ts"
  * the correct context type.
  */
 export const factory = createFactory<AppContext>()
+
+export const context = getContext<AppContext>

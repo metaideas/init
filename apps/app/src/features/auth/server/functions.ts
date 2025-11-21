@@ -1,6 +1,6 @@
 // Add your global server functions here
 
-import { z } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
 import { authClient } from "#shared/auth/client.ts"
