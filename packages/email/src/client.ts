@@ -24,7 +24,7 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
 
   if (env.MOCK_RESEND) {
-    const html = await render(body, { plainText: true })
+    const text = await render(body, { plainText: true })
 
     logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
     logger.info("📝 Email content preview:")
@@ -33,13 +33,13 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
     logger.info(`SUBJECT: ${subject}`)
     logger.info(`SEND AT: ${sendAt}`)
     logger.info("=".repeat(50))
-    logger.info(html)
+    logger.info(text)
     logger.info("=".repeat(50))
 
-    return
+    return { id: "mock-id" }
   }
 
-  const { error } = await email.emails.send({
+  const { data, error } = await email.emails.send({
     from,
     to: emails,
     react: body,
@@ -57,6 +57,8 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
       `Unable to send email to ${emails.join(", ")}: ${error.message}`
     )
   }
+
+  return data
 }
 
 export async function batchEmails(
@@ -65,27 +67,27 @@ export async function batchEmails(
   const env = resend()
 
   if (env.MOCK_RESEND) {
-    const promises = payload.map(async ({ body, ...params }) => {
-      const html = await render(body, { plainText: true })
+    const promises = payload.map(async ({ body, ...params }, index) => {
+      const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
+
+      const text = await render(body, { plainText: true })
       logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
       logger.info("📝 Email content preview:")
-      logger.info(`FROM: ${params.from}`)
-      logger.info(`TO: ${params.emails.join(", ")}`)
-      logger.info(`SUBJECT: ${params.subject}`)
-      logger.info(`SEND AT: ${params.sendAt}`)
+      logger.info(`FROM: ${from}`)
+      logger.info(`TO: ${emails.join(", ")}`)
+      logger.info(`SUBJECT: ${subject}`)
+      logger.info(`SEND AT: ${sendAt}`)
       logger.info("=".repeat(50))
-      logger.info(html)
+      logger.info(text)
       logger.info("=".repeat(50))
 
-      return
+      return { id: `mock-id-${index}` }
     })
 
-    await Promise.all(promises)
-
-    return
+    return await Promise.all(promises)
   }
 
-  await email.batch.send(
+  const { data, error } = await email.batch.send(
     payload.map(({ body, emails, subject, sendAt, from = env.EMAIL_FROM }) => ({
       from,
       to: emails,
@@ -99,4 +101,10 @@ export async function batchEmails(
           : undefined,
     }))
   )
+
+  if (error) {
+    throw new Error(`Unable to send batch emails: ${error.message}`)
+  }
+
+  return data.data ?? []
 }

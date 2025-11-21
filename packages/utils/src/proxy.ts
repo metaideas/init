@@ -1,12 +1,8 @@
-type ProxyCallbackOptions = {
-  path: readonly string[]
-  args: readonly unknown[]
-}
-
-export type ProxyCallback = (opts: ProxyCallbackOptions) => unknown
-
 export function createRecursiveProxy(
-  callback: ProxyCallback,
+  callback: (opts: {
+    path: readonly string[]
+    args: readonly unknown[]
+  }) => unknown,
   path: readonly string[]
 ): unknown {
   return new Proxy(
@@ -20,7 +16,20 @@ export function createRecursiveProxy(
           return
         }
 
-        return createRecursiveProxy(callback, [...path, key])
+        const nextPath = [...path, key]
+
+        // `$`-prefixed helpers (e.g. `$path`, `$schema`) are accessed directly
+        // as properties, so we invoke the callback immediately.
+        if (key.startsWith("$")) {
+          return callback({ path: nextPath, args: [] })
+        }
+
+        // For all other keys, keep recursing and treat the final value as
+        // a callable function (handled in the `apply` trap).
+        return createRecursiveProxy(callback, nextPath)
+      },
+      apply(_1, _2, args) {
+        return callback({ path, args })
       },
     }
   )

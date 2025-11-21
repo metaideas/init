@@ -102,6 +102,7 @@ export const workspaces = {
         "env",
         "kv",
         "observability",
+        "queue",
         "security",
         "utils",
       ],

@@ -4,15 +4,12 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./messages": "./src/messages/index.ts",
-    "./messages/integrations": "./src/messages/integrations.ts",
-    "./workflows": "./src/workflows/index.ts",
-    "./workflows/*": "./src/workflows/serve/*.ts",
-    "./workflows/integrations": "./src/workflows/integrations.ts"
+    "./messages": "./src/messages.ts",
+    "./workflows": "./src/workflows.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "qstash dev --port 8288",
     "typecheck": "tsc --noEmit"
   },
@@ -25,6 +22,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@upstash/qstash-cli": "2.30.4",
+    "hono": "4.10.5",
     "typescript": "catalog:"
   }
 }
