@@ -23,6 +23,6 @@ export function secure<
     key: env().ARCJET_KEY,
     rules: [...rules, shield({ mode: "LIVE" })],
     characteristics: [...characteristics, "ip.src"],
-    log: logger.child({ group: "security" }),
+    log: logger.with({ group: "security" }),
   })
 }

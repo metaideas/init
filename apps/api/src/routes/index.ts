@@ -5,7 +5,7 @@ import { captureException } from "@init/observability/monitoring"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
-import { logger as honoLogger } from "hono/logger"
+import { logger as withLogger } from "hono/logger"
 import { secureHeaders } from "hono/secure-headers"
 import authRoutes from "#routes/auth.ts"
 import healthRoutes from "#routes/health.ts"
@@ -18,7 +18,7 @@ import { factory } from "#shared/utils.ts"
 const app = factory.createApp()
 
 app.use(cors({ credentials: true, origin: "*" }))
-app.use(honoLogger((message, ...rest) => logger.info(rest, message)))
+app.use(withLogger((message) => logger.info(message)))
 app.use(contextStorage())
 
 // Add context dependencies
@@ -42,7 +42,11 @@ app.onError((err, c) => {
 
   // Capture the exception in monitoring
   captureException(err)
-  logger.error(err)
+
+  logger.error(err.message, {
+    cause: err.cause,
+    stack: err.stack,
+  })
 
   return c.text("Internal Server Error", 500)
 })

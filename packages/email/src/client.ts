@@ -26,15 +26,15 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   if (env.MOCK_RESEND) {
     const text = await render(body, { plainText: true })
 
-    logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
-    logger.info("📝 Email content preview:")
-    logger.info(`FROM: ${from}`)
-    logger.info(`TO: ${emails.join(", ")}`)
-    logger.info(`SUBJECT: ${subject}`)
-    logger.info(`SEND AT: ${sendAt}`)
-    logger.info("=".repeat(50))
-    logger.info(text)
-    logger.info("=".repeat(50))
+    logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
+    logger.info`📝 Email content preview:`
+    logger.info`FROM: ${from}`
+    logger.info`TO: ${emails.join(", ")}`
+    logger.info`SUBJECT: ${subject}`
+    logger.info`SEND AT: ${sendAt}`
+    logger.info`${"=".repeat(50)}`
+    logger.info`${text}`
+    logger.info`${"=".repeat(50)}`
 
     return { id: "mock-id" }
   }
@@ -71,15 +71,15 @@ export async function batchEmails(
       const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
 
       const text = await render(body, { plainText: true })
-      logger.warn("📪 MOCK_RESEND is enabled - emails will not be sent")
-      logger.info("📝 Email content preview:")
-      logger.info(`FROM: ${from}`)
-      logger.info(`TO: ${emails.join(", ")}`)
-      logger.info(`SUBJECT: ${subject}`)
-      logger.info(`SEND AT: ${sendAt}`)
-      logger.info("=".repeat(50))
-      logger.info(text)
-      logger.info("=".repeat(50))
+      logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
+      logger.info`📝 Email content preview:`
+      logger.info`FROM: ${from}`
+      logger.info`TO: ${emails.join(", ")}`
+      logger.info`SUBJECT: ${subject}`
+      logger.info`SEND AT: ${sendAt}`
+      logger.info`${"=".repeat(50)}`
+      logger.info`${text}`
+      logger.info`${"=".repeat(50)}`
 
       return { id: `mock-id-${index}` }
     })

@@ -26,7 +26,7 @@ export function getRouter() {
     scrollRestoration: true,
     context: {
       queryClient,
-      logger: logger.child({ group: "router" }),
+      logger: logger.with({ group: "router" }),
     } satisfies RouterContext,
     defaultNotFoundComponent: NotFound,
     Wrap: ({ children }) => <Providers>{children}</Providers>,

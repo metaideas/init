@@ -128,10 +128,9 @@ export class MessageClient<TRequest extends RequestsSchema> {
       }
 
       if (typeof signature !== "string") {
-        logger.error(
-          { requestUrl: c.req.url },
-          "`Upstash-Signature` header is not a string"
-        )
+        logger
+          .with({ requestUrl: c.req.url })
+          .error("`Upstash-Signature` header is not a string")
 
         throw new TypeError("`Upstash-Signature` header is not a string")
       }
@@ -145,7 +144,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
       })
 
       if (!isValid) {
-        logger.error({ requestUrl: c.req.url }, "Invalid signature")
+        logger.with({ requestUrl: c.req.url }).error("Invalid signature")
 
         return new Response("Invalid signature", {
           status: 403,
@@ -156,7 +155,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const path = url.pathname.split("/").at(-1)
 
       if (!path) {
-        logger.error({ requestUrl: c.req.url }, "Invalid path")
+        logger.with({ requestUrl: c.req.url }).error("Invalid path")
 
         return new Response(
           `Invalid path. Your message type must be able to be extracted from the URL path. Request URL: ${c.req.url}`,
@@ -167,7 +166,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const messageType = path as RequestType<TRequest>
 
       if (!(messageType in this.#flattenedEvents)) {
-        logger.error({ path }, "Invalid message type")
+        logger.with({ path }).error("Invalid message type")
 
         return new Response(`Invalid message type: \`${path}\``, {
           status: 400,
@@ -180,7 +179,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
         ]
 
       if (!eventSchema) {
-        logger.error({ path }, "Invalid message type")
+        logger.with({ path }).error("Invalid message type")
 
         return new Response(`Invalid message type: \`${path}\``, {
           status: 400,
@@ -200,10 +199,9 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const handler = handlers[messageType]
 
       if (!handler) {
-        logger.error(
-          { messageType: String(messageType) },
-          "No handler for message type"
-        )
+        logger
+          .with({ messageType: String(messageType) })
+          .error("No handler for message type")
 
         return new Response(
           `No handler provided for message type: \`${String(messageType)}\``,

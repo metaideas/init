@@ -42,7 +42,7 @@ export const checkEmailAvailability = publicFunction
 export const forgotPassword = publicFunction
   .inputValidator(z.object({ email: z.email() }))
   .handler(async ({ data, context }) => {
-    context.logger.info(data, "Mocking forgot password")
+    context.logger.info("Mocking forgot password", data)
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 

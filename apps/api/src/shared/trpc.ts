@@ -16,7 +16,7 @@ export function createTRPCContext(
     db: c.var.db,
     info: opts.info,
     kv: c.var.kv,
-    logger: c.var.logger.child({ group: "trpc" }),
+    logger: c.var.logger.with({ group: "trpc" }),
     req: opts.req,
     resHeaders: opts.resHeaders,
     security: c.var.security,
