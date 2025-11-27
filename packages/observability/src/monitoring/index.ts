@@ -52,11 +52,9 @@ export async function initializeErrorMonitoring(type: "server" | "client") {
       enableLogs: true,
 
       integrations: [
-        // Use Pino integration to send logs to Sentry
-        Sentry.pinoIntegration({
-          error: { levels: ["error", "warn"] },
-          autoInstrument: false,
-        }),
+        // Use console logging integration to send logs to Sentry
+        // LogTape logs to console, so Sentry will capture console logs
+        // Sentry.consoleLoggingIntegration({ levels: ["error", "warn"] }),
       ],
     })
 

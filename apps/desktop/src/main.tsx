@@ -25,7 +25,7 @@ const router = createRouter({
   history,
   context: {
     queryClient,
-    logger: logger.child({ group: "router" }),
+    logger: logger.with({ group: "router" }),
   } satisfies RouterContext,
   defaultPreload: "intent",
   scrollRestoration: true,

@@ -77,7 +77,7 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
       const path = url.pathname.split("/").at(-1)
 
       if (!path) {
-        logger.error({ requestUrl: c.req.url }, "Invalid path")
+        logger.error("Invalid path", { requestUrl: c.req.url })
 
         return new Response(
           `Invalid path. Your message type must be able to be extracted from the URL path. Request URL: ${c.req.url}`,
@@ -88,7 +88,7 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
       const eventType = path as RequestType<TEvent>
 
       if (!(eventType in this.#flattenedEvents)) {
-        logger.error({ path }, "Invalid event type")
+        logger.with({ path }).error("Invalid event type")
 
         return new Response(`Invalid event type: \`${path}\``, {
           status: 400,
@@ -98,10 +98,9 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
       const handler = handlers[eventType]
 
       if (!handler) {
-        logger.error(
-          { eventType: String(eventType) },
-          "No handler for event type"
-        )
+        logger
+          .with({ eventType: String(eventType) })
+          .error("No handler for event type")
 
         return new Response(
           `No handler provided for event type: \`${String(eventType)}\``,

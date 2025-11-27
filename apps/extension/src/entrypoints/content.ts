@@ -3,7 +3,7 @@ import { defineContentScript } from "wxt/utils/define-content-script"
 
 export default defineContentScript({
   main() {
-    logger.info("Hello content.")
+    logger.info`Hello content.`
   },
   matches: ["*://*.google.com/*"],
 })

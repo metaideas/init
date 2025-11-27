@@ -1,39 +1,64 @@
 import { isDevelopment } from "@init/utils/environment"
-import pino, { type LoggerOptions } from "pino"
+import {
+  configure,
+  getConsoleSink,
+  getLogger,
+  jsonLinesFormatter,
+} from "@logtape/logtape"
+import { getPrettyFormatter } from "@logtape/pretty"
+import { DEFAULT_REDACT_FIELDS, redactByField } from "@logtape/redaction"
 
-const options: LoggerOptions = {
-  level: "info",
-  serializers: {
-    req: pino.stdSerializers.req,
-    res: pino.stdSerializers.res,
-    err: pino.stdSerializers.errWithCause,
-  },
-  redact: {
-    paths: [
-      "password",
+/**
+ * Logger categories are used to group log messages by their purpose.
+ */
+export const LoggerCategory = {
+  DEFAULT: "default",
+  API: "api",
+}
+
+const customSink = redactByField(
+  getConsoleSink({
+    formatter: isDevelopment()
+      ? getPrettyFormatter({
+          timestamp: "time",
+          properties: true,
+          categoryWidth: 15,
+          categoryTruncate: "middle",
+        })
+      : jsonLinesFormatter,
+    nonBlocking: true,
+  }),
+  {
+    fieldPatterns: [
+      /pass(?:code|phrase|word)/i,
+      /api[-_]?key/i,
       "secret",
-      "*.secret",
-      "*.password",
-      "req.headers.authorization",
+      ...DEFAULT_REDACT_FIELDS,
     ],
-    censor: "[REDACTED]",
-  },
-}
-
-if (isDevelopment()) {
-  options.level = "debug"
-  options.transport = {
-    target: "pino-pretty",
-    options: {
-      colorize: true,
-      translateTime: "HH:MM:ss Z",
-      messageFormat: true,
-      hideObject: false,
-      singleLine: false,
-    },
+    action: () => "[REDACTED]",
   }
-}
+)
 
-export const logger = pino(options)
+await configure({
+  sinks: {
+    console: customSink,
+    meta: customSink,
+  },
+  loggers: [
+    {
+      category: [LoggerCategory.DEFAULT, LoggerCategory.API],
+      lowestLevel: "trace",
+      sinks: ["console"],
+    },
+    {
+      category: ["logtape", "meta"],
+      lowestLevel: "warning",
+      sinks: ["meta"],
+    },
+  ],
+})
 
-export type { Logger } from "pino"
+export const logger = getLogger([LoggerCategory.DEFAULT])
+
+export type { Logger } from "@logtape/logtape"
+export { getLogger } from "@logtape/logtape"

@@ -17,13 +17,14 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
+    "@logtape/logtape": "^1.2.0",
+    "@logtape/pretty": "^1.2.0",
+    "@logtape/redaction": "1.2.0",
     "@openstatus/react": "^0.0.3",
     "@sentry/browser": "10.22.0",
     "@sentry/core": "10.22.0",
     "@sentry/node": "10.22.0",
-    "@sentry/react-native": "~7.2.0",
-    "pino": "10.1.0",
-    "pino-pretty": "13.1.2"
+    "@sentry/react-native": "~7.2.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

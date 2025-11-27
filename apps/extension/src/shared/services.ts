@@ -4,7 +4,7 @@ import { defineProxyService } from "@webext-core/proxy-service"
 class TestService {
   async test() {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    logger.info("Using the TestService")
+    logger.info`Using the TestService`
   }
 }
 
