@@ -8,14 +8,6 @@ import {
 import { getPrettyFormatter } from "@logtape/pretty"
 import { DEFAULT_REDACT_FIELDS, redactByField } from "@logtape/redaction"
 
-/**
- * Logger categories are used to group log messages by their purpose.
- */
-export const LoggerCategory = {
-  DEFAULT: "default",
-  API: "api",
-}
-
 const customSink = redactByField(
   getConsoleSink({
     formatter: isDevelopment()
@@ -46,7 +38,7 @@ await configure({
   },
   loggers: [
     {
-      category: [LoggerCategory.DEFAULT, LoggerCategory.API],
+      category: "default",
       lowestLevel: "trace",
       sinks: ["console"],
     },
@@ -58,7 +50,7 @@ await configure({
   ],
 })
 
-export const logger = getLogger([LoggerCategory.DEFAULT])
+export const logger = getLogger("default")
 
 export type { Logger } from "@logtape/logtape"
 export { getLogger } from "@logtape/logtape"
