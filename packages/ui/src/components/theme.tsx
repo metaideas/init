@@ -1,11 +1,5 @@
-import { THEME_STORAGE_KEY, type themes } from "@init/utils/constants"
-import {
-  // We're using next-themes even though is specialized in Next.js, it works in
-  // other environments such as Vite apps
-  ThemeProvider as NextThemeProvider,
-  type ThemeProviderProps as NextThemeProviderProps,
-  useTheme,
-} from "next-themes"
+import { THEMES, type Theme } from "@init/utils/constants"
+import { createContext, use, useEffect, useState } from "react"
 import { Button } from "./button"
 import {
   DropdownMenu,
@@ -15,21 +9,99 @@ import {
 } from "./dropdown-menu"
 import { Icon } from "./icon"
 
-export function ThemeProvider({ children, ...props }: NextThemeProviderProps) {
-  return (
-    <NextThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      disableTransitionOnChange
-      enableColorScheme
-      enableSystem
-      storageKey={THEME_STORAGE_KEY}
-      themes={["light", "dark", "system"] satisfies typeof themes}
-      {...props}
-    >
-      {children}
-    </NextThemeProvider>
-  )
+type ThemeContextState = {
+  theme: Theme
+  setTheme: (theme: Theme) => void
+}
+
+const ThemeContext = createContext<ThemeContextState | undefined>(undefined)
+
+type ThemeProviderProps =
+  | {
+      children: React.ReactNode
+      storageKey: string
+      theme?: never
+      setTheme?: never
+      defaultTheme?: Theme
+    }
+  | {
+      children: React.ReactNode
+      theme: Theme
+      setTheme: (theme: Theme) => void
+      defaultTheme?: Theme
+      storageKey?: never
+    }
+
+export function ThemeProvider({
+  children,
+  theme,
+  setTheme,
+  defaultTheme = "system",
+  storageKey,
+}: ThemeProviderProps) {
+  const [userTheme, setUserTheme] = useState<Theme>(() => {
+    if (theme !== undefined) {
+      return theme
+    }
+
+    if (storageKey && typeof window !== "undefined") {
+      const stored = localStorage.getItem(storageKey)
+      if (stored && THEMES.includes(stored as Theme)) {
+        return stored as Theme
+      }
+    }
+
+    return defaultTheme
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+
+    function updateTheme() {
+      root.classList.remove("light", "dark", "system")
+
+      if (userTheme === "system") {
+        const systemTheme = mediaQuery.matches ? "dark" : "light"
+        root.classList.add(systemTheme)
+      } else {
+        root.classList.add(userTheme)
+      }
+    }
+
+    mediaQuery.addEventListener("change", updateTheme)
+    updateTheme()
+
+    return () => mediaQuery.removeEventListener("change", updateTheme)
+  }, [userTheme])
+
+  const value = {
+    theme: userTheme,
+    setTheme(newTheme: Theme) {
+      setUserTheme(newTheme)
+
+      if (setTheme) {
+        setTheme(newTheme)
+        return
+      }
+
+      if (storageKey) {
+        localStorage.setItem(storageKey, newTheme)
+      }
+    },
+  }
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+}
+
+export function useTheme() {
+  const context = use(ThemeContext)
+
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider")
+  }
+
+  return context
 }
 
 export function ThemeToggle() {
@@ -38,7 +110,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline">
+        <Button size="icon" type="button" variant="outline">
           <Icon.Sun className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
           <Icon.Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
@@ -58,5 +130,3 @@ export function ThemeToggle() {
     </DropdownMenu>
   )
 }
-
-export { useTheme } from "next-themes"
