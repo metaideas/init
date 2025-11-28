@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@init/ui/components/card"
+import { ThemeToggle } from "@init/ui/components/theme"
 import { createFileRoute } from "@tanstack/react-router"
 import { AdminOnly } from "#features/auth/components/roles.tsx"
 import SignOutButton from "#features/auth/components/sign-out-button.tsx"
@@ -44,9 +45,10 @@ function RouteComponent() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <LocaleToggle />
-
-            {/* <ThemeToggle /> */}
+            <div className="flex items-center gap-2">
+              <LocaleToggle />
+              <ThemeToggle />
+            </div>
 
             <SignOutButton />
           </CardFooter>

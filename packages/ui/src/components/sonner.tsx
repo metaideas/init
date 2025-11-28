@@ -2,7 +2,7 @@ import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { useTheme } from "./theme"
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme } = useTheme()
 
   return (
     <Sonner
@@ -14,7 +14,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-border": "var(--border)",
         } as React.CSSProperties
       }
-      theme={theme as ToasterProps["theme"]}
+      theme={theme}
       {...props}
     />
   )

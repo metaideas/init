@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@init/ui/components/theme"
 import { createFileRoute, Link } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/")({
@@ -6,9 +7,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="p-2">
+    <div className="flex flex-col items-center justify-center gap-2 p-2">
       <h3>Welcome Home!</h3>
       <Link to="/demo">Demo</Link>
+      <ThemeToggle />
     </div>
   )
 }
