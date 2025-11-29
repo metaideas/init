@@ -21,6 +21,7 @@
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
+    "@init/error": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
