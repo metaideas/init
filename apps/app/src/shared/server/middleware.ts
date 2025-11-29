@@ -1,7 +1,7 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
+import { Fault } from "@init/error"
 import { logger } from "@init/observability/logger"
-import { Fault } from "@init/utils/fault"
 import { createMiddleware } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
 import { auth } from "#shared/auth/server.ts"
@@ -34,13 +34,14 @@ export const requireSession = createMiddleware()
     })
 
     if (!session) {
-      throw new Fault("AUTHENTICATION_ERROR", {
-        public: "You are not authenticated. Please sign in to continue.",
-        internal: "User is not authenticated",
-        context: {
+      throw Fault.create("AUTH.UNAUTHENTICATED")
+        .withDescription(
+          "User is not authenticated.",
+          "You are not authenticated. Please sign in to continue."
+        )
+        .withContext({
           requestId: context.requestId,
-        },
-      })
+        })
     }
 
     return next({ context: { session } })
@@ -52,15 +53,15 @@ export const requireAdmin = createMiddleware()
     const { user } = context.session
 
     if (user.role !== "admin") {
-      throw new Fault("AUTHORIZATION_ERROR", {
-        public:
-          "You are not authorized to access this resource. Please contact support if you believe this is an error.",
-        internal: "User is not an admin",
-        context: {
-          session: context.session,
+      throw Fault.create("AUTH.UNAUTHORIZED")
+        .withDescription(
+          "User is not an admin.",
+          "You are not an admin. Please contact support if you believe this is an error."
+        )
+        .withContext({
           requestId: context.requestId,
-        },
-      })
+          userId: context.session.user.id,
+        })
     }
 
     return next()

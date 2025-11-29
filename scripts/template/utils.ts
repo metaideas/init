@@ -100,6 +100,7 @@ export const workspaces = {
         "auth",
         "db",
         "env",
+        "error",
         "kv",
         "observability",
         "queue",
@@ -115,6 +116,7 @@ export const workspaces = {
         "auth",
         "db",
         "env",
+        "error",
         "internationalization",
         "kv",
         "observability",
@@ -189,6 +191,11 @@ export const workspaces = {
     {
       name: "env",
       description: "env - Environment variable management and validation",
+      dependencies: [],
+    },
+    {
+      name: "error",
+      description: "error - Custom error types using faultier",
       dependencies: [],
     },
     {

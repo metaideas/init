@@ -1,4 +1,5 @@
 import { database } from "@init/db/client"
+import { Fault } from "@init/error"
 import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { captureException } from "@init/observability/monitoring"
@@ -33,20 +34,21 @@ app.use(async (c, next) => {
   await next()
 })
 
-app.onError((err, c) => {
-  // If the error is a HTTPException (for example, an authorization failure),
-  // return the custom response
-  if (err instanceof HTTPException) {
-    return err.getResponse()
+app.onError((error, c) => {
+  if (Fault.isFault(error)) {
+    c.var.logger.error(error.flatten(), {
+      cause: error.cause,
+      debug: error.debug,
+      context: error.context,
+      tag: error.tag,
+    })
   }
 
-  // Capture the exception in monitoring
-  captureException(err)
+  if (error instanceof HTTPException) {
+    return error.getResponse()
+  }
 
-  logger.error(err.message, {
-    cause: err.cause,
-    stack: err.stack,
-  })
+  captureException(error)
 
   return c.text("Internal Server Error", 500)
 })
