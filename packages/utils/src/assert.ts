@@ -5,3 +5,27 @@
 export function assertUnreachable(x: never): never {
   throw new Error(`Case not handled: ${x}`)
 }
+
+/**
+ * Throws an error if a condition is not met.
+ */
+export function throwUnless(
+  condition: boolean,
+  message: string | Error
+): asserts condition is true {
+  if (!condition) {
+    throw message instanceof Error ? message : new Error(message)
+  }
+}
+
+/**
+ * Throws an error if a condition is met.
+ */
+export function throwIf(
+  condition: boolean,
+  message: string | Error
+): asserts condition is false {
+  if (condition) {
+    throw message instanceof Error ? message : new Error(message)
+  }
+}
