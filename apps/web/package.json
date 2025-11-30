@@ -17,23 +17,23 @@
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.6",
-    "@astrojs/react": "4.4.0",
+    "@astrojs/react": "4.4.2",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "astro": "5.14.1",
+    "astro": "5.16.3",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.4",
-    "@astrojs/ts-plugin": "1.10.4",
-    "@tailwindcss/vite": "4.1.14",
+    "@astrojs/check": "0.9.6",
+    "@astrojs/ts-plugin": "1.10.6",
+    "@tailwindcss/vite": "4.1.17",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "tailwindcss": "4.1.14",
+    "tailwindcss": "4.1.17",
     "typescript": "catalog:"
   }
 }
