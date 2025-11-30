@@ -33,8 +33,6 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "5.0.4",
-    "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
     "tailwindcss": "4.1.14",
     "typescript": "catalog:"
   }

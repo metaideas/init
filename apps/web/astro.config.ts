@@ -25,10 +25,5 @@ export default defineConfig({
     ],
   },
 
-  integrations: [
-    react({
-      experimentalReactCompiler: true,
-    }),
-    mdx(),
-  ],
+  integrations: [react(), mdx()],
 })
