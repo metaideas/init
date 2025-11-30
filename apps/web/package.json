@@ -16,7 +16,7 @@
     "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/mdx": "4.3.6",
+    "@astrojs/mdx": "4.3.12",
     "@astrojs/react": "4.4.2",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
