@@ -37,8 +37,10 @@
     "@types/chrome": "0.1.12",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "5.0.4",
     "@wxt-dev/auto-icons": "1.1.0",
     "@wxt-dev/module-react": "1.1.5",
+    "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
     "typescript": "catalog:",
     "wxt": "0.20.11"
   }

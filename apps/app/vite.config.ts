@@ -13,7 +13,11 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     tanstackStart(),
-    react(),
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler", {}]],
+      },
+    }),
     internationalization({
       cookieName,
       project: "../../packages/internationalization/project.inlang",

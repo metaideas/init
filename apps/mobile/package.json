@@ -75,6 +75,7 @@
     "@sentry/cli": "2.56.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
+    "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
     "babel-preset-expo": "~54.0.0",
     "expo-doctor": "1.17.9",
     "typescript": "catalog:"

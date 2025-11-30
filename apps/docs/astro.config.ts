@@ -55,7 +55,9 @@ export default defineConfig({
       ],
       customCss: ["./src/shared/styles/global.css"],
     }),
-    react(),
+    react({
+      experimentalReactCompiler: true,
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

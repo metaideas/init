@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
 import { defineConfig } from "wxt"
 
 // See https://wxt.dev/api/config.html
@@ -7,12 +8,19 @@ export default defineConfig({
     server: { port: 3005 },
   },
   imports: false,
-  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
+  modules: ["@wxt-dev/auto-icons"],
   autoIcons: {
     baseIconPath: "shared/assets/icon.svg",
   },
   srcDir: "src",
   vite: () => ({
-    plugins: [tailwindcss()],
+    plugins: [
+      react({
+        babel: {
+          plugins: [["babel-plugin-react-compiler", {}]],
+        },
+      }),
+      tailwindcss(),
+    ],
   }),
 })
