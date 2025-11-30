@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@hono/trpc-server": "0.4.0",
-    "@hono/zod-validator": "0.7.4",
+    "@hono/zod-validator": "0.7.5",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
@@ -27,10 +27,10 @@
     "@init/queue": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
-    "@trpc/server": "11.7.1",
-    "hono": "4.10.5",
+    "@trpc/server": "11.7.2",
+    "hono": "4.10.7",
     "hono-rate-limiter": "0.4.2",
-    "superjson": "2.2.5"
+    "superjson": "2.2.6"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -38,7 +38,7 @@
     "api": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "superjson": "2.2.5"
+    "superjson": "2.2.6"
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.17",

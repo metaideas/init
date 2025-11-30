@@ -22,7 +22,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@upstash/qstash-cli": "2.30.4",
-    "hono": "4.10.5",
+    "hono": "4.10.7",
     "typescript": "catalog:"
   }
 }
