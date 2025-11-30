@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/node": "24.9.2",
+    "@types/node": "24.10.1",
     "@types/react": "catalog:",
     "mime": "4.1.0",
     "typescript": "catalog:",
