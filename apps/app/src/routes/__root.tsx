@@ -1,6 +1,5 @@
 import { baseLocale } from "@init/internationalization/runtime"
 import globals from "@init/ui/globals.css?url"
-import { THEME_STORAGE_KEY, THEMES, type Theme } from "@init/utils/constants"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 import {
@@ -11,19 +10,14 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { ReactNode } from "react"
-import type { RouterContext } from "#router.tsx"
+import { getTheme } from "#features/theme/server/functions.ts"
+import type { RouterContext } from "#router.ts"
 import Providers from "#shared/components/providers.tsx"
-import { getServerCookies } from "#shared/server/functions.ts"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  loader: async () => {
-    const cookies = await getServerCookies()
-    // Get the theme from the cookies
-    const rawTheme = cookies.get(THEME_STORAGE_KEY) ?? "system"
-    const theme = THEMES.includes(rawTheme) ? (rawTheme as Theme) : "system"
-
-    return { cookies, theme }
-  },
+  loader: async () => ({
+    theme: await getTheme(),
+  }),
   head: () => ({
     meta: [
       {

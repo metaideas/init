@@ -3,7 +3,7 @@ import { initializeErrorMonitoring } from "@init/observability/monitoring"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
-import superjson from "superjson"
+import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
 import NotFound from "#shared/components/not-found.tsx"
 
@@ -16,8 +16,8 @@ export type RouterContext = {
 export function getRouter() {
   const queryClient = new QueryClient({
     defaultOptions: {
-      dehydrate: { serializeData: superjson.serialize },
-      hydrate: { deserializeData: superjson.deserialize },
+      dehydrate: { serializeData: SuperJSON.serialize },
+      hydrate: { deserializeData: SuperJSON.deserialize },
     },
   })
 
@@ -29,6 +29,7 @@ export function getRouter() {
       logger: logger.with({ group: "router" }),
       cookies: {},
     } satisfies RouterContext,
+    defaultPreload: "intent",
     defaultNotFoundComponent: NotFound,
   })
 

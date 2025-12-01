@@ -1,9 +1,9 @@
 import { Toaster } from "@init/ui/components/sonner"
 import { ThemeProvider } from "@init/ui/components/theme"
 import { TooltipProvider } from "@init/ui/components/tooltip"
-import { THEME_STORAGE_KEY, type Theme } from "@init/utils/constants"
+import type { Theme } from "@init/utils/constants"
 import type { ReactNode } from "react"
-import { setServerCookie } from "#shared/server/functions.ts"
+import { setTheme } from "#features/theme/server/functions.ts"
 
 export default function Providers({
   children,
@@ -11,9 +11,7 @@ export default function Providers({
 }: Readonly<{ children: ReactNode; theme: Theme }>) {
   return (
     <ThemeProvider
-      setTheme={(value) =>
-        setServerCookie({ data: { key: THEME_STORAGE_KEY, value } })
-      }
+      setTheme={(value) => setTheme({ data: value })}
       theme={theme}
     >
       <TooltipProvider>
