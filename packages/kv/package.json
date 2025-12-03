@@ -15,7 +15,7 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "superjson": "2.2.5"
+    "superjson": "2.2.6"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@plausible-analytics/tracker": "0.4.3",
-    "posthog-js": "1.260.1",
-    "posthog-node": "5.7.0",
-    "posthog-react-native": "4.4.0",
+    "@plausible-analytics/tracker": "0.4.4",
+    "posthog-js": "1.299.0",
+    "posthog-node": "5.15.0",
+    "posthog-react-native": "4.14.0",
     "react": "catalog:"
   },
   "devDependencies": {

@@ -17,13 +17,13 @@
   "dependencies": {
     "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "@logtape/logtape": "^1.2.0",
-    "@logtape/pretty": "^1.2.0",
-    "@logtape/redaction": "1.2.0",
+    "@logtape/logtape": "^1.2.2",
+    "@logtape/pretty": "^1.2.2",
+    "@logtape/redaction": "1.2.2",
     "@openstatus/react": "^0.0.3",
-    "@sentry/browser": "10.22.0",
-    "@sentry/core": "10.22.0",
-    "@sentry/node": "10.22.0",
+    "@sentry/browser": "10.28.0",
+    "@sentry/core": "10.28.0",
+    "@sentry/node": "10.28.0",
     "@sentry/react-native": "~7.2.0"
   },
   "devDependencies": {

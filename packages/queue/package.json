@@ -16,13 +16,13 @@
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@upstash/qstash": "2.8.2",
-    "@upstash/workflow": "0.2.17"
+    "@upstash/qstash": "2.8.4",
+    "@upstash/workflow": "0.2.22"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@upstash/qstash-cli": "2.30.4",
-    "hono": "4.10.5",
+    "hono": "4.10.7",
     "typescript": "catalog:"
   }
 }

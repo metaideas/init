@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "email build --dir src/templates",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "email dev --dir src/templates --port 8081",
     "export": "email export --dir src/templates",
     "typecheck": "tsc --noEmit"
@@ -18,17 +18,17 @@
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@react-email/components": "0.5.5",
-    "@react-email/render": "1.3.1",
+    "@react-email/components": "1.0.1",
+    "@react-email/render": "2.0.0",
     "date-fns": "4.1.0",
-    "resend": "6.1.2"
+    "resend": "6.5.2"
   },
   "devDependencies": {
-    "@react-email/preview-server": "4.2.12",
+    "@react-email/preview-server": "5.0.5",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "react": "catalog:",
-    "react-email": "4.2.12",
+    "react-email": "5.0.5",
     "typescript": "catalog:"
   }
 }

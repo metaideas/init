@@ -32,9 +32,9 @@
     "wouter": "^3.7.1"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.14",
+    "@tailwindcss/vite": "4.1.17",
     "@tooling/tsconfig": "workspace:*",
-    "@types/chrome": "0.1.12",
+    "@types/chrome": "0.1.31",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@wxt-dev/auto-icons": "1.1.0",

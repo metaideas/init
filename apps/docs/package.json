@@ -16,22 +16,22 @@
     "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/react": "4.4.0",
-    "@astrojs/starlight": "0.36.0",
-    "@astrojs/starlight-tailwind": "4.0.1",
-    "astro": "5.14.1",
+    "@astrojs/react": "4.4.2",
+    "@astrojs/starlight": "0.37.0",
+    "@astrojs/starlight-tailwind": "4.0.2",
+    "astro": "5.16.3",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "sharp": "0.34.4"
+    "sharp": "0.34.5"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.4",
-    "@astrojs/ts-plugin": "1.10.4",
-    "@tailwindcss/vite": "4.1.14",
+    "@astrojs/check": "0.9.6",
+    "@astrojs/ts-plugin": "1.10.6",
+    "@tailwindcss/vite": "4.1.17",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "tailwindcss": "4.1.14",
+    "tailwindcss": "4.1.17",
     "typescript": "catalog:"
   }
 }

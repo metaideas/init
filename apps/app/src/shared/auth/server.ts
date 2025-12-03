@@ -1,5 +1,6 @@
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
+import { tanstackStartCookies } from "@init/auth/start"
 import { database } from "@init/db/client"
 import env from "#shared/env.ts"
 import { baseUrl } from "#shared/utils.ts"
@@ -30,7 +31,7 @@ export const auth = createAuth(
       },
     },
   },
-  [admin(), organization()]
+  [admin(), organization(), tanstackStartCookies()]
 )
 
 export type Auth = typeof auth
