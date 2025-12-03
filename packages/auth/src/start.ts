@@ -1,1 +1,1 @@
-export { reactStartCookies } from "better-auth/react-start"
+export { tanstackStartCookies } from "better-auth/tanstack-start"

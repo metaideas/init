@@ -25,6 +25,7 @@ export function convexAuth(
         disabled: optionsOnly,
       },
     },
+    // @ts-expect-error - Minor type incompatibility between BetterAuth and Convex
     [convex()]
   )
 }
