@@ -1,4 +1,3 @@
-import { logger } from "@init/observability/logger"
 import {
   customAction,
   customCtx,
@@ -19,7 +18,7 @@ import { convexAuth } from "./auth"
 
 export const vv = typedV(schema)
 
-const publicContext = customCtx(() => ({ logger }))
+const publicContext = customCtx(() => ({}))
 
 export const publicQuery = customQuery(query, publicContext)
 export const publicMutation = customMutation(mutation, publicContext)

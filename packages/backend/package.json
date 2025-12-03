@@ -4,9 +4,9 @@
   "license": "MIT",
   "type": "module",
   "exports": {
+    "./api": "./src/_generated/api.js",
     "./client": "./src/client/index.ts",
-    "./client/*": "./src/client/*.ts",
-    "./api": "./src/_generated/api.js"
+    "./client/*": "./src/client/*.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
@@ -16,15 +16,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@convex-dev/better-auth": "0.8.8",
-    "@convex-dev/react-query": "0.0.0-alpha.11",
+    "@convex-dev/better-auth": "0.9.11",
+    "@convex-dev/react-query": "0.1.0",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.8",
-    "convex": "1.27.3",
-    "convex-helpers": "0.1.104"
+    "convex": "1.30.0",
+    "convex-helpers": "0.1.106"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
