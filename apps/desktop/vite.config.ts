@@ -37,6 +37,10 @@ export default defineConfig({
       target: "react",
       autoCodeSplitting: false,
     }),
-    react(),
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler", {}]],
+      },
+    }),
   ],
 })
