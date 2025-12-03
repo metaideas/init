@@ -3,6 +3,7 @@ import { ThemeProvider } from "@init/ui/components/theme"
 import { TooltipProvider } from "@init/ui/components/tooltip"
 import type { Theme } from "@init/utils/constants"
 import type { ReactNode } from "react"
+import { ThemeScript } from "#features/theme/components/theme-script.tsx"
 import { setTheme } from "#features/theme/server/functions.ts"
 
 export default function Providers({
@@ -14,6 +15,7 @@ export default function Providers({
       setTheme={(value) => setTheme({ data: value })}
       theme={theme}
     >
+      <ThemeScript />
       <TooltipProvider>
         {children}
         <Toaster />
