@@ -38,7 +38,7 @@ await configure({
   },
   loggers: [
     {
-      category: "default",
+      category: ["default"],
       lowestLevel: "trace",
       sinks: ["console"],
     },
@@ -50,7 +50,6 @@ await configure({
   ],
 })
 
-export const logger = getLogger("default")
+export const logger = getLogger(["default"])
 
 export type { Logger } from "@logtape/logtape"
-export { getLogger } from "@logtape/logtape"

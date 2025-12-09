@@ -15,7 +15,7 @@ export const withLogger = createMiddleware()
   .server(({ next, context }) =>
     next({
       context: {
-        logger: logger.with({
+        logger: logger.getChild("server-function").with({
           requestId: context.requestId,
         }),
       },

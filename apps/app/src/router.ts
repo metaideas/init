@@ -26,7 +26,7 @@ export function getRouter() {
     scrollRestoration: true,
     context: {
       queryClient,
-      logger: logger.with({ group: "router" }),
+      logger: logger.getChild("router"),
       cookies: {},
     } satisfies RouterContext,
     defaultPreload: "intent",

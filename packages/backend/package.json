@@ -22,9 +22,9 @@
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@tanstack/react-query": "^5.90.8",
+    "@tanstack/react-query": "^5.90.12",
     "convex": "1.30.0",
-    "convex-helpers": "0.1.106"
+    "convex-helpers": "0.1.107"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -4,7 +4,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./logger": "./src/logger.ts",
+    "./logger": "./src/logger/index.ts",
+    "./logger/*": "./src/logger/*.ts",
     "./monitoring": "./src/monitoring/index.ts",
     "./monitoring/*": "./src/monitoring/*.ts",
     "./uptime": "./src/uptime.ts"
