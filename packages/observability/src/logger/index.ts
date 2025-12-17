@@ -1,55 +1,62 @@
 import { isDevelopment } from "@init/utils/environment"
 import {
-  configure,
+  configureSync,
   getConsoleSink,
   getLogger,
   jsonLinesFormatter,
 } from "@logtape/logtape"
 import { getPrettyFormatter } from "@logtape/pretty"
-import { DEFAULT_REDACT_FIELDS, redactByField } from "@logtape/redaction"
+import { redactSink } from "./utils"
 
-const customSink = redactByField(
-  getConsoleSink({
-    formatter: isDevelopment()
-      ? getPrettyFormatter({
-          timestamp: "time",
-          properties: true,
-          categoryWidth: 15,
-          categoryTruncate: "middle",
-        })
-      : jsonLinesFormatter,
-    nonBlocking: true,
-  }),
-  {
-    fieldPatterns: [
-      /pass(?:code|phrase|word)/i,
-      /api[-_]?key/i,
-      "secret",
-      ...DEFAULT_REDACT_FIELDS,
-    ],
-    action: () => "[REDACTED]",
-  }
-)
+const consoleSink = getConsoleSink({
+  formatter: isDevelopment()
+    ? getPrettyFormatter({
+        timestamp: "time",
+        properties: true,
+        categoryWidth: 15,
+        levelStyle: "bold",
+        messageStyle: "reset",
+        categoryTruncate: "middle",
+      })
+    : jsonLinesFormatter,
+  nonBlocking: true,
+})
 
-await configure({
+configureSync({
   sinks: {
-    console: customSink,
-    meta: customSink,
+    console: redactSink(consoleSink),
+    meta: consoleSink,
   },
   loggers: [
     {
-      category: ["default"],
-      lowestLevel: "trace",
-      sinks: ["console"],
+      category: ["logtape", "meta"],
+      sinks: ["meta"],
+      lowestLevel: "warning",
     },
     {
-      category: ["logtape", "meta"],
-      lowestLevel: "warning",
-      sinks: ["meta"],
+      category: ["security"],
+      sinks: ["console"],
+      lowestLevel: "info",
+    },
+    {
+      category: ["hono"],
+      sinks: ["console"],
+      lowestLevel: "info",
+    },
+    {
+      category: ["drizzle-orm"],
+      sinks: ["console"],
+      lowestLevel: "debug",
+    },
+    {
+      category: ["default"],
+      sinks: ["console"],
+      lowestLevel: "trace",
     },
   ],
 })
 
-export const logger = getLogger(["default"])
+export const logger = getLogger(["app"])
 
 export type { Logger } from "@logtape/logtape"
+export { getLogger } from "@logtape/logtape"

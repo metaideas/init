@@ -2,11 +2,11 @@ import { database } from "@init/db/client"
 import { Fault } from "@init/error"
 import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
+import { honoLogger } from "@init/observability/logger/integrations"
 import { captureException } from "@init/observability/monitoring"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
-import { logger as withLogger } from "hono/logger"
 import { secureHeaders } from "hono/secure-headers"
 import authRoutes from "#routes/auth.ts"
 import healthRoutes from "#routes/health.ts"
@@ -19,7 +19,7 @@ import { factory } from "#shared/utils.ts"
 const app = factory.createApp()
 
 app.use(cors({ credentials: true, origin: "*" }))
-app.use(withLogger((message) => logger.info(message)))
+app.use(honoLogger())
 app.use(contextStorage())
 
 // Add context dependencies

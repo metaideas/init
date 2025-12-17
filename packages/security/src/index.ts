@@ -5,7 +5,7 @@ import arcjet, {
   shield,
 } from "@arcjet/bun"
 import { arcjet as env } from "@init/env/presets"
-import { logger } from "@init/observability/logger"
+import { getLogger } from "@init/observability/logger"
 
 export function secure<
   const Rules extends (Primitive | Product)[],
@@ -23,6 +23,6 @@ export function secure<
     key: env().ARCJET_KEY,
     rules: [...rules, shield({ mode: "LIVE" })],
     characteristics: [...characteristics, "ip.src"],
-    log: logger.with({ group: "security" }),
+    log: getLogger(["security"]),
   })
 }

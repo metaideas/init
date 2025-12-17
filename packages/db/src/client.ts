@@ -1,8 +1,8 @@
 import { SQL } from "bun"
 import { db as env } from "@init/env/presets"
+import { drizzleLogger } from "@init/observability/logger/integrations"
 import { singleton } from "@init/utils/singleton"
 import { drizzle } from "drizzle-orm/bun-sql"
-// import postgres from "postgres"
 import * as schema from "./schema"
 
 export function connect(url: string) {
@@ -12,6 +12,7 @@ export function connect(url: string) {
     client,
     schema,
     casing: "snake_case",
+    logger: drizzleLogger(),
   })
 }
 
