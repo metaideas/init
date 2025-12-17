@@ -8,9 +8,6 @@
  * @module
  */
 
-import type * as client_adapter from "../client/adapter.js";
-import type * as client_auth from "../client/auth.js";
-import type * as client_index from "../client/index.js";
 import type * as crons from "../crons.js";
 import type * as http from "../http.js";
 import type * as modules_documents from "../modules/documents.js";
@@ -26,9 +23,6 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  "client/adapter": typeof client_adapter;
-  "client/auth": typeof client_auth;
-  "client/index": typeof client_index;
   crons: typeof crons;
   http: typeof http;
   "modules/documents": typeof modules_documents;
@@ -1064,12 +1058,6 @@ export declare const components: {
               | null;
           }>;
         },
-        any
-      >;
-      migrationRemoveUserId: FunctionReference<
-        "mutation",
-        "internal",
-        { userId: string },
         any
       >;
       updateMany: FunctionReference<

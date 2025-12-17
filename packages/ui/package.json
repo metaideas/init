@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@tanstack/react-form": "1.27.0",
+    "@tanstack/react-form": "1.27.4",
     "class-variance-authority": "0.7.1",
     "cmdk": "1.1.1",
     "date-fns": "4.1.0",

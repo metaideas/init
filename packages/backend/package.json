@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./api": "./src/_generated/api.js",
+    "./api": "./src/functions/_generated/api.js",
     "./client": "./src/client/index.ts",
     "./client/*": "./src/client/*.ts"
   },
@@ -16,15 +16,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@convex-dev/better-auth": "0.9.11",
+    "@convex-dev/better-auth": "0.10.4",
     "@convex-dev/react-query": "0.1.0",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
-    "convex": "1.30.0",
-    "convex-helpers": "0.1.107"
+    "convex": "1.31.1",
+    "convex-helpers": "0.1.108"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

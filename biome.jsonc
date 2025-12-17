@@ -7,7 +7,7 @@
       // Ignore route tree generated files
       "!**/routeTree.gen.ts",
       // Ignore Convex generated files
-      "!packages/backend/src/_generated"
+      "!packages/backend/src/functions/_generated"
     ]
   },
   "linter": {

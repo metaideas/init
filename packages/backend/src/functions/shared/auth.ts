@@ -3,14 +3,12 @@ import { convex } from "@convex-dev/better-auth/plugins"
 import { createAuth } from "@init/auth/server"
 import { components } from "../_generated/api"
 import type { DataModel } from "../_generated/dataModel"
+import authConfig from "../auth.config"
 import env from "./env"
 
 export const authComponent = createClient<DataModel>(components.betterAuth)
 
-export function convexAuth(
-  ctx: GenericCtx<DataModel>,
-  { optionsOnly } = { optionsOnly: false }
-) {
+export function convexAuth(ctx: GenericCtx<DataModel>) {
   return createAuth(
     authComponent.adapter(ctx),
     {
@@ -21,11 +19,8 @@ export function convexAuth(
         enabled: true,
         autoSignIn: true,
       },
-      logger: {
-        disabled: optionsOnly,
-      },
     },
-    // @ts-expect-error - Minor type incompatibility between BetterAuth and Convex
-    [convex()]
+
+    [convex({ authConfig })]
   )
 }

@@ -1,1 +1,1 @@
-export { reactStartHandler } from "@convex-dev/better-auth/react-start"
+export { convexBetterAuthReactStart } from "@convex-dev/better-auth/react-start"

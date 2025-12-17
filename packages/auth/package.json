@@ -18,9 +18,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/expo": "1.4.5",
+    "@better-auth/expo": "1.4.7",
     "@init/utils": "workspace:*",
-    "better-auth": "1.4.5"
+    "better-auth": "1.4.7"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

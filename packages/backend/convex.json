@@ -1,5 +1,5 @@
 {
-  "functions": "src/",
+  "functions": "src/functions/",
   "node": {
     "nodeVersion": "22"
   },
