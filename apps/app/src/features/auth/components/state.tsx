@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { useSession } from "#shared/auth/client.ts"
+import { useSession } from "#shared/auth.ts"
 
 export function Authenticated({ children }: { children: ReactNode }) {
   const { data: session, isPending } = useSession()

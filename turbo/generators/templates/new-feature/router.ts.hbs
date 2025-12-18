@@ -1,2 +1,5 @@
-import { factory } from "#shared/utils" const router =
-factory.createApp().get("/ping", c => c.text("pong")) export default router
+import { factory } from "#shared/utils.ts"
+
+const router = factory.createApp().get("/ping", (c) => c.text("pong"))
+
+export default router

@@ -1,14 +1,13 @@
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { useNavigate } from "@tanstack/react-router"
-import { useServerFn } from "@tanstack/react-start"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { checkEmailAvailability } from "#features/auth/server/functions.ts"
 import { SignUpFormSchema as schema } from "#features/auth/validation.ts"
-import { signUp } from "#shared/auth/client.ts"
+import { signUp } from "#shared/auth.ts"
+import { useTRPCClient } from "#shared/trpc.tsx"
 
 export default function SignUpForm() {
-  const execute = useServerFn(checkEmailAvailability)
+  const trpcClient = useTRPCClient()
   const navigate = useNavigate()
   const form = useForm({
     defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
@@ -50,9 +49,10 @@ export default function SignUpForm() {
             validators={{
               onBlur: schema.shape.email,
               onBlurAsync: async ({ value }) => {
-                const { isAvailable } = await execute({
-                  data: { email: value },
-                })
+                const { isAvailable } =
+                  await trpcClient.auth.checks.emailAvailable.query({
+                    email: value,
+                  })
 
                 if (isAvailable) {
                   return

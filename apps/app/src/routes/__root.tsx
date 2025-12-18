@@ -67,7 +67,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   const { theme } = Route.useLoaderData()
 
   return (
-    <html className={theme} lang={baseLocale}>
+    <html className={theme} lang={baseLocale} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

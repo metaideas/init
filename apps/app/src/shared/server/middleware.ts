@@ -3,8 +3,7 @@ import { database } from "@init/db/client"
 import { Fault } from "@init/error"
 import { logger } from "@init/observability/logger"
 import { createMiddleware } from "@tanstack/react-start"
-import { getRequestHeaders } from "@tanstack/react-start/server"
-import { auth } from "#shared/auth/server.ts"
+import { authClient } from "#shared/auth.ts"
 
 export const withRequestId = createMiddleware().server(({ next }) =>
   next({ context: { requestId: crypto.randomUUID() } })
@@ -29,9 +28,7 @@ export const withDatabase = createMiddleware().server(({ next }) =>
 export const requireSession = createMiddleware()
   .middleware([withRequestId])
   .server(async ({ next, context }) => {
-    const session = await auth.api.getSession({
-      headers: getRequestHeaders(),
-    })
+    const { data: session } = await authClient.getSession()
 
     if (!session) {
       throw Fault.create("AUTH.UNAUTHENTICATED")

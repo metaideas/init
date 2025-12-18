@@ -8,18 +8,26 @@ import {
   CardTitle,
 } from "@init/ui/components/card"
 import { ThemeToggle } from "@init/ui/components/theme"
+import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { AdminOnly } from "#features/auth/components/roles.tsx"
 import SignOutButton from "#features/auth/components/sign-out-button.tsx"
 import { LocaleToggle } from "#shared/components/locale-toggle.tsx"
+import { useTRPC } from "#shared/trpc.tsx"
 
 export const Route = createFileRoute("/_authenticated/")({
   component: RouteComponent,
-  loader: ({ context }) => ({ user: context.session.user }),
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(context.trpc.hello.queryOptions())
+
+    return { user: context.session.user }
+  },
 })
 
 function RouteComponent() {
   const { user } = Route.useLoaderData()
+  const trpc = useTRPC()
+  const me = useQuery(trpc.hello.queryOptions())
 
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-8">
@@ -42,6 +50,9 @@ function RouteComponent() {
                 <div className="font-medium">{user.name ?? "Unknown"}</div>
                 <div className="text-muted-foreground">{user.email}</div>
               </div>
+            </div>
+            <div>
+              <p>{me.isPending ? "Loading..." : me.data?.message}</p>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">

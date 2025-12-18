@@ -3,7 +3,7 @@ import { Icon } from "@init/ui/components/icon"
 import { useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 import { UNAUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { signOut } from "#shared/auth/client.ts"
+import { signOut } from "#shared/auth.ts"
 
 export default function SignOutButton() {
   const navigate = useNavigate()

@@ -11,7 +11,7 @@ import {
   SignInWithGitHubButton,
   SignInWithGoogleButton,
 } from "#features/auth/components/sign-in-with-social-buttons.tsx"
-import { authClient } from "#shared/auth/client.ts"
+import { authClient } from "#shared/auth.ts"
 
 export const Route = createFileRoute("/_unauthenticated/sign-in")({
   component: RouteComponent,

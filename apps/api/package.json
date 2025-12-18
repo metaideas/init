@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hono/standard-validator": "^0.2.1",
     "@hono/trpc-server": "0.4.0",
     "@hono/zod-validator": "0.7.5",
     "@init/auth": "workspace:*",
@@ -27,8 +28,10 @@
     "@init/queue": "workspace:*",
     "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
+    "@scalar/hono-api-reference": "^0.9.30",
     "@trpc/server": "11.7.2",
     "hono": "4.10.7",
+    "hono-openapi": "^1.1.2",
     "hono-rate-limiter": "0.4.2",
     "superjson": "2.2.6"
   },

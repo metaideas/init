@@ -3,28 +3,21 @@
 import * as z from "@init/utils/schema"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
-import { authClient } from "#shared/auth/client.ts"
-import { auth } from "#shared/auth/server.ts"
+import { authClient } from "#shared/auth.ts"
 import { publicFunction } from "#shared/server/functions.ts"
 
 export const validateSession = createIsomorphicFn()
   .client(async () => {
     const { data: session } = await authClient.getSession()
 
-    if (!session) {
-      return null
-    }
-
     return session
   })
   .server(async () => {
-    const session = await auth.api.getSession({
-      headers: await getRequestHeaders(),
+    const { data: session } = await authClient.getSession({
+      fetchOptions: {
+        headers: await getRequestHeaders(),
+      },
     })
-
-    if (!session) {
-      return null
-    }
 
     return session
   })

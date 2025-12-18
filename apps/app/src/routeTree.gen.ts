@@ -16,7 +16,6 @@ import { Route as ApiTestRouteImport } from './routes/api/test'
 import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
 import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
 import { Route as UnauthenticatedForgotPasswordRouteImport } from './routes/_unauthenticated/forgot-password'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 
 const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
   id: '/_unauthenticated',
@@ -52,11 +51,6 @@ const UnauthenticatedForgotPasswordRoute =
     path: '/forgot-password',
     getParentRoute: () => UnauthenticatedRouteRoute,
   } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
@@ -64,7 +58,6 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
   '/': typeof AuthenticatedIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
@@ -72,7 +65,6 @@ export interface FileRoutesByTo {
   '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
   '/': typeof AuthenticatedIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -83,25 +75,12 @@ export interface FileRoutesById {
   '/_unauthenticated/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/forgot-password'
-    | '/sign-in'
-    | '/sign-up'
-    | '/api/test'
-    | '/'
-    | '/api/auth/$'
+  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/forgot-password'
-    | '/sign-in'
-    | '/sign-up'
-    | '/api/test'
-    | '/'
-    | '/api/auth/$'
+  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
   id:
     | '__root__'
     | '/_authenticated'
@@ -111,14 +90,12 @@ export interface FileRouteTypes {
     | '/_unauthenticated/sign-up'
     | '/api/test'
     | '/_authenticated/'
-    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   UnauthenticatedRouteRoute: typeof UnauthenticatedRouteRouteWithChildren
   ApiTestRoute: typeof ApiTestRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,13 +149,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthenticatedForgotPasswordRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -212,7 +182,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   UnauthenticatedRouteRoute: UnauthenticatedRouteRouteWithChildren,
   ApiTestRoute: ApiTestRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

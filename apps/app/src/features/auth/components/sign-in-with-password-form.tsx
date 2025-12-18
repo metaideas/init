@@ -5,7 +5,7 @@ import { toast } from "@init/ui/components/sonner"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { SignInWithPasswordFormSchema as schema } from "#features/auth/validation.ts"
-import { signIn } from "#shared/auth/client.ts"
+import { signIn } from "#shared/auth.ts"
 
 export default function SignInWithPasswordForm() {
   const navigate = useNavigate()
