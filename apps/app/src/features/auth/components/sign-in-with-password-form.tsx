@@ -68,7 +68,7 @@ export default function SignInWithPasswordForm() {
             Sign in
           </form.Submit>
           <div className="flex w-full justify-center">
-            <Button asChild variant="link">
+            <Button variant="link">
               <Link to="/forgot-password">Forgot password?</Link>
             </Button>
           </div>

@@ -1,7 +1,7 @@
 import { cn } from "@init/utils/ui"
 import type * as React from "react"
-import { type Button, buttonVariants } from "./button"
-import { Icon } from "./icon"
+import { type Button, buttonVariants } from "#components/button.tsx"
+import { Icon } from "#components/icon.tsx"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (

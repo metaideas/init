@@ -18,9 +18,7 @@ export default function PopupDemo() {
 
       <Button onClick={() => testService.test()}>Log a message</Button>
 
-      <Button asChild>
-        <Link href="/settings">Go to settings</Link>
-      </Button>
+      <Button render={<Link to="/settings" />}>Go to settings</Button>
     </div>
   )
 }

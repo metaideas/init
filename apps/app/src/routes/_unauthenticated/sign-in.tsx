@@ -39,7 +39,7 @@ function RouteComponent() {
               aria-hidden="true"
               className="absolute inset-0 flex items-center"
             >
-              <Separator decorative />
+              <Separator />
             </div>
             <div className="relative flex justify-center font-medium text-sm leading-6">
               <span className="bg-background px-6 text-muted-foreground">
@@ -55,7 +55,7 @@ function RouteComponent() {
               aria-hidden="true"
               className="absolute inset-0 flex items-center"
             >
-              <Separator decorative />
+              <Separator />
             </div>
 
             <div className="relative flex justify-center font-medium text-sm leading-6">

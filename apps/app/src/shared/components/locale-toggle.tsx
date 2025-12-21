@@ -12,12 +12,10 @@ import { Icon } from "@init/ui/components/icon"
 export function LocaleToggle() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline">
-          <Icon.Languages className="size-4" />
+      <DropdownMenuTrigger render={<Button size="icon" variant="outline" />}>
+        <Icon.Languages className="size-4" />
 
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        <span className="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setLocale("es")}>

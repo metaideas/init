@@ -5,8 +5,8 @@ import {
   DayPicker,
   getDefaultClassNames,
 } from "react-day-picker"
-import { Button, buttonVariants } from "./button"
-import { Icon } from "./icon"
+import { Button, buttonVariants } from "#components/button.tsx"
+import { Icon } from "#components/icon.tsx"
 
 function CalendarRoot({
   className,
@@ -188,7 +188,7 @@ function CalendarDayButton({
 }: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames()
 
-  const ref = React.useRef<HTMLButtonElement>(null)
+  const ref = React.useRef<React.ComponentRef<"button">>(null)
   React.useEffect(() => {
     if (modifiers.focused) {
       ref.current?.focus()
@@ -212,6 +212,7 @@ function CalendarDayButton({
         !modifiers.range_end &&
         !modifiers.range_middle
       }
+      // @ts-expect-error -- shadcn/ui
       ref={ref}
       size="icon"
       variant="ghost"

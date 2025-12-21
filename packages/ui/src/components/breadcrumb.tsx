@@ -1,9 +1,12 @@
 // biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
+// biome-ignore-all lint/a11y/useKeyWithClickEvents: shadcn/ui
+// biome-ignore-all lint/a11y/useFocusableInteractive: shadcn/ui
 
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
 import { cn } from "@init/utils/ui"
-import { Slot as SlotPrimitive } from "radix-ui"
 import type * as React from "react"
-import { Icon } from "./icon"
+import { Icon } from "#components/icon.tsx"
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
@@ -13,7 +16,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
       className={cn(
-        "flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5",
+        "wrap-break-word flex flex-wrap items-center gap-1.5 text-muted-foreground text-sm sm:gap-2.5",
         className
       )}
       data-slot="breadcrumb-list"
@@ -33,21 +36,23 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 function BreadcrumbLink({
-  asChild,
   className,
+  render,
   ...props
-}: React.ComponentProps<"a"> & {
-  asChild?: boolean
-}) {
-  const Comp = asChild ? SlotPrimitive.Slot : "a"
-
-  return (
-    <Comp
-      className={cn("transition-colors hover:text-foreground", className)}
-      data-slot="breadcrumb-link"
-      {...props}
-    />
-  )
+}: useRender.ComponentProps<"a">) {
+  return useRender({
+    defaultTagName: "a",
+    props: mergeProps<"a">(
+      {
+        className: cn("transition-colors hover:text-foreground", className),
+      },
+      props
+    ),
+    render,
+    state: {
+      slot: "breadcrumb-link",
+    },
+  })
 }
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
@@ -58,7 +63,6 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       className={cn("font-normal text-foreground", className)}
       data-slot="breadcrumb-page"
       role="link"
-      tabIndex={0}
       {...props}
     />
   )
@@ -89,12 +93,15 @@ function BreadcrumbEllipsis({
   return (
     <span
       aria-hidden="true"
-      className={cn("flex size-9 items-center justify-center", className)}
+      className={cn(
+        "flex size-5 items-center justify-center [&>svg]:size-4",
+        className
+      )}
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       {...props}
     >
-      <Icon.DotsHorizontal className="size-4" />
+      <Icon.DotsHorizontal />
       <span className="sr-only">More</span>
     </span>
   )

@@ -1,13 +1,13 @@
 import { THEMES, type Theme } from "@init/utils/constants"
 import { createContext, use, useEffect, useState } from "react"
-import { Button } from "./button"
+import { Button } from "#components/button.tsx"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu"
-import { Icon } from "./icon"
+} from "#components/dropdown-menu.tsx"
+import { Icon } from "#components/icon.tsx"
 
 type ThemeContextState = {
   theme: Theme
@@ -109,12 +109,12 @@ export function ThemeToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="icon" type="button" variant="outline">
-          <Icon.Sun className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
-          <Icon.Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+      <DropdownMenuTrigger
+        render={<Button size="icon" type="button" variant="outline" />}
+      >
+        <Icon.Sun className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
+        <Icon.Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <span className="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>

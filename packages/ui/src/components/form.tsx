@@ -1,8 +1,10 @@
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import type React from "react"
-import { useFormStatus } from "react-dom"
-import { Alert, AlertDescription, AlertTitle } from "./alert"
-import { Button } from "./button"
+import { Alert, AlertDescription, AlertTitle } from "#components/alert.tsx"
+import { Button } from "#components/button.tsx"
+import { Icon } from "#components/icon.tsx"
+import { Input } from "#components/input.tsx"
+import { Textarea } from "#components/textarea.tsx"
 import {
   Field,
   FieldContent,
@@ -15,9 +17,6 @@ import {
   FieldSet,
   FieldTitle,
 } from "./field"
-import { Icon } from "./icon"
-import { Input } from "./input"
-import { Textarea } from "./textarea"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
@@ -68,15 +67,20 @@ function FormSubmit({
   ...props
 }: React.ComponentProps<typeof Button> & { loadingText?: string }) {
   const form = useFormContext()
-  const status = useFormStatus()
 
   return (
     <form.Subscribe
       selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
     >
       {([canSubmit, isSubmitting]) => (
-        <Button {...props} disabled={!canSubmit || status.pending}>
-          {isSubmitting || status.pending ? (
+        <Button
+          {...props}
+          disabled={!canSubmit || isSubmitting}
+          focusableWhenDisabled
+          nativeButton
+          type="submit"
+        >
+          {isSubmitting ? (
             <>
               <Icon.Loader className="mr-2 h-4 w-4 animate-spin" />
               {loadingText}

@@ -9,17 +9,21 @@ import {
   LuChevronUp,
   LuCircle,
   LuCircleAlert,
+  LuCircleCheck,
   LuEllipsis,
   LuGripVertical,
   LuHouse,
+  LuInfo,
   LuLanguages,
   LuLoader,
   LuMinus,
   LuMoon,
+  LuOctagonX,
   LuPanelLeft,
   LuPlus,
   LuSearch,
   LuSun,
+  LuTriangleAlert,
   LuX,
 } from "react-icons/lu"
 
@@ -71,6 +75,7 @@ export const Icon = {
   AlertCircle: LuCircleAlert,
   Check: LuCheck,
   Circle: LuCircle,
+  CircleCheck: LuCircleCheck,
   ChevronDown: LuChevronDown,
   ChevronLeft: LuChevronLeft,
   ChevronRight: LuChevronRight,
@@ -78,6 +83,9 @@ export const Icon = {
   DotsHorizontal: LuEllipsis,
   ArrowLeft: LuArrowLeft,
   ArrowRight: LuArrowRight,
+  Info: LuInfo,
+  OctagonX: LuOctagonX,
+  TriangleAlert: LuTriangleAlert,
   Google: (props: SVGIconProps) => (
     <svg
       height="1em"

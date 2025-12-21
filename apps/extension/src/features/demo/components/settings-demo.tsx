@@ -10,9 +10,7 @@ export default function SettingsDemo() {
         This is a demo of the settings. It is a simple settings that displays a
         message.
       </TypographyP>
-      <Button asChild>
-        <Link href="/">Go back to home</Link>
-      </Button>
+      <Button render={<Link to="/" />}>Go back to home</Button>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { cn } from "@init/utils/ui"
 import type * as React from "react"
 import * as ResizablePrimitive from "react-resizable-panels"
-import { Icon } from "./icon"
+import { Icon } from "#components/icon.tsx"
 
 function ResizablePanelGroup({
   className,

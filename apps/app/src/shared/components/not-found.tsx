@@ -28,11 +28,14 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button asChild className="min-w-[140px]" size="lg" variant="default">
-            <Link to="/">
-              <Icon.Home className="mr-2 size-4" />
-              Go Home
-            </Link>
+          <Button
+            className="min-w-[140px]"
+            render={<Link to="/" />}
+            size="lg"
+            variant="default"
+          >
+            <Icon.Home className="mr-2 size-4" />
+            Go Home
           </Button>
 
           {canGoBack && (
