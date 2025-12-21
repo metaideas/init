@@ -1,7 +1,4 @@
-import {
-  EXPO_PUBLIC_ENV_PREFIX,
-  REACT_PUBLIC_ENV_PREFIX,
-} from "@init/utils/constants"
+import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"

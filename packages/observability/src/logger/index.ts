@@ -1,10 +1,5 @@
 import { isDevelopment } from "@init/utils/environment"
-import {
-  configureSync,
-  getConsoleSink,
-  getLogger,
-  jsonLinesFormatter,
-} from "@logtape/logtape"
+import { configureSync, getConsoleSink, getLogger, jsonLinesFormatter } from "@logtape/logtape"
 import { getPrettyFormatter } from "@logtape/pretty"
 import { redactSink } from "./utils"
 

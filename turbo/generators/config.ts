@@ -89,21 +89,16 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       const selectedFiles: string[] = answers?.files || []
 
       // Handle regular files (where template name matches file name)
-      const regularFiles = selectedFiles.filter(
-        (f) => !["assets", "components"].includes(f)
-      )
+      const regularFiles = selectedFiles.filter((f) => !["assets", "components"].includes(f))
 
       const actions: PlopTypes.Actions = []
 
       if (regularFiles.length > 0) {
         actions.push({
           type: "addMany",
-          destination:
-            "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/",
+          destination: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/",
           base: "templates/new-feature/",
-          templateFiles: regularFiles.map(
-            (f) => `templates/new-feature/${f}.ts.hbs`
-          ),
+          templateFiles: regularFiles.map((f) => `templates/new-feature/${f}.ts.hbs`),
         })
       }
 

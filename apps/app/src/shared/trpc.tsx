@@ -9,11 +9,7 @@ import type { ReactNode } from "react"
 import superjson from "superjson"
 import { buildApiUrl } from "#shared/utils.ts"
 
-const {
-  useTRPC,
-  useTRPCClient,
-  TRPCProvider: TRPCProviderBase,
-} = createTRPCContext<TRPCRouter>()
+const { useTRPC, useTRPCClient, TRPCProvider: TRPCProviderBase } = createTRPCContext<TRPCRouter>()
 
 const url = buildApiUrl("/trpc")
 

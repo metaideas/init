@@ -52,9 +52,7 @@ function Alert({
     deps: [prompt],
   })
 
-  function promptAlert(
-    args: AlertProps & { prompt: Required<AlertProps["prompt"]> }
-  ) {
+  function promptAlert(args: AlertProps & { prompt: Required<AlertProps["prompt"]> }) {
     RNAlert.prompt(
       args.title,
       args.message,

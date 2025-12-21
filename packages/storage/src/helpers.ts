@@ -1,23 +1,15 @@
-import type {
-  MimeType,
-  MimeTypeExtension,
-  MimeTypeExtensions,
-} from "@init/utils/constants"
+import type { MimeType, MimeTypeExtension, MimeTypeExtensions } from "@init/utils/constants"
 import mime from "mime/lite"
 
 export function getMimeType(filename: string): MimeType {
   return mime.getType(filename) as MimeType
 }
 
-export function getExtension<T extends MimeType>(
-  mimeType: T
-): MimeTypeExtension<T> | null {
+export function getExtension<T extends MimeType>(mimeType: T): MimeTypeExtension<T> | null {
   return mime.getExtension(mimeType) as MimeTypeExtension<T> | null
 }
 
-export function getExtensions<T extends MimeType>(
-  mimeType: T
-): Set<MimeTypeExtensions<T>> | null {
+export function getExtensions<T extends MimeType>(mimeType: T): Set<MimeTypeExtensions<T>> | null {
   return mime.getAllExtensions(mimeType) as Set<MimeTypeExtensions<T>> | null
 }
 

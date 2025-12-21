@@ -50,8 +50,8 @@ export default function OrganizationInvitation({
             </Text>
 
             <Text className="mb-8 text-center text-base text-gray-600">
-              Join {organizationName} to start collaborating with your team
-              members and access shared resources.
+              Join {organizationName} to start collaborating with your team members and access
+              shared resources.
             </Text>
 
             <Section className="text-center">
@@ -64,8 +64,8 @@ export default function OrganizationInvitation({
             </Section>
 
             <Text className="mt-8 text-center text-gray-500 text-sm">
-              If you don't want to join {organizationName} or believe this
-              invitation was sent in error, please ignore this email.
+              If you don't want to join {organizationName} or believe this invitation was sent in
+              error, please ignore this email.
             </Text>
           </Container>
         </Body>

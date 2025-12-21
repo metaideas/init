@@ -17,13 +17,10 @@ const TITLE = `
 `
 
 async function promptProjectName(): Promise<string> {
-  const projectName = await consola.prompt(
-    "What is the name of your project?",
-    {
-      type: "text",
-      cancel: "undefined",
-    }
-  )
+  const projectName = await consola.prompt("What is the name of your project?", {
+    type: "text",
+    cancel: "undefined",
+  })
 
   if (projectName === undefined) {
     consola.error("Please provide a name for your project.")
@@ -38,9 +35,7 @@ async function promptProjectName(): Promise<string> {
   }
 
   if (!PROJECT_NAME_REGEX.test(name)) {
-    consola.error(
-      "Project name can only contain letters, numbers, hyphens, and underscores."
-    )
+    consola.error("Project name can only contain letters, numbers, hyphens, and underscores.")
     return promptProjectName()
   }
 
@@ -79,22 +74,17 @@ async function main() {
 
     consola.success(`Created "${name}" using ▶︎ init.`)
 
-    const confirm = await consola.prompt(
-      "Do you want to install dependencies?",
-      {
-        type: "confirm",
-        initial: true,
-        cancel: "undefined",
-      }
-    )
+    const confirm = await consola.prompt("Do you want to install dependencies?", {
+      type: "confirm",
+      initial: true,
+      cancel: "undefined",
+    })
 
     if (confirm) {
       await Bun.$`cd ${name} && bun install`
     }
 
-    consola.info(
-      "Remember to run `bun template init` to initialize your project."
-    )
+    consola.info("Remember to run `bun template init` to initialize your project.")
     consola.success("Build something great! 🚀")
   } catch (error) {
     consola.error(`Failed to create project: ${error}`)

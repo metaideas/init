@@ -7,8 +7,7 @@ export default function SettingsDemo() {
     <div className="flex h-[500px] w-[500px] flex-col items-center justify-center gap-4">
       <TypographyH1>Settings</TypographyH1>
       <TypographyP>
-        This is a demo of the settings. It is a simple settings that displays a
-        message.
+        This is a demo of the settings. It is a simple settings that displays a message.
       </TypographyP>
       <Button render={<Link to="/" />}>Go back to home</Button>
     </div>

@@ -8,10 +8,7 @@ export default defineCommand({
   handler: async () => {
     try {
       consola.start("Checking for template updates...")
-      const [currentVersion, latestRelease] = await Promise.all([
-        getVersion(),
-        getLatestRelease(),
-      ])
+      const [currentVersion, latestRelease] = await Promise.all([getVersion(), getLatestRelease()])
       consola.success("Template version check complete.")
 
       if (!latestRelease) {
@@ -25,9 +22,7 @@ export default defineCommand({
       consola.info(`Latest template version: ${latestVersion}`)
 
       if (!currentVersion) {
-        consola.warn(
-          "No local template version found. Run 'bun template update' to initialize."
-        )
+        consola.warn("No local template version found. Run 'bun template update' to initialize.")
         return
       }
 
@@ -40,9 +35,7 @@ export default defineCommand({
           `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})`
         )
       } else {
-        consola.info(
-          `🆙 Update available: ${currentVersion} → ${latestVersion}`
-        )
+        consola.info(`🆙 Update available: ${currentVersion} → ${latestVersion}`)
         consola.log("Run 'bun template update' to update your template")
 
         if (latestRelease.body) {

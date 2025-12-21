@@ -2,12 +2,7 @@ import Bun from "bun"
 import { dirname, join } from "node:path"
 import consola from "consola"
 import { defineCommand } from "../helpers"
-import {
-  compareVersions,
-  getLatestRelease,
-  getVersion,
-  updateTemplateVersion,
-} from "./utils"
+import { compareVersions, getLatestRelease, getVersion, updateTemplateVersion } from "./utils"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "https://github.com/metaideas/init.git"
@@ -66,9 +61,7 @@ async function copyFiles(files: string[]) {
   )
 }
 
-async function getExistingWorkspaceNames(
-  workspaceRoot: "apps" | "packages"
-): Promise<Set<string>> {
+async function getExistingWorkspaceNames(workspaceRoot: "apps" | "packages"): Promise<Set<string>> {
   try {
     // List directories only, get basename of each
     const output =
@@ -80,9 +73,7 @@ async function getExistingWorkspaceNames(
   }
 }
 
-async function filterNewFilesForExistingWorkspaces(
-  newFiles: string[]
-): Promise<string[]> {
+async function filterNewFilesForExistingWorkspaces(newFiles: string[]): Promise<string[]> {
   const [existingApps, existingPackages] = await Promise.all([
     getExistingWorkspaceNames("apps"),
     getExistingWorkspaceNames("packages"),
@@ -103,10 +94,7 @@ async function filterNewFilesForExistingWorkspaces(
 }
 
 async function checkVersionUpdates() {
-  const [currentVersion, latestRelease] = await Promise.all([
-    getVersion(),
-    getLatestRelease(),
-  ])
+  const [currentVersion, latestRelease] = await Promise.all([getVersion(), getLatestRelease()])
 
   if (latestRelease) {
     const latestVersion = latestRelease.tagName
@@ -127,9 +115,7 @@ async function checkVersionUpdates() {
           warning: `Local version (${currentVersion}) is newer than latest release (${latestVersion})`,
         }
       }
-      const releaseNotes = latestRelease.body
-        ? `\nRelease notes:\n${latestRelease.body}`
-        : ""
+      const releaseNotes = latestRelease.body ? `\nRelease notes:\n${latestRelease.body}` : ""
       return {
         shouldExit: false,
         latestRelease,
@@ -166,23 +152,14 @@ async function setupTempDirectory() {
 async function cloneAndAnalyze() {
   await cloneTemplate()
 
-  const [localFiles, templateFiles] = await Promise.all([
-    getLocalFiles(),
-    getTemplateFiles(),
-  ])
+  const [localFiles, templateFiles] = await Promise.all([getLocalFiles(), getTemplateFiles()])
 
-  const { filesToUpdate, newFiles } = await getFileDiff(
-    localFiles,
-    templateFiles
-  )
+  const { filesToUpdate, newFiles } = await getFileDiff(localFiles, templateFiles)
 
   return { filesToUpdate, newFiles }
 }
 
-async function applyChanges(
-  filesToCopy: string[],
-  latestRelease: { tagName: string } | null
-) {
+async function applyChanges(filesToCopy: string[], latestRelease: { tagName: string } | null) {
   // Update existing files and add only new files that belong to existing workspaces
   const uniqueFilesToCopy = Array.from(new Set(filesToCopy))
   await copyFiles(uniqueFilesToCopy)
@@ -208,8 +185,7 @@ export default defineCommand({
 
     try {
       consola.start("Checking for template updates...")
-      const { shouldExit, latestRelease, message, warning } =
-        await checkVersionUpdates()
+      const { shouldExit, latestRelease, message, warning } = await checkVersionUpdates()
       consola.success("Template version check complete.")
 
       if (message) {
@@ -234,8 +210,7 @@ export default defineCommand({
       const { filesToUpdate, newFiles } = await cloneAndAnalyze()
       consola.success("Template repository cloned.")
 
-      const allowedNewFiles =
-        await filterNewFilesForExistingWorkspaces(newFiles)
+      const allowedNewFiles = await filterNewFilesForExistingWorkspaces(newFiles)
       const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
 
       if (filesToCopy.length === 0) {

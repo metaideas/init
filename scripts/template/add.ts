@@ -19,17 +19,14 @@ export default defineCommand({
           consola.info("Add app to your monorepo")
 
           try {
-            const selectedWorkspace = await consola.prompt(
-              "Which app would you like to add?",
-              {
-                type: "select",
-                options: workspaces.apps.map((w) => ({
-                  label: w.description,
-                  value: w.name,
-                })),
-                cancel: "undefined",
-              }
-            )
+            const selectedWorkspace = await consola.prompt("Which app would you like to add?", {
+              type: "select",
+              options: workspaces.apps.map((w) => ({
+                label: w.description,
+                value: w.name,
+              })),
+              cancel: "undefined",
+            })
 
             if (selectedWorkspace === undefined) {
               throw new Error("Setup cancelled. No changes have been made.")
@@ -66,17 +63,14 @@ export default defineCommand({
           consola.info("Add package to your monorepo")
 
           try {
-            const selectedWorkspace = await consola.prompt(
-              "Which package would you like to add?",
-              {
-                type: "select",
-                options: workspaces.packages.map((w) => ({
-                  label: w.description,
-                  value: w.name,
-                })),
-                cancel: "undefined",
-              }
-            )
+            const selectedWorkspace = await consola.prompt("Which package would you like to add?", {
+              type: "select",
+              options: workspaces.packages.map((w) => ({
+                label: w.description,
+                value: w.name,
+              })),
+              cancel: "undefined",
+            })
 
             if (selectedWorkspace === undefined) {
               throw new Error("Canceled adding workspace")

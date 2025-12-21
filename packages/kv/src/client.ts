@@ -49,11 +49,7 @@ class KeyValueClient {
    * @param value - The value to set. Will be serialized using SuperJSON.
    * @param expiresIn - The time to live in seconds
    */
-  async set(
-    key: string | KeyPart[],
-    value: unknown,
-    expiresIn?: Duration
-  ): Promise<void> {
+  async set(key: string | KeyPart[], value: unknown, expiresIn?: Duration): Promise<void> {
     const normalizedKey = this.normalizeKey(key)
 
     await this.client.set(normalizedKey, SuperJSON.stringify(value))

@@ -6,9 +6,6 @@ import {
   withLogger,
 } from "#shared/server/middleware.ts"
 
-export const publicFunction = createServerFn().middleware([
-  withDatabase,
-  withLogger,
-])
+export const publicFunction = createServerFn().middleware([withDatabase, withLogger])
 export const protectedFunction = publicFunction.middleware([requireSession])
 export const adminFunction = protectedFunction.middleware([requireAdmin])

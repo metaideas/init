@@ -7,17 +7,10 @@ export function createAnalytics(
   host = "https://us.i.posthog.com",
   options: Omit<PostHogOptions, "host" | "apiKey"> = {}
 ) {
-  return singleton(
-    "analytics-expo",
-    () => new PostHog(apiKey, { host, ...options })
-  )
+  return singleton("analytics-expo", () => new PostHog(apiKey, { host, ...options }))
 }
 
-export function useIdentifyUser({
-  user,
-}: {
-  user: { id: string; email: string }
-}) {
+export function useIdentifyUser({ user }: { user: { id: string; email: string } }) {
   const p = usePostHog()
 
   useEffect(() => {

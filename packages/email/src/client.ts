@@ -14,10 +14,7 @@ type EmailSendParams = {
   from?: string
 }
 
-export const email = singleton(
-  "email",
-  () => new Resend(resend().RESEND_API_KEY)
-)
+export const email = singleton("email", () => new Resend(resend().RESEND_API_KEY))
 
 export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const env = resend()
@@ -53,17 +50,13 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   })
 
   if (error) {
-    throw new Error(
-      `Unable to send email to ${emails.join(", ")}: ${error.message}`
-    )
+    throw new Error(`Unable to send email to ${emails.join(", ")}: ${error.message}`)
   }
 
   return data
 }
 
-export async function batchEmails(
-  payload: (EmailSendParams & { body: ReactNode })[]
-) {
+export async function batchEmails(payload: (EmailSendParams & { body: ReactNode })[]) {
   const env = resend()
 
   if (env.MOCK_RESEND) {

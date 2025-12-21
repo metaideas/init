@@ -13,10 +13,7 @@ export default function Providers({
 }: Readonly<{ children: ReactNode; theme: Theme }>) {
   return (
     <TRPCProvider>
-      <ThemeProvider
-        setTheme={(value) => setTheme({ data: value })}
-        theme={theme}
-      >
+      <ThemeProvider setTheme={(value) => setTheme({ data: value })} theme={theme}>
         <ThemeScript />
         <TooltipProvider>
           {children}

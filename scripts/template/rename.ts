@@ -17,14 +17,11 @@ export default defineCommand({
     consola.info("Starting project rename...")
 
     try {
-      const newProjectName = await consola.prompt(
-        "Enter your new project name",
-        {
-          type: "text",
-          placeholder: "my-app",
-          cancel: "undefined",
-        }
-      )
+      const newProjectName = await consola.prompt("Enter your new project name", {
+        type: "text",
+        placeholder: "my-app",
+        cancel: "undefined",
+      })
 
       if (newProjectName === undefined) {
         throw new Error("Rename cancelled. No changes have been made.")
@@ -34,19 +31,14 @@ export default defineCommand({
       const currentProjectName = packageJson.name as string
       const isInit = currentProjectName === "init"
 
-      consola.start(
-        `Updating project name to ${newProjectName as string} in package.json...`
-      )
+      consola.start(`Updating project name to ${newProjectName as string} in package.json...`)
       await updatePackageJson(newProjectName as string)
       consola.success("Project name updated in package.json.")
 
       consola.start(
         `Replacing @init${isInit ? "" : ` and @${currentProjectName}`} with @${newProjectName as string} in project files...`
       )
-      await replaceProjectNameInProjectFiles(
-        newProjectName as string,
-        currentProjectName
-      )
+      await replaceProjectNameInProjectFiles(newProjectName as string, currentProjectName)
       consola.success("References updated in project files.")
 
       consola.success("🎉 Project rename complete!")

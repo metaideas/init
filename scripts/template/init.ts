@@ -134,9 +134,7 @@ export default defineCommand({
       }
 
       // Fix an issue with the type returned by the multiselect prompt
-      const apps = selectedApps.map((app) =>
-        typeof app === "string" ? app : app.value
-      )
+      const apps = selectedApps.map((app) => (typeof app === "string" ? app : app.value))
 
       // Get all package dependencies from selected apps
       const requiredPackages = new Set<string>()
@@ -167,9 +165,7 @@ export default defineCommand({
       }
 
       // Fix an issue with the type returned by the multiselect prompt
-      const packages = selectedPackages.map((pkg) =>
-        typeof pkg === "string" ? pkg : pkg.value
-      )
+      const packages = selectedPackages.map((pkg) => (typeof pkg === "string" ? pkg : pkg.value))
 
       await removeUnselectedWorkspaces(apps, packages)
 

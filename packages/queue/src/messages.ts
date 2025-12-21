@@ -128,9 +128,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
       }
 
       if (typeof signature !== "string") {
-        logger
-          .with({ requestUrl: c.req.url })
-          .error("`Upstash-Signature` header is not a string")
+        logger.with({ requestUrl: c.req.url }).error("`Upstash-Signature` header is not a string")
 
         throw new TypeError("`Upstash-Signature` header is not a string")
       }
@@ -174,9 +172,7 @@ export class MessageClient<TRequest extends RequestsSchema> {
       }
 
       const eventSchema =
-        this.#flattenedEvents[
-          messageType as keyof Record<string, z.core.$ZodType>
-        ]
+        this.#flattenedEvents[messageType as keyof Record<string, z.core.$ZodType>]
 
       if (!eventSchema) {
         logger.with({ path }).error("Invalid message type")
@@ -199,14 +195,11 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const handler = handlers[messageType]
 
       if (!handler) {
-        logger
-          .with({ messageType: String(messageType) })
-          .error("No handler for message type")
+        logger.with({ messageType: String(messageType) }).error("No handler for message type")
 
-        return new Response(
-          `No handler provided for message type: \`${String(messageType)}\``,
-          { status: 501 }
-        )
+        return new Response(`No handler provided for message type: \`${String(messageType)}\``, {
+          status: 501,
+        })
       }
 
       // TypeScript can't narrow messageType to a literal type, so we use a type assertion.

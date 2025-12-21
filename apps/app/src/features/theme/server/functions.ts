@@ -14,8 +14,6 @@ export const getTheme = publicFunction.handler(async () => {
   return result.data
 })
 
-export const setTheme = publicFunction
-  .inputValidator(ThemeSchema)
-  .handler(({ data }) => {
-    setCookie(THEME_STORAGE_KEY, data)
-  })
+export const setTheme = publicFunction.inputValidator(ThemeSchema).handler(({ data }) => {
+  setCookie(THEME_STORAGE_KEY, data)
+})

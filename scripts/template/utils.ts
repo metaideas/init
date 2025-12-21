@@ -55,10 +55,7 @@ function checkShouldExclude(filePath: string): boolean {
  * @param limit - Maximum number of concurrent executions (default: 10)
  * @returns Array of results in the same order as tasks
  */
-async function limitConcurrency<T>(
-  tasks: (() => Promise<T>)[],
-  limit = 10
-): Promise<T[]> {
+async function limitConcurrency<T>(tasks: (() => Promise<T>)[], limit = 10): Promise<T[]> {
   const results: T[] = new Array(tasks.length)
   const queue = tasks.map((task, index) => ({ task, index }))
   const executing: Promise<void>[] = []
@@ -110,8 +107,7 @@ export const workspaces = {
     },
     {
       name: "app",
-      description:
-        "app - Full-stack TanStack Start application with server functions",
+      description: "app - Full-stack TanStack Start application with server functions",
       dependencies: [
         "auth",
         "db",
@@ -154,8 +150,7 @@ export const workspaces = {
   packages: [
     {
       name: "ai",
-      description:
-        "ai - AI SDK and vector database for building AI applications",
+      description: "ai - AI SDK and vector database for building AI applications",
       dependencies: [],
     },
     {
@@ -200,8 +195,7 @@ export const workspaces = {
     },
     {
       name: "internationalization",
-      description:
-        "internationalization - Internationalization utilities and translation files",
+      description: "internationalization - Internationalization utilities and translation files",
       dependencies: [],
     },
     {
@@ -211,8 +205,7 @@ export const workspaces = {
     },
     {
       name: "observability",
-      description:
-        "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
+      description: "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
       dependencies: [],
     },
     {
@@ -222,8 +215,7 @@ export const workspaces = {
     },
     {
       name: "queue",
-      description:
-        "queue - Serverless message queue and workflow management using Upstash",
+      description: "queue - Serverless message queue and workflow management using Upstash",
       dependencies: [],
     },
     {
@@ -239,8 +231,7 @@ export const workspaces = {
     },
     {
       name: "ui",
-      description:
-        "ui - Reusable UI components and design system using shadcn/ui",
+      description: "ui - Reusable UI components and design system using shadcn/ui",
       dependencies: ["utils"],
     },
     {
@@ -314,10 +305,7 @@ export async function replaceProjectNameInProjectFiles(
 
       // If currentProjectName is provided, also replace it
       if (currentProjectName && currentProjectName !== "init") {
-        replaced = replaced.replaceAll(
-          `@${currentProjectName}`,
-          `@${projectName}`
-        )
+        replaced = replaced.replaceAll(`@${currentProjectName}`, `@${projectName}`)
       }
 
       if (content !== replaced) {

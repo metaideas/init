@@ -26,10 +26,7 @@ export function alpha(color: string, opacity: number) {
 
       const alphaHex = Math.round(opacity * 255).toString(16)
 
-      return `#${r.repeat(2)}${g.repeat(2)}${b.repeat(2)}${alphaHex.padStart(
-        2,
-        "0"
-      )}`
+      return `#${r.repeat(2)}${g.repeat(2)}${b.repeat(2)}${alphaHex.padStart(2, "0")}`
     }
   }
 

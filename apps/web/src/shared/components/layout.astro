@@ -1,13 +1,14 @@
 ---
-  import { baseLocale, type Locale } from "@init/internationalization/runtime"
-  import "@init/ui/globals.css"
+import { baseLocale, type Locale } from "@init/internationalization/runtime"
+import "@init/ui/globals.css"
 
-  type Props = {
-    lang?: Locale
-  }
+type Props = {
+  lang?: Locale
+}
 
-  const { lang } = Astro.props
+const { lang } = Astro.props
 ---
+
 <!doctype html>
 <html lang={lang || baseLocale}>
   <head>

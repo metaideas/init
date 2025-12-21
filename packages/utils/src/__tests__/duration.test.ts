@@ -218,33 +218,23 @@ describe("duration", () => {
     })
 
     test("throws error for missing unit", () => {
-      expect(() => duration("100" as unknown as Duration)).toThrow(
-        "Invalid duration format: 100"
-      )
+      expect(() => duration("100" as unknown as Duration)).toThrow("Invalid duration format: 100")
     })
 
     test("throws error for invalid unit", () => {
-      expect(() => duration("100x" as unknown as Duration)).toThrow(
-        "Invalid duration format: 100x"
-      )
+      expect(() => duration("100x" as unknown as Duration)).toThrow("Invalid duration format: 100x")
     })
 
     test("throws error for empty string", () => {
-      expect(() => duration("" as unknown as Duration)).toThrow(
-        "Invalid duration format: "
-      )
+      expect(() => duration("" as unknown as Duration)).toThrow("Invalid duration format: ")
     })
 
     test("throws error for negative numbers", () => {
-      expect(() => duration("-5s" as unknown as Duration)).toThrow(
-        "Invalid duration format: -5s"
-      )
+      expect(() => duration("-5s" as unknown as Duration)).toThrow("Invalid duration format: -5s")
     })
 
     test("throws error for decimal numbers", () => {
-      expect(() => duration("5.5s" as unknown as Duration)).toThrow(
-        "Invalid duration format: 5.5s"
-      )
+      expect(() => duration("5.5s" as unknown as Duration)).toThrow("Invalid duration format: 5.5s")
     })
   })
 })

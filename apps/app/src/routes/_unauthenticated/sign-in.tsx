@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@init/ui/components/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@init/ui/components/card"
 import { Separator } from "@init/ui/components/separator"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import SignInWithPasswordForm from "#features/auth/components/sign-in-with-password-form.tsx"
@@ -35,33 +30,23 @@ function RouteComponent() {
           {/* <SignInWithCodeForm /> */}
 
           <div className="relative my-6">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 flex items-center"
-            >
+            <div aria-hidden="true" className="absolute inset-0 flex items-center">
               <Separator />
             </div>
             <div className="relative flex justify-center font-medium text-sm leading-6">
-              <span className="bg-background px-6 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-6 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
           <SignInWithPasswordForm />
 
           <div className="relative my-6">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 flex items-center"
-            >
+            <div aria-hidden="true" className="absolute inset-0 flex items-center">
               <Separator />
             </div>
 
             <div className="relative flex justify-center font-medium text-sm leading-6">
-              <span className="bg-background px-6 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-6 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 

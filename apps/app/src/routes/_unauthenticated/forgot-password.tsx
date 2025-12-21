@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@init/ui/components/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import ForgotPasswordForm from "#features/auth/components/forgot-password-form.tsx"
 
@@ -19,8 +13,7 @@ function RouteComponent() {
         <CardHeader>
           <CardTitle className="text-center">Reset your password</CardTitle>
           <CardDescription className="text-center">
-            Enter your email address and we'll send you a link to reset your
-            password
+            Enter your email address and we'll send you a link to reset your password
           </CardDescription>
         </CardHeader>
         <CardContent>

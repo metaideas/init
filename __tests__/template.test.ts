@@ -38,9 +38,7 @@ describe("template configuration", () => {
           .sort()
 
         // Compare with declared dependencies
-        const declaredDeps = app.dependencies
-          ? [...app.dependencies].sort()
-          : []
+        const declaredDeps = app.dependencies ? [...app.dependencies].sort() : []
 
         return { actualDeps, declaredDeps }
       })

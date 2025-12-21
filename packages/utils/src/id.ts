@@ -1,7 +1,6 @@
 import { customAlphabet } from "nanoid"
 
-const NO_LOOKALIKE_ALPHABET =
-  "346789ABCDEFGHJKLMNPQRTUVWXYabcdefghijkmnpqrtwxyz"
+const NO_LOOKALIKE_ALPHABET = "346789ABCDEFGHJKLMNPQRTUVWXYabcdefghijkmnpqrtwxyz"
 
 // Custom alphabet with non lookalike characters
 const nanoid = customAlphabet(NO_LOOKALIKE_ALPHABET)

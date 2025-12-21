@@ -9,8 +9,7 @@ function createMemoryDriver(): Driver {
 
   return {
     hasItem: (key: string) => Promise.resolve(storage.has(key)),
-    getItem: (key: string) =>
-      Promise.resolve((storage.get(key) ?? null) as StorageValue),
+    getItem: (key: string) => Promise.resolve((storage.get(key) ?? null) as StorageValue),
     setItem: (key: string, value: string) => {
       storage.set(key, value)
       return Promise.resolve()
@@ -34,9 +33,7 @@ function createMemoryDriver(): Driver {
 }
 
 // Test helpers
-function createMockFn<TArgs extends unknown[], TReturn>(
-  fn: (...args: TArgs) => TReturn
-) {
+function createMockFn<TArgs extends unknown[], TReturn>(fn: (...args: TArgs) => TReturn) {
   return mock(async (...args: TArgs) => fn(...args))
 }
 
@@ -217,9 +214,7 @@ describe("cache", () => {
 
   describe("multiple arguments", () => {
     it("should handle functions with multiple arguments", async () => {
-      const fn = createMockFn(
-        (a: number, b: number, c: string) => `${a + b}${c}`
-      )
+      const fn = createMockFn((a: number, b: number, c: string) => `${a + b}${c}`)
       const cached = createCachedFn(fn, ["test"], driver)
 
       const result = await cached(1, 2, "x")

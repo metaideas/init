@@ -14,7 +14,8 @@ export function checkIsLocalDatabase(url: string) {
   return url.includes("localhost") || url.includes("127.0.0.1")
 }
 
-export const { createSelectSchema, createInsertSchema, createUpdateSchema } =
-  createSchemaFactory({ zodInstance: z })
+export const { createSelectSchema, createInsertSchema, createUpdateSchema } = createSchemaFactory({
+  zodInstance: z,
+})
 
 export * from "drizzle-orm/sql"

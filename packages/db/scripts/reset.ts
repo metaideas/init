@@ -11,9 +11,7 @@ async function main() {
   consola.info("Running the database reset script")
 
   if (!checkIsLocalDatabase(env().DATABASE_URL)) {
-    consola.warn(
-      "You are about to reset the production database. This action is irreversible."
-    )
+    consola.warn("You are about to reset the production database. This action is irreversible.")
     consola.box("DATABASE_URL", env().DATABASE_URL)
 
     const confirm = await consola.prompt("Are you sure you want to proceed?", {
@@ -25,10 +23,9 @@ async function main() {
       process.exit(0)
     }
 
-    const confirmPrompt = await consola.prompt(
-      "Type 'reset production database' to confirm",
-      { type: "text" }
-    )
+    const confirmPrompt = await consola.prompt("Type 'reset production database' to confirm", {
+      type: "text",
+    })
 
     if (confirmPrompt !== CONFIRM_PROMPT) {
       consola.error("Database reset cancelled")

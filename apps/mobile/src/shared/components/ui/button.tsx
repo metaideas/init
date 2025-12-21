@@ -24,22 +24,13 @@ const styles = StyleSheet.create((theme, rt) => ({
           borderColor: theme.colors.primary,
           borderWidth: 1,
           backgroundColor: pressed
-            ? theme.utils.alpha(
-                theme.colors.primary,
-                rt.themeName === "dark" ? 0.15 : 0.05
-              )
+            ? theme.utils.alpha(theme.colors.primary, rt.themeName === "dark" ? 0.15 : 0.05)
             : "transparent",
         },
         tonal: {
           backgroundColor: pressed
-            ? theme.utils.alpha(
-                theme.colors.primary,
-                rt.themeName === "dark" ? 0.2 : 0.15
-              )
-            : theme.utils.alpha(
-                theme.colors.primary,
-                rt.themeName === "dark" ? 0.15 : 0.1
-              ),
+            ? theme.utils.alpha(theme.colors.primary, rt.themeName === "dark" ? 0.2 : 0.15)
+            : theme.utils.alpha(theme.colors.primary, rt.themeName === "dark" ? 0.15 : 0.1),
         },
         plain: {
           opacity: pressed ? 0.7 : 1,

@@ -62,9 +62,7 @@ export const ALLOWED_EVENTS = [
 ] as const satisfies Stripe.Event.Type[]
 type AllowedEvent = (typeof ALLOWED_EVENTS)[number]
 
-export async function syncSubscription(
-  customerId: string
-): Promise<SubscriptionCache> {
+export async function syncSubscription(customerId: string): Promise<SubscriptionCache> {
   const cacheKey = ["customer", customerId]
   const cache = kv("payments")
 
@@ -95,8 +93,7 @@ export async function syncSubscription(
     currentPeriodStart: subscription.items.data[0].current_period_start,
     cancelAtPeriodEnd: subscription.cancel_at_period_end,
     paymentMethod:
-      subscription.default_payment_method &&
-      typeof subscription.default_payment_method !== "string"
+      subscription.default_payment_method && typeof subscription.default_payment_method !== "string"
         ? {
             brand: subscription.default_payment_method.card?.brand ?? null,
             last4: subscription.default_payment_method.card?.last4 ?? null,
@@ -125,11 +122,7 @@ export async function parseWebhook(request: Request) {
 
   const body = await request.text()
 
-  const event = payments().webhooks.constructEvent(
-    body,
-    signature,
-    env().STRIPE_WEBHOOK_SECRET
-  )
+  const event = payments().webhooks.constructEvent(body, signature, env().STRIPE_WEBHOOK_SECRET)
 
   if (!checkIsAllowedEvent(event)) {
     throw new Error("Invalid event")

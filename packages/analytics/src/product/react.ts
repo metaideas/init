@@ -14,11 +14,7 @@ export function createAnalytics(apiKey: string, config?: PostHogConfig) {
   )
 }
 
-export function useIdentifyUser({
-  user,
-}: {
-  user: { id: string; email: string }
-}) {
+export function useIdentifyUser({ user }: { user: { id: string; email: string } }) {
   const p = usePostHog()
 
   useEffect(() => {

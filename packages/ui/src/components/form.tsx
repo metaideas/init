@@ -18,8 +18,7 @@ import {
   FieldTitle,
 } from "./field"
 
-const { fieldContext, formContext, useFieldContext, useFormContext } =
-  createFormHookContexts()
+const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts()
 
 function FieldInput(props: React.ComponentProps<typeof Input>) {
   const field = useFieldContext<string>()
@@ -69,9 +68,7 @@ function FormSubmit({
   const form = useFormContext()
 
   return (
-    <form.Subscribe
-      selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
-    >
+    <form.Subscribe selector={(formState) => [formState.canSubmit, formState.isSubmitting]}>
       {([canSubmit, isSubmitting]) => (
         <Button
           {...props}
@@ -101,9 +98,7 @@ function FormServerError({
   const form = useFormContext()
 
   return (
-    <form.Subscribe
-      selector={(formState) => [formState.errorMap.onServer ?? []]}
-    >
+    <form.Subscribe selector={(formState) => [formState.errorMap.onServer ?? []]}>
       {([error]) => {
         if (!error || typeof error !== "string") {
           return null

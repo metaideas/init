@@ -7,10 +7,7 @@ import type { AppContext } from "#shared/types.ts"
 
 const transformer = superjson
 
-export function createTRPCContext(
-  opts: FetchCreateContextFnOptions,
-  c: Context<AppContext>
-) {
+export function createTRPCContext(opts: FetchCreateContextFnOptions, c: Context<AppContext>) {
   return {
     auth: c.var.auth,
     db: c.var.db,
@@ -32,8 +29,7 @@ export const t = initTRPC.context<TRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof z.ZodError ? error.cause.flatten() : null,
+        zodError: error.cause instanceof z.ZodError ? error.cause.flatten() : null,
       },
     }
   },

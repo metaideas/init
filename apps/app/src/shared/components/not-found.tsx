@@ -19,21 +19,14 @@ export default function NotFound() {
         </div>
 
         <div className="mb-8 space-y-3">
-          <h2 className="font-semibold text-2xl tracking-tight sm:text-3xl">
-            Page not found
-          </h2>
+          <h2 className="font-semibold text-2xl tracking-tight sm:text-3xl">Page not found</h2>
           <p className="mx-auto max-w-md text-lg text-muted-foreground">
             The page you're looking for doesn't exist or has been moved.
           </p>
         </div>
 
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button
-            className="min-w-[140px]"
-            render={<Link to="/" />}
-            size="lg"
-            variant="default"
-          >
+          <Button className="min-w-[140px]" render={<Link to="/" />} size="lg" variant="default">
             <Icon.Home className="mr-2 size-4" />
             Go Home
           </Button>

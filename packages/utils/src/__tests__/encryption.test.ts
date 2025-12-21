@@ -97,12 +97,7 @@ describe("decrypt", () => {
 
 describe("round-trip encryption", () => {
   it("should handle simple strings", () => {
-    const inputs = [
-      "hello",
-      "world",
-      "test123",
-      "The quick brown fox jumps over the lazy dog",
-    ]
+    const inputs = ["hello", "world", "test123", "The quick brown fox jumps over the lazy dog"]
 
     for (const input of inputs) {
       const encrypted = encrypt(input)
@@ -186,8 +181,7 @@ describe("hash", () => {
 
   it("should produce known hash for known input", () => {
     // SHA-256 of "hello world" is known
-    const expected =
-      "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    const expected = "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
     expect(hash("hello world")).toBe(expected)
   })
 })

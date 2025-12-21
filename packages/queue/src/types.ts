@@ -1,10 +1,7 @@
 import type * as z from "@init/utils/schema"
 import type { UnionToIntersection } from "@init/utils/type"
 import type { Client as QstashClient, Receiver } from "@upstash/qstash"
-import type {
-  TriggerOptions,
-  Client as WorkflowClient,
-} from "@upstash/workflow"
+import type { TriggerOptions, Client as WorkflowClient } from "@upstash/workflow"
 
 export type MessageLeaf<T extends z.core.$ZodType> = {
   /**
@@ -114,8 +111,7 @@ export type FlattenedRequestsSchema<
 /**
  * Gets all message type paths (keys) from a flattened events schema.
  */
-export type RequestType<TRequest extends RequestsSchema> =
-  keyof FlattenedRequestsSchema<TRequest>
+export type RequestType<TRequest extends RequestsSchema> = keyof FlattenedRequestsSchema<TRequest>
 
 export type MessageClientConfig<TRequest extends RequestsSchema> = {
   baseUrl: string

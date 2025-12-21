@@ -2,8 +2,7 @@ import type standardTypes from "mime/types/standard.js"
 
 export type MimeType = keyof typeof standardTypes
 export type MimeTypeExtension<T extends MimeType> = (typeof standardTypes)[T][0]
-export type MimeTypeExtensions<T extends MimeType> =
-  (typeof standardTypes)[T][number]
+export type MimeTypeExtensions<T extends MimeType> = (typeof standardTypes)[T][number]
 
 export const StorageBucket = {
   MAIN: "init-main",

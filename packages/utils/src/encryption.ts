@@ -37,9 +37,7 @@ function getKey(): Buffer {
   const keyBuffer = Buffer.from(key, "hex")
 
   if (keyBuffer.length !== 32) {
-    throw new Error(
-      "INIT_ENCRYPTION_KEY must be a 64-character hex string (32 bytes)"
-    )
+    throw new Error("INIT_ENCRYPTION_KEY must be a 64-character hex string (32 bytes)")
   }
 
   return keyBuffer
@@ -76,10 +74,7 @@ export function encrypt(text: string): string {
   const cipher = crypto.createCipheriv(ALGORITHM, key, iv)
 
   // Encrypt the plaintext directly to a buffer
-  const encryptedData = Buffer.concat([
-    cipher.update(text, "utf8"),
-    cipher.final(),
-  ])
+  const encryptedData = Buffer.concat([cipher.update(text, "utf8"), cipher.final()])
 
   // Get the authentication tag (ensures integrity and authenticity)
   const authTag = cipher.getAuthTag()
@@ -134,10 +129,9 @@ export function decrypt(encryptedPayload: string): string {
     decipher.setAuthTag(authTag)
 
     // Decrypt the data
-    const decrypted = Buffer.concat([
-      decipher.update(encryptedData),
-      decipher.final(),
-    ]).toString("utf8")
+    const decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]).toString(
+      "utf8"
+    )
 
     return decrypted
   } catch (error) {

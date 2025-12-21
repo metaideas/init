@@ -21,10 +21,7 @@ export function throwUnless(
 /**
  * Throws an error if a condition is met.
  */
-export function throwIf(
-  condition: boolean,
-  message: string | Error
-): asserts condition is false {
+export function throwIf(condition: boolean, message: string | Error): asserts condition is false {
   if (condition) {
     throw message instanceof Error ? message : new Error(message)
   }

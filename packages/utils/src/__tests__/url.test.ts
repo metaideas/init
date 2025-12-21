@@ -18,12 +18,8 @@ describe("addProtocol", () => {
     expect(addProtocol("example.com/path/to/resource", "https")).toBe(
       "https://example.com/path/to/resource"
     )
-    expect(addProtocol("example.com:3000", "http")).toBe(
-      "http://example.com:3000"
-    )
-    expect(addProtocol("api.example.com", "https")).toBe(
-      "https://api.example.com"
-    )
+    expect(addProtocol("example.com:3000", "http")).toBe("http://example.com:3000")
+    expect(addProtocol("api.example.com", "https")).toBe("https://api.example.com")
   })
 
   test("preserves existing protocol when none specified", () => {
@@ -32,24 +28,14 @@ describe("addProtocol", () => {
   })
 
   test("overrides existing protocol when specified", () => {
-    expect(addProtocol("http://example.com", "https")).toBe(
-      "https://example.com"
-    )
-    expect(addProtocol("https://example.com/api/v1", "https")).toBe(
-      "https://example.com/api/v1"
-    )
-    expect(addProtocol("HTTP://example.com", "https")).toBe(
-      "https://example.com"
-    )
+    expect(addProtocol("http://example.com", "https")).toBe("https://example.com")
+    expect(addProtocol("https://example.com/api/v1", "https")).toBe("https://example.com/api/v1")
+    expect(addProtocol("HTTP://example.com", "https")).toBe("https://example.com")
   })
 
   test("handles complex URLs with existing protocols", () => {
-    expect(addProtocol("http://localhost:3000/api", "http")).toBe(
-      "http://localhost:3000/api"
-    )
-    expect(addProtocol("https://example.com/api/v1", "https")).toBe(
-      "https://example.com/api/v1"
-    )
+    expect(addProtocol("http://localhost:3000/api", "http")).toBe("http://localhost:3000/api")
+    expect(addProtocol("https://example.com/api/v1", "https")).toBe("https://example.com/api/v1")
   })
 
   test("enables security enforcement", () => {
@@ -59,11 +45,7 @@ describe("addProtocol", () => {
   })
 
   test("enables environment-based normalization", () => {
-    const mixedUrls = [
-      "http://api.example.com",
-      "https://api.example.com",
-      "api.example.com",
-    ]
+    const mixedUrls = ["http://api.example.com", "https://api.example.com", "api.example.com"]
 
     const devUrls = mixedUrls.map((url) => addProtocol(url, "http"))
     expect(devUrls).toEqual([
@@ -99,9 +81,7 @@ describe("createUrlBuilder", () => {
     expect(buildUrl("/users")).toBe("http://example.com/api/v1/users")
 
     const buildUrl2 = createUrlBuilder("example.com/api/v1/resources")
-    expect(buildUrl2("/items")).toBe(
-      "http://example.com/api/v1/resources/items"
-    )
+    expect(buildUrl2("/items")).toBe("http://example.com/api/v1/resources/items")
   })
 
   test("normalizes pathnames", () => {
@@ -109,9 +89,7 @@ describe("createUrlBuilder", () => {
     expect(buildUrl("/test")).toBe("http://example.com/test")
     expect(buildUrl("test")).toBe("http://example.com/test")
     expect(buildUrl("///test")).toBe("http://example.com/test")
-    expect(buildUrl("/api/v1/users/123")).toBe(
-      "http://example.com/api/v1/users/123"
-    )
+    expect(buildUrl("/api/v1/users/123")).toBe("http://example.com/api/v1/users/123")
     expect(buildUrl("/test/")).toBe("http://example.com/test/")
   })
 
@@ -126,9 +104,7 @@ describe("createUrlBuilder", () => {
       buildUrl("/test", {
         query: { page: 1, active: true, search: "hello world", count: 0 },
       })
-    ).toBe(
-      "http://example.com/test?page=1&active=true&search=hello+world&count=0"
-    )
+    ).toBe("http://example.com/test?page=1&active=true&search=hello+world&count=0")
 
     expect(
       buildUrl("/test", {
@@ -153,9 +129,7 @@ describe("createUrlBuilder", () => {
 
   test("handles complex scenarios", () => {
     const buildUrl = createUrlBuilder("api.example.com/v2/resources")
-    expect(
-      buildUrl("/users/123/posts", { query: { include: "comments" } })
-    ).toBe(
+    expect(buildUrl("/users/123/posts", { query: { include: "comments" } })).toBe(
       "http://api.example.com/v2/resources/users/123/posts?include=comments"
     )
 
@@ -163,9 +137,7 @@ describe("createUrlBuilder", () => {
     expect(buildUrl2("/health")).toBe("http://localhost:3000/api/health")
 
     const buildUrl3 = createUrlBuilder("example.com/api//v1")
-    expect(buildUrl3("//users//123")).toBe(
-      "http://example.com/api/v1/users/123"
-    )
+    expect(buildUrl3("//users//123")).toBe("http://example.com/api/v1/users/123")
   })
 
   test("handles edge cases", () => {
@@ -173,9 +145,9 @@ describe("createUrlBuilder", () => {
     expect(buildUrl("")).toBe("http://example.com/")
     expect(buildUrl("/")).toBe("http://example.com/")
 
-    expect(
-      buildUrl("/test", { query: { active: false, verified: true } })
-    ).toBe("http://example.com/test?active=false&verified=true")
+    expect(buildUrl("/test", { query: { active: false, verified: true } })).toBe(
+      "http://example.com/test?active=false&verified=true"
+    )
   })
 
   test("preserves existing protocols", () => {

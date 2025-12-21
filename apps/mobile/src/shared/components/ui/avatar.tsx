@@ -44,9 +44,7 @@ function AvatarFallback({
   style,
   ...props
 }: AvatarPrimitive.FallbackProps & { ref?: Ref<AvatarPrimitive.FallbackRef> }) {
-  return (
-    <AvatarPrimitive.Fallback style={[styles.fallback, style]} {...props} />
-  )
+  return <AvatarPrimitive.Fallback style={[styles.fallback, style]} {...props} />
 }
 
 export { Avatar, AvatarImage, AvatarFallback }

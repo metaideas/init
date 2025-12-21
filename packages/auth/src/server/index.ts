@@ -8,10 +8,9 @@ const SESSION_UPDATE_AGE = 60 * 60 * 24 * 15 // 15 days
 
 export function createAuth<T extends BetterAuthPlugin[]>(
   database: BetterAuthOptions["database"],
-  options: Omit<
-    BetterAuthOptions,
-    "appName" | "secret" | "database" | "session" | "plugins"
-  > & { secret: string },
+  options: Omit<BetterAuthOptions, "appName" | "secret" | "database" | "session" | "plugins"> & {
+    secret: string
+  },
   plugins: T
 ) {
   return betterAuth({

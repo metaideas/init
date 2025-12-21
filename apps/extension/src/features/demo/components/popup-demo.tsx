@@ -11,8 +11,7 @@ export default function PopupDemo() {
       <div className="flex flex-col items-center">
         <TypographyH1>Hello!</TypographyH1>
         <TypographyP>
-          This is a demo of the popup. It is a simple popup that displays a
-          message.
+          This is a demo of the popup. It is a simple popup that displays a message.
         </TypographyP>
       </div>
 

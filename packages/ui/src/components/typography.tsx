@@ -4,10 +4,7 @@ import type React from "react"
 function TypographyH1({ className, ...props }: React.ComponentProps<"h1">) {
   return (
     <h1
-      className={cn(
-        "scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl",
-        className
-      )}
+      className={cn("scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl", className)}
       {...props}
     />
   )
@@ -29,26 +26,14 @@ TypographyH2.displayName = "TypographyH2"
 
 function TypographyH3({ className, ...props }: React.ComponentProps<"h3">) {
   return (
-    <h3
-      className={cn(
-        "scroll-m-20 font-semibold text-2xl tracking-tight",
-        className
-      )}
-      {...props}
-    />
+    <h3 className={cn("scroll-m-20 font-semibold text-2xl tracking-tight", className)} {...props} />
   )
 }
 TypographyH3.displayName = "TypographyH3"
 
 function TypographyH4({ className, ...props }: React.ComponentProps<"h4">) {
   return (
-    <h4
-      className={cn(
-        "scroll-m-20 font-semibold text-xl tracking-tight",
-        className
-      )}
-      {...props}
-    />
+    <h4 className={cn("scroll-m-20 font-semibold text-xl tracking-tight", className)} {...props} />
   )
 }
 TypographyH4.displayName = "TypographyH4"
@@ -58,33 +43,17 @@ function TypographyP({ className, ...props }: React.ComponentProps<"p">) {
 }
 TypographyP.displayName = "TypographyP"
 
-function TypographyBlockquote({
-  className,
-  ...props
-}: React.ComponentProps<"blockquote">) {
-  return (
-    <blockquote
-      className={cn("mt-6 border-l-2 pl-6 italic", className)}
-      {...props}
-    />
-  )
+function TypographyBlockquote({ className, ...props }: React.ComponentProps<"blockquote">) {
+  return <blockquote className={cn("mt-6 border-l-2 pl-6 italic", className)} {...props} />
 }
 TypographyBlockquote.displayName = "TypographyBlockquote"
 
 function TypographyList({ className, ...props }: React.ComponentProps<"ul">) {
-  return (
-    <ul
-      className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
-      {...props}
-    />
-  )
+  return <ul className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)} {...props} />
 }
 TypographyList.displayName = "TypographyList"
 
-function TypographyInlineCode({
-  className,
-  ...props
-}: React.ComponentProps<"code">) {
+function TypographyInlineCode({ className, ...props }: React.ComponentProps<"code">) {
   return (
     <code
       className={cn(
@@ -98,9 +67,7 @@ function TypographyInlineCode({
 TypographyInlineCode.displayName = "TypographyInlineCode"
 
 function TypographyLead({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <p className={cn("text-muted-foreground text-xl", className)} {...props} />
-  )
+  return <p className={cn("text-muted-foreground text-xl", className)} {...props} />
 }
 TypographyLead.displayName = "TypographyLead"
 
@@ -109,23 +76,13 @@ function TypographyLarge({ className, ...props }: React.ComponentProps<"div">) {
 }
 TypographyLarge.displayName = "TypographyLarge"
 
-function TypographySmall({
-  className,
-  ...props
-}: React.ComponentProps<"small">) {
-  return (
-    <small
-      className={cn("font-medium text-sm leading-none", className)}
-      {...props}
-    />
-  )
+function TypographySmall({ className, ...props }: React.ComponentProps<"small">) {
+  return <small className={cn("font-medium text-sm leading-none", className)} {...props} />
 }
 TypographySmall.displayName = "TypographySmall"
 
 function TypographyMuted({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <p className={cn("text-muted-foreground text-sm", className)} {...props} />
-  )
+  return <p className={cn("text-muted-foreground text-sm", className)} {...props} />
 }
 TypographyMuted.displayName = "TypographyMuted"
 

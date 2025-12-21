@@ -3,11 +3,7 @@ import { cn } from "@init/utils/ui"
 import { cva } from "class-variance-authority"
 import { Icon } from "#components/icon.tsx"
 
-function NavigationMenu({
-  className,
-  children,
-  ...props
-}: NavigationMenuPrimitive.Root.Props) {
+function NavigationMenu({ className, children, ...props }: NavigationMenuPrimitive.Root.Props) {
   return (
     <NavigationMenuPrimitive.Root
       className={cn(
@@ -23,26 +19,17 @@ function NavigationMenu({
   )
 }
 
-function NavigationMenuList({
-  className,
-  ...props
-}: NavigationMenuPrimitive.List.Props) {
+function NavigationMenuList({ className, ...props }: NavigationMenuPrimitive.List.Props) {
   return (
     <NavigationMenuPrimitive.List
-      className={cn(
-        "group flex flex-1 list-none items-center justify-center gap-0",
-        className
-      )}
+      className={cn("group flex flex-1 list-none items-center justify-center gap-0", className)}
       data-slot="navigation-menu-list"
       {...props}
     />
   )
 }
 
-function NavigationMenuItem({
-  className,
-  ...props
-}: NavigationMenuPrimitive.Item.Props) {
+function NavigationMenuItem({ className, ...props }: NavigationMenuPrimitive.Item.Props) {
   return (
     <NavigationMenuPrimitive.Item
       className={cn("relative", className)}
@@ -76,10 +63,7 @@ function NavigationMenuTrigger({
   )
 }
 
-function NavigationMenuContent({
-  className,
-  ...props
-}: NavigationMenuPrimitive.Content.Props) {
+function NavigationMenuContent({ className, ...props }: NavigationMenuPrimitive.Content.Props) {
   return (
     <NavigationMenuPrimitive.Content
       className={cn(
@@ -121,10 +105,7 @@ function NavigationMenuPositioner({
   )
 }
 
-function NavigationMenuLink({
-  className,
-  ...props
-}: NavigationMenuPrimitive.Link.Props) {
+function NavigationMenuLink({ className, ...props }: NavigationMenuPrimitive.Link.Props) {
   return (
     <NavigationMenuPrimitive.Link
       className={cn(
@@ -137,10 +118,7 @@ function NavigationMenuLink({
   )
 }
 
-function NavigationMenuIndicator({
-  className,
-  ...props
-}: NavigationMenuPrimitive.Icon.Props) {
+function NavigationMenuIndicator({ className, ...props }: NavigationMenuPrimitive.Icon.Props) {
   return (
     <NavigationMenuPrimitive.Icon
       className={cn(

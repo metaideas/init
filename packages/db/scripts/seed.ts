@@ -26,10 +26,9 @@ async function main() {
       process.exit(0)
     }
 
-    const confirmPrompt = await consola.prompt(
-      "Type 'seed production database' to confirm",
-      { type: "text" }
-    )
+    const confirmPrompt = await consola.prompt("Type 'seed production database' to confirm", {
+      type: "text",
+    })
 
     if (confirmPrompt !== CONFIRM_PROMPT) {
       consola.error("Database seed cancelled")
@@ -76,9 +75,7 @@ async function main() {
 
   const end = performance.now()
 
-  consola.success(
-    `Database seeded successfully in ${Math.round(end - start)}ms`
-  )
+  consola.success(`Database seeded successfully in ${Math.round(end - start)}ms`)
 }
 
 void main()

@@ -1,8 +1,7 @@
 import * as z from "@init/utils/schema"
 
 export const EmailSchema = z.email({
-  error: (issue) =>
-    issue.input === undefined ? "Email is required" : "Invalid email address",
+  error: (issue) => (issue.input === undefined ? "Email is required" : "Invalid email address"),
 })
 
 export const PasswordSchema = z
@@ -39,17 +38,13 @@ export const SignInWithPasswordFormSchema = z.object({
   email: EmailSchema,
   password: PasswordSchema,
 })
-export type SignInWithPasswordForm = z.infer<
-  typeof SignInWithPasswordFormSchema
->
+export type SignInWithPasswordForm = z.infer<typeof SignInWithPasswordFormSchema>
 // Used in the form action
 export const SignInWithPasswordFormDataSchema = z.form.formData({
   email: z.form.text(SignInWithPasswordFormSchema.shape.email),
   password: z.form.text(SignInWithPasswordFormSchema.shape.password),
 })
-export type SignInWithPasswordFormData = z.infer<
-  typeof SignInWithPasswordFormDataSchema
->
+export type SignInWithPasswordFormData = z.infer<typeof SignInWithPasswordFormDataSchema>
 
 // Used in the form component
 export const ForgotPasswordFormSchema = z.object({

@@ -37,10 +37,7 @@ export default function SignInWithPasswordForm() {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField
-            name="email"
-            validators={{ onBlur: schema.shape.email }}
-          >
+          <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
             {(field) => (
               <field.Field>
                 <field.Label>Email address</field.Label>
@@ -50,10 +47,7 @@ export default function SignInWithPasswordForm() {
               </field.Field>
             )}
           </form.AppField>
-          <form.AppField
-            name="password"
-            validators={{ onBlur: schema.shape.password }}
-          >
+          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
             {(field) => (
               <field.Field>
                 <field.Label>Password</field.Label>

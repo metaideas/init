@@ -35,10 +35,7 @@ export default function ForgotPasswordForm() {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField
-            name="email"
-            validators={{ onBlur: schema.shape.email }}
-          >
+          <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
             {(field) => (
               <field.Field>
                 <field.Label>Email address</field.Label>

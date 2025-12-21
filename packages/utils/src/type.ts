@@ -1,9 +1,7 @@
 type StringToArray<
   S extends string,
   Acc extends string[] = [],
-> = S extends `${infer Char}${infer Rest}`
-  ? StringToArray<Rest, [...Acc, Char]>
-  : Acc
+> = S extends `${infer Char}${infer Rest}` ? StringToArray<Rest, [...Acc, Char]> : Acc
 
 /**
  * Helper type to check if A <= B using tuple length comparison.
@@ -23,23 +21,16 @@ type LessThanOrEqual<
       : false // A > B
   : CounterB["length"] extends B
     ? false // A > B (CounterA still growing but CounterB reached B)
-    : LessThanOrEqual<
-        A,
-        B,
-        readonly [...CounterA, unknown],
-        readonly [...CounterB, unknown]
-      >
+    : LessThanOrEqual<A, B, readonly [...CounterA, unknown], readonly [...CounterB, unknown]>
 
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>
 
 /**
  * Converts a union to an intersection.
  */
-export type UnionToIntersection<U> = (
-  U extends unknown
-    ? (k: U) => void
-    : never
-) extends (k: infer I) => void
+export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
+  k: infer I
+) => void
   ? I
   : never
 

@@ -1,10 +1,6 @@
 import { type Logger, logger } from "@init/observability/logger"
 import type { QueryClient } from "@tanstack/react-query"
-import {
-  createHashHistory,
-  createRouter,
-  RouterProvider,
-} from "@tanstack/react-router"
+import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { routeTree } from "#routeTree.gen.ts"

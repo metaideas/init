@@ -37,8 +37,7 @@ export function withRateLimiting(interval: Duration, limit: number) {
     windowMs: toMilliseconds(interval),
     limit,
     standardHeaders: "draft-7",
-    keyGenerator: (c) =>
-      c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
+    keyGenerator: (c) => c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
   })
 }
 

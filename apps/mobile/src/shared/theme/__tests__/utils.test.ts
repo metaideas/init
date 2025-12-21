@@ -34,12 +34,8 @@ describe("alpha", () => {
 
   test("converts hsl color with opacity", () => {
     expect(alpha("hsl(0, 100%, 50%)", 0.5)).toBe("hsla(0, 100%, 50%, 0.5)")
-    expect(alpha("hsl(120, 100%, 50%)", 0.25)).toBe(
-      "hsla(120, 100%, 50%, 0.25)"
-    )
-    expect(alpha("hsl(240, 100%, 50%)", 0.75)).toBe(
-      "hsla(240, 100%, 50%, 0.75)"
-    )
+    expect(alpha("hsl(120, 100%, 50%)", 0.25)).toBe("hsla(120, 100%, 50%, 0.25)")
+    expect(alpha("hsl(240, 100%, 50%)", 0.75)).toBe("hsla(240, 100%, 50%, 0.75)")
   })
 
   test("handles colors without spaces in functional notation", () => {

@@ -19,9 +19,7 @@ import { convexAuth } from "./auth"
 export const vv = typedV(schema)
 
 const publicContext = customCtx(async () => ({
-  logger: await import("@init/observability/logger").then((m) =>
-    m.logger.getChild("convex")
-  ),
+  logger: await import("@init/observability/logger").then((m) => m.logger.getChild("convex")),
 }))
 
 export const publicQuery = customQuery(query, publicContext)

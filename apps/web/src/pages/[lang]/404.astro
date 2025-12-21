@@ -1,13 +1,14 @@
 ---
-  import { locales } from "@init/internationalization/runtime"
-  import Layout from "#shared/components/layout.astro"
+import { locales } from "@init/internationalization/runtime"
+import Layout from "#shared/components/layout.astro"
 
-  export function getStaticPaths() {
-    return locales.map((locale) => ({ params: { lang: locale } }))
-  }
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { lang: locale } }))
+}
 
-  const { lang } = Astro.params
+const { lang } = Astro.params
 ---
+
 <Layout lang={lang}>
   <h1 class="text-2xl font-bold">Not Found</h1>
 </Layout>

@@ -1,8 +1,5 @@
 export function createRecursiveProxy(
-  callback: (opts: {
-    path: readonly string[]
-    args: readonly unknown[]
-  }) => unknown,
+  callback: (opts: { path: readonly string[]; args: readonly unknown[] }) => unknown,
   path: readonly string[]
 ): unknown {
   return new Proxy(

@@ -49,10 +49,9 @@ export default function SignUpForm() {
             validators={{
               onBlur: schema.shape.email,
               onBlurAsync: async ({ value }) => {
-                const { isAvailable } =
-                  await trpcClient.auth.checks.emailAvailable.query({
-                    email: value,
-                  })
+                const { isAvailable } = await trpcClient.auth.checks.emailAvailable.query({
+                  email: value,
+                })
 
                 if (isAvailable) {
                   return
@@ -71,10 +70,7 @@ export default function SignUpForm() {
               </field.Field>
             )}
           </form.AppField>
-          <form.AppField
-            name="password"
-            validators={{ onBlur: schema.shape.password }}
-          >
+          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
             {(field) => (
               <field.Field>
                 <field.Label>Password</field.Label>

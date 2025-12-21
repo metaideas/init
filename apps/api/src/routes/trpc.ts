@@ -1,11 +1,7 @@
 import { trpcServer } from "@hono/trpc-server"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import authProcedures from "#features/auth/procedures.ts"
-import {
-  createRouter,
-  createTRPCContext,
-  publicProcedure,
-} from "#shared/trpc.ts"
+import { createRouter, createTRPCContext, publicProcedure } from "#shared/trpc.ts"
 import { factory } from "#shared/utils.ts"
 
 /**

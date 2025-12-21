@@ -9,10 +9,7 @@ export const createTable = pg.pgTableCreator((name) => name)
 
 export const UNIQUE_ID_LENGTH = 24
 
-export function id<B extends string, P extends string>(
-  brand: B,
-  prefix: ConstrainedString<P, 4>
-) {
+export function id<B extends string, P extends string>(brand: B, prefix: ConstrainedString<P, 4>) {
   const IdSchema = z.branded(brand)
 
   const generateId = createIdGenerator({ prefix, size: UNIQUE_ID_LENGTH })
@@ -184,9 +181,7 @@ export const sessions = authSchema.table(
     pg.index("auth_sessions_token_idx").on(table.token),
     pg.index("auth_sessions_expires_at_idx").on(table.expiresAt),
     pg.index("auth_sessions_ip_address_idx").on(table.ipAddress),
-    pg
-      .index("auth_sessions_active_organization_id_idx")
-      .on(table.activeOrganizationId),
+    pg.index("auth_sessions_active_organization_id_idx").on(table.activeOrganizationId),
   ]
 )
 export type Session = typeof sessions.$inferSelect
@@ -213,11 +208,7 @@ export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
 export type OrganizationId = Organization["id"]
 
-export const memberRole = organizationSchema.enum("member_role", [
-  "member",
-  "admin",
-  "owner",
-])
+export const memberRole = organizationSchema.enum("member_role", ["member", "admin", "owner"])
 
 export const members = organizationSchema.table(
   "members",
@@ -247,9 +238,7 @@ export const members = organizationSchema.table(
       .uniqueIndex("organization_members_user_organization_unique_idx")
       .on(table.userId, table.organizationId),
     pg.index("organization_members_user_id_idx").on(table.userId),
-    pg
-      .index("organization_members_organization_id_idx")
-      .on(table.organizationId),
+    pg.index("organization_members_organization_id_idx").on(table.organizationId),
   ]
 )
 export type Member = typeof members.$inferSelect
@@ -296,9 +285,7 @@ export const invitations = organizationSchema.table(
     pg
       .uniqueIndex("organization_invitations_organization_email_unique_idx")
       .on(table.organizationId, table.email),
-    pg
-      .index("organization_invitations_organization_id_idx")
-      .on(table.organizationId),
+    pg.index("organization_invitations_organization_id_idx").on(table.organizationId),
     pg.index("organization_invitations_email_idx").on(table.email),
   ]
 )
@@ -362,9 +349,7 @@ export const activityLogs = organizationSchema.table(
     userAgent: pg.text(),
   },
   (table) => [
-    pg
-      .index("organization_activity_logs_organization_id_idx")
-      .on(table.organizationId),
+    pg.index("organization_activity_logs_organization_id_idx").on(table.organizationId),
     pg.index("organization_activity_logs_member_id_idx").on(table.memberId),
     pg.index("organization_activity_logs_type_idx").on(table.type),
   ]
@@ -386,10 +371,7 @@ export const assetStatus = storageSchema.enum("asset_status", [
   "deleted",
 ])
 
-export const storageProvider = storageSchema.enum("storage_provider", [
-  "s3",
-  "r2",
-])
+export const storageProvider = storageSchema.enum("storage_provider", ["s3", "r2"])
 
 export const assets = storageSchema.table(
   "assets",
@@ -436,9 +418,7 @@ export const assets = storageSchema.table(
     pg.index("storage_assets_provider_idx").on(table.provider),
     pg.index("storage_assets_status_idx").on(table.status),
     pg.index("storage_assets_expires_at_idx").on(table.expiresAt),
-    pg
-      .uniqueIndex("storage_assets_bucket_key_unique_idx")
-      .on(table.bucket, table.key),
+    pg.uniqueIndex("storage_assets_bucket_key_unique_idx").on(table.bucket, table.key),
   ]
 )
 

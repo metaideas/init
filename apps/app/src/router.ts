@@ -3,10 +3,7 @@ import { initializeErrorMonitoring } from "@init/observability/monitoring"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
-import {
-  createTRPCOptionsProxy,
-  type TRPCOptionsProxy,
-} from "@trpc/tanstack-react-query"
+import { createTRPCOptionsProxy, type TRPCOptionsProxy } from "@trpc/tanstack-react-query"
 import type { TRPCRouter } from "api/client"
 import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
