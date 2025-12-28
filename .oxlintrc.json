@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": [
+    "./node_modules/adamantite/presets/lint/core.json",
+    "./node_modules/adamantite/presets/lint/react.json",
+    "./node_modules/adamantite/presets/lint/node.json"
+  ],
+  "ignorePatterns": ["**/*.hbs", "**/src/**/_generated", "**/*.d.ts", "**/*.gen.ts", "cli/**"],
+  "overrides": [
+    {
+      "files": ["apps/mobile/babel.config.js", "apps/mobile/metro.config.js"],
+      "rules": {
+        "import/unambiguous": "off"
+      }
+    }
+  ]
+}

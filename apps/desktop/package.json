@@ -10,7 +10,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tauri dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@init/env": "workspace:*",
@@ -28,7 +28,7 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.17",
+    "@tailwindcss/vite": "4.1.18",
     "@tanstack/devtools-vite": "0.3.11",
     "@tanstack/router-plugin": "1.139.14",
     "@tauri-apps/cli": "2.9.5",

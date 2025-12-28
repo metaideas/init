@@ -10,15 +10,15 @@
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
-    "arkregex": "0.0.3",
+    "arkregex": "0.0.5",
     "clsx": "2.1.1",
     "nanoid": "5.1.6",
     "tailwind-merge": "3.4.0",
     "unstorage": "1.17.3",
-    "zod": "4.1.13",
+    "zod": "4.3.5",
     "zod-form-data": "3.0.1"
   },
   "devDependencies": {

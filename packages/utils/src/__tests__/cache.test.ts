@@ -1,23 +1,18 @@
 import { beforeEach, describe, expect, it, mock } from "bun:test"
-import Bun from "bun"
 import type { Driver, StorageValue } from "unstorage"
+import Bun from "bun"
 import { cache } from "../cache"
 
 // Simple in-memory driver for testing
 function createMemoryDriver(): Driver {
-  const storage = new Map<string, unknown>()
+  const storage = new Map<string>()
 
   return {
-    hasItem: (key: string) => Promise.resolve(storage.has(key)),
+    clear: () => {
+      storage.clear()
+      return Promise.resolve()
+    },
     getItem: (key: string) => Promise.resolve((storage.get(key) ?? null) as StorageValue),
-    setItem: (key: string, value: string) => {
-      storage.set(key, value)
-      return Promise.resolve()
-    },
-    removeItem: (key: string) => {
-      storage.delete(key)
-      return Promise.resolve()
-    },
     getKeys: (base: string) => {
       const keys = Array.from(storage.keys())
       if (!base) {
@@ -25,8 +20,13 @@ function createMemoryDriver(): Driver {
       }
       return Promise.resolve(keys.filter((k) => k.startsWith(base)))
     },
-    clear: () => {
-      storage.clear()
+    hasItem: (key: string) => Promise.resolve(storage.has(key)),
+    removeItem: (key: string) => {
+      storage.delete(key)
+      return Promise.resolve()
+    },
+    setItem: (key: string, value: string) => {
+      storage.set(key, value)
       return Promise.resolve()
     },
   }
@@ -34,12 +34,12 @@ function createMemoryDriver(): Driver {
 
 // Test helpers
 function createMockFn<TArgs extends unknown[], TReturn>(fn: (...args: TArgs) => TReturn) {
-  return mock(async (...args: TArgs) => fn(...args))
+  return mock((...args: TArgs) => Promise.resolve(fn(...args)))
 }
 
 function createCachedFn<TArgs extends unknown[], TReturn extends StorageValue>(
   fn: (...args: TArgs) => Promise<TReturn>,
-  parts: (string | number)[] = ["test"],
+  parts: Array<string | number> = ["test"],
   driver?: Driver
 ) {
   return cache(fn, parts, driver)
@@ -134,7 +134,7 @@ describe("cache", () => {
     it("should deduplicate sequential calls before cache write completes", async () => {
       let callCount = 0
       const fn = mock(async (x: number) => {
-        callCount++
+        callCount += 1
         await Bun.sleep(50)
         return x * 2
       })

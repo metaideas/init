@@ -1,6 +1,6 @@
+import type * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { cn } from "@init/utils/ui"
-import type * as React from "react"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
 

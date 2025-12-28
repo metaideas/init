@@ -1354,14 +1354,7 @@
     "storage.asset_status": {
       "name": "asset_status",
       "schema": "storage",
-      "values": [
-        "pending",
-        "uploading",
-        "available",
-        "processing",
-        "failed",
-        "deleted"
-      ]
+      "values": ["pending", "uploading", "available", "processing", "failed", "deleted"]
     },
     "organization.invitation_status": {
       "name": "invitation_status",

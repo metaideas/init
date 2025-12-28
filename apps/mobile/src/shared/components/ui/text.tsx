@@ -1,38 +1,26 @@
 import * as Slot from "@rn-primitives/slot"
 import { createContext, useContext } from "react"
-import type { TextStyle } from "react-native"
-import { Text as RNText, type TextProps } from "react-native"
+import { Text as RNText, type TextProps, type TextStyle } from "react-native"
 import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
 
 const styles = StyleSheet.create((theme) => ({
   text: {
     variants: {
+      color: {
+        primary: {
+          color: theme.colors.foreground,
+        },
+        quarternary: {
+          color: theme.utils.alpha(theme.colors.grey3, 0.5),
+        },
+        secondary: {
+          color: theme.utils.alpha(theme.colors.foreground, 0.9),
+        },
+        tertiary: {
+          color: theme.colors.grey3,
+        },
+      },
       variant: {
-        largeTitle: {
-          fontSize: theme.typography.fontSize["4xl"],
-          lineHeight: theme.typography.lineHeight["4xl"],
-          fontWeight: theme.typography.fontWeight.bold,
-        },
-        title1: {
-          fontSize: theme.typography.fontSize["2xl"],
-          lineHeight: theme.typography.lineHeight["2xl"],
-          fontWeight: theme.typography.fontWeight.base,
-        },
-        title2: {
-          fontSize: theme.typography.fontSize.xl + 2,
-          lineHeight: theme.typography.lineHeight.xl + 2,
-          fontWeight: theme.typography.fontWeight.base,
-        },
-        title3: {
-          fontSize: theme.typography.fontSize.xl,
-          lineHeight: theme.typography.lineHeight.xl + 2,
-          fontWeight: theme.typography.fontWeight.base,
-        },
-        heading: {
-          fontSize: theme.typography.fontSize.base,
-          lineHeight: theme.typography.lineHeight.base,
-          fontWeight: theme.typography.fontWeight.semibold,
-        },
         body: {
           fontSize: theme.typography.fontSize.base,
           lineHeight: theme.typography.lineHeight.base,
@@ -40,15 +28,6 @@ const styles = StyleSheet.create((theme) => ({
         callout: {
           fontSize: theme.typography.fontSize.base,
           lineHeight: theme.typography.lineHeight.base,
-        },
-        subhead: {
-          fontSize: theme.typography.fontSize.sm,
-          lineHeight: theme.typography.lineHeight.sm,
-          fontWeight: theme.typography.fontWeight.medium,
-        },
-        footnote: {
-          fontSize: theme.typography.fontSize.xs,
-          lineHeight: theme.typography.lineHeight.xs,
         },
         caption1: {
           fontSize: theme.typography.fontSize.xs,
@@ -58,19 +37,39 @@ const styles = StyleSheet.create((theme) => ({
           fontSize: theme.typography.fontSize.xs,
           lineHeight: theme.typography.lineHeight.xs,
         },
-      },
-      color: {
-        primary: {
-          color: theme.colors.foreground,
+        footnote: {
+          fontSize: theme.typography.fontSize.xs,
+          lineHeight: theme.typography.lineHeight.xs,
         },
-        secondary: {
-          color: theme.utils.alpha(theme.colors.foreground, 0.9),
+        heading: {
+          fontSize: theme.typography.fontSize.base,
+          fontWeight: theme.typography.fontWeight.semibold,
+          lineHeight: theme.typography.lineHeight.base,
         },
-        tertiary: {
-          color: theme.colors.grey3,
+        largeTitle: {
+          fontSize: theme.typography.fontSize["4xl"],
+          fontWeight: theme.typography.fontWeight.bold,
+          lineHeight: theme.typography.lineHeight["4xl"],
         },
-        quarternary: {
-          color: theme.utils.alpha(theme.colors.grey3, 0.5),
+        subhead: {
+          fontSize: theme.typography.fontSize.sm,
+          fontWeight: theme.typography.fontWeight.medium,
+          lineHeight: theme.typography.lineHeight.sm,
+        },
+        title1: {
+          fontSize: theme.typography.fontSize["2xl"],
+          fontWeight: theme.typography.fontWeight.base,
+          lineHeight: theme.typography.lineHeight["2xl"],
+        },
+        title2: {
+          fontSize: theme.typography.fontSize.xl + 2,
+          fontWeight: theme.typography.fontWeight.base,
+          lineHeight: theme.typography.lineHeight.xl + 2,
+        },
+        title3: {
+          fontSize: theme.typography.fontSize.xl,
+          fontWeight: theme.typography.fontWeight.base,
+          lineHeight: theme.typography.lineHeight.xl + 2,
         },
       },
     },
@@ -89,8 +88,8 @@ function Text({
   const textStyle = useContext(TextStyleContext)
 
   styles.useVariants({
-    variant,
     color,
+    variant,
   })
 
   return (

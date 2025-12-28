@@ -15,7 +15,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "secret": "bunx @better-auth/cli@latest secret",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@better-auth/expo": "1.4.7",

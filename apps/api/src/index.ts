@@ -5,6 +5,6 @@ import env from "#shared/env.ts"
 import { security } from "#shared/security.ts"
 
 export default {
-  port: env.PORT,
   fetch: security.handler(app.fetch),
+  port: env.PORT,
 } satisfies Bun.Serve.Options<unknown>

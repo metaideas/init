@@ -7,7 +7,7 @@ export default function Screen() {
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
       <View style={styles.container}>
-        <Text style={styles.text}>This page doesn't exist</Text>
+        <Text style={styles.text}>This page doesn&apos;t exist</Text>
       </View>
     </>
   )
@@ -15,9 +15,9 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   container: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
   text: {
     color: theme.colors.grey3,

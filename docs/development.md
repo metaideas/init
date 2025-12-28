@@ -27,7 +27,7 @@ bun <command> --filter <workspace>
 ## Template Management
 
 - `bun template init` - Initialize project and clean up template files
-- `bun template add` - Add workspaces to your monorepo  
+- `bun template add` - Add workspaces to your monorepo
 - `bun template update` - Sync with template updates
 - `bun template check` - Check for template updates
 - `bun template graph` - Generate dependency graph visualization

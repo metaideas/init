@@ -1,13 +1,13 @@
+import type { SearchBarCommands } from "react-native-screens"
 import { Stack } from "expo-router"
 import * as React from "react"
 import { type NativeSyntheticEvent, type TextInputSubmitEditingEvent, View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
-import type { SearchBarCommands } from "react-native-screens"
 import { StyleSheet, useUnistyles } from "react-native-unistyles"
 
 type NativeStackNavigationOptions = Exclude<
   NonNullable<React.ComponentPropsWithoutRef<typeof Stack.Screen>["options"]>,
-  // biome-ignore lint/suspicious/noExplicitAny: using any for generic purposes
+  // oxlint-disable-next-line no-explicit-any - Generic function to allow the header to be customized
   (props: any) => any
 >
 
@@ -58,13 +58,13 @@ const styles = StyleSheet.create((theme) => ({
   },
   headerLeft: {
     flexDirection: "row",
-    justifyContent: "center",
     gap: theme.spacing[4],
+    justifyContent: "center",
   },
   headerRight: {
     flexDirection: "row",
-    justifyContent: "center",
     gap: theme.spacing[4],
+    justifyContent: "center",
   },
   searchBar: {
     zIndex: 99_999,
@@ -87,11 +87,11 @@ function LargeTitleHeader({
   /**
    * Default is 'systemMaterial'
    */
-  iosBlurEffect?: HeaderOptions["headerBlurEffect"] | "none"
+  iosBlurEffect?: Exclude<HeaderOptions["headerBlurEffect"], undefined> | "none"
   materialPreset?: "stack" | "inline"
   backVisible?: boolean
   /**
-   * iOS - iosBlurEffect must be set to 'none' for this to work
+   * IOS - iosBlurEffect must be set to 'none' for this to work
    * @default iOS: true | Material: false
    */
   shadowVisible?: boolean
@@ -131,42 +131,36 @@ function LargeTitleHeader({
     <>
       <Stack.Screen
         options={{
-          headerLargeTitle: true,
           headerBackButtonMenuEnabled: props.iosBackButtonMenuEnabled,
           headerBackTitle: props.iosBackButtonTitle,
           headerBackVisible: props.backVisible,
-          headerLargeTitleShadowVisible: props.shadowVisible,
           headerBlurEffect:
             iosBlurEffect === "none" ? undefined : (iosBlurEffect ?? "systemMaterial"),
-          headerShadowVisible: props.shadowVisible,
-          headerLeft: leftView
-            ? (headerProps) => <View style={styles.headerLeft}>{leftView(headerProps)}</View>
-            : undefined,
-          headerRight: rightView
-            ? (headerProps) => <View style={styles.headerRight}>{rightView(headerProps)}</View>
-            : undefined,
-          headerShown: shown,
-          headerTitle: title,
-          headerTransparent: iosBlurEffect !== "none",
-          headerTitleStyle: {
-            color: theme.colors.foreground,
-          },
           headerLargeStyle: {
             backgroundColor: props.backgroundColor ?? theme.colors.background,
           },
-          headerStyle:
-            iosBlurEffect === "none"
-              ? {
-                  backgroundColor: props.backgroundColor ?? theme.colors.background,
-                }
-              : undefined,
+          headerLargeTitle: true,
+          headerLargeTitleShadowVisible: props.shadowVisible,
+          headerLeft: leftView
+            ? (headerProps) => (
+                <View style={styles.headerLeft}>
+                  {typeof leftView === "function" ? leftView(headerProps) : leftView}
+                </View>
+              )
+            : undefined,
+          headerRight: rightView
+            ? (headerProps) => (
+                <View style={styles.headerRight}>
+                  {typeof rightView === "function" ? rightView(headerProps) : rightView}
+                </View>
+              )
+            : undefined,
           headerSearchBarOptions: searchBar
             ? {
                 autoCapitalize: searchBar.autoCapitalize,
                 cancelButtonText: searchBar.iosCancelButtonText,
                 hideWhenScrolling: searchBar.iosHideWhenScrolling ?? false,
                 inputType: searchBar.inputType,
-                tintColor: searchBar.iosTintColor,
                 onBlur: () => {
                   setIsFocused(false)
                   searchBar?.onBlur?.()
@@ -187,8 +181,22 @@ function LargeTitleHeader({
                 placeholder: searchBar.placeholder ?? "Search...",
                 ref: searchBar?.ref as NativeStackNavigationSearchBarOptions["ref"],
                 textColor: searchBar.textColor,
+                tintColor: searchBar.iosTintColor,
               }
             : undefined,
+          headerShadowVisible: props.shadowVisible,
+          headerShown: shown,
+          headerStyle:
+            iosBlurEffect === "none"
+              ? {
+                  backgroundColor: props.backgroundColor ?? theme.colors.background,
+                }
+              : undefined,
+          headerTitle: title,
+          headerTitleStyle: {
+            color: theme.colors.foreground,
+          },
+          headerTransparent: iosBlurEffect !== "none",
           ...screen,
         }}
       />

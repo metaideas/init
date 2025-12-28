@@ -11,7 +11,6 @@ export default function SignInWithPasswordForm() {
   const navigate = useNavigate()
   const form = useForm({
     defaultValues: { email: "", password: "" },
-    validators: { onSubmit: schema },
     onSubmit: async ({ value }) => {
       await signIn.email(
         { email: value.email, password: value.password },
@@ -25,6 +24,7 @@ export default function SignInWithPasswordForm() {
         }
       )
     },
+    validators: { onSubmit: schema },
   })
 
   return (
@@ -32,7 +32,7 @@ export default function SignInWithPasswordForm() {
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        form.handleSubmit()
+        void form.handleSubmit()
       }}
     >
       <form.AppForm>

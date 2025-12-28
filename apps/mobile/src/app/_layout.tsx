@@ -4,7 +4,7 @@ import * as SplashScreen from "expo-splash-screen"
 import Providers from "#shared/components/providers.tsx"
 import { useHideSplashScreen } from "#shared/hooks.ts"
 
-SplashScreen.preventAutoHideAsync()
+void SplashScreen.preventAutoHideAsync()
 
 function RootLayout() {
   // Set any conditions to be met before hiding the splash screen

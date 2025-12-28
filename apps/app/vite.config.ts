@@ -7,9 +7,7 @@ import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 
 export default defineConfig({
-  server: {
-    port: 3001,
-  },
+  envPrefix: ["PUBLIC_"],
   plugins: [
     tailwindcss(),
     tanstackStart(),
@@ -20,13 +18,15 @@ export default defineConfig({
     }),
     internationalization({
       cookieName,
-      project: "../../packages/internationalization/project.inlang",
       outdir: "../../packages/internationalization/src/_generated",
+      project: "../../packages/internationalization/project.inlang",
       strategy: ["cookie", "baseLocale"],
     }),
     nitro({
       preset: "bun",
     }),
   ],
-  envPrefix: ["PUBLIC_"],
+  server: {
+    port: 3001,
+  },
 })

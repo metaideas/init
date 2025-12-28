@@ -10,10 +10,10 @@ export function createAnalytics(
     "analytics-server",
     () =>
       new PostHog(apiKey, {
-        host,
         // Don't batch events and send them immediately
         flushAt: 1,
         flushInterval: 0,
+        host,
 
         ...options,
       })

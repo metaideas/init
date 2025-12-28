@@ -13,11 +13,11 @@ const MS_PER_DAY = 1000 * 60 * 60 * 24
 const MS_PER_WEEK = 1000 * 60 * 60 * 24 * 7
 
 const UNIT_TO_MS: Record<Unit, number> = {
+  d: MS_PER_DAY,
+  h: MS_PER_HOUR,
+  m: MS_PER_MINUTE,
   ms: 1,
   s: MS_PER_SECOND,
-  m: MS_PER_MINUTE,
-  h: MS_PER_HOUR,
-  d: MS_PER_DAY,
   w: MS_PER_WEEK,
 } as const
 
@@ -26,7 +26,7 @@ const UNIT_TO_MS: Record<Unit, number> = {
  */
 export function duration(d: Duration) {
   const match = unitRegex.exec(d)
-  if (!match) {
+  if (!match || match.length < 3 || !match[1] || !match[2]) {
     throw new Error(`Invalid duration format: ${d}`)
   }
 
@@ -35,20 +35,20 @@ export function duration(d: Duration) {
   const milliseconds = time * UNIT_TO_MS[unit]
 
   return {
-    toMilliseconds() {
-      return milliseconds
-    },
-    toSeconds() {
-      return milliseconds / MS_PER_SECOND
-    },
-    toMinutes() {
-      return milliseconds / MS_PER_MINUTE
+    toDays() {
+      return milliseconds / MS_PER_DAY
     },
     toHours() {
       return milliseconds / MS_PER_HOUR
     },
-    toDays() {
-      return milliseconds / MS_PER_DAY
+    toMilliseconds() {
+      return milliseconds
+    },
+    toMinutes() {
+      return milliseconds / MS_PER_MINUTE
+    },
+    toSeconds() {
+      return milliseconds / MS_PER_SECOND
     },
     toWeeks() {
       return milliseconds / MS_PER_WEEK

@@ -7,7 +7,6 @@
     // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
     "plugins": [{ "name": "@astrojs/ts-plugin" }],
-    "baseUrl": ".",
     "noEmit": true,
     "allowImportingTsExtensions": true
   },

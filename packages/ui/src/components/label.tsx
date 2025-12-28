@@ -1,9 +1,7 @@
-// biome-ignore-all lint/a11y/noLabelWithoutControl: shadcn/ui
-
-import { cn } from "@init/utils/ui"
 import type * as React from "react"
+import { cn } from "@init/utils/ui"
 
-function Label({ className, ...props }: React.ComponentProps<"label">) {
+function Label({ className, htmlFor, ...props }: React.ComponentProps<"label">) {
   return (
     <label
       className={cn(
@@ -11,6 +9,7 @@ function Label({ className, ...props }: React.ComponentProps<"label">) {
         className
       )}
       data-slot="label"
+      htmlFor={htmlFor}
       {...props}
     />
   )

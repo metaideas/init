@@ -12,14 +12,14 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "astro dev",
     "preview": "astro preview",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "adamantite typecheck",
     "typegen": "astro sync"
   },
   "dependencies": {
     "@astrojs/react": "4.4.2",
-    "@astrojs/starlight": "0.37.0",
+    "@astrojs/starlight": "0.37.1",
     "@astrojs/starlight-tailwind": "4.0.2",
-    "astro": "5.16.3",
+    "astro": "5.16.6",
     "react": "catalog:",
     "react-dom": "catalog:",
     "sharp": "0.34.5"
@@ -27,11 +27,11 @@
   "devDependencies": {
     "@astrojs/check": "0.9.6",
     "@astrojs/ts-plugin": "1.10.6",
-    "@tailwindcss/vite": "4.1.17",
+    "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "tailwindcss": "4.1.17",
+    "tailwindcss": "4.1.18",
     "typescript": "catalog:"
   }
 }

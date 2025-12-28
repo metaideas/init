@@ -1,17 +1,19 @@
-import { cn } from "@init/utils/ui"
 import type React from "react"
+import { cn } from "@init/utils/ui"
 
-function TypographyH1({ className, ...props }: React.ComponentProps<"h1">) {
+function TypographyH1({ className, children, ...props }: React.ComponentProps<"h1">) {
   return (
     <h1
       className={cn("scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl", className)}
       {...props}
-    />
+    >
+      {children}
+    </h1>
   )
 }
 TypographyH1.displayName = "TypographyH1"
 
-function TypographyH2({ className, ...props }: React.ComponentProps<"h2">) {
+function TypographyH2({ className, children, ...props }: React.ComponentProps<"h2">) {
   return (
     <h2
       className={cn(
@@ -19,21 +21,27 @@ function TypographyH2({ className, ...props }: React.ComponentProps<"h2">) {
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </h2>
   )
 }
 TypographyH2.displayName = "TypographyH2"
 
-function TypographyH3({ className, ...props }: React.ComponentProps<"h3">) {
+function TypographyH3({ className, children, ...props }: React.ComponentProps<"h3">) {
   return (
-    <h3 className={cn("scroll-m-20 font-semibold text-2xl tracking-tight", className)} {...props} />
+    <h3 className={cn("scroll-m-20 font-semibold text-2xl tracking-tight", className)} {...props}>
+      {children}
+    </h3>
   )
 }
 TypographyH3.displayName = "TypographyH3"
 
-function TypographyH4({ className, ...props }: React.ComponentProps<"h4">) {
+function TypographyH4({ className, children, ...props }: React.ComponentProps<"h4">) {
   return (
-    <h4 className={cn("scroll-m-20 font-semibold text-xl tracking-tight", className)} {...props} />
+    <h4 className={cn("scroll-m-20 font-semibold text-xl tracking-tight", className)} {...props}>
+      {children}
+    </h4>
   )
 }
 TypographyH4.displayName = "TypographyH4"

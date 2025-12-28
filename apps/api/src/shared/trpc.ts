@@ -1,7 +1,7 @@
-import * as z from "@init/utils/schema"
-import { initTRPC, TRPCError } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
+import * as z from "@init/utils/schema"
+import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 import type { AppContext } from "#shared/types.ts"
 
@@ -23,7 +23,6 @@ export function createTRPCContext(opts: FetchCreateContextFnOptions, c: Context<
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
 
 export const t = initTRPC.context<TRPCContext>().create({
-  transformer,
   errorFormatter({ shape, error }) {
     return {
       ...shape,
@@ -33,6 +32,7 @@ export const t = initTRPC.context<TRPCContext>().create({
       },
     }
   },
+  transformer,
 })
 
 export const middleware = t.middleware

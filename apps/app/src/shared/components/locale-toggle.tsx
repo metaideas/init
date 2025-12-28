@@ -18,8 +18,20 @@ export function LocaleToggle() {
         <span className="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setLocale("es")}>🇪🇸 {m.spanish()}</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLocale("en")}>🇺🇸 {m.english()}</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            void setLocale("es")
+          }}
+        >
+          🇪🇸 {m.spanish()}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            void setLocale("en")
+          }}
+        >
+          🇺🇸 {m.english()}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

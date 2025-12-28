@@ -1,8 +1,9 @@
+import type * as z from "@init/utils/schema"
+import type { Context as HonoContext } from "hono"
 import { logger } from "@init/observability/logger"
 import { assertUnreachable } from "@init/utils/assert"
 import { jsonCodec } from "@init/utils/codec"
 import { createRecursiveProxy } from "@init/utils/proxy"
-import type * as z from "@init/utils/schema"
 import {
   anthropic,
   custom,
@@ -12,7 +13,6 @@ import {
   resend,
   type VerifyRequest,
 } from "@upstash/qstash"
-import type { Context as HonoContext } from "hono"
 import type {
   FlattenedRequestsSchema,
   MessageClientConfig,
@@ -80,11 +80,11 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const [body] = options.args
 
       if (method === "publish") {
-        return this.#client.publishJSON({ url, body })
+        return this.#client.publishJSON({ body, url })
       }
 
       if (method === "options") {
-        return { url, body }
+        return { body, url }
       }
 
       if (method === "$path") {
@@ -136,9 +136,9 @@ export class MessageClient<TRequest extends RequestsSchema> {
       const body = await c.req.text()
 
       const isValid = await this.#receiver.verify({
-        signature,
         body,
         clockTolerance: options?.clockTolerance,
+        signature,
       })
 
       if (!isValid) {
@@ -202,18 +202,17 @@ export class MessageClient<TRequest extends RequestsSchema> {
         })
       }
 
-      // TypeScript can't narrow messageType to a literal type, so we use a type assertion.
+      // @ts-expect-error - TypeScript can't narrow messageType to a literal type, so we use a type assertion.
       // The runtime validation above ensures messageType is valid and parsed.data matches the schema.
-      // biome-ignore lint/suspicious/noExplicitAny: Runtime validation ensures type safety
-      const result = await handler(parsed.data as any)
+      const result = await handler(parsed.data)
 
-      return new Response(
-        JSON.stringify({
-          message: "Message processed successfully",
+      return Response.json(
+        {
           completedAt: new Date().toISOString(),
           duration: `${Date.now() - startTime}ms`,
+          message: "Message processed successfully",
           result,
-        }),
+        },
         { status: 200 }
       )
     }
@@ -226,12 +225,12 @@ export class MessageClient<TRequest extends RequestsSchema> {
     return this.#receiver
   }
 
-  get integrations() {
+  static get integrations() {
     return {
       ai: {
-        openai,
         anthropic,
         custom,
+        openai,
       },
       resend,
     }

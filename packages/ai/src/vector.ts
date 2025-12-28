@@ -16,9 +16,11 @@ export function createIndex<T extends Record<string, unknown> = never>(
   ) as Index<T>
 }
 
+const DEFAULT_SEMANTIC_CACHE_OPTIONS = { minProximity: 0.5 } as const
+
 export function createSemanticCache(
   index: Index,
-  options: { namespace?: string; minProximity: number } = { minProximity: 0.5 }
+  options: { namespace?: string; minProximity: number } = DEFAULT_SEMANTIC_CACHE_OPTIONS
 ) {
   return new SemanticCache({
     index,

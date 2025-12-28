@@ -3,8 +3,8 @@ import { v } from "convex/values"
 
 export default defineSchema({
   documents: defineTable({
-    name: v.string(),
     content: v.string(),
+    name: v.string(),
   }).index("by_name", ["name"]),
   messages: defineTable({
     content: v.string(),

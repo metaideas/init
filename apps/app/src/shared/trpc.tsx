@@ -1,11 +1,11 @@
+import type { TRPCRouter } from "api/client"
+import type { ReactNode } from "react"
 import { isDevelopment } from "@init/utils/environment"
 import { useQueryClient } from "@tanstack/react-query"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
 import { createTRPCClient, httpBatchStreamLink, loggerLink } from "@trpc/client"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
-import type { TRPCRouter } from "api/client"
-import type { ReactNode } from "react"
 import superjson from "superjson"
 import { buildApiUrl } from "#shared/utils.ts"
 
@@ -18,9 +18,9 @@ export const makeTRPCClient = createIsomorphicFn()
     createTRPCClient<TRPCRouter>({
       links: [
         httpBatchStreamLink({
+          headers: getRequestHeaders,
           transformer: superjson,
           url,
-          headers: getRequestHeaders,
         }),
       ],
     })
@@ -28,15 +28,15 @@ export const makeTRPCClient = createIsomorphicFn()
   .client(() =>
     createTRPCClient<TRPCRouter>({
       links: [
-        loggerLink({ enabled: () => isDevelopment(), colorMode: "ansi" }),
+        loggerLink({ colorMode: "ansi", enabled: () => isDevelopment() }),
         httpBatchStreamLink({
-          transformer: superjson,
-          url,
           fetch: (requestUrl, options) =>
             fetch(requestUrl, {
               ...options,
               credentials: "include",
             }),
+          transformer: superjson,
+          url,
         }),
       ],
     })

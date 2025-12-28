@@ -1,5 +1,5 @@
-import Bun from "bun"
 import process from "node:process"
+import Bun from "bun"
 import consola from "consola"
 import { downloadTemplate } from "giget"
 
@@ -20,8 +20,8 @@ const TITLE = `
 
 async function promptProjectName(): Promise<string> {
   const projectName = await consola.prompt("What is the name of your project?", {
-    type: "text",
     cancel: "undefined",
+    type: "text",
   })
 
   if (projectName === undefined) {
@@ -59,9 +59,9 @@ async function main() {
     const shouldOverwrite = await consola.prompt(
       `Directory "${name}" already exists. Do you want to overwrite it?`,
       {
-        type: "confirm",
-        initial: false,
         cancel: "undefined",
+        initial: false,
+        type: "confirm",
       }
     )
 
@@ -77,9 +77,9 @@ async function main() {
     consola.success(`Created "${name}" using ▶︎ init.`)
 
     const confirm = await consola.prompt("Do you want to install dependencies?", {
-      type: "confirm",
-      initial: true,
       cancel: "undefined",
+      initial: true,
+      type: "confirm",
     })
 
     if (confirm) {
@@ -89,13 +89,13 @@ async function main() {
     consola.info("Remember to run `bun template init` to initialize your project.")
     consola.success("Build something great! 🚀")
   } catch (error) {
-    consola.error(`Failed to create project: ${error}`)
+    consola.error(
+      `Failed to create project: ${error instanceof Error ? error.message : String(error)}`
+    )
     process.exit(1)
   }
 }
 
-main().catch((error) => {
-  // biome-ignore lint/suspicious/noConsole: output to console if we crash
-  console.error(error)
+main().catch((_error: unknown) => {
   process.exit(1)
 })

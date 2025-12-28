@@ -17,7 +17,7 @@
     "push": "drizzle-kit push",
     "reset": "bun run ./scripts/reset.ts",
     "seed": "bun run ./scripts/seed.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@init/env": "workspace:*",

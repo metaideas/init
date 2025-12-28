@@ -7,8 +7,7 @@
     "noEmit": true,
     // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
-    "plugins": [{ "name": "@astrojs/ts-plugin" }],
-    "baseUrl": "."
+    "plugins": [{ "name": "@astrojs/ts-plugin" }]
   },
   "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"],
   "exclude": ["dist", "node_modules"]

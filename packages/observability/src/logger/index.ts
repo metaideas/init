@@ -6,49 +6,49 @@ import { redactSink } from "./utils"
 const consoleSink = getConsoleSink({
   formatter: isDevelopment()
     ? getPrettyFormatter({
-        timestamp: "time",
-        properties: true,
+        categoryTruncate: "middle",
         categoryWidth: 15,
         levelStyle: "bold",
         messageStyle: "reset",
-        categoryTruncate: "middle",
+        properties: true,
+        timestamp: "time",
       })
     : jsonLinesFormatter,
   nonBlocking: true,
 })
 
 configureSync({
+  loggers: [
+    {
+      category: ["logtape", "meta"],
+      lowestLevel: "warning",
+      sinks: ["meta"],
+    },
+    {
+      category: ["security"],
+      lowestLevel: "info",
+      sinks: ["console"],
+    },
+    {
+      category: ["hono"],
+      lowestLevel: "info",
+      sinks: ["console"],
+    },
+    {
+      category: ["drizzle-orm"],
+      lowestLevel: "debug",
+      sinks: ["console"],
+    },
+    {
+      category: ["default"],
+      lowestLevel: "trace",
+      sinks: ["console"],
+    },
+  ],
   sinks: {
     console: redactSink(consoleSink),
     meta: consoleSink,
   },
-  loggers: [
-    {
-      category: ["logtape", "meta"],
-      sinks: ["meta"],
-      lowestLevel: "warning",
-    },
-    {
-      category: ["security"],
-      sinks: ["console"],
-      lowestLevel: "info",
-    },
-    {
-      category: ["hono"],
-      sinks: ["console"],
-      lowestLevel: "info",
-    },
-    {
-      category: ["drizzle-orm"],
-      sinks: ["console"],
-      lowestLevel: "debug",
-    },
-    {
-      category: ["default"],
-      sinks: ["console"],
-      lowestLevel: "trace",
-    },
-  ],
 })
 
 export const logger = getLogger(["app"])

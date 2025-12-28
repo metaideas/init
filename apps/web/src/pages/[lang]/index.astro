@@ -18,11 +18,8 @@ const collection = await getCollection("blog")
 const { lang } = Astro.params
 
 const posts = collection
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .map((post) => ({
-    ...post,
-    slug: post.id.split("/").slice(1).join("/"),
-  }))
+  .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((post) => (Object.assign(post, {slug:post.id.split(`/`).slice(1).join(`/`)})))
 ---
 
 <Layout lang={lang}>

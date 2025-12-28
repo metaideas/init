@@ -13,7 +13,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "convex dev",
     "env:set": "convex env set",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@convex-dev/better-auth": "0.10.4",

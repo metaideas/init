@@ -20,6 +20,6 @@ describe("createIdGenerator", () => {
     const generateId = createIdGenerator({ prefix: "test", size: 12 })
     const id = generateId()
     expect(id).toMatch(ID_REGEX_WITH_PREFIX)
-    expect(id).toHaveLength(17) // test_ + 12 chars
+    expect(id).toHaveLength(17) // Test_ + 12 chars
   })
 })

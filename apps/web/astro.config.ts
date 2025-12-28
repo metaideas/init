@@ -18,8 +18,8 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       internationalization({
-        project: "../../packages/internationalization/project.inlang",
         outdir: "../../packages/internationalization/src/_generated",
+        project: "../../packages/internationalization/project.inlang",
         strategy: ["url", "baseLocale"],
       }),
     ],

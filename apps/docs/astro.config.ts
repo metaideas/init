@@ -4,36 +4,22 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
 
 export default defineConfig({
-  server: {
-    port: 3004,
-  },
   integrations: [
     starlight({
-      title: "Init Docs",
-      social: [
-        {
-          icon: "github",
-          label: "GitHub",
-          href: "https://github.com/withastro/starlight",
-        },
-      ],
+      customCss: ["./src/shared/styles/global.css"],
       defaultLocale: "root",
       locales: {
-        root: {
-          label: "English",
-          lang: "en",
-        },
         es: {
           label: "Español",
           lang: "es",
         },
+        root: {
+          label: "English",
+          lang: "en",
+        },
       },
       sidebar: [
         {
-          label: "Guides",
-          translations: {
-            es: "Guías",
-          },
           items: [
             // Each item here is one entry in the navigation menu.
             {
@@ -44,19 +30,33 @@ export default defineConfig({
               },
             },
           ],
+          label: "Guides",
+          translations: {
+            es: "Guías",
+          },
         },
         {
+          autogenerate: { directory: "reference" },
           label: "Reference",
           translations: {
             es: "Referencia",
           },
-          autogenerate: { directory: "reference" },
         },
       ],
-      customCss: ["./src/shared/styles/global.css"],
+      social: [
+        {
+          href: "https://github.com/withastro/starlight",
+          icon: "github",
+          label: "GitHub",
+        },
+      ],
+      title: "Init Docs",
     }),
     react(),
   ],
+  server: {
+    port: 3004,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

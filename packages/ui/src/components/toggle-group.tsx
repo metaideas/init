@@ -1,7 +1,7 @@
+import type { VariantProps } from "class-variance-authority"
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
 import { cn } from "@init/utils/ui"
-import type { VariantProps } from "class-variance-authority"
 import * as React from "react"
 import { toggleVariants } from "#components/toggle.tsx"
 
@@ -11,10 +11,10 @@ const ToggleGroupContext = React.createContext<
     orientation?: "horizontal" | "vertical"
   }
 >({
-  size: "default",
-  variant: "default",
-  spacing: 0,
   orientation: "horizontal",
+  size: "default",
+  spacing: 0,
+  variant: "default",
 })
 
 function ToggleGroup({
@@ -44,7 +44,7 @@ function ToggleGroup({
       style={{ "--gap": spacing } as React.CSSProperties}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant, size, spacing, orientation }}>
+      <ToggleGroupContext.Provider value={{ orientation, size, spacing, variant }}>
         {children}
       </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive>
@@ -65,15 +65,15 @@ function ToggleGroupItem({
       className={cn(
         "shrink-0 focus:z-10 focus-visible:z-10 data-[state=on]:bg-muted group-data-[spacing=0]/toggle-group:rounded-none group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0 group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:border-l-0 group-data-[spacing=0]/toggle-group:px-2 group-data-[spacing=0]/toggle-group:shadow-none group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-r-md group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-md group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-md group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-l-md",
         toggleVariants({
-          variant: context.variant ?? variant,
           size: context.size ?? size,
+          variant: context.variant ?? variant,
         }),
         className
       )}
       data-size={context.size ?? size}
       data-slot="toggle-group-item"
       data-spacing={context.spacing}
-      data-variant={context.variant || variant}
+      data-variant={context.variant ?? variant}
       {...props}
     >
       {children}

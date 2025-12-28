@@ -11,14 +11,14 @@ if (!(checkIsLocalDatabase(env.DATABASE_URL) || env.RUN_PRODUCTION_MIGRATIONS)) 
 }
 
 export default defineConfig({
-  schema: "./src/schema.ts",
-  out: "./migrations",
-  dialect: "postgresql",
+  breakpoints: true,
+  casing: "snake_case",
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  casing: "snake_case",
-  breakpoints: true,
+  dialect: "postgresql",
+  out: "./migrations",
+  schema: "./src/schema.ts",
   strict: true,
   verbose: true,
 })

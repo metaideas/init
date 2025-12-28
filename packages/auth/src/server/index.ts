@@ -1,5 +1,5 @@
-import { APP_ID, APP_NAME } from "@init/utils/constants"
 import type { BetterAuthPlugin } from "better-auth"
+import { APP_ID, APP_NAME } from "@init/utils/constants"
 import { type DB, drizzleAdapter } from "better-auth/adapters/drizzle"
 import { type BetterAuthOptions, betterAuth } from "better-auth/minimal"
 
@@ -14,17 +14,17 @@ export function createAuth<T extends BetterAuthPlugin[]>(
   plugins: T
 ) {
   return betterAuth({
-    appName: APP_NAME,
-    database,
     advanced: {
       cookiePrefix: APP_ID,
       ...options.advanced,
     },
+    appName: APP_NAME,
+    database,
+    plugins,
     session: {
       expiresIn: SESSION_EXPIRES_IN,
       updateAge: SESSION_UPDATE_AGE,
     },
-    plugins,
     ...options,
   })
 }

@@ -137,7 +137,7 @@ export function decrypt(encryptedPayload: string): string {
   } catch (error) {
     // Wrap crypto errors with more context
     if (error instanceof Error) {
-      throw new Error(`Decryption failed: ${error.message}`)
+      throw new Error(`Decryption failed: ${error.message}`, { cause: error })
     }
     throw error
   }

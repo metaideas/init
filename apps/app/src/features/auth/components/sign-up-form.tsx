@@ -10,16 +10,16 @@ export default function SignUpForm() {
   const trpcClient = useTRPCClient()
   const navigate = useNavigate()
   const form = useForm({
-    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
-    validators: {
-      onSubmit: schema,
-    },
+    defaultValues: { confirmPassword: "", email: "", name: "", password: "" },
     onSubmit: async ({ value }) => {
       await signUp.email(value, {
         onSuccess: () => {
           void navigate({ to: AUTHENTICATED_PATHNAME })
         },
       })
+    },
+    validators: {
+      onSubmit: schema,
     },
   })
 
@@ -28,7 +28,7 @@ export default function SignUpForm() {
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        form.handleSubmit()
+        void form.handleSubmit()
       }}
     >
       <form.AppForm>

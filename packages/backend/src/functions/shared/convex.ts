@@ -26,14 +26,14 @@ export const publicQuery = customQuery(query, publicContext)
 export const publicMutation = customMutation(mutation, publicContext)
 export const publicAction = customAction(action, publicContext)
 
-function validateIdentity(ctx: QueryCtx | MutationCtx | ActionCtx) {
-  const identity = ctx.auth.getUserIdentity()
+async function validateIdentity(ctx: QueryCtx | MutationCtx | ActionCtx) {
+  const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
     throw new Error("User is not authenticated")
   }
 
-  return { identity }
+  return identity
 }
 
 export const protectedQuery = customQuery(

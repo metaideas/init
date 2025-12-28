@@ -1,6 +1,6 @@
+import type * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cn } from "@init/utils/ui"
-import type * as React from "react"
 import { Icon } from "#components/icon.tsx"
 
 const Select = SelectPrimitive.Root

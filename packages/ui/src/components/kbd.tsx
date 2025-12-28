@@ -1,5 +1,5 @@
-import { cn } from "@init/utils/ui"
 import type * as React from "react"
+import { cn } from "@init/utils/ui"
 
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
   return (

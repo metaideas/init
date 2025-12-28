@@ -4,12 +4,12 @@ import { requireSession } from "#shared/server/middleware.ts"
 
 export const Route = createFileRoute("/api/test")({
   server: {
-    middleware: [requireSession],
     handlers: {
       GET: () =>
         json({
           message: 'Hello "/api/test"!',
         }),
     },
+    middleware: [requireSession],
   },
 })

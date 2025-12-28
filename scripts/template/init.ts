@@ -60,7 +60,10 @@ async function setupGit() {
   try {
     await Bun.$`git init`
   } catch (error) {
-    throw new Error(`Failed to initialize Git: ${error}`)
+    throw new Error(
+      `Failed to initialize Git: ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error }
+    )
   }
 }
 
@@ -106,10 +109,10 @@ export default defineCommand({
       const projectName = await consola.prompt(
         "Enter your project name (for @[project-name] monorepo alias). Leave as 'init' or empty to skip renaming.",
         {
-          type: "text",
+          cancel: "undefined",
           default: "init",
           placeholder: "init",
-          cancel: "undefined",
+          type: "text",
         }
       )
 
@@ -120,12 +123,12 @@ export default defineCommand({
       const selectedApps = await consola.prompt(
         "Select apps to keep (all others will be removed)",
         {
-          type: "multiselect",
+          cancel: "undefined",
           options: workspaces.apps.map((app) => ({
             label: app.description,
             value: app.name,
           })),
-          cancel: "undefined",
+          type: "multiselect",
         }
       )
 
@@ -150,13 +153,13 @@ export default defineCommand({
       const selectedPackages = await consola.prompt(
         "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
         {
-          type: "multiselect",
+          cancel: "undefined",
+          initial: Array.from(requiredPackages),
           options: workspaces.packages.map((pkg) => ({
             label: pkg.description,
             value: pkg.name,
           })),
-          initial: Array.from(requiredPackages),
-          cancel: "undefined",
+          type: "multiselect",
         }
       )
 
@@ -204,7 +207,9 @@ export default defineCommand({
 
       consola.success("🎉 All setup steps complete! Your project is ready.")
     } catch (error) {
-      consola.error(`Operation cancelled: ${error}`)
+      consola.error(
+        `Operation cancelled: ${error instanceof Error ? error.message : String(error)}`
+      )
       process.exit(1)
     }
   },

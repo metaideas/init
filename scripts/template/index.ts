@@ -8,12 +8,6 @@ import rename from "./rename"
 import update from "./update"
 
 export default defineCommand({
-  command: "template",
-  describe: "Commands to manage the `init` template",
-  handler: () => {
-    // Handler required by yargs, but demandCommand(1) ensures
-    // help is shown when no subcommand is provided
-  },
   builder: (yargs) =>
     yargs
       .command(add)
@@ -24,4 +18,10 @@ export default defineCommand({
       .demandCommand(1)
       .strict()
       .showHelpOnFail(true),
+  command: "template",
+  describe: "Commands to manage the `init` template",
+  handler: () => {
+    // Handler required by yargs, but demandCommand(1) ensures
+    // help is shown when no subcommand is provided
+  },
 })

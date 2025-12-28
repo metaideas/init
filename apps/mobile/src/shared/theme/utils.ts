@@ -20,7 +20,7 @@ export function alpha(color: string, opacity: number) {
       return color.slice(0, 7) + alphaHex.padStart(2, "0")
     }
     if (color.length === 4) {
-      // convert to 6-digit hex before adding opacity
+      // Convert to 6-digit hex before adding opacity
 
       const [r, g, b] = color.slice(1).split("") as [string, string, string]
 
@@ -34,13 +34,13 @@ export function alpha(color: string, opacity: number) {
 }
 export function shadow(elevation: number) {
   return {
+    elevation,
     shadowOffset: {
-      width: 0,
       height: elevation * 0.5,
+      width: 0,
     },
     shadowOpacity: elevation * 0.05,
-    shadowRadius: elevation * 1.2,
-    elevation, // Android
+    shadowRadius: elevation * 1.2, // Android
   }
 }
 
@@ -49,8 +49,11 @@ export function scale(baseValue: number, scaleFactor: number) {
 }
 
 export function leading(textStyle: TextStyle): Pick<TextStyle, "lineHeight"> {
-  const lineHeight = textStyle?.lineHeight || typography.lineHeight.snug
-  const size = textStyle?.fontSize || typography.fontSize.sm
+  const lineHeight = textStyle?.lineHeight ?? typography.lineHeight.snug
+  const size =
+    textStyle?.fontSize !== undefined && textStyle.fontSize > 0
+      ? textStyle.fontSize
+      : typography.fontSize.sm
 
   return {
     lineHeight: Math.round(size * lineHeight),

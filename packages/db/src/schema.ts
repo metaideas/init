@@ -1,7 +1,7 @@
 import type { MimeType, StorageBucket } from "@init/utils/constants"
+import type { ConstrainedString } from "@init/utils/type"
 import { createIdGenerator } from "@init/utils/id"
 import * as z from "@init/utils/schema"
-import type { ConstrainedString } from "@init/utils/type"
 import * as pg from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm/relations"
 
@@ -38,8 +38,8 @@ export const documents = createTable("documents", {
   ...id("DocumentId", "doc"),
   ...timestamps,
 
-  name: pg.text().notNull(),
   content: pg.text().notNull(),
+  name: pg.text().notNull(),
 })
 
 // ==========================AUTH==========================
@@ -53,19 +53,20 @@ export const users = authSchema.table(
     ...id("UserId", "user"),
     ...timestamps,
 
-    role: userRole().notNull().default("user"),
-
-    name: pg.text().notNull(),
-    image: pg.text(),
+    banExpiresAt: pg.timestamp({ withTimezone: true }),
+    banReason: pg.text(),
+    banned: pg.boolean().notNull().default(false),
 
     email: pg.text().notNull().unique(),
     emailVerified: pg.boolean().notNull().default(false),
 
-    banned: pg.boolean().notNull().default(false),
-    banReason: pg.text(),
-    banExpiresAt: pg.timestamp({ withTimezone: true }),
+    image: pg.text(),
 
     metadata: pg.jsonb(),
+
+    name: pg.text().notNull(),
+
+    role: userRole().notNull().default("user"),
   },
   (table) => [
     pg.index("users_email_idx").on(table.email),
@@ -84,6 +85,22 @@ export const accounts = authSchema.table(
     ...id("AccountId", "acct"),
     ...timestamps,
 
+    accessToken: pg.text(),
+    accessTokenExpiresAt: pg.timestamp({ withTimezone: true }),
+
+    accountId: pg.text().notNull(),
+
+    idToken: pg.text(),
+
+    password: pg.text(),
+
+    providerId: pg.text().notNull(),
+
+    refreshToken: pg.text(),
+    refreshTokenExpiresAt: pg.timestamp({ withTimezone: true }),
+
+    scope: pg.text(),
+
     userId: pg
       .text()
       .notNull()
@@ -92,20 +109,6 @@ export const accounts = authSchema.table(
         onUpdate: "cascade",
       })
       .$type<UserId>(),
-
-    accountId: pg.text().notNull(),
-    providerId: pg.text().notNull(),
-
-    accessToken: pg.text(),
-    refreshToken: pg.text(),
-
-    accessTokenExpiresAt: pg.timestamp({ withTimezone: true }),
-    refreshTokenExpiresAt: pg.timestamp({ withTimezone: true }),
-
-    scope: pg.text(),
-    idToken: pg.text(),
-
-    password: pg.text(),
   },
   (table) => [
     pg.index("auth_accounts_user_id_idx").on(table.userId),
@@ -145,22 +148,23 @@ export const sessions = authSchema.table(
     ...id("SessionId", "sess"),
     ...timestamps,
 
-    userId: pg
-      .text()
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<UserId>(),
-
-    token: pg.text().notNull().unique(),
     expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
 
     impersonatedBy: pg
       .text()
       .references(() => users.id, {
         onDelete: "set null",
+        onUpdate: "cascade",
+      })
+      .$type<UserId>(),
+
+    token: pg.text().notNull().unique(),
+
+    userId: pg
+      .text()
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
         onUpdate: "cascade",
       })
       .$type<UserId>(),
@@ -259,14 +263,9 @@ export const invitations = organizationSchema.table(
     ...id("InvitationId", "invt"),
     ...timestamps,
 
-    organizationId: pg
-      .text()
-      .notNull()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
+    email: pg.text().notNull(),
+
+    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
 
     inviterId: pg
       .text()
@@ -276,10 +275,18 @@ export const invitations = organizationSchema.table(
       })
       .$type<MemberId>(),
 
-    email: pg.text().notNull(),
+    organizationId: pg
+      .text()
+      .notNull()
+      .references(() => organizations.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
+      .$type<OrganizationId>(),
+
     role: memberRole().notNull().default("member"),
+
     status: invitationStatus().notNull().default("pending"),
-    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
   },
   (table) => [
     pg
@@ -302,13 +309,8 @@ export const activityLogs = organizationSchema.table(
 
     createdAt: pg.timestamp({ withTimezone: true }).notNull().defaultNow(),
 
-    organizationId: pg
-      .text()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
+    ipAddress: pg.text(),
+
     memberId: pg
       .text()
       .references(() => members.id, {
@@ -316,6 +318,14 @@ export const activityLogs = organizationSchema.table(
         onUpdate: "cascade",
       })
       .$type<MemberId>(),
+
+    organizationId: pg
+      .text()
+      .references(() => organizations.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
+      .$type<OrganizationId>(),
 
     type: pg
       .text({
@@ -345,7 +355,7 @@ export const activityLogs = organizationSchema.table(
         ],
       })
       .notNull(),
-    ipAddress: pg.text(),
+
     userAgent: pg.text(),
   },
   (table) => [
@@ -379,26 +389,19 @@ export const assets = storageSchema.table(
     ...id("AssetId", "asst"),
     ...timestamps,
 
-    name: pg.text().notNull(),
-    key: pg.text().notNull(),
-
     bucket: pg.text().notNull().$type<StorageBucket>(),
-    provider: storageProvider().notNull().default("s3"),
 
-    mimeType: pg.text().notNull().$type<MimeType>(),
-    size: pg.integer().notNull(),
-
-    status: assetStatus().notNull().default("pending"),
     errorMessage: pg.text(),
 
-    uploaderId: pg
-      .text()
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<UserId>(),
+    expiresAt: pg.timestamp({ withTimezone: true }),
+
+    key: pg.text().notNull(),
+
+    metadata: pg.jsonb(),
+
+    mimeType: pg.text().notNull().$type<MimeType>(),
+
+    name: pg.text().notNull(),
 
     organizationId: pg
       .text()
@@ -408,8 +411,20 @@ export const assets = storageSchema.table(
       })
       .$type<OrganizationId>(),
 
-    metadata: pg.jsonb(),
-    expiresAt: pg.timestamp({ withTimezone: true }),
+    provider: storageProvider().notNull().default("s3"),
+
+    size: pg.integer().notNull(),
+
+    status: assetStatus().notNull().default("pending"),
+
+    uploaderId: pg
+      .text()
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      })
+      .$type<UserId>(),
   },
   (table) => [
     pg.index("storage_assets_uploader_id_idx").on(table.uploaderId),
@@ -432,11 +447,11 @@ export type StorageProvider = Asset["provider"]
 
 export const userRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  sessions: many(sessions, { relationName: "user" }),
-  members: many(members),
   impersonationSessions: many(sessions, {
     relationName: "impersonator",
   }),
+  members: many(members),
+  sessions: many(sessions, { relationName: "user" }),
   uploadedAssets: many(assets),
 }))
 
@@ -448,11 +463,6 @@ export const accountRelations = relations(accounts, ({ one }) => ({
 }))
 
 export const sessionRelations = relations(sessions, ({ one }) => ({
-  user: one(users, {
-    fields: [sessions.userId],
-    references: [users.id],
-    relationName: "user",
-  }),
   activeOrganization: one(organizations, {
     fields: [sessions.activeOrganizationId],
     references: [organizations.id],
@@ -462,37 +472,42 @@ export const sessionRelations = relations(sessions, ({ one }) => ({
     references: [users.id],
     relationName: "impersonator",
   }),
+  user: one(users, {
+    fields: [sessions.userId],
+    references: [users.id],
+    relationName: "user",
+  }),
 }))
 
 export const memberRelations = relations(members, ({ one, many }) => ({
-  user: one(users, {
-    fields: [members.userId],
-    references: [users.id],
-  }),
   organization: one(organizations, {
     fields: [members.organizationId],
     references: [organizations.id],
   }),
+  user: one(users, {
+    fields: [members.userId],
+    references: [users.id],
+  }),
 
-  invitations: many(invitations),
   activityLogs: many(activityLogs),
+  invitations: many(invitations),
 }))
 
 export const organizationRelations = relations(organizations, ({ many }) => ({
-  members: many(members),
   activityLogs: many(activityLogs),
-  invitations: many(invitations),
   assets: many(assets),
+  invitations: many(invitations),
+  members: many(members),
 }))
 
 export const invitationRelations = relations(invitations, ({ one }) => ({
-  organization: one(organizations, {
-    fields: [invitations.organizationId],
-    references: [organizations.id],
-  }),
   inviter: one(members, {
     fields: [invitations.inviterId],
     references: [members.id],
+  }),
+  organization: one(organizations, {
+    fields: [invitations.organizationId],
+    references: [organizations.id],
   }),
 }))
 
@@ -508,12 +523,12 @@ export const activityLogRelations = relations(activityLogs, ({ one }) => ({
 }))
 
 export const assetRelations = relations(assets, ({ one }) => ({
-  uploader: one(users, {
-    fields: [assets.uploaderId],
-    references: [users.id],
-  }),
   organization: one(organizations, {
     fields: [assets.organizationId],
     references: [organizations.id],
+  }),
+  uploader: one(users, {
+    fields: [assets.uploaderId],
+    references: [users.id],
   }),
 }))

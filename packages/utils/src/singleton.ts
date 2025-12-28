@@ -18,7 +18,7 @@ export function singleton<T>(name: string, getValue: () => T) {
  * Forgets a remembered value by a given name. Does not throw if the name doesn't exist.
  *
  * @param {string} name - The name under which the value was remembered.
- * @return {boolean} - A remembered value existed and has been forgotten.
+ * @returns {boolean} - A remembered value existed and has been forgotten.
  */
 export function forget(name: string) {
   const thusly = globalThis as unknown as {

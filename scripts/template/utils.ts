@@ -1,5 +1,5 @@
-import Bun from "bun"
 import { Octokit } from "@octokit/rest"
+import Bun from "bun"
 
 const EXCLUDED_DIRS = [
   "node_modules",
@@ -26,14 +26,12 @@ function checkShouldExclude(filePath: string): boolean {
     .replace(PATH_SEP_NORMALIZE_REGEX, "/")
 
   // Check if file path contains any excluded directory
-  const containsExcludedDir = EXCLUDED_DIRS.some((dir) => {
-    // Check if path contains the directory
-    return (
+  const containsExcludedDir = EXCLUDED_DIRS.some(
+    (dir) =>
       normalizedPath.includes(`/${dir}/`) ||
       normalizedPath.endsWith(`/${dir}`) ||
       normalizedPath.startsWith(`${dir}/`)
-    )
-  })
+  )
 
   if (containsExcludedDir) {
     return true
@@ -55,10 +53,10 @@ function checkShouldExclude(filePath: string): boolean {
  * @param limit - Maximum number of concurrent executions (default: 10)
  * @returns Array of results in the same order as tasks
  */
-async function limitConcurrency<T>(tasks: (() => Promise<T>)[], limit = 10): Promise<T[]> {
-  const results: T[] = new Array(tasks.length)
-  const queue = tasks.map((task, index) => ({ task, index }))
-  const executing: Promise<void>[] = []
+async function limitConcurrency<T>(tasks: Array<() => Promise<T>>, limit = 10): Promise<T[]> {
+  const results: T[] = Array.from({ length: tasks.length })
+  const queue = tasks.map((task, index) => ({ index, task }))
+  const executing: Array<Promise<void>> = []
 
   const processQueue = async (): Promise<void> => {
     const next = queue.shift()
@@ -80,7 +78,7 @@ async function limitConcurrency<T>(tasks: (() => Promise<T>)[], limit = 10): Pro
 
   // Start initial batch of workers
   const initialBatch = Math.min(limit, tasks.length)
-  for (let i = 0; i < initialBatch; i++) {
+  for (let i = 0; i < initialBatch; i += 1) {
     executing.push(processQueue())
   }
 
@@ -91,8 +89,6 @@ async function limitConcurrency<T>(tasks: (() => Promise<T>)[], limit = 10): Pro
 export const workspaces = {
   apps: [
     {
-      name: "api",
-      description: "api - Hono API running on Node.js",
       dependencies: [
         "auth",
         "db",
@@ -104,10 +100,10 @@ export const workspaces = {
         "security",
         "utils",
       ],
+      description: "api - Hono API running on Node.js",
+      name: "api",
     },
     {
-      name: "app",
-      description: "app - Full-stack TanStack Start application with server functions",
       dependencies: [
         "auth",
         "db",
@@ -120,124 +116,126 @@ export const workspaces = {
         "ui",
         "utils",
       ],
+      description: "app - Full-stack TanStack Start application with server functions",
+      name: "app",
     },
     {
-      name: "desktop",
+      dependencies: ["env", "observability", "ui", "utils"],
       description: "desktop - Tauri desktop application with TanStack Router",
-      dependencies: ["env", "observability", "ui", "utils"],
+      name: "desktop",
     },
     {
-      name: "docs",
-      description: "docs - Documentation site using Astro + Starlight",
       dependencies: [],
+      description: "docs - Documentation site using Astro + Starlight",
+      name: "docs",
     },
     {
-      name: "extension",
-      description: "extension - Browser extension using WXT",
       dependencies: ["env", "observability", "ui", "utils"],
+      description: "extension - Browser extension using WXT",
+      name: "extension",
     },
     {
-      name: "mobile",
-      description: "mobile - Expo application deployed with EAS",
       dependencies: ["auth", "env", "observability", "utils"],
+      description: "mobile - Expo application deployed with EAS",
+      name: "mobile",
     },
     {
-      name: "web",
-      description: "web - Astro marketing site and blog",
       dependencies: ["env", "internationalization", "ui", "utils"],
+      description: "web - Astro marketing site and blog",
+      name: "web",
     },
   ],
   packages: [
     {
-      name: "ai",
+      dependencies: [],
       description: "ai - AI SDK and vector database for building AI applications",
-      dependencies: [],
+      name: "ai",
     },
     {
-      name: "analytics",
+      dependencies: [],
       description: "analytics - Web and product analytics",
-      dependencies: [],
+      name: "analytics",
     },
     {
-      name: "auth",
-      description: "auth - Authentication utilities using Better Auth",
       dependencies: ["utils"],
+      description: "auth - Authentication utilities using Better Auth",
+      name: "auth",
     },
     {
-      name: "backend",
-      description: "backend - Convex backend with Better Auth integration",
       dependencies: ["auth", "env", "observability", "utils"],
+      description: "backend - Convex backend with Better Auth integration",
+      name: "backend",
     },
     {
-      name: "core",
+      dependencies: [],
       description: "core - Core application and business logic",
-      dependencies: [],
+      name: "core",
     },
     {
-      name: "db",
-      description: "db - Database client and ORM using Drizzle",
       dependencies: ["env", "utils"],
+      description: "db - Database client and ORM using Drizzle",
+      name: "db",
     },
     {
-      name: "email",
+      dependencies: [],
       description: "email - Email templating and sending service using Resend",
-      dependencies: [],
+      name: "email",
     },
     {
-      name: "env",
+      dependencies: [],
       description: "env - Environment variable management and validation",
-      dependencies: [],
+      name: "env",
     },
     {
-      name: "error",
+      dependencies: [],
       description: "error - Custom error types using faultier",
-      dependencies: [],
+      name: "error",
     },
     {
-      name: "internationalization",
+      dependencies: [],
       description: "internationalization - Internationalization utilities and translation files",
-      dependencies: [],
+      name: "internationalization",
     },
     {
-      name: "kv",
+      dependencies: [],
       description: "kv - Redis client database integration using Upstash",
-      dependencies: [],
+      name: "kv",
     },
     {
-      name: "observability",
+      dependencies: [],
       description: "observability - Logging, error tracking, and monitoring using Sentry and Axiom",
-      dependencies: [],
+      name: "observability",
     },
     {
-      name: "payments",
+      dependencies: [],
       description: "payments - Payment processing utilities using Stripe",
-      dependencies: [],
+      name: "payments",
     },
     {
-      name: "queue",
+      dependencies: [],
       description: "queue - Serverless message queue and workflow management using Upstash",
-      dependencies: [],
+      name: "queue",
     },
     {
-      name: "security",
+      dependencies: ["kv"],
       description:
         "security - Security utilities and best practices using Arcjet and rate-limiting using Upstash",
-      dependencies: ["kv"],
+      name: "security",
     },
     {
-      name: "storage",
+      dependencies: [],
       description: "storage - Shared storage utilities using UploadThing",
-      dependencies: [],
+      name: "storage",
     },
     {
-      name: "ui",
-      description: "ui - Reusable UI components and design system using shadcn/ui",
       dependencies: ["utils"],
+      description: "ui - Reusable UI components and design system using shadcn/ui",
+      name: "ui",
     },
     {
-      name: "utils",
-      description: "utils - Shared utilities and helpers",
       dependencies: [],
+      description: "utils - Shared utilities and helpers",
+      name: "utils",
     },
   ],
 } as const
@@ -334,8 +332,8 @@ export async function getVersion(): Promise<string | null> {
   try {
     const file = Bun.file(TEMPLATE_VERSION_FILE)
     if (await file.exists()) {
-      const data = await file.json()
-      return data["."] || null
+      const data = (await file.json()) as Record<string, unknown>
+      return (data["."] as string | undefined) ?? null
     }
     return null
   } catch {
@@ -352,10 +350,10 @@ export async function getLatestRelease(): Promise<ReleaseInfo | null> {
     })
 
     return {
+      body: response.data.body ?? "",
+      name: response.data.name ?? "",
+      publishedAt: response.data.published_at ?? "",
       tagName: response.data.tag_name,
-      name: response.data.name || "",
-      publishedAt: response.data.published_at || "",
-      body: response.data.body || "",
     }
   } catch {
     return null
@@ -370,9 +368,9 @@ export function compareVersions(current: string, latest: string): number {
   const currentParts = currentClean.split(".").map(Number)
   const latestParts = latestClean.split(".").map(Number)
 
-  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
-    const currentPart = currentParts[i] || 0
-    const latestPart = latestParts[i] || 0
+  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i += 1) {
+    const currentPart = currentParts[i] ?? 0
+    const latestPart = latestParts[i] ?? 0
 
     if (currentPart < latestPart) {
       return -1

@@ -1,25 +1,25 @@
+import type { Stripe } from "stripe"
 import { stripe as env } from "@init/env/presets"
 import { kv } from "@init/kv/client"
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
-import type { Stripe } from "stripe"
 import { payments } from "./client"
 
 export function createAgentToolkit() {
   return new StripeAgentToolkit({
-    secretKey: env().STRIPE_SECRET_KEY,
     configuration: {
       actions: {
         paymentLinks: {
           create: true,
         },
-        products: {
+        prices: {
           create: true,
         },
-        prices: {
+        products: {
           create: true,
         },
       },
     },
+    secretKey: env().STRIPE_SECRET_KEY,
   })
 }
 
@@ -32,8 +32,8 @@ export type SubscriptionCache =
       currentPeriodEnd: number | null
       cancelAtPeriodEnd: boolean
       paymentMethod: {
-        brand: string | null // e.g., "visa", "mastercard"
-        last4: string | null // e.g., "4242"
+        brand: string | null // E.g., "visa", "mastercard"
+        last4: string | null // E.g., "4242"
       } | null
     }
   | {
@@ -71,9 +71,9 @@ export async function syncSubscription(customerId: string): Promise<Subscription
   // Fetch latest subscription data from Stripe
   const subscriptions = await payments().subscriptions.list({
     customer: customerId,
+    expand: ["data.default_payment_method"],
     limit: 1,
     status: "all",
-    expand: ["data.default_payment_method"],
   })
 
   const subscription = subscriptions.data[0]
@@ -86,12 +86,9 @@ export async function syncSubscription(customerId: string): Promise<Subscription
 
   // Store complete subscription state
   data = {
-    subscriptionId: subscription.id,
-    status: subscription.status,
-    priceId: subscription.items.data[0].price.id,
+    cancelAtPeriodEnd: subscription.cancel_at_period_end,
     currentPeriodEnd: subscription.items.data[0].current_period_end,
     currentPeriodStart: subscription.items.data[0].current_period_start,
-    cancelAtPeriodEnd: subscription.cancel_at_period_end,
     paymentMethod:
       subscription.default_payment_method && typeof subscription.default_payment_method !== "string"
         ? {
@@ -99,6 +96,9 @@ export async function syncSubscription(customerId: string): Promise<Subscription
             last4: subscription.default_payment_method.card?.last4 ?? null,
           }
         : null,
+    priceId: subscription.items.data[0].price.id,
+    status: subscription.status,
+    subscriptionId: subscription.id,
   }
 
   // Store the data in your KV

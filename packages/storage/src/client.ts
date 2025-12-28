@@ -1,6 +1,6 @@
-import { S3Client, type S3Options } from "bun"
-import { s3 as s3Env } from "@init/env/presets"
 import type { StorageBucket } from "@init/utils/constants"
+import { s3 as s3Env } from "@init/env/presets"
+import { S3Client, type S3Options } from "bun"
 
 /**
  * @param bucketName - The name of the bucket to use.
@@ -11,9 +11,9 @@ export function createStorage(bucketName: StorageBucket, options?: S3Options) {
 
   return new S3Client({
     accessKeyId: options?.accessKeyId ?? env.S3_ACCESS_KEY_ID,
-    secretAccessKey: options?.secretAccessKey ?? env.S3_SECRET_ACCESS_KEY,
+    bucket: bucketName,
     endpoint: options?.endpoint ?? env.S3_ENDPOINT,
     region: options?.region ?? env.S3_REGION,
-    bucket: bucketName,
+    secretAccessKey: options?.secretAccessKey ?? env.S3_SECRET_ACCESS_KEY,
   })
 }

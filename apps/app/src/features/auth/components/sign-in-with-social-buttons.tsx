@@ -16,15 +16,15 @@ export function SignInWithGoogleButton({ className }: { className?: string }) {
       onClick={() => {
         setLoading(true)
 
-        signIn.social({
+        void signIn.social({
           callbackURL: AUTHENTICATED_PATHNAME,
-          provider: "google",
           fetchOptions: {
             onError() {
               setLoading(false)
               toast.error("Failed to sign in with Google")
             },
           },
+          provider: "google",
         })
       }}
       variant="outline"
@@ -54,15 +54,15 @@ export function SignInWithGitHubButton({ className }: { className?: string }) {
       onClick={() => {
         setLoading(true)
 
-        signIn.social({
+        void signIn.social({
           callbackURL: AUTHENTICATED_PATHNAME,
-          provider: "github",
           fetchOptions: {
             onError() {
               setLoading(false)
               toast.error("Failed to sign in with GitHub")
             },
           },
+          provider: "github",
         })
       }}
       variant="outline"

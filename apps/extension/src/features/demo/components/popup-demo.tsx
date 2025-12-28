@@ -15,7 +15,7 @@ export default function PopupDemo() {
         </TypographyP>
       </div>
 
-      <Button onClick={() => testService.test()}>Log a message</Button>
+      <Button onClick={() => void testService.test()}>Log a message</Button>
 
       <Button render={<Link to="/settings" />}>Go to settings</Button>
     </div>

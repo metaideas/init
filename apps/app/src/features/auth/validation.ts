@@ -12,10 +12,10 @@ export const PasswordSchema = z
 
 // Used in the form component
 export const SignUpFormSchema = z.object({
-  name: z.string().min(1, { error: "Name is required" }),
-  email: EmailSchema,
-  password: PasswordSchema,
   confirmPassword: PasswordSchema,
+  email: EmailSchema,
+  name: z.string().min(1, { error: "Name is required" }),
+  password: PasswordSchema,
 })
 export type SignUpForm = z.infer<typeof SignUpFormSchema>
 // Used in the form action

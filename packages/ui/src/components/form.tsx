@@ -1,5 +1,5 @@
-import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import type React from "react"
+import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { Alert, AlertDescription, AlertTitle } from "#components/alert.tsx"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
@@ -98,6 +98,7 @@ function FormServerError({
   const form = useFormContext()
 
   return (
+    // oxlint-disable-next-line no-unsafe-return
     <form.Subscribe selector={(formState) => [formState.errorMap.onServer ?? []]}>
       {([error]) => {
         if (!error || typeof error !== "string") {
@@ -118,8 +119,6 @@ function FormServerError({
 FormServerError.displayName = "FormServerError"
 
 export const { useAppForm: useForm, withForm } = createFormHook({
-  fieldContext,
-  formContext,
   fieldComponents: {
     Content: FieldContent,
     Description: FieldDescription,
@@ -144,8 +143,10 @@ export const { useAppForm: useForm, withForm } = createFormHook({
     Input: FieldInput,
     Textarea: FieldTextarea,
   },
+  fieldContext,
   formComponents: {
-    Submit: FormSubmit,
     ServerError: FormServerError,
+    Submit: FormSubmit,
   },
+  formContext,
 })

@@ -1,21 +1,21 @@
 {
   "name": "@init/error",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },
-  "license": "MIT",
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
+  },
+  "dependencies": {
+    "faultier": "1.0.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "typescript": "catalog:"
-  },
-  "dependencies": {
-    "faultier": "1.0.2"
   }
 }

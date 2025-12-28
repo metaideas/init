@@ -8,8 +8,8 @@ const PROTOCOL_REGEX = /^https?$/
  */
 export function httpUrl() {
   return z.url({
-    protocol: PROTOCOL_REGEX,
     hostname: z.regexes.domain,
+    protocol: PROTOCOL_REGEX,
   })
 }
 
@@ -29,4 +29,5 @@ export function ip() {
 }
 
 export * from "zod"
+// oxlint-disable-next-line no-barrel-file
 export * as form from "zod-form-data"

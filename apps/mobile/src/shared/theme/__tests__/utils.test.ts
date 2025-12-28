@@ -185,9 +185,9 @@ describe("leading", () => {
   })
 
   test("handles various font sizes with lineHeight multipliers", () => {
-    expect(leading({ fontSize: 12, lineHeight: 1.15 }).lineHeight).toBe(14) // tight
-    expect(leading({ fontSize: 20, lineHeight: 1.3 }).lineHeight).toBe(26) // snug
-    expect(leading({ fontSize: 24, lineHeight: 1.5 }).lineHeight).toBe(36) // relaxed
+    expect(leading({ fontSize: 12, lineHeight: 1.15 }).lineHeight).toBe(14) // Tight
+    expect(leading({ fontSize: 20, lineHeight: 1.3 }).lineHeight).toBe(26) // Snug
+    expect(leading({ fontSize: 24, lineHeight: 1.5 }).lineHeight).toBe(36) // Relaxed
   })
 
   test("rounds line height correctly", () => {
@@ -202,10 +202,10 @@ describe("leading", () => {
 
   test("accepts TextStyle with other properties", () => {
     const result = leading({
-      fontSize: 18,
-      lineHeight: 1.5,
-      fontWeight: "bold",
       color: "#000000",
+      fontSize: 18,
+      fontWeight: "bold",
+      lineHeight: 1.5,
     })
     expect(result).toEqual({ lineHeight: 27 })
     expect(result).not.toHaveProperty("fontWeight")
