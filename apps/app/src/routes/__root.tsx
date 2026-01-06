@@ -7,6 +7,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { ReactNode } from "react"
 import { getTheme } from "#features/theme/server/functions.ts"
 import type { RouterContext } from "#router.ts"
+import ApiConnectionError from "#shared/components/api-connection-error.tsx"
 import Providers from "#shared/components/providers.tsx"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -29,6 +30,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     links: [{ rel: "stylesheet", href: globals }],
   }),
   component: RootComponent,
+  errorComponent: ApiConnectionError,
 })
 
 function RootComponent() {
