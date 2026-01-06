@@ -25,7 +25,7 @@ root
   │   └── local             # Docker Compose configuration for local development
   │
   ├── packages            # Shared internal packages for use across apps
-  │   ├── ai                    # AI utilities
+  │   ├── ai                    # AI model provider registry using the AI SDK
   │   ├── analytics             # Web and product analytics
   │   ├── auth                  # Authentication utilities using Better Auth
   │   ├── core                  # Shared core logic and business rules
@@ -37,7 +37,6 @@ root
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── queue                 # Serverless message queue and workflow management using Upstash
-  │   ├── security              # Security utilities using Arcjet and rate-limiting using Upstash
   │   ├── storage               # Shared storage utilities using UploadThing
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   └── utils                 # Shared helpers and constants for packages and apps

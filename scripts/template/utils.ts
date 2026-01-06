@@ -89,17 +89,7 @@ async function limitConcurrency<T>(tasks: Array<() => Promise<T>>, limit = 10): 
 export const workspaces = {
   apps: [
     {
-      dependencies: [
-        "auth",
-        "db",
-        "env",
-        "error",
-        "kv",
-        "observability",
-        "queue",
-        "security",
-        "utils",
-      ],
+      dependencies: ["auth", "db", "env", "error", "kv", "observability", "queue", "utils"],
       description: "api - Hono API running on Node.js",
       name: "api",
     },
@@ -112,7 +102,6 @@ export const workspaces = {
         "internationalization",
         "kv",
         "observability",
-        "security",
         "ui",
         "utils",
       ],
@@ -148,7 +137,7 @@ export const workspaces = {
   packages: [
     {
       dependencies: [],
-      description: "ai - AI SDK and vector database for building AI applications",
+      description: "ai - Model provider registry using the AI SDK",
       name: "ai",
     },
     {
@@ -216,12 +205,7 @@ export const workspaces = {
       description: "queue - Serverless message queue and workflow management using Upstash",
       name: "queue",
     },
-    {
-      dependencies: ["kv"],
-      description:
-        "security - Security utilities and best practices using Arcjet and rate-limiting using Upstash",
-      name: "security",
-    },
+
     {
       dependencies: [],
       description: "storage - Shared storage utilities using UploadThing",
