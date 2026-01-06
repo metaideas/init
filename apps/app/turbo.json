@@ -26,10 +26,7 @@
         "SENTRY_AUTH_TOKEN",
         "SENTRY_DSN",
         "SENTRY_ORG",
-        "SENTRY_PROJECT",
-
-        "UPSTASH_REDIS_REST_TOKEN",
-        "UPSTASH_REDIS_REST_URL"
+        "SENTRY_PROJECT"
       ]
     }
   }

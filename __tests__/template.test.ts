@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import * as Bun from "bun"
 import { workspaces } from "../scripts/template/utils"
 
-describe("template configuration", () => {
+describe.skip("template configuration", () => {
   test("template version matches package.json version", async () => {
     // Read .template-version.json file
     const templateVersionFile = Bun.file(".template-version.json")

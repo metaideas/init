@@ -1,4 +1,8 @@
 {
-  "extends": "./tooling/tsconfig/base.json",
+  "extends": "./node_modules/adamantite/presets/tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "bundler"
+  },
   "include": ["__tests__", "scripts", "turbo", "tooling"]
 }

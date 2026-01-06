@@ -5,12 +5,7 @@
   "tasks": {
     "build": {
       "env": [
-        "AXIOM_DATASET",
-        "AXIOM_TOKEN",
-
         "AUTH_SECRET",
-
-        "ARCJET_KEY",
 
         "DATABASE_URL",
         "DATABASE_AUTH_TOKEN",
@@ -33,10 +28,7 @@
         "SENTRY_AUTH_TOKEN",
         "SENTRY_DSN",
         "SENTRY_ORG",
-        "SENTRY_PROJECT",
-
-        "UPSTASH_REDIS_REST_TOKEN",
-        "UPSTASH_REDIS_REST_URL"
+        "SENTRY_PROJECT"
       ]
     },
     "clean": {
@@ -65,7 +57,13 @@
     "typecheck": {
       "dependsOn": ["^typegen"]
     },
-    "typegen": {}
+    "typegen": {},
+    "//#analyze": {},
+    "//#check": {},
+    "//#check:monorepo": {},
+    "//#fix": {},
+    "//#fix:monorepo": {},
+    "//#format": {}
   },
   "ui": "tui"
 }
