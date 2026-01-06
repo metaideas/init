@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import Bun from "bun"
+import * as Bun from "bun"
 import { workspaces } from "../scripts/template/utils"
 
 describe("template configuration", () => {
@@ -29,16 +29,18 @@ describe("template configuration", () => {
         }
 
         const packageJson = await packageJsonFile.json()
-        const dependencies = packageJson.dependencies || {}
+        const dependencies = packageJson.dependencies ?? {}
 
         // Extract @init dependencies
-        const actualDeps = Object.keys(dependencies)
+        const actualDeps = Object.keys(dependencies as object)
           .filter((dep) => dep.startsWith("@init/"))
           .map((dep) => dep.replace("@init/", ""))
-          .sort()
+          .toSorted((a, b) => a.localeCompare(b))
 
         // Compare with declared dependencies
-        const declaredDeps = app.dependencies ? [...app.dependencies].sort() : []
+        const declaredDeps = app.dependencies
+          ? [...app.dependencies].toSorted((a, b) => a.localeCompare(b))
+          : []
 
         return { actualDeps, declaredDeps }
       })

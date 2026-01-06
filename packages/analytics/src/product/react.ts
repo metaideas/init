@@ -6,10 +6,10 @@ import { useEffect } from "react"
 export function createAnalytics(apiKey: string, config?: PostHogConfig) {
   return singleton("analytics-client", () =>
     posthog.init(apiKey, {
-      person_profiles: "identified_only",
       capture_pageview: "history_change", // Capture pageview on history change
       persistence: "localStorage+cookie",
-      ...(config ?? {}),
+      person_profiles: "identified_only",
+      ...config,
     })
   )
 }
@@ -24,7 +24,4 @@ export function useIdentifyUser({ user }: { user: { id: string; email: string } 
   }, [p, user.id, user.email])
 }
 
-export {
-  PostHogProvider as AnalyticsProvider,
-  usePostHog as useAnalytics,
-} from "posthog-js/react"
+export { PostHogProvider as AnalyticsProvider, usePostHog as useAnalytics } from "posthog-js/react"

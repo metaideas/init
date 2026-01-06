@@ -125,8 +125,8 @@ describe("round-trip encryption", () => {
   it("should handle JSON strings", () => {
     const obj = {
       name: "test",
-      value: 123,
       nested: { array: [1, 2, 3] },
+      value: 123,
     }
     const plaintext = JSON.stringify(obj)
     const encrypted = encrypt(plaintext)

@@ -8,7 +8,7 @@ export const isDevelopment = () => {
       return import.meta.env.NODE_ENV === "development"
     }
   } catch {
-    // import.meta not available
+    // Import.meta not available
   }
 
   return typeof process !== "undefined" && process.env.NODE_ENV === "development"
@@ -24,7 +24,7 @@ export function isProduction() {
       return import.meta.env.NODE_ENV === "production"
     }
   } catch {
-    // import.meta not available
+    // Import.meta not available
   }
 
   return typeof process !== "undefined" && process.env.NODE_ENV === "production"
@@ -47,10 +47,7 @@ export function isCI() {
 }
 
 export function isClient() {
-  return (
-    typeof globalThis !== "undefined" &&
-    (globalThis as unknown as { window: unknown }).window !== undefined
-  )
+  return typeof globalThis !== "undefined" && "window" in globalThis
 }
 
 export function isServer() {

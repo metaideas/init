@@ -1,5 +1,5 @@
-import { cn } from "@init/utils/ui"
 import type * as React from "react"
+import { cn } from "@init/utils/ui"
 import { Icon } from "#components/icon.tsx"
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {

@@ -10,15 +10,8 @@ export async function initializeErrorMonitoring(type: "server" | "client") {
     const env = sentry.client()
 
     Sentry.init({
-      dsn: env.PUBLIC_SENTRY_DSN,
       debug: env.PUBLIC_SENTRY_DEBUG,
-      tracesSampleRate: monitoringSampleRate,
-
-      replaysOnErrorSampleRate: 1,
-
-      replaysSessionSampleRate: monitoringSampleRate,
-
-      sendDefaultPii: true,
+      dsn: env.PUBLIC_SENTRY_DSN,
 
       enableLogs: true,
 
@@ -26,12 +19,20 @@ export async function initializeErrorMonitoring(type: "server" | "client") {
         Sentry.browserTracingIntegration(), // Added for performance monitoring
         Sentry.replayIntegration({
           // Additional Replay configuration goes in here, for example:
-          maskAllText: true,
           blockAllMedia: true,
+          maskAllText: true,
         }),
         // Use console logging integration to send logs to Sentry
         // Sentry.consoleLoggingIntegration({ levels: ["warn", "error"] }),
       ],
+
+      replaysOnErrorSampleRate: 1,
+
+      replaysSessionSampleRate: monitoringSampleRate,
+
+      sendDefaultPii: true,
+
+      tracesSampleRate: monitoringSampleRate,
     })
 
     return
@@ -43,19 +44,20 @@ export async function initializeErrorMonitoring(type: "server" | "client") {
     const nodeEnv = node()
 
     Sentry.init({
-      dsn: env.SENTRY_DSN,
       debug: env.SENTRY_DEBUG,
-      tracesSampleRate: monitoringSampleRate,
-
-      environment: nodeEnv.NODE_ENV,
+      dsn: env.SENTRY_DSN,
 
       enableLogs: true,
+
+      environment: nodeEnv.NODE_ENV,
 
       integrations: [
         // Use console logging integration to send logs to Sentry
         // LogTape logs to console, so Sentry will capture console logs
         // Sentry.consoleLoggingIntegration({ levels: ["error", "warn"] }),
       ],
+
+      tracesSampleRate: monitoringSampleRate,
     })
 
     return

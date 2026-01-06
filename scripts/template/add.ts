@@ -4,12 +4,6 @@ import { defineCommand } from "../helpers"
 import { workspaces } from "./utils"
 
 export default defineCommand({
-  command: "add",
-  describe: "Add workspaces to your monorepo",
-  handler: () => {
-    // Handler required by yargs, but demandCommand(1) ensures
-    // help is shown when no subcommand is provided
-  },
   builder: (yargs) =>
     yargs
       .command({
@@ -20,12 +14,12 @@ export default defineCommand({
 
           try {
             const selectedWorkspace = await consola.prompt("Which app would you like to add?", {
-              type: "select",
+              cancel: "undefined",
               options: workspaces.apps.map((w) => ({
                 label: w.description,
                 value: w.name,
               })),
-              cancel: "undefined",
+              type: "select",
             })
 
             if (selectedWorkspace === undefined) {
@@ -35,9 +29,9 @@ export default defineCommand({
             const workspaceName = await consola.prompt(
               `What is the name of the ${selectedWorkspace} app?`,
               {
-                type: "text",
-                default: selectedWorkspace,
                 cancel: "undefined",
+                default: selectedWorkspace,
+                type: "text",
               }
             )
 
@@ -45,13 +39,15 @@ export default defineCommand({
               throw new Error("Setup cancelled. No changes have been made.")
             }
 
-            const name = selectedWorkspace.replace(/["\\]/g, "\\$&")
+            const name = selectedWorkspace.replaceAll(/["\\]/g, String.raw`\$&`)
 
             await Bun.$`turbo gen workspace --copy https://github.com/metaideas/init/tree/main/apps/${selectedWorkspace} --type app --name "${name}"`
 
             consola.success("🎉 App generated successfully!")
           } catch (error) {
-            consola.error(`Operation cancelled: ${error}`)
+            consola.error(
+              `Operation cancelled: ${error instanceof Error ? error.message : String(error)}`
+            )
             process.exit(1)
           }
         },
@@ -64,12 +60,12 @@ export default defineCommand({
 
           try {
             const selectedWorkspace = await consola.prompt("Which package would you like to add?", {
-              type: "select",
+              cancel: "undefined",
               options: workspaces.packages.map((w) => ({
                 label: w.description,
                 value: w.name,
               })),
-              cancel: "undefined",
+              type: "select",
             })
 
             if (selectedWorkspace === undefined) {
@@ -80,14 +76,16 @@ export default defineCommand({
               .json()
               .then((data) => data.name as string)
 
-            const workspaceName = selectedWorkspace.replace(/["\\]/g, "\\$&")
+            const workspaceName = selectedWorkspace.replaceAll(/["\\]/g, String.raw`\$&`)
             const name = `@${projectName}/${workspaceName}`
 
             await Bun.$`turbo gen workspace --copy https://github.com/metaideas/init/tree/main/packages/${selectedWorkspace} --type package --name "${name}"`
 
             consola.success("🎉 Package generated successfully!")
           } catch (error) {
-            consola.error(`Operation cancelled: ${error}`)
+            consola.error(
+              `Operation cancelled: ${error instanceof Error ? error.message : String(error)}`
+            )
             process.exit(1)
           }
         },
@@ -95,4 +93,10 @@ export default defineCommand({
       .demandCommand(1)
       .strict()
       .showHelpOnFail(true),
+  command: "add",
+  describe: "Add workspaces to your monorepo",
+  handler: () => {
+    // Handler required by yargs, but demandCommand(1) ensures
+    // help is shown when no subcommand is provided
+  },
 })

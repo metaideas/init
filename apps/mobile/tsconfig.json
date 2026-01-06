@@ -3,16 +3,9 @@
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
     "jsx": "preserve",
-    "baseUrl": ".",
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": [
-    "src",
-    "app.config.ts",
-    "reset.d.ts",
-    "expo-env.d.ts",
-    ".expo/types/**/*.ts"
-  ],
+  "include": ["src", "app.config.ts", "reset.d.ts", "expo-env.d.ts", ".expo/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

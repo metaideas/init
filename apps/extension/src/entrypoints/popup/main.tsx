@@ -8,7 +8,7 @@ import "@init/ui/globals.css"
 import PopupDemo from "#features/demo/components/popup-demo.tsx"
 import SettingsDemo from "#features/demo/components/settings-demo.tsx"
 
-const rootElement = document.getElementById("root")
+const rootElement = document.querySelector("#root")
 
 if (!rootElement) {
   throw new Error("Root element not found")

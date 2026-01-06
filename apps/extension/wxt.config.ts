@@ -3,14 +3,14 @@ import { defineConfig } from "wxt"
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
+  autoIcons: {
+    baseIconPath: "shared/assets/icon.svg",
+  },
   dev: {
     server: { port: 3005 },
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
-  autoIcons: {
-    baseIconPath: "shared/assets/icon.svg",
-  },
   srcDir: "src",
   vite: () => ({
     plugins: [tailwindcss()],

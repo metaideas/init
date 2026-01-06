@@ -12,12 +12,12 @@ export default factory
       description: "Say hello to the user",
       responses: {
         200: {
-          description: "Successful response",
           content: {
             "text/plain": {
               schema: resolver(z.string()),
             },
           },
+          description: "Successful response",
         },
       },
     }),

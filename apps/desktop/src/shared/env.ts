@@ -7,8 +7,8 @@ export default createEnv({
   client: {
     PUBLIC_API_URL: z.url(),
   },
-  runtimeEnv: import.meta.env,
   clientPrefix: "PUBLIC_",
   extends: [tauri()],
+  runtimeEnv: import.meta.env,
   skipValidation: isCI(),
 })

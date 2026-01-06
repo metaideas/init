@@ -18,22 +18,6 @@ type Colors = {
 }
 
 export const colors = {
-  light: {
-    background: "#f5f7f9",
-    black: "#000000",
-    card: "#f5f7f9",
-    destructive: "#ff382b",
-    foreground: "#030405",
-    grey: "#9BA0A5",
-    grey2: "#737980",
-    grey3: "#4A4E52",
-    grey4: "#373A3D",
-    grey5: "#2B2D2F",
-    grey6: "#1A1B1C",
-    primary: "#007bff",
-    root: "#f5f7f9",
-    white: "#ffffff",
-  },
   dark: {
     background: "#000204",
     black: "#000000",
@@ -48,6 +32,22 @@ export const colors = {
     grey6: "#f8f8f9",
     primary: "#007BFF",
     root: "#000204",
+    white: "#ffffff",
+  },
+  light: {
+    background: "#f5f7f9",
+    black: "#000000",
+    card: "#f5f7f9",
+    destructive: "#ff382b",
+    foreground: "#030405",
+    grey: "#9BA0A5",
+    grey2: "#737980",
+    grey3: "#4A4E52",
+    grey4: "#373A3D",
+    grey5: "#2B2D2F",
+    grey6: "#1A1B1C",
+    primary: "#007bff",
+    root: "#f5f7f9",
     white: "#ffffff",
   },
 } satisfies Record<Theme, Colors>

@@ -8,8 +8,8 @@ function Toggle(props: SwitchProps) {
     <Switch
       thumbColor={theme.colors.white}
       trackColor={{
-        true: theme.colors.primary,
         false: theme.colors.grey,
+        true: theme.colors.primary,
       }}
       {...props}
     />

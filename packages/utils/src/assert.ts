@@ -3,7 +3,7 @@
  * sure that all cases in a `switch` statement are handled.
  */
 export function assertUnreachable(x: never): never {
-  throw new Error(`Case not handled: ${x}`)
+  throw new Error(`Case not handled: ${String(x)}`)
 }
 
 /**

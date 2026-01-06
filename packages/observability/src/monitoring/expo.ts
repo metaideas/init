@@ -9,17 +9,19 @@ export function initializeErrorMonitoring() {
   Sentry.init({
     dsn: env.EXPO_PUBLIC_SENTRY_DSN,
 
+    integrations: [Sentry.mobileReplayIntegration()],
+
+    replaysOnErrorSampleRate: 1,
+    replaysSessionSampleRate: monitoringSampleRate,
+
     // Adds more context data to events (IP address, cookies, user, etc.) For
     // more information, visit:
     // https://docs.sentry.io/platforms/react-native/data-management/data-collected/
     sendDefaultPii: true,
 
     tracesSampleRate: monitoringSampleRate,
-    replaysOnErrorSampleRate: 1,
-    replaysSessionSampleRate: monitoringSampleRate,
-    integrations: [Sentry.mobileReplayIntegration()],
 
-    // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+    // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
     // spotlight: __DEV__,
   })
 }

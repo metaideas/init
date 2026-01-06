@@ -13,7 +13,7 @@ import { stableSerialize } from "./serialize"
  */
 export function cache<A extends unknown[], R extends StorageValue>(
   fn: (...args: A) => Promise<R>,
-  parts: (string | number)[],
+  parts: Array<string | number>,
   driver?: Driver
 ): (...args: A) => Promise<R> {
   const storage = createStorage({ driver })
@@ -22,7 +22,7 @@ export function cache<A extends unknown[], R extends StorageValue>(
   const inflight = new Map<string, Promise<R>>()
 
   return async function wrapped(...args: A): Promise<R> {
-    const serializedArgs = args.map(stableSerialize)
+    const serializedArgs = args.map((arg) => stableSerialize(arg))
     const cacheKey = [...parts, ...serializedArgs].map(String).join(":")
 
     // Check in-flight requests

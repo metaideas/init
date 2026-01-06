@@ -44,7 +44,7 @@ export function ThemeProvider({
       return theme
     }
 
-    if (storageKey && typeof window !== "undefined") {
+    if (storageKey && typeof globalThis !== "undefined") {
       const stored = localStorage.getItem(storageKey)
       if (stored && THEMES.includes(stored as Theme)) {
         return stored as Theme
@@ -56,7 +56,7 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = document.documentElement
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    const mediaQuery = globalThis.matchMedia?.("(prefers-color-scheme: dark)")
 
     function updateTheme() {
       root.classList.remove("light", "dark", "system")
@@ -72,11 +72,12 @@ export function ThemeProvider({
     mediaQuery.addEventListener("change", updateTheme)
     updateTheme()
 
-    return () => mediaQuery.removeEventListener("change", updateTheme)
+    return () => {
+      mediaQuery.removeEventListener("change", updateTheme)
+    }
   }, [userTheme])
 
   const value = {
-    theme: userTheme,
     setTheme(newTheme: Theme) {
       setUserTheme(newTheme)
 
@@ -89,6 +90,7 @@ export function ThemeProvider({
         localStorage.setItem(storageKey, newTheme)
       }
     },
+    theme: userTheme,
   }
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
@@ -115,9 +117,27 @@ export function ThemeToggle() {
         <span className="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            setTheme("light")
+          }}
+        >
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            setTheme("dark")
+          }}
+        >
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            setTheme("system")
+          }}
+        >
+          System
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

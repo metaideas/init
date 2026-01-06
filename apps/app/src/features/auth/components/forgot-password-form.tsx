@@ -9,9 +9,6 @@ export default function ForgotPasswordForm() {
   const execute = useServerFn(forgotPassword)
   const form = useForm({
     defaultValues: { email: "" },
-    validators: {
-      onSubmit: schema,
-    },
     onSubmit: async ({ value }) => {
       await execute({
         data: { email: value.email },
@@ -23,6 +20,9 @@ export default function ForgotPasswordForm() {
 
       form.reset()
     },
+    validators: {
+      onSubmit: schema,
+    },
   })
 
   return (
@@ -30,7 +30,7 @@ export default function ForgotPasswordForm() {
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        form.handleSubmit()
+        void form.handleSubmit()
       }}
     >
       <form.AppForm>

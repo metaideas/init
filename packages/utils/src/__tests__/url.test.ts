@@ -3,6 +3,25 @@ import { addProtocol, createUrlBuilder } from "../url"
 
 const HTTP_OR_HTTPS_PROTOCOL_REGEX = /^https?:\/\/example\.com$/
 
+/**
+ * Compare two URLs for equality, ignoring query parameter order.
+ * Query parameters are parsed and compared as sets of key-value pairs.
+ */
+function expectUrlEqual(actual: string, expected: string) {
+  const actualUrl = new URL(actual)
+  const expectedUrl = new URL(expected)
+
+  // Compare everything except search params
+  expect(actualUrl.origin).toBe(expectedUrl.origin)
+  expect(actualUrl.pathname).toBe(expectedUrl.pathname)
+  expect(actualUrl.hash).toBe(expectedUrl.hash)
+
+  // Compare query params regardless of order
+  const actualParams = Object.fromEntries(actualUrl.searchParams.entries())
+  const expectedParams = Object.fromEntries(expectedUrl.searchParams.entries())
+  expect(actualParams).toEqual(expectedParams)
+}
+
 describe("addProtocol", () => {
   test("uses default protocol based on environment", () => {
     const result = addProtocol("example.com")
@@ -96,40 +115,46 @@ describe("createUrlBuilder", () => {
   test("handles query parameters", () => {
     const buildUrl = createUrlBuilder("example.com")
 
-    expect(buildUrl("/test", { query: { page: 1, limit: 10 } })).toBe(
+    expectUrlEqual(
+      buildUrl("/test", { query: { limit: 10, page: 1 } }),
       "http://example.com/test?page=1&limit=10"
     )
 
-    expect(
+    expectUrlEqual(
       buildUrl("/test", {
-        query: { page: 1, active: true, search: "hello world", count: 0 },
-      })
-    ).toBe("http://example.com/test?page=1&active=true&search=hello+world&count=0")
+        query: { active: true, count: 0, page: 1, search: "hello world" },
+      }),
+      "http://example.com/test?page=1&active=true&search=hello+world&count=0"
+    )
 
-    expect(
+    expectUrlEqual(
       buildUrl("/test", {
-        query: { page: 1, filter: undefined, search: "test" },
-      })
-    ).toBe("http://example.com/test?page=1&search=test")
+        query: { filter: undefined, page: 1, search: "test" },
+      }),
+      "http://example.com/test?page=1&search=test"
+    )
   })
 
   test("handles URL encoding", () => {
     const buildUrl = createUrlBuilder("example.com")
 
-    expect(buildUrl("/test", { query: { search: "hello world" } })).toBe(
+    expectUrlEqual(
+      buildUrl("/test", { query: { search: "hello world" } }),
       "http://example.com/test?search=hello+world"
     )
 
-    expect(
+    expectUrlEqual(
       buildUrl("/search", {
-        query: { q: "test@example.com", filter: "type:email" },
-      })
-    ).toBe("http://example.com/search?q=test%40example.com&filter=type%3Aemail")
+        query: { filter: "type:email", q: "test@example.com" },
+      }),
+      "http://example.com/search?q=test%40example.com&filter=type%3Aemail"
+    )
   })
 
   test("handles complex scenarios", () => {
     const buildUrl = createUrlBuilder("api.example.com/v2/resources")
-    expect(buildUrl("/users/123/posts", { query: { include: "comments" } })).toBe(
+    expectUrlEqual(
+      buildUrl("/users/123/posts", { query: { include: "comments" } }),
       "http://api.example.com/v2/resources/users/123/posts?include=comments"
     )
 
@@ -145,7 +170,8 @@ describe("createUrlBuilder", () => {
     expect(buildUrl("")).toBe("http://example.com/")
     expect(buildUrl("/")).toBe("http://example.com/")
 
-    expect(buildUrl("/test", { query: { active: false, verified: true } })).toBe(
+    expectUrlEqual(
+      buildUrl("/test", { query: { active: false, verified: true } }),
       "http://example.com/test?active=false&verified=true"
     )
   })

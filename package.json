@@ -15,31 +15,34 @@
       "react": "19.1.0",
       "react-dom": "19.1.0",
       "typescript": "5.9.3",
-      "vite": "7.2.6"
+      "vite": "7.3.0"
     }
   },
   "scripts": {
+    "analyze": "bun --bun adamantite analyze",
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "bump:deps": "bun update --interactive --recursive",
+    "check:monorepo": "adamantite monorepo",
     "check": "adamantite check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "db:migrate": "turbo --filter @init/db migrate",
     "db:push": "turbo --filter @init/db push",
-    "dev": "turbo run dev",
     "dev:apps": "turbo run dev --filter=!@init/*",
     "dev:packages": "turbo run dev --filter=@init/*",
+    "dev": "turbo run dev",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
+    "fix:monorepo": "adamantite monorepo --fix",
     "fix": "adamantite fix",
-    "fix:monorepo": "adamantite monorepo",
+    "format": "adamantite format",
     "generate": "bun --bun turbo generate",
     "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
     "template": "bun --bun run scripts/index.ts template",
-    "test": "bun test",
     "test:watch": "bun test --watch",
-    "typecheck": "turbo run typecheck --continue",
+    "test": "bun test",
+    "typecheck": "turbo run typecheck",
     "typegen": "turbo run typegen --continue"
   },
   "devDependencies": {
@@ -48,16 +51,17 @@
     "@turbo/gen": "2.6.3",
     "@types/bun": "1.3.2",
     "@types/yargs": "17.0.35",
-    "adamantite": "0.14.0",
+    "@typescript/native-preview": "7.0.0-dev.20251227.1",
+    "adamantite": "0.23.0",
     "consola": "3.4.2",
+    "knip": "5.78.0",
+    "oxfmt": "0.21.0",
+    "oxlint": "1.36.0",
+    "oxlint-tsgolint": "0.10.0",
     "sherif": "1.9.0",
     "turbo": "2.6.3",
     "typescript": "5.9.3",
     "yargs": "18.0.0"
-  },
-  "packageManager": "bun@1.3.3",
-  "engines": {
-    "node": ">=24"
   },
   "overrides": {
     "@types/react": "catalog:",
@@ -66,6 +70,10 @@
     "react-dom": "catalog:",
     "vite": "catalog:"
   },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "bun@1.3.3",
   "trustedDependencies": [
     "@parcel/watcher",
     "@sentry/cli",

@@ -9,8 +9,8 @@ import { buildApiUrl } from "#shared/utils.ts"
 export const auth = createAuthClient(buildApiUrl("/auth"), [
   expoClient({
     scheme: APP_ID,
-    storagePrefix: APP_ID,
     storage: SecureStore,
+    storagePrefix: APP_ID,
   }),
   adminClient(),
   organizationClient({

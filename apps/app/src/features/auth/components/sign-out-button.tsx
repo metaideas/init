@@ -15,13 +15,13 @@ export default function SignOutButton() {
       onClick={() => {
         setLoading(true)
 
-        signOut({
+        void signOut({
           fetchOptions: {
-            onSuccess: () => {
-              void navigate({ to: UNAUTHENTICATED_PATHNAME })
-            },
             onError: () => {
               setLoading(false)
+            },
+            onSuccess: () => {
+              void navigate({ to: UNAUTHENTICATED_PATHNAME })
             },
           },
         })

@@ -1,10 +1,10 @@
+import type { TRPCRouter } from "api/client"
 import { type Logger, logger } from "@init/observability/logger"
 import { initializeErrorMonitoring } from "@init/observability/monitoring"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
 import { createTRPCOptionsProxy, type TRPCOptionsProxy } from "@trpc/tanstack-react-query"
-import type { TRPCRouter } from "api/client"
 import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
 import NotFound from "#shared/components/not-found.tsx"
@@ -31,15 +31,15 @@ export function getRouter() {
   })
 
   const router = createRouter({
-    routeTree,
-    scrollRestoration: true,
     context: {
-      queryClient,
       logger: logger.getChild("router"),
+      queryClient,
       trpc,
     } satisfies RouterContext,
-    defaultPreload: "intent",
     defaultNotFoundComponent: NotFound,
+    defaultPreload: "intent",
+    routeTree,
+    scrollRestoration: true,
   })
 
   if (!router.isServer) {
@@ -47,10 +47,10 @@ export function getRouter() {
   }
 
   setupRouterSsrQueryIntegration({
-    router,
-    queryClient,
-    wrapQueryClient: true,
     handleRedirects: true,
+    queryClient,
+    router,
+    wrapQueryClient: true,
   })
 
   return router

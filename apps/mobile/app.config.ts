@@ -7,32 +7,28 @@ const APP_BUNDLE_IDENTIFIER = `app.${APP_OWNER}.${APP_ID}`
 const VERSION = "1.0.0"
 
 const expoConfig: ExpoConfig = {
-  name: APP_NAME,
-  slug: APP_ID,
-  owner: APP_OWNER,
-  version: VERSION,
-  orientation: "portrait",
-  icon: "./src/shared/assets/images/icon.png",
-  scheme: APP_ID,
-  userInterfaceStyle: "automatic",
-  newArchEnabled: true,
-  ios: {
-    supportsTablet: true,
-    bundleIdentifier: APP_BUNDLE_IDENTIFIER,
-  },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
       backgroundColor: "#ffffff",
+      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
     },
     edgeToEdgeEnabled: true,
-    predictiveBackGestureEnabled: false,
     package: APP_BUNDLE_IDENTIFIER,
+    predictiveBackGestureEnabled: false,
   },
-  web: {
-    output: "static",
-    favicon: "./src/shared/assets/images/favicon.png",
+  experiments: {
+    reactCompiler: true,
+    typedRoutes: true,
   },
+  icon: "./src/shared/assets/images/icon.png",
+  ios: {
+    bundleIdentifier: APP_BUNDLE_IDENTIFIER,
+    supportsTablet: true,
+  },
+  name: APP_NAME,
+  newArchEnabled: true,
+  orientation: "portrait",
+  owner: APP_OWNER,
   plugins: [
     "expo-font",
     "expo-router",
@@ -41,25 +37,29 @@ const expoConfig: ExpoConfig = {
     [
       "expo-splash-screen",
       {
+        backgroundColor: "#ffffff",
         image: "./src/shared/assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
-        backgroundColor: "#ffffff",
       },
     ],
     ["expo-dev-client", { launchMode: "most-recent" }],
     [
       "@sentry/react-native/expo",
       {
-        url: process.env.EXPO_PUBLIC_SENTRY_URL,
-        project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
         organization: process.env.EXPO_PUBLIC_SENTRY_ORG,
+        project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
+        url: process.env.EXPO_PUBLIC_SENTRY_URL,
       },
     ],
   ],
-  experiments: {
-    typedRoutes: true,
-    reactCompiler: true,
+  scheme: APP_ID,
+  slug: APP_ID,
+  userInterfaceStyle: "automatic",
+  version: VERSION,
+  web: {
+    favicon: "./src/shared/assets/images/favicon.png",
+    output: "static",
   },
 }
 

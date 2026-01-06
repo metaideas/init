@@ -61,6 +61,7 @@ Server-side variables (used in API routes, server functions, etc.) do not requir
 If you need to manually set up environment variables:
 
 1. Copy the `.env.template` file to `.env.local` in each workspace you're using:
+
    ```bash
    cp apps/api/.env.template apps/api/.env.local
    cp apps/app/.env.template apps/app/.env.local
@@ -74,6 +75,7 @@ If you need to manually set up environment variables:
 #### Required Variables
 
 Most workspaces require at minimum:
+
 - **API**: `BASE_URL`, `PORT`, `AUTH_SECRET`, `DATABASE_URL`, `REDIS_URL`
 - **App**: `PUBLIC_BASE_URL`, `AUTH_SECRET`, `DATABASE_URL`, OAuth provider credentials
 - **Web**: `PUBLIC_API_URL`, `TEST_VAR`

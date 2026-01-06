@@ -15,7 +15,7 @@ export const validateSession = createIsomorphicFn()
   .server(async () => {
     const { data: session } = await authClient.getSession({
       fetchOptions: {
-        headers: await getRequestHeaders(),
+        headers: getRequestHeaders(),
       },
     })
 
@@ -37,7 +37,11 @@ export const forgotPassword = publicFunction
   .handler(async ({ data, context }) => {
     context.logger.info("Mocking forgot password", data)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, 1000)
+    })
 
     return { success: true }
   })

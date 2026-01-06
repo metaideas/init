@@ -13,7 +13,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --hot src/index.ts",
     "start": "bun --bun src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@hono/standard-validator": "^0.2.1",

@@ -1,5 +1,5 @@
-import { cn } from "@init/utils/ui"
 import type * as React from "react"
+import { cn } from "@init/utils/ui"
 import { type Button, buttonVariants } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
 
@@ -33,21 +33,29 @@ type PaginationLinkProps = {
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
 
-function PaginationLink({ className, isActive, size = "icon", ...props }: PaginationLinkProps) {
+function PaginationLink({
+  className,
+  isActive,
+  size = "icon",
+  children,
+  ...props
+}: PaginationLinkProps) {
   return (
     <a
       aria-current={isActive ? "page" : undefined}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
           size,
+          variant: isActive ? "outline" : "ghost",
         }),
         className
       )}
       data-active={isActive}
       data-slot="pagination-link"
       {...props}
-    />
+    >
+      {children}
+    </a>
   )
 }
 

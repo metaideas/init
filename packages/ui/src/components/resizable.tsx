@@ -1,5 +1,5 @@
-import { cn } from "@init/utils/ui"
 import type * as React from "react"
+import { cn } from "@init/utils/ui"
 import * as ResizablePrimitive from "react-resizable-panels"
 import { Icon } from "#components/icon.tsx"
 

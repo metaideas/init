@@ -1,8 +1,8 @@
-import Bun from "bun"
 import { database } from "@init/db/client"
 import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
 import { db as env } from "@init/env/presets"
+import Bun from "bun"
 import consola from "consola"
 import { seed } from "drizzle-seed"
 
@@ -47,6 +47,12 @@ async function main() {
   const start = performance.now()
 
   await seed(db, schema).refine((f) => ({
+    organizations: {
+      columns: {
+        name: f.companyName(),
+      },
+      count: 10,
+    },
     users: {
       columns: {
         name: f.fullName(),
@@ -59,12 +65,6 @@ async function main() {
       with: {
         accounts: 1,
       },
-    },
-    organizations: {
-      columns: {
-        name: f.companyName(),
-      },
-      count: 10,
     },
     verifications: {
       columns: {

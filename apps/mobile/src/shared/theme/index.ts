@@ -4,15 +4,15 @@ import { borderRadius, breakpoints, spacing, typography } from "#shared/theme/to
 import * as utils from "#shared/theme/utils.ts"
 
 const baseTheme = {
-  spacing,
   borderRadius,
+  spacing,
   typography,
   utils,
 }
 
 const themes = {
-  light: { ...baseTheme, colors: colors.light },
   dark: { ...baseTheme, colors: colors.dark },
+  light: { ...baseTheme, colors: colors.light },
 } as const
 
 /**
@@ -23,14 +23,16 @@ type AppBreakpoints = typeof breakpoints
 type AppThemes = typeof themes
 
 declare module "react-native-unistyles" {
+  // oxlint-disable-next-line no-empty-object-type
   interface UnistylesThemes extends AppThemes {}
+  // oxlint-disable-next-line no-empty-object-type
   interface UnistylesBreakpoints extends AppBreakpoints {}
 }
 
 StyleSheet.configure({
+  breakpoints,
   settings: {
     adaptiveThemes: true,
   },
-  breakpoints,
   themes,
 })

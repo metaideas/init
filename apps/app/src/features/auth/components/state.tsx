@@ -8,7 +8,7 @@ export function Authenticated({ children }: { children: ReactNode }) {
     return null
   }
 
-  return <>{children}</>
+  return children
 }
 
 export function Unauthenticated({ children }: { children: ReactNode }) {
@@ -18,5 +18,5 @@ export function Unauthenticated({ children }: { children: ReactNode }) {
     return null
   }
 
-  return <>{children}</>
+  return children
 }

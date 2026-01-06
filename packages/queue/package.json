@@ -11,7 +11,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "qstash dev --port 8288",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@init/observability": "workspace:*",

@@ -1,5 +1,5 @@
-import { type Logger, logger } from "@init/observability/logger"
 import type { QueryClient } from "@tanstack/react-query"
+import { type Logger, logger } from "@init/observability/logger"
 import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
@@ -17,17 +17,17 @@ export type RouterContext = {
 const history = createHashHistory()
 
 const router = createRouter({
-  routeTree,
-  history,
+  Wrap: ({ children }) => <Providers>{children}</Providers>,
   context: {
-    queryClient,
     logger: logger.with({ group: "router" }),
+    queryClient,
   } satisfies RouterContext,
   defaultPreload: "intent",
-  scrollRestoration: true,
-  defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
-  Wrap: ({ children }) => <Providers>{children}</Providers>,
+  defaultStructuralSharing: true,
+  history,
+  routeTree,
+  scrollRestoration: true,
 })
 
 declare module "@tanstack/react-router" {
@@ -36,7 +36,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("root")
+const rootElement = document.querySelector("#root")
 
 if (!rootElement) {
   throw new Error("Root element not found")

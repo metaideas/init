@@ -1,10 +1,10 @@
+import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
 import { logger } from "@init/observability/logger"
 import { type Duration, toMilliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
-import type { ReactNode } from "react"
 import { Resend } from "resend"
 
 type EmailSendParams = {
@@ -38,15 +38,15 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
 
   const { data, error } = await email.emails.send({
     from,
-    to: emails,
     react: body,
-    subject,
     scheduledAt:
-      sendAt !== undefined
-        ? sendAt instanceof Date
+      sendAt === undefined
+        ? undefined
+        : sendAt instanceof Date
           ? sendAt.toISOString()
-          : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString()
-        : undefined,
+          : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString(),
+    subject,
+    to: emails,
   })
 
   if (error) {
@@ -56,7 +56,7 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   return data
 }
 
-export async function batchEmails(payload: (EmailSendParams & { body: ReactNode })[]) {
+export async function batchEmails(payload: Array<EmailSendParams & { body: ReactNode }>) {
   const env = resend()
 
   if (env.MOCK_RESEND) {
@@ -83,15 +83,15 @@ export async function batchEmails(payload: (EmailSendParams & { body: ReactNode 
   const { data, error } = await email.batch.send(
     payload.map(({ body, emails, subject, sendAt, from = env.EMAIL_FROM }) => ({
       from,
-      to: emails,
-      subject,
       react: body,
       scheduledAt:
-        sendAt !== undefined
-          ? sendAt instanceof Date
+        sendAt === undefined
+          ? undefined
+          : sendAt instanceof Date
             ? sendAt.toISOString()
-            : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString()
-          : undefined,
+            : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString(),
+      subject,
+      to: emails,
     }))
   )
 

@@ -1,11 +1,7 @@
-// biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
-// biome-ignore-all lint/a11y/useKeyWithClickEvents: shadcn/ui
-// biome-ignore-all lint/a11y/useFocusableInteractive: shadcn/ui
-
+import type * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cn } from "@init/utils/ui"
-import type * as React from "react"
 import { Icon } from "#components/icon.tsx"
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
@@ -58,7 +54,6 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       aria-disabled="true"
       className={cn("font-normal text-foreground", className)}
       data-slot="breadcrumb-page"
-      role="link"
       {...props}
     />
   )

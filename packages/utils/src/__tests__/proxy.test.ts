@@ -79,7 +79,7 @@ describe("createRecursiveProxy", () => {
           return pathWithoutHelper.join(".")
         }
 
-        return
+        return opts.path
       },
       ["root"]
     ) as {
@@ -107,7 +107,6 @@ describe("createRecursiveProxy", () => {
 
     const proxy = createRecursiveProxy((opts) => {
       calls.push(opts)
-      return
     }, []) as {
       [Symbol.toStringTag]?: unknown
     }

@@ -18,7 +18,7 @@ export default defineCommand({
 
       const latestVersion = latestRelease.tagName
 
-      consola.info(`Current template version: ${currentVersion || "Unknown"}`)
+      consola.info(`Current template version: ${currentVersion ?? "Unknown"}`)
       consola.info(`Latest template version: ${latestVersion}`)
 
       if (!currentVersion) {

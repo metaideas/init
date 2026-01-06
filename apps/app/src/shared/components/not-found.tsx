@@ -21,7 +21,7 @@ export default function NotFound() {
         <div className="mb-8 space-y-3">
           <h2 className="font-semibold text-2xl tracking-tight sm:text-3xl">Page not found</h2>
           <p className="mx-auto max-w-md text-lg text-muted-foreground">
-            The page you're looking for doesn't exist or has been moved.
+            The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
 
@@ -34,7 +34,9 @@ export default function NotFound() {
           {canGoBack && (
             <Button
               className="min-w-[140px]"
-              onClick={() => router.history.back()}
+              onClick={() => {
+                router.history.back()
+              }}
               size="lg"
               variant="outline"
             >

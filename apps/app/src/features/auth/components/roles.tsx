@@ -8,7 +8,7 @@ export function AdminOnly({ children }: Readonly<{ children: ReactNode }>) {
     return null
   }
 
-  return <>{children}</>
+  return children
 }
 
 export function UserOnly({ children }: Readonly<{ children: ReactNode }>) {
@@ -18,5 +18,5 @@ export function UserOnly({ children }: Readonly<{ children: ReactNode }>) {
     return null
   }
 
-  return <>{children}</>
+  return children
 }

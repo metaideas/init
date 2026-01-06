@@ -1,11 +1,11 @@
+import type * as z from "@init/utils/schema"
+import type { HTTPMethods } from "@upstash/qstash"
+import type { Context as HonoContext } from "hono"
 import { logger } from "@init/observability/logger"
 import { assertUnreachable } from "@init/utils/assert"
 import { createRecursiveProxy } from "@init/utils/proxy"
-import type * as z from "@init/utils/schema"
-import type { HTTPMethods } from "@upstash/qstash"
 import { Client, type TriggerOptions, type WorkflowContext } from "@upstash/workflow"
 import { serve } from "@upstash/workflow/hono"
-import type { Context as HonoContext } from "hono"
 import type {
   FlattenedRequestsSchema,
   RequestsSchema,
@@ -38,13 +38,13 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
       if (method === "trigger") {
         return this.#client.trigger({
           ...(triggerOptions as TriggerOptions),
-          url,
           body,
+          url,
         })
       }
 
       if (method === "options") {
-        return { url, body }
+        return { body, url }
       }
 
       if (method === "$path") {
@@ -62,7 +62,7 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
   handler =
     <
       H extends {
-        // biome-ignore lint/suspicious/noExplicitAny: Generic handler
+        // oxlint-disable-next-line no-explicit-any
         [K in RequestType<TEvent>]: (c: HonoContext) => any
       },
     >(
@@ -101,9 +101,11 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
         })
       }
 
+      // oxlint-disable-next-line no-unsafe-return
       return handler(c)
     }
 
+  // oxlint-disable-next-line class-methods-use-this - Need this to have a type reference to the events
   serve = <T extends RequestType<TEvent>>(
     _: T,
     fn: Parameters<typeof serve<z.infer<FlattenedRequestsSchema<TEvent>[T]>>>[0],
@@ -119,7 +121,7 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
    * const fetch = workflow.fetch(context)
    * const openai = createOpenAI({ fetch })
    */
-  fetch =
+  static fetch =
     (context: WorkflowContext, stepName = "ai-call-step"): typeof globalThis.fetch =>
     // @ts-expect-error - Missing "preconnect" property
     async (input, init) => {
@@ -131,24 +133,26 @@ export class WorkflowClient<TEvent extends RequestsSchema> {
 
       // Make network call
       const response = await context.call(stepName, {
-        url: input.toString(),
-        method: init?.method as HTTPMethods,
-        headers,
         body,
+        headers,
+        method: init?.method as HTTPMethods,
+        // oxlint-disable-next-line no-base-to-string
+        url: input.toString(),
       })
 
       // Construct headers for the response
       const responseHeaders = new Headers(
         Object.entries(response.header).reduce<Record<string, string>>((acc, [key, values]) => {
+          // oxlint-disable-next-line no-param-reassign
           acc[key] = values.join(", ")
           return acc
         }, {})
       )
 
       // Return the constructed response
-      return new Response(JSON.stringify(response.body), {
-        status: response.status,
+      return Response.json(response.body, {
         headers: responseHeaders,
+        status: response.status,
       })
     }
 

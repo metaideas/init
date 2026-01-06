@@ -1,6 +1,6 @@
+import type { ComponentRef, ReactNode, Ref } from "react"
 import { useAugmentedRef } from "@rn-primitives/hooks"
 import * as Slot from "@rn-primitives/slot"
-import type { ComponentRef, ReactNode, Ref } from "react"
 import {
   type AlertButton,
   type AlertType,
@@ -20,9 +20,11 @@ type AlertInputValue = { login: string; password: string } | string
 
 type AlertProps = {
   title: string
-  buttons: (Omit<AlertButton, "onPress"> & {
-    onPress?: (text: AlertInputValue) => void
-  })[]
+  buttons: Array<
+    Omit<AlertButton, "onPress"> & {
+      onPress?: (text: AlertInputValue) => void
+    }
+  >
   message?: string | undefined
   prompt?: {
     type?: Exclude<AlertType, "default"> | undefined
@@ -41,15 +43,15 @@ function Alert({
   ref,
 }: AlertProps & { ref?: Ref<AlertRef> }) {
   const augmentedRef = useAugmentedRef({
-    ref: ref ?? null,
+    deps: [prompt],
     methods: {
+      alert,
+      prompt: promptAlert,
       show: () => {
         onPress()
       },
-      alert,
-      prompt: promptAlert,
     },
-    deps: [prompt],
+    ref: ref ?? null,
   })
 
   function promptAlert(args: AlertProps & { prompt: Required<AlertProps["prompt"]> }) {
@@ -70,14 +72,14 @@ function Alert({
   function onPress() {
     if (prompt) {
       promptAlert({
-        title,
-        message,
         buttons,
+        message,
         prompt: prompt as Required<AlertProps["prompt"]>,
+        title,
       })
       return
     }
-    alert({ title, message, buttons })
+    alert({ buttons, message, title })
   }
 
   const Component = children ? Slot.Pressable : Pressable

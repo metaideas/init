@@ -13,7 +13,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "translations:check": "i18n-check --source en --locales translations",
     "translations:generate": "inlang machine translate --project project.inlang",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "adamantite typecheck",
     "typegen": "bunx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/_generated"
   },
   "devDependencies": {

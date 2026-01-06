@@ -7,14 +7,14 @@ import { addProtocol } from "@init/utils/url"
 
 export default createEnv({
   client: {
-    PUBLIC_BASE_URL: z.string().pipe(z.preprocess((url) => addProtocol(url), z.url())),
     PUBLIC_API_URL: z.url().optional(),
+    PUBLIC_BASE_URL: z.string().pipe(z.preprocess((url) => addProtocol(url), z.url())),
   },
-  server: {},
-  extends: [node(), auth(), auth.providers.github(), auth.providers.google(), db()],
   clientPrefix: REACT_PUBLIC_ENV_PREFIX,
+  extends: [node(), auth(), auth.providers.github(), auth.providers.google(), db()],
   // Load server environment variables (process.env) and client environment
   // variables (import.meta.env)
   runtimeEnv: { ...import.meta.env, ...process.env },
+  server: {},
   skipValidation: isCI(),
 })

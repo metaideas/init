@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@init/env": "workspace:*",

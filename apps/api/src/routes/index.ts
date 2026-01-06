@@ -5,11 +5,11 @@ import { logger } from "@init/observability/logger"
 import { honoLogger } from "@init/observability/logger/integrations"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
+import { openAPIRouteHandler } from "hono-openapi"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { secureHeaders } from "hono/secure-headers"
-import { openAPIRouteHandler } from "hono-openapi"
 import healthRoutes from "#routes/health.ts"
 import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
@@ -29,12 +29,12 @@ app.use(
 )
 app.use(
   cors({
-    credentials: true,
-    origin: env.ALLOWED_API_ORIGINS,
     allowHeaders: ["Content-Type", "Authorization", "trpc-accept"],
     allowMethods: ["POST", "GET", "OPTIONS"],
+    credentials: true,
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
+    origin: env.ALLOWED_API_ORIGINS,
   })
 )
 
@@ -54,8 +54,8 @@ app.onError((error, c) => {
   if (Fault.isFault(error)) {
     c.var.logger.error(error.flatten(), {
       cause: error.cause,
-      debug: error.debug,
       context: error.context,
+      debug: error.debug,
       tag: error.tag,
     })
   }
@@ -76,9 +76,9 @@ export const router = app
   .get(
     "/",
     Scalar({
-      url: "/openapi",
-      theme: "alternate",
       pageTitle: "Init API",
+      theme: "alternate",
+      url: "/openapi",
     })
   )
   .get(
@@ -86,9 +86,9 @@ export const router = app
     openAPIRouteHandler(app, {
       documentation: {
         info: {
+          description: "An example API built with Hono",
           title: "Init API",
           version: "1.0.0",
-          description: "An example API built with Hono",
         },
       },
     })

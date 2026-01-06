@@ -1,28 +1,28 @@
-import * as AvatarPrimitive from "@rn-primitives/avatar"
 import type { Ref } from "react"
+import * as AvatarPrimitive from "@rn-primitives/avatar"
 import { StyleSheet } from "react-native-unistyles"
 
 const styles = StyleSheet.create((theme) => ({
   avatar: {
-    position: "relative",
     height: theme.spacing[10],
-    width: theme.spacing[10],
-    shrink: 0,
     overflow: "hidden",
+    position: "relative",
     rounded: theme.borderRadius.full,
+    shrink: 0,
+    width: theme.spacing[10],
+  },
+  fallback: {
+    alignItems: "center",
+    backgroundColor: theme.colors.grey6,
+    height: "100%",
+    justifyContent: "center",
+    rounded: theme.borderRadius.full,
+    width: "100%",
   },
   image: {
     aspectRatio: 1,
     height: "100%",
     width: "100%",
-  },
-  fallback: {
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    rounded: theme.borderRadius.full,
-    backgroundColor: theme.colors.grey6,
   },
 }))
 

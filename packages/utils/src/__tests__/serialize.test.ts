@@ -24,6 +24,7 @@ describe("stableSerialize", () => {
     })
 
     it("should serialize undefined", () => {
+      // oxlint-disable-next-line no-useless-undefined
       const result = stableSerialize(undefined)
       expect(result).toBeUndefined()
     })
@@ -63,7 +64,7 @@ describe("stableSerialize", () => {
     })
 
     it("should serialize simple objects with sorted keys and values", () => {
-      const result1 = stableSerialize({ b: 2, a: 1 })
+      const result1 = stableSerialize({ a: 1, b: 2 })
       const result2 = stableSerialize({ a: 1, b: 2 })
       expect(result1).toBe(result2)
       expect(result1).toBe("a:1,b:2")
@@ -80,7 +81,7 @@ describe("stableSerialize", () => {
     })
 
     it("should handle objects with multiple keys", () => {
-      const obj = { z: 3, a: 1, m: 2 }
+      const obj = { a: 1, m: 2, z: 3 }
       const result = stableSerialize(obj)
       expect(result).toBe("a:1,m:2,z:3")
     })
@@ -94,8 +95,8 @@ describe("stableSerialize", () => {
 
     it("should serialize arrays containing objects", () => {
       const result1 = stableSerialize([
-        { b: 2, a: 1 },
-        { d: 4, c: 3 },
+        { a: 1, b: 2 },
+        { c: 3, d: 4 },
       ])
       const result2 = stableSerialize([
         { a: 1, b: 2 },
@@ -107,11 +108,11 @@ describe("stableSerialize", () => {
 
     it("should serialize deeply nested structures", () => {
       const obj = {
-        user: {
-          name: "Alice",
-          age: 30,
-        },
         tags: ["admin", "user"],
+        user: {
+          age: 30,
+          name: "Alice",
+        },
       }
       const result = stableSerialize(obj)
       expect(result).toBe('tags:["admin","user"],user:age:30,name:"Alice"')
@@ -120,9 +121,9 @@ describe("stableSerialize", () => {
 
   describe("stability", () => {
     it("should produce same output for objects with different key order", () => {
-      const obj1 = { c: 3, a: 1, b: 2 }
+      const obj1 = { a: 1, b: 2, c: 3 }
       const obj2 = { a: 1, b: 2, c: 3 }
-      const obj3 = { b: 2, c: 3, a: 1 }
+      const obj3 = { a: 1, b: 2, c: 3 }
 
       const result1 = stableSerialize(obj1)
       const result2 = stableSerialize(obj2)
@@ -158,9 +159,9 @@ describe("stableSerialize", () => {
 
     it("should be deterministic for complex nested structures", () => {
       const complex = {
-        z: [3, 2, 1],
         a: { nested: true, value: 42 },
         m: "middle",
+        z: [3, 2, 1],
       }
 
       const result1 = stableSerialize(complex)

@@ -2,8 +2,7 @@ import { defineContentScript } from "wxt/utils/define-content-script"
 
 export default defineContentScript({
   main() {
-    // biome-ignore lint/suspicious/noConsole: Testing
-    console.log("Hello content.")
+    // Content script code goes here
   },
   matches: ["*://*.google.com/*"],
 })

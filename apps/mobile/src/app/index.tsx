@@ -34,7 +34,11 @@ export default function Screen() {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button onPress={() => setIsLoading(!isLoading)}>
+          <Button
+            onPress={() => {
+              setIsLoading(!isLoading)
+            }}
+          >
             {isLoading ? <ActivityIndicator /> : null}
             <Text>Test Loading</Text>
           </Button>
@@ -57,21 +61,21 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  container: {
-    flex: 1,
-    justifyContent: "center",
+  buttonContainer: {
     alignItems: "center",
-    gap: theme.spacing[8],
+    gap: theme.spacing[4],
+    justifyContent: "center",
+  },
+  container: {
+    alignItems: "center",
     backgroundColor: theme.colors.background,
+    flex: 1,
+    gap: theme.spacing[8],
+    justifyContent: "center",
   },
   textContainer: {
     alignItems: "center",
-    justifyContent: "center",
     gap: theme.spacing[2],
-  },
-  buttonContainer: {
-    alignItems: "center",
     justifyContent: "center",
-    gap: theme.spacing[4],
   },
 }))

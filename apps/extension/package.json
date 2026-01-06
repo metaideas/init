@@ -15,7 +15,7 @@
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "postinstall": "wxt prepare",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "adamantite typecheck",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
   },
@@ -32,7 +32,7 @@
     "wouter": "^3.7.1"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.1.17",
+    "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "0.1.31",
     "@types/react": "catalog:",

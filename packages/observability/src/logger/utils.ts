@@ -6,7 +6,7 @@ const API_KEY_PATTERN = /api[-_]?key/i
 
 export function redactSink(sink: Sink) {
   return redactByField(sink, {
-    fieldPatterns: ["secret", PASSWORD_PATTERN, API_KEY_PATTERN, ...DEFAULT_REDACT_FIELDS],
     action: () => "[REDACTED]",
+    fieldPatterns: ["secret", PASSWORD_PATTERN, API_KEY_PATTERN, ...DEFAULT_REDACT_FIELDS],
   })
 }

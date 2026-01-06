@@ -1,0 +1,4 @@
+{
+  "extends": "./tooling/tsconfig/base.json",
+  "include": ["__tests__", "scripts", "turbo", "tooling"]
+}

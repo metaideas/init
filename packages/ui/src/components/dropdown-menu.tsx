@@ -1,6 +1,6 @@
+import type * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { cn } from "@init/utils/ui"
-import type * as React from "react"
 import { Icon } from "#components/icon.tsx"
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {

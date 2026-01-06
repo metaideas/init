@@ -5,19 +5,19 @@ import superjson from "superjson"
 
 export const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      // Use cached data while offline
-      networkMode: "offlineFirst",
-    },
     mutations: {
       // Queue mutations when offline
+      networkMode: "offlineFirst",
+    },
+    queries: {
+      // Use cached data while offline
       networkMode: "offlineFirst",
     },
   },
 })
 
 export const persister = createAsyncStoragePersister({
-  storage: AsyncStorage,
-  serialize: (data) => superjson.stringify(data),
   deserialize: (data) => superjson.parse(data),
+  serialize: (data) => superjson.stringify(data),
+  storage: AsyncStorage,
 })

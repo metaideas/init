@@ -1,5 +1,3 @@
-// biome-ignore-all lint: shadcn/ui
-
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cn } from "@init/utils/ui"
@@ -26,6 +24,27 @@ const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+
+function setSidebarCookie(value: string): void {
+  // Use Cookie Store API if available, otherwise fall back to document.cookie
+  if ("cookieStore" in globalThis && globalThis.cookieStore !== undefined) {
+    globalThis.cookieStore
+      .set({
+        expires: new Date(Date.now() + SIDEBAR_COOKIE_MAX_AGE * 1000).getTime(),
+        name: SIDEBAR_COOKIE_NAME,
+        path: "/",
+        value,
+      })
+      .catch(() => {
+        // Fallback to document.cookie if Cookie Store API fails
+        // oxlint-disable-next-line unicorn/no-document-cookie
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+      })
+  } else {
+    // oxlint-disable-next-line unicorn/no-document-cookie
+    document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+  }
+}
 
 type SidebarContextProps = {
   state: "expanded" | "collapsed"
@@ -78,14 +97,14 @@ function SidebarProvider({
       }
 
       // This sets the cookie to keep the sidebar state.
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+      setSidebarCookie(String(openState))
     },
     [setOpenProp, open]
   )
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((isOpen) => !isOpen) : setOpen((isOpen) => !isOpen)
+    isMobile ? setOpenMobile((isOpen) => !isOpen) : setOpen((isOpen) => !isOpen)
   }, [isMobile, setOpen])
 
   // Adds a keyboard shortcut to toggle the sidebar.
@@ -97,8 +116,10 @@ function SidebarProvider({
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    globalThis.addEventListener("keydown", handleKeyDown)
+    return () => {
+      globalThis.removeEventListener("keydown", handleKeyDown)
+    }
   }, [toggleSidebar])
 
   // We add a state so that we can do data-state="expanded" or "collapsed".
@@ -107,12 +128,12 @@ function SidebarProvider({
 
   const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
-      state,
-      open,
-      setOpen,
       isMobile,
+      open,
       openMobile,
+      setOpen,
       setOpenMobile,
+      state,
       toggleSidebar,
     }),
     [state, open, setOpen, isMobile, openMobile, toggleSidebar]
@@ -393,8 +414,8 @@ function SidebarGroupLabel({
     ),
     render,
     state: {
-      slot: "sidebar-group-label",
       sidebar: "group-label",
+      slot: "sidebar-group-label",
     },
   })
 }
@@ -417,8 +438,8 @@ function SidebarGroupAction({
     ),
     render,
     state: {
-      slot: "sidebar-group-action",
       sidebar: "group-action",
+      slot: "sidebar-group-action",
     },
   })
 }
@@ -459,21 +480,21 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 const sidebarMenuButtonVariants = cva(
   "ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground gap-2 rounded-md p-2 text-left text-sm transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 data-active:font-medium peer/menu-button flex w-full items-center overflow-hidden outline-hidden group/menu-button disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&_svg]:size-4 [&_svg]:shrink-0",
   {
+    defaultVariants: {
+      size: "default",
+      variant: "default",
+    },
     variants: {
+      size: {
+        default: "h-8 text-sm",
+        lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
+        sm: "h-7 text-xs",
+      },
       variant: {
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         outline:
           "bg-background hover:bg-sidebar-accent hover:text-sidebar-accent-foreground shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
-      size: {
-        default: "h-8 text-sm",
-        sm: "h-7 text-xs",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
     },
   }
 )
@@ -496,27 +517,21 @@ function SidebarMenuButton({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
-        className: cn(sidebarMenuButtonVariants({ variant, size }), className),
+        className: cn(sidebarMenuButtonVariants({ size, variant }), className),
       },
       props
     ),
-    render: !tooltip ? render : TooltipTrigger,
+    render: tooltip ? TooltipTrigger : render,
     state: {
-      slot: "sidebar-menu-button",
+      active: isActive,
       sidebar: "menu-button",
       size,
-      active: isActive,
+      slot: "sidebar-menu-button",
     },
   })
 
   if (!tooltip) {
     return comp
-  }
-
-  if (typeof tooltip === "string") {
-    tooltip = {
-      children: tooltip,
-    }
   }
 
   return (
@@ -526,7 +541,7 @@ function SidebarMenuButton({
         align="center"
         hidden={state !== "collapsed" || isMobile}
         side="right"
-        {...tooltip}
+        {...(typeof tooltip === "string" ? { children: tooltip } : tooltip)}
       />
     </Tooltip>
   )
@@ -556,8 +571,8 @@ function SidebarMenuAction({
     ),
     render,
     state: {
-      slot: "sidebar-menu-action",
       sidebar: "menu-action",
+      slot: "sidebar-menu-action",
     },
   })
 }
@@ -584,9 +599,7 @@ function SidebarMenuSkeleton({
   showIcon?: boolean
 }) {
   // Random width between 50 to 90%.
-  const [width] = React.useState(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
-  })
+  const [width] = React.useState(() => `${Math.floor(Math.random() * 40) + 50}%`)
 
   return (
     <div
@@ -658,10 +671,10 @@ function SidebarMenuSubButton({
     ),
     render,
     state: {
-      slot: "sidebar-menu-sub-button",
+      active: isActive,
       sidebar: "menu-sub-button",
       size,
-      active: isActive,
+      slot: "sidebar-menu-sub-button",
     },
   })
 }

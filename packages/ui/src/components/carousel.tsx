@@ -1,5 +1,3 @@
-// biome-ignore-all lint/a11y/useSemanticElements: shadcn/ui
-
 import { cn } from "@init/utils/ui"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 import * as React from "react"
@@ -110,14 +108,14 @@ function Carousel({
   return (
     <CarouselContext.Provider
       value={{
-        carouselRef,
         api,
+        canScrollNext,
+        canScrollPrev,
+        carouselRef,
         opts,
         orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-        scrollPrev,
         scrollNext,
-        canScrollPrev,
-        canScrollNext,
+        scrollPrev,
       }}
     >
       <section

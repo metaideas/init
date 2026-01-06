@@ -23,7 +23,7 @@ export function stableSerialize(value: unknown): string {
 
   // Objects - sort keys for stability, then create comma-separated key:value pairs
   const serializedKeys = Object.keys(value)
-    .sort()
+    .toSorted()
     .map((k) => `${k}:${stableSerialize(value[k as keyof typeof value])}`)
     .join(",")
 

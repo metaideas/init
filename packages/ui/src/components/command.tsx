@@ -1,6 +1,6 @@
+import type * as React from "react"
 import { cn } from "@init/utils/ui"
 import { Command as CommandPrimitive } from "cmdk"
-import type * as React from "react"
 import {
   Dialog,
   DialogContent,

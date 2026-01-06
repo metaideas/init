@@ -26,7 +26,7 @@ export default function OrganizationInvitation({
   return (
     <Html>
       <Head />
-      <Preview>You've been invited to join {organizationName}</Preview>
+      <Preview>You&apos;ve been invited to join {organizationName}</Preview>
       <Tailwind>
         <Body className="bg-gray-50 font-sans">
           <Container className="mx-auto my-10 max-w-2xl rounded-lg bg-white p-8 shadow-sm">
@@ -41,7 +41,7 @@ export default function OrganizationInvitation({
             </Section>
 
             <Heading className="mb-6 text-center font-bold text-2xl text-gray-900">
-              You've been invited to join {organizationName}
+              You&apos;ve been invited to join {organizationName}
             </Heading>
 
             <Text className="mb-4 text-center text-base text-gray-600">
@@ -64,8 +64,8 @@ export default function OrganizationInvitation({
             </Section>
 
             <Text className="mt-8 text-center text-gray-500 text-sm">
-              If you don't want to join {organizationName} or believe this invitation was sent in
-              error, please ignore this email.
+              If you don&apos;t want to join {organizationName} or believe this invitation was sent
+              in error, please ignore this email.
             </Text>
           </Container>
         </Body>

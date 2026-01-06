@@ -1,6 +1,6 @@
-import { type RedisClient, redis } from "bun"
 import { type Duration, duration } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
+import { type RedisClient, redis } from "bun"
 import SuperJSON from "superjson"
 
 type ClientConfig = {

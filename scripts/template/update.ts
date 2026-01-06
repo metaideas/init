@@ -1,5 +1,5 @@
-import Bun from "bun"
 import { dirname, join } from "node:path"
+import Bun from "bun"
 import consola from "consola"
 import { defineCommand } from "../helpers"
 import { compareVersions, getLatestRelease, getVersion, updateTemplateVersion } from "./utils"
@@ -34,7 +34,7 @@ async function getFileDiff(localFiles: string[], templateFiles: string[]) {
         .then(() => false)
         .catch(() => true)
 
-      return { file, isNew, hasLocalChanges }
+      return { file, hasLocalChanges, isNew }
     })
   )
 
@@ -103,34 +103,34 @@ async function checkVersionUpdates() {
       const comparison = compareVersions(currentVersion, latestVersion)
       if (comparison === 0) {
         return {
-          shouldExit: true,
           latestRelease,
           message: `Already up to date (${currentVersion})`,
+          shouldExit: true,
         }
       }
       if (comparison > 0) {
         return {
-          shouldExit: false,
           latestRelease,
+          shouldExit: false,
           warning: `Local version (${currentVersion}) is newer than latest release (${latestVersion})`,
         }
       }
       const releaseNotes = latestRelease.body ? `\nRelease notes:\n${latestRelease.body}` : ""
       return {
-        shouldExit: false,
         latestRelease,
         message: `Update available: ${currentVersion} → ${latestVersion}${releaseNotes}`,
+        shouldExit: false,
       }
     }
     return {
-      shouldExit: false,
       latestRelease,
       message: `Latest version available: ${latestVersion}`,
+      shouldExit: false,
     }
   }
   return {
-    shouldExit: false,
     latestRelease,
+    shouldExit: false,
     warning: "No template releases found, proceeding with latest main branch",
   }
 }
