@@ -4,27 +4,16 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./providers": "./src/providers.ts",
-    "./react": "./src/react.ts",
-    "./rsc": "./src/rsc.ts",
-    "./vector": "./src/vector.ts"
+    "./registry": "./src/registry.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
-    "typecheck": "adamantite typecheck"
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "3.0.7",
-    "@ai-sdk/google": "3.0.4",
-    "@ai-sdk/openai": "2.0.74",
-    "@ai-sdk/react": "2.0.104",
-    "@ai-sdk/rsc": "1.0.105",
-    "@upstash/search": "0.1.7",
-    "@upstash/semantic-cache": "1.0.5",
-    "@upstash/vector": "1.2.2",
-    "ai": "5.0.104"
+    "@ai-sdk/openai": "3.0.7",
+    "ai": "catalog:"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

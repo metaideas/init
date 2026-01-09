@@ -1,4 +1,4 @@
-import Bun from "bun"
+import * as Bun from "bun"
 import consola from "consola"
 import { defineCommand } from "../helpers"
 import { workspaces } from "./utils"

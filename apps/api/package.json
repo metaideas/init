@@ -16,6 +16,7 @@
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
+    "@arcjet/ip": "^1.0.0-beta.15",
     "@hono/standard-validator": "^0.2.1",
     "@hono/trpc-server": "0.4.0",
     "@hono/zod-validator": "0.7.5",
@@ -26,7 +27,6 @@
     "@init/kv": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/queue": "workspace:*",
-    "@init/security": "workspace:*",
     "@init/utils": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.30",
     "@trpc/server": "11.7.2",

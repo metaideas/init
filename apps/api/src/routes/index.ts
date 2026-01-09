@@ -15,7 +15,6 @@ import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
 import { auth } from "#shared/auth.ts"
 import env from "#shared/env.ts"
-import { security } from "#shared/security.ts"
 import { factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
@@ -44,7 +43,6 @@ app.use(async (c, next) => {
   c.set("db", database())
   c.set("kv", kv())
   c.set("logger", logger)
-  c.set("security", security)
   c.set("session", null)
 
   await next()

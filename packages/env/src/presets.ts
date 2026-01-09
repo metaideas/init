@@ -21,15 +21,6 @@ export const node = () =>
 // You can import these into your apps and extend them from your env config if
 // you are using a package that needs environment variables.
 
-export const arcjet = () =>
-  createEnv({
-    runtimeEnv: process.env,
-    server: {
-      ARCJET_KEY: z.string(),
-    },
-    skipValidation: isCI(),
-  })
-
 export const auth = () =>
   createEnv({
     runtimeEnv: process.env,
@@ -248,24 +239,6 @@ export const upstash = {
         QSTASH_NEXT_SIGNING_KEY: z.string(),
         QSTASH_TOKEN: z.string(),
         QSTASH_URL: z.url().optional(),
-      },
-      skipValidation: isCI(),
-    }),
-  redis: () =>
-    createEnv({
-      runtimeEnv: process.env,
-      server: {
-        UPSTASH_REDIS_REST_TOKEN: z.string(),
-        UPSTASH_REDIS_REST_URL: z.url(),
-      },
-      skipValidation: isCI(),
-    }),
-  vector: () =>
-    createEnv({
-      runtimeEnv: process.env,
-      server: {
-        UPSTASH_VECTOR_REST_TOKEN: z.string(),
-        UPSTASH_VECTOR_REST_URL: z.string().url(),
       },
       skipValidation: isCI(),
     }),
