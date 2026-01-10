@@ -14,7 +14,7 @@ export const node = () =>
 
 // Presets for system environment variables from popular services (Vercel, Neon,
 // Supabase, Render, etc.)
-// export * from "@t3-oss/env-core/presets-zod"
+export { railway } from "@t3-oss/env-core/presets-zod"
 
 // Package presets.
 //
@@ -95,6 +95,17 @@ export const db = () =>
     server: {
       DATABASE_URL: z.url(),
       RUN_PRODUCTION_MIGRATIONS: z.stringbool().default(false),
+    },
+    skipValidation: isCI(),
+  })
+
+export const inngest = () =>
+  createEnv({
+    runtimeEnv: process.env,
+    server: {
+      INNGEST_EVENT_KEY: z.string(),
+      INNGEST_SIGNING_KEY: z.string(),
+      INNGEST_SIGNING_KEY_FALLBACK: z.string().optional(),
     },
     skipValidation: isCI(),
   })
@@ -240,17 +251,6 @@ export const posthog = {
 }
 
 export const upstash = {
-  qstash: () =>
-    createEnv({
-      runtimeEnv: process.env,
-      server: {
-        QSTASH_CURRENT_SIGNING_KEY: z.string(),
-        QSTASH_NEXT_SIGNING_KEY: z.string(),
-        QSTASH_TOKEN: z.string(),
-        QSTASH_URL: z.url().optional(),
-      },
-      skipValidation: isCI(),
-    }),
   redis: () =>
     createEnv({
       runtimeEnv: process.env,

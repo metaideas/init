@@ -30,6 +30,11 @@ configureSync({
       sinks: ["console"],
     },
     {
+      category: ["inngest"],
+      lowestLevel: "info",
+      sinks: ["console"],
+    },
+    {
       category: ["hono"],
       lowestLevel: "info",
       sinks: ["console"],

@@ -1,28 +1,28 @@
 {
-  "name": "@init/queue",
+  "name": "@init/workflows",
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
-    "./messages": "./src/messages.ts",
-    "./workflows": "./src/workflows.ts"
+    "./serve": "./src/serve.ts",
+    "./client": "./src/client.ts",
+    "./schema": "./src/schema.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "qstash dev --port 8288",
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@upstash/qstash": "2.8.4",
-    "@upstash/workflow": "0.2.22"
+    "inngest": "3.49.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@upstash/qstash-cli": "2.30.4",
-    "hono": "4.10.7",
     "typescript": "catalog:"
   }
 }

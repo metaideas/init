@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { arcjet, auth, db, kv, node, sentry } from "@init/env/presets"
+import { arcjet, auth, db, inngest, kv, node, sentry } from "@init/env/presets"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
@@ -13,6 +13,7 @@ export default createEnv({
     db(),
     kv(),
     arcjet(),
+    inngest(),
     sentry.server(),
   ],
   runtimeEnv: process.env,
