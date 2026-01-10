@@ -240,17 +240,6 @@ export const posthog = {
 }
 
 export const upstash = {
-  qstash: () =>
-    createEnv({
-      runtimeEnv: process.env,
-      server: {
-        QSTASH_CURRENT_SIGNING_KEY: z.string(),
-        QSTASH_NEXT_SIGNING_KEY: z.string(),
-        QSTASH_TOKEN: z.string(),
-        QSTASH_URL: z.url().optional(),
-      },
-      skipValidation: isCI(),
-    }),
   redis: () =>
     createEnv({
       runtimeEnv: process.env,
