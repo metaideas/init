@@ -36,7 +36,7 @@ root
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments              # Payment processing utilities using Stripe
-  │   ├── queue                 # Serverless message queue and workflow management using Upstash
+  │   ├── jobs                  # Inngest for workflows and background tasks
   │   ├── security              # Security utilities using Arcjet and rate-limiting using Upstash
   │   ├── storage               # Shared storage utilities using UploadThing
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI

@@ -3,25 +3,26 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
-    ".": "./src/index.ts",
+    "./serve": "./src/serve.ts",
     "./client": "./src/client.ts",
     "./schema": "./src/schema.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "bunx inngest-cli@latest dev -u http://localhost:3000/queues -p 8288",
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
-    "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "inngest": "^4.1.5"
+    "inngest": "3.49.1",
+    "@init/observability": "workspace:*"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "hono": "4.10.7",
     "typescript": "catalog:"
   }
 }
