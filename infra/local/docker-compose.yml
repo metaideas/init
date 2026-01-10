@@ -33,6 +33,6 @@ services:
 
   inngest:
     image: inngest/inngest:v1.16.0
-    command: "inngest dev -u http://host.docker.internal:3000/functions --poll-interval 60" # Check for new functions every 60 seconds
+    command: "inngest dev -u http://host.docker.internal:3000/workflows --poll-interval 60" # Check for new workflows every 60 seconds
     ports:
       - "8288:8288"

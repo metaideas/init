@@ -10,10 +10,10 @@ import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
 import { HTTPException } from "hono/http-exception"
 import { secureHeaders } from "hono/secure-headers"
-import functionRoutes from "#routes/functions.ts"
 import healthRoutes from "#routes/health.ts"
 import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
+import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import env from "#shared/env.ts"
 import { security } from "#shared/security.ts"
@@ -96,7 +96,7 @@ export const router = app
   )
   .get("/ping", (c) => c.text(Date.now().toString()))
   .route("/health", healthRoutes)
-  .route("/functions", functionRoutes)
+  .route("/workflows", workflowRoutes)
   .route("/trpc", trpcRoutes)
   .route("/v1", v1Routes)
 

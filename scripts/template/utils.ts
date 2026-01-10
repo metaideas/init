@@ -96,7 +96,7 @@ export const workspaces = {
         "error",
         "kv",
         "observability",
-        "queue",
+        "workflows",
         "security",
         "utils",
       ],
@@ -213,8 +213,8 @@ export const workspaces = {
     },
     {
       dependencies: [],
-      description: "queue - Serverless message queue and workflow management using Upstash",
-      name: "queue",
+      description: "workflows - Background tasks and workflows using Inngest",
+      name: "workflows",
     },
     {
       dependencies: ["kv"],

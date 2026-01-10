@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { inngest } from "@init/jobs/client"
+ * import { inngest } from "@init/workflows/client"
  *
  * export const exampleFunction = inngest.createFunction(
  *   { id: "example-function" },
@@ -23,7 +23,7 @@
  * ```
  */
 
-// import { inngest } from "@init/jobs/client"
+// import { inngest } from "@init/workflows/client"
 
 // export const exampleFunction = inngest.createFunction(
 //   { id: "example-function" },
@@ -33,3 +33,5 @@
 //     return { success: true }
 //   }
 // )
+
+export const exampleWorkflow = null

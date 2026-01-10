@@ -1,5 +1,5 @@
 {
-  "name": "@init/jobs",
+  "name": "@init/workflows",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -17,9 +17,9 @@
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
+    "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "inngest": "3.49.1",
-    "@init/observability": "workspace:*"
+    "inngest": "3.49.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

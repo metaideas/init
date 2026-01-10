@@ -1,17 +1,17 @@
-import { inngest } from "@init/jobs/client"
-import { serve } from "@init/jobs/serve"
+import { inngest } from "@init/workflows/client"
+import { serve } from "@init/workflows/serve"
 import env from "#shared/env.ts"
 import { factory } from "#shared/utils.ts"
 
 /**
- * The Inngest functions handler route
+ * The Inngest workflows handler route
  *
- * This route serves Inngest functions for background job processing.
- * Functions should be defined separately and imported here.
+ * This route serves Inngest workflows for background tasks.
+ * Workflows should be defined separately and imported here.
  *
  * @example
  * ```ts
- * import { myFunction } from "./functions/my-function"
+ * import { myWorkflow } from "./workflows/my-workflow"
  *
  */
 export default factory.createApp().on(
@@ -36,6 +36,6 @@ export default factory.createApp().on(
       ),
     ],
     signingKey: env.INNGEST_SIGNING_KEY,
-    signingKeyFallback: env.INNGEST_SIGNING_KEY,
+    signingKeyFallback: env.INNGEST_SIGNING_KEY_FALLBACK,
   })
 )

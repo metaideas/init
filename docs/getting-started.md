@@ -106,4 +106,4 @@ Packages run in the 8000-8999 range.
 - Redis: `8079`
 - Database: `8080`
 - Email: `8081`
-- Jobs (Inngest): `8288`
+- Workflows (Inngest): `8288`
