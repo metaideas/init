@@ -22,6 +22,20 @@ A modern monorepo template for shipping TypeScript apps everywhere: web, mobile,
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 
+## CLI Commands
+
+The `init-now` CLI helps you manage your project:
+
+| Command                | Description                           |
+| ---------------------- | ------------------------------------- |
+| `bunx init-now@latest` | Create a new project                  |
+| `init-now setup`       | Initialize and configure your project |
+| `init-now add app`     | Add an app from the init template     |
+| `init-now add package` | Add a package from the init template  |
+| `init-now update`      | Sync with template updates            |
+| `init-now check`       | Check template version                |
+| `init-now rename`      | Rename project and update references  |
+
 ## Documentation
 
 - [Getting Started](https://github.com/metaideas/init/blob/main/docs/getting-started.md)
