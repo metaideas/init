@@ -239,18 +239,17 @@ export const posthog = {
     }),
 }
 
+export const inngest = () =>
+  createEnv({
+    runtimeEnv: process.env,
+    server: {
+      INNGEST_EVENT_KEY: z.string().optional(),
+      INNGEST_SIGNING_KEY: z.string().optional(),
+    },
+    skipValidation: isCI(),
+  })
+
 export const upstash = {
-  qstash: () =>
-    createEnv({
-      runtimeEnv: process.env,
-      server: {
-        QSTASH_CURRENT_SIGNING_KEY: z.string(),
-        QSTASH_NEXT_SIGNING_KEY: z.string(),
-        QSTASH_TOKEN: z.string(),
-        QSTASH_URL: z.url().optional(),
-      },
-      skipValidation: isCI(),
-    }),
   redis: () =>
     createEnv({
       runtimeEnv: process.env,
