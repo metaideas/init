@@ -239,6 +239,16 @@ export const posthog = {
     }),
 }
 
+export const inngest = () =>
+  createEnv({
+    runtimeEnv: process.env,
+    server: {
+      INNGEST_EVENT_KEY: z.string().optional(),
+      INNGEST_SIGNING_KEY: z.string().optional(),
+    },
+    skipValidation: isCI(),
+  })
+
 export const upstash = {
   redis: () =>
     createEnv({
