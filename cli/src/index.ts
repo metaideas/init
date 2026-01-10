@@ -1,101 +1,151 @@
 import process from "node:process"
-import Bun from "bun"
-import consola from "consola"
+import { Args, Command, Prompt } from "@effect/cli"
+import { Command as ShellCommand, FileSystem } from "@effect/platform"
+import { BunContext, BunRuntime } from "@effect/platform-bun"
+import { Console, Effect, Option } from "effect"
 import { downloadTemplate } from "giget"
+import addCommand from "#commands/add.ts"
+import checkCommand from "#commands/check.ts"
+import renameCommand from "#commands/rename.ts"
+import setupCommand from "#commands/setup.ts"
+import updateCommand from "#commands/update.ts"
+import {
+  DownloadFailed,
+  GitCloneFailed,
+  GitInitFailed,
+  InstallFailed,
+  NotInInitProject,
+  OperationCancelled,
+  PackageJsonParseFailed,
+  VersionCheckFailed,
+  WorkingTreeDirty,
+} from "#utils.ts"
 
 const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
 
 const TITLE = `
-          
-            ███              ███   █████   
-           ░░░              ░░░   ░░███    
-           ████  ████████   ████  ███████  
-          ░░███ ░░███░░███ ░░███ ░░░███░   
-           ░███  ░███ ░███  ░███   ░███    
+
+            ███              ███   █████
+           ░░░              ░░░   ░░███
+           ████  ████████   ████  ███████
+          ░░███ ░░███░░███ ░░███ ░░░███░
+           ░███  ░███ ░███  ░███   ░███
            ░███  ░███ ░███  ░███   ░███ ███
-           █████ ████ █████ █████  ░░█████ 
-          ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░  
-          
+           █████ ████ █████ █████  ░░█████
+          ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
+
 `
 
-async function promptProjectName(): Promise<string> {
-  const projectName = await consola.prompt("What is the name of your project?", {
-    cancel: "undefined",
-    type: "text",
-  })
+const name = Args.text({ name: "name" }).pipe(
+  Args.optional,
+  Args.withDescription("The name of the project.")
+)
 
-  if (projectName === undefined) {
-    consola.error("Please provide a name for your project.")
-    process.exit(1)
-  }
+const main = Command.make("init-now", { name }).pipe(
+  Command.withDescription("Create a new project using the `init` template."),
+  Command.withHandler(({ name: providedName }) =>
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem
 
-  const name = projectName.trim()
+      yield* Console.log(TITLE)
 
-  if (!name || name.length === 0) {
-    consola.error("Project name is required.")
-    return promptProjectName()
-  }
+      const name = yield* Prompt.text({
+        message: "What is the name of your project?",
+        default: Option.getOrElse(providedName, () => ""),
+        validate: (value: string) => {
+          const name = value.trim()
+          if (!name || name.length === 0) return Effect.fail("Project name is required.")
 
-  if (!PROJECT_NAME_REGEX.test(name)) {
-    consola.error("Project name can only contain letters, numbers, hyphens, and underscores.")
-    return promptProjectName()
-  }
+          if (!PROJECT_NAME_REGEX.test(name)) {
+            return Effect.fail(
+              "Project name can only contain letters, numbers, hyphens, and underscores."
+            )
+          }
 
-  return name
-}
+          return Effect.succeed(name)
+        },
+      })
 
-async function main() {
-  consola.log(TITLE)
+      const directoryExists = yield* fs.stat(name).pipe(
+        Effect.map((info) => info.type === "Directory"),
+        Effect.orElseSucceed(() => false)
+      )
 
-  const name = await promptProjectName()
+      if (directoryExists) {
+        const shouldOverwrite = yield* Prompt.confirm({
+          message: `Directory "${name}" already exists. Do you want to overwrite it?`,
+          initial: false,
+        })
 
-  const exists = await Bun.file(name)
-    .stat()
-    .then((stat) => stat.isDirectory())
-    .catch(() => false)
-
-  // Check if directory exists and ask for confirmation
-  if (exists) {
-    const shouldOverwrite = await consola.prompt(
-      `Directory "${name}" already exists. Do you want to overwrite it?`,
-      {
-        cancel: "undefined",
-        initial: false,
-        type: "confirm",
+        if (!shouldOverwrite) {
+          return yield* Effect.fail(new OperationCancelled())
+        }
       }
-    )
 
-    if (shouldOverwrite === undefined || !shouldOverwrite) {
-      consola.error("Operation cancelled.")
-      process.exit(1)
-    }
-  }
+      yield* Effect.tryPromise({
+        try: () => downloadTemplate("github:metaideas/init", { dir: name }),
+        catch: (e) => new DownloadFailed({ cause: e }),
+      })
 
-  try {
-    await downloadTemplate("github:metaideas/init", { dir: name })
+      yield* Console.log(`\n✅ Created "${name}" using ▶︎ init.\n`)
 
-    consola.success(`Created "${name}" using ▶︎ init.`)
+      const shouldInstall = yield* Prompt.confirm({
+        message: "Do you want to install dependencies?",
+        initial: true,
+      })
 
-    const confirm = await consola.prompt("Do you want to install dependencies?", {
-      cancel: "undefined",
-      initial: true,
-      type: "confirm",
+      if (shouldInstall) {
+        yield* ShellCommand.make("bun", "install").pipe(
+          ShellCommand.workingDirectory(name),
+          ShellCommand.stdout("inherit"),
+          ShellCommand.stderr("inherit"),
+          ShellCommand.exitCode,
+          Effect.mapError((e) => new InstallFailed({ cause: e }))
+        )
+      } else {
+        yield* Console.log(
+          `\n   Remember to run \`cd ${name} && bun install\` to install dependencies.\n`
+        )
+      }
+
+      yield* Console.log(
+        `   Then run \`cd ${name} && init-now setup\` to initialize your project.\n`
+      )
+
+      yield* Console.log("\n🚀 Build something great!\n")
     })
+  ),
+  Command.withSubcommands([setupCommand, addCommand, checkCommand, renameCommand, updateCommand])
+)
 
-    if (confirm) {
-      await Bun.$`cd ${name} && bun install`
-    }
-
-    consola.info("Remember to run `bun template init` to initialize your project.")
-    consola.success("Build something great! 🚀")
-  } catch (error) {
-    consola.error(
-      `Failed to create project: ${error instanceof Error ? error.message : String(error)}`
-    )
-    process.exit(1)
-  }
-}
-
-main().catch((_error: unknown) => {
-  process.exit(1)
+const cli = Command.run(main, {
+  name: "init-now",
+  version: "2.0.0",
 })
+
+cli(process.argv).pipe(
+  Effect.catchTags({
+    QuitException: () => Console.error("\n\nOperation cancelled."),
+    OperationCancelled: () => Console.error("\n\nOperation cancelled."),
+    DownloadFailed: (e) =>
+      Console.error(`\nAn error occurred while downloading the template: ${e.message}`),
+    InstallFailed: (e) =>
+      Console.error(`\nAn error occurred while installing dependencies: ${e.message}`),
+    TurboGenFailed: (e) =>
+      Console.error(`\nAn error occurred while generating workspace: ${e.message}`),
+    GitCloneFailed: (e) =>
+      Console.error(`\nAn error occurred while cloning template repository: ${e.message}`),
+    GitInitFailed: (e) => Console.error(`\nAn error occurred while initializing git: ${e.message}`),
+    VersionCheckFailed: (e) =>
+      Console.error(`\nAn error occurred while checking template version: ${e.message}`),
+    NotInInitProject: () =>
+      Console.error(
+        "\n\nThis command must be run inside an init project.\nMake sure a .template-version.json file exists."
+      ),
+    WorkingTreeDirty: () => Console.error("\n\nPlease commit or stash changes before syncing"),
+    PackageJsonParseFailed: (e) => Console.error(`\nFailed to parse package.json: ${e.message}`),
+  }),
+  Effect.tapErrorCause(Effect.logError),
+  Effect.provide(BunContext.layer),
+  BunRuntime.runMain
+)

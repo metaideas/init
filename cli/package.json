@@ -19,13 +19,20 @@
   ],
   "type": "module",
   "main": "dist/index.js",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build": "bunup",
     "bump:deps": "bun update --interactive",
     "dev": "bunup --watch"
   },
   "dependencies": {
-    "consola": "3.4.2",
+    "@effect/cli": "0.73.0",
+    "@effect/platform": "0.94.1",
+    "@effect/platform-bun": "0.87.0",
+    "@octokit/rest": "22.0.0",
+    "effect": "3.19.14",
     "giget": "2.0.0"
   },
   "devDependencies": {
