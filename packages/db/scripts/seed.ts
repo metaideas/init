@@ -1,48 +1,28 @@
+// oxlint-disable no-console - We use console.log for logging in scripts
+
 import { database } from "@init/db/client"
 import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
 import { db as env } from "@init/env/presets"
 import Bun from "bun"
-import consola from "consola"
 import { seed } from "drizzle-seed"
 
-const CONFIRM_PROMPT = "seed production database"
-
 async function main() {
-  consola.info("Running the database seed script")
+  console.log("\n🌱 Database Seed\n")
 
   if (!checkIsLocalDatabase(env().DATABASE_URL)) {
-    consola.warn(
-      "You are about to seed the production database. This action will add data to the database."
+    throw new Error(
+      "Cannot seed a non-local database. This script only works with local databases."
     )
-    consola.box("DATABASE_URL", env().DATABASE_URL)
-
-    const confirm = await consola.prompt("Are you sure you want to proceed?", {
-      type: "confirm",
-    })
-
-    if (!confirm) {
-      consola.error("Database seed cancelled")
-      process.exit(0)
-    }
-
-    const confirmPrompt = await consola.prompt("Type 'seed production database' to confirm", {
-      type: "text",
-    })
-
-    if (confirmPrompt !== CONFIRM_PROMPT) {
-      consola.error("Database seed cancelled")
-      process.exit(0)
-    }
   }
 
   const db = database()
 
-  consola.start("Pushing database schema...")
+  console.log("   Pushing database schema...\n")
   await Bun.$`drizzle-kit push`
-  consola.success("Database schema pushed")
+  console.log("✅ Database schema pushed\n")
 
-  consola.start("Seeding database...")
+  console.log("   Seeding database...\n")
 
   const start = performance.now()
 
@@ -75,12 +55,12 @@ async function main() {
 
   const end = performance.now()
 
-  consola.success(`Database seeded successfully in ${Math.round(end - start)}ms`)
+  console.log(`✅ Database seeded successfully in ${Math.round(end - start)}ms\n`)
 }
 
 void main()
   .then(() => process.exit(0))
   .catch((error) => {
-    consola.fatal(error)
+    console.error(`\n✖  ${error instanceof Error ? error.message : String(error)}\n`)
     process.exit(1)
   })
