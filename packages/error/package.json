@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    "./fault": "./src/fault.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",

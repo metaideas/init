@@ -25,7 +25,8 @@
   "scripts": {
     "build": "bunup",
     "bump:deps": "bun update --interactive",
-    "dev": "bunup --watch"
+    "dev": "bunup --watch",
+    "test": "bun test"
   },
   "dependencies": {
     "@effect/cli": "0.73.0",

@@ -1,18 +1,8 @@
 export const workspaces = {
   apps: [
     {
-      dependencies: [
-        "auth",
-        "db",
-        "env",
-        "error",
-        "kv",
-        "observability",
-        "queue",
-        "workflows",
-        "utils",
-      ],
-      description: "Hono API running on Node.js",
+      dependencies: ["auth", "db", "env", "error", "kv", "observability", "workflows", "utils"],
+      description: "Hono API running on Bun",
       name: "api",
     },
     {

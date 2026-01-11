@@ -1,6 +1,6 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
-import { Fault } from "@init/error"
+import { Fault } from "@init/error/fault"
 import { logger } from "@init/observability/logger"
 import { createMiddleware } from "@tanstack/react-start"
 import { authClient } from "#shared/auth.ts"

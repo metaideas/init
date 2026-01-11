@@ -1,16 +1,17 @@
 import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
+import { Fault } from "@init/error/fault"
 import { logger } from "@init/observability/logger"
-import { type Duration, toMilliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
+import { Duration } from "effect"
 import { Resend } from "resend"
 
 type EmailSendParams = {
   emails: string[]
   subject: string
-  sendAt?: Date | Duration
+  sendAt?: Date | Duration.DurationInput
   from?: string
 }
 
@@ -44,13 +45,20 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
         ? undefined
         : sendAt instanceof Date
           ? sendAt.toISOString()
-          : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString(),
+          : addMilliseconds(new Date(), Duration.toMillis(Duration.decode(sendAt))).toISOString(),
     subject,
     to: emails,
   })
 
   if (error) {
-    throw new Error(`Unable to send email to ${emails.join(", ")}: ${error.message}`)
+    throw Fault.wrap(error)
+      .withTag("EMAIL.SEND_FAILED")
+      .withContext({
+        emails,
+        from,
+        subject,
+        text: await render(body, { plainText: true }),
+      })
   }
 
   return data
@@ -89,14 +97,20 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
           ? undefined
           : sendAt instanceof Date
             ? sendAt.toISOString()
-            : addMilliseconds(new Date(), toMilliseconds(sendAt)).toISOString(),
+            : addMilliseconds(new Date(), Duration.toMillis(Duration.decode(sendAt))).toISOString(),
       subject,
       to: emails,
     }))
   )
 
   if (error) {
-    throw new Error(`Unable to send batch emails: ${error.message}`)
+    throw Fault.wrap(error)
+      .withTag("EMAIL.BATCH_SEND_FAILED")
+      .withContext({
+        emails: payload.flatMap(({ emails }) => emails),
+        from: env.EMAIL_FROM,
+        subject: payload.map(({ subject }) => subject).join(", "),
+      })
   }
 
   return data.data ?? []

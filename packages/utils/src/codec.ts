@@ -1,4 +1,4 @@
-import z from "zod"
+import * as z from "./schema"
 
 export const jsonCodec = <T extends z.core.$ZodType>(schema: T) =>
   z.codec(z.string(), schema, {

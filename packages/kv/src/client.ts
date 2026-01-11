@@ -1,13 +1,13 @@
-import { type Duration, duration } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { type RedisClient, redis } from "bun"
+import { Duration } from "effect"
 import SuperJSON from "superjson"
 
 type ClientConfig = {
   /**
    * Default time to live in seconds
    */
-  ttl?: Duration
+  ttl?: Duration.DurationInput
 }
 
 export type KeyPart = string | number
@@ -25,7 +25,7 @@ class KeyValueClient {
    */
   constructor(namespace?: string, config?: ClientConfig) {
     this.namespace = namespace
-    this.defaultTtl = config?.ttl ? duration(config.ttl).toSeconds() : undefined
+    this.defaultTtl = config?.ttl ? Duration.toSeconds(Duration.decode(config.ttl)) : undefined
     // Create a singleton instance of the Redis client
     this.client = redis
   }
@@ -49,12 +49,16 @@ class KeyValueClient {
    * @param value - The value to set. Will be serialized using SuperJSON.
    * @param expiresIn - The time to live in seconds
    */
-  async set(key: string | KeyPart[], value: unknown, expiresIn?: Duration): Promise<void> {
+  async set(
+    key: string | KeyPart[],
+    value: unknown,
+    expiresIn?: Duration.DurationInput
+  ): Promise<void> {
     const normalizedKey = this.normalizeKey(key)
 
     await this.client.set(normalizedKey, SuperJSON.stringify(value))
 
-    const ttl = expiresIn ? duration(expiresIn).toSeconds() : this.defaultTtl
+    const ttl = expiresIn ? Duration.toSeconds(Duration.decode(expiresIn)) : this.defaultTtl
 
     if (ttl !== undefined) {
       await this.client.expire(normalizedKey, ttl)
