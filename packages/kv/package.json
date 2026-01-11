@@ -15,7 +15,6 @@
     "@init/env": "workspace:*",
     "@init/error": "workspace:*",
     "@init/utils": "workspace:*",
-    "effect": "catalog:",
     "superjson": "2.2.6"
   },
   "devDependencies": {

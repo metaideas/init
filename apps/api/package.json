@@ -30,7 +30,6 @@
     "@init/workflows": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.30",
     "@trpc/server": "11.7.2",
-    "effect": "catalog:",
     "hono": "4.10.7",
     "hono-openapi": "^1.1.2",
     "hono-rate-limiter": "0.4.2",

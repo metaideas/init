@@ -1,7 +1,7 @@
 import type { DeepMerge } from "@init/utils/type"
 import { findIp } from "@arcjet/ip"
 import { kv } from "@init/kv/client"
-import { Duration } from "effect"
+import { type DurationUnit, milliseconds } from "@init/utils/duration"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
@@ -32,12 +32,12 @@ export const requireSession = createMiddleware<
 /**
  * Adds basic rate limiting protection with a fixed window to the request.
  */
-export function withRateLimiting(interval: Duration.DurationInput, limit: number) {
+export function withRateLimiting(interval: DurationUnit, limit: number) {
   return rateLimiter<AppContext>({
     keyGenerator: (c) => c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
     limit,
     standardHeaders: "draft-7",
-    windowMs: Duration.toMillis(Duration.decode(interval)),
+    windowMs: milliseconds(interval),
   })
 }
 
