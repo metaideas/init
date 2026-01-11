@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { arcjet, auth, db, inngest, kv, node, sentry } from "@init/env/presets"
+import { auth, db, inngest, kv, node, sentry } from "@init/env/presets"
 import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
@@ -12,7 +12,6 @@ export default createEnv({
     auth.providers.google(),
     db(),
     kv(),
-    arcjet(),
     inngest(),
     sentry.server(),
   ],

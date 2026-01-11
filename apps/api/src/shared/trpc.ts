@@ -16,7 +16,6 @@ export function createTRPCContext(opts: FetchCreateContextFnOptions, c: Context<
     logger: c.var.logger.with({ group: "trpc" }),
     req: opts.req,
     resHeaders: opts.resHeaders,
-    security: c.var.security,
   }
 }
 

@@ -96,8 +96,8 @@ export const workspaces = {
         "error",
         "kv",
         "observability",
+        "queue",
         "workflows",
-        "security",
         "utils",
       ],
       description: "api - Hono API running on Node.js",
@@ -112,7 +112,6 @@ export const workspaces = {
         "internationalization",
         "kv",
         "observability",
-        "security",
         "ui",
         "utils",
       ],
@@ -148,7 +147,7 @@ export const workspaces = {
   packages: [
     {
       dependencies: [],
-      description: "ai - AI SDK and vector database for building AI applications",
+      description: "ai - Model provider registry using the AI SDK",
       name: "ai",
     },
     {
@@ -213,15 +212,15 @@ export const workspaces = {
     },
     {
       dependencies: [],
+      description: "queue - Serverless message queue and workflow management using Upstash",
+      name: "queue",
+    },
+    {
+      dependencies: [],
       description: "workflows - Background tasks and workflows using Inngest",
       name: "workflows",
     },
-    {
-      dependencies: ["kv"],
-      description:
-        "security - Security utilities and best practices using Arcjet and rate-limiting using Upstash",
-      name: "security",
-    },
+
     {
       dependencies: [],
       description: "storage - Shared storage utilities using UploadThing",

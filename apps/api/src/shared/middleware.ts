@@ -1,6 +1,6 @@
 import type { DeepMerge } from "@init/utils/type"
+import { findIp } from "@arcjet/ip"
 import { kv } from "@init/kv/client"
-import { findIp } from "@init/security/tools"
 import { type Duration, toMilliseconds } from "@init/utils/duration"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"

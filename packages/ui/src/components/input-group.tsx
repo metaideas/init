@@ -62,7 +62,9 @@ function InputGroupAddon({
           }
         }
       }}
-      role="group"
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
+      role="button"
+      tabIndex={0}
       {...props}
     />
   )

@@ -3,7 +3,7 @@
   "rules": {
     "files": "error",
     "dependencies": "error",
-    "devDependencies": "error",
+    "devDependencies": "off",
     "optionalPeerDependencies": "warn",
     "unlisted": "error",
     "binaries": "error",
@@ -25,5 +25,19 @@
     "**/.vercel/**",
     "**/.turbo/**",
   ],
+  "workspaces": {
+    "apps/*": {
+      "project": "src/**/*.{js,ts,tsx}",
+    },
+    "apps/app": {
+      "entry": "src/routeTree.gen.{ts,js}",
+    },
+    "packages/*": {
+      "project": "src/**/*.{js,ts,tsx}",
+    },
+    "tooling/*": {
+      "project": "*.json",
+    },
+  },
   "ignore": ["**/*.d.ts"],
 }
