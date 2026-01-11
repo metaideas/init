@@ -1,21 +1,10 @@
-import process from "node:process"
-import { Command } from "@effect/cli"
-import { BunContext, BunRuntime } from "@effect/platform-bun"
-import { Console, Effect } from "effect"
+#!/usr/bin/env bun
+import yargs from "yargs"
+import { hideBin } from "yargs/helpers"
 
-const main = Command.make("scripts").pipe(
-  Command.withDescription("Internal scripts for your monorepo"),
-  Command.withHandler(() =>
-    Effect.gen(function* () {
-      yield* Console.log("Write any scripts you need in scripts/index.ts")
-    })
-  )
-  // Command.withSubcommands([]) // Add subcommands here
-)
-
-const cli = Command.run(main, {
-  name: "scripts",
-  version: "0.0.0",
-})
-
-cli(process.argv).pipe(Effect.provide(BunContext.layer), BunRuntime.runMain)
+void yargs(hideBin(process.argv))
+  .describe("scripts", "Scripts for your monorepo. Add any scripts you want here as commands.")
+  // .command(
+  //   // Use the `defineCommand` helper to define the command and add it here.
+  // )
+  .parse()
