@@ -1,5 +1,6 @@
 import { httpRouter } from "convex/server"
-import { authComponent, convexAuth } from "./shared/auth"
+import { convexAuth } from "./shared/auth"
+import { authComponent } from "./shared/auth/options"
 
 const http = httpRouter()
 

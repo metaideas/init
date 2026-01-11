@@ -7,7 +7,7 @@ export default createEnv({
   extends: [auth()],
   runtimeEnv: process.env,
   server: {
-    SITE_URL: z.string(),
+    CONVEX_SITE_URL: z.string(),
   },
   skipValidation: isCI(),
 })

@@ -18,9 +18,8 @@
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
-    "@better-auth/expo": "1.4.7",
-    "@init/utils": "workspace:*",
-    "better-auth": "1.4.7"
+    "@better-auth/expo": "1.4.10",
+    "better-auth": "1.4.10"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
