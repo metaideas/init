@@ -16,11 +16,13 @@
   },
   "dependencies": {
     "@init/env": "workspace:*",
+    "@init/error": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@react-email/components": "1.0.1",
     "@react-email/render": "2.0.0",
     "date-fns": "4.1.0",
+    "effect": "catalog:",
     "resend": "6.5.2"
   },
   "devDependencies": {

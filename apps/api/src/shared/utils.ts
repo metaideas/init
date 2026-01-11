@@ -1,4 +1,4 @@
-import { extend } from "@init/error"
+import { extend } from "@init/error/fault"
 import { TRPCError } from "@trpc/server"
 import { getContext } from "hono/context-storage"
 import { createFactory } from "hono/factory"

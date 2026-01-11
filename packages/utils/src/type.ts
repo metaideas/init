@@ -23,17 +23,6 @@ type LessThanOrEqual<
     ? false // A > B (CounterA still growing but CounterB reached B)
     : LessThanOrEqual<A, B, readonly [...CounterA, unknown], readonly [...CounterB, unknown]>
 
-export type StrictOmit<T, K extends keyof T> = Omit<T, K>
-
-/**
- * Converts a union to an intersection.
- */
-export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never
-
 /**
  * Merges two types, deeply merging objects.
  */

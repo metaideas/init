@@ -2,13 +2,15 @@ import { describe, expect, test } from "bun:test"
 import * as Bun from "bun"
 import { workspaces } from "#workspaces.ts"
 
-describe.skip("cli workspaces configuration", () => {
+const rootDir = new URL("../../../", import.meta.url)
+
+describe("cli workspaces configuration", () => {
   test("template version matches repo package.json", async () => {
-    const templateVersionFile = Bun.file(".template-version.json")
+    const templateVersionFile = Bun.file(new URL(".template-version.json", rootDir))
     const templateVersionData = await templateVersionFile.json()
     const templateVersion = templateVersionData["."]
 
-    const packageJsonFile = Bun.file("package.json")
+    const packageJsonFile = Bun.file(new URL("package.json", rootDir))
     const packageJson = await packageJsonFile.json()
     const packageVersion = packageJson.version
 
@@ -18,8 +20,7 @@ describe.skip("cli workspaces configuration", () => {
   test("app dependencies match declared workspaces", async () => {
     const checks = await Promise.all(
       workspaces.apps.map(async (app) => {
-        const packageJsonPath = `apps/${app.name}/package.json`
-        const packageJsonFile = Bun.file(packageJsonPath)
+        const packageJsonFile = Bun.file(new URL(`apps/${app.name}/package.json`, rootDir))
 
         if (!(await packageJsonFile.exists())) {
           return null

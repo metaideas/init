@@ -4,5 +4,5 @@
     "target": "esnext",
     "moduleResolution": "bundler"
   },
-  "include": ["__tests__", "scripts", "turbo", "tooling"]
+  "include": ["scripts", "turbo", "tooling"]
 }

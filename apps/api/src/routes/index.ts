@@ -1,5 +1,5 @@
 import { database } from "@init/db/client"
-import { Fault } from "@init/error"
+import { Fault } from "@init/error/fault"
 import { kv } from "@init/kv/client"
 import { logger } from "@init/observability/logger"
 import { honoLogger } from "@init/observability/logger/integrations"
