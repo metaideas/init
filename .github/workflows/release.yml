@@ -1,13 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - ".github/**"
-      - "docs/**"
-      - "*.md"
+  workflow_run:
+    workflows: ["tests", "adamantite"]
+    branches: [main]
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -17,6 +15,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Release Please
         uses: googleapis/release-please-action@v4
