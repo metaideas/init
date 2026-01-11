@@ -1,7 +1,7 @@
 import { database } from "@init/db/client"
 import { Fault } from "@init/error/fault"
 import { kv } from "@init/kv/client"
-import { logger } from "@init/observability/logger"
+import { logger, LoggerCategory } from "@init/observability/logger"
 import { honoLogger } from "@init/observability/logger/integrations"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
@@ -20,7 +20,7 @@ import { factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
-app.use(honoLogger())
+app.use(honoLogger({ category: LoggerCategory.HONO }))
 app.use(contextStorage())
 app.use(
   secureHeaders({

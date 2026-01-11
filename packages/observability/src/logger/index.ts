@@ -17,35 +17,50 @@ const consoleSink = getConsoleSink({
   nonBlocking: true,
 })
 
+export const LoggerCategory = {
+  CONVEX: ["convex"],
+  DEFAULT: ["default"],
+  DRIZZLE_ORM: ["drizzle-orm"],
+  HONO: ["hono"],
+  INNGEST: ["inngest"],
+  LOGTAPE: ["logtape", "meta"],
+  SECURITY: ["security"],
+} as const satisfies Record<string, string[]>
+
 configureSync({
   loggers: [
     {
-      category: ["logtape", "meta"],
+      category: LoggerCategory.LOGTAPE,
       lowestLevel: "warning",
       sinks: ["meta"],
     },
     {
-      category: ["security"],
+      category: LoggerCategory.SECURITY,
       lowestLevel: "info",
       sinks: ["console"],
     },
     {
-      category: ["inngest"],
+      category: LoggerCategory.INNGEST,
       lowestLevel: "info",
       sinks: ["console"],
     },
     {
-      category: ["hono"],
+      category: LoggerCategory.CONVEX,
       lowestLevel: "info",
       sinks: ["console"],
     },
     {
-      category: ["drizzle-orm"],
+      category: LoggerCategory.HONO,
+      lowestLevel: "info",
+      sinks: ["console"],
+    },
+    {
+      category: LoggerCategory.DRIZZLE_ORM,
       lowestLevel: "debug",
       sinks: ["console"],
     },
     {
-      category: ["default"],
+      category: LoggerCategory.DEFAULT,
       lowestLevel: "trace",
       sinks: ["console"],
     },
@@ -56,7 +71,7 @@ configureSync({
   },
 })
 
-export const logger = getLogger(["app"])
+export const logger = getLogger(LoggerCategory.DEFAULT)
 
 export type { Logger } from "@logtape/logtape"
 export { getLogger } from "@logtape/logtape"

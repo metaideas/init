@@ -1,4 +1,4 @@
-import { publicQuery, vv } from "../shared/convex"
+import { publicQuery, vv } from "#functions/shared/convex.ts"
 
 export const list = publicQuery({
   args: { documentId: vv.id("documents") },

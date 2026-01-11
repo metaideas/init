@@ -3,28 +3,35 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./api": "./src/functions/_generated/api.js",
     "./client": "./src/client/index.ts",
-    "./client/*": "./src/client/*.ts"
+    "./client/*": "./src/client/*.ts",
+    "./client/auth": "./src/client/auth/index.ts",
+    "./client/auth/*": "./src/client/auth/*.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "convex dev",
     "env:set": "convex env set",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "adamantite typecheck",
+    "generate:auth": "bun run ./scripts/generate-schema.ts"
   },
   "dependencies": {
-    "@convex-dev/better-auth": "0.10.4",
+    "@convex-dev/better-auth": "0.10.10",
     "@convex-dev/react-query": "0.1.0",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
+    "@init/error": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
-    "convex": "1.31.1",
-    "convex-helpers": "0.1.108"
+    "convex": "1.31.3",
+    "convex-helpers": "0.1.109"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
