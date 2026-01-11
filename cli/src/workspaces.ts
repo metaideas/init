@@ -114,11 +114,6 @@ export const workspaces = {
     },
     {
       dependencies: [],
-      description: "Serverless message queue and workflow management using Upstash",
-      name: "queue",
-    },
-    {
-      dependencies: [],
       description: "Shared storage utilities using S3",
       name: "storage",
     },
