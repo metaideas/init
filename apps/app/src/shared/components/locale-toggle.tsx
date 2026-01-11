@@ -20,17 +20,23 @@ export function LocaleToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           onClick={() => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             void setLocale("es")
           }}
         >
-          🇪🇸 {m.spanish()}
+          🇪🇸{" "}
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
+          {m.spanish()}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             void setLocale("en")
           }}
         >
-          🇺🇸 {m.english()}
+          🇺🇸{" "}
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
+          {m.english()}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
