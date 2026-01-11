@@ -1,8 +1,8 @@
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
+import { database } from "@init/db/client"
 import { APP_ID, APP_NAME, SESSION_EXPIRES_IN, SESSION_UPDATE_AGE } from "@init/utils/constants"
 import env from "#shared/env.ts"
-import { context } from "#shared/utils.ts"
 
 export const auth = createAuth({
   advanced: {
@@ -12,7 +12,7 @@ export const auth = createAuth({
   appName: APP_NAME,
   basePath: "/auth",
   baseURL: env.BASE_URL,
-  database: databaseAdapter(context().var.db),
+  database: databaseAdapter(database()),
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,
