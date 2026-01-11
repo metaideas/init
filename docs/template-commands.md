@@ -2,9 +2,11 @@
 
 Commands to manage the `init` template itself. These scripts help initialize, update, and maintain projects created from the template.
 
+These commands wrap the `init-now` CLI. Use `bun run init:*` inside this repo, or run `init-now ...` directly if you have the CLI installed (or via `bunx init-now@latest`).
+
 ## Commands
 
-### `bun template init`
+### `bun run init:setup`
 
 Initialize a new project from the template. This command:
 
@@ -21,7 +23,7 @@ Initialize a new project from the template. This command:
 **Example:**
 
 ```bash
-bun template init
+bun run init:setup
 ```
 
 **Edge cases:**
@@ -30,21 +32,33 @@ bun template init
 - If `.env.local` files already exist, they won't be overwritten
 - Project name "init" will skip renaming operations
 
-### `bun template add`
+### `bun run init:add:app`
 
-Add new workspaces (apps or packages) to your monorepo. This command:
+Add a new app workspace to your monorepo. This command:
 
-- Prompts for workspace type (app or package)
-- Lists available workspaces from the template
-- Generates the workspace using Turbo generators
+- Prompts for an app to add from the template
+- Generates the app using Turbo generators
 
 **Example:**
 
 ```bash
-bun template add
+bun run init:add:app
 ```
 
-### `bun template update`
+### `bun run init:add:package`
+
+Add a new package workspace to your monorepo. This command:
+
+- Prompts for a package to add from the template
+- Generates the package using Turbo generators
+
+**Example:**
+
+```bash
+bun run init:add:package
+```
+
+### `bun run init:update`
 
 Sync your project with the latest template updates. This command:
 
@@ -59,7 +73,7 @@ Sync your project with the latest template updates. This command:
 **Example:**
 
 ```bash
-bun template update
+bun run init:update
 ```
 
 **Edge cases:**
@@ -69,14 +83,21 @@ bun template update
 - New files are only added if they belong to existing workspaces
 - If already up to date, exits early
 
-### `bun template check`
+### Template Update Workflow
+
+1. Ensure your working tree is clean with `git status`.
+2. Run `bun run init:update`.
+3. Review staged changes and adjust as needed.
+4. Commit the update.
+
+### `bun run init:check`
 
 Check the current template version and compare it with the latest release.
 
 **Example:**
 
 ```bash
-bun template check
+bun run init:check
 ```
 
 **Output:**
@@ -86,14 +107,14 @@ bun template check
 - Update status (up to date, update available, or local is newer)
 - Release notes if an update is available
 
-### `bun template rename`
+### `bun run init:rename`
 
 Rename your project and update all `@init` references throughout the codebase.
 
 **Example:**
 
 ```bash
-bun template rename
+bun run init:rename
 ```
 
 **What it does:**

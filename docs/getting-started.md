@@ -3,8 +3,13 @@
 ## Prerequisites
 
 - We use [bun](https://bun.sh/) as our package manager.
-- You'll need Nodejs v22 or higher installed.
+- You'll need Node.js installed (see tooling expectations below).
 - You'll need Docker installed for running the database and Redis. I recommend using [OrbStack](https://orbstack.dev/) for managing your containers.
+
+## Tooling Expectations
+
+- Bun: `1.3.x` (matches `package.json` `packageManager`)
+- Node.js: `>=24` (matches `package.json` `engines`)
 
 ## Setup
 
@@ -14,36 +19,48 @@
 bun install
 ```
 
-2. Run the `init` script:
+2. Run the setup script:
 
 ```bash
-bun template init
+bun run init:setup
 ```
 
 This will:
 
 - Let you choose the workspaces you want to include
 - Rename the project and update all the imports
-- Setup environment files from templates
-- Setup a remote template branch for syncing updates
+- Set up environment files from templates
+- Initialize a Git repository if needed
 - Clean up internal template files
 - Create a fresh README for your project
+- Install dependencies
+
+### Choosing Workspaces
+
+`init:setup` prompts for apps first, then packages. Packages required by your selected apps are pre-selected, but you can add or remove any others you need. Later, you can rerun `bun run init:setup` or add workspaces with `bun run init:add:app` and `bun run init:add:package`.
 
 3. Start your local services using `docker`:
 
 ```bash
-bun docker:up
+bun run docker:up
 ```
 
 4. Start the development server:
 
 ```bash
-bun dev # or bun dev --filter <workspace> to start a specific workspace
+bun run dev # or bun run dev --filter <workspace> to start a specific workspace
 ```
+
+### First Run Checklist
+
+- Run `bun run init:setup`
+- Start services with `bun run docker:up`
+- Verify `.env.local` exists for selected workspaces
+- Start a workspace with `bun run dev --filter <workspace>`
 
 ### Environment Setup
 
-Each workspace includes a `.env.template` file that defines the required and optional environment variables for that workspace. The `bun template init` script automatically copies these templates to `.env.local` files (which are git-ignored).
+Each workspace includes a `.env.template` file that defines the required and optional environment variables for that workspace. The `bun run init:setup` script automatically copies these templates to `.env.local` files (which are git-ignored).
 
 #### Environment Variable Prefixes
 
@@ -107,3 +124,10 @@ Packages run in the 8000-8999 range.
 - Database: `8080`
 - Email: `8081`
 - Workflows (Inngest): `8288`
+
+### Troubleshooting
+
+- Bun version mismatch: run `bun --version`, update to `1.3.x`.
+- Node version mismatch: install Node.js `>=24` with your version manager.
+- Docker services not running: check `docker ps`, then run `bun run docker:up`.
+- Missing env variables: compare `.env.local` with each `.env.template`.

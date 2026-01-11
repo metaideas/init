@@ -36,6 +36,15 @@ The `init-now` CLI helps you manage your project:
 | `init-now check`       | Check template version                |
 | `init-now rename`      | Rename project and update references  |
 
+## Quickstart
+
+```bash
+bunx init-now@latest
+cd <project-name>
+bun run init:setup # or init-now setup
+bun run dev
+```
+
 ## Documentation
 
 - [Getting Started](https://github.com/metaideas/init/blob/main/docs/getting-started.md)
