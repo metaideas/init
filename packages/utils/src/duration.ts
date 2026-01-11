@@ -21,7 +21,7 @@ type Unit = Years | Months | Weeks | Days | Hours | Minutes | Seconds | Millisec
 
 type UnitAnyCase = Capitalize<Unit> | Uppercase<Unit> | Unit
 
-export type DurationUnit = `${number}` | `${number}${UnitAnyCase}` | `${number} ${UnitAnyCase}`
+export type DurationInput = `${number}` | `${number}${UnitAnyCase}` | `${number} ${UnitAnyCase}`
 
 interface Options {
   /**
@@ -37,9 +37,9 @@ interface Options {
  * @param options - Options for the conversion
  * @throws Error if `value` is not a non-empty string or a number
  */
-export function milliseconds(value: DurationUnit, options?: Options): number
+export function milliseconds(value: DurationInput, options?: Options): number
 export function milliseconds(value: number, options?: Options): string
-export function milliseconds(value: DurationUnit | number, options?: Options): number | string {
+export function milliseconds(value: DurationInput | number, options?: Options): number | string {
   if (typeof value === "string") {
     return parse(value)
   }
@@ -58,9 +58,9 @@ export function milliseconds(value: DurationUnit | number, options?: Options): n
  * @param options - Options for the conversion
  * @throws Error if `value` is not a non-empty string or a number
  */
-export function seconds(value: DurationUnit, options?: Options): number
+export function seconds(value: DurationInput, options?: Options): number
 export function seconds(value: number, options?: Options): string
-export function seconds(value: DurationUnit | number, options?: Options): number | string {
+export function seconds(value: DurationInput | number, options?: Options): number | string {
   if (typeof value === "string") {
     return parse(value) / 1000
   }
@@ -153,20 +153,20 @@ export function parse(str: string): number {
 }
 
 /**
- * Parse the given DurationUnit and return milliseconds.
+ * Parse the given DurationInput and return milliseconds.
  *
- * @param value - A typesafe DurationUnit to parse to milliseconds
+ * @param value - A typesafe DurationInput to parse to milliseconds
  * @returns The parsed value in milliseconds, or `NaN` if the string can't be
  * parsed
  */
-export function parseStrict(value: DurationUnit): number {
+export function parseStrict(value: DurationInput): number {
   return parse(value)
 }
 
 /**
  * Short format for `ms`.
  */
-function fmtShort(ms: number): DurationUnit {
+function fmtShort(ms: number): DurationInput {
   const msAbs = Math.abs(ms)
   if (msAbs >= y) {
     return `${Math.round(ms / y)}y`
@@ -195,7 +195,7 @@ function fmtShort(ms: number): DurationUnit {
 /**
  * Long format for `ms`.
  */
-function fmtLong(ms: number): DurationUnit {
+function fmtLong(ms: number): DurationInput {
   const msAbs = Math.abs(ms)
   if (msAbs >= y) {
     return plural(ms, msAbs, y, "year")
@@ -239,7 +239,7 @@ export function format(ms: number, options?: Options): string {
 /**
  * Pluralization helper.
  */
-function plural(ms: number, msAbs: number, n: number, name: string): DurationUnit {
+function plural(ms: number, msAbs: number, n: number, name: string): DurationInput {
   const isPlural = msAbs >= n * 1.5
-  return `${Math.round(ms / n)} ${name}${isPlural ? "s" : ""}` as DurationUnit
+  return `${Math.round(ms / n)} ${name}${isPlural ? "s" : ""}` as DurationInput
 }

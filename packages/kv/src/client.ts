@@ -1,4 +1,4 @@
-import { type DurationUnit, seconds } from "@init/utils/duration"
+import { type DurationInput, seconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { type RedisClient, redis } from "bun"
 import SuperJSON from "superjson"
@@ -7,7 +7,7 @@ type ClientConfig = {
   /**
    * Default time to live in seconds
    */
-  ttl?: DurationUnit
+  ttl?: DurationInput
 }
 
 export type KeyPart = string | number
@@ -49,7 +49,7 @@ class KeyValueClient {
    * @param value - The value to set. Will be serialized using SuperJSON.
    * @param expiresIn - The time to live in seconds
    */
-  async set(key: string | KeyPart[], value: unknown, expiresIn?: DurationUnit): Promise<void> {
+  async set(key: string | KeyPart[], value: unknown, expiresIn?: DurationInput): Promise<void> {
     const normalizedKey = this.normalizeKey(key)
 
     await this.client.set(normalizedKey, SuperJSON.stringify(value))

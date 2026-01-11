@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
 import { Fault } from "@init/error/fault"
 import { logger } from "@init/observability/logger"
-import { type DurationUnit, milliseconds } from "@init/utils/duration"
+import { type DurationInput, milliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
@@ -11,7 +11,7 @@ import { Resend } from "resend"
 type EmailSendParams = {
   emails: string[]
   subject: string
-  sendAt?: Date | DurationUnit
+  sendAt?: Date | DurationInput
   from?: string
 }
 
