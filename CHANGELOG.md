@@ -2,47 +2,44 @@
 
 ## [1.0.0](https://github.com/metaideas/init/compare/init@v0.11.1...init@v1.0.0) (2026-01-11)
 
-
 ### ⚠ BREAKING CHANGES
 
-* cli to bun
-* remove tooling helpers
+- cli to bun
+- remove tooling helpers
 
 ### Features
 
-* add assertion helpers ([6ec1f98](https://github.com/metaideas/init/commit/6ec1f98881619cdbc696c595e2dc75546c818ca2))
-* add error package ([#57](https://github.com/metaideas/init/issues/57)) ([77993d2](https://github.com/metaideas/init/commit/77993d20f32fcd587397001891c08cbf16637b5d))
-* add theme feature ([d584c33](https://github.com/metaideas/init/commit/d584c332d628dd10939f7a97940686529de51064))
-* add theme script ([7d1dfd2](https://github.com/metaideas/init/commit/7d1dfd2dba874b0879ec1d92037fb7c208f539a9))
-* better APIs for `@init/queue` ([#55](https://github.com/metaideas/init/issues/55)) ([24a1895](https://github.com/metaideas/init/commit/24a189530bd3acf92ffef30fa4588a8fc6744715))
-* expand init-now cli and use Effect for scripting ([#65](https://github.com/metaideas/init/issues/65)) ([7c1b5d3](https://github.com/metaideas/init/commit/7c1b5d3181e3f6748b3d7f68a5629b8a4fc561f9))
-* improve auth and backend packages ([#67](https://github.com/metaideas/init/issues/67)) ([699192a](https://github.com/metaideas/init/commit/699192aa03d39fdeb289ad23afeb87d3eb2a7921))
-* migrate from `@init/queues` to `@init/workflows` powered by Inngest. ([#64](https://github.com/metaideas/init/issues/64)) ([49f6ab8](https://github.com/metaideas/init/commit/49f6ab8127df6ae7a9215669fd84f3c260779edd))
-* migrate to adamantite@0.23.0 ([#62](https://github.com/metaideas/init/issues/62)) ([2d6f144](https://github.com/metaideas/init/commit/2d6f1444d139ab9059c8c1fd526eac438a0206b6))
-* move to components to base ui ([edc0784](https://github.com/metaideas/init/commit/edc07848468238303e701d6a30ac0fd0d7698444))
-* new theme provider ([#50](https://github.com/metaideas/init/issues/50)) ([285320b](https://github.com/metaideas/init/commit/285320b0df4a031c9c6a265460213fc2ca9800fd))
-* replace pino with logtape ([#56](https://github.com/metaideas/init/issues/56)) ([c95b9aa](https://github.com/metaideas/init/commit/c95b9aa5631228f29c0df78c7edad0aabdffe1db))
-* restore dockerfile ([4ebea44](https://github.com/metaideas/init/commit/4ebea441a0f17a25c48253c2fa051466302d334e))
-* streamline and clean up codebase ([#63](https://github.com/metaideas/init/issues/63)) ([d4d520f](https://github.com/metaideas/init/commit/d4d520f6c4a26a81ea7c69ca5712807285550300))
-* use api as backend for app ([0ba467b](https://github.com/metaideas/init/commit/0ba467b7eaf51e98f6d2c376eaca7d7408b5e23c))
-
+- add assertion helpers ([6ec1f98](https://github.com/metaideas/init/commit/6ec1f98881619cdbc696c595e2dc75546c818ca2))
+- add error package ([#57](https://github.com/metaideas/init/issues/57)) ([77993d2](https://github.com/metaideas/init/commit/77993d20f32fcd587397001891c08cbf16637b5d))
+- add theme feature ([d584c33](https://github.com/metaideas/init/commit/d584c332d628dd10939f7a97940686529de51064))
+- add theme script ([7d1dfd2](https://github.com/metaideas/init/commit/7d1dfd2dba874b0879ec1d92037fb7c208f539a9))
+- better APIs for `@init/queue` ([#55](https://github.com/metaideas/init/issues/55)) ([24a1895](https://github.com/metaideas/init/commit/24a189530bd3acf92ffef30fa4588a8fc6744715))
+- expand init-now cli and use Effect for scripting ([#65](https://github.com/metaideas/init/issues/65)) ([7c1b5d3](https://github.com/metaideas/init/commit/7c1b5d3181e3f6748b3d7f68a5629b8a4fc561f9))
+- improve auth and backend packages ([#67](https://github.com/metaideas/init/issues/67)) ([699192a](https://github.com/metaideas/init/commit/699192aa03d39fdeb289ad23afeb87d3eb2a7921))
+- migrate from `@init/queues` to `@init/workflows` powered by Inngest. ([#64](https://github.com/metaideas/init/issues/64)) ([49f6ab8](https://github.com/metaideas/init/commit/49f6ab8127df6ae7a9215669fd84f3c260779edd))
+- migrate to adamantite@0.23.0 ([#62](https://github.com/metaideas/init/issues/62)) ([2d6f144](https://github.com/metaideas/init/commit/2d6f1444d139ab9059c8c1fd526eac438a0206b6))
+- move to components to base ui ([edc0784](https://github.com/metaideas/init/commit/edc07848468238303e701d6a30ac0fd0d7698444))
+- new theme provider ([#50](https://github.com/metaideas/init/issues/50)) ([285320b](https://github.com/metaideas/init/commit/285320b0df4a031c9c6a265460213fc2ca9800fd))
+- replace pino with logtape ([#56](https://github.com/metaideas/init/issues/56)) ([c95b9aa](https://github.com/metaideas/init/commit/c95b9aa5631228f29c0df78c7edad0aabdffe1db))
+- restore dockerfile ([4ebea44](https://github.com/metaideas/init/commit/4ebea441a0f17a25c48253c2fa051466302d334e))
+- streamline and clean up codebase ([#63](https://github.com/metaideas/init/issues/63)) ([d4d520f](https://github.com/metaideas/init/commit/d4d520f6c4a26a81ea7c69ca5712807285550300))
+- use api as backend for app ([0ba467b](https://github.com/metaideas/init/commit/0ba467b7eaf51e98f6d2c376eaca7d7408b5e23c))
 
 ### Bug Fixes
 
-* default logger ([6a01696](https://github.com/metaideas/init/commit/6a01696d0763c5e90f49c802f4ec3c14f189ce9d))
-* dependencies ([0d39dc1](https://github.com/metaideas/init/commit/0d39dc1fe46ce1d43b401dc4dd43863e1c3a7dc6))
-* exclude template scripts from replace ([6e0e87c](https://github.com/metaideas/init/commit/6e0e87ccac00ea18ebe39f208253dcb4f91ff81c))
-* logger setup ([b43df4f](https://github.com/metaideas/init/commit/b43df4f191ded688c1f159655def4200280936b9))
-* make readme cli a symlink ([9aa8a81](https://github.com/metaideas/init/commit/9aa8a81981fef74e2385c1d293d455488efb0b68))
-* multiselect type error ([536ee9b](https://github.com/metaideas/init/commit/536ee9bee2936c977432daf4e4e2f35487a19b3c))
-* remove logger from content script ([039a30d](https://github.com/metaideas/init/commit/039a30dbaa73c54ef5210db81b43c364cbf8ba59))
-* update convex package ([180cef5](https://github.com/metaideas/init/commit/180cef500763da8dcff00cd73528b266a2331831))
-
+- default logger ([6a01696](https://github.com/metaideas/init/commit/6a01696d0763c5e90f49c802f4ec3c14f189ce9d))
+- dependencies ([0d39dc1](https://github.com/metaideas/init/commit/0d39dc1fe46ce1d43b401dc4dd43863e1c3a7dc6))
+- exclude template scripts from replace ([6e0e87c](https://github.com/metaideas/init/commit/6e0e87ccac00ea18ebe39f208253dcb4f91ff81c))
+- logger setup ([b43df4f](https://github.com/metaideas/init/commit/b43df4f191ded688c1f159655def4200280936b9))
+- make readme cli a symlink ([9aa8a81](https://github.com/metaideas/init/commit/9aa8a81981fef74e2385c1d293d455488efb0b68))
+- multiselect type error ([536ee9b](https://github.com/metaideas/init/commit/536ee9bee2936c977432daf4e4e2f35487a19b3c))
+- remove logger from content script ([039a30d](https://github.com/metaideas/init/commit/039a30dbaa73c54ef5210db81b43c364cbf8ba59))
+- update convex package ([180cef5](https://github.com/metaideas/init/commit/180cef500763da8dcff00cd73528b266a2331831))
 
 ### Code Refactoring
 
-* cli to bun ([daf5d30](https://github.com/metaideas/init/commit/daf5d305985abbf06ccdfa39cc9a5fc43fa18ca8))
-* remove tooling helpers ([fe2fdd5](https://github.com/metaideas/init/commit/fe2fdd57fd0a13614fe3fc4be74134b200ec4920))
+- cli to bun ([daf5d30](https://github.com/metaideas/init/commit/daf5d305985abbf06ccdfa39cc9a5fc43fa18ca8))
+- remove tooling helpers ([fe2fdd5](https://github.com/metaideas/init/commit/fe2fdd57fd0a13614fe3fc4be74134b200ec4920))
 
 ## [0.11.1](https://github.com/metaideas/init/compare/init@v0.11.0...init@v0.11.1) (2025-11-15)
 
