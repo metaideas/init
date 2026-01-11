@@ -1,27 +1,35 @@
 // Authentication errors
 export type AuthenticationError = {
-  "AUTH.UNAUTHENTICATED": { requestId?: string }
-  "AUTH.UNAUTHORIZED": { requestId?: string; userId?: string }
+  "auth.unauthenticated": { requestId?: string }
+  "auth.unauthorized": { requestId?: string; userId?: string }
 }
 
 export type EmailError = {
-  "EMAIL.SEND_FAILED": {
+  "email.send_failed": {
     emails: string[]
     subject: string
     from?: string
     text: string
   }
-  "EMAIL.BATCH_SEND_FAILED": {
+  "email.batch_send_failed": {
     emails: string[]
     subject: string
     from?: string
   }
 }
 
+export type DurationError = {
+  "duration.invalid_parse_input": { value: string }
+  "duration.invalid_format_input": { value: unknown }
+}
+
+export type AssertError = {
+  "assert.unreachable": { value: unknown }
+  "assert.condition_failed": { condition: string }
+}
+
 declare module "faultier" {
-  interface FaultRegistry extends AuthenticationError, EmailError {
-    TEST_ERROR: { timestamp: number }
-  }
+  interface FaultRegistry extends AuthenticationError, EmailError, DurationError, AssertError {}
 }
 
 export { Fault } from "faultier"

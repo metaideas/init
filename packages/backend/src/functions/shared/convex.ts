@@ -28,7 +28,7 @@ async function validateIdentity(ctx: QueryCtx | MutationCtx | ActionCtx) {
   const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
-    throw Fault.create("AUTH.UNAUTHENTICATED").withDescription("User is not authenticated")
+    throw Fault.create("auth.unauthenticated").withDescription("User is not authenticated")
   }
 
   return identity
@@ -38,11 +38,11 @@ async function validateAdmin(ctx: QueryCtx | MutationCtx | ActionCtx) {
   const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
-    throw Fault.create("AUTH.UNAUTHENTICATED").withDescription("User is not authenticated")
+    throw Fault.create("auth.unauthenticated").withDescription("User is not authenticated")
   }
 
   if (identity.role !== "admin") {
-    throw Fault.create("AUTH.UNAUTHORIZED").withDescription("User is not authorized").withContext({
+    throw Fault.create("auth.unauthorized").withDescription("User is not authorized").withContext({
       userId: identity.tokenIdentifier,
     })
   }

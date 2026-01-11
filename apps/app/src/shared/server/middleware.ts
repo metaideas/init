@@ -31,7 +31,7 @@ export const requireSession = createMiddleware()
     const { data: session } = await authClient.getSession()
 
     if (!session) {
-      throw Fault.create("AUTH.UNAUTHENTICATED")
+      throw Fault.create("auth.unauthenticated")
         .withDescription(
           "User is not authenticated.",
           "You are not authenticated. Please sign in to continue."
@@ -50,7 +50,7 @@ export const requireAdmin = createMiddleware()
     const { user } = context.session
 
     if (user.role !== "admin") {
-      throw Fault.create("AUTH.UNAUTHORIZED")
+      throw Fault.create("auth.unauthorized")
         .withDescription(
           "User is not an admin.",
           "You are not an admin. Please contact support if you believe this is an error."

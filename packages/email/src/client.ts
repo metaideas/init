@@ -52,7 +52,7 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
 
   if (error) {
     throw Fault.wrap(error)
-      .withTag("EMAIL.SEND_FAILED")
+      .withTag("email.send_failed")
       .withContext({
         emails,
         from,
@@ -105,7 +105,7 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
 
   if (error) {
     throw Fault.wrap(error)
-      .withTag("EMAIL.BATCH_SEND_FAILED")
+      .withTag("email.batch_send_failed")
       .withContext({
         emails: payload.flatMap(({ emails }) => emails),
         from: env.EMAIL_FROM,
