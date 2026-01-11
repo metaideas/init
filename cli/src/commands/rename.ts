@@ -43,7 +43,11 @@ export default Command.make("rename").pipe(
       yield* Console.log("✅ References updated\n")
 
       yield* Console.log("\n🎉 Project rename complete!\n")
-    })
+    }).pipe(
+      Effect.catchTag("PackageJsonParseFailed", (e) =>
+        Console.error(`\nFailed to parse package.json: ${e.message}`)
+      )
+    )
   ),
   Command.provideEffectDiscard(requireInitProject())
 )

@@ -9,17 +9,7 @@ import checkCommand from "#commands/check.ts"
 import renameCommand from "#commands/rename.ts"
 import setupCommand from "#commands/setup.ts"
 import updateCommand from "#commands/update.ts"
-import {
-  DownloadFailed,
-  GitCloneFailed,
-  GitInitFailed,
-  InstallFailed,
-  NotInInitProject,
-  OperationCancelled,
-  PackageJsonParseFailed,
-  VersionCheckFailed,
-  WorkingTreeDirty,
-} from "#utils.ts"
+import { DownloadFailed, InstallFailed, NotInInitProject, OperationCancelled } from "#utils.ts"
 
 const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
 
@@ -131,19 +121,10 @@ cli(process.argv).pipe(
       Console.error(`\nAn error occurred while downloading the template: ${e.message}`),
     InstallFailed: (e) =>
       Console.error(`\nAn error occurred while installing dependencies: ${e.message}`),
-    TurboGenFailed: (e) =>
-      Console.error(`\nAn error occurred while generating workspace: ${e.message}`),
-    GitCloneFailed: (e) =>
-      Console.error(`\nAn error occurred while cloning template repository: ${e.message}`),
-    GitInitFailed: (e) => Console.error(`\nAn error occurred while initializing git: ${e.message}`),
-    VersionCheckFailed: (e) =>
-      Console.error(`\nAn error occurred while checking template version: ${e.message}`),
     NotInInitProject: () =>
       Console.error(
         "\n\nThis command must be run inside an init project.\nMake sure a .template-version.json file exists."
       ),
-    WorkingTreeDirty: () => Console.error("\n\nPlease commit or stash changes before syncing"),
-    PackageJsonParseFailed: (e) => Console.error(`\nFailed to parse package.json: ${e.message}`),
   }),
   Effect.tapErrorCause(Effect.logError),
   Effect.provide(BunContext.layer),

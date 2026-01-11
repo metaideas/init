@@ -212,7 +212,14 @@ export default Command.make("setup").pipe(
       yield* Console.log("✅ Dependencies installed\n")
 
       yield* Console.log("\n🎉 All setup steps complete! Your project is ready.\n")
-    })
+    }).pipe(
+      Effect.catchTags({
+        GitInitFailed: (e) =>
+          Console.error(`\nAn error occurred while initializing git: ${e.message}`),
+        InstallFailed: (e) =>
+          Console.error(`\nAn error occurred while installing dependencies: ${e.message}`),
+      })
+    )
   ),
   Command.provideEffectDiscard(requireInitProject())
 )

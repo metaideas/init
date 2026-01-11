@@ -288,7 +288,14 @@ export default Command.make("update").pipe(
       yield* Console.log("✅ Changes staged\n")
       yield* Console.log("   Please review the changes and commit them to your repository.\n")
       yield* Console.log("\n🎉 Template sync completed successfully!\n")
-    }).pipe(Effect.ensuring(cleanupTempDirectory()))
+    }).pipe(
+      Effect.catchTags({
+        GitCloneFailed: (e) =>
+          Console.error(`\nAn error occurred while cloning template repository: ${e.message}`),
+        WorkingTreeDirty: () => Console.error("\n\nPlease commit or stash changes before syncing"),
+      }),
+      Effect.ensuring(cleanupTempDirectory())
+    )
   ),
   Command.provideEffectDiscard(requireInitProject())
 )

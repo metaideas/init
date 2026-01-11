@@ -1,5 +1,5 @@
 import { Command, Prompt } from "@effect/cli"
-import { Command as ShellCommand, FileSystem } from "@effect/platform"
+import { Command as ShellCommand } from "@effect/platform"
 import { Console, Effect } from "effect"
 import { readPackageJson, requireInitProject, TurboGenFailed } from "#utils.ts"
 import { workspaces } from "#workspaces.ts"
@@ -44,7 +44,11 @@ const appCommand = Command.make("app").pipe(
       )
 
       yield* Console.log("\n🎉 App generated successfully!\n")
-    })
+    }).pipe(
+      Effect.catchTag("TurboGenFailed", (e) =>
+        Console.error(`\nAn error occurred while generating workspace: ${e.message}`)
+      )
+    )
   ),
   Command.provideEffectDiscard(requireInitProject())
 )
@@ -99,7 +103,11 @@ const packageCommand = Command.make("package").pipe(
       )
 
       yield* Console.log("\n🎉 Package generated successfully!\n")
-    })
+    }).pipe(
+      Effect.catchTag("TurboGenFailed", (e) =>
+        Console.error(`\nAn error occurred while generating workspace: ${e.message}`)
+      )
+    )
   ),
   Command.provideEffectDiscard(requireInitProject())
 )
