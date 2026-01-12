@@ -16,6 +16,7 @@
     "dev:firefox": "wxt -b firefox",
     "postinstall": "wxt prepare",
     "typecheck": "adamantite typecheck",
+    "typegen": "wxt prepare",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
   },

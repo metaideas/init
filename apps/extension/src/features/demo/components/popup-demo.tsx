@@ -1,9 +1,6 @@
 import { Button } from "@init/ui/components/button"
 import { TypographyH1, TypographyP } from "@init/ui/components/typography"
 import { Link } from "wouter"
-import { getTestService } from "#shared/services.ts"
-
-const testService = getTestService()
 
 export default function PopupDemo() {
   return (
@@ -15,7 +12,7 @@ export default function PopupDemo() {
         </TypographyP>
       </div>
 
-      <Button onClick={() => void testService.test()}>Log a message</Button>
+      <Button>Click me</Button>
 
       <Button render={<Link to="/settings" />}>Go to settings</Button>
     </div>
