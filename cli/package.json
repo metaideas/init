@@ -26,7 +26,8 @@
     "build": "bunup",
     "bump:deps": "bun update --interactive",
     "dev": "bunup --watch",
-    "test": "bun test"
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@effect/cli": "0.73.0",
@@ -37,7 +38,7 @@
     "giget": "2.0.0"
   },
   "devDependencies": {
-    "bunup": "0.15.14",
-    "typescript": "5.9.2"
+    "bunup": "0.16.17",
+    "typescript": "5.9.3"
   }
 }

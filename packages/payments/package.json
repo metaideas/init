@@ -19,8 +19,8 @@
     "@init/utils": "workspace:*",
     "@stripe/agent-toolkit": "0.7.12",
     "@stripe/react-stripe-js": "5.4.1",
-    "@stripe/stripe-js": "8.5.3",
-    "stripe": "20.0.0"
+    "@stripe/stripe-js": "8.6.1",
+    "stripe": "20.1.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

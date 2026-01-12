@@ -16,13 +16,13 @@
     "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/mdx": "4.3.12",
+    "@astrojs/mdx": "4.3.13",
     "@astrojs/react": "4.4.2",
     "@init/env": "workspace:*",
     "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "astro": "5.16.6",
+    "astro": "5.16.8",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

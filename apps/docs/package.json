@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@astrojs/react": "4.4.2",
-    "@astrojs/starlight": "0.37.1",
+    "@astrojs/starlight": "0.37.2",
     "@astrojs/starlight-tailwind": "4.0.2",
-    "astro": "5.16.6",
+    "astro": "5.16.8",
     "react": "catalog:",
     "react-dom": "catalog:",
     "sharp": "0.34.5"

@@ -12,7 +12,7 @@
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
-    "faultier": "1.0.2"
+    "faultier": "1.1.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
