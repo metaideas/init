@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/metaideas/init/compare/init@v1.0.0...init@v1.0.1) (2026-01-12)
+
+
+### Bug Fixes
+
+* package.json setup ([fa1991e](https://github.com/metaideas/init/commit/fa1991e1747f7c89bae93afa1f1f7fac00597b65))
+* remove demo service ([9938939](https://github.com/metaideas/init/commit/9938939455fa05598cfd8af02dac4433e4cbf043))
+
 ## [1.0.0](https://github.com/metaideas/init/compare/init@v0.11.1...init@v1.0.0) (2026-01-11)
 
 ### ⚠ BREAKING CHANGES
