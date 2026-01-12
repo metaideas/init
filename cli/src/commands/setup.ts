@@ -6,7 +6,6 @@ import { Console, Effect } from "effect"
 import {
   GitInitFailed,
   InstallFailed,
-  readPackageJson,
   replaceProjectNameInProjectFiles,
   requireInitProject,
 } from "#utils.ts"
@@ -43,13 +42,13 @@ const removeUnselectedWorkspaces = (apps: string[], packages: string[]) =>
 const updatePackageJson = (projectName: string) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem
-    const packageJson = yield* readPackageJson()
-    const updatePackageJson = {
-      ...packageJson,
-      name: projectName,
-      version: "0.0.1",
-    }
-    yield* fs.writeFileString("package.json", `${JSON.stringify(updatePackageJson, null, 2)}\n`)
+    const content = yield* fs.readFileString("package.json")
+
+    const updated = content
+      .replace(/"name":\s*"init"/, `"name": "${projectName}"`)
+      .replace(/"version":\s*"[^"]*"/, `"version": "0.0.1"`)
+
+    yield* fs.writeFileString("package.json", updated)
   })
 
 const setupEnvironmentVariables = (paths: string[]) =>
