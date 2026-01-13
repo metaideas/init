@@ -16,7 +16,7 @@ function RouteComponent() {
         <CardContent>
           <SignUpForm />
 
-          <div className="mt-8 text-center text-muted-foreground text-sm">
+          <div className="mt-8 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link
               className="font-medium text-primary underline-offset-4 hover:text-primary/80 hover:underline"

@@ -4,7 +4,7 @@ import { cn } from "@init/utils/ui"
 function TypographyH1({ className, children, ...props }: React.ComponentProps<"h1">) {
   return (
     <h1
-      className={cn("scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl", className)}
+      className={cn("scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl", className)}
       {...props}
     >
       {children}
@@ -17,7 +17,7 @@ function TypographyH2({ className, children, ...props }: React.ComponentProps<"h
   return (
     <h2
       className={cn(
-        "scroll-m-20 border-b pb-2 font-semibold text-3xl tracking-tight first:mt-0",
+        "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}
@@ -30,7 +30,7 @@ TypographyH2.displayName = "TypographyH2"
 
 function TypographyH3({ className, children, ...props }: React.ComponentProps<"h3">) {
   return (
-    <h3 className={cn("scroll-m-20 font-semibold text-2xl tracking-tight", className)} {...props}>
+    <h3 className={cn("scroll-m-20 text-2xl font-semibold tracking-tight", className)} {...props}>
       {children}
     </h3>
   )
@@ -39,7 +39,7 @@ TypographyH3.displayName = "TypographyH3"
 
 function TypographyH4({ className, children, ...props }: React.ComponentProps<"h4">) {
   return (
-    <h4 className={cn("scroll-m-20 font-semibold text-xl tracking-tight", className)} {...props}>
+    <h4 className={cn("scroll-m-20 text-xl font-semibold tracking-tight", className)} {...props}>
       {children}
     </h4>
   )
@@ -47,7 +47,7 @@ function TypographyH4({ className, children, ...props }: React.ComponentProps<"h
 TypographyH4.displayName = "TypographyH4"
 
 function TypographyP({ className, ...props }: React.ComponentProps<"p">) {
-  return <p className={cn("not-first:mt-6 leading-7", className)} {...props} />
+  return <p className={cn("leading-7 not-first:mt-6", className)} {...props} />
 }
 TypographyP.displayName = "TypographyP"
 
@@ -65,7 +65,7 @@ function TypographyInlineCode({ className, ...props }: React.ComponentProps<"cod
   return (
     <code
       className={cn(
-        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-sm",
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
         className
       )}
       {...props}
@@ -75,22 +75,22 @@ function TypographyInlineCode({ className, ...props }: React.ComponentProps<"cod
 TypographyInlineCode.displayName = "TypographyInlineCode"
 
 function TypographyLead({ className, ...props }: React.ComponentProps<"p">) {
-  return <p className={cn("text-muted-foreground text-xl", className)} {...props} />
+  return <p className={cn("text-xl text-muted-foreground", className)} {...props} />
 }
 TypographyLead.displayName = "TypographyLead"
 
 function TypographyLarge({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("font-semibold text-lg", className)} {...props} />
+  return <div className={cn("text-lg font-semibold", className)} {...props} />
 }
 TypographyLarge.displayName = "TypographyLarge"
 
 function TypographySmall({ className, ...props }: React.ComponentProps<"small">) {
-  return <small className={cn("font-medium text-sm leading-none", className)} {...props} />
+  return <small className={cn("text-sm leading-none font-medium", className)} {...props} />
 }
 TypographySmall.displayName = "TypographySmall"
 
 function TypographyMuted({ className, ...props }: React.ComponentProps<"p">) {
-  return <p className={cn("text-muted-foreground text-sm", className)} {...props} />
+  return <p className={cn("text-sm text-muted-foreground", className)} {...props} />
 }
 TypographyMuted.displayName = "TypographyMuted"
 

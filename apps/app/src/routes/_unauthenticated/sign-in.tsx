@@ -33,7 +33,7 @@ function RouteComponent() {
             <div aria-hidden="true" className="absolute inset-0 flex items-center">
               <Separator />
             </div>
-            <div className="relative flex justify-center font-medium text-sm leading-6">
+            <div className="relative flex justify-center text-sm leading-6 font-medium">
               <span className="bg-background px-6 text-muted-foreground">Or continue with</span>
             </div>
           </div>
@@ -45,7 +45,7 @@ function RouteComponent() {
               <Separator />
             </div>
 
-            <div className="relative flex justify-center font-medium text-sm leading-6">
+            <div className="relative flex justify-center text-sm leading-6 font-medium">
               <span className="bg-background px-6 text-muted-foreground">Or continue with</span>
             </div>
           </div>
@@ -55,7 +55,7 @@ function RouteComponent() {
             <SignInWithGitHubButton className="w-full min-w-[180px] sm:flex-1" />
           </div>
 
-          <div className="mt-8 text-center text-muted-foreground text-sm">
+          <div className="mt-8 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Link
               className="font-medium text-primary underline-offset-4 hover:text-primary/80 hover:underline"

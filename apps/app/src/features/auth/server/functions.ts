@@ -22,16 +22,6 @@ export const validateSession = createIsomorphicFn()
     return session
   })
 
-export const checkEmailAvailability = publicFunction
-  .inputValidator(z.object({ email: z.email() }))
-  .handler(async ({ data, context }) => {
-    const user = await context.db.query.users.findFirst({
-      where: (table, { eq }) => eq(table.email, data.email),
-    })
-
-    return { isAvailable: !user }
-  })
-
 export const forgotPassword = publicFunction
   .inputValidator(z.object({ email: z.email() }))
   .handler(async ({ data, context }) => {

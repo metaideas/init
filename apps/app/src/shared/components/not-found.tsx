@@ -12,14 +12,14 @@ export default function NotFound() {
         <div className="mb-8">
           <div className="relative inline-block">
             <div className="absolute inset-0 animate-pulse bg-primary/20 blur-3xl" />
-            <h1 className="relative font-bold text-[clamp(4rem,20vw,12rem)] leading-none tracking-tighter">
+            <h1 className="relative text-[clamp(4rem,20vw,12rem)] leading-none font-bold tracking-tighter">
               404
             </h1>
           </div>
         </div>
 
         <div className="mb-8 space-y-3">
-          <h2 className="font-semibold text-2xl tracking-tight sm:text-3xl">Page not found</h2>
+          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Page not found</h2>
           <p className="mx-auto max-w-md text-lg text-muted-foreground">
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
@@ -46,7 +46,7 @@ export default function NotFound() {
           )}
         </div>
 
-        <div className="mt-12 flex items-center justify-center gap-2 text-muted-foreground text-sm">
+        <div className="mt-12 flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <Icon.Search className="size-4" />
           <p>Lost? Try searching or return to the homepage</p>
         </div>
