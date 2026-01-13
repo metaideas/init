@@ -58,11 +58,9 @@
       "name": "app",
       "dependencies": {
         "@init/auth": "workspace:*",
-        "@init/db": "workspace:*",
         "@init/env": "workspace:*",
         "@init/error": "workspace:*",
         "@init/internationalization": "workspace:*",
-        "@init/kv": "workspace:*",
         "@init/observability": "workspace:*",
         "@init/ui": "workspace:*",
         "@init/utils": "workspace:*",

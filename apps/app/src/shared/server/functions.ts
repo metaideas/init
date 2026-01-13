@@ -1,11 +1,6 @@
 import { createServerFn } from "@tanstack/react-start"
-import {
-  requireAdmin,
-  requireSession,
-  withDatabase,
-  withLogger,
-} from "#shared/server/middleware.ts"
+import { requireAdmin, requireSession, withLogger } from "#shared/server/middleware.ts"
 
-export const publicFunction = createServerFn().middleware([withDatabase, withLogger])
+export const publicFunction = createServerFn().middleware([withLogger])
 export const protectedFunction = publicFunction.middleware([requireSession])
 export const adminFunction = protectedFunction.middleware([requireAdmin])

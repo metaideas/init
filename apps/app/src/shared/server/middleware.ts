@@ -1,5 +1,4 @@
 import crypto from "node:crypto"
-import { database } from "@init/db/client"
 import { Fault } from "@init/error/fault"
 import { logger } from "@init/observability/logger"
 import { createMiddleware } from "@tanstack/react-start"
@@ -20,10 +19,6 @@ export const withLogger = createMiddleware()
       },
     })
   )
-
-export const withDatabase = createMiddleware().server(({ next }) =>
-  next({ context: { db: database() } })
-)
 
 export const requireSession = createMiddleware()
   .middleware([withRequestId])
