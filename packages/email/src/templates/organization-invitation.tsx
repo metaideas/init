@@ -40,7 +40,7 @@ export default function OrganizationInvitation({
               />
             </Section>
 
-            <Heading className="mb-6 text-center font-bold text-2xl text-gray-900">
+            <Heading className="mb-6 text-center text-2xl font-bold text-gray-900">
               You&apos;ve been invited to join {organizationName}
             </Heading>
 
@@ -56,14 +56,14 @@ export default function OrganizationInvitation({
 
             <Section className="text-center">
               <Button
-                className="inline-block rounded-md bg-black px-6 py-3 font-medium text-base text-white no-underline"
+                className="inline-block rounded-md bg-black px-6 py-3 text-base font-medium text-white no-underline"
                 href={invitationUrl}
               >
                 Accept Invitation
               </Button>
             </Section>
 
-            <Text className="mt-8 text-center text-gray-500 text-sm">
+            <Text className="mt-8 text-center text-sm text-gray-500">
               If you don&apos;t want to join {organizationName} or believe this invitation was sent
               in error, please ignore this email.
             </Text>
