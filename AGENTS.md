@@ -33,6 +33,11 @@
 - Avoid comments about updates to old code ("<- now supports xyz").
 - Code should be self-documenting; if a comment explains WHAT, refactor instead.
 
+## Version Control
+
+- Use `git` for version control.
+- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `style:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
+
 ## Coding Style (applies to `*.ts`, `*.tsx`)
 
 ### Key Principles

@@ -8,11 +8,9 @@ export const workspaces = {
     {
       dependencies: [
         "auth",
-        "db",
         "env",
         "error",
         "internationalization",
-        "kv",
         "observability",
         "ui",
         "utils",
