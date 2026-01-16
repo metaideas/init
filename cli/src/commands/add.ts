@@ -36,7 +36,7 @@ const appCommand = Command.make("app").pipe(
         workspaceName,
         "--no-update-notifier"
       ).pipe(
-        ShellCommand.feed("n\n"),
+        ShellCommand.stdin("inherit"),
         ShellCommand.stdout("inherit"),
         ShellCommand.stderr("inherit"),
         ShellCommand.exitCode,
@@ -95,7 +95,7 @@ const packageCommand = Command.make("package").pipe(
         `packages/${packageName}`,
         "--no-update-notifier"
       ).pipe(
-        ShellCommand.feed("n\n"),
+        ShellCommand.stdin("inherit"),
         ShellCommand.stdout("inherit"),
         ShellCommand.stderr("inherit"),
         ShellCommand.exitCode,
