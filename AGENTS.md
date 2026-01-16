@@ -1,30 +1,47 @@
 # AGENTS.md
 
-## Quality Control
+## Project Structure
+
+- Projects are organized in the following folders:
+  - `apps` - Cross-platform applications and user-facing products.
+  - `infra` - Infrastructure as code for local development and cloud providers.
+  - `packages` - Shared internal packages for use across apps.
+  - `scripts` - Scripts for random tasks, such as syncing the project with the template and graphing dependencies.
+  - `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
+- Apps and packages have their code in the `src` folder.
+- Apps organized in the following folders:
+  - `app`/`routes`/`entrypoints` - The router/entrypoint of the application, usually using file-based routing.
+  - `features` - Feature-based modules.
+  - `shared` - Shared utilities and helpers.
+- We enforce a unidirectional import flow between these three folders. The code only flows downwards to the routing folder, never going upwards.
+  - `shared` only imports outside dependencies. It cannot import from `features` or `routes`. Modules in `shared`  should be self-contained but can import from other modules in `shared`.
+    - `shared` should be used for services, utilities, and helpers that are used across the application.
+  - `features` can import from `shared`, but cannot import from other features.
+  - `routes` can import from `shared` and `features`, but routes cannot from other routes.
+
+## Code Quality
 
 - We use `adamantite` for linting, formatting and type checking.
+  - `adamantite check` to run linting checks.
+  - `adamantite format` to format the code.
+  - `adamantite typecheck` to type check the code.
+  - `adamantite analyze` to analyze the code for unused dependencies.
 - Always run `bun run format` after editing files.
+- Run `bun run test` to run the test suite.
 - After making changes, run `bun run check`, `bun run typecheck` and `bun run test` to ensure the code is still valid.
-- After installing or removing dependencies, run `bun run analyze` to ensure we are not using any dependencies that are not needed.
+- After deleting files, run `bun run analyze` to ensure we are not using any dependencies that are not needed.
 
-## Bun Usage (general)
+## Testing
 
-- Default to using Bun instead of Node.js.
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`.
-- Use `bun test` instead of `jest` or `vitest`.
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`.
-- Use `bun install` instead of `npm install`, `yarn install`, or `pnpm install`.
-- Use `bun run <script>` instead of `npm run <script>`, `yarn run <script>`, or `pnpm run <script>`.
-- Bun automatically loads `.env`, so don't use dotenv.
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- Use `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- Use `Bun.redis` for Redis. Don't use `ioredis`.
-- Use `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s `readFile`/`writeFile`.
-- Use `Bun.$` for shelling out instead of execa.
+- We use `bun:test` for testing.
+- Add tests to a `__tests__` folder alongside the file under test.
+- Import from `bun:test`.
+- Use `test`, `describe`, and `expect`.
+- `describe` is named after the function under test.
+- `test` is named after the case. Use descriptive names for test cases.
+- Use Bun testing best practices.
 
-## Comment Policy (applies to `*.ts`, `*.tsx`, `*.js`, `*.jsx`)
+## Comment Policy
 
 - Comments that repeat what code does are unacceptable.
 - Delete commented-out code.
@@ -36,26 +53,26 @@
 ## Version Control
 
 - Use `git` for version control.
-- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `style:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
+- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
 
 ## Coding Style (applies to `*.ts`, `*.tsx`)
 
-### Key Principles
+### General (TypeScript)
 
 - Write concise, technical TypeScript code.
-- Use functional and declarative programming; avoid classes.
+- Use functional and declarative programming; avoid classes unless necessary.
 - Prefer iteration and modularization over duplication.
 - Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
 - Use descriptive function names with auxiliary verbs (e.g., `getUserSettings`, `setUserSettings`, `checkIsMobile`).
 - Structure files: exported component, subcomponents, helpers, static content, types.
-- Follow the project structure in `README.md`.
 
 ### Imports
 
-- For packages inside `apps`, use the `~/` alias for imports from `[app]/src`.
-- For packages inside `packages`, use relative imports.
+- We use subpath imports for imports within the same package.
+  - Subpath imports are prefixed with `#` and are relative to the `src` folder.
+- Reduce relative imports as much as possible.
 - Use the `@init/` alias for importing packages in the monorepo.
-- Never allow imports between `apps`, except from `apps/api/src/client.ts` as a dev dependency.
+- Never allow imports between `apps`. The only exception is the `api/src/client.ts` file.
 - Avoid circular imports.
 
 ### Naming Conventions
@@ -83,13 +100,11 @@
 
 ## Database (applies to `packages/db/**`)
 
-- Follow the coding styles in `packages/db/src/schema/auth.ts` and `packages/db/src/schema/organizations.ts`.
+- Our database schema is in `packages/db/src/schema.ts`.
 - We use Drizzle as our ORM. Follow Drizzle best practices.
-- Always add relations to `packages/db/src/schema/relations.ts` following existing patterns.
-- Use timestamps in `packages/db/src/schema/helpers.ts` where it makes sense.
-- Tables related to core logic go inside `packages/env/src/core.ts`.
-- Use prefixed IDs for entities; see `packages/db/src/schema/helpers.ts` and `constructId`.
-- Prefixes should be 3 letters with no conflicts.
+- Use timestamps in `packages/db/src/schema.ts` where it makes sense.
+- Use prefixed IDs for entities; see `packages/db/src/schema.ts` and the `id` function.
+- Prefixes should be 4 letters with no conflicts.
 
 ## Expo (applies to `apps/mobile/**`)
 
@@ -97,7 +112,6 @@
 - Leverage Expo SDK features and APIs.
 - Use React Navigation for structure and navigation.
 - Manage assets with Expo's asset system.
-- Implement error handling and crash reporting with Sentry.
 - Use Reanimated for performant animations.
 
 ## Hono (applies to `apps/api/**`)
@@ -108,29 +122,6 @@
 - Handle errors globally with `app.onError`.
 - Use `c.text()`, `c.json()`, and `c.redirect()` for responses.
 - Leverage caching with `Cache-Control` or KV storage.
-
-## Next.js (applies to `apps/docs/**`, `apps/web/**`, `apps/app/**`)
-
-- Prioritize server components (RSC) for performance, SEO, and data fetching.
-- Use server actions for data mutations.
-- Use client components sparingly, only when interactivity is required.
-- Never add `"use client"` to `page.tsx`; create a component in `features` instead.
-- Use Next.js file-based routing.
-- Centralize shared layouts in `layout.tsx`.
-- Add `loading.tsx` for loading states; use `Suspense` for nested fetches.
-- Implement custom error pages with `error.tsx`.
-- Use API route handlers for backend logic within the app structure.
-- Optimize SSR and SSG for faster loading.
-- Use `nuqs` for URL search parameter state management.
-
-## Testing (applies to `**/*.test.ts`, `**/*.test.tsx`)
-
-- Use Bun testing best practices.
-- Add tests to a `__tests__` folder alongside the file under test.
-- Import from `bun:test`.
-- Use `test`, `describe`, and `expect`.
-- `describe` is named after the function under test.
-- `test` is named after the case.
 
 ## Web UI (applies to `apps/app/**`, `apps/desktop/**`, `apps/docs/**`, `apps/extension/**`, `apps/web/**`)
 
