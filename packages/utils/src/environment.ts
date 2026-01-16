@@ -11,7 +11,7 @@ export const isDevelopment = () => {
     // Import.meta not available
   }
 
-  return typeof process !== "undefined" && process.env.NODE_ENV === "development"
+  return process.env.NODE_ENV === "development"
 }
 
 export function isProduction() {
@@ -27,7 +27,7 @@ export function isProduction() {
     // Import.meta not available
   }
 
-  return typeof process !== "undefined" && process.env.NODE_ENV === "production"
+  return process.env.NODE_ENV === "production"
 }
 
 export function isTest() {
