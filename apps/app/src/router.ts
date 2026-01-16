@@ -1,6 +1,6 @@
 import type { TRPCRouter } from "api/client"
 import { type Logger, logger } from "@init/observability/logger"
-import { initializeErrorMonitoring } from "@init/observability/monitoring"
+import { initializeErrorMonitoring } from "@init/observability/monitoring/client"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
@@ -43,7 +43,7 @@ export function getRouter() {
   })
 
   if (!router.isServer) {
-    void initializeErrorMonitoring("client")
+    initializeErrorMonitoring()
   }
 
   setupRouterSsrQueryIntegration({

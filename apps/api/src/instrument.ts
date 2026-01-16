@@ -1,3 +1,3 @@
-import { initializeErrorMonitoring } from "@init/observability/monitoring"
+import { initializeErrorMonitoring } from "@init/observability/monitoring/server"
 
-void initializeErrorMonitoring("server")
+initializeErrorMonitoring()
