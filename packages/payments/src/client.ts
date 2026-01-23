@@ -5,7 +5,7 @@ import Stripe from "stripe"
 export function payments() {
   return singleton(
     "payments",
-    () => new Stripe(env().STRIPE_SECRET_KEY, { apiVersion: "2025-11-17.clover" })
+    () => new Stripe(env().STRIPE_SECRET_KEY, { apiVersion: "2025-12-15.clover" })
   )
 }
 
