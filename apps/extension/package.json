@@ -33,6 +33,7 @@
     "wouter": "^3.7.1"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "catalog:",
     "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "0.1.33",

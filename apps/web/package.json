@@ -19,7 +19,6 @@
     "@astrojs/mdx": "4.3.13",
     "@astrojs/react": "4.4.2",
     "@init/env": "workspace:*",
-    "@init/internationalization": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "astro": "5.16.8",
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.6",
     "@astrojs/ts-plugin": "1.10.6",
+    "@inlang/paraglide-js": "catalog:",
     "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "catalog:",

@@ -14,7 +14,6 @@ const consoleSink = getConsoleSink({
         timestamp: "time",
       })
     : jsonLinesFormatter,
-  nonBlocking: true,
 })
 
 export const LoggerCategory = {

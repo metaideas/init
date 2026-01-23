@@ -6,15 +6,7 @@ export const workspaces = {
       name: "api",
     },
     {
-      dependencies: [
-        "auth",
-        "env",
-        "error",
-        "internationalization",
-        "observability",
-        "ui",
-        "utils",
-      ],
+      dependencies: ["auth", "env", "error", "observability", "ui", "utils"],
       description: "Full-stack TanStack Start application with server functions",
       name: "app",
     },
@@ -39,7 +31,7 @@ export const workspaces = {
       name: "mobile",
     },
     {
-      dependencies: ["env", "internationalization", "ui", "utils"],
+      dependencies: ["env", "ui", "utils"],
       description: "Astro marketing site and blog",
       name: "web",
     },
@@ -89,11 +81,6 @@ export const workspaces = {
       dependencies: [],
       description: "Custom error types using Faultier",
       name: "error",
-    },
-    {
-      dependencies: [],
-      description: "Internationalization utilities and translation files",
-      name: "internationalization",
     },
     {
       dependencies: [],

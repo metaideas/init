@@ -1,5 +1,5 @@
-import { type Locale, overwriteGetLocale } from "@init/internationalization/runtime"
 import { defineMiddleware } from "astro:middleware"
+import { type Locale, overwriteGetLocale } from "#shared/internationalization/runtime.js"
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export const onRequest = defineMiddleware((context, next) => {

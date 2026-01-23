@@ -1,5 +1,3 @@
-import { m } from "@init/internationalization/messages"
-import { setLocale } from "@init/internationalization/runtime"
 import { Button } from "@init/ui/components/button"
 import {
   DropdownMenu,
@@ -8,6 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@init/ui/components/dropdown-menu"
 import { Icon } from "@init/ui/components/icon"
+import { m } from "#shared/internationalization/messages.js"
+import { setLocale } from "#shared/internationalization/runtime.js"
 
 export function LocaleToggle() {
   return (

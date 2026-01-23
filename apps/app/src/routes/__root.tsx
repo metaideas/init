@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { baseLocale } from "@init/internationalization/runtime"
 import globals from "@init/ui/globals.css?url"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
@@ -8,6 +7,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { RouterContext } from "#router.ts"
 import { getTheme } from "#features/theme/server/functions.ts"
 import Providers from "#shared/components/providers.tsx"
+import { baseLocale } from "#shared/internationalization/runtime.js"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
