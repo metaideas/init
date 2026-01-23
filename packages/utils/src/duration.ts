@@ -81,7 +81,18 @@ export function seconds(value: DurationInput | number, options?: Options): numbe
  * parsed
  */
 export function parse(str: string): number {
-  if (typeof str !== "string" || str.length > 100) {
+  if (typeof str !== "string") {
+    throw Fault.create("duration.invalid_parse_input")
+      .withDescription(
+        "Value provided to parse() must be a string with length between 1 and 99",
+        "Invalid duration format provided."
+      )
+      .withContext({ value: str })
+  }
+
+  const length = str.length
+
+  if (length === 0 || length > 100) {
     throw Fault.create("duration.invalid_parse_input")
       .withDescription(
         "Value provided to parse() must be a string with length between 1 and 99",
