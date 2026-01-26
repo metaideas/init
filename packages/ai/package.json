@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "3.0.7",
-    "ai": "catalog:"
+    "ai": "6.0.27"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   }
 }

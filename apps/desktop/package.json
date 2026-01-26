@@ -24,21 +24,21 @@
     "@tanstack/react-router-devtools": "1.149.0",
     "@tauri-apps/api": "2.9.1",
     "@tauri-apps/plugin-opener": "2.5.3",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "catalog:",
+    "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.1.18",
     "@tanstack/devtools-vite": "0.4.1",
     "@tanstack/router-plugin": "1.149.0",
     "@tauri-apps/cli": "2.9.6",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "5.1.2",
     "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
-    "typescript": "catalog:",
-    "vite": "catalog:"
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
   }
 }

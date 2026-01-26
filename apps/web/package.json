@@ -22,18 +22,18 @@
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
     "astro": "5.16.8",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.6",
     "@astrojs/ts-plugin": "1.10.6",
-    "@inlang/paraglide-js": "catalog:",
+    "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
     "tailwindcss": "4.1.18",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   }
 }

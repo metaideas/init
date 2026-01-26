@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   },
   "peerDependencies": {
     "react": "*"

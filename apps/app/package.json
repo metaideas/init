@@ -32,22 +32,22 @@
     "@trpc/client": "^11.7.1",
     "@trpc/tanstack-react-query": "^11.7.1",
     "api": "workspace:*",
-    "react": "catalog:",
-    "react-dom": "catalog:",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "superjson": "2.2.6"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "catalog:",
+    "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "24.10.1",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "5.1.2",
     "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
     "nitro": "3.0.1-alpha.1",
     "tailwindcss": "4.1.18",
-    "typescript": "catalog:",
-    "vite": "catalog:"
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
   }
 }
