@@ -1,5 +1,5 @@
-import { internationalization } from "@init/internationalization/plugin"
-import { cookieName } from "@init/internationalization/runtime"
+import { I18N_COOKIE_NAME } from "@init/utils/constants"
+import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import react from "@vitejs/plugin-react"
@@ -16,10 +16,10 @@ export default defineConfig({
         plugins: [["babel-plugin-react-compiler", {}]],
       },
     }),
-    internationalization({
-      cookieName,
-      outdir: "../../packages/internationalization/src/_generated",
-      project: "../../packages/internationalization/project.inlang",
+    paraglide({
+      cookieName: I18N_COOKIE_NAME,
+      outdir: "./src/shared/internationalization",
+      project: "../../tooling/internationalization/project.inlang",
       strategy: ["cookie", "baseLocale"],
     }),
     nitro({

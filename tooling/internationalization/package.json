@@ -1,0 +1,14 @@
+{
+  "name": "@tooling/internationalization",
+  "private": true,
+  "files": [
+    "project.inlang"
+  ],
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "bump:deps": "bun update --interactive"
+  },
+  "devDependencies": {
+    "@inlang/paraglide-js": "2.8.0"
+  }
+}

@@ -4,6 +4,7 @@
   "concurrency": "15",
   "tasks": {
     "build": {
+      "dependsOn": ["codegen", "^codegen"],
       "env": [
         "AUTH_SECRET",
 
@@ -55,7 +56,10 @@
       "persistent": true
     },
     "typecheck": {
-      "dependsOn": ["^typegen"]
+      "dependsOn": ["codegen", "^codegen"]
+    },
+    "codegen": {
+      "dependsOn": ["typegen"]
     },
     "typegen": {},
     "//#analyze": {},

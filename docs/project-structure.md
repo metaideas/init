@@ -32,7 +32,6 @@ root
   │   ├── db                    # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── env                   # Environment variable management and validation
-  │   ├── internationalization  # Internationalization utilities and translation files
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments              # Payment processing utilities using Stripe
@@ -44,6 +43,7 @@ root
   ├── scripts             # Scripts for random tasks
   │
   ├── tooling             # Shared development and build tools
+  │   ├── internationalization  # Inlang project configuration and translations
   │   ├── tsconfig          # TypeScript configuration
   │   └── helpers           # Common utility functions for tooling and scripts
   │

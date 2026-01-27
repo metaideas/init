@@ -1,6 +1,6 @@
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
-import { internationalization } from "@init/internationalization/plugin"
+import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
 
@@ -17,9 +17,9 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
-      internationalization({
-        outdir: "../../packages/internationalization/src/_generated",
-        project: "../../packages/internationalization/project.inlang",
+      paraglide({
+        outdir: "./src/shared/internationalization",
+        project: "../../tooling/internationalization/project.inlang",
         strategy: ["url", "baseLocale"],
       }),
     ],

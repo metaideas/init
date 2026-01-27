@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument, unicorn/filename-case, eslint/sort-keys */
+/* eslint-disable */
 
-// @ts-nocheck - Generated file, type checking disabled
+// @ts-nocheck
 
 // noinspection JSUnusedGlobalSymbols
 

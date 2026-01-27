@@ -42,5 +42,12 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "useTabs": false,
-  "ignorePatterns": ["**/*.hbs", "**/src/**/_generated"],
+  "ignorePatterns": [
+    "**/*.hbs",
+    "**/src/**/_generated",
+    "**/_generated/**",
+    "**/generated/**",
+    "**/.generated/**",
+    "**/src/shared/internationalization/**",
+  ],
 }

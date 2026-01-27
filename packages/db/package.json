@@ -11,12 +11,12 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "drizzle-kit studio",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate",
-    "push": "drizzle-kit push",
-    "reset": "bun run ./scripts/reset.ts",
-    "seed": "bun run ./scripts/seed.ts",
+    "dev": "bun --bun drizzle-kit studio",
+    "generate": "bun --bun drizzle-kit generate",
+    "migrate": "bun --bun drizzle-kit migrate",
+    "push": "bun --bun drizzle-kit push",
+    "reset": "bun --bun run ./scripts/reset.ts",
+    "seed": "bun --bun run ./scripts/seed.ts",
     "typecheck": "adamantite typecheck"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "@tooling/tsconfig": "workspace:*",
     "drizzle-kit": "0.31.8",
     "drizzle-seed": "0.3.1",
+    "postgres": "3.4.8",
     "typescript": "catalog:"
   }
 }
