@@ -8,87 +8,88 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as AuthenticatedIndexRouteImport } from "./routes/_authenticated/index"
-import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route"
-import { Route as UnauthenticatedForgotPasswordRouteImport } from "./routes/_unauthenticated/forgot-password"
-import { Route as UnauthenticatedRouteRouteImport } from "./routes/_unauthenticated/route"
-import { Route as UnauthenticatedSignInRouteImport } from "./routes/_unauthenticated/sign-in"
-import { Route as UnauthenticatedSignUpRouteImport } from "./routes/_unauthenticated/sign-up"
-import { Route as ApiTestRouteImport } from "./routes/api/test"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as ApiTestRouteImport } from './routes/api/test'
+import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
+import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
+import { Route as UnauthenticatedForgotPasswordRouteImport } from './routes/_unauthenticated/forgot-password'
 
 const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
-  id: "/_unauthenticated",
+  id: '/_unauthenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: "/_authenticated",
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiTestRoute = ApiTestRouteImport.update({
-  id: "/api/test",
-  path: "/api/test",
+  id: '/api/test',
+  path: '/api/test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UnauthenticatedSignUpRoute = UnauthenticatedSignUpRouteImport.update({
-  id: "/sign-up",
-  path: "/sign-up",
+  id: '/sign-up',
+  path: '/sign-up',
   getParentRoute: () => UnauthenticatedRouteRoute,
 } as any)
 const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
-  id: "/sign-in",
-  path: "/sign-in",
+  id: '/sign-in',
+  path: '/sign-in',
   getParentRoute: () => UnauthenticatedRouteRoute,
 } as any)
-const UnauthenticatedForgotPasswordRoute = UnauthenticatedForgotPasswordRouteImport.update({
-  id: "/forgot-password",
-  path: "/forgot-password",
-  getParentRoute: () => UnauthenticatedRouteRoute,
-} as any)
+const UnauthenticatedForgotPasswordRoute =
+  UnauthenticatedForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => UnauthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  "/forgot-password": typeof UnauthenticatedForgotPasswordRoute
-  "/sign-in": typeof UnauthenticatedSignInRoute
-  "/sign-up": typeof UnauthenticatedSignUpRoute
-  "/api/test": typeof ApiTestRoute
-  "/": typeof AuthenticatedIndexRoute
+  '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
+  '/api/test': typeof ApiTestRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  "/forgot-password": typeof UnauthenticatedForgotPasswordRoute
-  "/sign-in": typeof UnauthenticatedSignInRoute
-  "/sign-up": typeof UnauthenticatedSignUpRoute
-  "/api/test": typeof ApiTestRoute
-  "/": typeof AuthenticatedIndexRoute
+  '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
+  '/api/test': typeof ApiTestRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/_authenticated": typeof AuthenticatedRouteRouteWithChildren
-  "/_unauthenticated": typeof UnauthenticatedRouteRouteWithChildren
-  "/_unauthenticated/forgot-password": typeof UnauthenticatedForgotPasswordRoute
-  "/_unauthenticated/sign-in": typeof UnauthenticatedSignInRoute
-  "/_unauthenticated/sign-up": typeof UnauthenticatedSignUpRoute
-  "/api/test": typeof ApiTestRoute
-  "/_authenticated/": typeof AuthenticatedIndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_unauthenticated': typeof UnauthenticatedRouteRouteWithChildren
+  '/_unauthenticated/forgot-password': typeof UnauthenticatedForgotPasswordRoute
+  '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
+  '/_unauthenticated/sign-up': typeof UnauthenticatedSignUpRoute
+  '/api/test': typeof ApiTestRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/forgot-password" | "/sign-in" | "/sign-up" | "/api/test" | "/"
+  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: "/forgot-password" | "/sign-in" | "/sign-up" | "/api/test" | "/"
+  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
   id:
-    | "__root__"
-    | "/_authenticated"
-    | "/_unauthenticated"
-    | "/_unauthenticated/forgot-password"
-    | "/_unauthenticated/sign-in"
-    | "/_unauthenticated/sign-up"
-    | "/api/test"
-    | "/_authenticated/"
+    | '__root__'
+    | '/_authenticated'
+    | '/_unauthenticated'
+    | '/_unauthenticated/forgot-password'
+    | '/_unauthenticated/sign-in'
+    | '/_unauthenticated/sign-up'
+    | '/api/test'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -97,54 +98,54 @@ export interface RootRouteChildren {
   ApiTestRoute: typeof ApiTestRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/_unauthenticated": {
-      id: "/_unauthenticated"
-      path: ""
-      fullPath: ""
+    '/_unauthenticated': {
+      id: '/_unauthenticated'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof UnauthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/_authenticated": {
-      id: "/_authenticated"
-      path: ""
-      fullPath: ""
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/_authenticated/": {
-      id: "/_authenticated/"
-      path: "/"
-      fullPath: "/"
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    "/api/test": {
-      id: "/api/test"
-      path: "/api/test"
-      fullPath: "/api/test"
+    '/api/test': {
+      id: '/api/test'
+      path: '/api/test'
+      fullPath: '/api/test'
       preLoaderRoute: typeof ApiTestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/_unauthenticated/sign-up": {
-      id: "/_unauthenticated/sign-up"
-      path: "/sign-up"
-      fullPath: "/sign-up"
+    '/_unauthenticated/sign-up': {
+      id: '/_unauthenticated/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
       preLoaderRoute: typeof UnauthenticatedSignUpRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
-    "/_unauthenticated/sign-in": {
-      id: "/_unauthenticated/sign-in"
-      path: "/sign-in"
-      fullPath: "/sign-in"
+    '/_unauthenticated/sign-in': {
+      id: '/_unauthenticated/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
       preLoaderRoute: typeof UnauthenticatedSignInRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
-    "/_unauthenticated/forgot-password": {
-      id: "/_unauthenticated/forgot-password"
-      path: "/forgot-password"
-      fullPath: "/forgot-password"
+    '/_unauthenticated/forgot-password': {
+      id: '/_unauthenticated/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
       preLoaderRoute: typeof UnauthenticatedForgotPasswordRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
@@ -159,9 +160,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
-const AuthenticatedRouteRouteWithChildren = AuthenticatedRouteRoute._addFileChildren(
-  AuthenticatedRouteRouteChildren
-)
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface UnauthenticatedRouteRouteChildren {
   UnauthenticatedForgotPasswordRoute: typeof UnauthenticatedForgotPasswordRoute
@@ -175,9 +175,8 @@ const UnauthenticatedRouteRouteChildren: UnauthenticatedRouteRouteChildren = {
   UnauthenticatedSignUpRoute: UnauthenticatedSignUpRoute,
 }
 
-const UnauthenticatedRouteRouteWithChildren = UnauthenticatedRouteRoute._addFileChildren(
-  UnauthenticatedRouteRouteChildren
-)
+const UnauthenticatedRouteRouteWithChildren =
+  UnauthenticatedRouteRoute._addFileChildren(UnauthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -188,9 +187,9 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.ts"
-import type { startInstance } from "./start.ts"
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.ts'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
