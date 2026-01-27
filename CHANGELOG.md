@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.0](https://github.com/metaideas/init/compare/init@v1.0.1...init@v1.1.0) (2026-01-27)
+
+
+### Features
+
+* add Tailwind sorting and update dependencies ([#69](https://github.com/metaideas/init/issues/69)) ([77b41ca](https://github.com/metaideas/init/commit/77b41ca4fc00fba22d6c874e1753f4d51e45850a))
+
+
+### Bug Fixes
+
+* add parsing check ([8eefdd1](https://github.com/metaideas/init/commit/8eefdd1ea9a48e131d6f796e7b6780907b989932))
+* **cli:** add stdin inherit for add commands ([9c1db65](https://github.com/metaideas/init/commit/9c1db65b6fcc5c85e1bcbafb16e8a55f614a7718))
+* optional chaining ([480cbf7](https://github.com/metaideas/init/commit/480cbf76feeb3c7837d673d3bd906db0924bd94c))
+* split up monitoring init ([4108ffb](https://github.com/metaideas/init/commit/4108ffb0d749b4cfe958d30843a8b820214f24a9))
+
 ## [1.0.1](https://github.com/metaideas/init/compare/init@v1.0.0...init@v1.0.1) (2026-01-12)
 
 ### Bug Fixes
