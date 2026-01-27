@@ -20,7 +20,7 @@
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
     "test": "bun test",
-    "typecheck": "adamantite typecheck",
+    "typecheck": "tsc --noEmit",
     "web": "expo start --web"
   },
   "dependencies": {

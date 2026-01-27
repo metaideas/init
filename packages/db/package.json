@@ -17,7 +17,7 @@
     "push": "bun --bun drizzle-kit push",
     "reset": "bun --bun run ./scripts/reset.ts",
     "seed": "bun --bun run ./scripts/seed.ts",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/env": "workspace:*",

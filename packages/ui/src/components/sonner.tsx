@@ -1,12 +1,13 @@
-import { Toaster as Sonner, type ToasterProps } from "sonner"
+import { toast, Toaster as Sonner, type ToasterProps } from "sonner"
 import { Icon } from "#components/icon.tsx"
 import { useTheme } from "#components/theme.tsx"
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme } = useTheme()
+  const { theme = "system" } = useTheme()
 
   return (
     <Sonner
+      theme={theme as ToasterProps["theme"]}
       className="toaster group"
       icons={{
         error: <Icon.OctagonX className="size-4" />,
@@ -23,7 +24,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-text": "var(--popover-foreground)",
         } as React.CSSProperties
       }
-      theme={theme as ToasterProps["theme"]}
       toastOptions={{
         classNames: {
           toast: "cn-toast",
@@ -34,5 +34,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
   )
 }
 
-export { Toaster }
-export { toast } from "sonner"
+export { toast, Toaster }

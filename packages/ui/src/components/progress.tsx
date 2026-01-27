@@ -4,9 +4,9 @@ import { cn } from "@init/utils/ui"
 function Progress({ className, children, value, ...props }: ProgressPrimitive.Root.Props) {
   return (
     <ProgressPrimitive.Root
-      className={cn("flex flex-wrap gap-3", className)}
-      data-slot="progress"
       value={value}
+      data-slot="progress"
+      className={cn("flex flex-wrap gap-3", className)}
       {...props}
     >
       {children}
@@ -21,7 +21,7 @@ function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
   return (
     <ProgressPrimitive.Track
       className={cn(
-        "relative flex h-1.5 w-full items-center overflow-x-hidden rounded-full bg-muted",
+        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
         className
       )}
       data-slot="progress-track"
@@ -33,8 +33,8 @@ function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
 function ProgressIndicator({ className, ...props }: ProgressPrimitive.Indicator.Props) {
   return (
     <ProgressPrimitive.Indicator
-      className={cn("h-full bg-primary transition-all", className)}
       data-slot="progress-indicator"
+      className={cn("h-full bg-primary transition-all", className)}
       {...props}
     />
   )

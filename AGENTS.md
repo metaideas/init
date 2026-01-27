@@ -24,7 +24,7 @@
 - We use `adamantite` for linting, formatting and type checking.
   - `adamantite check` to run linting checks.
   - `adamantite format` to format the code.
-  - `adamantite typecheck` to type check the code.
+  - `tsc --noEmit` to type check the code.
   - `adamantite analyze` to analyze the code for unused dependencies.
 - Always run `bun run format` after editing files.
 - Run `bun run test` to run the test suite.

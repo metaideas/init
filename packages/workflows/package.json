@@ -14,7 +14,7 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/observability": "workspace:*",
