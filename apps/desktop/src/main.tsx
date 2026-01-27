@@ -1,17 +1,20 @@
 import type { QueryClient } from "@tanstack/react-query"
-import { type Logger, logger } from "@init/observability/logger"
+import { configureLogger } from "@init/observability/logger"
 import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { routeTree } from "#routeTree.gen.ts"
 import Providers from "#shared/components/providers.tsx"
+import { logger } from "#shared/logger.ts"
 import { queryClient } from "#shared/query-client.ts"
 
 import "@init/ui/globals.css"
 
+configureLogger()
+
 export type RouterContext = {
   queryClient: QueryClient
-  logger: Logger
+  logger: typeof logger
 }
 
 const history = createHashHistory()
