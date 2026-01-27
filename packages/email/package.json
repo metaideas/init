@@ -12,7 +12,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "email dev --dir src/templates --port 4000",
     "export": "email export --dir src/templates",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/env": "workspace:*",

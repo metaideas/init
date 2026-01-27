@@ -7,12 +7,13 @@
   },
   "scripts": {
     "build": "bun --bun vite build",
+    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --bun vite dev",
     "preview": "bun --bun vite preview",
     "start": "node .output/server/index.mjs",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/auth": "workspace:*",

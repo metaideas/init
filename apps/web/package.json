@@ -8,11 +8,12 @@
   "scripts": {
     "astro": "astro",
     "build": "astro build",
+    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "astro dev",
     "preview": "astro preview",
-    "typecheck": "adamantite typecheck",
+    "typecheck": "tsc --noEmit",
     "typegen": "astro sync"
   },
   "dependencies": {

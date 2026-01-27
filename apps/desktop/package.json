@@ -7,10 +7,11 @@
   },
   "scripts": {
     "build": "tauri build",
+    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tauri dev",
-    "typecheck": "adamantite typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@init/env": "workspace:*",

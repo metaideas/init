@@ -56,8 +56,5 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Generate types
-        run: bun run typegen
-
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}

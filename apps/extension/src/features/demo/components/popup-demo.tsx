@@ -1,15 +1,15 @@
 import { Button } from "@init/ui/components/button"
-import { TypographyH1, TypographyP } from "@init/ui/components/typography"
+import { Typography } from "@init/ui/components/typography"
 import { Link } from "wouter"
 
 export default function PopupDemo() {
   return (
     <div className="flex h-[500px] w-[500px] flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-center">
-        <TypographyH1>Hello!</TypographyH1>
-        <TypographyP>
+        <Typography.H1>Hello!</Typography.H1>
+        <Typography.P>
           This is a demo of the popup. It is a simple popup that displays a message.
-        </TypographyP>
+        </Typography.P>
       </div>
 
       <Button>Click me</Button>
