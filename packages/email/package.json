@@ -27,9 +27,9 @@
   "devDependencies": {
     "@react-email/preview-server": "5.2.1",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "react": "catalog:",
+    "@types/react": "19.1.13",
+    "react": "19.1.0",
     "react-email": "5.2.1",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   }
 }

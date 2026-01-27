@@ -18,11 +18,11 @@
     "posthog-js": "1.318.1",
     "posthog-node": "5.20.0",
     "posthog-react-native": "4.17.3",
-    "react": "catalog:"
+    "react": "19.1.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "catalog:",
-    "typescript": "catalog:"
+    "@types/react": "19.1.13",
+    "typescript": "5.9.3"
   }
 }

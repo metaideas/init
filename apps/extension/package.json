@@ -28,20 +28,20 @@
     "@webext-core/isolated-element": "1.1.3",
     "@webext-core/job-scheduler": "1.0.0",
     "@webext-core/proxy-service": "2.0.0",
-    "react": "catalog:",
-    "react-dom": "catalog:",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "wouter": "^3.7.1"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "catalog:",
+    "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.1.18",
     "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "0.1.33",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
     "@wxt-dev/auto-icons": "1.1.0",
     "@wxt-dev/module-react": "1.1.5",
-    "typescript": "catalog:",
+    "typescript": "5.9.3",
     "wxt": "0.20.13"
   }
 }

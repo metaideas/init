@@ -25,9 +25,9 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/node": "24.10.1",
-    "@types/react": "catalog:",
+    "@types/react": "19.1.13",
     "mime": "4.1.0",
-    "typescript": "catalog:",
-    "vite": "catalog:"
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
   }
 }
