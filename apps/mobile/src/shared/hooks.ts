@@ -1,6 +1,6 @@
-import { logger } from "@init/observability/logger"
 import * as SplashScreen from "expo-splash-screen"
 import { useEffect } from "react"
+import { logger } from "#shared/logger.ts"
 
 export function useHideSplashScreen(loaded: boolean) {
   useEffect(() => {

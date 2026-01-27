@@ -1,8 +1,8 @@
 import crypto from "node:crypto"
 import { Fault } from "@init/error/fault"
-import { logger } from "@init/observability/logger"
 import { createMiddleware } from "@tanstack/react-start"
 import { authClient } from "#shared/auth.ts"
+import { logger } from "#shared/logger.ts"
 
 export const withRequestId = createMiddleware().server(({ next }) =>
   next({ context: { requestId: crypto.randomUUID() } })

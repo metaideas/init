@@ -1,5 +1,4 @@
 import type { TRPCRouter } from "api/client"
-import { type Logger, logger } from "@init/observability/logger"
 import { initializeErrorMonitoring } from "@init/observability/monitoring/client"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
@@ -8,11 +7,12 @@ import { createTRPCOptionsProxy, type TRPCOptionsProxy } from "@trpc/tanstack-re
 import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
 import NotFound from "#shared/components/not-found.tsx"
+import { logger } from "#shared/logger.ts"
 import { makeTRPCClient } from "#shared/trpc.tsx"
 
 export type RouterContext = {
   queryClient: QueryClient
-  logger: Logger
+  logger: typeof logger
   trpc: TRPCOptionsProxy<TRPCRouter>
 }
 
