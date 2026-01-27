@@ -4,14 +4,14 @@ services:
   redis:
     image: redis:8.2.0
     ports:
-      - "8079:6379"
+      - "8000:6379"
     volumes:
       - ./.data/redis-data:/data
 
   postgres:
     image: postgres:17
     ports:
-      - "8080:5432"
+      - "8001:5432"
     environment:
       POSTGRES_DB: main
       POSTGRES_USER: postgres
@@ -22,8 +22,8 @@ services:
   minio:
     image: minio/minio:latest
     ports:
-      - "8081:9000"
-      - "8082:9001"
+      - "8002:9000"
+      - "8003:9001"
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
@@ -35,4 +35,4 @@ services:
     image: inngest/inngest:v1.16.0
     command: "inngest dev -u http://host.docker.internal:3000/workflows --poll-interval 60" # Check for new workflows every 60 seconds
     ports:
-      - "8288:8288"
+      - "8004:8288"
