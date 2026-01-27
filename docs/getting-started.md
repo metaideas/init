@@ -118,12 +118,21 @@ Apps run in the 3000-3999 range.
 
 #### Packages
 
-Packages run in the 8000-8999 range.
+Packages run in the 4000-4999 range.
 
-- Redis: `8079`
-- Database: `8080`
-- Email: `8081`
-- Workflows (Inngest): `8288`
+- Email: `4000`
+- Convex: `4001`
+- Convex site: `4002`
+- Desktop HMR: `4003`
+
+#### Infra
+
+Infra runs in the 8000-8999 range.
+
+- Redis: `8000`
+- Database: `8001`
+- Minio: `8002` (S3), `8003` (console)
+- Workflows (Inngest): `8004`
 
 ### Troubleshooting
 

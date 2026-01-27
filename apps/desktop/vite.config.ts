@@ -37,7 +37,7 @@ export default defineConfig({
     hmr: host
       ? {
           host,
-          port: 1421,
+          port: 4003,
           protocol: "ws",
         }
       : undefined,
