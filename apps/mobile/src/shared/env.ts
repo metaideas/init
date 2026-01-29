@@ -5,7 +5,7 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   client: {
-    EXPO_PUBLIC_API_URL: z.string(),
+    EXPO_PUBLIC_API_URL: z.url(),
   },
   clientPrefix: "EXPO_PUBLIC_",
   extends: [sentry.expo()],

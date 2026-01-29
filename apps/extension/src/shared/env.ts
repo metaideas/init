@@ -4,7 +4,7 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   client: {
-    VITE_API_URL: z.string(),
+    VITE_API_URL: z.url(),
   },
   clientPrefix: "VITE_",
   extends: [],

@@ -4,7 +4,7 @@ import * as z from "@init/utils/schema"
 
 export default createEnv({
   client: {
-    PUBLIC_API_URL: z.string(),
+    PUBLIC_API_URL: z.url(),
   },
   clientPrefix: "PUBLIC_",
   runtimeEnv: import.meta.env,
