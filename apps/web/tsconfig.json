@@ -1,10 +1,7 @@
 {
-  "extends": "@tooling/tsconfig/base",
+  "extends": "@tooling/tsconfig/app",
   "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
-    "moduleResolution": "bundler",
-    "noEmit": true,
     // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
     "plugins": [{ "name": "@astrojs/ts-plugin" }]

@@ -1,14 +1,10 @@
 {
-  "extends": "@tooling/tsconfig/base",
+  "extends": "@tooling/tsconfig/app",
   "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
-    "moduleResolution": "bundler",
     // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
-    "plugins": [{ "name": "@astrojs/ts-plugin" }],
-    "noEmit": true,
-    "allowImportingTsExtensions": true
+    "plugins": [{ "name": "@astrojs/ts-plugin" }]
   },
   "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"],
   "exclude": ["dist", "node_modules"]

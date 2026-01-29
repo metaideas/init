@@ -2,8 +2,7 @@
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "preserve",
-    "rootDir": "."
+    "jsx": "preserve"
   },
   "include": ["src", "reset.d.ts"],
   "exclude": ["node_modules"]

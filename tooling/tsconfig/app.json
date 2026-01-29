@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
+  "display": "App",
   "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "noEmit": true,
     "allowImportingTsExtensions": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  }
 }
