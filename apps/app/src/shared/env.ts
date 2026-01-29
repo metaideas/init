@@ -7,7 +7,7 @@ import * as z from "@init/utils/schema"
 export default createEnv({
   client: {
     PUBLIC_API_URL: z.url().optional(),
-    PUBLIC_BASE_URL: z.url()
+    PUBLIC_BASE_URL: z.url(),
   },
   clientPrefix: REACT_PUBLIC_ENV_PREFIX,
   extends: [node(), auth(), auth.providers.github(), auth.providers.google(), db()],
