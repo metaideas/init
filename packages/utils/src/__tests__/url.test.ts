@@ -1,7 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { addProtocol, createUrlBuilder } from "../url"
-
-const HTTP_OR_HTTPS_PROTOCOL_REGEX = /^https?:\/\/example\.com$/
+import { createUrlBuilder } from "../url"
 
 /**
  * Compare two URLs for equality, ignoring query parameter order.
@@ -11,76 +9,14 @@ function expectUrlEqual(actual: string, expected: string) {
   const actualUrl = new URL(actual)
   const expectedUrl = new URL(expected)
 
-  // Compare everything except search params
   expect(actualUrl.origin).toBe(expectedUrl.origin)
   expect(actualUrl.pathname).toBe(expectedUrl.pathname)
   expect(actualUrl.hash).toBe(expectedUrl.hash)
 
-  // Compare query params regardless of order
   const actualParams = Object.fromEntries(actualUrl.searchParams.entries())
   const expectedParams = Object.fromEntries(expectedUrl.searchParams.entries())
   expect(actualParams).toEqual(expectedParams)
 }
-
-describe("addProtocol", () => {
-  test("uses default protocol based on environment", () => {
-    const result = addProtocol("example.com")
-    expect(result).toMatch(HTTP_OR_HTTPS_PROTOCOL_REGEX)
-  })
-
-  test("adds specified protocol", () => {
-    expect(addProtocol("example.com", "https")).toBe("https://example.com")
-    expect(addProtocol("example.com", "http")).toBe("http://example.com")
-  })
-
-  test("handles urls with paths and ports", () => {
-    expect(addProtocol("example.com/path/to/resource", "https")).toBe(
-      "https://example.com/path/to/resource"
-    )
-    expect(addProtocol("example.com:3000", "http")).toBe("http://example.com:3000")
-    expect(addProtocol("api.example.com", "https")).toBe("https://api.example.com")
-  })
-
-  test("preserves existing protocol when none specified", () => {
-    expect(addProtocol("https://example.com")).toBe("https://example.com")
-    expect(addProtocol("http://example.com")).toBe("http://example.com")
-  })
-
-  test("overrides existing protocol when specified", () => {
-    expect(addProtocol("http://example.com", "https")).toBe("https://example.com")
-    expect(addProtocol("https://example.com/api/v1", "https")).toBe("https://example.com/api/v1")
-    expect(addProtocol("HTTP://example.com", "https")).toBe("https://example.com")
-  })
-
-  test("handles complex URLs with existing protocols", () => {
-    expect(addProtocol("http://localhost:3000/api", "http")).toBe("http://localhost:3000/api")
-    expect(addProtocol("https://example.com/api/v1", "https")).toBe("https://example.com/api/v1")
-  })
-
-  test("enables security enforcement", () => {
-    const userProvidedUrl = "http://malicious-site.com"
-    const secureUrl = addProtocol(userProvidedUrl, "https")
-    expect(secureUrl).toBe("https://malicious-site.com")
-  })
-
-  test("enables environment-based normalization", () => {
-    const mixedUrls = ["http://api.example.com", "https://api.example.com", "api.example.com"]
-
-    const devUrls = mixedUrls.map((url) => addProtocol(url, "http"))
-    expect(devUrls).toEqual([
-      "http://api.example.com",
-      "http://api.example.com",
-      "http://api.example.com",
-    ])
-
-    const prodUrls = mixedUrls.map((url) => addProtocol(url, "https"))
-    expect(prodUrls).toEqual([
-      "https://api.example.com",
-      "https://api.example.com",
-      "https://api.example.com",
-    ])
-  })
-})
 
 describe("createUrlBuilder", () => {
   test("uses environment-based default protocol", () => {

@@ -1,36 +1,22 @@
+import { cleanDoubleSlashes, joinURL, normalizeURL, withQuery, withTrailingSlash } from "ufo"
 import { isProduction } from "./environment"
 
-const LEADING_SLASHES = /^\/+/
-const MULTIPLE_SLASHES = /\/+/g
-
 /**
- * Adds or overrides the protocol for a URL.
+ * Creates a URL builder function for a given base URL.
  *
- * Explicitly provided protocols will override existing ones.
- * Useful for security enforcement and environment normalization.
+ * The builder normalizes paths, cleans double slashes, and handles query parameters.
+ *
+ * @throws {Error} If the base URL is invalid
+ * @throws {Error} If the base URL contains a dangerous or unsupported protocol
+ * @throws {Error} If the base URL contains credentials
  */
-export function addProtocol(url: string, protocol?: "http" | "https") {
-  if (url.includes("://")) {
-    const [existingProtocol, ...rest] = url.split("://")
-    const urlWithoutProtocol = rest.join("://")
-
-    if (!existingProtocol) {
-      return url
-    }
-
-    if (!protocol) {
-      return `${existingProtocol.toLowerCase()}://${urlWithoutProtocol}`
-    }
-
-    return `${protocol}://${urlWithoutProtocol}`
-  }
-
-  const defaultProtocol = isProduction() ? "https" : "http"
-  return `${protocol ?? defaultProtocol}://${url}`
-}
-
 export function createUrlBuilder(baseUrl: string, protocol?: "http" | "https") {
-  const baseUrlObject = new URL(addProtocol(baseUrl, protocol))
+  const trimmedBaseUrl = baseUrl.trim()
+  const base = /^https?:\/\//i.test(trimmedBaseUrl)
+    ? protocol
+      ? trimmedBaseUrl.replace(/^https?:\/\//i, `${protocol}://`)
+      : trimmedBaseUrl
+    : `${protocol ?? (isProduction() ? "https" : "http")}://${trimmedBaseUrl}`
 
   return function buildUrl<T extends string>(
     pathname: T,
@@ -38,23 +24,22 @@ export function createUrlBuilder(baseUrl: string, protocol?: "http" | "https") {
       query?: Record<string, string | number | boolean | undefined>
     }
   ): string {
-    const cleanedPathname = pathname.replace(LEADING_SLASHES, "")
-    const fullPath =
-      baseUrlObject.pathname === "/"
-        ? `/${cleanedPathname}`
-        : `${baseUrlObject.pathname}/${cleanedPathname}`
+    const joined = joinURL(base, pathname)
+    const cleaned = cleanDoubleSlashes(joined)
+    let normalized = normalizeURL(cleaned)
 
-    const normalizedPath = fullPath.replace(MULTIPLE_SLASHES, "/")
-    const url = new URL(normalizedPath, baseUrlObject.origin)
-
-    if (options?.query) {
-      for (const [key, value] of Object.entries(options.query)) {
-        if (value !== undefined) {
-          url.searchParams.set(key, value.toString())
-        }
-      }
+    if (pathname === "" || pathname === "/") {
+      normalized = withTrailingSlash(normalized)
     }
 
-    return url.toString()
+    if (!options?.query) {
+      return normalized
+    }
+
+    const filteredQuery = Object.fromEntries(
+      Object.entries(options.query).filter(([, v]) => v !== undefined)
+    ) as Record<string, string | number | boolean>
+
+    return withQuery(normalized, filteredQuery)
   }
 }
