@@ -18,7 +18,7 @@
   "dependencies": {
     "@arcjet/ip": "^1.0.0-beta.15",
     "@hono/standard-validator": "^0.2.1",
-    "@hono/trpc-server": "0.4.1",
+    "@hono/trpc-server": "0.4.2",
     "@hono/zod-validator": "0.7.6",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
@@ -30,7 +30,7 @@
     "@init/workflows": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.30",
     "@trpc/server": "11.8.1",
-    "hono": "4.11.3",
+    "hono": "4.11.7",
     "hono-openapi": "^1.1.2",
     "hono-rate-limiter": "0.5.3",
     "superjson": "2.2.6"

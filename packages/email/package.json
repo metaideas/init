@@ -19,8 +19,8 @@
     "@init/error": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "@react-email/components": "1.0.4",
-    "@react-email/render": "2.0.2",
+    "@react-email/components": "1.0.6",
+    "@react-email/render": "2.0.4",
     "date-fns": "4.1.0",
     "resend": "6.7.0"
   },

@@ -19,7 +19,7 @@
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "inngest": "3.49.1"
+    "inngest": "3.49.3"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
