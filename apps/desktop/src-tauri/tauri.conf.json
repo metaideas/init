@@ -7,7 +7,7 @@
     "beforeBuildCommand": "bun vite build",
     "beforeDevCommand": "bun vite dev",
     "devUrl": "http://localhost:3003",
-    "frontendDist": "../out"
+    "frontendDist": "../dist"
   },
   "app": {
     "windows": [

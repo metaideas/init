@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "env": [],
-      "outputs": [".cache/tsbuildinfo.json", "out/**", "build/**"]
+      "outputs": ["dist/**", "src-tauri/target/**", "src-tauri/gen/**"]
     }
   }
 }
