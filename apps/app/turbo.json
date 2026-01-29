@@ -3,7 +3,7 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "outputs": ["dist/**", ".content-collections/**"],
+      "outputs": [".output/**"],
       "env": [
         "AXIOM_DATASET",
         "AXIOM_TOKEN",
