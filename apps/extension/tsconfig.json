@@ -1,5 +1,5 @@
 {
-  "extends": "@tooling/tsconfig/app",
+  "extends": "@tooling/tsconfig/app.json",
   "compilerOptions": {
     "jsx": "preserve"
   },

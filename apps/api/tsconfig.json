@@ -1,5 +1,5 @@
 {
-  "extends": "@tooling/tsconfig/base",
+  "extends": "@tooling/tsconfig/base.json",
   "compilerOptions": {
     "rootDir": ".",
     "jsx": "react-jsx",
