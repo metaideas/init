@@ -1,7 +1,7 @@
 import { createEnv } from "@init/env"
 import { auth, db, node } from "@init/env/presets"
 import { REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
-import { isCI, isProduction } from "@init/utils/environment"
+import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 
 export default createEnv({

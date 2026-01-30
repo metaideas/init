@@ -1,5 +1,5 @@
 // Taken from: https://github.com/vercel/ms/blob/main/src/index.ts
-import { Fault } from "@init/error/fault"
+import { InvalidDurationFormatInputError, InvalidDurationParseInputError } from "@init/error"
 import { assertUnreachable } from "./assert"
 
 const s = 1000
@@ -82,24 +82,15 @@ export function seconds(value: DurationInput | number, options?: Options): numbe
  */
 export function parse(str: string): number {
   if (typeof str !== "string") {
-    throw Fault.create("duration.invalid_parse_input")
-      .withDescription(
-        "Value provided to parse() must be a string with length between 1 and 99",
-        "Invalid duration format provided."
-      )
-      .withContext({ value: str })
+    throw new InvalidDurationFormatInputError()
   }
 
   const length = str.length
 
   if (length === 0 || length > 100) {
-    throw Fault.create("duration.invalid_parse_input")
-      .withDescription(
-        "Value provided to parse() must be a string with length between 1 and 99",
-        "Invalid duration format provided."
-      )
-      .withContext({ value: str })
+    throw new InvalidDurationParseInputError({ value: str })
   }
+
   const match =
     /^(?<value>-?\d*\.?\d+) *(?<unit>milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|months?|mo|years?|yrs?|y)?$/i.exec(
       str
@@ -245,12 +236,7 @@ function fmtLong(ms: number): DurationInput {
  */
 export function format(ms: number, options?: Options): string {
   if (typeof ms !== "number" || !Number.isFinite(ms)) {
-    throw Fault.create("duration.invalid_format_input")
-      .withDescription(
-        "Value provided to format() must be a finite number",
-        "Invalid duration value provided."
-      )
-      .withContext({ value: ms })
+    throw new InvalidDurationFormatInputError()
   }
 
   return options?.long ? fmtLong(ms) : fmtShort(ms)
