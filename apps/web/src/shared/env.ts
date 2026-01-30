@@ -1,6 +1,6 @@
 import { createEnv } from "@init/env"
-import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
+import { isCI } from "std-env"
 
 export default createEnv({
   client: {
@@ -11,5 +11,5 @@ export default createEnv({
   server: {
     TEST_VAR: z.string(),
   },
-  skipValidation: isCI(),
+  skipValidation: isCI,
 })

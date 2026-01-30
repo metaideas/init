@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@t3-oss/env-core": "0.13.10"
+    "@t3-oss/env-core": "0.13.10",
+    "std-env": "3.7.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

@@ -1,4 +1,3 @@
-import { isDevelopment } from "@init/utils/environment"
 import {
   type Config,
   type Logger as LogtapeLogger,
@@ -9,6 +8,7 @@ import {
   jsonLinesFormatter,
 } from "@logtape/logtape"
 import { getPrettyFormatter } from "@logtape/pretty"
+import { isDevelopment } from "std-env"
 import { redactSink } from "./utils"
 
 export const LoggerCategory = {
@@ -23,9 +23,14 @@ export const LoggerCategory = {
 
 type LoggerCategoryType = (typeof LoggerCategory)[keyof typeof LoggerCategory]
 
-function buildConfig(nonBlocking: boolean): Config<string, string> {
+type LoggerConfigOptions = {
+  isDevelopment?: boolean
+}
+
+function buildConfig(nonBlocking: boolean, options?: LoggerConfigOptions): Config<string, string> {
+  const isDev = options?.isDevelopment ?? isDevelopment
   const consoleSink = getConsoleSink({
-    formatter: isDevelopment()
+    formatter: isDev
       ? getPrettyFormatter({
           categoryTruncate: "middle",
           categoryWidth: 15,
@@ -83,12 +88,12 @@ function buildConfig(nonBlocking: boolean): Config<string, string> {
   }
 }
 
-export function configureLogger() {
-  configureSync(buildConfig(false))
+export function configureLogger(options?: LoggerConfigOptions) {
+  configureSync(buildConfig(false, options))
 }
 
-export async function configureLoggerAsync() {
-  await configure(buildConfig(true))
+export async function configureLoggerAsync(options?: LoggerConfigOptions) {
+  await configure(buildConfig(true, options))
 }
 
 export function getLogger(category: LoggerCategoryType = LoggerCategory.DEFAULT) {

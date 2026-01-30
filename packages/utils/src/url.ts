@@ -1,5 +1,4 @@
 import { cleanDoubleSlashes, joinURL, normalizeURL, withQuery, withTrailingSlash } from "ufo"
-import { isProduction } from "./environment"
 
 /**
  * Creates a URL builder function for a given base URL.
@@ -10,13 +9,11 @@ import { isProduction } from "./environment"
  * @throws {Error} If the base URL contains a dangerous or unsupported protocol
  * @throws {Error} If the base URL contains credentials
  */
-export function createUrlBuilder(baseUrl: string, protocol?: "http" | "https") {
+export function createUrlBuilder(baseUrl: string, protocol: "http" | "https" = "https") {
   const trimmedBaseUrl = baseUrl.trim()
   const base = /^https?:\/\//i.test(trimmedBaseUrl)
-    ? protocol
-      ? trimmedBaseUrl.replace(/^https?:\/\//i, `${protocol}://`)
-      : trimmedBaseUrl
-    : `${protocol ?? (isProduction() ? "https" : "http")}://${trimmedBaseUrl}`
+    ? trimmedBaseUrl.replace(/^https?:\/\//i, `${protocol}://`)
+    : `${protocol}://${trimmedBaseUrl}`
 
   return function buildUrl<T extends string>(
     pathname: T,

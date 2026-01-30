@@ -1,10 +1,10 @@
 import { sentry } from "@init/env/presets"
-import { isProduction } from "@init/utils/environment"
 import * as Sentry from "@sentry/react-native"
+import { isProduction } from "std-env"
 
 export function initializeErrorMonitoring() {
   const env = sentry.expo()
-  const monitoringSampleRate = isProduction() ? 0.1 : 1
+  const monitoringSampleRate = isProduction ? 0.1 : 1
 
   Sentry.init({
     dsn: env.EXPO_PUBLIC_SENTRY_DSN,

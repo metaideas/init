@@ -1,11 +1,10 @@
 import { createEnv } from "@init/env"
-import { auth, db, inngest, kv, node, sentry } from "@init/env/presets"
-import { isCI } from "@init/utils/environment"
+import { auth, db, inngest, kv, sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
+import { isCI } from "std-env"
 
 export default createEnv({
   extends: [
-    node(),
     // Packages
     auth(),
     auth.providers.github(),
@@ -28,5 +27,5 @@ export default createEnv({
     BASE_URL: z.url(),
     PORT: z.coerce.number().default(3000),
   },
-  skipValidation: isCI(),
+  skipValidation: isCI,
 })

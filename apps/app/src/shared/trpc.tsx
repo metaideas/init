@@ -1,6 +1,5 @@
 import type { TRPCRouter } from "api/client"
 import type { ReactNode } from "react"
-import { isDevelopment } from "@init/utils/environment"
 import { useQueryClient } from "@tanstack/react-query"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
@@ -12,6 +11,7 @@ import { buildApiUrl } from "#shared/utils.ts"
 const { useTRPC, useTRPCClient, TRPCProvider: TRPCProviderBase } = createTRPCContext<TRPCRouter>()
 
 const url = buildApiUrl("/trpc")
+const isDevelopment = import.meta.env.DEV
 
 export const makeTRPCClient = createIsomorphicFn()
   .server(() =>
@@ -28,7 +28,7 @@ export const makeTRPCClient = createIsomorphicFn()
   .client(() =>
     createTRPCClient<TRPCRouter>({
       links: [
-        loggerLink({ colorMode: "ansi", enabled: () => isDevelopment() }),
+        loggerLink({ colorMode: "ansi", enabled: () => isDevelopment }),
         httpBatchStreamLink({
           fetch: (requestUrl, options) =>
             fetch(requestUrl, {

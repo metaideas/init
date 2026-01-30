@@ -3,7 +3,7 @@ import { StartClient } from "@tanstack/react-start/client"
 import { StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
 
-configureLogger()
+configureLogger({ isDevelopment: import.meta.env.DEV })
 
 hydrateRoot(
   document,

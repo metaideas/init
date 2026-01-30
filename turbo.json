@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalPassThroughEnv": ["NODE_ENV", "CI"],
+  "globalPassThroughEnv": ["CI"],
   "concurrency": "15",
   "tasks": {
     "build": {

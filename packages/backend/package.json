@@ -31,7 +31,8 @@
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
     "convex": "1.31.6",
-    "convex-helpers": "0.1.111"
+    "convex-helpers": "0.1.111",
+    "std-env": "3.7.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

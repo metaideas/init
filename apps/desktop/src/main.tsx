@@ -10,7 +10,7 @@ import { queryClient } from "#shared/query-client.ts"
 
 import "@init/ui/globals.css"
 
-configureLogger()
+configureLogger({ isDevelopment: import.meta.env.DEV })
 
 export type RouterContext = {
   queryClient: QueryClient
