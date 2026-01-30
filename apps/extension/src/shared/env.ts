@@ -1,6 +1,6 @@
 import { createEnv } from "@init/env"
-import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
+import { isCI } from "std-env"
 
 export default createEnv({
   client: {
@@ -9,5 +9,5 @@ export default createEnv({
   clientPrefix: "VITE_",
   extends: [],
   runtimeEnv: process.env,
-  skipValidation: isCI(),
+  skipValidation: isCI,
 })

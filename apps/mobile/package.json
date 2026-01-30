@@ -70,6 +70,7 @@
     "react-native-unistyles": "3.0.13",
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
+    "std-env": "3.7.0",
     "superjson": "2.2.6"
   },
   "devDependencies": {

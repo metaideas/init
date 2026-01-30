@@ -1,16 +1,7 @@
 import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
-import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
-
-export const node = () =>
-  createEnv({
-    runtimeEnv: process.env,
-    server: {
-      NODE_ENV: z.env(),
-    },
-    skipValidation: isCI(),
-  })
+import { isCI } from "std-env"
 
 // Presets for system environment variables from popular services (Vercel, Neon,
 // Supabase, Render, etc.)
@@ -27,7 +18,7 @@ export const auth = () =>
     server: {
       AUTH_SECRET: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 auth.providers = {
@@ -41,7 +32,7 @@ auth.providers = {
         GITHUB_CLIENT_ID: z.string(),
         GITHUB_CLIENT_SECRET: z.string(),
       },
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
   /**
    * Sign in with Google
@@ -53,7 +44,7 @@ auth.providers = {
         GOOGLE_CLIENT_ID: z.string(),
         GOOGLE_CLIENT_SECRET: z.string(),
       },
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
 }
 
@@ -66,7 +57,7 @@ export const convex = {
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
       runtimeEnv: process.env,
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
   react: () =>
     createEnv({
@@ -76,7 +67,7 @@ export const convex = {
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
       runtimeEnv: import.meta.env,
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
 }
 
@@ -87,7 +78,7 @@ export const db = () =>
       DATABASE_URL: z.url(),
       RUN_PRODUCTION_MIGRATIONS: z.stringbool().default(false),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const inngest = () =>
@@ -98,7 +89,7 @@ export const inngest = () =>
       INNGEST_SIGNING_KEY: z.string(),
       INNGEST_SIGNING_KEY_FALLBACK: z.string().optional(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const kv = () =>
@@ -107,7 +98,7 @@ export const kv = () =>
     server: {
       REDIS_URL: z.url(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const s3 = () =>
@@ -120,7 +111,7 @@ export const s3 = () =>
       S3_REGION: z.string().optional(),
       S3_SECRET_ACCESS_KEY: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const resend = () =>
@@ -131,7 +122,7 @@ export const resend = () =>
       MOCK_RESEND: z.stringbool().default(false),
       RESEND_API_KEY: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const sentry = {
@@ -143,7 +134,7 @@ export const sentry = {
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
       runtimeEnv: import.meta.env,
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
   expo: () =>
     createEnv({
@@ -177,7 +168,7 @@ export const sentry = {
         SENTRY_PROJECT: z.string(),
         SENTRY_SPOTLIGHT: z.stringbool().default(false),
       },
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
 }
 
@@ -187,7 +178,7 @@ export const openai = () =>
     server: {
       OPENAI_API_KEY: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const anthropic = () =>
@@ -196,7 +187,7 @@ export const anthropic = () =>
     server: {
       ANTHROPIC_API_KEY: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const stripe = () =>
@@ -206,7 +197,7 @@ export const stripe = () =>
       STRIPE_SECRET_KEY: z.string(),
       STRIPE_WEBHOOK_SECRET: z.string(),
     },
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })
 
 export const posthog = {
@@ -218,7 +209,7 @@ export const posthog = {
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
       runtimeEnv: process.env,
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
   react: () =>
     createEnv({
@@ -228,7 +219,7 @@ export const posthog = {
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
       runtimeEnv: import.meta.env,
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
   server: () =>
     createEnv({
@@ -237,7 +228,7 @@ export const posthog = {
         POSTHOG_API_KEY: z.string(),
         POSTHOG_HOST: z.url(),
       },
-      skipValidation: isCI(),
+      skipValidation: isCI,
     }),
 }
 
@@ -253,5 +244,5 @@ export const tauri = () =>
     },
     clientPrefix: "TAURI_ENV_",
     runtimeEnv: import.meta.env,
-    skipValidation: isCI(),
+    skipValidation: isCI,
   })

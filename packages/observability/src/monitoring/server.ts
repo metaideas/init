@@ -1,11 +1,11 @@
-import { node, sentry } from "@init/env/presets"
-import { isProduction } from "@init/utils/environment"
+import { sentry } from "@init/env/presets"
 import * as Sentry from "@sentry/node"
+import { isProduction, isTest } from "std-env"
 
 export function initializeErrorMonitoring() {
-  const monitoringSampleRate = isProduction() ? 0.1 : 1
+  const monitoringSampleRate = isProduction ? 0.1 : 1
   const env = sentry.server()
-  const nodeEnv = node()
+  const environment = isProduction ? "production" : isTest ? "test" : "development"
 
   Sentry.init({
     debug: env.SENTRY_DEBUG,
@@ -13,7 +13,7 @@ export function initializeErrorMonitoring() {
 
     enableLogs: true,
 
-    environment: nodeEnv.NODE_ENV,
+    environment,
 
     integrations: [],
 

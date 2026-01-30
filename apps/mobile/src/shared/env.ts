@@ -1,7 +1,7 @@
 import { createEnv } from "@init/env"
 import { sentry } from "@init/env/presets"
-import { isCI } from "@init/utils/environment"
 import * as z from "@init/utils/schema"
+import { isCI } from "std-env"
 
 export default createEnv({
   client: {
@@ -10,5 +10,5 @@ export default createEnv({
   clientPrefix: "EXPO_PUBLIC_",
   extends: [sentry.expo()],
   runtimeEnv: process.env,
-  skipValidation: isCI(),
+  skipValidation: isCI,
 })

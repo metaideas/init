@@ -46,6 +46,7 @@
         "hono": "4.11.7",
         "hono-openapi": "^1.1.2",
         "hono-rate-limiter": "0.5.3",
+        "std-env": "3.7.0",
         "superjson": "2.2.6",
       },
       "devDependencies": {
@@ -76,6 +77,7 @@
         "api": "workspace:*",
         "react": "19.1.0",
         "react-dom": "19.1.0",
+        "std-env": "3.7.0",
         "superjson": "2.2.6",
       },
       "devDependencies": {
@@ -109,6 +111,7 @@
         "@tauri-apps/plugin-opener": "2.5.3",
         "react": "19.1.0",
         "react-dom": "19.1.0",
+        "std-env": "3.7.0",
       },
       "devDependencies": {
         "@inlang/paraglide-js": "2.8.0",
@@ -160,6 +163,7 @@
         "@webext-core/proxy-service": "2.0.0",
         "react": "19.1.0",
         "react-dom": "19.1.0",
+        "std-env": "3.7.0",
         "wouter": "^3.7.1",
       },
       "devDependencies": {
@@ -224,6 +228,7 @@
         "react-native-unistyles": "3.0.13",
         "react-native-web": "~0.21.0",
         "react-native-worklets": "0.5.1",
+        "std-env": "3.7.0",
         "superjson": "2.2.6",
       },
       "devDependencies": {
@@ -248,6 +253,7 @@
         "astro": "5.16.8",
         "react": "19.1.0",
         "react-dom": "19.1.0",
+        "std-env": "3.7.0",
       },
       "devDependencies": {
         "@astrojs/check": "0.9.6",
@@ -312,6 +318,7 @@
         "@tanstack/react-query": "^5.90.20",
         "convex": "1.31.6",
         "convex-helpers": "0.1.111",
+        "std-env": "3.7.0",
       },
       "devDependencies": {
         "@tooling/tsconfig": "workspace:*",
@@ -371,6 +378,7 @@
       "dependencies": {
         "@init/utils": "workspace:*",
         "@t3-oss/env-core": "0.13.10",
+        "std-env": "3.7.0",
       },
       "devDependencies": {
         "@tooling/tsconfig": "workspace:*",
@@ -416,6 +424,7 @@
         "@sentry/core": "10.32.1",
         "@sentry/node": "10.32.1",
         "@sentry/react-native": "~7.2.0",
+        "std-env": "3.7.0",
       },
       "devDependencies": {
         "@tooling/tsconfig": "workspace:*",
@@ -489,6 +498,7 @@
         "@init/error": "workspace:*",
         "clsx": "2.1.1",
         "nanoid": "5.1.6",
+        "std-env": "3.7.0",
         "superjson": "2.2.6",
         "tailwind-merge": "3.4.0",
         "ufo": "1.5.4",
@@ -4485,6 +4495,8 @@
     "standardwebhooks": ["standardwebhooks@1.0.0", "", { "dependencies": { "@stablelib/base64": "^1.0.0", "fast-sha256": "^1.3.0" } }, "sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg=="],
 
     "statuses": ["statuses@2.0.2", "", {}, "sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw=="],
+
+    "std-env": ["std-env@3.7.0", "", {}, "sha512-JPbdCEQLj1w5GilpiHAx3qJvFndqybBysA3qUOnznweH4QbNYUsW/ea8QzSrnh0vNsezMMw5bcVool8lM0gwzg=="],
 
     "stdin-discarder": ["stdin-discarder@0.2.2", "", {}, "sha512-UhDfHmA92YAlNnCfhmq0VeNL5bDbiZGg7sZ2IvPsXubGkiNa9EC+tUTsjBRsYUAz87btI6/1wf4XoVvQ3uRnmQ=="],
 
