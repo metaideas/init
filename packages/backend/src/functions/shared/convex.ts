@@ -1,4 +1,4 @@
-import { Fault } from "@init/error/fault"
+import { UnauthenticatedError, UnauthorizedError } from "@init/error"
 import { getLogger, LoggerCategory } from "@init/observability/logger"
 import {
   customAction,
@@ -28,7 +28,7 @@ async function validateIdentity(ctx: QueryCtx | MutationCtx | ActionCtx) {
   const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
-    throw Fault.create("auth.unauthenticated").withDescription("User is not authenticated")
+    throw new UnauthenticatedError()
   }
 
   return identity
@@ -38,13 +38,11 @@ async function validateAdmin(ctx: QueryCtx | MutationCtx | ActionCtx) {
   const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
-    throw Fault.create("auth.unauthenticated").withDescription("User is not authenticated")
+    throw new UnauthenticatedError()
   }
 
   if (identity.role !== "admin") {
-    throw Fault.create("auth.unauthorized").withDescription("User is not authorized").withContext({
-      userId: identity.tokenIdentifier,
-    })
+    throw new UnauthorizedError({ userId: identity.tokenIdentifier })
   }
 
   return identity

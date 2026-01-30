@@ -1,5 +1,5 @@
 import crypto from "node:crypto"
-import { Fault } from "@init/error/fault"
+import { UnauthenticatedError, UnauthorizedError } from "@init/error"
 import { createMiddleware } from "@tanstack/react-start"
 import { authClient } from "#shared/auth.ts"
 import { logger } from "#shared/logger.ts"
@@ -22,18 +22,11 @@ export const withLogger = createMiddleware()
 
 export const requireSession = createMiddleware()
   .middleware([withRequestId])
-  .server(async ({ next, context }) => {
+  .server(async ({ next }) => {
     const { data: session } = await authClient.getSession()
 
     if (!session) {
-      throw Fault.create("auth.unauthenticated")
-        .withDescription(
-          "User is not authenticated.",
-          "You are not authenticated. Please sign in to continue."
-        )
-        .withContext({
-          requestId: context.requestId,
-        })
+      throw new UnauthenticatedError()
     }
 
     return next({ context: { session } })
@@ -45,15 +38,7 @@ export const requireAdmin = createMiddleware()
     const { user } = context.session
 
     if (user.role !== "admin") {
-      throw Fault.create("auth.unauthorized")
-        .withDescription(
-          "User is not an admin.",
-          "You are not an admin. Please contact support if you believe this is an error."
-        )
-        .withContext({
-          requestId: context.requestId,
-          userId: context.session.user.id,
-        })
+      throw new UnauthorizedError({ userId: context.session.user.id })
     }
 
     return next()

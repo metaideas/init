@@ -4,7 +4,8 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "./fault": "./src/fault.ts"
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
@@ -12,7 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "faultier": "1.1.0"
+    "better-result": "2.6.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

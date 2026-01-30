@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
-import { Fault } from "@init/error/fault"
+import { SendEmailError, BatchSendEmailError } from "@init/error"
 import { logger } from "@init/observability/logger"
 import { type DurationInput, milliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
@@ -51,14 +51,12 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   })
 
   if (error) {
-    throw Fault.wrap(error)
-      .withTag("email.send_failed")
-      .withContext({
-        emails,
-        from,
-        subject,
-        text: await render(body, { plainText: true }),
-      })
+    throw new SendEmailError({
+      emails,
+      from,
+      subject,
+      text: await render(body, { plainText: true }),
+    })
   }
 
   return data
@@ -104,13 +102,11 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
   )
 
   if (error) {
-    throw Fault.wrap(error)
-      .withTag("email.batch_send_failed")
-      .withContext({
-        emails: payload.flatMap(({ emails }) => emails),
-        from: env.EMAIL_FROM,
-        subject: payload.map(({ subject }) => subject).join(", "),
-      })
+    throw new BatchSendEmailError({
+      emails: payload.flatMap(({ emails }) => emails),
+      from: env.EMAIL_FROM,
+      subject: payload.map(({ subject }) => subject).join(", "),
+    })
   }
 
   return data.data ?? []

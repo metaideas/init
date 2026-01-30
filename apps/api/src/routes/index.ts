@@ -1,5 +1,4 @@
 import { database } from "@init/db/client"
-import { Fault } from "@init/error/fault"
 import { kv } from "@init/kv/client"
 import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { honoLogger } from "@init/observability/logger/integrations"
@@ -52,19 +51,11 @@ app.use(async (c, next) => {
 })
 
 app.onError((error, c) => {
-  if (Fault.isFault(error)) {
-    c.var.logger.error(error.flatten(), {
-      cause: error.cause,
-      context: error.context,
-      debug: error.debug,
-      tag: error.tag,
-    })
-  }
-
   if (error instanceof HTTPException) {
     return error.getResponse()
   }
 
+  c.var.logger.error(error.message)
   captureException(error)
 
   return c.text("Internal Server Error", 500)
