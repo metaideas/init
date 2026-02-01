@@ -1,5 +1,4 @@
 import type { QueryClient } from "@tanstack/react-query"
-import { configureLogger } from "@init/observability/logger"
 import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
@@ -9,8 +8,6 @@ import { logger } from "#shared/logger.ts"
 import { queryClient } from "#shared/query-client.ts"
 
 import "@init/ui/globals.css"
-
-configureLogger({ isDevelopment: import.meta.env.DEV })
 
 export type RouterContext = {
   queryClient: QueryClient

@@ -15,19 +15,65 @@ export const LoggerCategory = {
   CONVEX: ["convex"],
   DEFAULT: ["default"],
   DRIZZLE_ORM: ["drizzle-orm"],
+  EMAIL: ["email"],
   HONO: ["hono"],
   INNGEST: ["inngest"],
   LOGTAPE: ["logtape", "meta"],
-  SECURITY: ["security"],
 } as const satisfies Record<string, string[]>
 
 type LoggerCategoryType = (typeof LoggerCategory)[keyof typeof LoggerCategory]
 
-type LoggerConfigOptions = {
+type BuildLoggerOptions = {
+  async?: boolean
   isDevelopment?: boolean
 }
 
-function buildConfig(nonBlocking: boolean, options?: LoggerConfigOptions): Config<string, string> {
+const LOGGER_CONFIGS = [
+  {
+    category: LoggerCategory.LOGTAPE,
+    lowestLevel: "warning",
+    sinks: ["meta"],
+  },
+  {
+    category: LoggerCategory.INNGEST,
+    lowestLevel: "info",
+    sinks: ["console"],
+  },
+  {
+    category: LoggerCategory.CONVEX,
+    lowestLevel: "info",
+    sinks: ["console"],
+  },
+  {
+    category: LoggerCategory.HONO,
+    lowestLevel: "info",
+    sinks: ["console"],
+  },
+  {
+    category: LoggerCategory.DRIZZLE_ORM,
+    lowestLevel: "debug",
+    sinks: ["console"],
+  },
+  {
+    category: LoggerCategory.EMAIL,
+    lowestLevel: "info",
+    sinks: ["console"],
+  },
+  {
+    category: LoggerCategory.DEFAULT,
+    lowestLevel: "trace",
+    sinks: ["console"],
+  },
+] as const satisfies Config<string, string>["loggers"]
+
+export function buildLogger(
+  categories: readonly LoggerCategoryType[],
+  options?: BuildLoggerOptions
+) {
+  if (categories.length === 0) {
+    throw new Error("At least one logger category is required")
+  }
+
   const isDev = options?.isDevelopment ?? isDevelopment
   const consoleSink = getConsoleSink({
     formatter: isDev
@@ -40,66 +86,33 @@ function buildConfig(nonBlocking: boolean, options?: LoggerConfigOptions): Confi
           timestamp: "time",
         })
       : jsonLinesFormatter,
-    nonBlocking,
+    nonBlocking: options?.async === true,
   })
 
-  return {
-    loggers: [
-      {
-        category: LoggerCategory.LOGTAPE,
-        lowestLevel: "warning",
-        sinks: ["meta"],
-      },
-      {
-        category: LoggerCategory.SECURITY,
-        lowestLevel: "info",
-        sinks: ["console"],
-      },
-      {
-        category: LoggerCategory.INNGEST,
-        lowestLevel: "info",
-        sinks: ["console"],
-      },
-      {
-        category: LoggerCategory.CONVEX,
-        lowestLevel: "info",
-        sinks: ["console"],
-      },
-      {
-        category: LoggerCategory.HONO,
-        lowestLevel: "info",
-        sinks: ["console"],
-      },
-      {
-        category: LoggerCategory.DRIZZLE_ORM,
-        lowestLevel: "debug",
-        sinks: ["console"],
-      },
-      {
-        category: LoggerCategory.DEFAULT,
-        lowestLevel: "trace",
-        sinks: ["console"],
-      },
-    ],
+  const configuredCategories = new Set(categories.map((category) => category.join("/")))
+
+  const config: Config<string, string> = {
+    loggers: LOGGER_CONFIGS.filter((logger) => configuredCategories.has(logger.category.join("/"))),
     sinks: {
       console: redactSink(consoleSink),
       meta: consoleSink,
     },
   }
-}
 
-export function configureLogger(options?: LoggerConfigOptions) {
-  configureSync(buildConfig(false, options))
-}
+  if (options?.async) {
+    void configure(config)
+  } else {
+    configureSync(config)
+  }
 
-export async function configureLoggerAsync(options?: LoggerConfigOptions) {
-  await configure(buildConfig(true, options))
+  const defaultCategoryKey = LoggerCategory.DEFAULT.join("/")
+  const defaultCategory = categories.find((category) => category.join("/") === defaultCategoryKey)
+
+  return getLogger(defaultCategory ?? categories[0])
 }
 
 export function getLogger(category: LoggerCategoryType = LoggerCategory.DEFAULT) {
   return getLogtapeLogger(category)
 }
-
-export const logger = getLogger()
 
 export type Logger = LogtapeLogger
