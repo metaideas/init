@@ -33,5 +33,4 @@ export const authOptions = (ctx: GenericCtx<DataModel>) =>
       expiresIn: SESSION_EXPIRES_IN,
       updateAge: SESSION_UPDATE_AGE,
     },
-    trustedOrigins: ["init://"],
   }) satisfies AuthOptions

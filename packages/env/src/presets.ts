@@ -18,6 +18,32 @@ export const auth = () =>
     runtimeEnv: process.env,
     server: {
       AUTH_SECRET: z.string(),
+      AUTH_TRUSTED_ORIGINS: z
+        .string()
+        .transform((value) =>
+          value
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        )
+        .pipe(
+          z.array(
+            z.union([
+              // Exact http/https origin (domain, localhost, or IPv4; optional port)
+              z
+                .string()
+                .regex(
+                  /^https?:\/\/(?:(?:[a-z0-9-]+\.)+[a-z0-9-]+|localhost|(?:\d{1,3}\.){3}\d{1,3})(?::\d{1,5})?$/i
+                ),
+              // HTTP/HTTPS wildcard subdomain
+              z.string().regex(/^https?:\/\/\*\.(?:[a-z0-9-]+\.)+[a-z0-9-]+(?::\d{1,5})?$/i),
+              // Protocol-agnostic wildcard subdomain
+              z.string().regex(/^\*\.(?:[a-z0-9-]+\.)+[a-z0-9-]+$/i),
+              // Custom schemes (chrome-extension, myapp, exp, etc.)
+              z.string().regex(/^(?!https?:\/\/)[a-z][a-z0-9+.-]*:\/\/[^\s]*$/i),
+            ])
+          )
+        ),
     },
     skipValidation: isCI,
   })
