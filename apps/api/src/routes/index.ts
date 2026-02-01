@@ -1,6 +1,5 @@
 import { database } from "@init/db/client"
 import { kv } from "@init/kv/client"
-import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { honoLogger } from "@init/observability/logger/integrations"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
@@ -15,9 +14,8 @@ import v1Routes from "#routes/v1/index.ts"
 import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import env from "#shared/env.ts"
+import { LoggerCategory, logger } from "#shared/logger.ts"
 import { factory } from "#shared/utils.ts"
-
-const logger = getLogger()
 
 const app = factory.createApp()
 

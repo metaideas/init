@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
 import { SendEmailError, BatchSendEmailError } from "@init/error"
-import { logger } from "@init/observability/logger"
+import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { type DurationInput, milliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
@@ -16,6 +16,8 @@ type EmailSendParams = {
 }
 
 export const email = singleton("email", () => new Resend(resend().RESEND_API_KEY))
+
+const logger = getLogger(LoggerCategory.EMAIL)
 
 export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const env = resend()

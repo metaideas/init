@@ -1,4 +1,4 @@
-import { getLogger } from "@init/observability/logger"
+import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { dependencyInjectionMiddleware, Inngest } from "inngest"
 import { extendedTracesMiddleware } from "inngest/experimental"
@@ -14,7 +14,7 @@ export const inngest = singleton(
   () =>
     new Inngest({
       id: "init",
-      logger: getLogger(["inngest"]),
+      logger: getLogger(LoggerCategory.INNGEST),
       middleware: [
         dependencyInjectionMiddleware({
           // Add any dependencies here
