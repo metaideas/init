@@ -37,6 +37,7 @@
   "devDependencies": {
     "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.1.18",
+    "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/chrome": "0.1.33",
     "@types/react": "19.1.13",
