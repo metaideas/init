@@ -1,4 +1,4 @@
-import { createEnv } from "@init/env"
+import { createEnv, getRuntimeEnv } from "@init/env"
 import { auth, db } from "@init/env/presets"
 import { REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
 import * as z from "@init/utils/schema"
@@ -13,7 +13,7 @@ export default createEnv({
   extends: [auth(), auth.providers.github(), auth.providers.google(), db()],
   // Load server environment variables (process.env) and client environment
   // variables (import.meta.env)
-  runtimeEnv: { ...import.meta.env, ...process.env },
+  runtimeEnv: getRuntimeEnv(),
   server: {},
   skipValidation: isCI,
 })

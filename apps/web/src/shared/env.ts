@@ -1,4 +1,4 @@
-import { createEnv } from "@init/env"
+import { createEnv, getRuntimeEnv } from "@init/env"
 import * as z from "@init/utils/schema"
 import { isCI } from "std-env"
 
@@ -7,7 +7,7 @@ export default createEnv({
     PUBLIC_API_URL: z.url(),
   },
   clientPrefix: "PUBLIC_",
-  runtimeEnv: import.meta.env,
+  runtimeEnv: getRuntimeEnv(),
   server: {
     TEST_VAR: z.string(),
   },

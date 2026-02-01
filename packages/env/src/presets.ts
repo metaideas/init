@@ -2,6 +2,7 @@ import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "@init/utils/con
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
 import { isCI } from "std-env"
+import { getRuntimeEnv } from "./runtime"
 
 // Presets for system environment variables from popular services (Vercel, Neon,
 // Supabase, Render, etc.)
@@ -66,7 +67,7 @@ export const convex = {
         PUBLIC_CONVEX_URL: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: import.meta.env,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
 }
@@ -133,7 +134,7 @@ export const sentry = {
         PUBLIC_SENTRY_DSN: z.string(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: import.meta.env,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
   expo: () =>
@@ -218,7 +219,7 @@ export const posthog = {
         PUBLIC_POSTHOG_HOST: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: import.meta.env,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
   server: () =>
@@ -243,6 +244,6 @@ export const tauri = () =>
       TAURI_ENV_TARGET_TRIPLE: z.string().optional(),
     },
     clientPrefix: "TAURI_ENV_",
-    runtimeEnv: import.meta.env,
+    runtimeEnv: getRuntimeEnv(),
     skipValidation: isCI,
   })

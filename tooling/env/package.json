@@ -1,0 +1,19 @@
+{
+  "name": "@tooling/env",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./vite": "./src/vite.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "bump:deps": "bun update --interactive"
+  },
+  "dependencies": {
+    "jiti": "2.4.2",
+    "vite": "7.3.1"
+  },
+  "devDependencies": {
+    "@tooling/tsconfig": "workspace:*"
+  }
+}
