@@ -13,7 +13,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { AdminOnly } from "#features/auth/components/roles.tsx"
 import SignOutButton from "#features/auth/components/sign-out-button.tsx"
 import { LocaleToggle } from "#shared/components/locale-toggle.tsx"
-import { useTRPC } from "#shared/trpc.tsx"
+import { useTRPC } from "#shared/trpc.ts"
 
 export const Route = createFileRoute("/_authenticated/")({
   component: RouteComponent,

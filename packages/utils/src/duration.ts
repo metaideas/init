@@ -1,6 +1,6 @@
 // Taken from: https://github.com/vercel/ms/blob/main/src/index.ts
 import { InvalidDurationFormatInputError, InvalidDurationParseInputError } from "@init/error"
-import { assertUnreachable } from "./assert"
+import { assertUnreachable } from "#assert.ts"
 
 const s = 1000
 const m = s * 60

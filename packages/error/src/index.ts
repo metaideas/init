@@ -1,9 +1,9 @@
-import type { AuthenticationError } from "./auth"
-import type { EmailError } from "./email"
-import type { UtilityError } from "./utils"
+import type { AuthenticationError } from "#auth.ts"
+import type { EmailError } from "#email.ts"
+import type { UtilityError } from "#utils.ts"
 
 export type AppError = AuthenticationError | EmailError | UtilityError
 
-export * from "./auth"
-export * from "./email"
-export * from "./utils"
+export * from "#auth.ts"
+export * from "#email.ts"
+export * from "#utils.ts"

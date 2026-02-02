@@ -2,9 +2,6 @@ import type React from "react"
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { Alert, AlertDescription, AlertTitle } from "#components/alert.tsx"
 import { Button } from "#components/button.tsx"
-import { Icon } from "#components/icon.tsx"
-import { Input } from "#components/input.tsx"
-import { Textarea } from "#components/textarea.tsx"
 import {
   Field,
   FieldContent,
@@ -16,7 +13,10 @@ import {
   FieldSeparator,
   FieldSet,
   FieldTitle,
-} from "./field"
+} from "#components/field.tsx"
+import { Icon } from "#components/icon.tsx"
+import { Input } from "#components/input.tsx"
+import { Textarea } from "#components/textarea.tsx"
 
 const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts()
 

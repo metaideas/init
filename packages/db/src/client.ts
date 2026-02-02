@@ -4,7 +4,7 @@ import { drizzleLogger } from "@init/observability/logger/integrations"
 import { singleton } from "@init/utils/singleton"
 import { SQL } from "bun"
 import { drizzle } from "drizzle-orm/bun-sql"
-import * as schema from "./schema"
+import * as schema from "#schema.ts"
 
 export function connect(url: string) {
   const client = new SQL(url)

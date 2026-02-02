@@ -4,7 +4,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { SignUpFormSchema as schema } from "#features/auth/validation.ts"
 import { signUp } from "#shared/auth.ts"
-import { useTRPCClient } from "#shared/trpc.tsx"
+import { useTRPCClient } from "#shared/trpc.ts"
 
 export default function SignUpForm() {
   const trpcClient = useTRPCClient()

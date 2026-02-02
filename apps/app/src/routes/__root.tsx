@@ -1,12 +1,15 @@
 import type { ReactNode } from "react"
+import { Toaster } from "@init/ui/components/sonner"
+import { ThemeProvider } from "@init/ui/components/theme"
+import { TooltipProvider } from "@init/ui/components/tooltip"
 import globals from "@init/ui/globals.css?url"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import type { RouterContext } from "#router.ts"
-import { getTheme } from "#features/theme/server/functions.ts"
-import Providers from "#shared/components/providers.tsx"
+import type { RouterContext } from "#router.tsx"
+import { ThemeScript } from "#features/theme/components/theme-script.tsx"
+import { getTheme, setTheme } from "#features/theme/server/functions.ts"
 import { baseLocale } from "#shared/internationalization/runtime.js"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -14,16 +17,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     links: [{ href: globals, rel: "stylesheet" }],
     meta: [
-      {
-        charSet: "utf8",
-      },
-      {
-        content: "width=device-width, initial-scale=1",
-        name: "viewport",
-      },
-      {
-        title: "Init",
-      },
+      { charSet: "utf8" },
+      { content: "width=device-width, initial-scale=1", name: "viewport" },
+      { title: "Init" },
     ],
   }),
   loader: async () => ({
@@ -36,22 +32,19 @@ function RootComponent() {
 
   return (
     <RootDocument>
-      <Providers theme={theme}>
-        <Outlet />
-      </Providers>
+      <ThemeProvider setTheme={(value) => void setTheme({ data: value })} theme={theme}>
+        <ThemeScript />
+        <TooltipProvider>
+          <Outlet />
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
+
       <TanStackDevtools
-        config={{
-          position: "bottom-left",
-        }}
+        config={{ position: "bottom-left" }}
         plugins={[
-          {
-            name: "TanStack Query",
-            render: <ReactQueryDevtoolsPanel />,
-          },
-          {
-            name: "TanStack Router",
-            render: <TanStackRouterDevtoolsPanel />,
-          },
+          { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> },
+          { name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> },
         ]}
       />
     </RootDocument>

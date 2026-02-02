@@ -18,6 +18,7 @@
     - `shared` should be used for services, utilities, and helpers that are used across the application.
   - `features` can import from `shared`, but cannot import from other features.
   - `routes` can import from `shared` and `features`, but routes cannot from other routes.
+  - Exception: in `apps/api`, routes may import other routes for Hono routing composition.
 
 ## Code Quality
 

@@ -1,7 +1,7 @@
 import { THEME_STORAGE_KEY } from "@init/utils/constants"
 import { getCookie, setCookie } from "@tanstack/react-start/server"
+import { ThemeSchema } from "#features/theme/validation.ts"
 import { publicFunction } from "#shared/server/functions.ts"
-import { ThemeSchema } from "../validation"
 
 export const getTheme = publicFunction.handler(() => {
   const cookie = getCookie(THEME_STORAGE_KEY)

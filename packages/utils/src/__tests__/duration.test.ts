@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { format, milliseconds, parse, parseStrict, seconds } from "../duration"
+import { format, milliseconds, parse, parseStrict, seconds } from "#duration.ts"
 
 describe("parse", () => {
   test("parses milliseconds", () => {

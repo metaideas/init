@@ -3,6 +3,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./helpers": "./src/helpers.ts",
     "./schema": "./src/schema.ts",
