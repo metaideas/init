@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { createIdGenerator } from "../id"
+import { createIdGenerator } from "#id.ts"
 
 const ID_REGEX = /^[346789ABCDEFGHJKLMNPQRTUVWXYabcdefghijkmnpqrtwxyz]+$/
 const ID_REGEX_WITH_PREFIX = /^test_[346789ABCDEFGHJKLMNPQRTUVWXYabcdefghijkmnpqrtwxyz]+$/

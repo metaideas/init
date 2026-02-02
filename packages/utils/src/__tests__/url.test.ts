@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { createUrlBuilder } from "../url"
+import { createUrlBuilder } from "#url.ts"
 
 /**
  * Compare two URLs for equality, ignoring query parameter order.

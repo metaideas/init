@@ -9,7 +9,7 @@ import {
 } from "@logtape/logtape"
 import { getPrettyFormatter } from "@logtape/pretty"
 import { isDevelopment } from "std-env"
-import { redactSink } from "./utils"
+import { redactSink } from "#logger/utils.ts"
 
 export const LoggerCategory = {
   CONVEX: ["convex"],

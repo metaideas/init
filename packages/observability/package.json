@@ -3,6 +3,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./logger": "./src/logger/index.ts",
     "./logger/*": "./src/logger/*.ts",

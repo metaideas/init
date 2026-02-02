@@ -8,7 +8,7 @@ import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
 import NotFound from "#shared/components/not-found.tsx"
 import { logger } from "#shared/logger.ts"
-import { makeTRPCClient } from "#shared/trpc.tsx"
+import { makeTRPCClient, TRPCProvider } from "#shared/trpc.ts"
 
 export type RouterContext = {
   queryClient: QueryClient
@@ -31,6 +31,11 @@ export function getRouter() {
   })
 
   const router = createRouter({
+    Wrap: ({ children }) => (
+      <TRPCProvider queryClient={queryClient} trpcClient={trpcClient}>
+        {children}
+      </TRPCProvider>
+    ),
     context: {
       logger: logger.getChild("router"),
       queryClient,

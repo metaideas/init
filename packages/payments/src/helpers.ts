@@ -2,7 +2,7 @@ import type { Stripe } from "stripe"
 import { stripe as env } from "@init/env/presets"
 import { kv } from "@init/kv/client"
 import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
-import { payments } from "./client"
+import { payments } from "#client.ts"
 
 export function createAgentToolkit() {
   return new StripeAgentToolkit({
