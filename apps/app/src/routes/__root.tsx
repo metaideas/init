@@ -4,6 +4,7 @@ import { ThemeProvider } from "@init/ui/components/theme"
 import { TooltipProvider } from "@init/ui/components/tooltip"
 import globals from "@init/ui/globals.css?url"
 import { TanStackDevtools } from "@tanstack/react-devtools"
+import { FormDevtoolsPanel } from "@tanstack/react-form-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
@@ -45,6 +46,10 @@ function RootComponent() {
         plugins={[
           { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> },
           { name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> },
+          {
+            name: "TanStack Form",
+            render: <FormDevtoolsPanel />,
+          },
         ]}
       />
     </RootDocument>

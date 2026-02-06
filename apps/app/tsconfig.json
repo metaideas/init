@@ -3,6 +3,6 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["src", "reset.d.ts"],
+  "include": ["src", "reset.d.ts", "vite.config.ts"],
   "exclude": ["node_modules"]
 }

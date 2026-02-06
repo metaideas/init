@@ -4,5 +4,5 @@
     "jsx": "preserve"
   },
   "exclude": ["node_modules"],
-  "include": ["reset.d.ts", "src"]
+  "include": ["reset.d.ts", "src", "vite.config.ts"]
 }

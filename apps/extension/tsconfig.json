@@ -3,6 +3,6 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["src", "reset.d.ts", "./.wxt/wxt.d.ts"],
+  "include": ["src", "reset.d.ts", "./.wxt/wxt.d.ts", "wxt.config.ts"],
   "exclude": ["node_modules"]
 }
