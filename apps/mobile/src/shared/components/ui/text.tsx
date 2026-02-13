@@ -1,101 +1,49 @@
-import * as Slot from "@rn-primitives/slot"
+import { cn } from "@init/utils/ui"
 import { createContext, useContext } from "react"
-import { Text as RNText, type TextProps, type TextStyle } from "react-native"
-import { StyleSheet, type UnistylesVariants } from "react-native-unistyles"
+import { Text as RNText, type TextProps } from "react-native"
 
-const styles = StyleSheet.create((theme) => ({
-  text: {
-    variants: {
-      color: {
-        primary: {
-          color: theme.colors.foreground,
-        },
-        quarternary: {
-          color: theme.utils.alpha(theme.colors.grey3, 0.5),
-        },
-        secondary: {
-          color: theme.utils.alpha(theme.colors.foreground, 0.9),
-        },
-        tertiary: {
-          color: theme.colors.grey3,
-        },
-      },
-      variant: {
-        body: {
-          fontSize: theme.typography.fontSize.base,
-          lineHeight: theme.typography.lineHeight.base,
-        },
-        callout: {
-          fontSize: theme.typography.fontSize.base,
-          lineHeight: theme.typography.lineHeight.base,
-        },
-        caption1: {
-          fontSize: theme.typography.fontSize.xs,
-          lineHeight: theme.typography.lineHeight.xs,
-        },
-        caption2: {
-          fontSize: theme.typography.fontSize.xs,
-          lineHeight: theme.typography.lineHeight.xs,
-        },
-        footnote: {
-          fontSize: theme.typography.fontSize.xs,
-          lineHeight: theme.typography.lineHeight.xs,
-        },
-        heading: {
-          fontSize: theme.typography.fontSize.base,
-          fontWeight: theme.typography.fontWeight.semibold,
-          lineHeight: theme.typography.lineHeight.base,
-        },
-        largeTitle: {
-          fontSize: theme.typography.fontSize["4xl"],
-          fontWeight: theme.typography.fontWeight.bold,
-          lineHeight: theme.typography.lineHeight["4xl"],
-        },
-        subhead: {
-          fontSize: theme.typography.fontSize.sm,
-          fontWeight: theme.typography.fontWeight.medium,
-          lineHeight: theme.typography.lineHeight.sm,
-        },
-        title1: {
-          fontSize: theme.typography.fontSize["2xl"],
-          fontWeight: theme.typography.fontWeight.base,
-          lineHeight: theme.typography.lineHeight["2xl"],
-        },
-        title2: {
-          fontSize: theme.typography.fontSize.xl + 2,
-          fontWeight: theme.typography.fontWeight.base,
-          lineHeight: theme.typography.lineHeight.xl + 2,
-        },
-        title3: {
-          fontSize: theme.typography.fontSize.xl,
-          fontWeight: theme.typography.fontWeight.base,
-          lineHeight: theme.typography.lineHeight.xl + 2,
-        },
-      },
-    },
-  },
-}))
+const textVariants = {
+  body: "text-base leading-6",
+  callout: "text-base leading-6",
+  caption1: "text-xs leading-4",
+  caption2: "text-xs leading-4",
+  footnote: "text-xs leading-4",
+  heading: "text-base font-semibold leading-6",
+  largeTitle: "text-4xl font-bold leading-10",
+  subhead: "text-sm font-medium leading-5",
+  title1: "text-2xl leading-8",
+  title2: "text-xl leading-7",
+  title3: "text-xl leading-7",
+} as const
 
-const TextStyleContext = createContext<TextStyle | undefined>(undefined)
+const textColors = {
+  primary: "text-foreground",
+  quaternary: "text-grey-3/50",
+  secondary: "text-foreground/90",
+  tertiary: "text-grey-3",
+} as const
+
+type TextVariant = keyof typeof textVariants
+type TextColor = keyof typeof textColors
+
+const TextStyleContext = createContext<string | undefined>(undefined)
 
 function Text({
   variant = "body",
   color = "primary",
   children,
-  style,
+  className,
   ...props
-}: UnistylesVariants<typeof styles> & TextProps) {
-  const textStyle = useContext(TextStyleContext)
-
-  styles.useVariants({
-    color,
-    variant,
-  })
+}: TextProps & { className?: string; color?: TextColor; variant?: TextVariant }) {
+  const contextClassName = useContext(TextStyleContext)
 
   return (
-    <Slot.Text style={[styles.text, textStyle, style]} {...props}>
-      <RNText>{children}</RNText>
-    </Slot.Text>
+    <RNText
+      className={cn(textVariants[variant], textColors[color], contextClassName, className)}
+      {...props}
+    >
+      {children}
+    </RNText>
   )
 }
 

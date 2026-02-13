@@ -126,6 +126,37 @@
           "unusedDisableDirectives": "deny"
         }
       }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "tailwindCSS.classAttributes": [
+          "class",
+          "className",
+          "colorClassName",
+          "backgroundColorClassName",
+          "backdropColorClassName",
+          "contentContainerClassName",
+          "columnWrapperClassName",
+          "endFillColorClassName",
+          "imageClassName",
+          "tintColorClassName",
+          "ios_backgroundColorClassName",
+          "thumbColorClassName",
+          "trackColorOnClassName",
+          "trackColorOffClassName",
+          "selectionColorClassName",
+          "cursorColorClassName",
+          "underlineColorAndroidClassName",
+          "placeholderTextColorClassName",
+          "selectionHandleColorClassName",
+          "colorsClassName",
+          "progressBackgroundColorClassName",
+          "titleColorClassName",
+          "underlayColorClassName",
+          "headerClassName"
+        ],
+        "tailwindCSS.classFunctions": ["useResolveClassNames"]
+      }
     }
   }
 }
