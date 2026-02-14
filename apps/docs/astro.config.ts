@@ -7,7 +7,7 @@ import { defineConfig } from "astro/config"
 export default defineConfig({
   integrations: [
     starlight({
-      customCss: ["./src/shared/styles/global.css"],
+      customCss: ["./src/shared/styles/globals.css"],
       defaultLocale: "root",
       locales: {
         es: {

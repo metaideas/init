@@ -4,6 +4,7 @@ import { PortalHost } from "@rn-primitives/portal"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
+import { KeyboardProvider } from "react-native-keyboard-controller"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { useHideSplashScreen } from "#shared/hooks.ts"
 import { persister, queryClient } from "#shared/query-client.ts"
@@ -24,12 +25,14 @@ function RootLayout() {
       }}
       persistOptions={{ persister }}
     >
-      <ActionSheetProvider>
-        <SafeAreaProvider>
-          <Stack />
-          <PortalHost />
-        </SafeAreaProvider>
-      </ActionSheetProvider>
+      <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
+        <ActionSheetProvider>
+          <SafeAreaProvider>
+            <Stack />
+            <PortalHost />
+          </SafeAreaProvider>
+        </ActionSheetProvider>
+      </KeyboardProvider>
     </PersistQueryClientProvider>
   )
 }

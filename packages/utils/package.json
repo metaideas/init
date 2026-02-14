@@ -19,7 +19,7 @@
     "@init/error": "workspace:*",
     "clsx": "2.1.1",
     "nanoid": "5.1.6",
-    "std-env": "3.7.0",
+    "std-env": "3.10.0",
     "superjson": "2.2.6",
     "tailwind-merge": "3.4.0",
     "ufo": "1.5.4",

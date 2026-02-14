@@ -31,7 +31,7 @@
     "@sentry/core": "10.32.1",
     "@sentry/node": "10.32.1",
     "@sentry/react-native": "~7.2.0",
-    "std-env": "3.7.0"
+    "std-env": "3.10.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
