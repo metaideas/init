@@ -1,4 +1,5 @@
-import type { ElementType } from "react"
+import type { ComponentProps, ElementType } from "react"
+import Feather from "@expo/vector-icons/Feather"
 import { cn } from "@init/utils/ui"
 import { withUniwind } from "uniwind"
 
@@ -31,4 +32,29 @@ function Icon({ as: IconComponent, className, ...props }: IconProps) {
   )
 }
 
-export { Icon }
+type FeatherIconProps = Omit<ComponentProps<typeof Feather>, "name">
+
+const CheckIcon = (props: FeatherIconProps) => <Feather name="check" {...props} />
+
+const ChevronLeftIcon = (props: FeatherIconProps) => <Feather name="chevron-left" {...props} />
+
+const ChevronDownIcon = (props: FeatherIconProps) => <Feather name="chevron-down" {...props} />
+
+const ChevronRightIcon = (props: FeatherIconProps) => <Feather name="chevron-right" {...props} />
+
+const ChevronUpIcon = (props: FeatherIconProps) => <Feather name="chevron-up" {...props} />
+
+const SearchIcon = (props: FeatherIconProps) => <Feather name="search" {...props} />
+
+const XIcon = (props: FeatherIconProps) => <Feather name="x" {...props} />
+
+export {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  Icon,
+  SearchIcon,
+  XIcon,
+}

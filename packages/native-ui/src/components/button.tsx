@@ -1,10 +1,10 @@
-import type * as React from "react"
 import { cn } from "@init/utils/ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Platform, Pressable } from "react-native"
 import { TextClassContext } from "./text"
 
-// NOTE: group-* is not supported yet by Uniwind.
+// NOTE: group-* is not supported yet by Uniwind
+
 const buttonVariants = cva(
   cn(
     "group shrink-0 flex-row items-center justify-center gap-2 rounded-md shadow-none",
@@ -42,7 +42,9 @@ const buttonVariants = cva(
         link: "",
         outline: cn(
           "border border-border bg-background shadow-sm shadow-black/5 active:bg-accent dark:border-input dark:bg-input/30 dark:active:bg-input/50",
-          Platform.select({ web: "hover:bg-accent dark:hover:bg-input/50" })
+          Platform.select({
+            web: "hover:bg-accent dark:hover:bg-input/50",
+          })
         ),
         secondary: cn(
           "bg-secondary shadow-sm shadow-black/5 active:bg-secondary/80",
