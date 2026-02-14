@@ -32,7 +32,7 @@
     "api": "workspace:*",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "std-env": "3.7.0",
+    "std-env": "3.10.0",
     "superjson": "2.2.6"
   },
   "devDependencies": {

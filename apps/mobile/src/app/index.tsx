@@ -1,64 +1,88 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome"
-import { useRef, useState } from "react"
-import { ActivityIndicator, View } from "react-native"
-import { useCSSVariable } from "uniwind"
-import { Button } from "#shared/components/ui/button.tsx"
+import Feather from "@expo/vector-icons/Feather"
+import { ActivityIndicator } from "@init/native-ui/components/activity-indicator"
+import { Button } from "@init/native-ui/components/button"
+import { Icon } from "@init/native-ui/components/icon"
 import {
   LargeTitleHeader,
   type LargeTitleSearchBarRef,
-} from "#shared/components/ui/large-title-header.tsx"
-import { Text } from "#shared/components/ui/text.tsx"
+} from "@init/native-ui/components/large-title-header"
+import { Text } from "@init/native-ui/components/text"
+import { useRef, useState } from "react"
+import { View } from "react-native"
+import { useCSSVariable } from "uniwind"
 import env from "#shared/env.ts"
 
 export default function Screen() {
   const backgroundValue = useCSSVariable("--color-background")
-  const primaryValue = useCSSVariable("--color-primary")
   const background = typeof backgroundValue === "string" ? backgroundValue : undefined
-  const primary = typeof primaryValue === "string" ? primaryValue : undefined
   const [isLoading, setIsLoading] = useState(false)
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const searchBarRef = useRef<LargeTitleSearchBarRef>(null)
+  const isSearching = isSearchFocused || searchQuery.length > 0
 
   return (
     <>
       <LargeTitleHeader
         backgroundColor={background}
         searchBar={{
+          onBlur: () => {
+            setIsSearchFocused(false)
+          },
+          onCancelButtonPress: () => {
+            setIsSearchFocused(false)
+            setSearchQuery("")
+          },
+          onChangeText: (text) => {
+            setSearchQuery(text)
+          },
+          onFocus: () => {
+            setIsSearchFocused(true)
+          },
           ref: searchBarRef,
         }}
         title="Home"
       />
-      <View className="flex-1 items-center justify-center gap-8 bg-background">
-        <View className="items-center justify-center gap-2">
-          <Text color="primary" variant="heading">
-            Edit app/index.tsx to edit this screen.
-          </Text>
-          <Text color="primary" variant="body">
-            API at {env.EXPO_PUBLIC_API_URL}
-          </Text>
+      {isSearching ? null : (
+        <View className="flex-1 items-center justify-center gap-8 bg-background">
+          <View className="items-center justify-center gap-2">
+            <Text className="text-base leading-6 font-semibold text-primary">
+              Edit app/index.tsx to edit this screen.
+            </Text>
+            <Text className="text-base leading-6 text-primary">
+              API at {env.EXPO_PUBLIC_API_URL}
+            </Text>
+          </View>
+          <View className="items-center justify-center gap-4">
+            <View>{isLoading ? <ActivityIndicator /> : null}</View>
+            <Button
+              onPress={() => {
+                setIsLoading(!isLoading)
+              }}
+            >
+              <Text>Default</Text>
+            </Button>
+            <Button variant="destructive">
+              <Text>Destructive</Text>
+            </Button>
+            <Button variant="outline">
+              <Text>Outline</Text>
+            </Button>
+            <Button variant="secondary">
+              <Text>Secondary</Text>
+            </Button>
+            <Button variant="ghost">
+              <Text>Ghost</Text>
+            </Button>
+            <Button variant="link">
+              <Text>Link</Text>
+            </Button>
+            <Button size="icon">
+              <Icon as={Feather} className="size-5 text-primary-foreground" name="heart" />
+            </Button>
+          </View>
         </View>
-        <View className="items-center justify-center gap-4">
-          <Button
-            onPress={() => {
-              setIsLoading(!isLoading)
-            }}
-          >
-            {isLoading ? <ActivityIndicator /> : null}
-            <Text>Test Loading</Text>
-          </Button>
-          <Button variant="secondary">
-            <Text>Secondary</Text>
-          </Button>
-          <Button variant="tonal">
-            <Text>Tonal</Text>
-          </Button>
-          <Button variant="plain">
-            <Text>Plain</Text>
-          </Button>
-          <Button size="icon" variant="tonal">
-            <FontAwesome color={primary} name="heart" size={21} />
-          </Button>
-        </View>
-      </View>
+      )}
     </>
   )
 }

@@ -37,7 +37,7 @@ function AvatarFallback({
 }: AvatarPrimitive.FallbackProps & { className?: string; ref?: Ref<AvatarPrimitive.FallbackRef> }) {
   return (
     <AvatarPrimitive.Fallback
-      className={cn("bg-grey-6 size-full items-center justify-center rounded-full", className)}
+      className={cn("size-full items-center justify-center rounded-full bg-muted", className)}
       style={style}
       {...props}
     />

@@ -6,7 +6,7 @@ export default function Screen() {
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
       <View className="flex-1 items-center justify-center">
-        <Text className="text-grey-3 text-xl">This page doesn&apos;t exist</Text>
+        <Text className="text-xl text-muted-foreground">This page doesn&apos;t exist</Text>
       </View>
     </>
   )
