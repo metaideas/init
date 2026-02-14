@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/metaideas/init/compare/init@v1.1.0...init@v1.2.0) (2026-02-14)
+
+
+### Features
+
+* add trusted origins configuration for auth ([#84](https://github.com/metaideas/init/issues/84)) ([7b9c1cc](https://github.com/metaideas/init/commit/7b9c1ccf8cd5bfe0ebc533743aff8203f15e87c7))
+* replace Unistyles with Uniwind for mobile styling ([#87](https://github.com/metaideas/init/issues/87)) ([d05d9f2](https://github.com/metaideas/init/commit/d05d9f2183e4fa589bfd526dd4d3deea63665eda))
+
+
+### Bug Fixes
+
+* prevent desktop asset and jsx runtime errors ([cba616b](https://github.com/metaideas/init/commit/cba616b547b0df13b6cc5f9529c9964c176b885b))
+* remove unnecessary eslint disable comments ([8b98891](https://github.com/metaideas/init/commit/8b98891f2103a7ce556998445933d374f00ce00a))
+* update url env var validation ([4c9014f](https://github.com/metaideas/init/commit/4c9014f98db496b16cba47dccd8d034b5a214160))
+* update url env var validation ([8aa4a75](https://github.com/metaideas/init/commit/8aa4a752a41d5c9af783e4c1c15ab9bcb99d3662))
+
 ## [1.1.0](https://github.com/metaideas/init/compare/init@v1.0.1...init@v1.1.0) (2026-01-27)
 
 ### Features
