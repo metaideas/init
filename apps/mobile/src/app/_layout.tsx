@@ -8,6 +8,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { useHideSplashScreen } from "#shared/hooks.ts"
 import { persister, queryClient } from "#shared/query-client.ts"
 
+import "#shared/styles/globals.css"
+
 void SplashScreen.preventAutoHideAsync()
 
 function RootLayout() {

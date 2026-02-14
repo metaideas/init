@@ -26,7 +26,7 @@ export const workspaces = {
       name: "extension",
     },
     {
-      dependencies: ["auth", "env", "observability", "utils"],
+      dependencies: ["auth", "env", "native-ui", "observability", "utils"],
       description: "Expo application deployed with EAS",
       name: "mobile",
     },
@@ -86,6 +86,11 @@ export const workspaces = {
       dependencies: [],
       description: "Redis client database integration",
       name: "kv",
+    },
+    {
+      dependencies: [],
+      description: "Reusable native UI tokens and components",
+      name: "native-ui",
     },
     {
       dependencies: [],

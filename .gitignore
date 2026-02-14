@@ -90,7 +90,6 @@ apps/desktop/src-tauri/gen/schemas
 .source
 
 # Mobile/React Native/Expo
-expo-env.d.ts
 
 # Editor directories and files (additional)
 .vscode/*

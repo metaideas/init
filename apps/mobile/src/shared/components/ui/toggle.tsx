@@ -1,15 +1,20 @@
 import { Switch, type SwitchProps } from "react-native"
-import { useUnistyles } from "react-native-unistyles"
+import { useCSSVariable } from "uniwind"
 
 function Toggle(props: SwitchProps) {
-  const { theme } = useUnistyles()
+  const whiteValue = useCSSVariable("--color-white")
+  const greyValue = useCSSVariable("--color-grey")
+  const primaryValue = useCSSVariable("--color-primary")
+  const white = typeof whiteValue === "string" ? whiteValue : undefined
+  const grey = typeof greyValue === "string" ? greyValue : undefined
+  const primary = typeof primaryValue === "string" ? primaryValue : undefined
 
   return (
     <Switch
-      thumbColor={theme.colors.white}
+      thumbColor={white}
       trackColor={{
-        false: theme.colors.grey,
-        true: theme.colors.primary,
+        false: grey,
+        true: primary,
       }}
       {...props}
     />

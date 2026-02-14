@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { useRef, useState } from "react"
 import { ActivityIndicator, View } from "react-native"
-import { StyleSheet, useUnistyles } from "react-native-unistyles"
+import { useCSSVariable } from "uniwind"
 import { Button } from "#shared/components/ui/button.tsx"
 import {
   LargeTitleHeader,
@@ -11,21 +11,24 @@ import { Text } from "#shared/components/ui/text.tsx"
 import env from "#shared/env.ts"
 
 export default function Screen() {
-  const { theme } = useUnistyles()
+  const backgroundValue = useCSSVariable("--color-background")
+  const primaryValue = useCSSVariable("--color-primary")
+  const background = typeof backgroundValue === "string" ? backgroundValue : undefined
+  const primary = typeof primaryValue === "string" ? primaryValue : undefined
   const [isLoading, setIsLoading] = useState(false)
   const searchBarRef = useRef<LargeTitleSearchBarRef>(null)
 
   return (
     <>
       <LargeTitleHeader
-        backgroundColor={theme.colors.background}
+        backgroundColor={background}
         searchBar={{
           ref: searchBarRef,
         }}
         title="Home"
       />
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
+      <View className="flex-1 items-center justify-center gap-8 bg-background">
+        <View className="items-center justify-center gap-2">
           <Text color="primary" variant="heading">
             Edit app/index.tsx to edit this screen.
           </Text>
@@ -33,7 +36,7 @@ export default function Screen() {
             API at {env.EXPO_PUBLIC_API_URL}
           </Text>
         </View>
-        <View style={styles.buttonContainer}>
+        <View className="items-center justify-center gap-4">
           <Button
             onPress={() => {
               setIsLoading(!isLoading)
@@ -52,30 +55,10 @@ export default function Screen() {
             <Text>Plain</Text>
           </Button>
           <Button size="icon" variant="tonal">
-            <FontAwesome color={theme.colors.primary} name="heart" size={21} />
+            <FontAwesome color={primary} name="heart" size={21} />
           </Button>
         </View>
       </View>
     </>
   )
 }
-
-const styles = StyleSheet.create((theme) => ({
-  buttonContainer: {
-    alignItems: "center",
-    gap: theme.spacing[4],
-    justifyContent: "center",
-  },
-  container: {
-    alignItems: "center",
-    backgroundColor: theme.colors.background,
-    flex: 1,
-    gap: theme.spacing[8],
-    justifyContent: "center",
-  },
-  textContainer: {
-    alignItems: "center",
-    gap: theme.spacing[2],
-    justifyContent: "center",
-  },
-}))

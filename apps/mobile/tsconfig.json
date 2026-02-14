@@ -3,6 +3,13 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["src", "app.config.ts", "reset.d.ts", "expo-env.d.ts", ".expo/types/**/*.ts"],
+  "include": [
+    "src",
+    "app.config.ts",
+    "reset.d.ts",
+    "expo-env.d.ts",
+    "src/uniwind-types.d.ts",
+    ".expo/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
