@@ -33,6 +33,7 @@
     "hono": "4.11.7",
     "hono-openapi": "^1.1.2",
     "hono-rate-limiter": "0.5.3",
+    "qte": "0.1.0",
     "std-env": "3.10.0",
     "superjson": "2.2.6"
   },

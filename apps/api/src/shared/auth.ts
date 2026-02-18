@@ -1,7 +1,8 @@
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
-import { APP_ID, APP_NAME, SESSION_EXPIRES_IN, SESSION_UPDATE_AGE } from "@init/utils/constants"
+import { APP_ID, APP_NAME } from "@init/utils/constants"
+import { seconds } from "qte"
 import env from "#shared/env.ts"
 
 export const auth = createAuth({
@@ -20,8 +21,8 @@ export const auth = createAuth({
   plugins: [admin(), organization()],
   secret: env.AUTH_SECRET,
   session: {
-    expiresIn: SESSION_EXPIRES_IN,
-    updateAge: SESSION_UPDATE_AGE,
+    expiresIn: seconds("30d"),
+    updateAge: seconds("15d"),
   },
   socialProviders: {
     github: {

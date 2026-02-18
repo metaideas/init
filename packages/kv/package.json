@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@init/env": "workspace:*",
-    "@init/error": "workspace:*",
     "@init/utils": "workspace:*",
+    "qte": "0.1.0",
     "superjson": "2.2.6"
   },
   "devDependencies": {

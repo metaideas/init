@@ -46,6 +46,7 @@
         "hono": "4.11.7",
         "hono-openapi": "^1.1.2",
         "hono-rate-limiter": "0.5.3",
+        "qte": "0.1.0",
         "std-env": "3.10.0",
         "superjson": "2.2.6",
       },
@@ -328,6 +329,7 @@
         "@tanstack/react-query": "^5.90.20",
         "convex": "1.31.6",
         "convex-helpers": "0.1.111",
+        "qte": "0.1.0",
         "std-env": "3.10.0",
       },
       "devDependencies": {
@@ -372,6 +374,7 @@
         "@react-email/components": "1.0.6",
         "@react-email/render": "2.0.4",
         "date-fns": "4.1.0",
+        "qte": "0.1.0",
         "resend": "6.7.0",
       },
       "devDependencies": {
@@ -409,8 +412,8 @@
       "name": "@init/kv",
       "dependencies": {
         "@init/env": "workspace:*",
-        "@init/error": "workspace:*",
         "@init/utils": "workspace:*",
+        "qte": "0.1.0",
         "superjson": "2.2.6",
       },
       "devDependencies": {
@@ -4183,6 +4186,8 @@
     "qrcode-terminal": ["qrcode-terminal@0.11.0", "", { "bin": { "qrcode-terminal": "./bin/qrcode-terminal.js" } }, "sha512-Uu7ii+FQy4Qf82G4xu7ShHhjhGahEpCWc3x8UavY3CTcWV+ufmmCtwkr7ZKsX42jdL0kr1B5FKUeqJvAn51jzQ=="],
 
     "qs": ["qs@6.14.1", "", { "dependencies": { "side-channel": "^1.1.0" } }, "sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ=="],
+
+    "qte": ["qte@0.1.0", "", { "peerDependencies": { "typescript": "^5.9.3" } }, "sha512-9533onfcBoxlPloVxz1Ma2cpGH8cMJcPrMdhcNwTVENivLO33HDCXqMm0RWQzFTcVm8c9BN3khXT22e1Na0LiA=="],
 
     "quansync": ["quansync@0.2.11", "", {}, "sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA=="],
 
