@@ -10,6 +10,7 @@
     "./components/*": "./src/components/*.tsx",
     "./blocks/*": "./src/blocks/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
+    "./constants": "./src/constants.ts",
     "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
