@@ -1,7 +1,7 @@
-import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
 import { isCI } from "std-env"
+import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "#constants.ts"
 import { getRuntimeEnv } from "#runtime.ts"
 
 // Presets for system environment variables from popular services (Vercel, Neon,
