@@ -1,28 +1,20 @@
-import { TaggedError } from "better-result"
+import * as Faultier from "faultier"
 
-export class InvalidDurationParseInputError extends TaggedError("InvalidDurationParseInputError")<{
-  message: string
+export class InvalidDurationParseInputError extends Faultier.Tagged(
+  "InvalidDurationParseInputError"
+)<{
   value: string
-}>() {
-  constructor(props: { value: string }) {
-    super({ ...props, message: `Unable to parse duration from input: "${props.value}"` })
-  }
-}
+}>() {}
 
-export class InvalidDurationFormatInputError extends TaggedError(
+export class InvalidDurationFormatInputError extends Faultier.Tagged(
   "InvalidDurationFormatInputError"
-)<{ message: string }>() {
-  constructor() {
-    super({ message: "Invalid duration format provided" })
-  }
-}
+)() {}
 
-export class AssertUnreachableError extends TaggedError("AssertUnreachableError")<{
+export class AssertUnreachableError extends Faultier.Tagged("AssertUnreachableError")<{
   value: unknown
 }>() {}
 
-export class AssertConditionFailedError extends TaggedError("AssertConditionFailedError")<{
-  message: string
+export class AssertConditionFailedError extends Faultier.Tagged("AssertConditionFailedError")<{
   condition: string
 }>() {}
 
@@ -30,4 +22,16 @@ export type DurationError = InvalidDurationParseInputError | InvalidDurationForm
 
 export type AssertError = AssertUnreachableError | AssertConditionFailedError
 
-export type UtilityError = DurationError | AssertError
+export class InvalidBaseUrlError extends Faultier.Tagged("InvalidBaseUrlError")<{
+  value: string
+}>() {}
+
+export const UtilityFault = Faultier.registry({
+  AssertConditionFailedError,
+  AssertUnreachableError,
+  InvalidBaseUrlError,
+  InvalidDurationFormatInputError,
+  InvalidDurationParseInputError,
+})
+
+export type UtilityError = DurationError | AssertError | InvalidBaseUrlError

@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "better-result": "2.6.0"
+    "faultier": "2.2.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
