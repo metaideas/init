@@ -1,16 +1,16 @@
+import { AUTH_APP_NAME, AUTH_COOKIE_PREFIX } from "@init/auth/constants"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
-import { APP_ID, APP_NAME } from "@init/utils/constants"
 import { seconds } from "qte"
 import env from "#shared/env.ts"
 
 export const auth = createAuth({
   advanced: {
-    cookiePrefix: APP_ID,
+    cookiePrefix: AUTH_COOKIE_PREFIX,
     database: { generateId: false },
   },
-  appName: APP_NAME,
+  appName: AUTH_APP_NAME,
   basePath: "/auth",
   baseURL: env.BASE_URL,
   database: databaseAdapter(database()),
