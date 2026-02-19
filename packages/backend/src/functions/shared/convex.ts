@@ -1,115 +1,69 @@
 import { UnauthenticatedError, UnauthorizedError } from "@init/error"
-import { getLogger, LoggerCategory } from "@init/observability/logger"
-import {
-  customAction,
-  customCtx,
-  customMutation,
-  customQuery,
-} from "convex-helpers/server/customFunctions"
-import { typedV } from "convex-helpers/validators"
-import {
-  type ActionCtx,
-  action,
-  type MutationCtx,
-  mutation,
-  type QueryCtx,
-  query,
-} from "#functions/_generated/server.js"
-import schema from "#functions/schema.ts"
-import { convexAuth } from "#functions/shared/auth/index.ts"
+import { buildLogger, LoggerCategory } from "@init/observability/logger"
+import { singleton } from "@init/utils/singleton"
+import { createBuilder } from "fluent-convex"
+import type { DataModel } from "#functions/_generated/dataModel.js"
+import type { ActionCtx, MutationCtx, QueryCtx } from "#functions/_generated/server.js"
+import { authComponent } from "#functions/shared/auth.ts"
 
-export const vv = typedV(schema)
+export const convex = createBuilder<DataModel>()
 
-const baseContext = {
-  logger: getLogger(LoggerCategory.CONVEX),
-}
+export const withLogger = convex.createMiddleware((ctx, next) =>
+  next({ ...ctx, logger: singleton("logger:convex", () => buildLogger([LoggerCategory.CONVEX])) })
+)
 
-async function validateIdentity(ctx: QueryCtx | MutationCtx | ActionCtx) {
+export type GenericCtx = QueryCtx | ActionCtx | MutationCtx
+
+export const withAuthentication = convex
+  .$context<GenericCtx>()
+  .createMiddleware(async (ctx, next) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      throw new UnauthenticatedError()
+    }
+
+    const authUser = await authComponent.getAuthUser(ctx)
+
+    if (!authUser) {
+      throw new UnauthenticatedError()
+    }
+
+    return next({ ...ctx, authUser, identity })
+  })
+
+export const withAdmin = convex.$context<GenericCtx>().createMiddleware(async (ctx, next) => {
   const identity = await ctx.auth.getUserIdentity()
 
   if (!identity) {
     throw new UnauthenticatedError()
   }
 
-  return identity
-}
+  const authUser = await authComponent.getAuthUser(ctx)
 
-async function validateAdmin(ctx: QueryCtx | MutationCtx | ActionCtx) {
-  const identity = await ctx.auth.getUserIdentity()
-
-  if (!identity) {
+  if (!authUser) {
     throw new UnauthenticatedError()
   }
 
-  if (identity.role !== "admin") {
-    throw new UnauthorizedError({ userId: identity.tokenIdentifier })
+  if (authUser.role !== "admin") {
+    throw new UnauthorizedError({ userId: identity.subject })
   }
 
-  return identity
-}
+  return next({ ...ctx, authUser, identity })
+})
 
-export const publicQuery = customQuery(
-  query,
-  customCtx(() => baseContext)
-)
-export const publicMutation = customMutation(
-  mutation,
-  customCtx(() => baseContext)
-)
-export const publicAction = customAction(
-  action,
-  customCtx(() => baseContext)
-)
+export const publicQuery = convex.query().use(withLogger)
+export const publicMutation = convex.mutation().use(withLogger)
+export const publicAction = convex.action().use(withLogger)
 
-export const protectedQuery = customQuery(
-  query,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: {
-      ...ctx.auth,
-      ...convexAuth(ctx),
-    },
-    identity: await validateIdentity(ctx),
-  }))
-)
-export const protectedMutation = customMutation(
-  mutation,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: { ...ctx.auth, ...convexAuth(ctx) },
-    identity: await validateIdentity(ctx),
-  }))
-)
-export const protectedAction = customAction(
-  action,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: { ...ctx.auth, ...convexAuth(ctx) },
-    identity: await validateIdentity(ctx),
-  }))
-)
+export const protectedQuery = convex.query().use(withLogger).use(withAuthentication)
+export const protectedMutation = convex.mutation().use(withLogger).use(withAuthentication)
+export const protectedAction = convex.action().use(withLogger).use(withAuthentication)
 
-export const privateQuery = customQuery(
-  query,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: { ...ctx.auth, ...convexAuth(ctx) },
-    identity: await validateAdmin(ctx),
-  }))
-)
-export const privateMutation = customMutation(
-  mutation,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: { ...ctx.auth, ...convexAuth(ctx) },
-    identity: await validateAdmin(ctx),
-  }))
-)
-export const privateAction = customAction(
-  action,
-  customCtx(async (ctx) => ({
-    ...baseContext,
-    auth: { ...ctx.auth, ...convexAuth(ctx) },
-    identity: await validateAdmin(ctx),
-  }))
-)
+export const privateQuery = convex.query().use(withLogger).use(withAdmin)
+export const privateMutation = convex.mutation().use(withLogger).use(withAdmin)
+export const privateAction = convex.action().use(withLogger).use(withAdmin)
+
+export const internalQuery = convex.query().use(withLogger)
+export const internalMutation = convex.mutation().use(withLogger)
+export const internalAction = convex.action().use(withLogger)

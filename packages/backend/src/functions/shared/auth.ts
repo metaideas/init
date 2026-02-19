@@ -1,7 +1,4 @@
-// Separated this from the main auth.ts file to avoid environment variable
-// errors when trying to use the auth options inside the better auth component..
-
-import type { GenericCtx } from "@convex-dev/better-auth"
+import type { AuthFunctions, GenericCtx } from "@convex-dev/better-auth"
 import type { AuthOptions } from "@init/auth/server"
 import { createClient } from "@convex-dev/better-auth"
 import { convex } from "@convex-dev/better-auth/plugins"
@@ -9,15 +6,18 @@ import { admin, anonymous, organization } from "@init/auth/server/plugins"
 import { APP_ID, APP_NAME } from "@init/utils/constants"
 import { seconds } from "qte"
 import type { DataModel } from "#functions/_generated/dataModel.js"
-import { components } from "#functions/_generated/api.js"
+import { components, internal } from "#functions/_generated/api.js"
 import authConfig from "#functions/auth.config.ts"
 import authSchema from "#functions/components/better-auth/schema.ts"
 
-export const authComponent = createClient<DataModel, typeof authSchema>(components.betterAuth, {
+const authFunctions: AuthFunctions = internal.auth
+
+export const authComponent = createClient<DataModel, typeof authSchema>(components.auth, {
+  authFunctions,
   local: { schema: authSchema },
 })
 
-export const authOptions = (ctx: GenericCtx<DataModel>) =>
+export const createAuthOptions = (ctx: GenericCtx<DataModel>) =>
   ({
     advanced: {
       cookiePrefix: APP_ID,

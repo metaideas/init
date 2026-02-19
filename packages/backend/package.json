@@ -31,7 +31,7 @@
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
     "convex": "1.31.6",
-    "convex-helpers": "0.1.111",
+    "fluent-convex": "0.12.3",
     "qte": "0.1.0",
     "std-env": "3.10.0"
   },
