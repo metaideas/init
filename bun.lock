@@ -352,6 +352,7 @@
       "dependencies": {
         "@init/env": "workspace:*",
         "@init/observability": "workspace:*",
+        "@init/storage": "workspace:*",
         "@init/utils": "workspace:*",
         "drizzle-orm": "0.45.1",
         "drizzle-zod": "0.8.3",

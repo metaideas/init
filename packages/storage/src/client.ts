@@ -1,4 +1,4 @@
-import type { StorageBucket } from "@init/utils/constants"
+import type { StorageBucket } from "@init/storage/buckets"
 import { s3 as s3Env } from "@init/env/presets"
 import { S3Client, type S3Options } from "bun"
 
