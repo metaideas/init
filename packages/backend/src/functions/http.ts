@@ -1,9 +1,13 @@
 import { httpRouter } from "convex/server"
-import { convexAuth } from "#functions/shared/auth/index.ts"
-import { authComponent } from "#functions/shared/auth/options.ts"
+import { authComponent, convexAuth } from "#functions/auth.ts"
+import env from "#functions/shared/env.ts"
 
 const http = httpRouter()
 
-authComponent.registerRoutes(http, convexAuth)
+authComponent.registerRoutes(http, convexAuth, {
+  cors: {
+    allowedOrigins: env.AUTH_TRUSTED_ORIGINS,
+  },
+})
 
 export default http

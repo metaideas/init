@@ -329,7 +329,7 @@
         "@init/utils": "workspace:*",
         "@tanstack/react-query": "^5.90.20",
         "convex": "1.31.6",
-        "convex-helpers": "0.1.111",
+        "fluent-convex": "0.12.3",
         "qte": "0.1.0",
         "std-env": "3.10.0",
       },
@@ -3161,6 +3161,8 @@
     "flattie": ["flattie@1.1.1", "", {}, "sha512-9UbaD6XdAL97+k/n+N7JwX46K/M6Zc6KcFYskrYL8wbBV/Uyk0CTAMY0VT+qiK5PM7AIc9aTWYtq65U7T+aCNQ=="],
 
     "flow-enums-runtime": ["flow-enums-runtime@0.0.6", "", {}, "sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw=="],
+
+    "fluent-convex": ["fluent-convex@0.12.3", "", { "peerDependencies": { "convex": "^1.31.0", "convex-helpers": ">=0.1.0", "zod": "^3.25.0 || ^4.0.0" }, "optionalPeers": ["convex-helpers", "zod"] }, "sha512-z3mYifNVUZJu8ZpXioZMS9vAU/dcUefVwD1hB1Z6aG1cT3hfwptB5PEXOItFRR2dMBrYJ00Hty9p2OI3PixX/A=="],
 
     "fontace": ["fontace@0.4.0", "", { "dependencies": { "fontkitten": "^1.0.0" } }, "sha512-moThBCItUe2bjZip5PF/iZClpKHGLwMvR79Kp8XpGRBrvoRSnySN4VcILdv3/MJzbhvUA5WeiUXF5o538m5fvg=="],
 
