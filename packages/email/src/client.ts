@@ -2,16 +2,16 @@ import type { ReactNode } from "react"
 import { resend } from "@init/env/presets"
 import { SendEmailError, BatchSendEmailError } from "@init/error"
 import { getLogger, LoggerCategory } from "@init/observability/logger"
-import { type DurationInput, milliseconds } from "@init/utils/duration"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
+import { type TimeExpression, ms } from "qte"
 import { Resend } from "resend"
 
 type EmailSendParams = {
   emails: string[]
   subject: string
-  sendAt?: Date | DurationInput
+  sendAt?: Date | TimeExpression
   from?: string
 }
 
@@ -47,7 +47,7 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
         ? undefined
         : sendAt instanceof Date
           ? sendAt.toISOString()
-          : addMilliseconds(new Date(), milliseconds(sendAt)).toISOString(),
+          : addMilliseconds(new Date(), ms(sendAt)).toISOString(),
     subject,
     to: emails,
   })
@@ -97,7 +97,7 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
           ? undefined
           : sendAt instanceof Date
             ? sendAt.toISOString()
-            : addMilliseconds(new Date(), milliseconds(sendAt)).toISOString(),
+            : addMilliseconds(new Date(), ms(sendAt)).toISOString(),
       subject,
       to: emails,
     }))

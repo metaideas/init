@@ -1,10 +1,10 @@
 import type { DeepMerge } from "@init/utils/type"
 import { findIp } from "@arcjet/ip"
 import { kv } from "@init/kv/client"
-import { type DurationInput, milliseconds } from "@init/utils/duration"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
+import { type TimeExpression, ms } from "qte"
 import type { Session } from "#shared/auth.ts"
 import type { AppContext } from "#shared/types.ts"
 
@@ -32,12 +32,12 @@ export const requireSession = createMiddleware<
 /**
  * Adds basic rate limiting protection with a fixed window to the request.
  */
-export function withRateLimiting(interval: DurationInput, limit: number) {
+export function withRateLimiting(interval: TimeExpression, limit: number) {
   return rateLimiter<AppContext>({
     keyGenerator: (c) => c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
     limit,
     standardHeaders: "draft-7",
-    windowMs: milliseconds(interval),
+    windowMs: ms(interval),
   })
 }
 

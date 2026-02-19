@@ -6,7 +6,8 @@ import type { AuthOptions } from "@init/auth/server"
 import { createClient } from "@convex-dev/better-auth"
 import { convex } from "@convex-dev/better-auth/plugins"
 import { admin, anonymous, organization } from "@init/auth/server/plugins"
-import { APP_ID, APP_NAME, SESSION_EXPIRES_IN, SESSION_UPDATE_AGE } from "@init/utils/constants"
+import { APP_ID, APP_NAME } from "@init/utils/constants"
+import { seconds } from "qte"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { components } from "#functions/_generated/api.js"
 import authConfig from "#functions/auth.config.ts"
@@ -30,7 +31,7 @@ export const authOptions = (ctx: GenericCtx<DataModel>) =>
     },
     plugins: [anonymous(), admin(), organization(), convex({ authConfig })],
     session: {
-      expiresIn: SESSION_EXPIRES_IN,
-      updateAge: SESSION_UPDATE_AGE,
+      expiresIn: seconds("30d"),
+      updateAge: seconds("15d"),
     },
   }) satisfies AuthOptions
