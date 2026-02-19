@@ -14,4 +14,5 @@ export * from "#auth.ts"
 export * from "#email.ts"
 export * from "#utils.ts"
 
-export { matchTag, matchTags, Fault } from "faultier"
+export { matchTag, matchTags, Fault, isFault } from "faultier"
+export type { SerializableFault } from "faultier"
