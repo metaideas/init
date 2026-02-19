@@ -1,4 +1,4 @@
-import { THEMES, type Theme } from "@init/utils/constants"
+import { THEMES, type Theme } from "@init/ui/constants"
 import { createContext, use, useEffect, useState } from "react"
 import { Button } from "#components/button.tsx"
 import {

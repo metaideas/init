@@ -1,6 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query"
 import { ThemeProvider } from "@init/ui/components/theme"
-import { THEME_STORAGE_KEY } from "@init/utils/constants"
+import { THEME_STORAGE_KEY } from "@init/ui/constants"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
