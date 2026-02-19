@@ -13,7 +13,7 @@ export function assertUnreachable(x: never): never {
  */
 export function throwUnless(condition: boolean, message: string): asserts condition is true {
   if (!condition) {
-    throw new AssertConditionFailedError({ condition: "throwUnless", message })
+    throw new AssertConditionFailedError({ condition: "throwUnless" }).withMessage(message)
   }
 }
 
@@ -22,6 +22,6 @@ export function throwUnless(condition: boolean, message: string): asserts condit
  */
 export function throwIf(condition: boolean, message: string): asserts condition is false {
   if (condition) {
-    throw new AssertConditionFailedError({ condition: "throwIf", message })
+    throw new AssertConditionFailedError({ condition: "throwIf" }).withMessage(message)
   }
 }
