@@ -1,6 +1,5 @@
-import { createEnv, getRuntimeEnv } from "@init/env"
+import { createEnv, getRuntimeEnv, REACT_PUBLIC_ENV_PREFIX } from "@init/env"
 import { auth, db } from "@init/env/presets"
-import { REACT_PUBLIC_ENV_PREFIX } from "@init/utils/constants"
 import * as z from "@init/utils/schema"
 import { isCI } from "std-env"
 

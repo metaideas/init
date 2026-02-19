@@ -1,0 +1,2 @@
+export const EXPO_PUBLIC_ENV_PREFIX = "EXPO_PUBLIC_"
+export const REACT_PUBLIC_ENV_PREFIX = "PUBLIC_"
