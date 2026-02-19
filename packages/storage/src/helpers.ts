@@ -1,5 +1,9 @@
-import type { MimeType, MimeTypeExtension, MimeTypeExtensions } from "@init/utils/constants"
+import type standardTypes from "mime/types/standard.js"
 import mime from "mime/lite"
+
+export type MimeType = keyof typeof standardTypes
+export type MimeTypeExtension<T extends MimeType> = (typeof standardTypes)[T][0]
+export type MimeTypeExtensions<T extends MimeType> = (typeof standardTypes)[T][number]
 
 export function getMimeType(filename: string): MimeType {
   return mime.getType(filename) as MimeType

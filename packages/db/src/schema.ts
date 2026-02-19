@@ -1,4 +1,5 @@
-import type { MimeType, StorageBucket } from "@init/utils/constants"
+import type { StorageBucket } from "@init/storage/buckets"
+import type { MimeType } from "@init/storage/helpers"
 import type { ConstrainedString } from "@init/utils/type"
 import { createIdGenerator } from "@init/utils/id"
 import * as z from "@init/utils/schema"
