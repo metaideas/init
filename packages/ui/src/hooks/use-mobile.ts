@@ -1,4 +1,4 @@
-import { MOBILE_BREAKPOINT } from "@init/utils/constants"
+import { MOBILE_BREAKPOINT } from "@init/ui/constants"
 import { useEffect, useState } from "react"
 
 export function useIsMobile() {
