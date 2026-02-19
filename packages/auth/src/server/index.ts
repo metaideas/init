@@ -10,6 +10,6 @@ export function databaseAdapter(database: DB) {
 
 export { APIError as AuthError } from "better-auth/api"
 export {
-  betterAuth as createAuth,
   type BetterAuthOptions as AuthOptions,
+  betterAuth as createAuth,
 } from "better-auth/minimal"

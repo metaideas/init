@@ -7,8 +7,7 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./*": "./src/*.ts",
-    "./constants": "./src/constants/index.ts"
+    "./*": "./src/*.ts"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
