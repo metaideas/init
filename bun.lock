@@ -87,6 +87,7 @@
         "@tanstack/react-query-devtools": "5.91.2",
         "@tanstack/react-router-devtools": "1.149.0",
         "@tooling/env": "workspace:*",
+        "@tooling/internationalization": "workspace:*",
         "@tooling/tsconfig": "workspace:*",
         "@types/node": "24.10.1",
         "@types/react": "19.1.13",
@@ -579,6 +580,7 @@
       "name": "@tooling/internationalization",
       "devDependencies": {
         "@inlang/paraglide-js": "2.8.0",
+        "@tooling/tsconfig": "workspace:*",
       },
     },
     "tooling/tsconfig": {
