@@ -2,7 +2,7 @@ import { cn } from "@init/utils/ui"
 import * as Slot from "@rn-primitives/slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
-import { Platform, type Role, Text as RNText } from "react-native"
+import { Platform, Text as RNText, type Role } from "react-native"
 
 const textVariants = cva(
   cn(
@@ -17,8 +17,10 @@ const textVariants = cva(
     },
     variants: {
       variant: {
-        blockquote: "mt-4 border-l-2 border-border pl-3 italic sm:mt-6 sm:pl-6",
-        code: "bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+        blockquote: "mt-4 border-l-2 pl-3 italic sm:mt-6 sm:pl-6",
+        code: cn(
+          "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+        ),
         default: "",
         h1: cn(
           "text-center text-4xl font-extrabold tracking-tight",
@@ -41,6 +43,7 @@ const textVariants = cva(
 )
 
 type TextVariantProps = VariantProps<typeof textVariants>
+
 type TextVariant = NonNullable<TextVariantProps["variant"]>
 
 const ROLE: Partial<Record<TextVariant, Role>> = {
@@ -62,8 +65,8 @@ const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
 const TextClassContext = React.createContext<string | undefined>(undefined)
 
 function Text({
-  asChild = false,
   className,
+  asChild = false,
   variant = "default",
   ...props
 }: React.ComponentProps<typeof RNText> &
@@ -71,15 +74,13 @@ function Text({
   React.RefAttributes<RNText> & {
     asChild?: boolean
   }) {
-  const resolvedVariant: TextVariant = variant ?? "default"
   const textClass = React.useContext(TextClassContext)
   const Component = asChild ? Slot.Text : RNText
-
   return (
     <Component
-      className={cn(textVariants({ variant: resolvedVariant }), textClass, className)}
-      role={resolvedVariant ? ROLE[resolvedVariant] : undefined}
-      aria-level={resolvedVariant ? ARIA_LEVEL[resolvedVariant] : undefined}
+      className={cn(textVariants({ variant }), textClass, className)}
+      role={variant ? ROLE[variant] : undefined}
+      aria-level={variant ? ARIA_LEVEL[variant] : undefined}
       {...props}
     />
   )
