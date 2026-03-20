@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "analyze": "bun --bun adamantite analyze",
+    "analyze": "adamantite analyze",
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "bump:deps": "bun update --interactive --recursive",

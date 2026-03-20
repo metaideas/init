@@ -5,14 +5,17 @@ import { loadEnv } from "vite"
 
 const jiti = createJiti(fileURLToPath(import.meta.url))
 
-// Callers may choose to void this promise to keep configs synchronous.
 export async function ensureEnv(
   mode: string,
-  cwd = process.cwd(),
+  workspaceDirOrFileUrl: string,
   envPath = "./src/shared/env.ts"
 ) {
-  const env = loadEnv(mode, cwd, "")
+  const workspaceDir = workspaceDirOrFileUrl.startsWith("file:")
+    ? fileURLToPath(new URL(".", workspaceDirOrFileUrl))
+    : workspaceDirOrFileUrl
+
+  const env = loadEnv(mode, workspaceDir, "")
   Object.assign(process.env, env)
-  await jiti.import(resolve(cwd, envPath))
+  await jiti.import(resolve(workspaceDir, envPath))
   return env
 }

@@ -25,10 +25,6 @@ export const withAuthentication = convex
 
     const authUser = await authComponent.getAuthUser(ctx)
 
-    if (!authUser) {
-      throw new UnauthenticatedError()
-    }
-
     return next({ ...ctx, authUser, identity })
   })
 
@@ -40,10 +36,6 @@ export const withAdmin = convex.$context<GenericCtx>().createMiddleware(async (c
   }
 
   const authUser = await authComponent.getAuthUser(ctx)
-
-  if (!authUser) {
-    throw new UnauthenticatedError()
-  }
 
   if (authUser.role !== "admin") {
     throw new UnauthorizedError({ userId: identity.subject })

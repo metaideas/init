@@ -10,7 +10,7 @@ import { defineConfig } from "vite"
 
 // @ts-expect-error Bun resolves duplicate vite copies in its virtual store, causing plugin type mismatches
 export default defineConfig(({ mode }) => {
-  void ensureEnv(mode)
+  void ensureEnv(mode, import.meta.url)
 
   return {
     envPrefix: ["PUBLIC_"],

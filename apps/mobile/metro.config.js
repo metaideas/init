@@ -1,3 +1,5 @@
+/* oxlint-disable unicorn/prefer-module */
+
 const { getSentryExpoConfig } = require("@sentry/react-native/metro")
 const { withUniwindConfig } = require("uniwind/metro")
 

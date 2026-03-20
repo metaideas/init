@@ -111,5 +111,5 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
     })
   }
 
-  return data.data ?? []
+  return data
 }

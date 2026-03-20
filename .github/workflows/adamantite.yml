@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: lint
-            command: bun run check
+          - name: check
+            command: bun run codegen && bun run check
           - name: format
             command: bun run format --check
           - name: monorepo
@@ -37,6 +37,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2

@@ -26,7 +26,8 @@
     "build": "bunup",
     "bump:deps": "bun update --interactive",
     "dev": "bunup --watch",
-    "test": "bun test"
+    "test": "bun test",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
     "@effect/cli": "0.73.0",

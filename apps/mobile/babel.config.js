@@ -1,3 +1,5 @@
+/* oxlint-disable unicorn/prefer-module */
+
 module.exports = (api) => {
   // oxlint-disable-next-line no-unsafe-call
   api.cache(true)

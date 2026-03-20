@@ -4,11 +4,12 @@ import react from "adamantite/lint/react"
 import { defineConfig } from "oxlint"
 
 export default defineConfig({
+  extends: [core, react, node],
+  ignorePatterns: ["**/*.hbs", "**/src/**/_generated", "**/*.d.ts", "**/*.gen.ts", "cli/**"],
   options: {
     typeAware: true,
     typeCheck: true,
   },
-  ignorePatterns: ["**/*.hbs", "**/src/**/_generated", "**/*.d.ts", "**/*.gen.ts", "cli/**"],
   overrides: [
     {
       files: ["apps/mobile/babel.config.js", "apps/mobile/metro.config.js"],
@@ -17,5 +18,4 @@ export default defineConfig({
       },
     },
   ],
-  extends: [core, react, node],
 })
