@@ -6,7 +6,7 @@
       "outputs": ["dist/**"]
     },
     "deploy": {
-      "dependsOn": ["^format", "^lint", "^typecheck"],
+      "dependsOn": ["^format", "^lint"],
       "env": []
     }
   }

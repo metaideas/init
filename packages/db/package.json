@@ -19,8 +19,7 @@
     "migrate": "bun --bun drizzle-kit migrate",
     "push": "bun --bun drizzle-kit push",
     "reset": "bun --bun run ./scripts/reset.ts",
-    "seed": "bun --bun run ./scripts/seed.ts",
-    "typecheck": "tsc --noEmit"
+    "seed": "bun --bun run ./scripts/seed.ts"
   },
   "dependencies": {
     "@init/env": "workspace:*",
@@ -35,6 +34,6 @@
     "drizzle-kit": "0.31.8",
     "drizzle-seed": "0.3.1",
     "postgres": "3.4.8",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }

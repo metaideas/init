@@ -13,7 +13,6 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "astro dev",
     "preview": "astro preview",
-    "typecheck": "tsc --noEmit",
     "typegen": "astro sync"
   },
   "dependencies": {
@@ -34,6 +33,6 @@
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "tailwindcss": "4.1.18",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }

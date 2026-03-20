@@ -7,25 +7,17 @@
       "dependsOn": ["codegen", "^codegen"],
       "env": [
         "AUTH_SECRET",
-
         "DATABASE_URL",
         "DATABASE_AUTH_TOKEN",
-
         "EMAIL_FROM",
-
         "GITHUB_CLIENT_ID",
         "GITHUB_CLIENT_SECRET",
-
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
-
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
-
         "REDIS_URL",
-
         "RESEND_API_KEY",
-
         "SENTRY_AUTH_TOKEN",
         "SENTRY_DSN",
         "SENTRY_ORG",
@@ -54,9 +46,6 @@
     "start": {
       "cache": false,
       "persistent": true
-    },
-    "typecheck": {
-      "dependsOn": ["codegen", "^codegen"]
     },
     "codegen": {
       "dependsOn": ["typegen"]

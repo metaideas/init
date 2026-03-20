@@ -1,6 +1,7 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
   "compilerOptions": {
+    "types": ["bun", "node"],
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve"
   },

@@ -23,13 +23,12 @@
 ## Code Quality
 
 - We use `adamantite` for linting, formatting and type checking.
-  - `adamantite check` to run linting checks.
+  - `adamantite check` to run linting and type checks.
   - `adamantite format` to format the code.
-  - `tsc --noEmit` to type check the code.
   - `adamantite analyze` to analyze the code for unused dependencies.
 - Always run `bun run format` after editing files.
 - Run `bun run test` to run the test suite.
-- After making changes, run `bun run check`, `bun run typecheck` and `bun run test` to ensure the code is still valid.
+- After making changes, run `bun run check` and `bun run test` to ensure the code is still valid.
 - After deleting files, run `bun run analyze` to ensure we are not using any dependencies that are not needed.
 
 ## Testing

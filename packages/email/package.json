@@ -11,8 +11,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "email dev --dir src/templates --port 4000",
-    "export": "email export --dir src/templates",
-    "typecheck": "tsc --noEmit"
+    "export": "email export --dir src/templates"
   },
   "dependencies": {
     "@init/env": "workspace:*",
@@ -28,9 +27,10 @@
   "devDependencies": {
     "@react-email/preview-server": "5.2.1",
     "@tooling/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "@types/react": "19.1.13",
     "react": "19.1.0",
     "react-email": "5.2.1",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }
