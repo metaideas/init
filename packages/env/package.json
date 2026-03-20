@@ -12,8 +12,7 @@
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "bump:deps": "bun update --interactive",
-    "typecheck": "tsc --noEmit"
+    "bump:deps": "bun update --interactive"
   },
   "dependencies": {
     "@init/utils": "workspace:*",
@@ -22,6 +21,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   }
 }

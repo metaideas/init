@@ -1,6 +1,7 @@
 {
   "extends": "@tooling/tsconfig/app.json",
   "compilerOptions": {
+    "types": ["chrome"],
     "jsx": "preserve"
   },
   "include": ["src", "reset.d.ts", "./.wxt/wxt.d.ts", "wxt.config.ts"],

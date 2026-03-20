@@ -3,7 +3,7 @@ import { singleton } from "@init/utils/singleton"
 
 export const logger = singleton("logger:app", () =>
   buildLogger([LoggerCategory.DEFAULT], {
-    async: globalThis.window === undefined,
+    async: !("window" in globalThis),
     isDevelopment: import.meta.env.DEV,
   })
 )

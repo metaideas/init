@@ -47,7 +47,7 @@ function RouteComponent() {
                 <AvatarFallback>{user.name[0] ?? "U"}</AvatarFallback>
               </Avatar>
               <div>
-                <div className="font-medium">{user.name ?? "Unknown"}</div>
+                <div className="font-medium">{user.name}</div>
                 <div className="text-muted-foreground">{user.email}</div>
               </div>
             </div>

@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "analyze": "bun --bun adamantite analyze",
+    "analyze": "adamantite analyze",
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "bump:deps": "bun update --interactive --recursive",
@@ -38,7 +38,6 @@
     "start": "turbo run start",
     "test:watch": "bun test --watch",
     "test": "bun test",
-    "typecheck": "turbo run typecheck",
     "codegen": "turbo run codegen --continue",
     "typegen": "turbo run typegen --continue"
   },
@@ -48,16 +47,16 @@
     "@effect/platform-bun": "0.87.0",
     "@octokit/rest": "22.0.0",
     "@turbo/gen": "2.6.3",
-    "@types/bun": "1.3.5",
+    "@types/bun": "catalog:",
     "@types/yargs": "17.0.35",
     "@typescript/native-preview": "7.0.0-dev.20251227.1",
-    "adamantite": "^0.28.0",
+    "adamantite": "0.31.0",
     "effect": "3.19.14",
     "init-now": "2.0.1",
-    "knip": "5.78.0",
-    "oxfmt": "0.26.0",
-    "oxlint": "1.41.0",
-    "oxlint-tsgolint": "0.11.1",
+    "knip": "5.86.0",
+    "oxfmt": "0.40.0",
+    "oxlint": "1.55.0",
+    "oxlint-tsgolint": "0.17.0",
     "sherif": "1.10.0",
     "turbo": "2.6.3",
     "typescript": "5.9.3",
@@ -74,7 +73,12 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "bun@1.3.3",
+  "packageManager": "bun@1.3.11",
+  "catalog": {
+    "@types/bun": "1.3.11",
+    "@types/node": "25.5.0",
+    "typescript": "5.9.3"
+  },
   "trustedDependencies": [
     "@parcel/watcher",
     "@sentry/cli",

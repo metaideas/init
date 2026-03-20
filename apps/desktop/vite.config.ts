@@ -7,7 +7,7 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 export default defineConfig(({ mode }) => {
-  void ensureEnv(mode)
+  void ensureEnv(mode, import.meta.url)
   const host = process.env.TAURI_DEV_HOST
 
   return {

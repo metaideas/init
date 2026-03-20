@@ -3,7 +3,7 @@ import { Icon } from "#components/icon.tsx"
 import { useTheme } from "#components/theme.tsx"
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme } = useTheme()
 
   return (
     <Sonner

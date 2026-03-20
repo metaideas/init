@@ -1,6 +1,7 @@
 {
   "extends": ["@tooling/tsconfig/app", "expo/tsconfig.base"],
   "compilerOptions": {
+    "types": ["node"],
     "jsx": "preserve"
   },
   "include": [

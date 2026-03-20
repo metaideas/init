@@ -2,34 +2,13 @@
 
 ## Project Structure
 
-- Projects are organized in the following folders:
-  - `apps` - Cross-platform applications and user-facing products.
-  - `infra` - Infrastructure as code for local development and cloud providers.
-  - `packages` - Shared internal packages for use across apps.
-  - `scripts` - Scripts for random tasks, such as syncing the project with the template and graphing dependencies.
-  - `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
-- Apps and packages have their code in the `src` folder.
-- Apps organized in the following folders:
-  - `app`/`routes`/`entrypoints` - The router/entrypoint of the application, usually using file-based routing.
-  - `features` - Feature-based modules.
-  - `shared` - Shared utilities and helpers.
-- We enforce a unidirectional import flow between these three folders. The code only flows downwards to the routing folder, never going upwards.
-  - `shared` only imports outside dependencies. It cannot import from `features` or `routes`. Modules in `shared`  should be self-contained but can import from other modules in `shared`.
-    - `shared` should be used for services, utilities, and helpers that are used across the application.
-  - `features` can import from `shared`, but cannot import from other features.
-  - `routes` can import from `shared` and `features`, but routes cannot from other routes.
-  - Exception: in `apps/api`, routes may import other routes for Hono routing composition.
+Check the [project structure documentation](./docs/project-structure.md) for an overview of the project structure and where to find different types of code.
 
 ## Code Quality
 
-- We use `adamantite` for linting, formatting and type checking.
-  - `adamantite check` to run linting checks.
-  - `adamantite format` to format the code.
-  - `tsc --noEmit` to type check the code.
-  - `adamantite analyze` to analyze the code for unused dependencies.
 - Always run `bun run format` after editing files.
 - Run `bun run test` to run the test suite.
-- After making changes, run `bun run check`, `bun run typecheck` and `bun run test` to ensure the code is still valid.
+- After making changes, run `bun run check` and `bun run test` to ensure the code is still valid.
 - After deleting files, run `bun run analyze` to ensure we are not using any dependencies that are not needed.
 
 ## Testing
@@ -93,46 +72,5 @@
 - Use the `function` keyword for components.
 - Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
 - Use declarative JSX.
-
-### UI and Styling
-
-- Use components inside `@init/ui` for web projects and `#shared/components/ui` for mobile projects.
+- Use components inside `@init/ui` for web projects and `@init/native-ui` for mobile projects.
 - Use the `cn` function inside `@init/utils/ui` for classname composition.
-
-## Database (applies to `packages/db/**`)
-
-- Our database schema is in `packages/db/src/schema.ts`.
-- We use Drizzle as our ORM. Follow Drizzle best practices.
-- Use timestamps in `packages/db/src/schema.ts` where it makes sense.
-- Use prefixed IDs for entities; see `packages/db/src/schema.ts` and the `id` function.
-- Prefixes should be 4 letters with no conflicts.
-
-## Expo (applies to `apps/mobile/**`)
-
-- Prefer functional components with React hooks.
-- Leverage Expo SDK features and APIs.
-- Use React Navigation for structure and navigation.
-- Manage assets with Expo's asset system.
-- Use Reanimated for performant animations.
-
-## Hono (applies to `apps/api/**`)
-
-- Use middleware for authentication and logging.
-- Implement route handlers using `app.get`, `app.post`, etc.
-- Structure routes modularly.
-- Handle errors globally with `app.onError`.
-- Use `c.text()`, `c.json()`, and `c.redirect()` for responses.
-- Leverage caching with `Cache-Control` or KV storage.
-
-## Web UI (applies to `apps/app/**`, `apps/desktop/**`, `apps/docs/**`, `apps/extension/**`, `apps/web/**`)
-
-- Use components inside `@init/ui` with proper composition and customization.
-- Leverage Radix UI primitives for accessible interactive components.
-- Follow Tailwind CSS class naming conventions and utility patterns.
-- Implement mobile-first responsive design with Tailwind breakpoints.
-- Maintain consistent spacing and layout using Tailwind's spacing scale.
-- Use Tailwind's color system for consistent theming.
-- Implement dark mode support using Tailwind's `dark` variant.
-- Ensure components are accessible following WCAG guidelines.
-- Keep component styles modular and reusable.
-- Optimize component bundle size through proper code splitting.

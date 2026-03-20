@@ -56,7 +56,7 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = document.documentElement
-    const mediaQuery = globalThis.matchMedia?.("(prefers-color-scheme: dark)")
+    const mediaQuery = globalThis.matchMedia("(prefers-color-scheme: dark)")
 
     function updateTheme() {
       root.classList.remove("light", "dark", "system")

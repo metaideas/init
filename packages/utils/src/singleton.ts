@@ -2,7 +2,7 @@
 
 export function singleton<T>(name: string, getValue: () => T) {
   const thusly = globalThis as unknown as {
-    __remember_init: Map<string, T>
+    __remember_init?: Map<string, T>
   }
 
   thusly.__remember_init ??= new Map()
@@ -22,7 +22,7 @@ export function singleton<T>(name: string, getValue: () => T) {
  */
 export function forget(name: string) {
   const thusly = globalThis as unknown as {
-    __remember_init: Map<string, unknown>
+    __remember_init?: Map<string, unknown>
   }
 
   thusly.__remember_init ??= new Map()

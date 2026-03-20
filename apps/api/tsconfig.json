@@ -1,6 +1,7 @@
 {
   "extends": "@tooling/tsconfig/base.json",
   "compilerOptions": {
+    "types": ["bun"],
     "rootDir": ".",
     "jsx": "react-jsx",
     "noEmit": true,

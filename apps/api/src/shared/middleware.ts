@@ -11,11 +11,6 @@ import type { AppContext } from "#shared/types.ts"
 export const requireSession = createMiddleware<
   DeepMerge<AppContext, { Variables: { session: Session } }>
 >(async (c, next) => {
-  if (c.var.session) {
-    await next()
-    return
-  }
-
   const session = await c.var.auth.api.getSession({
     headers: c.req.raw.headers,
   })
@@ -34,7 +29,7 @@ export const requireSession = createMiddleware<
  */
 export function withRateLimiting(interval: TimeExpression, limit: number) {
   return rateLimiter<AppContext>({
-    keyGenerator: (c) => c.var.session?.user.id ?? findIp(c.req.raw) ?? "unknown",
+    keyGenerator: (c) => c.var.session?.user.id ?? findIp(c.req.raw),
     limit,
     standardHeaders: "draft-7",
     windowMs: ms(interval),

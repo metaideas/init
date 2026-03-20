@@ -11,8 +11,7 @@
     "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit"
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
     "@init/utils": "workspace:*",
@@ -28,7 +27,7 @@
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "expo-glass-effect": "*",

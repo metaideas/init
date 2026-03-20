@@ -8,8 +8,7 @@
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit"
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
     "@ai-sdk/openai": "3.0.7",
@@ -17,6 +16,6 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }

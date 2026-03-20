@@ -12,8 +12,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "bun --hot src/index.ts",
-    "start": "bun --bun src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "start": "bun --bun src/index.ts"
   },
   "dependencies": {
     "@arcjet/ip": "^1.0.0-beta.15",
@@ -39,7 +38,7 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/bun": "1.3.5",
-    "typescript": "5.9.3"
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
   }
 }

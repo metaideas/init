@@ -1,6 +1,7 @@
 {
   "extends": "@tooling/tsconfig/app.json",
   "compilerOptions": {
+    "types": ["node"],
     "jsx": "preserve"
   },
   "include": ["src", "reset.d.ts", "vite.config.ts"],

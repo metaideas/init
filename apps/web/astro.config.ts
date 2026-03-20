@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite"
 import { ensureEnv } from "@tooling/env/vite"
 import { defineConfig } from "astro/config"
 
-void ensureEnv(process.env.NODE_ENV ?? "development")
+void ensureEnv(process.env.NODE_ENV ?? "development", import.meta.url)
 
 export default defineConfig({
   server: {

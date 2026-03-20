@@ -18,7 +18,6 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "convex dev",
     "env:set": "convex env set",
-    "typecheck": "tsc --noEmit",
     "generate:auth": "bun run ./scripts/generate-schema.ts"
   },
   "dependencies": {
@@ -37,7 +36,8 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "react": "*"

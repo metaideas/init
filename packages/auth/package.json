@@ -19,8 +19,7 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "secret": "bunx @better-auth/cli@latest secret",
-    "typecheck": "tsc --noEmit"
+    "secret": "bunx @better-auth/cli@latest secret"
   },
   "dependencies": {
     "@better-auth/expo": "1.4.10",
@@ -28,6 +27,6 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }
