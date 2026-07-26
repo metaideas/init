@@ -1,17 +1,10 @@
-import type { SerializableFault } from "@init/error"
-import type { Serializable } from "@tanstack/react-router"
 import { AppFault } from "@init/error"
 import { createSerializationAdapter } from "@tanstack/react-router"
 
-type SerializableFaultValue =
-  | Serializable
-  | readonly SerializableFaultValue[]
-  | { readonly [key: string]: SerializableFaultValue }
-
 export const faultSerializer = createSerializationAdapter({
-  fromSerializable: (value: SerializableFaultValue) =>
-    AppFault.fromSerializable(value as SerializableFault),
+  // oxlint-disable-next-line typescript/unbound-method -- Static deserializer does not use `this`.
+  fromSerializable: AppFault.fromSerializable,
   key: "fault",
-  test: (value) => AppFault.is(value),
-  toSerializable: (value) => value.toSerializable() as SerializableFaultValue,
+  test: AppFault.is,
+  toSerializable: (value) => value.toSerializable(),
 })

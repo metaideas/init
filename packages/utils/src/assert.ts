@@ -5,7 +5,7 @@ import { AssertConditionFailedError, AssertUnreachableError } from "@init/error"
  * in a `switch` statement are handled.
  */
 export function assertUnreachable(x: never): never {
-  throw new AssertUnreachableError({ value: x })
+  throw new AssertUnreachableError({ value: String(x) })
 }
 
 /**
