@@ -1,14 +1,14 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
+import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import { ensureEnv } from "@tooling/env/vite"
 import { I18N_COOKIE_NAME } from "@tooling/internationalization"
-import react from "@vitejs/plugin-react"
+import react, { reactCompilerPreset } from "@vitejs/plugin-react"
 import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 
-// @ts-expect-error Bun resolves duplicate vite copies in its virtual store, causing plugin type mismatches
 export default defineConfig(async ({ mode }) => {
   await ensureEnv(mode, import.meta.dirname)
 
@@ -18,11 +18,8 @@ export default defineConfig(async ({ mode }) => {
       tailwindcss(),
       tanstackStart(),
       devtools(),
-      react({
-        babel: {
-          plugins: [["babel-plugin-react-compiler", {}]],
-        },
-      }),
+      react(),
+      babel({ presets: [reactCompilerPreset()] }),
       paraglide({
         cookieName: I18N_COOKIE_NAME,
         outdir: "./src/shared/internationalization",

@@ -16,26 +16,25 @@
     "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/mdx": "4.3.13",
-    "@astrojs/react": "4.4.2",
+    "@astrojs/mdx": "7.0.4",
+    "@astrojs/react": "6.0.1",
     "@init/env": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
-    "astro": "5.16.8",
+    "astro": "7.1.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "std-env": "4.2.0"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.6",
     "@astrojs/ts-plugin": "1.10.6",
     "@inlang/paraglide-js": "2.8.0",
-    "@tailwindcss/vite": "4.1.18",
+    "@tailwindcss/vite": "4.3.3",
     "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
-    "tailwindcss": "4.1.18",
+    "tailwindcss": "4.3.3",
     "typescript": "7.0.2"
   }
 }

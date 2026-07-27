@@ -23,7 +23,7 @@ export const validateSession = createIsomorphicFn()
   })
 
 export const forgotPassword = publicFunction
-  .inputValidator(z.object({ email: z.email() }))
+  .validator(z.object({ email: z.email() }))
   .handler(async ({ data, context }) => {
     context.logger.info("Mocking forgot password", data)
 

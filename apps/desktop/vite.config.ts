@@ -1,9 +1,10 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
+import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 import { ensureEnv } from "@tooling/env/vite"
-import react from "@vitejs/plugin-react"
+import react, { reactCompilerPreset } from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 export default defineConfig(async ({ mode }) => {
@@ -12,7 +13,7 @@ export default defineConfig(async ({ mode }) => {
 
   return {
     build: {
-      minify: process.env.TAURI_ENV_DEBUG ? false : ("esbuild" as const),
+      minify: process.env.TAURI_ENV_DEBUG ? false : ("oxc" as const),
       sourcemap: !!process.env.TAURI_ENV_DEBUG,
       target: process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
     },
@@ -30,11 +31,8 @@ export default defineConfig(async ({ mode }) => {
         autoCodeSplitting: false,
         target: "react",
       }),
-      react({
-        babel: {
-          plugins: [["babel-plugin-react-compiler", {}]],
-        },
-      }),
+      react(),
+      babel({ presets: [reactCompilerPreset()] }),
     ],
     server: {
       hmr: host
