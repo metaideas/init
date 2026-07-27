@@ -2,8 +2,7 @@ import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
 import { env, isCI } from "std-env"
 import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "#constants.ts"
-
-const runtimeEnv = { ...env, ...import.meta.env }
+import { getRuntimeEnv } from "#runtime.ts"
 
 // Presets for system environment variables from popular services (Vercel, Neon,
 // Supabase, Render, etc.)
@@ -30,17 +29,13 @@ export const auth = () =>
         .pipe(
           z.array(
             z.union([
-              // Exact http/https origin (domain, localhost, or IPv4; optional port)
               z
                 .string()
                 .regex(
                   /^https?:\/\/(?:(?:[a-z0-9-]+\.)+[a-z0-9-]+|localhost|(?:\d{1,3}\.){3}\d{1,3})(?::\d{1,5})?$/i
                 ),
-              // HTTP/HTTPS wildcard subdomain
               z.string().regex(/^https?:\/\/\*\.(?:[a-z0-9-]+\.)+[a-z0-9-]+(?::\d{1,5})?$/i),
-              // Protocol-agnostic wildcard subdomain
               z.string().regex(/^\*\.(?:[a-z0-9-]+\.)+[a-z0-9-]+$/i),
-              // Custom schemes (chrome-extension, myapp, exp, etc.)
               z.string().regex(/^(?!https?:\/\/)[a-z][a-z0-9+.-]*:\/\/[^\s]*$/i),
             ])
           )
@@ -50,9 +45,6 @@ export const auth = () =>
   })
 
 auth.providers = {
-  /**
-   * Sign in with GitHub
-   */
   github: () =>
     createEnv({
       runtimeEnv: env,
@@ -62,9 +54,6 @@ auth.providers = {
       },
       skipValidation: isCI,
     }),
-  /**
-   * Sign in with Google
-   */
   google: () =>
     createEnv({
       runtimeEnv: env,
@@ -94,7 +83,7 @@ export const convex = {
         PUBLIC_CONVEX_URL: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
 }
@@ -161,7 +150,7 @@ export const sentry = {
         PUBLIC_SENTRY_DSN: z.string(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
   expo: () =>
@@ -239,7 +228,7 @@ export const posthog = {
         PUBLIC_POSTHOG_HOST: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv,
+      runtimeEnv: getRuntimeEnv(),
       skipValidation: isCI,
     }),
   server: () =>
@@ -264,6 +253,6 @@ export const tauri = () =>
       TAURI_ENV_TARGET_TRIPLE: z.string().optional(),
     },
     clientPrefix: "TAURI_ENV_",
-    runtimeEnv,
+    runtimeEnv: getRuntimeEnv(),
     skipValidation: isCI,
   })

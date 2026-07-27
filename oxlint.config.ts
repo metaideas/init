@@ -10,6 +10,7 @@ export default defineConfig({
     "**/src/**/_generated",
     "**/*.d.ts",
     "**/*.gen.ts",
+    "**/*.generated.ts",
     // The published CLI is a standalone package outside the root workspace. Root type-aware checks
     // make tsgolint panic while resolving its nested relative tsconfig paths.
     "cli/**",

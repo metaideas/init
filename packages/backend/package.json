@@ -21,7 +21,7 @@
     "generate:auth": "bun run ./scripts/generate-schema.ts"
   },
   "dependencies": {
-    "@convex-dev/better-auth": "0.10.10",
+    "@convex-dev/better-auth": "0.12.5",
     "@convex-dev/react-query": "0.1.0",
     "@init/auth": "workspace:*",
     "@init/env": "workspace:*",
@@ -29,9 +29,9 @@
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
-    "convex": "1.31.6",
-    "fluent-convex": "0.12.3",
-    "qte": "0.1.0",
+    "convex": "1.42.3",
+    "fluent-convex": "0.13.0",
+    "qte": "0.1.1",
     "std-env": "4.2.0"
   },
   "devDependencies": {
