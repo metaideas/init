@@ -12,6 +12,7 @@ export default defineConfig({
     "CHANGELOG.md",
     "**/*.hbs",
     "**/*.gen.ts",
+    "**/*.generated.ts",
     "**/src/**/_generated",
     "**/_generated/**",
     "**/generated/**",

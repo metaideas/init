@@ -1,4 +1,4 @@
-import { type DB, drizzleAdapter } from "better-auth/adapters/drizzle"
+import { type DB, drizzleAdapter } from "@better-auth/drizzle-adapter"
 
 export function databaseAdapter(database: DB) {
   return drizzleAdapter(database, {

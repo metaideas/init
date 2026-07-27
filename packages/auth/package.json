@@ -19,11 +19,13 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "secret": "bunx @better-auth/cli@latest secret"
+    "secret": "bunx auth@latest secret"
   },
   "dependencies": {
-    "@better-auth/expo": "1.4.10",
-    "better-auth": "1.4.18"
+    "@better-auth/drizzle-adapter": "1.6.25",
+    "@better-auth/expo": "1.6.25",
+    "better-auth": "1.6.25",
+    "drizzle-orm": "0.45.2"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

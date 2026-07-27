@@ -1,3 +1,14 @@
 import * as Bun from "bun"
 
-await Bun.$`cd src/functions/components/better-auth && bun x @better-auth/cli generate --output schema.generated.ts -y`
+const schemaDirectory = "src/functions/components/better-auth"
+const schemaPath = `${schemaDirectory}/schema.generated.ts`
+
+await Bun.$`cd ${schemaDirectory} && bun x auth generate --output schema.generated.ts -y`
+
+const generatedSchema = await Bun.file(schemaPath).text()
+const portableSchema = generatedSchema.replace(
+  /^ \* {3}cd src\/functions\/components\/better-auth\n \* {3}npx auth generate --output .*$/m,
+  " *   bun run --filter @init/backend generate:auth"
+)
+
+await Bun.write(schemaPath, portableSchema)
