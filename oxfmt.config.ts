@@ -9,6 +9,7 @@ export default defineConfig({
   embeddedLanguageFormatting: "auto",
   endOfLine: "lf",
   ignorePatterns: [
+    "CHANGELOG.md",
     "**/*.hbs",
     "**/*.gen.ts",
     "**/src/**/_generated",
