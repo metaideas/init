@@ -15,8 +15,8 @@ export function createUrlBuilder(baseUrl: string, protocol: "http" | "https" = "
     ? trimmedBaseUrl.replace(/^https?:\/\//i, `${protocol}://`)
     : `${protocol}://${trimmedBaseUrl}`
 
-  return function buildUrl<T extends string>(
-    pathname: T,
+  return function buildUrl(
+    pathname: string,
     options?: {
       query?: Record<string, string | number | boolean | undefined>
     }

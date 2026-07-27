@@ -6,8 +6,8 @@
     "reset.d.ts"
   ],
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "bump:deps": "bun update --interactive"
+    "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "0.6.1"

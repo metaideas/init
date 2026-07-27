@@ -14,9 +14,8 @@
     "./uptime": "./src/uptime.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "bump:deps": "bun update --interactive",
-    "typecheck": "tsc --noEmit"
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
     "@init/env": "workspace:*",
@@ -31,11 +30,11 @@
     "@sentry/core": "10.32.1",
     "@sentry/node": "10.32.1",
     "@sentry/react-native": "~7.2.0",
-    "std-env": "3.10.0"
+    "std-env": "4.2.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",
-    "typescript": "5.9.3"
+    "typescript": "7.0.2"
   }
 }

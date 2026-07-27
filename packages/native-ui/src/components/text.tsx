@@ -78,8 +78,8 @@ function Text({
   return (
     <Component
       className={cn(textVariants({ variant: resolvedVariant }), textClass, className)}
-      role={resolvedVariant ? ROLE[resolvedVariant] : undefined}
-      aria-level={resolvedVariant ? ARIA_LEVEL[resolvedVariant] : undefined}
+      role={ROLE[resolvedVariant]}
+      aria-level={ARIA_LEVEL[resolvedVariant]}
       {...props}
     />
   )

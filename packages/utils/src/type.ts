@@ -37,17 +37,17 @@ export type DeepMerge<T, U> = Omit<T, keyof U> & {
 }
 
 /**
- * Makes a type more readable in IDE tooltips by expanding intersections and
- * removing unnecessary type information.
+ * Makes a type more readable in IDE tooltips by expanding intersections and removing unnecessary
+ * type information.
  */
 export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
 /**
- * A type that validates if a string has the length specified by a number. If
- * valid, it resolves to the string. If invalid, it resolves to an error message
- * string, causing a type error on assignment.
+ * A type that validates if a string has the length specified by a number. If valid, it resolves to
+ * the string. If invalid, it resolves to an error message string, causing a type error on
+ * assignment.
  */
 export type ConstrainedString<
   ActualString extends string,

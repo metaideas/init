@@ -20,6 +20,7 @@ class KeyValueClient {
 
   /**
    * Creates a new Redis client
+   *
    * @param namespace - The namespace to prefix all keys with
    * @param config - The configuration for the client
    */
@@ -45,6 +46,7 @@ class KeyValueClient {
 
   /**
    * Sets a value in the cache
+   *
    * @param key - The key to set
    * @param value - The value to set. Will be serialized using SuperJSON.
    * @param expiresIn - The time to live in seconds

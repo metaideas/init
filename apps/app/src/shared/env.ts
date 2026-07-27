@@ -1,18 +1,16 @@
-import { createEnv, getRuntimeEnv, REACT_PUBLIC_ENV_PREFIX } from "@init/env"
+import { createEnv, REACT_PUBLIC_ENV_PREFIX } from "@init/env"
 import { auth, db } from "@init/env/presets"
 import * as z from "@init/utils/schema"
-import { isCI } from "std-env"
+import { env, isCI } from "std-env"
 
 export default createEnv({
   client: {
-    PUBLIC_API_URL: z.url().optional(),
-    PUBLIC_BASE_URL: z.url(),
+    PUBLIC_API_URL: z.url({ protocol: /^https?$/ }).optional(),
+    PUBLIC_BASE_URL: z.url({ protocol: /^https?$/ }),
   },
   clientPrefix: REACT_PUBLIC_ENV_PREFIX,
   extends: [auth(), auth.providers.github(), auth.providers.google(), db()],
-  // Load server environment variables (process.env) and client environment
-  // variables (import.meta.env)
-  runtimeEnv: getRuntimeEnv(),
+  runtimeEnv: { ...env, ...import.meta.env },
   server: {},
   skipValidation: isCI,
 })

@@ -55,9 +55,6 @@
       "cache": false,
       "persistent": true
     },
-    "typecheck": {
-      "dependsOn": ["codegen", "^codegen"]
-    },
     "codegen": {
       "dependsOn": ["typegen"]
     },

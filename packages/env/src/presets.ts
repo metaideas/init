@@ -1,8 +1,9 @@
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
-import { isCI } from "std-env"
+import { env, isCI } from "std-env"
 import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "#constants.ts"
-import { getRuntimeEnv } from "#runtime.ts"
+
+const runtimeEnv = { ...env, ...import.meta.env }
 
 // Presets for system environment variables from popular services (Vercel, Neon,
 // Supabase, Render, etc.)
@@ -15,7 +16,7 @@ export { railway } from "@t3-oss/env-core/presets-zod"
 
 export const auth = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       AUTH_SECRET: z.string(),
       AUTH_TRUSTED_ORIGINS: z
@@ -54,7 +55,7 @@ auth.providers = {
    */
   github: () =>
     createEnv({
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       server: {
         GITHUB_CLIENT_ID: z.string(),
         GITHUB_CLIENT_SECRET: z.string(),
@@ -66,7 +67,7 @@ auth.providers = {
    */
   google: () =>
     createEnv({
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       server: {
         GOOGLE_CLIENT_ID: z.string(),
         GOOGLE_CLIENT_SECRET: z.string(),
@@ -83,7 +84,7 @@ export const convex = {
         EXPO_PUBLIC_CONVEX_URL: z.url(),
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       skipValidation: isCI,
     }),
   react: () =>
@@ -93,14 +94,14 @@ export const convex = {
         PUBLIC_CONVEX_URL: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: getRuntimeEnv(),
+      runtimeEnv,
       skipValidation: isCI,
     }),
 }
 
 export const db = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       DATABASE_URL: z.url(),
       RUN_PRODUCTION_MIGRATIONS: z.stringbool().default(false),
@@ -110,7 +111,7 @@ export const db = () =>
 
 export const inngest = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       INNGEST_EVENT_KEY: z.string(),
       INNGEST_SIGNING_KEY: z.string(),
@@ -121,7 +122,7 @@ export const inngest = () =>
 
 export const kv = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       REDIS_URL: z.url(),
     },
@@ -130,7 +131,7 @@ export const kv = () =>
 
 export const s3 = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       S3_ACCESS_KEY_ID: z.string(),
       S3_BUCKET: z.string().optional(),
@@ -143,7 +144,7 @@ export const s3 = () =>
 
 export const resend = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       EMAIL_FROM: z.string(),
       MOCK_RESEND: z.stringbool().default(false),
@@ -160,7 +161,7 @@ export const sentry = {
         PUBLIC_SENTRY_DSN: z.string(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: getRuntimeEnv(),
+      runtimeEnv,
       skipValidation: isCI,
     }),
   expo: () =>
@@ -169,24 +170,17 @@ export const sentry = {
         EXPO_PUBLIC_SENTRY_DSN: z.string(),
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       server: {
         SENTRY_AUTH_TOKEN: z.string(),
         SENTRY_DEBUG: z.stringbool().default(false),
         SENTRY_ORG: z.string(),
         SENTRY_PROJECT: z.string(),
       },
-      // RuntimeEnvStrict: {
-      //   EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
-      //   SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
-      //   SENTRY_ORG: process.env.SENTRY_ORG,
-      //   SENTRY_PROJECT: process.env.SENTRY_PROJECT,
-      //   SENTRY_DEBUG: process.env.SENTRY_DEBUG,
-      // },
     }),
   server: () =>
     createEnv({
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       server: {
         SENTRY_AUTH_TOKEN: z.string(),
         SENTRY_DEBUG: z.stringbool().default(false),
@@ -201,7 +195,7 @@ export const sentry = {
 
 export const openai = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       OPENAI_API_KEY: z.string(),
     },
@@ -210,7 +204,7 @@ export const openai = () =>
 
 export const anthropic = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       ANTHROPIC_API_KEY: z.string(),
     },
@@ -219,7 +213,7 @@ export const anthropic = () =>
 
 export const stripe = () =>
   createEnv({
-    runtimeEnv: process.env,
+    runtimeEnv: env,
     server: {
       STRIPE_SECRET_KEY: z.string(),
       STRIPE_WEBHOOK_SECRET: z.string(),
@@ -235,7 +229,7 @@ export const posthog = {
         EXPO_PUBLIC_POSTHOG_HOST: z.url(),
       },
       clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       skipValidation: isCI,
     }),
   react: () =>
@@ -245,12 +239,12 @@ export const posthog = {
         PUBLIC_POSTHOG_HOST: z.url(),
       },
       clientPrefix: REACT_PUBLIC_ENV_PREFIX,
-      runtimeEnv: getRuntimeEnv(),
+      runtimeEnv,
       skipValidation: isCI,
     }),
   server: () =>
     createEnv({
-      runtimeEnv: process.env,
+      runtimeEnv: env,
       server: {
         POSTHOG_API_KEY: z.string(),
         POSTHOG_HOST: z.url(),
@@ -270,6 +264,6 @@ export const tauri = () =>
       TAURI_ENV_TARGET_TRIPLE: z.string().optional(),
     },
     clientPrefix: "TAURI_ENV_",
-    runtimeEnv: getRuntimeEnv(),
+    runtimeEnv,
     skipValidation: isCI,
   })

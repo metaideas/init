@@ -6,13 +6,11 @@ import { factory } from "#shared/utils.ts"
 /**
  * The Inngest workflows handler route
  *
- * This route serves Inngest workflows for background tasks.
- * Workflows should be defined separately and imported here.
+ * This route serves Inngest workflows for background tasks. Workflows should be defined separately
+ * and imported here.
  *
  * @example
- * ```ts
- * import { myWorkflow } from "./workflows/my-workflow"
- *
+ *   import { myWorkflow } from "./workflows/my-workflow"
  */
 export default factory.createApp().on(
   ["GET", "PUT", "POST"],

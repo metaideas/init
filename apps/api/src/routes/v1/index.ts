@@ -24,7 +24,7 @@ export default factory
     validator("query", z.object({ name: z.string().optional() })),
     (c) => {
       const query = c.req.valid("query")
-      return c.text(`Hello ${query?.name ?? "Hono"}!`)
+      return c.text(`Hello ${query.name ?? "Hono"}!`)
     }
   )
   .get("/me", requireSession, (c) => c.json(c.var.session.user))

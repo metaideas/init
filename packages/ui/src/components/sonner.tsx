@@ -1,4 +1,4 @@
-import { toast, Toaster as Sonner, type ToasterProps } from "sonner"
+import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { Icon } from "#components/icon.tsx"
 import { useTheme } from "#components/theme.tsx"
 
@@ -10,18 +10,18 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       icons={{
-        error: <Icon.OctagonX className="size-4" />,
-        info: <Icon.Info className="size-4" />,
-        loading: <Icon.Loader className="size-4 animate-spin" />,
         success: <Icon.CircleCheck className="size-4" />,
+        info: <Icon.Info className="size-4" />,
         warning: <Icon.TriangleAlert className="size-4" />,
+        error: <Icon.OctagonX className="size-4" />,
+        loading: <Icon.Loader className="size-4 animate-spin" />,
       }}
       style={
         {
-          "--border-radius": "var(--radius)",
           "--normal-bg": "var(--popover)",
-          "--normal-border": "var(--border)",
           "--normal-text": "var(--popover-foreground)",
+          "--normal-border": "var(--border)",
+          "--border-radius": "var(--radius)",
         } as React.CSSProperties
       }
       toastOptions={{
@@ -34,4 +34,5 @@ const Toaster = ({ ...props }: ToasterProps) => {
   )
 }
 
-export { toast, Toaster }
+export { Toaster }
+export { toast } from "sonner"

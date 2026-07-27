@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_authenticated")({
     const session = await validateSession()
 
     if (!session) {
+      // oxlint-disable-next-line typescript/only-throw-error -- TanStack Router redirects use thrown control-flow objects.
       throw redirect({ to: UNAUTHENTICATED_PATHNAME })
     }
 

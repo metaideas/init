@@ -7,13 +7,12 @@
   },
   "scripts": {
     "build": "bun --bun vite build",
-    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "dev": "bun --bun vite dev",
     "preview": "bun --bun vite preview",
-    "start": "node .output/server/index.mjs",
-    "typecheck": "tsc --noEmit"
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@init/auth": "workspace:*",
@@ -32,7 +31,7 @@
     "api": "workspace:*",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "std-env": "3.10.0",
+    "std-env": "4.2.0",
     "superjson": "2.2.6"
   },
   "devDependencies": {
@@ -53,7 +52,7 @@
     "babel-plugin-react-compiler": "^19.1.0-canary-7e86e86-20250120",
     "nitro": "3.0.1-alpha.1",
     "tailwindcss": "4.1.18",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "vite": "7.3.1"
   }
 }

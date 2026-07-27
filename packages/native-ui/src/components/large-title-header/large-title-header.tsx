@@ -33,10 +33,9 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const handleSubmitEditing = props.searchBar?.materialOnSubmitEditing
   const onChangeText = props.searchBar?.onChangeText
 
-  React.useEffect(() => {
-    if (!searchBarRef) return
-
-    searchBarRef.current = {
+  React.useImperativeHandle(
+    searchBarRef,
+    () => ({
       cancelSearch: () => {
         setShowSearchBar(false)
         setSearchValue("")
@@ -53,12 +52,9 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
         setSearchValue(text)
         onChangeText?.(text)
       },
-    }
-
-    return () => {
-      searchBarRef.current = null
-    }
-  }, [onChangeText, searchBarRef])
+    }),
+    [onChangeText]
+  )
 
   return (
     <>

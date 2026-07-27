@@ -9,14 +9,12 @@
   "scripts": {
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
+    "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "compile": "tsc --noEmit",
-    "bump:deps": "bun update --interactive",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "postinstall": "wxt prepare",
-    "typecheck": "tsc --noEmit",
     "typegen": "wxt prepare",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox"
@@ -31,7 +29,7 @@
     "@webext-core/proxy-service": "2.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "std-env": "3.10.0",
+    "std-env": "4.2.0",
     "wouter": "^3.7.1"
   },
   "devDependencies": {
@@ -44,7 +42,7 @@
     "@types/react-dom": "19.1.9",
     "@wxt-dev/auto-icons": "1.1.0",
     "@wxt-dev/module-react": "1.1.5",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "wxt": "0.20.13"
   }
 }

@@ -4,7 +4,8 @@ import { S3Client, type S3Options } from "bun"
 
 /**
  * @param bucketName - The name of the bucket to use.
- * @param options - Additional options that you can use to override the default environment variables.
+ * @param options - Additional options that you can use to override the default environment
+ *   variables.
  */
 export function createStorage(bucketName: StorageBucket, options?: S3Options) {
   const env = s3Env()
