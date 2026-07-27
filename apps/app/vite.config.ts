@@ -9,8 +9,8 @@ import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 
 // @ts-expect-error Bun resolves duplicate vite copies in its virtual store, causing plugin type mismatches
-export default defineConfig(({ mode }) => {
-  void ensureEnv(mode)
+export default defineConfig(async ({ mode }) => {
+  await ensureEnv(mode, import.meta.dirname)
 
   return {
     envPrefix: ["PUBLIC_"],

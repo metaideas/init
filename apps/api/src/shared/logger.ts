@@ -15,4 +15,4 @@ export const logger = singleton("logger:api", () =>
   )
 )
 
-export { LoggerCategory }
+export { LoggerCategory } from "@init/observability/logger"

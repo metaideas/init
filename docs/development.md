@@ -21,7 +21,6 @@ These match the root `package.json` scripts.
 | `bun run check`        | Run Adamantite checks                        |
 | `bun run fix`          | Auto-fix issues with Adamantite              |
 | `bun run format`       | Format code with Adamantite                  |
-| `bun run typecheck`    | Type-check all workspaces                    |
 | `bun run test`         | Run the test suite                           |
 | `bun run docker:up`    | Start local services                         |
 | `bun run docker:down`  | Stop local services                          |

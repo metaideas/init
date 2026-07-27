@@ -6,13 +6,13 @@ import { ensureEnv } from "@tooling/env/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
-export default defineConfig(({ mode }) => {
-  void ensureEnv(mode)
+export default defineConfig(async ({ mode }) => {
+  await ensureEnv(mode, import.meta.dirname)
   const host = process.env.TAURI_DEV_HOST
 
   return {
     build: {
-      minify: process.env.TAURI_ENV_DEBUG ? false : "esbuild",
+      minify: process.env.TAURI_ENV_DEBUG ? false : ("esbuild" as const),
       sourcemap: !!process.env.TAURI_ENV_DEBUG,
       target: process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13",
     },

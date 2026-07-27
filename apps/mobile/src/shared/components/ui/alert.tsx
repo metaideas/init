@@ -34,6 +34,21 @@ type AlertProps = {
   children?: ReactNode
 }
 
+function promptAlert(args: AlertProps & { prompt: NonNullable<AlertProps["prompt"]> }) {
+  RNAlert.prompt(
+    args.title,
+    args.message,
+    args.buttons as AlertButton[],
+    args.prompt.type,
+    args.prompt.defaultValue,
+    args.prompt.keyboardType
+  )
+}
+
+function alert(args: AlertProps) {
+  RNAlert.alert(args.title, args.message, args.buttons as AlertButton[])
+}
+
 function Alert({
   children,
   title,
@@ -48,33 +63,18 @@ function Alert({
       alert,
       prompt: promptAlert,
       show: () => {
-        onPress()
+        handlePress()
       },
     },
     ref: ref ?? null,
   })
 
-  function promptAlert(args: AlertProps & { prompt: Required<AlertProps["prompt"]> }) {
-    RNAlert.prompt(
-      args.title,
-      args.message,
-      args.buttons as AlertButton[],
-      args.prompt?.type,
-      args.prompt?.defaultValue,
-      args.prompt?.keyboardType
-    )
-  }
-
-  function alert(args: AlertProps) {
-    RNAlert.alert(args.title, args.message, args.buttons as AlertButton[])
-  }
-
-  function onPress() {
+  function handlePress() {
     if (prompt) {
       promptAlert({
         buttons,
         message,
-        prompt: prompt as Required<AlertProps["prompt"]>,
+        prompt,
         title,
       })
       return
@@ -85,7 +85,7 @@ function Alert({
   const Component = children ? Slot.Pressable : Pressable
 
   return (
-    <Component onPress={onPress} ref={augmentedRef}>
+    <Component onPress={handlePress} ref={augmentedRef}>
       {children}
     </Component>
   )

@@ -14,8 +14,8 @@ export default defineConfig({
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
   srcDir: "src",
-  vite: ({ mode }) => {
-    void ensureEnv(mode)
+  vite: async ({ mode }) => {
+    await ensureEnv(mode, import.meta.dirname)
 
     return {
       plugins: [

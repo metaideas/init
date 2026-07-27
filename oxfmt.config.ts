@@ -1,0 +1,38 @@
+import format from "adamantite/format"
+import { defineConfig } from "oxfmt"
+
+export default defineConfig({
+  ...format,
+  arrowParens: "always",
+  bracketSameLine: false,
+  bracketSpacing: true,
+  embeddedLanguageFormatting: "auto",
+  endOfLine: "lf",
+  ignorePatterns: [
+    "**/*.hbs",
+    "**/*.gen.ts",
+    "**/src/**/_generated",
+    "**/_generated/**",
+    "**/generated/**",
+    "**/.generated/**",
+    "**/src/shared/internationalization/**",
+  ],
+  insertFinalNewline: true,
+  jsxSingleQuote: false,
+  objectWrap: "preserve",
+  printWidth: 100,
+  quoteProps: "as-needed",
+  semi: false,
+  singleAttributePerLine: false,
+  singleQuote: false,
+  sortTailwindcss: {
+    attributes: ["className", "class"],
+    functions: ["cn"],
+    preserveDuplicates: false,
+    preserveWhitespace: false,
+    stylesheet: "./packages/ui/src/styles/globals.css",
+  },
+  tabWidth: 2,
+  trailingComma: "es5",
+  useTabs: false,
+})

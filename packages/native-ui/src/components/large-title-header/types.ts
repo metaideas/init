@@ -63,6 +63,7 @@ type LargeTitleHeaderProps = {
   backVisible?: boolean
   /**
    * IOS - iosBlurEffect must be set to 'none' for this to work
+   *
    * @default iOS: true | Material: false
    */
   shadowVisible?: boolean

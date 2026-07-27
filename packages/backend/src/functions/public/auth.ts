@@ -5,6 +5,6 @@ export const getCurrentUser = publicQuery
   .handler(async (ctx) => {
     const user = await authComponent.getAuthUser(ctx)
 
-    return user ?? null
+    return user
   })
   .public()

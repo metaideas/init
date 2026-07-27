@@ -8,12 +8,13 @@
     "utils": "@init/utils/ui"
   },
   "rsc": true,
-  "style": "new-york",
+  "style": "base-vega",
   "tailwind": {
     "baseColor": "neutral",
     "config": "",
-    "css": "../../packages/ui/src/styles/index.css",
+    "css": "../../packages/ui/src/styles/globals.css",
     "cssVariables": true
   },
-  "tsx": true
+  "tsx": true,
+  "iconLibrary": "lucide"
 }

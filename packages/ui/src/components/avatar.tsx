@@ -1,6 +1,7 @@
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
-import { cn } from "@init/utils/ui"
 import * as React from "react"
+
+import { cn } from "#utils"
 
 function Avatar({
   className,

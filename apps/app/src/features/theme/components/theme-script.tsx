@@ -7,8 +7,7 @@ const themeScript: string = (() => {
     if (root.classList.contains("system")) {
       root.classList.remove("system")
       const isDark = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
-      root.classList.add(isDark ? "dark" : "light")
-      root.classList.add("system")
+      root.classList.add(isDark ? "dark" : "light", "system")
     }
   }
   return `(${themeFn.toString()})();`

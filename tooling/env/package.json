@@ -6,8 +6,8 @@
     "./vite": "./src/vite.ts"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "bump:deps": "bun update --interactive"
+    "bump:deps": "bun update --interactive",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
     "jiti": "2.4.2",

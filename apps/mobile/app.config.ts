@@ -55,6 +55,9 @@ const expoConfig: ExpoConfig = {
   ],
   scheme: APP_ID,
   slug: APP_ID,
+  updates: {
+    enabled: false,
+  },
   userInterfaceStyle: "automatic",
   version: VERSION,
   web: {

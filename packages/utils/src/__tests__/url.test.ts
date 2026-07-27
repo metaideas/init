@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test"
 import { createUrlBuilder } from "#url.ts"
 
 /**
- * Compare two URLs for equality, ignoring query parameter order.
- * Query parameters are parsed and compared as sets of key-value pairs.
+ * Compare two URLs for equality, ignoring query parameter order. Query parameters are parsed and
+ * compared as sets of key-value pairs.
  */
 function expectUrlEqual(actual: string, expected: string) {
   const actualUrl = new URL(actual)
