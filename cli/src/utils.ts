@@ -1,6 +1,7 @@
 import { FileSystem } from "@effect/platform"
 import { Octokit } from "@octokit/rest"
 import { Data, Effect, Schema } from "effect"
+import { compare, valid } from "semver"
 
 export class OperationCancelled extends Data.TaggedError("OperationCancelled") {}
 export class DownloadFailed extends Data.TaggedError("DownloadFailed")<{
@@ -43,6 +44,13 @@ export class VersionCheckFailed extends Data.TaggedError("VersionCheckFailed")<{
 }
 export class NotInInitProject extends Data.TaggedError("NotInInitProject") {}
 export class WorkingTreeDirty extends Data.TaggedError("WorkingTreeDirty") {}
+export class InvalidVersion extends Data.TaggedError("InvalidVersion")<{
+  readonly version: string
+}> {
+  override get message(): string {
+    return `Invalid version: ${this.version}`
+  }
+}
 export class PackageJsonParseFailed extends Data.TaggedError("PackageJsonParseFailed")<{
   readonly cause: unknown
 }> {
@@ -75,10 +83,16 @@ export const ReleaseInfoSchema = Schema.Struct({
   body: Schema.String,
 })
 
-export type ReleaseInfo = typeof ReleaseInfoSchema.Type
-
 const TEMPLATE_VERSION_FILE = ".template-version.json"
-const VERSION_PREFIX_REGEX = /^v/
+const COMPONENT_PREFIX_REGEX = /^.*@/
+const TemplateVersionSchema = Schema.Struct({ ".": Schema.String })
+
+export const normalizeVersion = (version: string) => {
+  const normalizedVersion = valid(version.replace(COMPONENT_PREFIX_REGEX, ""))
+  return normalizedVersion
+    ? Effect.succeed(normalizedVersion)
+    : Effect.fail(new InvalidVersion({ version }))
+}
 
 export const getVersion = () =>
   Effect.gen(function* () {
@@ -88,17 +102,14 @@ export const getVersion = () =>
       return null
     }
 
-    const content = yield* fs
-      .readFileString(TEMPLATE_VERSION_FILE)
-      .pipe(Effect.catchAll(() => Effect.succeed("{}")))
-
-    try {
-      const data = JSON.parse(content) as Record<string, unknown>
-      return (data["."] as string | undefined) ?? null
-    } catch {
-      return null
-    }
-  }).pipe(Effect.catchAll(() => Effect.succeed(null)))
+    const content = yield* fs.readFileString(TEMPLATE_VERSION_FILE)
+    return yield* Effect.try(() => JSON.parse(content)).pipe(
+      Effect.flatMap(Schema.decodeUnknown(TemplateVersionSchema)),
+      Effect.flatMap((data) => normalizeVersion(data["."])),
+      Effect.map((version): string | null => version),
+      Effect.catchAll(() => Effect.succeed(null))
+    )
+  })
 
 export const getLatestRelease = () => {
   const octokit = new Octokit()
@@ -123,34 +134,32 @@ export const getLatestRelease = () => {
   )
 }
 
-export const compareVersions = (current: string, latest: string) => {
-  const currentClean = current.replace(VERSION_PREFIX_REGEX, "")
-  const latestClean = latest.replace(VERSION_PREFIX_REGEX, "")
-
-  const currentParts = currentClean.split(".").map(Number)
-  const latestParts = latestClean.split(".").map(Number)
-
-  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i += 1) {
-    const currentPart = currentParts[i] ?? 0
-    const latestPart = latestParts[i] ?? 0
-
-    if (currentPart < latestPart) {
-      return -1
-    }
-    if (currentPart > latestPart) {
-      return 1
-    }
-  }
-
-  return 0
-}
+export const compareVersions = (current: string, latest: string) =>
+  Effect.gen(function* () {
+    const currentVersion = yield* normalizeVersion(current)
+    const latestVersion = yield* normalizeVersion(latest)
+    return compare(currentVersion, latestVersion)
+  })
 
 export const updateTemplateVersion = (version: string) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem
-    const data = { ".": version }
+    const data = { ".": yield* normalizeVersion(version) }
     yield* fs.writeFileString(TEMPLATE_VERSION_FILE, `${JSON.stringify(data, null, 2)}\n`)
-  }).pipe(Effect.catchAll(() => Effect.void))
+  })
+
+export const updatePackageJson = (projectName: string, version?: string) =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem
+    const content = yield* fs.readFileString("package.json")
+    const packageJson = yield* Effect.try({
+      try: () => JSON.parse(content) as Record<string, unknown>,
+      catch: (e) => new PackageJsonParseFailed({ cause: e }),
+    })
+    packageJson.name = projectName
+    if (version) packageJson.version = version
+    yield* fs.writeFileString("package.json", `${JSON.stringify(packageJson, null, 2)}\n`)
+  })
 
 export const requireInitProject = () =>
   Effect.gen(function* () {
@@ -172,7 +181,6 @@ const EXCLUDED_DIRS = [
   ".cache",
   ".pnpm-store",
   ".yarn",
-  "scripts/template",
 ] as const
 
 const EXCLUDED_FILES = [".DS_Store"] as const

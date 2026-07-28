@@ -135,7 +135,7 @@ const checkVersionUpdates = () =>
       const latestVersion = latestRelease.tagName
 
       if (currentVersion) {
-        const comparison = compareVersions(currentVersion, latestVersion)
+        const comparison = yield* compareVersions(currentVersion, latestVersion)
         if (comparison === 0) {
           return {
             latestRelease,
