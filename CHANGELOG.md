@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/metaideas/init/compare/init@v1.2.0...init@v1.2.1) (2026-07-28)
+
+
+### Bug Fixes
+
+* update react email preview ([#106](https://github.com/metaideas/init/issues/106)) ([fa19504](https://github.com/metaideas/init/commit/fa195047b0e856d00ab626fbe1f6e0286c810eb5))
+
 ## [1.2.0](https://github.com/metaideas/init/compare/init@v1.1.0...init@v1.2.0) (2026-07-27)
 
 
