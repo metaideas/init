@@ -1,40 +1,40 @@
-import { Command, Prompt } from "@effect/cli"
-import { Console, Effect } from "effect"
+import * as Effect from "effect/Effect"
+import * as Command from "effect/unstable/cli/Command"
+import { Prompter } from "#lib/services/prompter.ts"
 import {
+  getProjectNameValidationError,
+  normalizeProjectName,
   readPackageJson,
   replaceProjectNameInProjectFiles,
-  requireInitProject,
   updatePackageJson,
-} from "#utils.ts"
+} from "#lib/shared/project.ts"
+import { requireInitProject } from "#lib/shared/releases.ts"
 
 export default Command.make("rename").pipe(
   Command.withDescription("Rename the project and update all @init references"),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n✏️  Project Rename\n")
+      yield* requireInitProject()
+      const prompter = yield* Prompter
 
-      const newProjectName = yield* Prompt.text({
-        message: "Enter your new project name",
-        default: "my-app",
-      })
-
-      const packageJson = yield* readPackageJson()
-      const currentProjectName = packageJson.name
-
-      yield* Console.log("   Updating package.json...\n")
-      yield* updatePackageJson(newProjectName)
-      yield* Console.log("✅ Package.json updated\n")
-
-      yield* Console.log("   Updating file references...\n")
-      yield* replaceProjectNameInProjectFiles(newProjectName, currentProjectName)
-      yield* Console.log("✅ References updated\n")
-
-      yield* Console.log("\n🎉 Project rename complete!\n")
-    }).pipe(
-      Effect.catchTag("PackageJsonParseFailed", (e) =>
-        Console.error(`\nFailed to parse package.json: ${e.message}`)
+      yield* prompter.intro("✏️  Project Rename")
+      const newProjectName = normalizeProjectName(
+        yield* prompter.text({
+          defaultValue: "my-app",
+          message: "Enter your new project name",
+          validate: getProjectNameValidationError,
+        })
       )
-    )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+      const packageJson = yield* readPackageJson()
+
+      yield* prompter.log.info("Updating package.json...")
+      yield* updatePackageJson(newProjectName)
+      yield* prompter.log.success("Package.json updated")
+
+      yield* prompter.log.info("Updating file references...")
+      yield* replaceProjectNameInProjectFiles(newProjectName, packageJson.name)
+      yield* prompter.log.success("References updated")
+      yield* prompter.outro("🎉 Project rename complete!")
+    })
+  )
 )

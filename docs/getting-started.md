@@ -98,7 +98,6 @@ Most workspaces require at minimum:
 - **Web**: `PUBLIC_API_URL`, `TEST_VAR`
 - **Mobile**: `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_SENTRY_DSN`
 - **Desktop**: `PUBLIC_API_URL`
-- **Extension**: `VITE_API_URL`
 
 See each workspace's `.env.template` file for the complete list of required and optional variables.
 

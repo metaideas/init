@@ -1,137 +1,69 @@
-import process from "node:process"
-import { Args, Command, Prompt } from "@effect/cli"
-import { Command as ShellCommand, FileSystem } from "@effect/platform"
-import { BunContext, BunRuntime } from "@effect/platform-bun"
-import { Console, Effect, Option } from "effect"
-import { downloadTemplate } from "giget"
+import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
+import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as Effect from "effect/Effect"
+import * as Exit from "effect/Exit"
+import * as Layer from "effect/Layer"
+import * as Runtime from "effect/Runtime"
+import * as Command from "effect/unstable/cli/Command"
+import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner"
 import addCommand from "#commands/add.ts"
 import checkCommand from "#commands/check.ts"
+import createCommand from "#commands/create.ts"
 import renameCommand from "#commands/rename.ts"
 import setupCommand from "#commands/setup.ts"
 import updateCommand from "#commands/update.ts"
-import { DownloadFailed, InstallFailed, NotInInitProject, OperationCancelled } from "#utils.ts"
-import packageJson from "../package.json" with { type: "json" }
+import { CommandRunner } from "#lib/services/command-runner.ts"
+import { Prompter } from "#lib/services/prompter.ts"
+import { ReleaseClient } from "#lib/services/release-client.ts"
+import { TemplateDownloader } from "#lib/services/template-downloader.ts"
+import { getPackageVersion } from "#lib/shared/version.macro.ts" with { type: "macro" }
 
-const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
-
-const TITLE = `
-
-            ███              ███   █████
-           ░░░              ░░░   ░░███
-           ████  ████████   ████  ███████
-          ░░███ ░░███░░███ ░░███ ░░░███░
-           ░███  ░███ ░███  ░███   ░███
-           ░███  ░███ ░███  ░███   ░███ ███
-           █████ ████ █████ █████  ░░█████
-          ░░░░░ ░░░░ ░░░░░ ░░░░░    ░░░░░
-
-`
-
-const name = Args.text({ name: "name" }).pipe(
-  Args.optional,
-  Args.withDescription("The name of the project.")
-)
-
-const main = Command.make("init-now", { name }).pipe(
-  Command.withDescription("Create a new project using the `init` template."),
-  Command.withHandler(({ name: providedName }) =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem
-
-      yield* Console.log(TITLE)
-
-      const name = yield* Prompt.text({
-        message: "What is the name of your project?",
-        default: Option.getOrElse(providedName, () => ""),
-        validate: (value: string) => {
-          const name = value.trim()
-          if (!name || name.length === 0) return Effect.fail("Project name is required.")
-
-          if (!PROJECT_NAME_REGEX.test(name)) {
-            return Effect.fail(
-              "Project name can only contain letters, numbers, hyphens, and underscores."
-            )
-          }
-
-          return Effect.succeed(name)
-        },
-      })
-
-      const directoryExists = yield* fs.stat(name).pipe(
-        Effect.map((info) => info.type === "Directory"),
-        Effect.orElseSucceed(() => false)
-      )
-
-      if (directoryExists) {
-        const shouldOverwrite = yield* Prompt.confirm({
-          message: `Directory "${name}" already exists. Do you want to overwrite it?`,
-          initial: false,
-        })
-
-        if (!shouldOverwrite) {
-          return yield* Effect.fail(new OperationCancelled())
-        }
-      }
-
-      yield* Effect.tryPromise({
-        try: () =>
-          downloadTemplate("github:metaideas/init", {
-            dir: name,
-            force: directoryExists,
-          }),
-        catch: (e) => new DownloadFailed({ cause: e }),
-      })
-
-      yield* Console.log(`\n✅ Created "${name}" using ▶︎ init.\n`)
-
-      const shouldInstall = yield* Prompt.confirm({
-        message: "Do you want to install dependencies?",
-        initial: true,
-      })
-
-      if (shouldInstall) {
-        yield* ShellCommand.make("bun", "install").pipe(
-          ShellCommand.workingDirectory(name),
-          ShellCommand.stdout("inherit"),
-          ShellCommand.stderr("inherit"),
-          ShellCommand.exitCode,
-          Effect.mapError((e) => new InstallFailed({ cause: e }))
-        )
-      } else {
-        yield* Console.log(
-          `\n   Remember to run \`cd ${name} && bun install\` to install dependencies.\n`
-        )
-      }
-
-      yield* Console.log(
-        `   Then run \`cd ${name} && init-now setup\` to initialize your project.\n`
-      )
-
-      yield* Console.log("\n🚀 Build something great!\n")
-    })
-  ),
+const main = createCommand.pipe(
   Command.withSubcommands([setupCommand, addCommand, checkCommand, renameCommand, updateCommand])
 )
 
-const cli = Command.run(main, {
-  name: "init-now",
-  version: packageJson.version,
-})
+const version = getPackageVersion()
 
-cli(process.argv).pipe(
-  Effect.catchTags({
-    QuitException: () => Console.error("\n\nOperation cancelled."),
-    OperationCancelled: () => Console.error("\n\nOperation cancelled."),
-    DownloadFailed: (e) =>
-      Console.error(`\nAn error occurred while downloading the template: ${e.message}`),
-    InstallFailed: (e) =>
-      Console.error(`\nAn error occurred while installing dependencies: ${e.message}`),
-    NotInInitProject: () =>
-      Console.error(
-        "\n\nThis command must be run inside an init project.\nMake sure a .template-version.json file exists."
-      ),
-  }),
-  Effect.tapErrorCause(Effect.logError),
-  Effect.provide(BunContext.layer),
-  BunRuntime.runMain
+const program = Command.run(main, { version }).pipe(
+  Effect.as(ChildProcessSpawner.ExitCode(0)),
+  Effect.catchTag("OperationCancelled", () =>
+    Effect.gen(function* () {
+      const prompter = yield* Prompter
+      yield* prompter.cancel("Operation cancelled.")
+      return ChildProcessSpawner.ExitCode(0)
+    })
+  ),
+  Effect.catchTag("CommandFailed", (error) =>
+    Effect.gen(function* () {
+      const prompter = yield* Prompter
+      yield* prompter.log.error(error.message)
+      return error.exitCode
+    })
+  ),
+  Effect.catch((error) =>
+    Effect.gen(function* () {
+      const prompter = yield* Prompter
+      yield* prompter.log.error(error instanceof Error ? error.message : String(error))
+      return ChildProcessSpawner.ExitCode(1)
+    })
+  ),
+  Effect.provide(
+    Layer.mergeAll(
+      NodeServices.layer,
+      Prompter.layer,
+      CommandRunner.layer,
+      ReleaseClient.layer,
+      TemplateDownloader.layer
+    )
+  )
 )
+
+NodeRuntime.runMain(program, {
+  teardown: (exit, onExit) => {
+    if (Exit.isSuccess(exit)) {
+      onExit(Number(exit.value))
+      return
+    }
+    Runtime.defaultTeardown(exit, onExit)
+  },
+})

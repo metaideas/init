@@ -2,9 +2,14 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { BunContext } from "@effect/platform-bun"
-import { Effect } from "effect"
-import { compareVersions, getVersion, normalizeVersion, updateTemplateVersion } from "#utils.ts"
+import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as Effect from "effect/Effect"
+import {
+  compareVersions,
+  getVersion,
+  normalizeVersion,
+  updateTemplateVersion,
+} from "#lib/shared/releases.ts"
 
 const originalWorkingDirectory = process.cwd()
 let temporaryDirectory: string | undefined
@@ -34,9 +39,8 @@ describe("compareVersions", () => {
   })
 
   test("rejects non-numeric versions", async () => {
-    await expect(Effect.runPromise(compareVersions("init@latest", "1.1.0"))).rejects.toThrow(
-      "Invalid version"
-    )
+    const error = await Effect.runPromise(Effect.flip(compareVersions("init@latest", "1.1.0")))
+    expect(error.message).toContain("Invalid version")
   })
 })
 
@@ -58,9 +62,21 @@ describe("getVersion", () => {
     process.chdir(temporaryDirectory)
     await writeFile(".template-version.json", '{".":"init@v1.1.0"}\n')
 
-    const version = await Effect.runPromise(getVersion().pipe(Effect.provide(BunContext.layer)))
+    const version = await Effect.runPromise(getVersion().pipe(Effect.provide(NodeServices.layer)))
 
     expect(version).toBe("1.1.0")
+  })
+
+  test("propagates malformed version manifests", async () => {
+    temporaryDirectory = await mkdtemp(join(tmpdir(), "init-now-utils-"))
+    process.chdir(temporaryDirectory)
+    await writeFile(".template-version.json", "not json\n")
+
+    const error = await Effect.runPromise(
+      Effect.flip(getVersion().pipe(Effect.provide(NodeServices.layer)))
+    )
+
+    expect(String(error)).toContain("JSON Parse error")
   })
 })
 
@@ -70,7 +86,7 @@ describe("updateTemplateVersion", () => {
     process.chdir(temporaryDirectory)
 
     await Effect.runPromise(
-      updateTemplateVersion("init@v2.0.0").pipe(Effect.provide(BunContext.layer))
+      updateTemplateVersion("init@v2.0.0").pipe(Effect.provide(NodeServices.layer))
     )
 
     const content = await readFile(".template-version.json", "utf8")
@@ -78,8 +94,9 @@ describe("updateTemplateVersion", () => {
   })
 
   test("propagates invalid versions", async () => {
-    await expect(
-      Effect.runPromise(updateTemplateVersion("latest").pipe(Effect.provide(BunContext.layer)))
-    ).rejects.toThrow("Invalid version")
+    const error = await Effect.runPromise(
+      Effect.flip(updateTemplateVersion("latest").pipe(Effect.provide(NodeServices.layer)))
+    )
+    expect(error.message).toContain("Invalid version")
   })
 })

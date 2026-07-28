@@ -24,7 +24,7 @@ Fix (agreed direction):
 ## 3. Dead/broken env modules
 
 - `apps/web/src/shared/env.ts`: never imported and contains a literal `TEST_VAR` placeholder. Either wire it into `astro.config.ts` via `@tooling/env`'s `ensureEnv` (like other apps) with real vars, or delete the file until web has env needs. Prefer wiring it — env validation is a claimed template feature.
-- `apps/extension/src/shared/env.ts`: never imported, validates `VITE_API_URL` while sibling apps use `PUBLIC_API_URL`, and `runtimeEnv: process.env` cannot see Vite client env at runtime. Fix all three: consistent `PUBLIC_` prefix (WXT supports `import.meta.env`), correct runtimeEnv source, and import it from `wxt.config.ts`/entrypoints.
+- `apps/extension/src/shared/env.ts`: keep the `ensureEnv` wiring and an empty schema as the standard validation seam, but remove the API URL and `.env.template`; the extension has no environment variables or API integration by default.
 
 ## 4. Placeholder & dead-weight cleanup
 

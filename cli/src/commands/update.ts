@@ -1,301 +1,252 @@
 import { dirname, join } from "node:path"
 import process from "node:process"
-import { Command } from "@effect/cli"
-import { Command as ShellCommand, FileSystem } from "@effect/platform"
-import { Console, Effect } from "effect"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Command from "effect/unstable/cli/Command"
+import {
+  CommandRunner,
+  getCommandOutput,
+  requireTool,
+  runCommand,
+} from "#lib/services/command-runner.ts"
+import { Prompter } from "#lib/services/prompter.ts"
+import { ReleaseClient } from "#lib/services/release-client.ts"
+import { CommandFailed, WorkingTreeDirty } from "#lib/shared/errors.ts"
+import { checkIsInternalPath } from "#lib/shared/internal-paths.ts"
 import {
   compareVersions,
-  getLatestRelease,
   getVersion,
-  GitCloneFailed,
   requireInitProject,
+  type ReleaseInfo,
   updateTemplateVersion,
-  WorkingTreeDirty,
-} from "#utils.ts"
+} from "#lib/shared/releases.ts"
 
 const TEMP_DIR = ".template-sync-tmp"
 const REMOTE_URL = "https://github.com/metaideas/init.git"
 
 const cloneTemplate = () =>
-  ShellCommand.make("git", "clone", REMOTE_URL, TEMP_DIR, "--depth", "1", "--quiet").pipe(
-    ShellCommand.exitCode,
-    Effect.mapError((e) => new GitCloneFailed({ cause: e }))
-  )
+  runCommand({
+    args: ["clone", REMOTE_URL, TEMP_DIR, "--depth", "1", "--quiet"],
+    command: "git",
+  })
 
-const getTemplateFiles = () =>
-  ShellCommand.make("git", "-C", TEMP_DIR, "ls-files").pipe(
-    ShellCommand.string,
+const getGitFiles = (args: string[]) =>
+  getCommandOutput({ args, command: "git" }).pipe(
     Effect.map((output) => output.split("\n").filter(Boolean))
   )
 
-const getLocalFiles = () =>
-  ShellCommand.make("git", "ls-files").pipe(
-    ShellCommand.string,
-    Effect.map((output) => output.split("\n").filter(Boolean))
+export const getFileDiff = Effect.fn("getFileDiff")(function* (
+  localFiles: string[],
+  templateFiles: string[]
+) {
+  const runner = yield* CommandRunner
+  const fileChecks = yield* Effect.forEach(
+    templateFiles.filter((file) => !checkIsInternalPath(file)),
+    (file) =>
+      Effect.gen(function* () {
+        const isNew = !localFiles.includes(file)
+        if (isNew) return { file, hasLocalChanges: false, isNew }
+
+        const exitCode = yield* runner.run({
+          args: ["diff", "--quiet", "HEAD", "--", file],
+          command: "git",
+          stderr: "ignore",
+          stdout: "ignore",
+        })
+        if (Number(exitCode) > 1) {
+          return yield* Effect.fail(new CommandFailed({ command: "git", exitCode }))
+        }
+        return { file, hasLocalChanges: Number(exitCode) === 1, isNew }
+      }),
+    { concurrency: 10 }
   )
 
-const getFileDiff = (localFiles: string[], templateFiles: string[]) =>
-  Effect.gen(function* () {
-    const fileChecks = yield* Effect.forEach(
-      templateFiles,
-      (file) =>
-        Effect.gen(function* () {
-          const isNew = !localFiles.includes(file)
-          const hasLocalChanges = isNew
-            ? false
-            : yield* ShellCommand.make("git", "diff", "--quiet", "HEAD", "--", file).pipe(
-                ShellCommand.exitCode,
-                Effect.map(() => false),
-                Effect.catchAll(() => Effect.succeed(true))
-              )
+  return {
+    filesToUpdate: fileChecks
+      .filter(({ hasLocalChanges, isNew }) => !isNew && !hasLocalChanges)
+      .map(({ file }) => file),
+    newFiles: fileChecks.filter(({ isNew }) => isNew).map(({ file }) => file),
+  }
+})
 
-          return { file, hasLocalChanges, isNew }
-        }),
-      { concurrency: 10 }
-    )
-
-    const filesToUpdate: string[] = []
-    const newFiles: string[] = []
-
-    for (const { file, isNew, hasLocalChanges } of fileChecks) {
-      if (isNew) {
-        newFiles.push(file)
-      } else if (!hasLocalChanges) {
-        filesToUpdate.push(file)
-      }
-    }
-
-    return { filesToUpdate, newFiles }
-  })
-
-const copyFiles = (files: string[]) =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    yield* Effect.forEach(
-      files,
-      (file) =>
-        Effect.gen(function* () {
-          const source = join(TEMP_DIR, file)
-          const dest = join(process.cwd(), file)
-
-          const dir = dirname(dest)
-          const dirExists = yield* fs.exists(dir)
-          if (!dirExists) {
-            yield* fs.makeDirectory(dir, { recursive: true }).pipe(Effect.orElse(() => Effect.void))
-          }
-
-          const sourceContent = yield* fs.readFile(source)
-          yield* fs.writeFile(dest, sourceContent).pipe(Effect.orElse(() => Effect.void))
-        }),
-      { concurrency: 10, discard: true }
-    )
-  })
-
-const getExistingWorkspaceNames = (workspaceRoot: "apps" | "packages") =>
-  ShellCommand.make(
-    "sh",
-    "-c",
-    `for dir in ${workspaceRoot}/*/; do [ -d "$dir" ] && basename "$dir"; done`
-  ).pipe(
-    ShellCommand.string,
-    Effect.map((output) => new Set(output.split("\n").filter(Boolean))),
-    Effect.catchAll(() => Effect.succeed(new Set()))
+const copyFiles = Effect.fn("copyFiles")(function* (files: string[]) {
+  const fs = yield* FileSystem.FileSystem
+  yield* Effect.forEach(
+    files,
+    (file) =>
+      Effect.gen(function* () {
+        const destination = join(process.cwd(), file)
+        yield* fs.makeDirectory(dirname(destination), { recursive: true })
+        yield* fs.writeFile(destination, yield* fs.readFile(join(TEMP_DIR, file)))
+      }),
+    { concurrency: 10, discard: true }
   )
+})
 
-const filterNewFilesForExistingWorkspaces = (newFiles: string[]) =>
-  Effect.gen(function* () {
+const getExistingWorkspaceNames = Effect.fn("getExistingWorkspaceNames")(function* (
+  workspaceRoot: "apps" | "packages"
+) {
+  const fs = yield* FileSystem.FileSystem
+  if (!(yield* fs.exists(workspaceRoot))) return new Set<string>()
+  return new Set(yield* fs.readDirectory(workspaceRoot))
+})
+
+const filterNewFilesForExistingWorkspaces = Effect.fn("filterNewFilesForExistingWorkspaces")(
+  function* (newFiles: string[]) {
     const [existingApps, existingPackages] = yield* Effect.all(
       [getExistingWorkspaceNames("apps"), getExistingWorkspaceNames("packages")],
       { concurrency: 2 }
     )
 
     return newFiles.filter((filePath) => {
-      if (filePath.startsWith("apps/")) {
-        const parts = filePath.split("/")
-        const appName = parts[1]
-        return appName !== undefined && existingApps.has(appName)
-      }
-      if (filePath.startsWith("packages/")) {
-        const parts = filePath.split("/")
-        const packageName = parts[1]
-        return packageName !== undefined && existingPackages.has(packageName)
+      if (checkIsInternalPath(filePath)) return false
+      const [root, workspaceName] = filePath.split("/")
+      if (root === "apps") return workspaceName !== undefined && existingApps.has(workspaceName)
+      if (root === "packages") {
+        return workspaceName !== undefined && existingPackages.has(workspaceName)
       }
       return true
     })
+  }
+)
+
+const checkVersionUpdates = Effect.fn("checkVersionUpdates")(function* () {
+  const releases = yield* ReleaseClient
+  const [currentVersion, latestRelease] = yield* Effect.all([getVersion(), releases.getLatest()], {
+    concurrency: 2,
   })
+  const latestVersion = latestRelease.tagName
 
-const checkVersionUpdates = () =>
-  Effect.gen(function* () {
-    const currentVersion = yield* getVersion()
-    const latestRelease = yield* getLatestRelease().pipe(
-      Effect.catchAll(() => Effect.succeed(null))
-    )
-
-    if (latestRelease) {
-      const latestVersion = latestRelease.tagName
-
-      if (currentVersion) {
-        const comparison = yield* compareVersions(currentVersion, latestVersion)
-        if (comparison === 0) {
-          return {
-            latestRelease,
-            message: `Already up to date (${currentVersion})`,
-            shouldExit: true,
-          }
-        }
-        if (comparison > 0) {
-          return {
-            latestRelease,
-            shouldExit: false,
-            warning: `Local version (${currentVersion}) is newer than latest release (${latestVersion})`,
-          }
-        }
-        const releaseNotes = latestRelease.body ? `\nRelease notes:\n${latestRelease.body}` : ""
-        return {
-          latestRelease,
-          message: `Update available: ${currentVersion} → ${latestVersion}${releaseNotes}`,
-          shouldExit: false,
-        }
-      }
-      return {
-        latestRelease,
-        message: `Latest version available: ${latestVersion}`,
-        shouldExit: false,
-      }
-    }
+  if (!currentVersion) {
     return {
-      latestRelease: null,
+      latestRelease,
+      message: `Latest version available: ${latestVersion}`,
       shouldExit: false,
-      warning: "No template releases found, proceeding with latest main branch",
     }
-  })
+  }
 
-const verifyCleanWorkingTree = () =>
-  Effect.gen(function* () {
-    const hasChanges = yield* checkForUncommittedChanges()
-    if (hasChanges) {
-      yield* Effect.fail(new WorkingTreeDirty())
+  const comparison = yield* compareVersions(currentVersion, latestVersion)
+  if (comparison === 0) {
+    return {
+      latestRelease,
+      message: `Already up to date (${currentVersion})`,
+      shouldExit: true,
     }
-  })
-
-const setupTempDirectory = () =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const exists = yield* fs.exists(TEMP_DIR)
-    if (exists) {
-      yield* fs.remove(TEMP_DIR, { recursive: true }).pipe(Effect.orElse(() => Effect.void))
+  }
+  if (comparison > 0) {
+    return {
+      latestRelease,
+      shouldExit: false,
+      warning: `Local version (${currentVersion}) is newer than latest release (${latestVersion})`,
     }
-    yield* fs.makeDirectory(TEMP_DIR, { recursive: true }).pipe(Effect.orElse(() => Effect.void))
-  })
+  }
 
-const cloneAndAnalyze = () =>
-  Effect.gen(function* () {
-    yield* cloneTemplate()
-
-    const [localFiles, templateFiles] = yield* Effect.all([getLocalFiles(), getTemplateFiles()], {
-      concurrency: 2,
-    })
-
-    const { filesToUpdate, newFiles } = yield* getFileDiff(localFiles, templateFiles)
-
-    return { filesToUpdate, newFiles }
-  })
-
-const applyChanges = (filesToCopy: string[], latestRelease: { tagName: string } | null) =>
-  Effect.gen(function* () {
-    const uniqueFilesToCopy = Array.from(new Set(filesToCopy))
-    yield* copyFiles(uniqueFilesToCopy)
-
-    yield* ShellCommand.make("git", "add", ".").pipe(
-      ShellCommand.exitCode,
-      Effect.orElse(() => Effect.void)
-    )
-
-    if (latestRelease) {
-      yield* updateTemplateVersion(latestRelease.tagName)
-      yield* ShellCommand.make("git", "add", ".template-version.json").pipe(
-        ShellCommand.exitCode,
-        Effect.orElse(() => Effect.void)
-      )
-    }
-  })
+  const releaseNotes = latestRelease.body ? `\nRelease notes:\n${latestRelease.body}` : ""
+  return {
+    latestRelease,
+    message: `Update available: ${currentVersion} → ${latestVersion}${releaseNotes}`,
+    shouldExit: false,
+  }
+})
 
 const checkForUncommittedChanges = () =>
-  ShellCommand.make("git", "status", "--porcelain").pipe(
-    ShellCommand.string,
-    Effect.map((status) => status.length > 0),
-    Effect.catchAll(() => Effect.succeed(false))
+  getCommandOutput({ args: ["status", "--porcelain"], command: "git" }).pipe(
+    Effect.map((status) => status.length > 0)
   )
 
-const cleanupTempDirectory = () =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const exists = yield* fs.exists(TEMP_DIR)
-    if (exists) {
-      yield* fs.remove(TEMP_DIR, { recursive: true }).pipe(Effect.orElse(() => Effect.void))
-    }
-  }).pipe(Effect.orElse(() => Effect.void))
+const verifyCleanWorkingTree = Effect.fn("verifyCleanWorkingTree")(function* () {
+  if (yield* checkForUncommittedChanges()) return yield* Effect.fail(new WorkingTreeDirty())
+})
+
+const setupTempDirectory = Effect.fn("setupTempDirectory")(function* () {
+  const fs = yield* FileSystem.FileSystem
+  yield* fs.remove(TEMP_DIR, { force: true, recursive: true })
+  yield* fs.makeDirectory(TEMP_DIR, { recursive: true })
+})
+
+const cloneAndAnalyze = Effect.fn("cloneAndAnalyze")(function* () {
+  yield* cloneTemplate()
+  const [localFiles, templateFiles] = yield* Effect.all(
+    [getGitFiles(["ls-files"]), getGitFiles(["-C", TEMP_DIR, "ls-files"])],
+    { concurrency: 2 }
+  )
+  return yield* getFileDiff(localFiles, templateFiles)
+})
+
+const applyChanges = Effect.fn("applyChanges")(function* (
+  filesToCopy: string[],
+  latestRelease: ReleaseInfo
+) {
+  const uniqueFilesToCopy = [...new Set(filesToCopy)]
+  yield* copyFiles(uniqueFilesToCopy)
+  if (uniqueFilesToCopy.length > 0) {
+    yield* runCommand({ args: ["add", "--", ...uniqueFilesToCopy], command: "git" })
+  }
+
+  yield* updateTemplateVersion(latestRelease.tagName)
+  yield* runCommand({ args: ["add", ".template-version.json"], command: "git" })
+})
+
+const cleanupTempDirectory = Effect.fn("cleanupTempDirectory")(function* () {
+  const fs = yield* FileSystem.FileSystem
+  yield* fs.remove(TEMP_DIR, { force: true, recursive: true })
+})
 
 export default Command.make("update").pipe(
   Command.withDescription("Sync with template updates"),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n🔄 Template Synchronization\n")
+      yield* requireInitProject()
+      yield* requireTool("git")
+      const prompter = yield* Prompter
 
-      yield* Console.log("   Checking for template updates...\n")
+      yield* prompter.intro("🔄 Template Synchronization")
+      yield* prompter.log.info("Checking for template updates...")
       const { shouldExit, latestRelease, message, warning } = yield* checkVersionUpdates()
 
-      if (message) {
-        if (message.includes("Already up to date")) {
-          const versionMatch = message.match(/\(([^)]+)\)/)
-          const version = versionMatch ? versionMatch[1] : ""
-          yield* Console.log(`✅ Already up to date (${version})\n`)
-        } else {
-          yield* Console.log(`${message}\n`)
-        }
-      }
-      if (warning) {
-        yield* Console.log(`⚠️  ${warning}\n`)
-      }
+      if (message) yield* prompter.log.info(message)
+      if (warning) yield* prompter.log.warning(warning)
       if (shouldExit) {
+        yield* prompter.outro("✅ Template is already up to date.")
         return
       }
 
-      yield* Console.log("   Checking for uncommitted changes...\n")
+      yield* prompter.log.info("Checking for uncommitted changes...")
       yield* verifyCleanWorkingTree()
-      yield* Console.log("✅ Working directory clean\n")
+      yield* prompter.log.success("Working directory clean")
 
-      yield* Console.log("   Setting up temporary directory...\n")
+      yield* prompter.log.info("Setting up temporary directory...")
       yield* setupTempDirectory()
-      yield* Console.log("✅ Temporary directory created\n")
+      yield* prompter.log.success("Temporary directory created")
 
-      yield* Console.log("   Cloning template repository...\n")
+      yield* prompter.log.info("Cloning template repository...")
       const { filesToUpdate, newFiles } = yield* cloneAndAnalyze()
-      yield* Console.log("✅ Template repository cloned\n")
+      yield* prompter.log.success("Template repository cloned")
 
-      const allowedNewFiles = yield* filterNewFilesForExistingWorkspaces(newFiles)
-      const filesToCopy = [...filesToUpdate, ...allowedNewFiles]
-
+      const filesToCopy = [
+        ...filesToUpdate.filter((file) => !checkIsInternalPath(file)),
+        ...(yield* filterNewFilesForExistingWorkspaces(newFiles)),
+      ]
       if (filesToCopy.length === 0) {
-        yield* Console.log("\n✅ No updates to apply - already up to date\n")
-        return
+        yield* prompter.log.success("No file updates to apply")
       }
 
-      yield* Console.log("   Applying template changes...\n")
+      yield* prompter.log.info("Applying template changes...")
       yield* applyChanges(filesToCopy, latestRelease)
-      yield* Console.log("✅ Template changes applied\n")
-
-      yield* Console.log("✅ Changes staged\n")
-      yield* Console.log("   Please review the changes and commit them to your repository.\n")
-      yield* Console.log("\n🎉 Template sync completed successfully!\n")
+      yield* prompter.log.success("Template changes applied and staged")
+      yield* prompter.log.info("Please review the changes and commit them to your repository.")
+      yield* prompter.outro("🎉 Template sync completed successfully!")
     }).pipe(
-      Effect.catchTags({
-        GitCloneFailed: (e) =>
-          Console.error(`\nAn error occurred while cloning template repository: ${e.message}`),
-        WorkingTreeDirty: () => Console.error("\n\nPlease commit or stash changes before syncing"),
-      }),
-      Effect.ensuring(cleanupTempDirectory())
+      Effect.ensuring(
+        cleanupTempDirectory().pipe(
+          Effect.catch((error) =>
+            Effect.gen(function* () {
+              const cleanupPrompter = yield* Prompter
+              yield* cleanupPrompter.log.warning(`Failed to clean up ${TEMP_DIR}: ${String(error)}`)
+            })
+          )
+        )
+      )
     )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+  )
 )
