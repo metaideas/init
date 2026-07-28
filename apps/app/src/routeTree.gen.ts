@@ -9,20 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as ApiTestRouteImport } from './routes/api/test'
-import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
-import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
 import { Route as UnauthenticatedForgotPasswordRouteImport } from './routes/_unauthenticated/forgot-password'
+import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
+import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
+import { Route as ApiTestRouteImport } from './routes/api/test'
 
-const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
-  id: '/_unauthenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
+  id: '/_unauthenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -30,41 +30,41 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiTestRoute = ApiTestRouteImport.update({
-  id: '/api/test',
-  path: '/api/test',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UnauthenticatedSignUpRoute = UnauthenticatedSignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => UnauthenticatedRouteRoute,
-} as any)
-const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => UnauthenticatedRouteRoute,
-} as any)
 const UnauthenticatedForgotPasswordRoute =
   UnauthenticatedForgotPasswordRouteImport.update({
     id: '/forgot-password',
     path: '/forgot-password',
     getParentRoute: () => UnauthenticatedRouteRoute,
   } as any)
+const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => UnauthenticatedRouteRoute,
+} as any)
+const UnauthenticatedSignUpRoute = UnauthenticatedSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => UnauthenticatedRouteRoute,
+} as any)
+const ApiTestRoute = ApiTestRouteImport.update({
+  id: '/api/test',
+  path: '/api/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedIndexRoute
   '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
   '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
-  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthenticatedIndexRoute
   '/forgot-password': typeof UnauthenticatedForgotPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
   '/sign-up': typeof UnauthenticatedSignUpRoute
   '/api/test': typeof ApiTestRoute
-  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,9 +78,9 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
+  fullPaths: '/' | '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test'
   fileRoutesByTo: FileRoutesByTo
-  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test' | '/'
+  to: '/' | '/forgot-password' | '/sign-in' | '/sign-up' | '/api/test'
   id:
     | '__root__'
     | '/_authenticated'
@@ -100,18 +100,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_unauthenticated': {
-      id: '/_unauthenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof UnauthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_unauthenticated': {
+      id: '/_unauthenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof UnauthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -121,18 +121,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/test': {
-      id: '/api/test'
-      path: '/api/test'
-      fullPath: '/api/test'
-      preLoaderRoute: typeof ApiTestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_unauthenticated/sign-up': {
-      id: '/_unauthenticated/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof UnauthenticatedSignUpRouteImport
+    '/_unauthenticated/forgot-password': {
+      id: '/_unauthenticated/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof UnauthenticatedForgotPasswordRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
     '/_unauthenticated/sign-in': {
@@ -142,12 +135,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthenticatedSignInRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
     }
-    '/_unauthenticated/forgot-password': {
-      id: '/_unauthenticated/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof UnauthenticatedForgotPasswordRouteImport
+    '/_unauthenticated/sign-up': {
+      id: '/_unauthenticated/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof UnauthenticatedSignUpRouteImport
       parentRoute: typeof UnauthenticatedRouteRoute
+    }
+    '/api/test': {
+      id: '/api/test'
+      path: '/api/test'
+      fullPath: '/api/test'
+      preLoaderRoute: typeof ApiTestRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
