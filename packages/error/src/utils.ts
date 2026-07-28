@@ -11,7 +11,7 @@ export class InvalidDurationFormatInputError extends Faultier.Tagged(
 )() {}
 
 export class AssertUnreachableError extends Faultier.Tagged("AssertUnreachableError")<{
-  value: unknown
+  value: string
 }>() {}
 
 export class AssertConditionFailedError extends Faultier.Tagged("AssertConditionFailedError")<{
