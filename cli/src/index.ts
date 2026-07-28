@@ -10,6 +10,7 @@ import renameCommand from "#commands/rename.ts"
 import setupCommand from "#commands/setup.ts"
 import updateCommand from "#commands/update.ts"
 import { DownloadFailed, InstallFailed, NotInInitProject, OperationCancelled } from "#utils.ts"
+import packageJson from "../package.json" with { type: "json" }
 
 const PROJECT_NAME_REGEX = /^[a-z0-9-_]+$/i
 
@@ -73,7 +74,11 @@ const main = Command.make("init-now", { name }).pipe(
       }
 
       yield* Effect.tryPromise({
-        try: () => downloadTemplate("github:metaideas/init", { dir: name }),
+        try: () =>
+          downloadTemplate("github:metaideas/init", {
+            dir: name,
+            force: directoryExists,
+          }),
         catch: (e) => new DownloadFailed({ cause: e }),
       })
 
@@ -110,7 +115,7 @@ const main = Command.make("init-now", { name }).pipe(
 
 const cli = Command.run(main, {
   name: "init-now",
-  version: "2.0.0",
+  version: packageJson.version,
 })
 
 cli(process.argv).pipe(

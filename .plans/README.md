@@ -4,20 +4,20 @@ Plans for evolving the `init` template monorepo and its `init-now` CLI. Each pla
 
 ## Plans
 
-| #   | Plan                                                                         | Depends on           | Size |
-| --- | ---------------------------------------------------------------------------- | -------------------- | ---- |
-| 01  | [CLI correctness fixes](01-cli-correctness-fixes.md)                         | —                    | S    |
-| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md)       | —                    | M    |
-| 03  | [App hygiene](03-app-hygiene.md)                                             | —                    | M    |
-| 04  | [CLI manifest & setup rework](04-cli-manifest-and-setup.md)                  | 01, 02, 09           | L    |
-| 05  | [Convex backend example & conventions](05-convex-backend-example.md)         | 02                   | S    |
-| 06  | [Update command rework](06-update-command-rework.md)                         | 01, 04, 09           | L    |
-| 07  | [Registry (init.now)](07-registry.md)                                        | 02, 04, 10           | L    |
-| 08  | [CLI release automation](08-cli-release-automation.md)                       | 01, 09               | S    |
-| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)            | 01                   | L    |
-| 10  | [init.now marketing site](10-marketing-site.md)                              | —                    | M    |
-| 11  | [`bun create init-now` support](11-bun-create-support.md)                    | 08, 09               | S    |
-| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 02 (soft), 05 (soft) | M    |
+| #   | Plan                                                                         | Depends on           | Size | Status  |
+| --- | ---------------------------------------------------------------------------- | -------------------- | ---- | ------- |
+| 01  | [CLI correctness fixes](01-cli-correctness-fixes.md)                         | —                    | S    | Done    |
+| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md)       | —                    | M    | Pending |
+| 03  | [App hygiene](03-app-hygiene.md)                                             | —                    | M    | Pending |
+| 04  | [CLI manifest & setup rework](04-cli-manifest-and-setup.md)                  | 01, 02, 09           | L    | Pending |
+| 05  | [Convex backend example & conventions](05-convex-backend-example.md)         | 02                   | S    | Pending |
+| 06  | [Update command rework](06-update-command-rework.md)                         | 01, 04, 09           | L    | Pending |
+| 07  | [Registry (init.now)](07-registry.md)                                        | 02, 04, 10           | L    | Pending |
+| 08  | [CLI release automation](08-cli-release-automation.md)                       | 01, 09               | S    | Pending |
+| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)            | 01                   | L    | Pending |
+| 10  | [init.now marketing site](10-marketing-site.md)                              | —                    | M    | Pending |
+| 11  | [`bun create init-now` support](11-bun-create-support.md)                    | 08, 09               | S    | Pending |
+| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 02 (soft), 05 (soft) | M    | Pending |
 
 01, 02, 03, and 10 can run in parallel. 09 follows 01 and precedes the CLI feature work (04, 06, 08) so new code is written against Effect v4 and passes the CLI's own adamantite checks/CI. 06 builds on 04's manifest. 07 is last — it consumes the "registry backlog" items that 02/03 remove from the template and is hosted on the site built in 10.
 

@@ -21,11 +21,6 @@ export default Command.make("check").pipe(
         { concurrency: 2 }
       )
 
-      if (!latestRelease) {
-        yield* Console.log("⚠️  No template releases found\n")
-        return
-      }
-
       const latestVersion = latestRelease.tagName
 
       yield* Console.log(`   Current: ${currentVersion ?? "Unknown"}`)
@@ -38,7 +33,7 @@ export default Command.make("check").pipe(
         return
       }
 
-      const comparison = compareVersions(currentVersion, latestVersion)
+      const comparison = yield* compareVersions(currentVersion, latestVersion)
 
       if (comparison === 0) {
         yield* Console.log("✅ Template is up to date!\n")

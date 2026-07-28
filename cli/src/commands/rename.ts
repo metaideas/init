@@ -1,24 +1,11 @@
 import { Command, Prompt } from "@effect/cli"
-import { FileSystem } from "@effect/platform"
 import { Console, Effect } from "effect"
 import {
-  PackageJsonParseFailed,
   readPackageJson,
   replaceProjectNameInProjectFiles,
   requireInitProject,
+  updatePackageJson,
 } from "#utils.ts"
-
-const updatePackageJson = (projectName: string) =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const content = yield* fs.readFileString("package.json")
-    const packageJson = yield* Effect.try({
-      try: () => JSON.parse(content) as Record<string, unknown>,
-      catch: (e) => new PackageJsonParseFailed({ cause: e }),
-    })
-    packageJson.name = projectName
-    yield* fs.writeFileString("package.json", `${JSON.stringify(packageJson, null, 2)}\n`)
-  })
 
 export default Command.make("rename").pipe(
   Command.withDescription("Rename the project and update all @init references"),

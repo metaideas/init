@@ -8,6 +8,7 @@ import {
   InstallFailed,
   replaceProjectNameInProjectFiles,
   requireInitProject,
+  updatePackageJson,
 } from "#utils.ts"
 import { workspaces } from "#workspaces.ts"
 
@@ -37,18 +38,6 @@ const removeUnselectedWorkspaces = (apps: string[], packages: string[]) =>
       (path) => fs.remove(path, { recursive: true }).pipe(Effect.orElse(() => Effect.void)),
       { concurrency: 10, discard: true }
     )
-  })
-
-const updatePackageJson = (projectName: string) =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const content = yield* fs.readFileString("package.json")
-
-    const updated = content
-      .replace(/"name":\s*"init"/, `"name": "${projectName}"`)
-      .replace(/"version":\s*"[^"]*"/, `"version": "0.0.1"`)
-
-    yield* fs.writeFileString("package.json", updated)
   })
 
 const setupEnvironmentVariables = (paths: string[]) =>
@@ -98,7 +87,9 @@ const cleanupInternalFiles = () =>
     const filesToRemove = [
       "release-please-config.json",
       ".github/workflows/release.yml",
-      "__tests__",
+      ".github/workflows/opencode.yml",
+      ".github/workflows/cli.yml",
+      ".plans",
       "cli",
     ]
 
@@ -165,15 +156,13 @@ export default Command.make("setup").pipe(
         })),
       })
 
-      const packages = selectedPackages
-
       yield* Console.log("   Removing unselected workspaces...\n")
-      yield* removeUnselectedWorkspaces(apps, packages)
+      yield* removeUnselectedWorkspaces(apps, selectedPackages)
       yield* Console.log("✅ Workspaces removed\n")
 
       if (projectName !== "init") {
         yield* Console.log("   Updating package.json...\n")
-        yield* updatePackageJson(projectName)
+        yield* updatePackageJson(projectName, "0.0.1")
         yield* Console.log("✅ Package.json updated\n")
 
         yield* Console.log("   Updating file references...\n")
@@ -184,7 +173,7 @@ export default Command.make("setup").pipe(
       yield* Console.log("   Setting up environment files...\n")
       yield* setupEnvironmentVariables([
         ...apps.map((app) => `apps/${app}`),
-        ...packages.map((pkg) => `packages/${pkg}`),
+        ...selectedPackages.map((pkg) => `packages/${pkg}`),
       ])
       yield* Console.log("✅ Environment files setup complete\n")
 
