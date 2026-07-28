@@ -1,5 +1,5 @@
-import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
-import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as BunRuntime from "@effect/platform-bun/BunRuntime"
+import * as BunServices from "@effect/platform-bun/BunServices"
 import * as Effect from "effect/Effect"
 import * as Exit from "effect/Exit"
 import * as Layer from "effect/Layer"
@@ -24,6 +24,13 @@ const main = createCommand.pipe(
 
 const version = getPackageVersion()
 
+const liveLayer = Layer.mergeAll(
+  Prompter.layer,
+  CommandRunner.layer,
+  ReleaseClient.layer,
+  TemplateDownloader.layer
+).pipe(Layer.provideMerge(BunServices.layer))
+
 const program = Command.run(main, { version }).pipe(
   Effect.as(ChildProcessSpawner.ExitCode(0)),
   Effect.catchTag("OperationCancelled", () =>
@@ -47,18 +54,10 @@ const program = Command.run(main, { version }).pipe(
       return ChildProcessSpawner.ExitCode(1)
     })
   ),
-  Effect.provide(
-    Layer.mergeAll(
-      NodeServices.layer,
-      Prompter.layer,
-      CommandRunner.layer,
-      ReleaseClient.layer,
-      TemplateDownloader.layer
-    )
-  )
+  Effect.provide(liveLayer)
 )
 
-NodeRuntime.runMain(program, {
+BunRuntime.runMain(program, {
   teardown: (exit, onExit) => {
     if (Exit.isSuccess(exit)) {
       onExit(Number(exit.value))

@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test"
-import * as NodeServices from "@effect/platform-node/NodeServices"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner"
@@ -8,17 +7,14 @@ import { CommandRunner } from "#lib/services/command-runner.ts"
 
 function makeRunnerLayer(exitCodes: number[]) {
   let index = 0
-  return Layer.mergeAll(
-    NodeServices.layer,
-    Layer.succeed(CommandRunner)({
-      run: () => {
-        const exitCode = exitCodes[index] ?? 0
-        index += 1
-        return Effect.succeed(ChildProcessSpawner.ExitCode(exitCode))
-      },
-      string: () => Effect.succeed(""),
-    })
-  )
+  return Layer.succeed(CommandRunner)({
+    run: () => {
+      const exitCode = exitCodes[index] ?? 0
+      index += 1
+      return Effect.succeed(ChildProcessSpawner.ExitCode(exitCode))
+    },
+    string: () => Effect.succeed(""),
+  })
 }
 
 describe("getFileDiff", () => {

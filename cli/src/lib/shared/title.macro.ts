@@ -1,5 +1,5 @@
 import figlet from "figlet"
 
-export function getTitle(): string {
+export function getTitle() {
   return figlet.textSync("init", { font: "DOS Rebel" })
 }

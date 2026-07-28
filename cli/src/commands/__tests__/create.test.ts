@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { mkdir, mkdtemp, rm } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as BunServices from "@effect/platform-bun/BunServices"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Command from "effect/unstable/cli/Command"
@@ -46,7 +46,7 @@ describe("createCommand", () => {
       text: () => Effect.succeed("existing"),
     }
     const layer = Layer.mergeAll(
-      NodeServices.layer,
+      BunServices.layer,
       Layer.succeed(Prompter)(prompter),
       Layer.succeed(TemplateDownloader)({
         download: (options) => Effect.sync(() => downloads.push(options)).pipe(Effect.asVoid),

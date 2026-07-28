@@ -2,11 +2,13 @@ import * as p from "@clack/prompts"
 import * as Context from "effect/Context"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
-import { OperationCancelled } from "#lib/shared/errors.ts"
+import { OperationCancelled, PromptFailed } from "#lib/shared/errors.ts"
 
 export type PrompterService = {
   readonly cancel: (message: string) => Effect.Effect<void>
-  readonly confirm: (options: p.ConfirmOptions) => Effect.Effect<boolean, OperationCancelled>
+  readonly confirm: (
+    options: p.ConfirmOptions
+  ) => Effect.Effect<boolean, OperationCancelled | PromptFailed>
   readonly intro: (message: string) => Effect.Effect<void>
   readonly log: {
     readonly error: (message: string) => Effect.Effect<void>
@@ -16,9 +18,13 @@ export type PrompterService = {
   }
   readonly multiselect: <T>(
     options: p.MultiSelectOptions<T>
-  ) => Effect.Effect<T[], OperationCancelled>
-  readonly select: <T>(options: p.SelectOptions<T>) => Effect.Effect<T, OperationCancelled>
-  readonly text: (options: p.TextOptions) => Effect.Effect<string, OperationCancelled>
+  ) => Effect.Effect<T[], OperationCancelled | PromptFailed>
+  readonly select: <T>(
+    options: p.SelectOptions<T>
+  ) => Effect.Effect<T, OperationCancelled | PromptFailed>
+  readonly text: (
+    options: p.TextOptions
+  ) => Effect.Effect<string, OperationCancelled | PromptFailed>
   readonly outro: (message: string) => Effect.Effect<void>
 }
 
@@ -29,9 +35,16 @@ export class Prompter extends Context.Service<Prompter, PrompterService>()("Prom
         p.cancel(message)
       }),
     confirm: (options) =>
-      Effect.promise(() => p.confirm(options)).pipe(
+      Effect.tryPromise({
+        catch: (cause) => new PromptFailed({ cause }),
+        try: (signal) =>
+          p.confirm({
+            ...options,
+            signal: options.signal ? AbortSignal.any([options.signal, signal]) : signal,
+          }),
+      }).pipe(
         Effect.filterOrFail(
-          (value): value is boolean => !p.isCancel(value),
+          (value) => !p.isCancel(value),
           () => new OperationCancelled()
         )
       ),
@@ -58,7 +71,14 @@ export class Prompter extends Context.Service<Prompter, PrompterService>()("Prom
         }),
     },
     multiselect: <T>(options: p.MultiSelectOptions<T>) =>
-      Effect.promise(() => p.multiselect(options)).pipe(
+      Effect.tryPromise({
+        catch: (cause) => new PromptFailed({ cause }),
+        try: (signal) =>
+          p.multiselect({
+            ...options,
+            signal: options.signal ? AbortSignal.any([options.signal, signal]) : signal,
+          }),
+      }).pipe(
         Effect.filterOrFail(
           (value): value is T[] => !p.isCancel(value),
           () => new OperationCancelled()
@@ -69,16 +89,30 @@ export class Prompter extends Context.Service<Prompter, PrompterService>()("Prom
         p.outro(message)
       }),
     select: <T>(options: p.SelectOptions<T>) =>
-      Effect.promise(() => p.select(options)).pipe(
+      Effect.tryPromise({
+        catch: (cause) => new PromptFailed({ cause }),
+        try: (signal) =>
+          p.select({
+            ...options,
+            signal: options.signal ? AbortSignal.any([options.signal, signal]) : signal,
+          }),
+      }).pipe(
         Effect.filterOrFail(
           (value): value is T => !p.isCancel(value),
           () => new OperationCancelled()
         )
       ),
     text: (options) =>
-      Effect.promise(() => p.text(options)).pipe(
+      Effect.tryPromise({
+        catch: (cause) => new PromptFailed({ cause }),
+        try: (signal) =>
+          p.text({
+            ...options,
+            signal: options.signal ? AbortSignal.any([options.signal, signal]) : signal,
+          }),
+      }).pipe(
         Effect.filterOrFail(
-          (value): value is string => !p.isCancel(value),
+          (value) => !p.isCancel(value),
           () => new OperationCancelled()
         )
       ),

@@ -3,12 +3,7 @@ import process from "node:process"
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Command from "effect/unstable/cli/Command"
-import {
-  CommandRunner,
-  getCommandOutput,
-  requireTool,
-  runCommand,
-} from "#lib/services/command-runner.ts"
+import { CommandRunner, requireTool, runCommand } from "#lib/services/command-runner.ts"
 import { Prompter } from "#lib/services/prompter.ts"
 import { ReleaseClient } from "#lib/services/release-client.ts"
 import { CommandFailed, WorkingTreeDirty } from "#lib/shared/errors.ts"
@@ -30,10 +25,11 @@ const cloneTemplate = () =>
     command: "git",
   })
 
-const getGitFiles = (args: string[]) =>
-  getCommandOutput({ args, command: "git" }).pipe(
-    Effect.map((output) => output.split("\n").filter(Boolean))
-  )
+const getGitFiles = Effect.fn("getGitFiles")(function* (args: string[]) {
+  const runner = yield* CommandRunner
+  const output = yield* runner.string({ args, command: "git" })
+  return output.split("\n").filter(Boolean)
+})
 
 export const getFileDiff = Effect.fn("getFileDiff")(function* (
   localFiles: string[],
@@ -149,10 +145,10 @@ const checkVersionUpdates = Effect.fn("checkVersionUpdates")(function* () {
   }
 })
 
-const checkForUncommittedChanges = () =>
-  getCommandOutput({ args: ["status", "--porcelain"], command: "git" }).pipe(
-    Effect.map((status) => status.length > 0)
-  )
+const checkForUncommittedChanges = Effect.fn("checkForUncommittedChanges")(function* () {
+  const runner = yield* CommandRunner
+  return (yield* runner.string({ args: ["status", "--porcelain"], command: "git" })).length > 0
+})
 
 const verifyCleanWorkingTree = Effect.fn("verifyCleanWorkingTree")(function* () {
   if (yield* checkForUncommittedChanges()) return yield* Effect.fail(new WorkingTreeDirty())

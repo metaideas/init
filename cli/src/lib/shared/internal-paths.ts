@@ -5,8 +5,8 @@ export const internalPaths = [
   ".github/workflows/cli.yml",
   ".plans",
   "cli",
-] as const
+]
 
-export function checkIsInternalPath(filePath: string): boolean {
+export function checkIsInternalPath(filePath: string) {
   return internalPaths.some((path) => filePath === path || filePath.startsWith(`${path}/`))
 }

@@ -1,27 +1,23 @@
 import { describe, expect, test } from "bun:test"
-import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as BunServices from "@effect/platform-bun/BunServices"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner"
 import {
   CommandRunner,
   type CommandRunOptions,
-  getCommandOutput,
   requireTool,
   runCommand,
 } from "#lib/services/command-runner.ts"
 
 function makeRunnerLayer(exitCode: number, calls: CommandRunOptions[]) {
-  return Layer.mergeAll(
-    NodeServices.layer,
-    Layer.succeed(CommandRunner)({
-      run: (options) => {
-        calls.push(options)
-        return Effect.succeed(ChildProcessSpawner.ExitCode(exitCode))
-      },
-      string: () => Effect.succeed(""),
-    })
-  )
+  return Layer.succeed(CommandRunner)({
+    run: (options) => {
+      calls.push(options)
+      return Effect.succeed(ChildProcessSpawner.ExitCode(exitCode))
+    },
+    string: () => Effect.succeed(""),
+  })
 }
 
 describe("requireTool", () => {
@@ -51,11 +47,13 @@ describe("runCommand", () => {
 
 describe("getCommandOutput", () => {
   test("fails when a captured command exits nonzero", async () => {
+    const commandRunnerLayer = CommandRunner.layer.pipe(Layer.provide(BunServices.layer))
     const error = await Effect.runPromise(
       Effect.flip(
-        getCommandOutput({ args: ["-e", "process.exit(2)"], command: "bun" }).pipe(
-          Effect.provide(Layer.mergeAll(NodeServices.layer, CommandRunner.layer))
-        )
+        Effect.gen(function* () {
+          const runner = yield* CommandRunner
+          return yield* runner.string({ args: ["-e", "process.exit(2)"], command: "bun" })
+        }).pipe(Effect.provide(commandRunnerLayer))
       )
     )
 

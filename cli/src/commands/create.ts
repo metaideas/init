@@ -3,7 +3,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Option from "effect/Option"
 import * as Argument from "effect/unstable/cli/Argument"
 import * as Command from "effect/unstable/cli/Command"
-import { CommandRunner, runCommand } from "#lib/services/command-runner.ts"
+import { runCommand } from "#lib/services/command-runner.ts"
 import { Prompter } from "#lib/services/prompter.ts"
 import { TemplateDownloader } from "#lib/services/template-downloader.ts"
 import { OperationCancelled } from "#lib/shared/errors.ts"
@@ -22,7 +22,6 @@ export default Command.make("init-now", { name }).pipe(
       const fs = yield* FileSystem.FileSystem
       const prompter = yield* Prompter
       const downloader = yield* TemplateDownloader
-      yield* CommandRunner
 
       yield* printTitle()
       yield* prompter.intro("▶︎ init")
