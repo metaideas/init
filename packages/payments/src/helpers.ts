@@ -1,27 +1,7 @@
 import type { Stripe } from "stripe"
 import { stripe as env } from "@init/env/presets"
 import { kv } from "@init/kv/client"
-import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
 import { payments } from "#client.ts"
-
-export function createAgentToolkit() {
-  return new StripeAgentToolkit({
-    configuration: {
-      actions: {
-        paymentLinks: {
-          create: true,
-        },
-        prices: {
-          create: true,
-        },
-        products: {
-          create: true,
-        },
-      },
-    },
-    secretKey: env().STRIPE_SECRET_KEY,
-  })
-}
 
 export type SubscriptionCache =
   | {

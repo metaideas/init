@@ -4,82 +4,73 @@ import { seconds, type TimeExpression } from "qte"
 import SuperJSON from "superjson"
 
 type ClientConfig = {
-  /**
-   * Default time to live in seconds
-   */
   ttl?: TimeExpression
 }
 
 export type KeyPart = string | number
 
-class KeyValueClient {
-  defaultTtl?: number
-  namespace?: string
+function createKeyValueClient(namespace?: string, config?: ClientConfig) {
+  const defaultTtl = config?.ttl ? seconds(config.ttl) : undefined
+  const client: RedisClient = redis
 
-  client: RedisClient
-
-  /**
-   * Creates a new Redis client
-   *
-   * @param namespace - The namespace to prefix all keys with
-   * @param config - The configuration for the client
-   */
-  constructor(namespace?: string, config?: ClientConfig) {
-    this.namespace = namespace
-    this.defaultTtl = config?.ttl ? seconds(config.ttl) : undefined
-    // Create a singleton instance of the Redis client
-    this.client = redis
+  const keyValueClient = {
+    client,
+    defaultTtl,
+    delete: remove,
+    get,
+    health,
+    namespace,
+    normalizeKey,
+    set,
   }
 
-  normalizeKey(key: string | KeyPart[]): string {
+  function normalizeKey(key: string | KeyPart[]): string {
     const parts = typeof key === "string" ? [key] : key
-    return this.namespace
-      ? [this.namespace, ...parts].map(String).join(":")
+    return keyValueClient.namespace
+      ? [keyValueClient.namespace, ...parts].map(String).join(":")
       : parts.map(String).join(":")
   }
 
-  async get<TData>(key: string | KeyPart[]): Promise<TData | null> {
-    const normalizedKey = this.normalizeKey(key)
-    const value = await this.client.get(normalizedKey)
+  async function get<TData>(key: string | KeyPart[]): Promise<TData | null> {
+    const normalizedKey = normalizeKey(key)
+    const value = await keyValueClient.client.get(normalizedKey)
     return value ? SuperJSON.parse<TData>(value) : null
   }
 
-  /**
-   * Sets a value in the cache
-   *
-   * @param key - The key to set
-   * @param value - The value to set. Will be serialized using SuperJSON.
-   * @param expiresIn - The time to live in seconds
-   */
-  async set(key: string | KeyPart[], value: unknown, expiresIn?: TimeExpression): Promise<void> {
-    const normalizedKey = this.normalizeKey(key)
+  async function set(
+    key: string | KeyPart[],
+    value: unknown,
+    expiresIn?: TimeExpression
+  ): Promise<void> {
+    const normalizedKey = normalizeKey(key)
 
-    await this.client.set(normalizedKey, SuperJSON.stringify(value))
+    await keyValueClient.client.set(normalizedKey, SuperJSON.stringify(value))
 
-    const ttl = expiresIn ? seconds(expiresIn) : this.defaultTtl
+    const ttl = expiresIn ? seconds(expiresIn) : keyValueClient.defaultTtl
 
     if (ttl !== undefined) {
-      await this.client.expire(normalizedKey, ttl)
+      await keyValueClient.client.expire(normalizedKey, ttl)
     }
   }
 
-  async delete(key: string | KeyPart[]): Promise<void> {
-    const normalizedKey = this.normalizeKey(key)
-    await this.client.del(normalizedKey)
+  async function remove(key: string | KeyPart[]): Promise<void> {
+    const normalizedKey = normalizeKey(key)
+    await keyValueClient.client.del(normalizedKey)
   }
 
-  async health(): Promise<boolean> {
-    return await this.client
+  async function health(): Promise<boolean> {
+    return await keyValueClient.client
       .ping()
       .then(() => true)
       .catch(() => false)
   }
+
+  return keyValueClient
 }
 
 export function kv(namespace?: string, config?: ClientConfig) {
-  return singleton(
-    namespace ? `kv:${namespace}` : "kv:default",
-    () => new KeyValueClient(namespace, config)
+  return singleton(namespace ? `kv:${namespace}` : "kv:default", () =>
+    createKeyValueClient(namespace, config)
   )
 }
 

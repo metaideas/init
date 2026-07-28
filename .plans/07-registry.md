@@ -24,10 +24,8 @@ Item targets must use template-relative paths (e.g. `packages/utils/src/codec.ts
 
 Populated by deletions from plans 02/03 — agents executing those plans append here:
 
-- `codec` — SuperJSON codec util (was `packages/utils/src/codec.ts`)
-- `assert` — assertion helpers + `AssertError`/`UtilityError` types (was `packages/utils/src/assert.ts`, `packages/error/src/utils.ts`)
-- `db-counter-helpers` — Drizzle `increment`/`decrement` (was `packages/db/src/helpers.ts`)
-- `auth-tanstack-start-cookies` — (was `packages/auth/src/integrations/start.ts`)
+- `codec` — Zod JSON codec (was `packages/utils/src/codec.ts`)
+- `assert` — assertion helpers importing `@init/core/errors` (was `packages/utils/src/assert.ts`)
 - `stripe-agent-toolkit` — (was `packages/payments/src/helpers.ts` `createAgentToolkit`)
 - `files-sdk` — complete storage integration recipe replacing `packages/storage/`: configured server instance, selected provider adapter, Hono backend route, browser/mobile client entry, authorization policy, validated env vars, conservative plugins, and asset-lifecycle hooks. It uses `files-sdk` directly and does not recreate an `@init/storage` package. See `docs/research/files-sdk.md` and §3 below.
 - `email-organization-invitation` — email template (from `packages/email/src/templates/`), plus future email templates generally
@@ -36,6 +34,64 @@ Populated by deletions from plans 02/03 — agents executing those plans append 
 - `desktop-api-client` — opt-in wiring connecting `apps/desktop` to `apps/api` (env var, URL builder, fetch/tRPC client) — removed as a default in plan 03's local-first direction
 - env presets removed in plan 02: `railway`, `openai`, `anthropic`, `s3`
 - ~~`@init/ui` unused components~~ — **decided: NOT registry items.** All 57 components stay in the template: they are customized to fit the project (base-ui port, project theming), and the user model is "import what you need, delete the rest." Do not move them here.
+
+### Utility item requirements
+
+`codec` targets `packages/utils/src/codec.ts`:
+
+```ts
+import * as z from "#schema.ts"
+
+export const jsonCodec = <T extends z.core.$ZodType>(schema: T) =>
+  z.codec(z.string(), schema, {
+    decode: (jsonString, ctx) => {
+      try {
+        return JSON.parse(jsonString) as z.input<T>
+      } catch (error) {
+        ctx.issues.push({
+          code: "invalid_format",
+          format: "json",
+          input: jsonString,
+          message: error instanceof Error ? error.message : "Unknown error",
+        })
+        return z.NEVER
+      }
+    },
+    encode: (value) => JSON.stringify(value),
+  })
+```
+
+`assert` targets `packages/utils/src/assert.ts`:
+
+```ts
+import { AssertConditionFailedError, AssertUnreachableError } from "@init/core/errors"
+
+/**
+ * Asserts that a value is never, and throws an error if it is. Use this to make sure that all cases
+ * in a `switch` statement are handled.
+ */
+export function assertUnreachable(x: never): never {
+  throw new AssertUnreachableError({ value: String(x) })
+}
+
+/**
+ * Throws an error if a condition is not met.
+ */
+export function throwUnless(condition: boolean, message: string): asserts condition is true {
+  if (!condition) {
+    throw new AssertConditionFailedError({ condition: "throwUnless" }).withMessage(message)
+  }
+}
+
+/**
+ * Throws an error if a condition is met.
+ */
+export function throwIf(condition: boolean, message: string): asserts condition is false {
+  if (condition) {
+    throw new AssertConditionFailedError({ condition: "throwIf" }).withMessage(message)
+  }
+}
+```
 
 ## 3. `files-sdk` recipe requirements
 
@@ -57,7 +113,7 @@ The item may offer provider variants (for example `files-sdk-bun-s3`, `files-sdk
 
 - **The contract suite (item 7) runs against local MinIO — zero external services.** `infra/local/docker-compose.yml` already runs MinIO, and both `bun-s3` and `files-sdk/s3` accept custom endpoints. Point the live suite at the local MinIO endpoint; the bucket bootstrap added in plan 03 (§5, `mc` init container) provisions the buckets it needs. Cloud-provider live runs remain optional/manual, matching upstream's own policy.
 - **The recipe requires `apps/api` — declare it in the item manifest.** Projects that chose the Convex backend (plan 04 backend choice) cannot install it; use the same `requires: ["api"]` concept plan 04 introduces for workspaces so the CLI filters/explains instead of failing at install. A `files-sdk-convex` variant (the adapter exists) is a separate future item — the mount point differs too much to parameterize.
-- **Bucket constants have one owner: `packages/db`.** Plan 02 inlines `StorageBucket` into db; the recipe's `files.ts` composition and any prefix/bucket config must import those constants rather than define their own, so the `assets` table column types and the `Files` configuration cannot drift.
+- **Storage fields are deployment configuration.** Plan 02 leaves provider, bucket, and MIME type as plain text; the recipe's `files.ts` composition owns its bucket and prefix configuration.
 - **This item settles the versioning open question (for itself):** the item manifest records the exact `files-sdk` version it was validated against (e.g. a `validatedAgainst` field surfaced in the item description), and bumping that pin requires re-running the contract suite before publishing the updated item. Given upstream's release velocity (16 releases in 11 weeks, breaking major within 6 weeks of 1.0), do not float the version.
 - **Env flows through the registry env mechanism (§4 step 3):** `FILES_API_SECRET` and the chosen adapter's provider vars ship as an env-preset addition applied on install, so `init-now add files-sdk-bun-s3` leaves env validation complete instead of printing a manual TODO.
 
@@ -93,4 +149,3 @@ Add `init-now add` support for registry items (extend plan 04's reworked `add`):
 
 - **`validatedAgainst` is the standard for every registry item that installs pinned third-party deps** (not just files-sdk): the item manifest records the exact validated dependency version; bumping it requires re-validating the item before publishing.
 - `@init/ui` components stay in the template in full (see backlog note above).
-- Whether `@init/ui`'s unused components move to the registry (bundle-size win vs. friction).

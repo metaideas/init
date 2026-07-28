@@ -9,7 +9,6 @@
   },
   "exports": {
     "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts",
     "./constants": "./src/constants.ts",
     "./globals.css": "./src/styles/globals.css"
   },

@@ -14,8 +14,8 @@
     "export": "email export --dir src/templates"
   },
   "dependencies": {
+    "@init/core": "workspace:*",
     "@init/env": "workspace:*",
-    "@init/error": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@react-email/components": "1.0.12",

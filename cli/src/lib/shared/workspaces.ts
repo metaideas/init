@@ -1,12 +1,12 @@
 export const workspaces = {
   apps: [
     {
-      dependencies: ["auth", "db", "env", "error", "kv", "observability", "workflows", "utils"],
+      dependencies: ["auth", "db", "env", "kv", "observability", "workflows", "utils"],
       description: "Hono API running on Bun",
       name: "api",
     },
     {
-      dependencies: ["auth", "env", "error", "observability", "ui", "utils"],
+      dependencies: ["auth", "core", "env", "observability", "ui", "utils"],
       description: "Full-stack TanStack Start application with server functions",
       name: "app",
     },
@@ -79,11 +79,6 @@ export const workspaces = {
     },
     {
       dependencies: [],
-      description: "Custom error types using Faultier",
-      name: "error",
-    },
-    {
-      dependencies: [],
       description: "Redis client database integration",
       name: "kv",
     },
@@ -101,11 +96,6 @@ export const workspaces = {
       dependencies: [],
       description: "Payment processing utilities using Stripe",
       name: "payments",
-    },
-    {
-      dependencies: [],
-      description: "Shared storage utilities using S3",
-      name: "storage",
     },
     {
       dependencies: ["utils"],

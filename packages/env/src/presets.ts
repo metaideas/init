@@ -4,10 +4,6 @@ import { env, isCI } from "std-env"
 import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX, TAURI_ENV_PREFIX } from "#constants.ts"
 import { getRuntimeEnv } from "#runtime.ts"
 
-// Presets for system environment variables from popular services (Vercel, Neon,
-// Supabase, Render, etc.)
-export { railway } from "@t3-oss/env-core/presets-zod"
-
 // Package presets.
 //
 // You can import these into your apps and extend them from your env config if
@@ -118,19 +114,6 @@ export const kv = () =>
     skipValidation: isCI,
   })
 
-export const s3 = () =>
-  createEnv({
-    runtimeEnv: env,
-    server: {
-      S3_ACCESS_KEY_ID: z.string(),
-      S3_BUCKET: z.string().optional(),
-      S3_ENDPOINT: z.string().optional(),
-      S3_REGION: z.string().optional(),
-      S3_SECRET_ACCESS_KEY: z.string(),
-    },
-    skipValidation: isCI,
-  })
-
 export const resend = () =>
   createEnv({
     runtimeEnv: env,
@@ -181,24 +164,6 @@ export const sentry = {
       skipValidation: isCI,
     }),
 }
-
-export const openai = () =>
-  createEnv({
-    runtimeEnv: env,
-    server: {
-      OPENAI_API_KEY: z.string(),
-    },
-    skipValidation: isCI,
-  })
-
-export const anthropic = () =>
-  createEnv({
-    runtimeEnv: env,
-    server: {
-      ANTHROPIC_API_KEY: z.string(),
-    },
-    skipValidation: isCI,
-  })
 
 export const stripe = () =>
   createEnv({
