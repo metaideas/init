@@ -1,7 +1,9 @@
 import type { Stripe } from "stripe"
 import { stripe as env } from "@init/env/presets"
-import { kv } from "@init/kv/client"
+import { kv, namespaceKey } from "@init/kv/client"
 import { payments } from "#client.ts"
+
+const paymentsKey = namespaceKey("payments")
 
 export type SubscriptionCache =
   | {
@@ -43,8 +45,8 @@ export const ALLOWED_EVENTS = [
 type AllowedEvent = (typeof ALLOWED_EVENTS)[number]
 
 export async function syncSubscription(customerId: string): Promise<SubscriptionCache> {
-  const cacheKey = ["customer", customerId]
-  const cache = kv("payments")
+  const cache = kv()
+  const cacheKey = paymentsKey("customer", customerId)
 
   let data: SubscriptionCache
 
@@ -60,7 +62,7 @@ export async function syncSubscription(customerId: string): Promise<Subscription
 
   if (!subscription?.items.data[0]) {
     data = { status: "none" }
-    await cache.set(cacheKey, data)
+    await cache.setItem(cacheKey, data)
     return data
   }
 
@@ -82,7 +84,7 @@ export async function syncSubscription(customerId: string): Promise<Subscription
   }
 
   // Store the data in your KV
-  await cache.set(cacheKey, data)
+  await cache.setItem(cacheKey, data)
 
   return data
 }

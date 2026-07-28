@@ -2,4 +2,10 @@
   <h1 align="center"><code>@init/kv</code></h1>
 </div>
 
-Key-value store package with [Redis](https://redis.io/) and [Bun's RedisClient](https://bun.sh/docs/api/redis).
+Key-value storage built with [unstorage](https://unstorage.unjs.io/) and its Redis driver by default.
+
+`kv()` lazily returns the shared unstorage `Storage` instance. `normalizeKey(...parts)` joins key parts with `:`, while `namespaceKey(namespace)` returns a key helper with that namespace prefix.
+
+To use another backend, change the driver passed to `createStorage` in `src/client.ts`.
+
+Values must be JSON-serializable; dates are returned as strings.

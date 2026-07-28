@@ -3,6 +3,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./client": "./src/client.ts"
   },
@@ -11,9 +14,10 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
+    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
-    "qte": "0.1.1",
-    "superjson": "2.2.6"
+    "ioredis": "5.11.1",
+    "unstorage": "1.17.5"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
