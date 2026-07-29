@@ -28,7 +28,7 @@ Plans for evolving the `init` template monorepo and its `init-now` CLI. Each pla
 - Packages vs registry criterion (decided):
   - **Package** = ongoing dependency with its own third-party deps and lifecycle (payments, ai, analytics, kv, email client). These stay, even with zero in-template consumers, because the CLI lets users select them.
   - **Registry item** = copy-once code the user owns after install (email templates, one-off utils, extra UI components, auth integration snippets, env presets).
-- `packages/backend` (Convex) stays in `packages/` — it is consumed like a library (client + generated types) and deploys to Convex cloud, not our infra. It is an intentional _alternative_ to `apps/api`, not dead code.
+- `apps/app` is independently full-stack through TanStack Start server routes/functions. `apps/api` (Hono) and `packages/backend` (Convex) are optional backend choices connected through registry-installed adapters; Convex stays in `packages/` because it is consumed like a library (client + generated types) and deploys to Convex cloud.
 - **Lockstep versioning (decided)**: the template (`init`), the CLI (`init-now`), and later `create-init-now` share one version number via release-please linked versions (plan 08). CLI-only releases produce no-op template updates, handled gracefully by `update` (plan 06).
 
 ## Verification (run after any code change)
