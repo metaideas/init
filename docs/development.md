@@ -41,9 +41,10 @@ bun run <command> --filter <workspace>
 
 ## Template Management
 
-- `bun run init:setup` - Initialize project and clean up template files
-- `bun run init:add:app` - Add an app workspace
-- `bun run init:add:package` - Add a package workspace
-- `bun run init:update` - Sync with template updates
-- `bun run init:check` - Check for template updates
-- `bun run init:rename` - Rename project and update references
+- `bun template setup` - Configure the project and stamp its template version
+- `bun template rename` - Rename the project and update package scope references
+- `bun template add app <name>` - Add an app workspace from the template
+- `bun template add package <name>` - Add a package workspace from the template
+- `bun run scripts` - Run the extensible entry point for project-owned scripts
+
+Template updates are agent-driven; see [Updating your project](../README.md#updating-your-project).

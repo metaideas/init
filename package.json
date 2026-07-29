@@ -18,7 +18,7 @@
     "check": "adamantite check",
     "check:monorepo": "adamantite monorepo",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
-    "codegen": "turbo run codegen --continue",
+    "codegen": "turbo run codegen --continue --concurrency=1",
     "db:migrate": "turbo --filter @init/db migrate",
     "db:push": "turbo --filter @init/db push",
     "dev": "turbo run dev",
@@ -30,15 +30,10 @@
     "fix:monorepo": "adamantite monorepo --fix",
     "format": "adamantite format",
     "generate": "bun --bun turbo generate",
-    "generate:manifest": "bun run --cwd cli generate:manifest",
-    "init:add:app": "init-now add app",
-    "init:add:package": "init-now add package",
-    "init:check": "init-now check",
-    "init:rename": "init-now rename",
-    "init:setup": "init-now setup",
-    "init:update": "init-now update",
     "postinstall": "bun run codegen",
+    "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
+    "template": "bun --bun run scripts/index.ts template",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "typegen": "turbo run typegen --continue"
@@ -46,15 +41,18 @@
   "devDependencies": {
     "@turbo/gen": "2.6.3",
     "@types/bun": "1.3.14",
+    "@types/yargs": "17.0.35",
     "adamantite": "0.33.2",
-    "init-now": "2.0.1",
+    "consola": "3.4.2",
+    "faultier": "3.0.1",
     "knip": "6.29.0",
     "oxfmt": "0.60.0",
     "oxlint": "1.75.0",
     "oxlint-tsgolint": "7.0.2001",
     "sherif": "1.13.0",
     "turbo": "2.6.3",
-    "typescript": "7.0.2"
+    "typescript": "7.0.2",
+    "yargs": "18.0.0"
   },
   "overrides": {
     "@types/react": "19.1.13",
@@ -66,28 +64,14 @@
     "node": ">=24"
   },
   "packageManager": "bun@1.3.14",
+  "bun-create": {
+    "postinstall": "echo 'Next step: run `bun template setup` to configure your project.'"
+  },
   "init": {
     "cleanupPaths": [
-      "release-please-config.json",
-      ".github/workflows/release.yml",
       ".github/workflows/opencode.yml",
-      ".github/workflows/cli.yml",
       ".plans",
-      "cli",
-      "manifest.json"
-    ],
-    "excludedPaths": [
-      "node_modules",
-      ".git",
-      ".next",
-      "dist",
-      "build",
-      "out",
-      ".turbo",
-      ".cache",
-      ".pnpm-store",
-      ".yarn",
-      ".DS_Store"
+      "docs/research"
     ]
   },
   "trustedDependencies": [

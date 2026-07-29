@@ -6,7 +6,7 @@
   </p>
 
   <p align="center">
-    <code>bunx init-now@latest</code>
+    <code>bun create metaideas/init my-app</code>
   </p>
 </div>
 
@@ -22,28 +22,38 @@ A modern monorepo template for shipping TypeScript apps everywhere: web, mobile,
 - Desktop application using [Tauri](https://tauri.app/)
 - Browser extension using [WXT](https://wxt.dev/)
 
-## CLI Commands
+## Template commands
 
-The `init-now` CLI helps you manage your project:
+Template commands configure and extend a project created from this repository:
 
-| Command                | Description                           |
-| ---------------------- | ------------------------------------- |
-| `bunx init-now@latest` | Create a new project                  |
-| `init-now setup`       | Initialize and configure your project |
-| `init-now add app`     | Add an app from the init template     |
-| `init-now add package` | Add a package from the init template  |
-| `init-now update`      | Sync with template updates            |
-| `init-now check`       | Check template version                |
-| `init-now rename`      | Rename project and update references  |
+| Command                           | Description                                                                                              |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `bun template setup`              | Configure the project: choose apps and packages, set its name and scope, and stamp the template version. |
+| `bun template rename`             | Rename the project and rewrite the `@init/` scope.                                                       |
+| `bun template add app <name>`     | Copy an app workspace from the template with Turbo generators.                                           |
+| `bun template add package <name>` | Copy a package workspace from the template with Turbo generators.                                        |
 
 ## Quickstart
 
 ```bash
-bunx init-now@latest
-cd <project-name>
-bun run init:setup # or init-now setup
+bun create metaideas/init my-app
+cd my-app
+bun template setup
 bun run dev
 ```
+
+`bun run scripts` is the extensible entry point for scripts owned by your project.
+
+## Updating your project
+
+`bun template setup` creates `.template.json` with the template repository, the commit used to create the project, and the creation time:
+
+```json
+{ "template": "metaideas/init", "commit": "<sha>", "createdAt": "<ISO date>" }
+```
+
+To bring in template improvements, ask your coding agent to compare
+[metaideas/init](https://github.com/metaideas/init) from the stamped commit to `HEAD` and apply the changes that are relevant to your project. Tell it to propagate upstream deletions and to normalize your renamed scope before diffing: local `@<scope>/` references correspond to upstream `@init/` references. This prevents project renames from appearing as unrelated edits.
 
 ## Documentation
 

@@ -1,124 +1,48 @@
 # Template Commands
 
-Commands to manage the `init` template itself. These scripts help initialize, update, and maintain projects created from the template.
-
-These commands wrap the `init-now` CLI. Use `bun run init:*` inside this repo, or run `init-now ...` directly if you have the CLI installed (or via `bunx init-now@latest`).
+Commands for configuring and extending projects created with `bun create metaideas/init <name>`.
 
 ## Commands
 
-### `bun run init:setup`
+### `bun template setup`
 
-Initialize a new project from the template. This command:
+Configure a newly created project. This command:
 
-- Prompts for a project name (defaults to "init")
-- Allows selection of apps and packages to keep
-- Removes unselected workspaces
-- Updates project name references throughout the codebase
-- Sets up environment files for selected workspaces
-- Initializes a Git repository if one doesn't exist
-- Cleans up internal template files
-- Creates a new README
-- Reinstalls dependencies
-
-**Example:**
+- Prompts for the apps and packages to keep
+- Sets the project name and package scope
+- Rewrites `@init/` references for the selected scope
+- Stamps `.template.json` with the source template, commit, and creation time
 
 ```bash
-bun run init:setup
+bun template setup
 ```
 
-**Edge cases:**
+### `bun template rename`
 
-- If Git is already initialized, it will skip Git initialization
-- If `.env.local` files already exist, they won't be overwritten
-- Project name "init" will skip renaming operations
-
-### `bun run init:add:app`
-
-Add a new app workspace to your monorepo. This command:
-
-- Prompts for an app to add from the template
-- Generates the app using Turbo generators
-
-**Example:**
+Rename the project and rewrite its `@init/` package scope references.
 
 ```bash
-bun run init:add:app
+bun template rename --name <name> [--scope <scope>]
 ```
 
-### `bun run init:add:package`
+### `bun template add app <name>`
 
-Add a new package workspace to your monorepo. This command:
-
-- Prompts for a package to add from the template
-- Generates the package using Turbo generators
-
-**Example:**
+Copy an app workspace from the template using Turbo generators, then apply the project's package scope.
 
 ```bash
-bun run init:add:package
+bun template add app web
 ```
 
-### `bun run init:update`
+### `bun template add package <name>`
 
-Sync your project with the latest template updates. This command:
-
-- Checks for the latest template release
-- Compares with your current template version
-- Clones the template repository
-- Identifies files that need updating
-- Only updates files that haven't been modified locally
-- Only adds new files for existing workspaces
-- Stages changes for review
-
-**Example:**
+Copy a package workspace from the template using Turbo generators, then apply the project's package scope.
 
 ```bash
-bun run init:update
+bun template add package auth
 ```
 
-**Edge cases:**
+## Project scripts
 
-- Requires a clean working tree (no uncommitted changes)
-- Files with local modifications are skipped
-- New files are only added if they belong to existing workspaces
-- If already up to date, exits early
+`bun run scripts` is the extensible entry point for scripts owned by your project.
 
-### Template Update Workflow
-
-1. Ensure your working tree is clean with `git status`.
-2. Run `bun run init:update`.
-3. Review staged changes and adjust as needed.
-4. Commit the update.
-
-### `bun run init:check`
-
-Check the current template version and compare it with the latest release.
-
-**Example:**
-
-```bash
-bun run init:check
-```
-
-**Output:**
-
-- Current template version (or "Unknown" if not set)
-- Latest template version available
-- Update status (up to date, update available, or local is newer)
-- Release notes if an update is available
-
-### `bun run init:rename`
-
-Rename your project and update all `@init` references throughout the codebase.
-
-**Example:**
-
-```bash
-bun run init:rename
-```
-
-**What it does:**
-
-- Updates `package.json` name field
-- Replaces all `@init` references with `@[new-name]`
-- Also replaces previous project name references if not "init"
+There is no automated template `update` or `check` command. See [Updating your project](../README.md#updating-your-project) for the agent-driven update workflow.
