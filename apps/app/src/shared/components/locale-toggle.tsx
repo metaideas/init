@@ -15,7 +15,7 @@ export function LocaleToggle() {
       <DropdownMenuTrigger render={<Button size="icon" variant="outline" />}>
         <Icon.Languages className="size-4" />
 
-        <span className="sr-only">Toggle theme</span>
+        <span className="sr-only">{m.switch_locale()}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem

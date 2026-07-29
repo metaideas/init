@@ -6,6 +6,7 @@ import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query
 import { createTRPCOptionsProxy, type TRPCOptionsProxy } from "@trpc/tanstack-react-query"
 import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
+import ErrorFallback from "#shared/components/error.tsx"
 import NotFound from "#shared/components/not-found.tsx"
 import { logger } from "#shared/logger.ts"
 import { makeTRPCClient, TRPCProvider } from "#shared/trpc.ts"
@@ -41,6 +42,7 @@ export function getRouter() {
       queryClient,
       trpc,
     } satisfies RouterContext,
+    defaultErrorComponent: ErrorFallback,
     defaultNotFoundComponent: NotFound,
     defaultPreload: "intent",
     routeTree,

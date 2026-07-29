@@ -23,7 +23,7 @@ export default defineConfig({
         paraglide({
           outdir: "./src/shared/internationalization",
           project: "../../tooling/internationalization/project.inlang",
-          strategy: ["baseLocale"],
+          strategy: ["localStorage", "baseLocale"],
         }),
       ],
     }

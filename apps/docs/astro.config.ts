@@ -1,4 +1,3 @@
-import react from "@astrojs/react"
 import starlight from "@astrojs/starlight"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
@@ -22,38 +21,29 @@ export default defineConfig({
       sidebar: [
         {
           items: [
-            // Each item here is one entry in the navigation menu.
             {
-              label: "Example Guide",
-              slug: "guides/example",
+              label: "Overview",
+              slug: "",
               translations: {
-                es: "Guía de Ejemplo",
+                es: "Descripción general",
               },
             },
           ],
-          label: "Guides",
+          label: "Init",
           translations: {
-            es: "Guías",
-          },
-        },
-        {
-          items: [{ autogenerate: { directory: "reference" } }],
-          label: "Reference",
-          translations: {
-            es: "Referencia",
+            es: "Init",
           },
         },
       ],
       social: [
         {
-          href: "https://github.com/withastro/starlight",
+          href: "https://github.com/metaideas/init",
           icon: "github",
           label: "GitHub",
         },
       ],
       title: "Init Docs",
     }),
-    react(),
   ],
   server: {
     port: 3004,
@@ -64,7 +54,7 @@ export default defineConfig({
       paraglide({
         outdir: "./src/shared/internationalization",
         project: "../../tooling/internationalization/project.inlang",
-        strategy: ["baseLocale"],
+        strategy: ["localStorage", "baseLocale"],
       }),
     ],
   },

@@ -1,7 +1,7 @@
 export const workspaces = {
   apps: [
     {
-      dependencies: ["auth", "db", "env", "kv", "observability", "workflows", "utils"],
+      dependencies: ["auth", "db", "email", "env", "kv", "observability", "utils", "workflows"],
       description: "Hono API running on Bun",
       name: "api",
     },
@@ -26,7 +26,7 @@ export const workspaces = {
       name: "extension",
     },
     {
-      dependencies: ["auth", "env", "native-ui", "observability", "utils"],
+      dependencies: ["env", "native-ui", "observability", "utils"],
       description: "Expo application deployed with EAS",
       name: "mobile",
     },

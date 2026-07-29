@@ -19,11 +19,6 @@
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
 
-        "INNGEST_EVENT_KEY",
-        "INNGEST_SIGNING_KEY",
-
-        "REDIS_URL",
-
         "RESEND_API_KEY",
 
         "SENTRY_AUTH_TOKEN",

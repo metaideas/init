@@ -14,6 +14,10 @@ import { getTheme, setTheme } from "#features/theme/server/functions.ts"
 import { baseLocale } from "#shared/internationalization/runtime.js"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
+  loader: async () => ({
+    theme: await getTheme(),
+  }),
+
   component: RootComponent,
   head: () => ({
     links: [{ href: globals, rel: "stylesheet" }],
@@ -22,9 +26,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       { content: "width=device-width, initial-scale=1", name: "viewport" },
       { title: "Init" },
     ],
-  }),
-  loader: async () => ({
-    theme: await getTheme(),
   }),
 })
 
@@ -41,17 +42,19 @@ function RootComponent() {
         </TooltipProvider>
       </ThemeProvider>
 
-      <TanStackDevtools
-        config={{ position: "bottom-left" }}
-        plugins={[
-          { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> },
-          { name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> },
-          {
-            name: "TanStack Form",
-            render: <FormDevtoolsPanel />,
-          },
-        ]}
-      />
+      {import.meta.env.DEV ? (
+        <TanStackDevtools
+          config={{ position: "bottom-left" }}
+          plugins={[
+            { name: "TanStack Query", render: <ReactQueryDevtoolsPanel /> },
+            { name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> },
+            {
+              name: "TanStack Form",
+              render: <FormDevtoolsPanel />,
+            },
+          ]}
+        />
+      ) : null}
     </RootDocument>
   )
 }

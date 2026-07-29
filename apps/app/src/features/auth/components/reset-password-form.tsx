@@ -1,0 +1,71 @@
+import { FieldGroup } from "@init/ui/components/field"
+import { useForm } from "@init/ui/components/form"
+import { toast } from "@init/ui/components/sonner"
+import { useNavigate } from "@tanstack/react-router"
+import { ResetPasswordFormSchema as schema } from "#features/auth/validation.ts"
+import { authClient } from "#shared/auth.ts"
+
+export default function ResetPasswordForm({ token }: { token: string }) {
+  const navigate = useNavigate()
+  const form = useForm({
+    defaultValues: { confirmPassword: "", password: "" },
+    onSubmit: async ({ value }) => {
+      await authClient.resetPassword(
+        {
+          newPassword: value.password,
+          token,
+        },
+        {
+          onError: ({ error }) => {
+            toast.error(error.message, { position: "bottom-center" })
+          },
+          onSuccess: () => {
+            toast.success("Your password has been reset", { position: "bottom-center" })
+            void navigate({ to: "/sign-in" })
+          },
+        }
+      )
+    },
+    validators: { onSubmit: schema },
+  })
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        void form.handleSubmit()
+      }}
+    >
+      <form.AppForm>
+        <FieldGroup>
+          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
+            {(field) => (
+              <field.Field>
+                <field.Label>New password</field.Label>
+                <field.Input autoComplete="new-password" type="password" />
+                <field.Error errors={field.state.meta.errors} />
+              </field.Field>
+            )}
+          </form.AppField>
+          <form.AppField
+            name="confirmPassword"
+            validators={{ onBlur: schema.shape.confirmPassword }}
+          >
+            {(field) => (
+              <field.Field>
+                <field.Label>Confirm new password</field.Label>
+                <field.Input autoComplete="new-password" type="password" />
+                <field.Error errors={field.state.meta.errors} />
+              </field.Field>
+            )}
+          </form.AppField>
+          <form.ServerError />
+          <form.Submit className="w-full" loadingText="Resetting password...">
+            Reset password
+          </form.Submit>
+        </FieldGroup>
+      </form.AppForm>
+    </form>
+  )
+}

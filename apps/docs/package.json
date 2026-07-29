@@ -16,12 +16,9 @@
     "typegen": "astro sync"
   },
   "dependencies": {
-    "@astrojs/react": "6.0.1",
     "@astrojs/starlight": "0.41.4",
     "@astrojs/starlight-tailwind": "5.0.0",
     "astro": "7.1.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
     "sharp": "0.34.5"
   },
   "devDependencies": {
@@ -29,8 +26,6 @@
     "@inlang/paraglide-js": "2.8.0",
     "@tailwindcss/vite": "4.3.3",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2"
   }

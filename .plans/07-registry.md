@@ -17,6 +17,7 @@ Create `registry/` in this repo (source of truth), built/deployed to `init.now/r
 - `registry/<item>/` — item sources + item manifest (name, description, type, files with targets, npm `dependencies`, `registryDependencies`, env vars).
 - A build step that emits static JSON consumed by the `www/` site build (plan 10) and served at `https://init.now/r/<item>.json`. Add `registry` to knip/adamantite scopes so items stay lint-clean.
 - Fill in the `/registry` page on the site (plan 10 ships it as a placeholder): a simple browsable index rendered from `registry.json` with per-item install commands.
+- Every plan that removes code for later restoration must add the canonical target path, dependency/env requirements, and a concrete source snippet to this plan before deleting it. A backlog title alone is not sufficient; do not delete restorable code until its snippet is captured here. The eventual registry item—not necessarily each isolated excerpt below—must compile.
 
 Item targets must use template-relative paths (e.g. `packages/utils/src/codec.ts`), and contents use `@init/*` imports — the installer rewrites scope for renamed projects (§4).
 
@@ -93,6 +94,364 @@ export function throwIf(condition: boolean, message: string): asserts condition 
 }
 ```
 
+### Restored integration item requirements
+
+The snippets below are the canonical minimums captured from code removed by plans 02/03. Registry implementation may improve their composition, but must preserve their behavior and must typecheck the complete installed item.
+
+`stripe-agent-toolkit` targets `packages/payments/src/agent-toolkit.ts`, depends on the selected `@init/payments` workspace and exact-pinned `@stripe/agent-toolkit`, and exports:
+
+```ts
+import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
+import { stripe as env } from "@init/env/presets"
+
+export function createAgentToolkit() {
+  return new StripeAgentToolkit({
+    configuration: {
+      actions: {
+        paymentLinks: { create: true },
+        prices: { create: true },
+        products: { create: true },
+      },
+    },
+    secretKey: env().STRIPE_SECRET_KEY,
+  })
+}
+```
+
+`email-organization-invitation` targets `packages/email/src/templates/organization-invitation.tsx`, depends on the selected `@init/email` workspace, and includes the complete template rather than a placeholder:
+
+```tsx
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components"
+
+export default function OrganizationInvitation({
+  organizationName,
+  inviterName,
+  inviterEmail,
+  invitationUrl,
+}: {
+  organizationName: string
+  inviterName: string
+  inviterEmail: string
+  invitationUrl: string
+}) {
+  return (
+    <Html>
+      <Head />
+      <Preview>You&apos;ve been invited to join {organizationName}</Preview>
+      <Tailwind>
+        <Body className="bg-gray-50 font-sans">
+          <Container className="mx-auto my-10 max-w-2xl rounded-lg bg-white p-8 shadow-sm">
+            <Heading className="mb-6 text-center text-2xl font-bold text-gray-900">
+              You&apos;ve been invited to join {organizationName}
+            </Heading>
+            <Text className="mb-4 text-center text-base text-gray-600">
+              {inviterName} ({inviterEmail}) has invited you to join the {organizationName}
+              organization.
+            </Text>
+            <Section className="text-center">
+              <Button
+                className="inline-block rounded-md bg-black px-6 py-3 font-medium text-white"
+                href={invitationUrl}
+              >
+                Accept invitation
+              </Button>
+            </Section>
+            <Text className="mt-8 text-center text-sm text-gray-500">
+              If you did not expect this invitation, you can ignore this email.
+            </Text>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  )
+}
+```
+
+`mobile-auth-client-api` requires the `mobile`, `api`, and `@init/auth` workspaces. It restores `EXPO_PUBLIC_API_URL` validation and the API URL builder alongside `apps/mobile/src/shared/auth.ts`:
+
+```ts
+import { createAuthClient } from "@init/auth/client"
+import { adminClient, organizationClient } from "@init/auth/client/plugins"
+import { expoClient } from "@init/auth/expo/client"
+import { accessControl, adminRole, memberRole, ownerRole } from "@init/auth/permissions"
+import * as SecureStore from "expo-secure-store"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const auth = createAuthClient(buildApiUrl("/auth"), [
+  expoClient({ storage: SecureStore }),
+  adminClient(),
+  organizationClient({
+    ac: accessControl,
+    roles: {
+      admin: adminRole,
+      member: memberRole,
+      owner: ownerRole,
+    },
+  }),
+])
+
+export const { useSession } = auth
+
+export function getAuthHeaders() {
+  const headers = new Headers()
+  const cookies = auth.getCookie()
+  if (cookies) headers.set("Cookie", cookies)
+  return headers
+}
+```
+
+The same item merges these seams into `apps/mobile/src/shared/env.ts` and `apps/mobile/src/shared/utils.ts`:
+
+```ts
+// env.ts client schema
+EXPO_PUBLIC_API_URL: z.url()
+
+// utils.ts
+export const buildApiUrl = createUrlBuilder(
+  env.EXPO_PUBLIC_API_URL,
+  isProduction ? "https" : "http"
+)
+```
+
+`mobile-auth-client-convex` requires the `mobile`, `backend`, and `@init/auth` workspaces. It uses the existing `convex.expo()` env preset and targets the same auth file:
+
+```ts
+import { convexClient } from "@init/backend/client/auth"
+import { createAuthClient } from "@init/auth/client"
+import { adminClient, organizationClient } from "@init/auth/client/plugins"
+import { expoClient } from "@init/auth/expo/client"
+import { accessControl, adminRole, memberRole, ownerRole } from "@init/auth/permissions"
+import * as SecureStore from "expo-secure-store"
+import env from "#shared/env.ts"
+
+export const auth = createAuthClient(env.EXPO_PUBLIC_CONVEX_SITE_URL, [
+  expoClient({ storage: SecureStore }),
+  convexClient(),
+  adminClient(),
+  organizationClient({
+    ac: accessControl,
+    roles: {
+      admin: adminRole,
+      member: memberRole,
+      owner: ownerRole,
+    },
+  }),
+])
+
+export const { useSession } = auth
+```
+
+It merges the Convex client preset into `apps/mobile/src/shared/env.ts`:
+
+```ts
+import { convex, sentry } from "@init/env/presets"
+
+export default createEnv({
+  clientPrefix: EXPO_PUBLIC_ENV_PREFIX,
+  extends: [convex.expo(), sentry.expo()],
+  runtimeEnv: process.env,
+  skipValidation: isCI,
+})
+```
+
+Both Mobile auth items also install a minimal sign-in screen and session gate that consume `auth.signIn.email` and `useSession`; they must not install an unused client module.
+
+They share these targets, with the selected item supplying its own `#shared/auth.ts` implementation:
+
+```tsx
+// apps/mobile/src/app/sign-in.tsx
+import { Button } from "@init/native-ui/components/button"
+import { Text } from "@init/native-ui/components/text"
+import { useState } from "react"
+import { TextInput, View } from "react-native"
+import { auth } from "#shared/auth.ts"
+
+export default function SignInScreen() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState<string>()
+
+  async function signIn() {
+    setError(undefined)
+    const result = await auth.signIn.email({ email, password })
+    if (result.error) setError(result.error.message)
+  }
+
+  return (
+    <View className="flex-1 justify-center gap-4 bg-background px-6">
+      <Text className="text-2xl font-semibold">Sign in</Text>
+      <TextInput
+        autoCapitalize="none"
+        autoComplete="email"
+        className="rounded-md border border-input px-4 py-3 text-foreground"
+        keyboardType="email-address"
+        onChangeText={setEmail}
+        placeholder="Email"
+        value={email}
+      />
+      <TextInput
+        autoComplete="current-password"
+        className="rounded-md border border-input px-4 py-3 text-foreground"
+        onChangeText={setPassword}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+      />
+      {error ? (
+        <Text className="text-destructive" role="alert">
+          {error}
+        </Text>
+      ) : null}
+      <Button onPress={() => void signIn()}>
+        <Text>Sign in</Text>
+      </Button>
+    </View>
+  )
+}
+```
+
+```tsx
+// apps/mobile/src/shared/components/session-gate.tsx
+import { ActivityIndicator } from "@init/native-ui/components/activity-indicator"
+import type { ReactNode } from "react"
+import { Redirect } from "expo-router"
+import { View } from "react-native"
+import { useSession } from "#shared/auth.ts"
+
+export default function SessionGate({ children }: { children: ReactNode }) {
+  const { data: session, isPending } = useSession()
+
+  if (isPending) {
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
+  if (!session) return <Redirect href="/sign-in" />
+
+  return children
+}
+```
+
+The API variant merges this value into `apps/mobile/.env.template`:
+
+```dotenv
+EXPO_PUBLIC_API_URL="localhost:3000"
+```
+
+The Convex variant merges this value instead:
+
+```dotenv
+EXPO_PUBLIC_CONVEX_SITE_URL="https://example.convex.site"
+```
+
+`desktop-api-client` requires the `desktop` and `api` workspaces. It restores the following client env field and URL builder:
+
+```ts
+// apps/desktop/src/shared/env.ts
+export default createEnv({
+  client: {
+    PUBLIC_API_URL: z.url(),
+  },
+  clientPrefix: REACT_PUBLIC_ENV_PREFIX,
+  extends: [tauri()],
+  runtimeEnv: { ...env, ...import.meta.env },
+  skipValidation: isCI,
+})
+
+// apps/desktop/src/shared/utils.ts
+const isProduction = import.meta.env.PROD
+
+export const buildApiUrl = createUrlBuilder(env.PUBLIC_API_URL, isProduction ? "https" : "http")
+```
+
+It also merges the client origin into `apps/desktop/.env.template`:
+
+```dotenv
+PUBLIC_API_URL="localhost:3000"
+```
+
+It also targets `apps/desktop/src/shared/trpc.ts`, adds exact-pinned `@trpc/client` and `superjson`, and uses the API's exported router type:
+
+```ts
+import type { TRPCRouter } from "api/client"
+import { createTRPCClient, httpBatchStreamLink, loggerLink } from "@trpc/client"
+import superjson from "superjson"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const trpcClient = createTRPCClient<TRPCRouter>({
+  links: [
+    loggerLink({
+      colorMode: "ansi",
+      enabled: () => import.meta.env.DEV,
+    }),
+    httpBatchStreamLink({
+      fetch: (requestUrl, options) =>
+        fetch(requestUrl, {
+          ...options,
+          credentials: "include",
+        }),
+      transformer: superjson,
+      url: buildApiUrl("/trpc"),
+    }),
+  ],
+})
+```
+
+The removed env-preset items merge the corresponding snippet into `packages/env/src/presets.ts`; the installer must perform a syntax-aware named-export merge and refuse a duplicate export:
+
+```ts
+// railway
+export { railway } from "@t3-oss/env-core/presets-zod"
+
+// openai
+export const openai = () =>
+  createEnv({
+    runtimeEnv: env,
+    server: {
+      OPENAI_API_KEY: z.string(),
+    },
+    skipValidation: isCI,
+  })
+
+// anthropic
+export const anthropic = () =>
+  createEnv({
+    runtimeEnv: env,
+    server: {
+      ANTHROPIC_API_KEY: z.string(),
+    },
+    skipValidation: isCI,
+  })
+
+// s3
+export const s3 = () =>
+  createEnv({
+    runtimeEnv: env,
+    server: {
+      S3_ACCESS_KEY_ID: z.string(),
+      S3_BUCKET: z.string().optional(),
+      S3_ENDPOINT: z.string().optional(),
+      S3_REGION: z.string().optional(),
+      S3_SECRET_ACCESS_KEY: z.string(),
+    },
+    skipValidation: isCI,
+  })
+```
+
 ## 3. `files-sdk` recipe requirements
 
 Treat this as an application integration, not a thin S3-helper port:
@@ -143,6 +502,7 @@ Add `init-now add` support for registry items (extend plan 04's reworked `add`):
 - `init-now add` lists registry items and installs them with scope rewriting; works non-interactively (`init-now add item codec --yes`).
 - Installing `codec` into a renamed project yields imports under the project scope, and `bun run check` passes.
 - Installing a `files-sdk` provider variant produces a typechecking authenticated Hono route and client integration with only that provider's dependencies and validated env variables.
+- Every item sourced from removed template code has a canonical snippet in this plan, and its installed files typecheck and are imported by at least one consumer where the recipe represents an integration.
 - Template contains no copies of backlog item code (registry is the single home).
 
 ## Decisions (settled with maintainer)

@@ -1,25 +1,53 @@
-import Feather from "@expo/vector-icons/Feather"
-import { ActivityIndicator } from "@init/native-ui/components/activity-indicator"
 import { Button } from "@init/native-ui/components/button"
-import { Icon } from "@init/native-ui/components/icon"
 import {
   LargeTitleHeader,
   type LargeTitleSearchBarRef,
 } from "@init/native-ui/components/large-title-header"
 import { Text } from "@init/native-ui/components/text"
-import { useRef, useState } from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useEffect, useRef, useState } from "react"
 import { View } from "react-native"
 import { useCSSVariable } from "uniwind"
-import env from "#shared/env.ts"
+import { m } from "#shared/internationalization/messages.js"
+import {
+  getLocale,
+  type Locale,
+  locales,
+  setLocale as setParaglideLocale,
+} from "#shared/internationalization/runtime.js"
+
+const LOCALE_STORAGE_KEY = "init-locale"
+
+function checkIsLocale(value: string): value is Locale {
+  return locales.some((locale) => locale === value)
+}
 
 export default function Screen() {
   const backgroundValue = useCSSVariable("--color-background")
   const background = typeof backgroundValue === "string" ? backgroundValue : undefined
-  const [isLoading, setIsLoading] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [locale, setLocale] = useState<Locale>(() => getLocale())
   const [searchQuery, setSearchQuery] = useState("")
   const searchBarRef = useRef<LargeTitleSearchBarRef>(null)
   const isSearching = isSearchFocused || searchQuery.length > 0
+
+  useEffect(() => {
+    async function hydrateLocale() {
+      const storedLocale = await AsyncStorage.getItem(LOCALE_STORAGE_KEY)
+      if (!storedLocale || !checkIsLocale(storedLocale)) return
+
+      void setParaglideLocale(storedLocale, { reload: false })
+      setLocale(storedLocale)
+    }
+
+    void hydrateLocale()
+  }, [])
+
+  async function selectLocale(nextLocale: Locale) {
+    await AsyncStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)
+    void setParaglideLocale(nextLocale, { reload: false })
+    setLocale(nextLocale)
+  }
 
   return (
     <>
@@ -41,45 +69,37 @@ export default function Screen() {
           },
           ref: searchBarRef,
         }}
-        title="Home"
+        title={m.mobile_title({}, { locale })}
       />
       {isSearching ? null : (
         <View className="flex-1 items-center justify-center gap-8 bg-background">
-          <View className="items-center justify-center gap-2">
-            <Text className="text-base leading-6 font-semibold text-primary">
-              Edit app/index.tsx to edit this screen.
+          <View className="items-center justify-center gap-3 px-6">
+            <Text className="text-center text-base leading-6 font-semibold text-primary">
+              {m.mobile_title({}, { locale })}
             </Text>
-            <Text className="text-base leading-6 text-primary">
-              API at {env.EXPO_PUBLIC_API_URL}
+            <Text className="text-center text-base leading-6 text-muted-foreground">
+              {m.mobile_description({}, { locale })}
             </Text>
-          </View>
-          <View className="items-center justify-center gap-4">
-            <View>{isLoading ? <ActivityIndicator /> : null}</View>
-            <Button
-              onPress={() => {
-                setIsLoading(!isLoading)
-              }}
-            >
-              <Text>Default</Text>
-            </Button>
-            <Button variant="destructive">
-              <Text>Destructive</Text>
-            </Button>
-            <Button variant="outline">
-              <Text>Outline</Text>
-            </Button>
-            <Button variant="secondary">
-              <Text>Secondary</Text>
-            </Button>
-            <Button variant="ghost">
-              <Text>Ghost</Text>
-            </Button>
-            <Button variant="link">
-              <Text>Link</Text>
-            </Button>
-            <Button size="icon">
-              <Icon as={Feather} className="size-5 text-primary-foreground" name="heart" />
-            </Button>
+            <View accessibilityLabel={m.switch_locale({}, { locale })} className="flex-row gap-2">
+              <Button
+                accessibilityState={{ selected: locale === "en" }}
+                onPress={() => {
+                  void selectLocale("en")
+                }}
+                variant={locale === "en" ? "default" : "outline"}
+              >
+                <Text>{m.english({}, { locale })}</Text>
+              </Button>
+              <Button
+                accessibilityState={{ selected: locale === "es" }}
+                onPress={() => {
+                  void selectLocale("es")
+                }}
+                variant={locale === "es" ? "default" : "outline"}
+              >
+                <Text>{m.spanish({}, { locale })}</Text>
+              </Button>
+            </View>
           </View>
         </View>
       )}

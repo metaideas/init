@@ -1,16 +1,22 @@
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
+import sitemap from "@astrojs/sitemap"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { ensureEnv } from "@tooling/env/vite"
 import { defineConfig } from "astro/config"
 
 await ensureEnv(process.env.NODE_ENV ?? "development", import.meta.dirname)
+const { default: env } = await import("./src/shared/env.ts")
 
 export default defineConfig({
+  redirects: {
+    "/": "/en/",
+  },
   server: {
     port: 3006,
   },
+  site: env.PUBLIC_SITE_URL ?? "http://localhost:3006",
 
   i18n: {
     defaultLocale: "en",
@@ -28,5 +34,11 @@ export default defineConfig({
     ],
   },
 
-  integrations: [react(), mdx()],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      filter: (page) => !/\/404\/?$/.test(new URL(page).pathname),
+    }),
+  ],
 })

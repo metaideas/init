@@ -6,6 +6,7 @@ import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { routeTree } from "#routeTree.gen.ts"
+import ErrorFallback from "#shared/components/error.tsx"
 import { logger } from "#shared/logger.ts"
 import { queryClient } from "#shared/query-client.ts"
 
@@ -28,6 +29,7 @@ const router = createRouter({
     logger: logger.with({ group: "router" }),
     queryClient,
   } satisfies RouterContext,
+  defaultErrorComponent: ErrorFallback,
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
   defaultStructuralSharing: true,

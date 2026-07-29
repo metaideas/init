@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { auth, db, inngest, kv, sentry } from "@init/env/presets"
+import { auth, db, inngest, kv, resend, sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 import { isCI } from "std-env"
 
@@ -12,6 +12,7 @@ export default createEnv({
     db(),
     kv(),
     inngest(),
+    resend(),
     sentry.server(),
   ],
   runtimeEnv: process.env,

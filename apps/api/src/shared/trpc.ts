@@ -34,7 +34,6 @@ export const t = initTRPC.context<TRPCContext>().create({
   transformer,
 })
 
-export const middleware = t.middleware
 export const createRouter = t.router
 
 export const publicProcedure = t.procedure
