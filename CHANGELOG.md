@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/metaideas/init/compare/init@v1.2.1...init@v1.3.0) (2026-07-29)
+
+
+### Features
+
+* migrate cli to Effect v4 ([#109](https://github.com/metaideas/init/issues/109)) ([29ef3a5](https://github.com/metaideas/init/commit/29ef3a5091f0cd1d1689e0782f390d79421e0481))
+
+
+### Bug Fixes
+
+* upgrade TypeScript to 7.0, add semver-based version comparison, and consolidate utils ([#108](https://github.com/metaideas/init/issues/108)) ([165a6a5](https://github.com/metaideas/init/commit/165a6a515996e194c3f9192ff504c029105ba72e))
+
 ## [1.2.1](https://github.com/metaideas/init/compare/init@v1.2.0...init@v1.2.1) (2026-07-28)
 
 
