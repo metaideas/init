@@ -8,6 +8,13 @@
     "target": "esnext",
     "types": ["bun"]
   },
-  "include": ["src", "bunup.config.ts", "knip.config.ts", "oxfmt.config.ts", "oxlint.config.ts"],
+  "include": [
+    "src",
+    "scripts",
+    "bunup.config.ts",
+    "knip.config.ts",
+    "oxfmt.config.ts",
+    "oxlint.config.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

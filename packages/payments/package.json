@@ -1,6 +1,7 @@
 {
   "name": "@init/payments",
   "private": true,
+  "description": "Payment processing utilities using Stripe",
   "license": "MIT",
   "type": "module",
   "imports": {

@@ -1,4 +1,5 @@
 import crypto from "node:crypto"
+import { database } from "@init/db/client"
 import { createMiddleware } from "@tanstack/react-start"
 import { logger } from "#shared/logger.ts"
 
@@ -17,3 +18,7 @@ export const withLogger = createMiddleware()
       },
     })
   )
+
+export const withDatabase = createMiddleware().server(({ next }) =>
+  next({ context: { database: database() } })
+)

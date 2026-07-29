@@ -30,12 +30,14 @@
     "fix:monorepo": "adamantite monorepo --fix",
     "format": "adamantite format",
     "generate": "bun --bun turbo generate",
+    "generate:manifest": "bun run --cwd cli generate:manifest",
     "init:add:app": "init-now add app",
     "init:add:package": "init-now add package",
     "init:check": "init-now check",
     "init:rename": "init-now rename",
     "init:setup": "init-now setup",
     "init:update": "init-now update",
+    "postinstall": "bun run codegen",
     "start": "turbo run start",
     "test": "bun test",
     "test:watch": "bun test --watch",
@@ -64,6 +66,30 @@
     "node": ">=24"
   },
   "packageManager": "bun@1.3.14",
+  "init": {
+    "cleanupPaths": [
+      "release-please-config.json",
+      ".github/workflows/release.yml",
+      ".github/workflows/opencode.yml",
+      ".github/workflows/cli.yml",
+      ".plans",
+      "cli",
+      "manifest.json"
+    ],
+    "excludedPaths": [
+      "node_modules",
+      ".git",
+      ".next",
+      "dist",
+      "build",
+      "out",
+      ".turbo",
+      ".cache",
+      ".pnpm-store",
+      ".yarn",
+      ".DS_Store"
+    ]
+  },
   "trustedDependencies": [
     "@parcel/watcher",
     "@sentry/cli",

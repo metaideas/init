@@ -6,10 +6,20 @@ on:
       - main
     paths:
       - "cli/**"
+      - "manifest.json"
+      - "package.json"
+      - "apps/*/package.json"
+      - "packages/*/package.json"
+      - "tooling/*/package.json"
       - ".github/workflows/cli.yml"
   pull_request:
     paths:
       - "cli/**"
+      - "manifest.json"
+      - "package.json"
+      - "apps/*/package.json"
+      - "packages/*/package.json"
+      - "tooling/*/package.json"
       - ".github/workflows/cli.yml"
 
 permissions:
@@ -42,6 +52,8 @@ jobs:
             command: bun run analyze
           - name: build
             command: bun run build && ./bin/init-now --version
+          - name: manifest
+            command: bun run generate:manifest && git -C .. ls-files --error-unmatch manifest.json && git -C .. diff --exit-code -- manifest.json
 
     steps:
       - name: Checkout

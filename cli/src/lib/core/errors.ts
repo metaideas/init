@@ -66,6 +66,33 @@ export class PackageJsonParseFailed extends Data.TaggedError("PackageJsonParseFa
   }
 }
 
+export class ManifestParseFailed extends Data.TaggedError("ManifestParseFailed")<{
+  readonly cause: unknown
+}> {
+  override get message() {
+    return `Failed to parse template manifest: ${
+      this.cause instanceof Error ? this.cause.message : String(this.cause)
+    }`
+  }
+}
+
+export class ManifestReadFailed extends Data.TaggedError("ManifestReadFailed")<{
+  readonly cause: unknown
+  readonly path: string
+}> {
+  override get message() {
+    return `Template manifest not found at ${this.path}. This snapshot predates manifest-based setup or setup has already completed. Use a compatible template release or run \`bunx init-now@latest\`.`
+  }
+}
+
+export class InvalidWorkspaceSelection extends Data.TaggedError("InvalidWorkspaceSelection")<{
+  readonly details: string
+}> {
+  override get message() {
+    return this.details
+  }
+}
+
 export class CliNotFound extends Data.TaggedError("CliNotFound")<{
   readonly command: string
 }> {

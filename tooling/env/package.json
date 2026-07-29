@@ -1,6 +1,7 @@
 {
   "name": "@tooling/env",
   "private": true,
+  "description": "Shared environment-file loading and validation tooling",
   "type": "module",
   "exports": {
     "./vite": "./src/vite.ts"

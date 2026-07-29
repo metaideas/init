@@ -1,6 +1,7 @@
 {
   "name": "api",
   "private": true,
+  "description": "Hono API running on Bun",
   "type": "module",
   "imports": {
     "#*": "./src/*"

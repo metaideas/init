@@ -30,6 +30,7 @@
     "dev": "bunup --watch",
     "fix": "adamantite fix",
     "format": "adamantite format",
+    "generate:manifest": "bun run scripts/generate-manifest.ts",
     "test": "bun test"
   },
   "dependencies": {

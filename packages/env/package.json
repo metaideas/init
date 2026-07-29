@@ -1,6 +1,7 @@
 {
   "name": "@init/env",
   "private": true,
+  "description": "Environment variable management and validation using Zod",
   "license": "MIT",
   "type": "module",
   "imports": {

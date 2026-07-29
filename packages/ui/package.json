@@ -1,6 +1,7 @@
 {
   "name": "@init/ui",
   "private": true,
+  "description": "Reusable UI components and design system using shadcn/ui",
   "license": "MIT",
   "type": "module",
   "imports": {

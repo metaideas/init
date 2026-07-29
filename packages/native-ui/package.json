@@ -1,6 +1,7 @@
 {
   "name": "@init/native-ui",
   "private": true,
+  "description": "Reusable native UI tokens and components",
   "license": "MIT",
   "type": "module",
   "imports": {
@@ -33,5 +34,13 @@
     "expo-glass-effect": "*",
     "react": "*",
     "react-native": "*"
+  },
+  "init": {
+    "relationships": {
+      "mobile": {
+        "kind": "recommended",
+        "reason": "Select mobile to get the native UI package wired into an Expo app out of the box."
+      }
+    }
   }
 }

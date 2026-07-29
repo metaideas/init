@@ -1,6 +1,7 @@
 {
   "name": "docs",
   "private": true,
+  "description": "Documentation site using Astro and Starlight",
   "type": "module",
   "imports": {
     "#*": "./src/*"

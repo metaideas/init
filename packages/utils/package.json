@@ -1,6 +1,7 @@
 {
   "name": "@init/utils",
   "private": true,
+  "description": "Shared utilities and helpers",
   "license": "MIT",
   "type": "module",
   "imports": {

@@ -1,6 +1,7 @@
 {
   "name": "@init/db",
   "private": true,
+  "description": "Database client and ORM using Drizzle",
   "license": "MIT",
   "type": "module",
   "imports": {

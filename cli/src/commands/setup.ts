@@ -1,164 +1,123 @@
-import { basename } from "node:path"
-import process from "node:process"
 import * as Effect from "effect/Effect"
-import * as FileSystem from "effect/FileSystem"
+import * as Option from "effect/Option"
 import * as Command from "effect/unstable/cli/Command"
+import * as Flag from "effect/unstable/cli/Flag"
+import { configureProject, initializeGitRepository } from "#lib/projects/configuration.ts"
 import { requireTool, runCommand } from "#lib/services/command-runner.ts"
 import { Prompter } from "#lib/services/prompter.ts"
-import { internalPaths } from "#lib/shared/internal-paths.ts"
+import { getPackageVersion } from "#lib/shared/version.macro.ts" with { type: "macro" }
+import { getCompatibilityWarning } from "#lib/templates/compatibility.ts"
+import { readManifest } from "#lib/templates/manifest.ts"
+import { getVersion, requireInitProject } from "#lib/templates/versions.ts"
 import {
-  getProjectNameValidationError,
-  normalizeProjectName,
-  replaceProjectNameInProjectFiles,
-  updatePackageJson,
-} from "#lib/shared/project.ts"
-import { requireInitProject } from "#lib/shared/releases.ts"
-import { workspaces } from "#lib/shared/workspaces.ts"
+  selectWorkspaceConfiguration,
+  validateWorkspaceFlags,
+} from "#lib/workspaces/configuration.ts"
+import { pruneWorkspaces } from "#lib/workspaces/pruning.ts"
 
-const README_CONTENT = `
-<div align="center">
-  <h1 align="center"><code><project-name></code></h1>
-</div>
+const name = Flag.string("name").pipe(
+  Flag.optional,
+  Flag.withDescription("Project name and monorepo scope.")
+)
+const apps = Flag.string("apps").pipe(
+  Flag.optional,
+  Flag.withDescription("Comma-separated app ids to keep.")
+)
+const packages = Flag.string("packages").pipe(
+  Flag.optional,
+  Flag.withDescription("Comma-separated package ids to keep.")
+)
+const yes = Flag.boolean("yes").pipe(
+  Flag.withDefault(false),
+  Flag.withDescription("Accept defaults and recommendation warnings.")
+)
+const install = Flag.boolean("install").pipe(
+  Flag.withDefault(true),
+  Flag.withDescription("Install dependencies after setup.")
+)
+const git = Flag.boolean("git").pipe(
+  Flag.withDefault(true),
+  Flag.withDescription("Initialize a Git repository.")
+)
 
-Made with [▶︎ \`init\`](https://github.com/metaideas/init)
-    `
-
-const removeUnselectedWorkspaces = Effect.fn("removeUnselectedWorkspaces")(function* (
-  apps: string[],
-  packages: string[]
-) {
-  const fs = yield* FileSystem.FileSystem
-  const pathsToRemove = [
-    ...workspaces.apps.filter((app) => !apps.includes(app.name)).map((app) => `apps/${app.name}`),
-    ...workspaces.packages
-      .filter((pkg) => !packages.includes(pkg.name))
-      .map((pkg) => `packages/${pkg.name}`),
-  ]
-
-  yield* Effect.forEach(
-    pathsToRemove,
-    (path) => fs.remove(path, { force: true, recursive: true }),
-    { concurrency: 10, discard: true }
-  )
-})
-
-const setupEnvironmentVariables = Effect.fn("setupEnvironmentVariables")(function* (
-  paths: string[]
-) {
-  const fs = yield* FileSystem.FileSystem
-  yield* Effect.forEach(
-    paths,
-    (workspacePath) =>
-      Effect.gen(function* () {
-        const templatePath = `${workspacePath}/.env.template`
-        const localPath = `${workspacePath}/.env.local`
-        if ((yield* fs.exists(localPath)) || !(yield* fs.exists(templatePath))) return
-        yield* fs.writeFileString(localPath, yield* fs.readFileString(templatePath))
-      }),
-    { concurrency: 10, discard: true }
-  )
-})
-
-const setupGit = Effect.fn("setupGit")(function* () {
-  const fs = yield* FileSystem.FileSystem
-  if (yield* fs.exists(".git")) return
-  yield* runCommand({ args: ["init"], command: "git" })
-})
-
-export const cleanupInternalFiles = Effect.fn("cleanupInternalFiles")(function* () {
-  const fs = yield* FileSystem.FileSystem
-  yield* Effect.forEach(
-    internalPaths,
-    (path) => fs.remove(path, { force: true, recursive: true }),
-    { concurrency: 10, discard: true }
-  )
-})
-
-export default Command.make("setup").pipe(
+export default Command.make("setup", { apps, git, install, name, packages, yes }).pipe(
   Command.withDescription("Setup an `init` project."),
-  Command.withHandler(() =>
+  Command.withHandler((flags) =>
     Effect.gen(function* () {
       yield* requireInitProject()
-      yield* requireTool("git")
+      const templateVersion = yield* getVersion()
+      const manifest = yield* readManifest()
       const prompter = yield* Prompter
 
-      yield* prompter.intro("🔧 Project Setup")
-      const currentDirName = basename(process.cwd()) || "init"
-      const projectName = normalizeProjectName(
-        yield* prompter.text({
-          defaultValue: currentDirName,
-          message: "Enter your project name (for @[project-name] monorepo alias):",
-          validate: getProjectNameValidationError,
-        })
-      )
-      const apps = yield* prompter.multiselect({
-        message: "Select apps to keep (all others will be removed)",
-        options: workspaces.apps.map((app) => ({
-          hint: app.description,
-          label: app.name,
-          value: app.name,
-        })),
-        required: false,
-      })
-
-      const requiredPackages = new Set(
-        apps.flatMap(
-          (app) => workspaces.apps.find((candidate) => candidate.name === app)?.dependencies ?? []
-        )
-      )
-      const selectedPackages = yield* prompter.multiselect({
-        initialValues: [...requiredPackages],
-        message:
-          "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
-        options: workspaces.packages.map((pkg) => ({
-          hint: pkg.description,
-          label: pkg.name,
-          value: pkg.name,
-        })),
-        required: false,
-      })
-
-      yield* prompter.log.info("Removing unselected workspaces...")
-      yield* removeUnselectedWorkspaces(apps, selectedPackages)
-      yield* prompter.log.success("Workspaces removed")
-
-      if (projectName !== "init") {
-        yield* prompter.log.info("Updating package.json...")
-        yield* updatePackageJson(projectName, "0.0.1")
-        yield* prompter.log.success("Package.json updated")
-        yield* prompter.log.info("Updating file references...")
-        yield* replaceProjectNameInProjectFiles(projectName)
-        yield* prompter.log.success("References updated")
+      if (templateVersion) {
+        const compatibilityWarning = getCompatibilityWarning(getPackageVersion(), templateVersion)
+        if (compatibilityWarning) {
+          yield* prompter.log.warning(compatibilityWarning)
+        }
       }
 
-      yield* prompter.log.info("Setting up environment files...")
-      yield* setupEnvironmentVariables([
-        ...apps.map((app) => `apps/${app}`),
-        ...selectedPackages.map((pkg) => `packages/${pkg}`),
-      ])
-      yield* prompter.log.success("Environment files setup complete")
-
-      yield* prompter.log.info("Initializing Git repository...")
-      yield* setupGit()
-      yield* prompter.log.success("Git repository initialized")
-
-      yield* prompter.log.info("Cleaning up internal files...")
-      yield* cleanupInternalFiles()
-      yield* prompter.log.success("Internal files removed")
-
-      yield* prompter.log.info("Creating README...")
-      const fs = yield* FileSystem.FileSystem
-      yield* fs.writeFileString("README.md", README_CONTENT.replace("<project-name>", projectName))
-      yield* prompter.log.success("README created")
-
-      yield* prompter.log.info("Installing dependencies...")
-      yield* runCommand({
-        args: ["install"],
-        command: "bun",
-        stderr: "inherit",
-        stdout: "inherit",
+      const workspaceFlags = yield* validateWorkspaceFlags(manifest, {
+        apps: Option.getOrUndefined(flags.apps),
+        packages: Option.getOrUndefined(flags.packages),
       })
-      yield* prompter.log.success("Dependencies installed")
+      const defaultWorkspaceFlags =
+        flags.yes && workspaceFlags.apps === undefined && workspaceFlags.packages === undefined
+          ? {
+              apps: manifest.workspaces
+                .filter((workspace) => workspace.type === "app")
+                .map((workspace) => workspace.id),
+              packages: manifest.workspaces
+                .filter((workspace) => workspace.type === "package")
+                .map((workspace) => workspace.id),
+            }
+          : workspaceFlags
+
+      if (flags.git) yield* requireTool("git")
+      if (flags.install) yield* requireTool("bun")
+
+      yield* prompter.intro("🔧 Project Setup")
+      const configuration = yield* selectWorkspaceConfiguration(manifest, {
+        ...defaultWorkspaceFlags,
+        name: Option.getOrUndefined(flags.name),
+        yes: flags.yes,
+      })
+      const removedWorkspaces = manifest.workspaces
+        .filter(
+          (workspace) =>
+            (workspace.type === "app" || workspace.type === "package") &&
+            !configuration.selected.has(workspace.id)
+        )
+        .map((workspace) => workspace.id)
+      if (flags.yes && removedWorkspaces.length > 0) {
+        yield* prompter.log.info(
+          `The following workspaces will be removed: ${removedWorkspaces.join(", ")}`
+        )
+      }
+      const selectedWorkspacePaths = yield* pruneWorkspaces(manifest, configuration)
+      yield* configureProject({
+        manifest,
+        projectName: configuration.projectName,
+        selectedWorkspacePaths,
+        templateVersion,
+      })
+
+      if (flags.git) {
+        yield* prompter.log.info("Initializing Git repository...")
+        yield* initializeGitRepository()
+        yield* prompter.log.success("Git repository initialized")
+      }
+
+      if (flags.install) {
+        yield* prompter.log.info("Installing dependencies...")
+        yield* runCommand({
+          args: ["install"],
+          command: "bun",
+          stderr: "inherit",
+          stdout: "inherit",
+        })
+        yield* prompter.log.success("Dependencies installed")
+      }
+
       yield* prompter.outro("🎉 All setup steps complete! Your project is ready.")
     })
   )

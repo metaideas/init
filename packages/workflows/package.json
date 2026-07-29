@@ -1,6 +1,7 @@
 {
   "name": "@init/workflows",
   "private": true,
+  "description": "Background tasks and workflows using Inngest",
   "license": "MIT",
   "type": "module",
   "imports": {

@@ -2,7 +2,7 @@ import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Schema from "effect/Schema"
 import { compare, valid } from "semver"
-import { InvalidVersion, NotInInitProject, TemplateVersionParseFailed } from "#lib/shared/errors.ts"
+import { InvalidVersion, NotInInitProject, TemplateVersionParseFailed } from "#lib/core/errors.ts"
 
 export const ReleaseInfoSchema = Schema.Struct({
   body: Schema.String,
@@ -31,7 +31,7 @@ export const getVersion = Effect.fn("getVersion")(function* () {
   const data = yield* Schema.decodeUnknownEffect(Schema.fromJsonString(TemplateVersionSchema))(
     content
   ).pipe(Effect.mapError((cause) => new TemplateVersionParseFailed({ cause })))
-  return yield* normalizeVersion(data["."]).pipe(Effect.map((version) => version))
+  return yield* normalizeVersion(data["."])
 })
 
 export const compareVersions = Effect.fn("compareVersions")(function* (

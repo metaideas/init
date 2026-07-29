@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Schema from "effect/Schema"
-import { PackageJsonParseFailed } from "#lib/shared/errors.ts"
+import { PackageJsonParseFailed } from "#lib/core/errors.ts"
 
 const PROJECT_NAME_REGEX = /^[a-z0-9][a-z0-9-_]*$/
 
@@ -11,10 +11,6 @@ export function getProjectNameValidationError(value: string | undefined) {
   return PROJECT_NAME_REGEX.test(name)
     ? undefined
     : "Project name can only contain lowercase letters, numbers, hyphens, and underscores."
-}
-
-export function normalizeProjectName(value: string) {
-  return value.trim()
 }
 
 export const PackageJsonSchema = Schema.Struct({ name: Schema.String })
@@ -41,7 +37,7 @@ export const updatePackageJson = Effect.fn("updatePackageJson")(function* (
   yield* fs.writeFileString("package.json", `${JSON.stringify(updated, null, 2)}\n`)
 })
 
-const EXCLUDED_DIRS = [
+export const DEFAULT_EXCLUDED_PATHS = [
   "node_modules",
   ".git",
   ".next",
@@ -52,31 +48,30 @@ const EXCLUDED_DIRS = [
   ".cache",
   ".pnpm-store",
   ".yarn",
+  ".DS_Store",
 ]
 
-const EXCLUDED_FILES = [".DS_Store"]
 const PATH_NORMALIZE_REGEX = /^\.\//
 const PATH_SEP_NORMALIZE_REGEX = /\\/g
 
-export function checkShouldExclude(filePath: string) {
-  const normalizedPath = filePath
-    .replace(PATH_NORMALIZE_REGEX, "")
-    .replace(PATH_SEP_NORMALIZE_REGEX, "/")
+function normalizePath(path: string) {
+  return path.replace(PATH_NORMALIZE_REGEX, "").replace(PATH_SEP_NORMALIZE_REGEX, "/")
+}
 
-  if (
-    EXCLUDED_DIRS.some(
-      (dir) =>
-        normalizedPath.includes(`/${dir}/`) ||
-        normalizedPath.endsWith(`/${dir}`) ||
-        normalizedPath.startsWith(`${dir}/`)
+export function checkShouldExclude(
+  filePath: string,
+  excludedPaths: readonly string[] = DEFAULT_EXCLUDED_PATHS
+) {
+  const normalizedPath = normalizePath(filePath)
+  return excludedPaths.some((excludedPath) => {
+    const normalizedExcludedPath = normalizePath(excludedPath)
+    return (
+      normalizedPath === normalizedExcludedPath ||
+      normalizedPath.includes(`/${normalizedExcludedPath}/`) ||
+      normalizedPath.endsWith(`/${normalizedExcludedPath}`) ||
+      normalizedPath.startsWith(`${normalizedExcludedPath}/`)
     )
-  ) {
-    return true
-  }
-
-  return EXCLUDED_FILES.some(
-    (file) => normalizedPath.endsWith(`/${file}`) || normalizedPath === file
-  )
+  })
 }
 
 const TEXT_FILE_EXTENSIONS = [
@@ -110,19 +105,35 @@ export function checkIsTextFile(file: string) {
   )
 }
 
-export const getAllFiles = Effect.fn("getAllFiles")(function* () {
+export const getAllFiles = Effect.fn("getAllFiles")(function* (
+  excludedPaths: readonly string[] = DEFAULT_EXCLUDED_PATHS
+) {
   const fs = yield* FileSystem.FileSystem
   const files = yield* fs.readDirectory(".", { recursive: true })
-  return files.filter((file) => !checkShouldExclude(file))
+  return yield* Effect.filter(
+    files.filter((file) => !checkShouldExclude(file, excludedPaths)),
+    (file) => fs.stat(file).pipe(Effect.map((info) => info.type === "File")),
+    { concurrency: 10 }
+  )
 })
 
 export const replaceProjectNameInProjectFiles = Effect.fn("replaceProjectNameInProjectFiles")(
-  function* (projectName: string, currentProjectName?: string) {
+  function* (
+    projectName: string,
+    currentProjectName?: string,
+    includedPaths?: readonly string[],
+    excludedPaths: readonly string[] = DEFAULT_EXCLUDED_PATHS
+  ) {
     const fs = yield* FileSystem.FileSystem
-    const allFiles = yield* getAllFiles()
+    const allFiles = yield* getAllFiles(excludedPaths)
 
     yield* Effect.forEach(
-      allFiles.filter((file) => checkIsTextFile(file)),
+      allFiles.filter(
+        (file) =>
+          checkIsTextFile(file) &&
+          (includedPaths === undefined ||
+            includedPaths.some((path) => file === path || file.startsWith(`${path}/`)))
+      ),
       (file) =>
         Effect.gen(function* () {
           const content = yield* fs.readFileString(file)

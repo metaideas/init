@@ -1,6 +1,7 @@
 {
   "name": "@init/kv",
   "private": true,
+  "description": "Redis client database integration",
   "license": "MIT",
   "type": "module",
   "imports": {

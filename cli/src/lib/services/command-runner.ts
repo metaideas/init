@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer"
 import * as Stream from "effect/Stream"
 import * as ChildProcess from "effect/unstable/process/ChildProcess"
 import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner"
-import { CliNotFound, CommandFailed } from "#lib/shared/errors.ts"
+import { CliNotFound, CommandFailed } from "#lib/core/errors.ts"
 
 export type CommandRunOptions = {
   readonly args: readonly string[]

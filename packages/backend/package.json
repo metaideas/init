@@ -1,6 +1,7 @@
 {
   "name": "@init/backend",
   "private": true,
+  "description": "Convex backend with Better Auth integration",
   "license": "MIT",
   "type": "module",
   "imports": {

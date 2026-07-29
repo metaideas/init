@@ -1,30 +1,26 @@
 import * as Effect from "effect/Effect"
 import * as Command from "effect/unstable/cli/Command"
 import { Prompter } from "#lib/services/prompter.ts"
-import { ReleaseClient } from "#lib/services/release-client.ts"
-import { compareVersions, getVersion, requireInitProject } from "#lib/shared/releases.ts"
+import { getTemplateVersionStatus } from "#lib/templates/releases.ts"
+import { requireInitProject } from "#lib/templates/versions.ts"
 
 export default Command.make("check").pipe(
   Command.withDescription("Check template version"),
   Command.withHandler(() =>
     Effect.gen(function* () {
       yield* requireInitProject()
-      const releases = yield* ReleaseClient
       const prompter = yield* Prompter
 
       yield* prompter.intro("🔍 Template Version Check")
       yield* prompter.log.info("Checking for template updates...")
 
-      const [currentVersion, latestRelease] = yield* Effect.all(
-        [getVersion(), releases.getLatest()],
-        { concurrency: 2 }
-      )
-      const latestVersion = latestRelease.tagName
+      const version = yield* getTemplateVersionStatus()
+      const latestVersion = version.latestRelease.tagName
 
-      yield* prompter.log.info(`Current: ${currentVersion ?? "Unknown"}`)
+      yield* prompter.log.info(`Current: ${version.currentVersion ?? "Unknown"}`)
       yield* prompter.log.info(`Latest: ${latestVersion}`)
 
-      if (!currentVersion) {
+      if (version.status === "unknown") {
         yield* prompter.log.warning(
           "No local template version found. Run 'init-now update' to initialize."
         )
@@ -32,19 +28,18 @@ export default Command.make("check").pipe(
         return
       }
 
-      const comparison = yield* compareVersions(currentVersion, latestVersion)
-      if (comparison === 0) {
+      if (version.status === "current") {
         yield* prompter.outro("✅ Template is up to date!")
-      } else if (comparison > 0) {
+      } else if (version.status === "ahead") {
         yield* prompter.log.warning(
-          `Local version (${currentVersion}) is newer than latest release (${latestVersion})`
+          `Local version (${version.currentVersion}) is newer than latest release (${latestVersion})`
         )
         yield* prompter.outro("⚠️ Local template is newer than the latest release.")
       } else {
-        yield* prompter.log.info(`Update available: ${currentVersion} → ${latestVersion}`)
+        yield* prompter.log.info(`Update available: ${version.currentVersion} → ${latestVersion}`)
         yield* prompter.log.info("Run 'init-now update' to update your template")
-        if (latestRelease.body) {
-          yield* prompter.log.info(`Release notes:\n${latestRelease.body}`)
+        if (version.latestRelease.body) {
+          yield* prompter.log.info(`Release notes:\n${version.latestRelease.body}`)
         }
         yield* prompter.outro("🆙 Template update available")
       }
