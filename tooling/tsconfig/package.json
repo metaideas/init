@@ -1,6 +1,7 @@
 {
   "name": "@tooling/tsconfig",
   "private": true,
+  "description": "Shared TypeScript configurations",
   "files": [
     "*.json",
     "reset.d.ts"

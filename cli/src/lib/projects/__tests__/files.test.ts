@@ -1,10 +1,15 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import { mkdtemp, rm, writeFile } from "node:fs/promises"
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import * as BunServices from "@effect/platform-bun/BunServices"
 import * as Effect from "effect/Effect"
-import { getProjectNameValidationError, updatePackageJson } from "#lib/shared/project.ts"
+import {
+  checkShouldExclude,
+  getAllFiles,
+  getProjectNameValidationError,
+  updatePackageJson,
+} from "#lib/projects/files.ts"
 
 const originalWorkingDirectory = process.cwd()
 let temporaryDirectory: string | undefined
@@ -22,6 +27,31 @@ describe("getProjectNameValidationError", () => {
 
   test.each(["", "MyApp", "my app", "-my-app"])("rejects %j", (name) => {
     expect(getProjectNameValidationError(name)).toBeString()
+  })
+})
+
+describe("checkShouldExclude", () => {
+  test("respects custom excluded paths", () => {
+    expect(checkShouldExclude("cache/output.txt", ["cache"])).toBe(true)
+    expect(checkShouldExclude("node_modules/package.json", ["cache"])).toBe(false)
+  })
+
+  test("uses default exclusions when omitted", () => {
+    expect(checkShouldExclude("node_modules/package.json")).toBe(true)
+    expect(checkShouldExclude("apps/app/.DS_Store")).toBe(true)
+  })
+})
+
+describe("getAllFiles", () => {
+  test("returns files without directory entries", async () => {
+    temporaryDirectory = await mkdtemp(join(tmpdir(), "init-now-project-"))
+    process.chdir(temporaryDirectory)
+    await mkdir("tooling/tsconfig", { recursive: true })
+    await writeFile("tooling/tsconfig/base.json", "{}\n")
+
+    const files = await Effect.runPromise(getAllFiles().pipe(Effect.provide(BunServices.layer)))
+
+    expect(files).toEqual(["tooling/tsconfig/base.json"])
   })
 })
 

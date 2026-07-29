@@ -53,6 +53,8 @@
       "dependencies": {
         "@init/auth": "workspace:*",
         "@init/core": "workspace:*",
+        "@init/db": "workspace:*",
+        "@init/email": "workspace:*",
         "@init/env": "workspace:*",
         "@init/observability": "workspace:*",
         "@init/ui": "workspace:*",
@@ -61,9 +63,7 @@
         "@tanstack/react-router": "1.170.18",
         "@tanstack/react-router-ssr-query": "1.167.1",
         "@tanstack/react-start": "1.168.32",
-        "@trpc/client": "^11.7.1",
-        "@trpc/tanstack-react-query": "^11.7.1",
-        "api": "workspace:*",
+        "qte": "0.1.1",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "std-env": "4.2.0",
@@ -181,7 +181,6 @@
       "dependencies": {
         "@expo/metro-runtime": "~6.1.2",
         "@expo/react-native-action-sheet": "4.1.1",
-        "@expo/vector-icons": "^15.0.2",
         "@init/env": "workspace:*",
         "@init/native-ui": "workspace:*",
         "@init/observability": "workspace:*",
@@ -2214,11 +2213,7 @@
 
     "@total-typescript/ts-reset": ["@total-typescript/ts-reset@0.6.1", "", {}, "sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg=="],
 
-    "@trpc/client": ["@trpc/client@11.18.0", "", { "peerDependencies": { "@trpc/server": "11.18.0", "typescript": ">=5.7.2" }, "bin": { "intent": "bin/intent.js" } }, "sha512-wOqeg3Fvl25V1ZisQhUD3K8G60ZJDlSGJNSyeXrLH24xAo5w6GSR2Kzb1cSNY9Y+IQ2YZvYGZstBU+V/ulo/ow=="],
-
     "@trpc/server": ["@trpc/server@11.8.1", "", { "peerDependencies": { "typescript": ">=5.7.2" } }, "sha512-P4rzZRpEL7zDFgjxK65IdyH0e41FMFfTkQkuq0BA5tKcr7E6v9/v38DEklCpoDN6sPiB1Sigy/PUEzHENhswDA=="],
-
-    "@trpc/tanstack-react-query": ["@trpc/tanstack-react-query@11.18.0", "", { "peerDependencies": { "@tanstack/react-query": "^5.80.3", "@trpc/client": "11.18.0", "@trpc/server": "11.18.0", "react": ">=18.2.0", "typescript": ">=5.7.2" }, "bin": { "intent": "bin/intent.js" } }, "sha512-dm5xIlN0SEzJAbQ34EHdb1Kgd/zWZ63ZMviQEw3WCWCIPz8MjLKAhquncPcn+YxFUJa+Qi4qatdGFymmM4HmAQ=="],
 
     "@ts-morph/common": ["@ts-morph/common@0.27.0", "", { "dependencies": { "fast-glob": "^3.3.3", "minimatch": "^10.0.1", "path-browserify": "^1.0.1" } }, "sha512-Wf29UqxWDpc+i61k3oIOzcUfQt79PIT9y/MWfAGlrkjg6lBC1hwDECLXPVJAhWjiGbfBCxZd65F/LIZF3+jeJQ=="],
 

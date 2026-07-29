@@ -1,6 +1,7 @@
 {
   "name": "@init/analytics",
   "private": true,
+  "description": "Web and product analytics",
   "license": "MIT",
   "type": "module",
   "exports": {

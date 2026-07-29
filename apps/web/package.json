@@ -1,6 +1,7 @@
 {
   "name": "web",
   "private": true,
+  "description": "Astro marketing site and blog",
   "type": "module",
   "imports": {
     "#*": "./src/*"

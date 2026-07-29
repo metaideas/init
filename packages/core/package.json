@@ -1,6 +1,7 @@
 {
   "name": "@init/core",
   "private": true,
+  "description": "Core application and business logic",
   "license": "MIT",
   "type": "module",
   "imports": {

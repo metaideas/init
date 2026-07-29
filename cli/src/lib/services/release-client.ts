@@ -4,8 +4,8 @@ import * as Context from "effect/Context"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Schema from "effect/Schema"
-import { GitHubRateLimited, VersionCheckFailed } from "#lib/shared/errors.ts"
-import { ReleaseInfoSchema, type ReleaseInfo } from "#lib/shared/releases.ts"
+import { GitHubRateLimited, VersionCheckFailed } from "#lib/core/errors.ts"
+import { ReleaseInfoSchema, type ReleaseInfo } from "#lib/templates/versions.ts"
 
 export function mapReleaseError(cause: unknown) {
   if (

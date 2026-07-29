@@ -1,0 +1,49 @@
+import { AUTH_APP_NAME, AUTH_COOKIE_PREFIX } from "@init/auth/constants"
+import { tanstackStartCookies as cookies } from "@init/auth/integrations/start"
+import { createAuth, databaseAdapter } from "@init/auth/server"
+import { admin, organization } from "@init/auth/server/plugins"
+import { database } from "@init/db/client"
+import { sendEmail } from "@init/email/client"
+import PasswordReset from "@init/email/templates/password-reset"
+import { seconds } from "qte"
+import env from "#shared/env.ts"
+
+export const auth = createAuth({
+  advanced: {
+    cookiePrefix: AUTH_COOKIE_PREFIX,
+    database: { generateId: false },
+  },
+  appName: AUTH_APP_NAME,
+  basePath: "/api/auth",
+  baseURL: env.PUBLIC_BASE_URL,
+  database: databaseAdapter(database()),
+  emailAndPassword: {
+    autoSignIn: true,
+    enabled: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail(PasswordReset({ resetUrl: url }), {
+        emails: [user.email],
+        subject: `Reset your ${AUTH_APP_NAME} password`,
+      })
+    },
+  },
+  plugins: [admin(), organization(), cookies()],
+  secret: env.AUTH_SECRET,
+  session: {
+    expiresIn: seconds("30d"),
+    updateAge: seconds("15d"),
+  },
+  socialProviders: {
+    github: {
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
+      enabled: true,
+    },
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      enabled: true,
+    },
+  },
+  trustedOrigins: env.AUTH_TRUSTED_ORIGINS,
+})

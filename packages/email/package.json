@@ -1,6 +1,7 @@
 {
   "name": "@init/email",
   "private": true,
+  "description": "Email templating and sending service using Resend",
   "type": "module",
   "exports": {
     "./client": "./src/client.ts",

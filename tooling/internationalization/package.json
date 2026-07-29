@@ -1,6 +1,7 @@
 {
   "name": "@tooling/internationalization",
   "private": true,
+  "description": "Shared internationalization configuration and messages",
   "files": [
     "project.inlang",
     "src"

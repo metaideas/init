@@ -1,6 +1,7 @@
 {
   "name": "mobile",
   "private": true,
+  "description": "Expo application deployed with EAS",
   "main": "src/index.ts",
   "imports": {
     "#*": "./src/*"

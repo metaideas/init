@@ -1,6 +1,7 @@
 {
   "name": "desktop",
   "private": true,
+  "description": "Tauri desktop application with TanStack Router",
   "type": "module",
   "imports": {
     "#*": "./src/*"

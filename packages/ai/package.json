@@ -1,6 +1,7 @@
 {
   "name": "@init/ai",
   "private": true,
+  "description": "Model provider registry using the AI SDK",
   "license": "MIT",
   "type": "module",
   "exports": {

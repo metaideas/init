@@ -1,6 +1,7 @@
 {
   "name": "app",
   "private": true,
+  "description": "Full-stack TanStack Start application with local server functions",
   "type": "module",
   "imports": {
     "#*": "./src/*"
@@ -17,6 +18,8 @@
   "dependencies": {
     "@init/auth": "workspace:*",
     "@init/core": "workspace:*",
+    "@init/db": "workspace:*",
+    "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
@@ -25,9 +28,7 @@
     "@tanstack/react-router": "1.170.18",
     "@tanstack/react-router-ssr-query": "1.167.1",
     "@tanstack/react-start": "1.168.32",
-    "@trpc/client": "^11.7.1",
-    "@trpc/tanstack-react-query": "^11.7.1",
-    "api": "workspace:*",
+    "qte": "0.1.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "std-env": "4.2.0",

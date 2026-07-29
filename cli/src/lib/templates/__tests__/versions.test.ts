@@ -9,7 +9,7 @@ import {
   getVersion,
   normalizeVersion,
   updateTemplateVersion,
-} from "#lib/shared/releases.ts"
+} from "#lib/templates/versions.ts"
 
 const originalWorkingDirectory = process.cwd()
 let temporaryDirectory: string | undefined

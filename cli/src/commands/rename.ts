@@ -1,14 +1,13 @@
 import * as Effect from "effect/Effect"
 import * as Command from "effect/unstable/cli/Command"
-import { Prompter } from "#lib/services/prompter.ts"
 import {
   getProjectNameValidationError,
-  normalizeProjectName,
   readPackageJson,
   replaceProjectNameInProjectFiles,
   updatePackageJson,
-} from "#lib/shared/project.ts"
-import { requireInitProject } from "#lib/shared/releases.ts"
+} from "#lib/projects/files.ts"
+import { Prompter } from "#lib/services/prompter.ts"
+import { requireInitProject } from "#lib/templates/versions.ts"
 
 export default Command.make("rename").pipe(
   Command.withDescription("Rename the project and update all @init references"),
@@ -18,13 +17,11 @@ export default Command.make("rename").pipe(
       const prompter = yield* Prompter
 
       yield* prompter.intro("✏️  Project Rename")
-      const newProjectName = normalizeProjectName(
-        yield* prompter.text({
-          defaultValue: "my-app",
-          message: "Enter your new project name",
-          validate: getProjectNameValidationError,
-        })
-      )
+      const newProjectName = (yield* prompter.text({
+        defaultValue: "my-app",
+        message: "Enter your new project name",
+        validate: getProjectNameValidationError,
+      })).trim()
       const packageJson = yield* readPackageJson()
 
       yield* prompter.log.info("Updating package.json...")

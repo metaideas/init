@@ -1,6 +1,7 @@
 {
   "name": "@init/auth",
   "private": true,
+  "description": "Authentication utilities using Better Auth",
   "type": "module",
   "imports": {
     "#*": "./src/*"
