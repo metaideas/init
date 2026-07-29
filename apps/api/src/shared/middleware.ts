@@ -1,6 +1,5 @@
 import type { DeepMerge } from "@init/utils/type"
 import { findIp } from "@arcjet/ip"
-import { kv } from "@init/kv/client"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
@@ -33,13 +32,5 @@ export function withRateLimiting(interval: TimeExpression, limit: number) {
     limit,
     standardHeaders: "draft-7",
     windowMs: ms(interval),
-  })
-}
-
-export function withNamespacedKV(namespace: string) {
-  return createMiddleware<AppContext>(async (c, next) => {
-    c.set("kv", kv(namespace))
-
-    await next()
   })
 }

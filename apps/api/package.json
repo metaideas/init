@@ -18,7 +18,6 @@
     "@arcjet/ip": "^1.9.1",
     "@hono/standard-validator": "^0.2.3",
     "@hono/trpc-server": "0.4.2",
-    "@hono/zod-validator": "0.9.0",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
     "@init/env": "workspace:*",
