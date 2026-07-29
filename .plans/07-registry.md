@@ -23,7 +23,7 @@ Item targets must use template-relative paths (e.g. `packages/utils/src/codec.ts
 
 ## 2. Registry backlog (initial items)
 
-Populated by deletions from plans 02/03 — agents executing those plans append here:
+Populated by deletions from plans 02/03/04 — agents executing those plans append here:
 
 - `codec` — Zod JSON codec (was `packages/utils/src/codec.ts`)
 - `assert` — assertion helpers importing `@init/core/errors` (was `packages/utils/src/assert.ts`)
@@ -33,6 +33,10 @@ Populated by deletions from plans 02/03 — agents executing those plans append 
 - `mobile-auth-client-api` — the better-auth expo client removed from `apps/mobile` in plan 03 (`src/shared/auth.ts`), wired against `apps/api`'s better-auth handler, plus a minimal sign-in screen + session gate
 - `mobile-auth-client-convex` — same client wired for the Convex backend: `@convex-dev/better-auth` client plugin + Convex site URL as `baseURL`
 - `desktop-api-client` — opt-in wiring connecting `apps/desktop` to `apps/api` (env var, URL builder, fetch/tRPC client) — removed as a default in plan 03's local-first direction
+- `app-api-client` — shared `PUBLIC_API_URL` validation and URL builder for connecting the standalone TanStack Start app to `apps/api`
+- `app-api-auth` — switches the app's Better Auth client/session calls to the Hono API while retaining the local TanStack auth route as the zero-config fallback
+- `app-api-trpc` — restores the typed tRPC client, React Query integration, API greeting, and email-availability query removed from the default app in plan 04
+- `app-api` — convenience meta-item whose registry dependencies install `app-api-client`, `app-api-auth`, and `app-api-trpc` together
 - env presets removed in plan 02: `railway`, `openai`, `anthropic`, `s3`
 - ~~`@init/ui` unused components~~ — **decided: NOT registry items.** All 57 components stay in the template: they are customized to fit the project (base-ui port, project theming), and the user model is "import what you need, delete the rest." Do not move them here.
 
@@ -96,7 +100,187 @@ export function throwIf(condition: boolean, message: string): asserts condition 
 
 ### Restored integration item requirements
 
-The snippets below are the canonical minimums captured from code removed by plans 02/03. Registry implementation may improve their composition, but must preserve their behavior and must typecheck the complete installed item.
+The snippets below are the canonical minimums captured from code removed by plans 02/03/04. Registry implementation may improve their composition, but must preserve their behavior and must typecheck the complete installed item.
+
+The default `apps/app` is self-contained after plan 04: TanStack Start server routes host Better Auth, and server functions provide app data. The following items install real remote adapters at that seam. They must not be present in the template by default.
+
+`app-api-client` requires the `app` workspace. It merges `PUBLIC_API_URL` into `apps/app/src/shared/env.ts` and restores the remote URL builder in `apps/app/src/shared/utils.ts`:
+
+```ts
+// apps/app/src/shared/env.ts
+client: {
+  PUBLIC_API_URL: z.url({ protocol: /^https?$/ }).optional(),
+  PUBLIC_BASE_URL: z.url({ protocol: /^https?$/ }),
+}
+```
+
+```ts
+// apps/app/src/shared/utils.ts
+export const buildApiUrl = createUrlBuilder(
+  env.PUBLIC_API_URL ?? `${env.PUBLIC_BASE_URL}/api`,
+  isProduction ? "https" : "http"
+)
+```
+
+It also merges the API URL into the app env template:
+
+```dotenv
+PUBLIC_API_URL="http://localhost:3000"
+```
+
+`app-api-auth` has registry dependency `app-api-client` and requires the `app`, `api`, and `@init/auth` workspaces. It targets `apps/app/src/shared/auth.ts`:
+
+```ts
+import { createAuthClient } from "@init/auth/client"
+import { adminClient, organizationClient } from "@init/auth/client/plugins"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const authClient = createAuthClient(buildApiUrl("/auth"), [
+  adminClient(),
+  organizationClient(),
+])
+
+export const { useSession, signIn, signOut, signUp } = authClient
+```
+
+It also targets the session/password-reset adapter in `apps/app/src/features/auth/server/functions.ts`:
+
+```ts
+import * as z from "@init/utils/schema"
+import { createIsomorphicFn } from "@tanstack/react-start"
+import { getRequestHeaders } from "@tanstack/react-start/server"
+import { authClient } from "#shared/auth.ts"
+import { publicFunction } from "#shared/server/functions.ts"
+import { buildUrl } from "#shared/utils.ts"
+
+export const validateSession = createIsomorphicFn()
+  .client(async () => {
+    const { data: session } = await authClient.getSession()
+    return session
+  })
+  .server(async () => {
+    const { data: session } = await authClient.getSession({
+      fetchOptions: { headers: getRequestHeaders() },
+    })
+    return session
+  })
+
+export const forgotPassword = publicFunction
+  .validator(z.object({ email: z.email() }))
+  .handler(async ({ data }) => {
+    const { error } = await authClient.requestPasswordReset({
+      email: data.email,
+      fetchOptions: { headers: getRequestHeaders() },
+      redirectTo: buildUrl("/reset-password"),
+    })
+
+    if (error) throw new Error(error.message)
+    return { success: true }
+  })
+```
+
+Installing this item does not delete the local Better Auth handler. `PUBLIC_API_URL` selects the remote adapter; removing the variable makes the same client target the local `/api/auth` handler again. The installed item documents that both deployments must share compatible Better Auth cookie, secret, plugin, and trusted-origin configuration.
+
+`app-api-trpc` has registry dependency `app-api-client`, requires the `app` and `api` workspaces, adds `api: "workspace:*"` to `apps/app/package.json`, and exact-pins `@trpc/client` plus `@trpc/tanstack-react-query` to the validated versions. It targets `apps/app/src/shared/trpc.ts`:
+
+```ts
+import type { TRPCRouter } from "api/client"
+import { createIsomorphicFn } from "@tanstack/react-start"
+import { getRequestHeaders } from "@tanstack/react-start/server"
+import { createTRPCClient, httpBatchStreamLink, loggerLink } from "@trpc/client"
+import { createTRPCContext } from "@trpc/tanstack-react-query"
+import superjson from "superjson"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const { useTRPC, useTRPCClient, TRPCProvider } = createTRPCContext<TRPCRouter>()
+
+const url = buildApiUrl("/trpc")
+
+export const makeTRPCClient = createIsomorphicFn()
+  .server(() =>
+    createTRPCClient<TRPCRouter>({
+      links: [
+        httpBatchStreamLink({
+          headers: getRequestHeaders,
+          transformer: superjson,
+          url,
+        }),
+      ],
+    })
+  )
+  .client(() =>
+    createTRPCClient<TRPCRouter>({
+      links: [
+        loggerLink({
+          colorMode: "ansi",
+          enabled: () => import.meta.env.DEV,
+        }),
+        httpBatchStreamLink({
+          fetch: (requestUrl, options) =>
+            fetch(requestUrl, {
+              ...options,
+              credentials: "include",
+            }),
+          transformer: superjson,
+          url,
+        }),
+      ],
+    })
+  )
+```
+
+The item restores the tRPC adapter in `apps/app/src/router.tsx`:
+
+```tsx
+import type { TRPCRouter } from "api/client"
+import { createTRPCOptionsProxy, type TRPCOptionsProxy } from "@trpc/tanstack-react-query"
+import { makeTRPCClient, TRPCProvider } from "#shared/trpc.ts"
+
+export type RouterContext = {
+  queryClient: QueryClient
+  logger: typeof logger
+  trpc: TRPCOptionsProxy<TRPCRouter>
+}
+
+const trpcClient = makeTRPCClient()
+const trpc = createTRPCOptionsProxy({
+  client: trpcClient,
+  queryClient,
+})
+
+const router = createRouter({
+  Wrap: ({ children }) => (
+    <TRPCProvider queryClient={queryClient} trpcClient={trpcClient}>
+      {children}
+    </TRPCProvider>
+  ),
+  context: {
+    logger: logger.getChild("router"),
+    queryClient,
+    trpc,
+  } satisfies RouterContext,
+})
+```
+
+The complete item includes template-version-matched targets for the dashboard and sign-up form. Their integration seams are:
+
+```ts
+await context.queryClient.ensureQueryData(context.trpc.hello.queryOptions())
+```
+
+```ts
+const { isAvailable } = await trpcClient.auth.checks.emailAvailable.query({
+  email,
+})
+```
+
+The item removes the superseded local `getGreeting` and `checkEmailAvailability` consumers, not the reusable local server infrastructure. Its manifest records every overwritten target and the template version in `validatedAgainst`; installation must stop with a clear conflict instead of overwriting locally modified files silently.
+
+`app-api` contains no source files. Its `registryDependencies` install `app-api-auth` and `app-api-trpc`, which both share `app-api-client`. This provides the one-command path:
+
+```sh
+init-now add item app-api
+```
 
 `stripe-agent-toolkit` targets `packages/payments/src/agent-toolkit.ts`, depends on the selected `@init/payments` workspace and exact-pinned `@stripe/agent-toolkit`, and exports:
 
@@ -471,7 +655,7 @@ The item may offer provider variants (for example `files-sdk-bun-s3`, `files-sdk
 ### Cross-plan coordination
 
 - **The contract suite (item 7) runs against local MinIO — zero external services.** `infra/local/docker-compose.yml` already runs MinIO, and both `bun-s3` and `files-sdk/s3` accept custom endpoints. Point the live suite at the local MinIO endpoint; the bucket bootstrap added in plan 03 (§5, `mc` init container) provisions the buckets it needs. Cloud-provider live runs remain optional/manual, matching upstream's own policy.
-- **The recipe requires `apps/api` — declare it in the item manifest.** Projects that chose the Convex backend (plan 04 backend choice) cannot install it; use the same `requires: ["api"]` concept plan 04 introduces for workspaces so the CLI filters/explains instead of failing at install. A `files-sdk-convex` variant (the adapter exists) is a separate future item — the mount point differs too much to parameterize.
+- **The recipe requires `apps/api` — declare it in the item manifest.** Projects without the API workspace cannot install it; use plan 04's generated workspace graph so the CLI filters/explains instead of failing at install. Selecting Convex or the standalone TanStack Start app does not implicitly add or exclude Hono. A `files-sdk-convex` variant (the adapter exists) is a separate future item — the mount point differs too much to parameterize.
 - **Storage fields are deployment configuration.** Plan 02 leaves provider, bucket, and MIME type as plain text; the recipe's `files.ts` composition owns its bucket and prefix configuration.
 - **This item settles the versioning open question (for itself):** the item manifest records the exact `files-sdk` version it was validated against (e.g. a `validatedAgainst` field surfaced in the item description), and bumping that pin requires re-running the contract suite before publishing the updated item. Given upstream's release velocity (16 releases in 11 weeks, breaking major within 6 weeks of 1.0), do not float the version.
 - **Env flows through the registry env mechanism (§4 step 3):** `FILES_API_SECRET` and the chosen adapter's provider vars ship as an env-preset addition applied on install, so `init-now add files-sdk-bun-s3` leaves env validation complete instead of printing a manual TODO.
@@ -501,6 +685,8 @@ Add `init-now add` support for registry items (extend plan 04's reworked `add`):
 - `registry.json` + at least the backlog items above are published and installable via `bunx shadcn add <url>` into a scaffolded project.
 - `init-now add` lists registry items and installs them with scope rewriting; works non-interactively (`init-now add item codec --yes`).
 - Installing `codec` into a renamed project yields imports under the project scope, and `bun run check` passes.
+- Installing `app-api-auth` switches the app client/session flow to `apps/api` without changing auth UI consumers; installing `app-api-trpc` restores the remote greeting and email-availability consumers with a typechecking `api/client` dependency.
+- Installing `app-api` composes both adapters, while a project that installs none of them keeps a working standalone TanStack Start app with no `api` or tRPC dependency.
 - Installing a `files-sdk` provider variant produces a typechecking authenticated Hono route and client integration with only that provider's dependencies and validated env variables.
 - Every item sourced from removed template code has a canonical snippet in this plan, and its installed files typecheck and are imported by at least one consumer where the recipe represents an integration.
 - Template contains no copies of backlog item code (registry is the single home).
