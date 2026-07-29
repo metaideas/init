@@ -3,7 +3,7 @@ import { defineConfig } from "bunup"
 export default defineConfig({
   dts: true,
   entry: ["src/index.ts"],
-  external: ["giget", "effect", /^@effect\//],
+  external: ["@effect/platform-node", "@octokit/rest", "effect", "giget"],
   minify: true,
   outDir: "dist",
   sourcemap: false,

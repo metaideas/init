@@ -1,12 +1,9 @@
-import { createEnv } from "@init/env"
-import * as z from "@init/utils/schema"
+import { createEnv, REACT_PUBLIC_ENV_PREFIX } from "@init/env"
 import { isCI } from "std-env"
 
 export default createEnv({
-  client: {
-    VITE_API_URL: z.url(),
-  },
-  clientPrefix: "VITE_",
+  client: {},
+  clientPrefix: REACT_PUBLIC_ENV_PREFIX,
   extends: [],
   runtimeEnv: process.env,
   skipValidation: isCI,

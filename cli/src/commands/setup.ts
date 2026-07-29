@@ -1,16 +1,19 @@
 import { basename } from "node:path"
 import process from "node:process"
-import { Command, Prompt } from "@effect/cli"
-import { Command as ShellCommand, FileSystem } from "@effect/platform"
-import { Console, Effect } from "effect"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Command from "effect/unstable/cli/Command"
+import { requireTool, runCommand } from "#lib/services/command-runner.ts"
+import { Prompter } from "#lib/services/prompter.ts"
+import { internalPaths } from "#lib/shared/internal-paths.ts"
 import {
-  GitInitFailed,
-  InstallFailed,
+  getProjectNameValidationError,
+  normalizeProjectName,
   replaceProjectNameInProjectFiles,
-  requireInitProject,
   updatePackageJson,
-} from "#utils.ts"
-import { workspaces } from "#workspaces.ts"
+} from "#lib/shared/project.ts"
+import { requireInitProject } from "#lib/shared/releases.ts"
+import { workspaces } from "#lib/shared/workspaces.ts"
 
 const README_CONTENT = `
 <div align="center">
@@ -20,194 +23,143 @@ const README_CONTENT = `
 Made with [▶︎ \`init\`](https://github.com/metaideas/init)
     `
 
-const removeUnselectedWorkspaces = (apps: string[], packages: string[]) =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-
-    const appsToRemove = workspaces.apps
-      .filter((app) => !apps.includes(app.name))
-      .map((app) => `apps/${app.name}`)
-    const packagesToRemove = workspaces.packages
+const removeUnselectedWorkspaces = Effect.fn("removeUnselectedWorkspaces")(function* (
+  apps: string[],
+  packages: string[]
+) {
+  const fs = yield* FileSystem.FileSystem
+  const pathsToRemove = [
+    ...workspaces.apps.filter((app) => !apps.includes(app.name)).map((app) => `apps/${app.name}`),
+    ...workspaces.packages
       .filter((pkg) => !packages.includes(pkg.name))
-      .map((pkg) => `packages/${pkg.name}`)
+      .map((pkg) => `packages/${pkg.name}`),
+  ]
 
-    const pathsToRemove = [...appsToRemove, ...packagesToRemove]
+  yield* Effect.forEach(
+    pathsToRemove,
+    (path) => fs.remove(path, { force: true, recursive: true }),
+    { concurrency: 10, discard: true }
+  )
+})
 
-    yield* Effect.forEach(
-      pathsToRemove,
-      (path) => fs.remove(path, { recursive: true }).pipe(Effect.orElse(() => Effect.void)),
-      { concurrency: 10, discard: true }
-    )
-  })
+const setupEnvironmentVariables = Effect.fn("setupEnvironmentVariables")(function* (
+  paths: string[]
+) {
+  const fs = yield* FileSystem.FileSystem
+  yield* Effect.forEach(
+    paths,
+    (workspacePath) =>
+      Effect.gen(function* () {
+        const templatePath = `${workspacePath}/.env.template`
+        const localPath = `${workspacePath}/.env.local`
+        if ((yield* fs.exists(localPath)) || !(yield* fs.exists(templatePath))) return
+        yield* fs.writeFileString(localPath, yield* fs.readFileString(templatePath))
+      }),
+    { concurrency: 10, discard: true }
+  )
+})
 
-const setupEnvironmentVariables = (paths: string[]) =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    yield* Effect.forEach(
-      paths,
-      (workspacePath) =>
-        Effect.gen(function* () {
-          const templatePath = `${workspacePath}/.env.template`
-          const localPath = `${workspacePath}/.env.local`
+const setupGit = Effect.fn("setupGit")(function* () {
+  const fs = yield* FileSystem.FileSystem
+  if (yield* fs.exists(".git")) return
+  yield* runCommand({ args: ["init"], command: "git" })
+})
 
-          const localExists = yield* fs.exists(localPath)
-          if (localExists) {
-            return
-          }
-
-          const templateExists = yield* fs.exists(templatePath)
-          if (!templateExists) {
-            return
-          }
-
-          const templateContent = yield* fs.readFileString(templatePath)
-          yield* fs.writeFileString(localPath, templateContent)
-        }).pipe(Effect.orElse(() => Effect.void)),
-      { concurrency: 10, discard: true }
-    )
-  })
-
-const setupGit = () =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const gitExists = yield* fs.exists(".git")
-    if (gitExists) {
-      return
-    }
-
-    yield* ShellCommand.make("git", "init").pipe(
-      ShellCommand.exitCode,
-      Effect.mapError((e) => new GitInitFailed({ cause: e }))
-    )
-  })
-
-const cleanupInternalFiles = () =>
-  Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem
-    const filesToRemove = [
-      "release-please-config.json",
-      ".github/workflows/release.yml",
-      ".github/workflows/opencode.yml",
-      ".github/workflows/cli.yml",
-      ".plans",
-      "cli",
-    ]
-
-    yield* Effect.forEach(
-      filesToRemove,
-      (file) => fs.remove(file, { recursive: true }).pipe(Effect.orElse(() => Effect.void)),
-      { concurrency: 10, discard: true }
-    )
-  })
+export const cleanupInternalFiles = Effect.fn("cleanupInternalFiles")(function* () {
+  const fs = yield* FileSystem.FileSystem
+  yield* Effect.forEach(
+    internalPaths,
+    (path) => fs.remove(path, { force: true, recursive: true }),
+    { concurrency: 10, discard: true }
+  )
+})
 
 export default Command.make("setup").pipe(
   Command.withDescription("Setup an `init` project."),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n🔧 Project Setup\n")
+      yield* requireInitProject()
+      yield* requireTool("git")
+      const prompter = yield* Prompter
 
-      const currentDirName = yield* Effect.sync(() => {
-        const cwd = process.cwd()
-        return basename(cwd) || "init"
-      })
-
-      const projectName = yield* Prompt.text({
-        message: "Enter your project name (for @[project-name] monorepo alias):",
-        default: currentDirName,
-        validate: (value: string) => {
-          const trimmed = value.trim()
-
-          if (!trimmed) {
-            return Effect.fail("Project name is required.")
-          }
-
-          return Effect.succeed(trimmed)
-        },
-      })
-
-      const apps = yield* Prompt.multiSelect({
+      yield* prompter.intro("🔧 Project Setup")
+      const currentDirName = basename(process.cwd()) || "init"
+      const projectName = normalizeProjectName(
+        yield* prompter.text({
+          defaultValue: currentDirName,
+          message: "Enter your project name (for @[project-name] monorepo alias):",
+          validate: getProjectNameValidationError,
+        })
+      )
+      const apps = yield* prompter.multiselect({
         message: "Select apps to keep (all others will be removed)",
-        choices: workspaces.apps.map((app) => ({
-          title: app.name,
+        options: workspaces.apps.map((app) => ({
+          hint: app.description,
+          label: app.name,
           value: app.name,
-          description: app.description,
         })),
+        required: false,
       })
 
-      const requiredPackages = new Set<string>()
-
-      for (const app of apps) {
-        const foundApp = workspaces.apps.find((a) => a.name === app)
-        if (foundApp?.dependencies) {
-          for (const dep of foundApp.dependencies) {
-            requiredPackages.add(dep)
-          }
-        }
-      }
-
-      const selectedPackages = yield* Prompt.multiSelect({
+      const requiredPackages = new Set(
+        apps.flatMap(
+          (app) => workspaces.apps.find((candidate) => candidate.name === app)?.dependencies ?? []
+        )
+      )
+      const selectedPackages = yield* prompter.multiselect({
+        initialValues: [...requiredPackages],
         message:
           "Select packages to keep (all others will be removed). We've automatically selected packages that are required by the selected apps.",
-        choices: workspaces.packages.map((pkg) => ({
-          title: pkg.name,
+        options: workspaces.packages.map((pkg) => ({
+          hint: pkg.description,
+          label: pkg.name,
           value: pkg.name,
-          description: pkg.description,
-          selected: requiredPackages.has(pkg.name),
         })),
+        required: false,
       })
 
-      yield* Console.log("   Removing unselected workspaces...\n")
+      yield* prompter.log.info("Removing unselected workspaces...")
       yield* removeUnselectedWorkspaces(apps, selectedPackages)
-      yield* Console.log("✅ Workspaces removed\n")
+      yield* prompter.log.success("Workspaces removed")
 
       if (projectName !== "init") {
-        yield* Console.log("   Updating package.json...\n")
+        yield* prompter.log.info("Updating package.json...")
         yield* updatePackageJson(projectName, "0.0.1")
-        yield* Console.log("✅ Package.json updated\n")
-
-        yield* Console.log("   Updating file references...\n")
+        yield* prompter.log.success("Package.json updated")
+        yield* prompter.log.info("Updating file references...")
         yield* replaceProjectNameInProjectFiles(projectName)
-        yield* Console.log("✅ References updated\n")
+        yield* prompter.log.success("References updated")
       }
 
-      yield* Console.log("   Setting up environment files...\n")
+      yield* prompter.log.info("Setting up environment files...")
       yield* setupEnvironmentVariables([
         ...apps.map((app) => `apps/${app}`),
         ...selectedPackages.map((pkg) => `packages/${pkg}`),
       ])
-      yield* Console.log("✅ Environment files setup complete\n")
+      yield* prompter.log.success("Environment files setup complete")
 
-      yield* Console.log("   Initializing Git repository...\n")
+      yield* prompter.log.info("Initializing Git repository...")
       yield* setupGit()
-      yield* Console.log("✅ Git repository initialized\n")
+      yield* prompter.log.success("Git repository initialized")
 
-      yield* Console.log("   Cleaning up internal files...\n")
+      yield* prompter.log.info("Cleaning up internal files...")
       yield* cleanupInternalFiles()
-      yield* Console.log("✅ Internal files removed\n")
+      yield* prompter.log.success("Internal files removed")
 
-      yield* Console.log("   Creating README...\n")
+      yield* prompter.log.info("Creating README...")
       const fs = yield* FileSystem.FileSystem
       yield* fs.writeFileString("README.md", README_CONTENT.replace("<project-name>", projectName))
-      yield* Console.log("✅ README created\n")
+      yield* prompter.log.success("README created")
 
-      yield* Console.log("   Installing dependencies...\n")
-      yield* ShellCommand.make("bun", "install").pipe(
-        ShellCommand.stdout("inherit"),
-        ShellCommand.stderr("inherit"),
-        ShellCommand.exitCode,
-        Effect.mapError((e) => new InstallFailed({ cause: e }))
-      )
-      yield* Console.log("✅ Dependencies installed\n")
-
-      yield* Console.log("\n🎉 All setup steps complete! Your project is ready.\n")
-    }).pipe(
-      Effect.catchTags({
-        GitInitFailed: (e) =>
-          Console.error(`\nAn error occurred while initializing git: ${e.message}`),
-        InstallFailed: (e) =>
-          Console.error(`\nAn error occurred while installing dependencies: ${e.message}`),
+      yield* prompter.log.info("Installing dependencies...")
+      yield* runCommand({
+        args: ["install"],
+        command: "bun",
+        stderr: "inherit",
+        stdout: "inherit",
       })
-    )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+      yield* prompter.log.success("Dependencies installed")
+      yield* prompter.outro("🎉 All setup steps complete! Your project is ready.")
+    })
+  )
 )

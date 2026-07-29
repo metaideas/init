@@ -1,60 +1,53 @@
-import { Command } from "@effect/cli"
-import { Console, Effect } from "effect"
-import {
-  compareVersions,
-  getLatestRelease,
-  getVersion,
-  requireInitProject,
-  VersionCheckFailed,
-} from "#utils.ts"
+import * as Effect from "effect/Effect"
+import * as Command from "effect/unstable/cli/Command"
+import { Prompter } from "#lib/services/prompter.ts"
+import { ReleaseClient } from "#lib/services/release-client.ts"
+import { compareVersions, getVersion, requireInitProject } from "#lib/shared/releases.ts"
 
 export default Command.make("check").pipe(
   Command.withDescription("Check template version"),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n🔍 Template Version Check\n")
+      yield* requireInitProject()
+      const releases = yield* ReleaseClient
+      const prompter = yield* Prompter
 
-      yield* Console.log("   Checking for template updates...\n")
+      yield* prompter.intro("🔍 Template Version Check")
+      yield* prompter.log.info("Checking for template updates...")
 
       const [currentVersion, latestRelease] = yield* Effect.all(
-        [getVersion(), getLatestRelease()],
+        [getVersion(), releases.getLatest()],
         { concurrency: 2 }
       )
-
       const latestVersion = latestRelease.tagName
 
-      yield* Console.log(`   Current: ${currentVersion ?? "Unknown"}`)
-      yield* Console.log(`   Latest:  ${latestVersion}\n`)
+      yield* prompter.log.info(`Current: ${currentVersion ?? "Unknown"}`)
+      yield* prompter.log.info(`Latest: ${latestVersion}`)
 
       if (!currentVersion) {
-        yield* Console.log(
-          "⚠️  No local template version found. Run 'init-now update' to initialize.\n"
+        yield* prompter.log.warning(
+          "No local template version found. Run 'init-now update' to initialize."
         )
+        yield* prompter.outro("⚠️ Template version is unknown.")
         return
       }
 
       const comparison = yield* compareVersions(currentVersion, latestVersion)
-
       if (comparison === 0) {
-        yield* Console.log("✅ Template is up to date!\n")
+        yield* prompter.outro("✅ Template is up to date!")
       } else if (comparison > 0) {
-        yield* Console.log(
-          `⚠️  Local version (${currentVersion}) is newer than latest release (${latestVersion})\n`
+        yield* prompter.log.warning(
+          `Local version (${currentVersion}) is newer than latest release (${latestVersion})`
         )
+        yield* prompter.outro("⚠️ Local template is newer than the latest release.")
       } else {
-        yield* Console.log(`🆙 Update available: ${currentVersion} → ${latestVersion}\n`)
-        yield* Console.log("   Run 'init-now update' to update your template\n")
-
+        yield* prompter.log.info(`Update available: ${currentVersion} → ${latestVersion}`)
+        yield* prompter.log.info("Run 'init-now update' to update your template")
         if (latestRelease.body) {
-          yield* Console.log("   Release notes:\n")
-          yield* Console.log(`${latestRelease.body}\n`)
+          yield* prompter.log.info(`Release notes:\n${latestRelease.body}`)
         }
+        yield* prompter.outro("🆙 Template update available")
       }
-    }).pipe(
-      Effect.catchTag("VersionCheckFailed", (e) =>
-        Console.error(`\n✖  Failed to check for updates: ${e.message}\n`)
-      )
-    )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+    })
+  )
 )

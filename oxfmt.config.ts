@@ -10,6 +10,7 @@ export default defineConfig({
   endOfLine: "lf",
   ignorePatterns: [
     "CHANGELOG.md",
+    "cli/**",
     "**/*.hbs",
     "**/*.gen.ts",
     "**/*.generated.ts",

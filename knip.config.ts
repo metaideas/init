@@ -3,7 +3,7 @@ import analyze from "adamantite/analyze"
 
 const config: KnipConfig = {
   ...analyze,
-  ignore: ["**/*.d.ts"],
+  ignore: ["**/*.d.ts", "cli/**"],
   ignoreExportsUsedInFile: true,
   ignoreFiles: [],
   rules: {
@@ -50,11 +50,6 @@ const config: KnipConfig = {
     "apps/web": {
       entry: "src/shared/env.ts",
       project: "src/**/*.{astro,css,js,jsx,mdx,ts,tsx}",
-    },
-    cli: {
-      entry: ["src/index.ts", "bunup.config.ts"],
-      ignoreBinaries: ["bunup"],
-      project: "src/**/*.ts",
     },
     "packages/*": {
       project: "src/**/*.{js,jsx,ts,tsx}",

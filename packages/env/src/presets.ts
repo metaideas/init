@@ -1,7 +1,7 @@
 import * as z from "@init/utils/schema"
 import { createEnv } from "@t3-oss/env-core"
 import { env, isCI } from "std-env"
-import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX } from "#constants.ts"
+import { EXPO_PUBLIC_ENV_PREFIX, REACT_PUBLIC_ENV_PREFIX, TAURI_ENV_PREFIX } from "#constants.ts"
 import { getRuntimeEnv } from "#runtime.ts"
 
 // Presets for system environment variables from popular services (Vercel, Neon,
@@ -252,7 +252,7 @@ export const tauri = () =>
       TAURI_ENV_PLATFORM_VERSION: z.string().optional(),
       TAURI_ENV_TARGET_TRIPLE: z.string().optional(),
     },
-    clientPrefix: "TAURI_ENV_",
+    clientPrefix: TAURI_ENV_PREFIX,
     runtimeEnv: getRuntimeEnv(),
     skipValidation: isCI,
   })

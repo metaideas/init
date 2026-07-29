@@ -14,7 +14,7 @@ Plans for evolving the `init` template monorepo and its `init-now` CLI. Each pla
 | 06  | [Update command rework](06-update-command-rework.md)                         | 01, 04, 09           | L    | Pending |
 | 07  | [Registry (init.now)](07-registry.md)                                        | 02, 04, 10           | L    | Pending |
 | 08  | [CLI release automation](08-cli-release-automation.md)                       | 01, 09               | S    | Pending |
-| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)            | 01                   | L    | Pending |
+| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)            | 01                   | L    | Done    |
 | 10  | [init.now marketing site](10-marketing-site.md)                              | —                    | M    | Pending |
 | 11  | [`bun create init-now` support](11-bun-create-support.md)                    | 08, 09               | S    | Pending |
 | 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 02 (soft), 05 (soft) | M    | Pending |

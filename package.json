@@ -43,15 +43,10 @@
     "typegen": "turbo run typegen --continue"
   },
   "devDependencies": {
-    "@effect/cli": "0.73.0",
-    "@effect/platform": "0.94.1",
-    "@effect/platform-bun": "0.87.0",
-    "@octokit/rest": "22.0.0",
     "@turbo/gen": "2.6.3",
     "@types/bun": "1.3.14",
     "@types/yargs": "17.0.35",
     "adamantite": "0.33.2",
-    "effect": "3.19.14",
     "init-now": "2.0.1",
     "knip": "6.29.0",
     "oxfmt": "0.60.0",
@@ -60,7 +55,7 @@
     "sherif": "1.13.0",
     "turbo": "2.6.3",
     "typescript": "7.0.2",
-    "yargs": "18.0.0"
+    "yargs": "18.1.0"
   },
   "overrides": {
     "@types/react": "19.1.13",

@@ -1,2 +1,3 @@
 export const EXPO_PUBLIC_ENV_PREFIX = "EXPO_PUBLIC_"
 export const REACT_PUBLIC_ENV_PREFIX = "PUBLIC_"
+export const TAURI_ENV_PREFIX = "TAURI_ENV_"

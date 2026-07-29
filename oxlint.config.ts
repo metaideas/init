@@ -11,8 +11,7 @@ export default defineConfig({
     "**/*.d.ts",
     "**/*.gen.ts",
     "**/*.generated.ts",
-    // The published CLI is a standalone package outside the root workspace. Root type-aware checks
-    // make tsgolint panic while resolving its nested relative tsconfig paths.
+    // The standalone CLI runs its own Adamantite checks outside the root workspace.
     "cli/**",
     // TODO: adelrodriguez -- Shadcn registry source is excluded until its generated code is reconciled with Adamantite.
     "packages/ui/**",

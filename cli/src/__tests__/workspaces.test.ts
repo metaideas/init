@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import * as Bun from "bun"
-import { workspaces } from "#workspaces.ts"
+import { workspaces } from "#lib/shared/workspaces.ts"
 
 const rootDir = new URL("../../../", import.meta.url)
 
@@ -34,9 +34,7 @@ describe("cli workspaces configuration", () => {
           .map((dep) => dep.replace("@init/", ""))
           .toSorted((a, b) => a.localeCompare(b))
 
-        const declaredDeps = app.dependencies
-          ? [...app.dependencies].toSorted((a, b) => a.localeCompare(b))
-          : []
+        const declaredDeps = [...app.dependencies].toSorted((a, b) => a.localeCompare(b))
 
         return { actualDeps, declaredDeps }
       })
@@ -53,10 +51,6 @@ describe("cli workspaces configuration", () => {
     const validPackageNames = workspaces.packages.map((pkg) => pkg.name)
 
     for (const app of workspaces.apps) {
-      if (!app.dependencies) {
-        continue
-      }
-
       for (const dep of app.dependencies) {
         expect(validPackageNames).toContain(dep)
       }

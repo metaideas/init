@@ -1,115 +1,100 @@
-import { Command, Prompt } from "@effect/cli"
-import { Command as ShellCommand } from "@effect/platform"
-import { Console, Effect } from "effect"
-import { readPackageJson, requireInitProject, TurboGenFailed } from "#utils.ts"
-import { workspaces } from "#workspaces.ts"
+import * as Effect from "effect/Effect"
+import * as Command from "effect/unstable/cli/Command"
+import { requireTool, runCommand } from "#lib/services/command-runner.ts"
+import { Prompter } from "#lib/services/prompter.ts"
+import { readPackageJson } from "#lib/shared/project.ts"
+import { requireInitProject } from "#lib/shared/releases.ts"
+import { workspaces } from "#lib/shared/workspaces.ts"
 
 const appCommand = Command.make("app").pipe(
   Command.withDescription("Add an app from the init template to your monorepo"),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n📦 Add an `init` app\n")
+      yield* requireInitProject()
+      yield* requireTool("turbo")
+      const prompter = yield* Prompter
 
-      const selectedWorkspace = yield* Prompt.select({
+      yield* prompter.intro("📦 Add an `init` app")
+      const selectedWorkspace = yield* prompter.select({
         message: "Select an app from the init template",
-        choices: workspaces.apps.map((app) => ({
-          title: app.name,
+        options: workspaces.apps.map((app) => ({
+          hint: app.description,
+          label: app.name,
           value: app.name,
-          description: app.description,
         })),
       })
-
-      const workspaceName = yield* Prompt.text({
+      const workspaceName = yield* prompter.text({
+        defaultValue: selectedWorkspace,
         message: "Name your app",
-        default: selectedWorkspace,
       })
 
-      yield* ShellCommand.make(
-        "turbo",
-        "gen",
-        "workspace",
-        "--copy",
-        `https://github.com/metaideas/init/tree/main/apps/${selectedWorkspace}`,
-        "--type",
-        "app",
-        "--name",
-        workspaceName,
-        "--no-update-notifier"
-      ).pipe(
-        ShellCommand.stdin("inherit"),
-        ShellCommand.stdout("inherit"),
-        ShellCommand.stderr("inherit"),
-        ShellCommand.exitCode,
-        Effect.mapError((e) => new TurboGenFailed({ cause: e }))
-      )
-
-      yield* Console.log("\n🎉 App generated successfully!\n")
-    }).pipe(
-      Effect.catchTag("TurboGenFailed", (e) =>
-        Console.error(`\nAn error occurred while generating workspace: ${e.message}`)
-      )
-    )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+      yield* runCommand({
+        args: [
+          "gen",
+          "workspace",
+          "--copy",
+          `https://github.com/metaideas/init/tree/main/apps/${selectedWorkspace}`,
+          "--type",
+          "app",
+          "--name",
+          workspaceName,
+          "--no-update-notifier",
+        ],
+        command: "turbo",
+        stderr: "inherit",
+        stdin: "inherit",
+        stdout: "inherit",
+      })
+      yield* prompter.outro("🎉 App generated successfully!")
+    })
+  )
 )
 
 const packageCommand = Command.make("package").pipe(
   Command.withDescription("Add a package from the init template to your monorepo"),
   Command.withHandler(() =>
     Effect.gen(function* () {
-      yield* Console.log("\n📦 Add an `init` package\n")
+      yield* requireInitProject()
+      yield* requireTool("turbo")
+      const prompter = yield* Prompter
 
-      const selectedWorkspace = yield* Prompt.select({
+      yield* prompter.intro("📦 Add an `init` package")
+      const selectedWorkspace = yield* prompter.select({
         message: "Select a package from the init template",
-        choices: workspaces.packages.map((pkg) => ({
-          title: pkg.name,
+        options: workspaces.packages.map((pkg) => ({
+          hint: pkg.description,
+          label: pkg.name,
           value: pkg.name,
-          description: pkg.description,
         })),
       })
-
-      const packageJson = yield* readPackageJson().pipe(
-        Effect.catchAll(() => Effect.succeed({ name: "init" }))
-      )
-
-      const projectName = packageJson.name
-
-      const packageName = yield* Prompt.text({
+      const packageJson = yield* readPackageJson()
+      const packageName = yield* prompter.text({
+        defaultValue: selectedWorkspace,
         message: "Name your package",
-        default: selectedWorkspace,
       })
 
-      const name = `@${projectName}/${packageName}`
-
-      yield* ShellCommand.make(
-        "turbo",
-        "gen",
-        "workspace",
-        "--copy",
-        `https://github.com/metaideas/init/tree/main/packages/${selectedWorkspace}`,
-        "--type",
-        "package",
-        "--name",
-        name,
-        "--destination",
-        `packages/${packageName}`,
-        "--no-update-notifier"
-      ).pipe(
-        ShellCommand.stdin("inherit"),
-        ShellCommand.stdout("inherit"),
-        ShellCommand.stderr("inherit"),
-        ShellCommand.exitCode,
-        Effect.mapError((e) => new TurboGenFailed({ cause: e }))
-      )
-
-      yield* Console.log("\n🎉 Package generated successfully!\n")
-    }).pipe(
-      Effect.catchTag("TurboGenFailed", (e) =>
-        Console.error(`\nAn error occurred while generating workspace: ${e.message}`)
-      )
-    )
-  ),
-  Command.provideEffectDiscard(requireInitProject())
+      yield* runCommand({
+        args: [
+          "gen",
+          "workspace",
+          "--copy",
+          `https://github.com/metaideas/init/tree/main/packages/${selectedWorkspace}`,
+          "--type",
+          "package",
+          "--name",
+          `@${packageJson.name}/${packageName}`,
+          "--destination",
+          `packages/${packageName}`,
+          "--no-update-notifier",
+        ],
+        command: "turbo",
+        stderr: "inherit",
+        stdin: "inherit",
+        stdout: "inherit",
+      })
+      yield* prompter.outro("🎉 Package generated successfully!")
+    })
+  )
 )
 
 export default Command.make("add").pipe(
