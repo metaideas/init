@@ -1,5 +1,5 @@
 {
-  "id": "cbc32b39-00c1-4f77-90d7-98662074f499",
+  "id": "a121f2e2-a252-4054-9aec-f9c8778a3780",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -28,32 +28,8 @@
           "notNull": true,
           "default": "now()"
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "account_id": {
-          "name": "account_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "provider_id": {
-          "name": "provider_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "access_token": {
           "name": "access_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "refresh_token": {
-          "name": "refresh_token",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -61,6 +37,36 @@
         "access_token_expires_at": {
           "name": "access_token_expires_at",
           "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -76,17 +82,11 @@
           "primaryKey": false,
           "notNull": false
         },
-        "id_token": {
-          "name": "id_token",
+        "user_id": {
+          "name": "user_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
-        },
-        "password": {
-          "name": "password",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {
@@ -177,8 +177,8 @@
           "notNull": true,
           "default": "now()"
         },
-        "organization_id": {
-          "name": "organization_id",
+        "ip_address": {
+          "name": "ip_address",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -189,17 +189,17 @@
           "primaryKey": false,
           "notNull": false
         },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "type": {
           "name": "type",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "ip_address": {
-          "name": "ip_address",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "user_agent": {
           "name": "user_agent",
@@ -256,22 +256,22 @@
         }
       },
       "foreignKeys": {
-        "activity_logs_organization_id_organizations_id_fk": {
-          "name": "activity_logs_organization_id_organizations_id_fk",
-          "tableFrom": "activity_logs",
-          "tableTo": "organizations",
-          "schemaTo": "organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
         "activity_logs_member_id_members_id_fk": {
           "name": "activity_logs_member_id_members_id_fk",
           "tableFrom": "activity_logs",
           "tableTo": "members",
           "schemaTo": "organization",
           "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "activity_logs_organization_id_organizations_id_fk": {
+          "name": "activity_logs_organization_id_organizations_id_fk",
+          "tableFrom": "activity_logs",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": ["organization_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
@@ -307,11 +307,23 @@
           "notNull": true,
           "default": "now()"
         },
-        "name": {
-          "name": "name",
+        "bucket": {
+          "name": "bucket",
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "error_message": {
+          "name": "error_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
         },
         "key": {
           "name": "key",
@@ -319,22 +331,32 @@
           "primaryKey": false,
           "notNull": true
         },
-        "bucket": {
-          "name": "bucket",
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mime_type": {
+          "name": "mime_type",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "provider": {
           "name": "provider",
-          "type": "storage_provider",
-          "typeSchema": "storage",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'s3'"
-        },
-        "mime_type": {
-          "name": "mime_type",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -353,35 +375,11 @@
           "notNull": true,
           "default": "'pending'"
         },
-        "error_message": {
-          "name": "error_message",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "uploader_id": {
           "name": "uploader_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "metadata": {
-          "name": "metadata",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {
@@ -498,22 +496,22 @@
         }
       },
       "foreignKeys": {
-        "assets_uploader_id_users_id_fk": {
-          "name": "assets_uploader_id_users_id_fk",
-          "tableFrom": "assets",
-          "tableTo": "users",
-          "schemaTo": "auth",
-          "columnsFrom": ["uploader_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
         "assets_organization_id_organizations_id_fk": {
           "name": "assets_organization_id_organizations_id_fk",
           "tableFrom": "assets",
           "tableTo": "organizations",
           "schemaTo": "organization",
           "columnsFrom": ["organization_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "assets_uploader_id_users_id_fk": {
+          "name": "assets_uploader_id_users_id_fk",
+          "tableFrom": "assets",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": ["uploader_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
@@ -549,14 +547,14 @@
           "notNull": true,
           "default": "now()"
         },
-        "name": {
-          "name": "name",
+        "content": {
+          "name": "content",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "content": {
-          "name": "content",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -594,9 +592,15 @@
           "notNull": true,
           "default": "now()"
         },
-        "organization_id": {
-          "name": "organization_id",
+        "email": {
+          "name": "email",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
@@ -606,8 +610,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "email": {
-          "name": "email",
+        "organization_id": {
+          "name": "organization_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -627,12 +631,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'pending'"
-        },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
         }
       },
       "indexes": {
@@ -689,22 +687,22 @@
         }
       },
       "foreignKeys": {
-        "invitations_organization_id_organizations_id_fk": {
-          "name": "invitations_organization_id_organizations_id_fk",
-          "tableFrom": "invitations",
-          "tableTo": "organizations",
-          "schemaTo": "organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
         "invitations_inviter_id_members_id_fk": {
           "name": "invitations_inviter_id_members_id_fk",
           "tableFrom": "invitations",
           "tableTo": "members",
           "schemaTo": "organization",
           "columnsFrom": ["inviter_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "invitations_organization_id_organizations_id_fk": {
+          "name": "invitations_organization_id_organizations_id_fk",
+          "tableFrom": "invitations",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": ["organization_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
@@ -945,18 +943,6 @@
           "notNull": true,
           "default": "now()"
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "expires_at": {
           "name": "expires_at",
           "type": "timestamp with time zone",
@@ -968,6 +954,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "ip_address": {
           "name": "ip_address",
@@ -1066,16 +1064,6 @@
         }
       },
       "foreignKeys": {
-        "sessions_user_id_users_id_fk": {
-          "name": "sessions_user_id_users_id_fk",
-          "tableFrom": "sessions",
-          "tableTo": "users",
-          "schemaTo": "auth",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
         "sessions_impersonated_by_users_id_fk": {
           "name": "sessions_impersonated_by_users_id_fk",
           "tableFrom": "sessions",
@@ -1084,6 +1072,16 @@
           "columnsFrom": ["impersonated_by"],
           "columnsTo": ["id"],
           "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
           "onUpdate": "cascade"
         },
         "sessions_active_organization_id_organizations_id_fk": {
@@ -1133,25 +1131,24 @@
           "notNull": true,
           "default": "now()"
         },
-        "role": {
-          "name": "role",
-          "type": "user_role",
-          "typeSchema": "auth",
+        "ban_expires_at": {
+          "name": "ban_expires_at",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'user'"
+          "notNull": false
         },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "image": {
-          "name": "image",
+        "ban_reason": {
+          "name": "ban_reason",
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "banned": {
+          "name": "banned",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "email": {
           "name": "email",
@@ -1166,22 +1163,9 @@
           "notNull": true,
           "default": false
         },
-        "banned": {
-          "name": "banned",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
-        "ban_reason": {
-          "name": "ban_reason",
+        "image": {
+          "name": "image",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "ban_expires_at": {
-          "name": "ban_expires_at",
-          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
@@ -1190,6 +1174,20 @@
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "typeSchema": "auth",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'user'"
         }
       },
       "indexes": {
@@ -1365,11 +1363,6 @@
       "name": "member_role",
       "schema": "organization",
       "values": ["member", "admin", "owner"]
-    },
-    "storage.storage_provider": {
-      "name": "storage_provider",
-      "schema": "storage",
-      "values": ["s3", "r2"]
     },
     "auth.user_role": {
       "name": "user_role",

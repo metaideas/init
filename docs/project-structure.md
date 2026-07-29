@@ -34,7 +34,6 @@ root
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments              # Payment processing utilities using Stripe
-  │   ├── storage               # Shared storage utilities using UploadThing
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   ├── utils                 # Shared helpers and constants for packages and apps
   │   └── workflows             # Background tasks and workflows using Inngest

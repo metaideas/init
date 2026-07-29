@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
+import { SendEmailError, BatchSendEmailError } from "@init/core/errors"
 import { resend } from "@init/env/presets"
-import { SendEmailError, BatchSendEmailError } from "@init/error"
 import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
@@ -24,17 +24,7 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
 
   if (env.MOCK_RESEND) {
-    const text = await render(body, { plainText: true })
-
-    logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
-    logger.info`📝 Email content preview:`
-    logger.info`FROM: ${from}`
-    logger.info`TO: ${emails.join(", ")}`
-    logger.info`SUBJECT: ${subject}`
-    logger.info`SEND AT: ${sendAt}`
-    logger.info`${"=".repeat(50)}`
-    logger.info`${text}`
-    logger.info`${"=".repeat(50)}`
+    await previewEmail(body, { emails, from, sendAt, subject })
 
     return { id: "mock-id" }
   }
@@ -71,16 +61,7 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
     const promises = payload.map(async ({ body, ...params }, index) => {
       const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
 
-      const text = await render(body, { plainText: true })
-      logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
-      logger.info`📝 Email content preview:`
-      logger.info`FROM: ${from}`
-      logger.info`TO: ${emails.join(", ")}`
-      logger.info`SUBJECT: ${subject}`
-      logger.info`SEND AT: ${sendAt}`
-      logger.info`${"=".repeat(50)}`
-      logger.info`${text}`
-      logger.info`${"=".repeat(50)}`
+      await previewEmail(body, { emails, from, sendAt, subject })
 
       return { id: `mock-id-${index}` }
     })
@@ -112,4 +93,18 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
   }
 
   return data.data
+}
+
+async function previewEmail(body: ReactNode, { emails, from, sendAt, subject }: EmailSendParams) {
+  const text = await render(body, { plainText: true })
+
+  logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
+  logger.info`📝 Email content preview:`
+  logger.info`FROM: ${from}`
+  logger.info`TO: ${emails.join(", ")}`
+  logger.info`SUBJECT: ${subject}`
+  logger.info`SEND AT: ${sendAt}`
+  logger.info`${"=".repeat(50)}`
+  logger.info`${text}`
+  logger.info`${"=".repeat(50)}`
 }

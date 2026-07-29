@@ -7,31 +7,30 @@ CREATE SCHEMA "storage";
 CREATE TYPE "storage"."asset_status" AS ENUM('pending', 'uploading', 'available', 'processing', 'failed', 'deleted');--> statement-breakpoint
 CREATE TYPE "organization"."invitation_status" AS ENUM('pending', 'accepted', 'rejected', 'canceled');--> statement-breakpoint
 CREATE TYPE "organization"."member_role" AS ENUM('member', 'admin', 'owner');--> statement-breakpoint
-CREATE TYPE "storage"."storage_provider" AS ENUM('s3', 'r2');--> statement-breakpoint
 CREATE TYPE "auth"."user_role" AS ENUM('user', 'admin');--> statement-breakpoint
 CREATE TABLE "auth"."accounts" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"user_id" text NOT NULL,
-	"account_id" text NOT NULL,
-	"provider_id" text NOT NULL,
 	"access_token" text,
-	"refresh_token" text,
 	"access_token_expires_at" timestamp with time zone,
+	"account_id" text NOT NULL,
+	"id_token" text,
+	"password" text,
+	"provider_id" text NOT NULL,
+	"refresh_token" text,
 	"refresh_token_expires_at" timestamp with time zone,
 	"scope" text,
-	"id_token" text,
-	"password" text
+	"user_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "organization"."activity_logs" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"organization_id" text,
-	"member_id" text,
-	"type" text NOT NULL,
 	"ip_address" text,
+	"member_id" text,
+	"organization_id" text,
+	"type" text NOT NULL,
 	"user_agent" text
 );
 --> statement-breakpoint
@@ -39,38 +38,38 @@ CREATE TABLE "storage"."assets" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"name" text NOT NULL,
-	"key" text NOT NULL,
 	"bucket" text NOT NULL,
-	"provider" "storage"."storage_provider" DEFAULT 's3' NOT NULL,
+	"error_message" text,
+	"expires_at" timestamp with time zone,
+	"key" text NOT NULL,
+	"metadata" jsonb,
 	"mime_type" text NOT NULL,
+	"name" text NOT NULL,
+	"organization_id" text,
+	"provider" text NOT NULL,
 	"size" integer NOT NULL,
 	"status" "storage"."asset_status" DEFAULT 'pending' NOT NULL,
-	"error_message" text,
-	"uploader_id" text NOT NULL,
-	"organization_id" text,
-	"metadata" jsonb,
-	"expires_at" timestamp with time zone
+	"uploader_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "documents" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"name" text NOT NULL,
-	"content" text NOT NULL
+	"content" text NOT NULL,
+	"name" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "organization"."invitations" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"organization_id" text NOT NULL,
-	"inviter_id" text,
 	"email" text NOT NULL,
+	"expires_at" timestamp with time zone NOT NULL,
+	"inviter_id" text,
+	"organization_id" text NOT NULL,
 	"role" "organization"."member_role" DEFAULT 'member' NOT NULL,
-	"status" "organization"."invitation_status" DEFAULT 'pending' NOT NULL,
-	"expires_at" timestamp with time zone NOT NULL
+	"status" "organization"."invitation_status" DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "organization"."members" (
@@ -97,10 +96,10 @@ CREATE TABLE "auth"."sessions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"user_id" text NOT NULL,
-	"token" text NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL,
 	"impersonated_by" text,
+	"token" text NOT NULL,
+	"user_id" text NOT NULL,
 	"ip_address" text,
 	"user_agent" text,
 	"active_organization_id" text,
@@ -111,15 +110,15 @@ CREATE TABLE "auth"."users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"role" "auth"."user_role" DEFAULT 'user' NOT NULL,
-	"name" text NOT NULL,
-	"image" text,
+	"ban_expires_at" timestamp with time zone,
+	"ban_reason" text,
+	"banned" boolean DEFAULT false NOT NULL,
 	"email" text NOT NULL,
 	"email_verified" boolean DEFAULT false NOT NULL,
-	"banned" boolean DEFAULT false NOT NULL,
-	"ban_reason" text,
-	"ban_expires_at" timestamp with time zone,
+	"image" text,
 	"metadata" jsonb,
+	"name" text NOT NULL,
+	"role" "auth"."user_role" DEFAULT 'user' NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -133,16 +132,16 @@ CREATE TABLE "auth"."verifications" (
 );
 --> statement-breakpoint
 ALTER TABLE "auth"."accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
-ALTER TABLE "organization"."activity_logs" ADD CONSTRAINT "activity_logs_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."activity_logs" ADD CONSTRAINT "activity_logs_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "organization"."members"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
-ALTER TABLE "storage"."assets" ADD CONSTRAINT "assets_uploader_id_users_id_fk" FOREIGN KEY ("uploader_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "organization"."activity_logs" ADD CONSTRAINT "activity_logs_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "storage"."assets" ADD CONSTRAINT "assets_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
-ALTER TABLE "organization"."invitations" ADD CONSTRAINT "invitations_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "storage"."assets" ADD CONSTRAINT "assets_uploader_id_users_id_fk" FOREIGN KEY ("uploader_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."invitations" ADD CONSTRAINT "invitations_inviter_id_members_id_fk" FOREIGN KEY ("inviter_id") REFERENCES "organization"."members"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "organization"."invitations" ADD CONSTRAINT "invitations_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."members" ADD CONSTRAINT "members_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "organization"."members" ADD CONSTRAINT "members_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "organization"."organizations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
-ALTER TABLE "auth"."sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "auth"."sessions" ADD CONSTRAINT "sessions_impersonated_by_users_id_fk" FOREIGN KEY ("impersonated_by") REFERENCES "auth"."users"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "auth"."sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "auth"."sessions" ADD CONSTRAINT "sessions_active_organization_id_organizations_id_fk" FOREIGN KEY ("active_organization_id") REFERENCES "organization"."organizations"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 CREATE INDEX "auth_accounts_user_id_idx" ON "auth"."accounts" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "auth_accounts_provider_idx" ON "auth"."accounts" USING btree ("provider_id");--> statement-breakpoint

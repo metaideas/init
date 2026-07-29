@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@init/env": "workspace:*",
-    "@init/utils": "workspace:*",
     "@logtape/drizzle-orm": "1.3.6",
     "@logtape/hono": "1.3.6",
     "@logtape/logtape": "^1.3.1",

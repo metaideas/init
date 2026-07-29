@@ -1,5 +1,3 @@
-import type { StorageBucket } from "@init/storage/buckets"
-import type { MimeType } from "@init/storage/helpers"
 import type { ConstrainedString } from "@init/utils/type"
 import { createIdGenerator } from "@init/utils/id"
 import * as z from "@init/utils/schema"
@@ -382,15 +380,13 @@ export const assetStatus = storageSchema.enum("asset_status", [
   "deleted",
 ])
 
-export const storageProvider = storageSchema.enum("storage_provider", ["s3", "r2"])
-
 export const assets = storageSchema.table(
   "assets",
   {
     ...id("AssetId", "asst"),
     ...timestamps,
 
-    bucket: pg.text().notNull().$type<StorageBucket>(),
+    bucket: pg.text().notNull(),
 
     errorMessage: pg.text(),
 
@@ -400,7 +396,7 @@ export const assets = storageSchema.table(
 
     metadata: pg.jsonb(),
 
-    mimeType: pg.text().notNull().$type<MimeType>(),
+    mimeType: pg.text().notNull(),
 
     name: pg.text().notNull(),
 
@@ -412,7 +408,7 @@ export const assets = storageSchema.table(
       })
       .$type<OrganizationId>(),
 
-    provider: storageProvider().notNull().default("s3"),
+    provider: pg.text().notNull(),
 
     size: pg.integer().notNull(),
 

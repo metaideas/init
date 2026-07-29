@@ -6,8 +6,8 @@ Restructure this repo's agent-facing documentation from one overloaded `AGENTS.m
 
 Roles, per the skill's model:
 
-- **`AGENTS.md`** — standing rules only: quality-control commands (format/check/analyze/test), comment policy, version control, coding style, import rules. Short. Points to `CONTEXT.md` and `docs/agents/*` instead of inlining everything. See `../adamantite/AGENTS.md` — note how it opens with skill wiring (issue tracker, triage labels, domain docs) in a few lines each, with details delegated to `docs/agents/*.md`.
-- **`CONTEXT.md`** — _what things mean_, not rules: what init is, the glossary (template vs scaffolded project, workspace, registry item, manifest, internal paths, backend alternatives, preset, ...), architectural orientation (apps/packages/tooling flow, unidirectional imports **as a concept**), and pointers to ADRs. See `../adamantite/CONTEXT.md` for tone: "Read this before exploring or changing code so you use the project's own terms."
+- **`AGENTS.md`** — standing rules only: quality-control commands (format/check/analyze/test), comment policy, version control, coding style, import rules. Short. Points to `CONTEXT.md` and `docs/agents/*` instead of inlining everything. Project structure does not live here. See `../adamantite/AGENTS.md` — note how it opens with skill wiring (issue tracker, triage labels, domain docs) in a few lines each, with details delegated to `docs/agents/*.md`.
+- **`CONTEXT.md`** — _what things mean_, not rules: what init is, the glossary (template vs scaffolded project, workspace, registry item, manifest, internal paths, backend alternatives, preset, ...), architectural orientation (apps/packages/tooling flow, unidirectional imports **as a concept**), and pointers to ADRs. Keep detailed project structure outside both `AGENTS.md` and `CONTEXT.md`; `CONTEXT.md` links to `docs/template/project-structure.md` as the canonical reference. See `../adamantite/CONTEXT.md` for tone: "Read this before exploring or changing code so you use the project's own terms."
 - **`docs/agents/`** — skill wiring docs: `issue-tracker.md`, `triage-labels.md`, `domain.md` (consumer rules for the domain docs).
 - **`docs/adr/`** — architectural decision records. Seed it with the decisions already made in these plans, so they stop living only in `.plans/`:
   - Convex backend lives in `packages/`, is an alternative to `apps/api` (plan 05's AGENTS.md carve-out becomes an ADR + a glossary entry)
@@ -28,13 +28,13 @@ From the current `AGENTS.md`:
 
 | Current AGENTS.md section                                                                 | Destination                                                                                                                                                                                        |
 | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Project Structure (folder meanings, import flow rationale)                                | `CONTEXT.md` (meaning) + keep a terse rules bullet in `AGENTS.md` (enforcement)                                                                                                                    |
+| Project Structure (folder meanings, import flow rationale)                                | `docs/template/project-structure.md`; `CONTEXT.md` provides orientation and links to it; keep only terse import-boundary enforcement in `AGENTS.md`                                                |
 | Testing, Comment Policy, Version Control, Coding Style, Imports, Naming, TS Usage, Syntax | stay in `AGENTS.md` (rules) — tighten wording                                                                                                                                                      |
 | Database / Expo / Hono / Web UI sections                                                  | stay in `AGENTS.md`, or move to scoped `AGENTS.md` files per directory if supported tooling prefers colocation — keep whichever is shorter                                                         |
 | Adamantite managed block                                                                  | stays in `AGENTS.md` (it's command rules; the block is tool-managed)                                                                                                                               |
 | Stale claims                                                                              | fix during migration: `scripts/` described as containing the template-sync script (sync lives in the `init-now` CLI; `scripts/` is deleted by plan 02); any other drift found while moving content |
 
-Also update `docs/project-structure.md` and the template `README.md` to stay consistent (plan 05 already touches the backend parts — coordinate, don't duplicate).
+Move `docs/project-structure.md` to `docs/template/project-structure.md`. Update `CONTEXT.md`, the template `README.md`, and all internal links to use the new path (plan 05 already touches the backend parts — coordinate, don't duplicate). The document ships with scaffolded projects and is the canonical detailed project-structure reference.
 
 ## Template implications (this repo is a template!)
 
@@ -48,7 +48,8 @@ Scaffolded projects inherit these files. Decide per file:
 
 ## Acceptance criteria
 
-- `AGENTS.md` contains only standing rules + pointers; `CONTEXT.md` exists with glossary and orientation; `docs/agents/` + `docs/adr/` exist with at least the seed ADRs listed above.
+- `AGENTS.md` contains only standing rules + pointers and does not duplicate project structure; `CONTEXT.md` exists with glossary and orientation and links to `docs/template/project-structure.md`; `docs/agents/` + `docs/adr/` exist with at least the seed ADRs listed above.
+- `docs/project-structure.md` has moved to `docs/template/project-structure.md`, and all links use the new path.
 - No stale claims: `rg "syncing the project with the template" AGENTS.md docs/` returns nothing pointing at `scripts/`.
 - The maintainer's skills work against the layout: `domain-modeling` finds `CONTEXT.md`/`docs/adr/`, `triage` finds the label vocabulary doc.
 - A scaffolded project receives a coherent doc set: `AGENTS.md` + `CONTEXT.md` with no dangling references — no `docs/adr/`, no tracker docs, no references to template-internal machinery (`.plans/`, `cli/`, `www/`, `docs/research/`, registry publishing).

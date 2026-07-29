@@ -3,13 +3,19 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
-    ".": "./src/index.ts",
-    "./features/**": "./src/features/**/*.ts"
+    "./errors": "./src/errors/index.ts",
+    "./features/*": "./src/features/*/index.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules"
+  },
+  "dependencies": {
+    "faultier": "3.0.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

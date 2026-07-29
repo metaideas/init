@@ -10,9 +10,9 @@ Anything removed that is still _useful as copy-once code_ must be recorded in `.
 
 Steps:
 
-1. Delete placeholder content: `packages/core/src/index.ts` `unused()`, `packages/core/src/features/` (`unusedFeature()`, `.gitkeep`), and the `"./features/**"` export in `packages/core/package.json`.
+1. Delete the root `packages/core/src/index.ts` placeholder. Keep a folder-based example feature at `packages/core/src/features/example/index.ts` and export `"./features/*": "./src/features/*/index.ts"`, so features expose one or more files through `@init/core/features/<feature-name>` without a core root barrel.
 2. Move `packages/error/src/*` → `packages/core/src/errors/` (keep the domain split: `auth.ts`, `email.ts`, `utils.ts`, barrel `index.ts`). Add `faultier` to core's dependencies.
-3. Core exports: `"."` and `"./errors"` only. Do NOT replicate error's `"./*"` wildcard — consumers used only the root barrel.
+3. Core exports `"./errors"` only. Do NOT add a root barrel or replicate error's `"./*"` wildcard.
 4. Update all consumers from `@init/error` → `@init/core/errors`:
    - `apps/app/src/shared/server/middleware.ts`
    - `apps/app/src/shared/server/serialization.ts`
@@ -30,7 +30,7 @@ Steps:
 Steps:
 
 1. Remove the `StorageBucket` and `MimeType` imports and their `.$type<...>()` annotations from `packages/db/src/schema.ts`; keep `bucket` and `mimeType` as plain text columns. Do not move these implementation types into db or add `mime` there. Bucket names are deployment configuration, and MIME values can include parameters such as `text/plain; charset=utf-8` that the old static type excludes.
-2. Replace the `storage_provider` PostgreSQL enum with a text `provider` column while preserving the `"s3"` default. A database migration is required. Do not encode `files-sdk`'s provider catalog as a database enum: generated projects should be able to add an adapter without altering a template-owned TypeScript type, while each project may add its own constraint if desired.
+2. Replace the `storage_provider` PostgreSQL enum with a required text `provider` column with no default. Do not encode `files-sdk`'s provider catalog as a database enum or default to S3: generated projects should choose their provider explicitly and may add their own constraint if desired. Delete the existing migration history and regenerate one baseline migration from the final template schema.
 3. Remove `@init/storage` from `packages/db/package.json`. No replacement db dependency is needed.
 4. Delete the unused runtime helpers rather than preserving their implementation: `files-sdk` replaces the S3 factory and provides content-type facilities; the current silent key sanitizer is not a sufficient authorization or key-policy boundary. Plan 07's registry backlog contains the replacement `files-sdk` integration recipe, not a copy of these helpers.
 5. Delete `packages/storage/`. Remove the `s3` env preset from `packages/env/src/presets.ts` (its only purpose was this package); the future registry recipe adds only the selected provider's validated variables. Update `cli/src/workspaces.ts` and knip config.
@@ -42,11 +42,11 @@ Delete, updating package.json deps/exports accordingly:
 - `packages/utils/src/assert.ts` and `packages/utils/src/codec.ts` — zero importers. Add both to registry backlog.
 - `unstorage` dependency in `packages/utils/package.json` — nothing imports it.
 - `packages/env/src/presets.ts`: delete `railway`, `openai`, `anthropic` presets (no corresponding package/consumer). KEEP `convex` (serves `packages/backend`), `posthog` (serves `packages/analytics`), `stripe` (payments), `resend` (email). Delete `s3` per §2.
-- `packages/observability`: delete `src/uptime.ts`, the `./uptime` export, and the `@openstatus/react` dependency.
-- `packages/auth`: delete `src/integrations/expo/{client,server}.ts` (pure re-exports of `src/expo/*`; only `@init/auth/expo/client` is imported, by apps/mobile) and the corresponding export-map entries. Move `src/integrations/start.ts` (tanstack-start cookies, unused) to registry backlog and delete. Delete unused `createErrorHandler` in `src/client/index.ts`.
+- `packages/observability`: KEEP the uptime component, its `./uptime` export, and `@openstatus/react` dependency as an intentional selectable capability.
+- `packages/auth`: KEEP all integrations, compatibility exports, and `createErrorHandler`. These are intentional selectable authentication capabilities even when the template has no default consumer.
 - `packages/ui`: remove the `./hooks/*` export from package.json (`use-mobile.ts` is internal to sidebar — keep the file). Fix `src/components/theme.tsx` importing from its own package name `@init/ui/...` — use `#` subpath imports like the rest of the package.
-- `packages/db/src/helpers.ts`: delete unused `increment`/`decrement`; add to registry backlog.
-- `packages/analytics`: KEEP the package (selectable unit), but dedupe the copy-pasted `useIdentifyUser` between `src/product/react.ts` and `src/product/expo.ts` (extract shared logic).
+- `packages/db/src/helpers.ts`: KEEP the `increment` and `decrement` helpers as useful Drizzle primitives.
+- `packages/analytics`: KEEP the package and the platform-specific `useIdentifyUser` implementations in `src/product/react.ts` and `src/product/expo.ts`; do not deduplicate them.
 - `packages/email/src/client.ts`: dedupe the verbatim `MOCK_RESEND` preview logic between `sendEmail` and `batchEmails`.
 - `packages/payments/src/helpers.ts`: delete `createAgentToolkit` (Stripe AI Agent Toolkit) and its deps; add to registry backlog (confirmed by maintainer). Keep the rest of payments.
 - `packages/ai`: KEEP as-is (selectable unit, maintainer decision).
@@ -65,6 +65,7 @@ Every package added/removed above must be reflected in `cli/src/workspaces.ts` a
 
 - `packages/error` and `packages/storage` no longer exist; `rg "@init/error|@init/storage" --glob '!node_modules'` returns nothing.
 - Db storage records use plain text for provider, bucket, and MIME type and have no dependency on `mime`, `files-sdk`, or provider-specific types.
-- `@init/core` has real content (`errors/`) and no `unused()` placeholders.
+- The template has exactly one baseline database migration; the storage provider is required text with no enum or default.
+- `@init/core/errors` contains the domain errors, with no root barrel or `unused()` placeholders.
 - `bun run check`, `bun run analyze` (knip should report fewer issues, none new), `bun run check:monorepo`, `bun test`, and `cd cli && bun test` all pass.
 - Registry backlog section in `.plans/07-registry.md` lists every useful deletion.

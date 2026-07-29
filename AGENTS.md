@@ -6,7 +6,6 @@
   - `apps` - Cross-platform applications and user-facing products.
   - `infra` - Infrastructure as code for local development and cloud providers.
   - `packages` - Shared internal packages for use across apps.
-  - `scripts` - Scripts for random tasks, such as syncing the project with the template and graphing dependencies.
   - `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
 - Apps and packages have their code in the `src` folder.
 - Apps organized in the following folders:

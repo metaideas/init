@@ -7,7 +7,7 @@ Plans for evolving the `init` template monorepo and its `init-now` CLI. Each pla
 | #   | Plan                                                                         | Depends on           | Size | Status  |
 | --- | ---------------------------------------------------------------------------- | -------------------- | ---- | ------- |
 | 01  | [CLI correctness fixes](01-cli-correctness-fixes.md)                         | —                    | S    | Done    |
-| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md)       | —                    | M    | Pending |
+| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md)       | —                    | M    | Done    |
 | 03  | [App hygiene](03-app-hygiene.md)                                             | —                    | M    | Pending |
 | 04  | [CLI manifest & setup rework](04-cli-manifest-and-setup.md)                  | 01, 02, 09           | L    | Pending |
 | 05  | [Convex backend example & conventions](05-convex-backend-example.md)         | 02                   | S    | Pending |

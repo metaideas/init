@@ -1,4 +1,3 @@
-import { THEMES, type Theme } from "@init/ui/constants"
 import { createContext, use, useEffect, useState } from "react"
 import { Button } from "#components/button.tsx"
 import {
@@ -8,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "#components/dropdown-menu.tsx"
 import { Icon } from "#components/icon.tsx"
+import { THEMES, type Theme } from "#constants.ts"
 
 type ThemeContextState = {
   theme: Theme

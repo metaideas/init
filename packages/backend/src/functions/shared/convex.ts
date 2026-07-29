@@ -1,4 +1,4 @@
-import { UnauthenticatedError, UnauthorizedError } from "@init/error"
+import { UnauthenticatedError, UnauthorizedError } from "@init/core/errors"
 import { buildLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { createBuilder } from "fluent-convex"

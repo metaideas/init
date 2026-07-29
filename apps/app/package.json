@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@init/auth": "workspace:*",
+    "@init/core": "workspace:*",
     "@init/env": "workspace:*",
-    "@init/error": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",

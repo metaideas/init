@@ -19,7 +19,6 @@
     "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/utils": "workspace:*",
-    "@stripe/agent-toolkit": "0.7.12",
     "@stripe/react-stripe-js": "5.4.1",
     "@stripe/stripe-js": "8.6.1",
     "stripe": "20.1.2"

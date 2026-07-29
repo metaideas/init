@@ -1,5 +1,5 @@
 import crypto from "node:crypto"
-import { UnauthenticatedError, UnauthorizedError } from "@init/error"
+import { UnauthenticatedError, UnauthorizedError } from "@init/core/errors"
 import { createMiddleware } from "@tanstack/react-start"
 import { authClient } from "#shared/auth.ts"
 import { logger } from "#shared/logger.ts"

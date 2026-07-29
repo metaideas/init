@@ -52,8 +52,7 @@
     "oxlint-tsgolint": "7.0.2001",
     "sherif": "1.13.0",
     "turbo": "2.6.3",
-    "typescript": "7.0.2",
-    "yargs": "18.1.0"
+    "typescript": "7.0.2"
   },
   "overrides": {
     "@types/react": "19.1.13",

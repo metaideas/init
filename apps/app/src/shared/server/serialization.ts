@@ -1,4 +1,4 @@
-import { AppFault } from "@init/error"
+import { AppFault } from "@init/core/errors"
 import { createSerializationAdapter } from "@tanstack/react-router"
 
 export const faultSerializer = createSerializationAdapter({

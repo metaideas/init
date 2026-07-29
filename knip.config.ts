@@ -25,7 +25,7 @@ const config: KnipConfig = {
   workspaces: {
     ".": {
       entry: "turbo/generators/config.ts",
-      project: ["scripts/**/*.ts", "turbo/generators/**/*.ts"],
+      project: "turbo/generators/**/*.ts",
     },
     "apps/*": {
       project: "src/**/*.{js,jsx,ts,tsx}",
