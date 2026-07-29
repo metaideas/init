@@ -65,14 +65,6 @@ Fix (agreed direction):
 - `apps/app/src/shared/env.ts` + `apps/app/turbo.json`: the frontend extends `db()` preset and lists `DATABASE_URL`/`RESEND_API_KEY` in build env, but app talks to the DB only via the API. Remove server-side presets/vars that belong to `api`.
 - `infra/local/docker-compose.yml`: add `healthcheck` blocks to redis/postgres/minio/inngest, and bootstrap the default `assets` MinIO bucket declaratively with an `mc`-based init container. Bucket names are deployment configuration after plan 02 removed the old storage enum; the files-sdk registry item may extend this list for its contract suite. Today the bucket only exists because it was created by hand in the gitignored `.data` dir.
 
-## 6. Seed real tests
-
-Make `tests.yml` meaningful with a few high-value tests (bun:test, `__tests__` folders per repo convention):
-
-- `apps/api`: middleware test (auth-required route rejects anonymous, health returns ok) using Hono's test client. The empty `apps/api/src/shared/__tests__/` dir is waiting for this.
-- `apps/app`: one server-function or serialization test (`src/shared/server/serialization.ts` is pure logic).
-- Keep scope small — the goal is patterns for template users to copy, not coverage.
-
 ## Acceptance criteria
 
 - `bun run check`, `bun run analyze`, and `bun test` all pass locally.

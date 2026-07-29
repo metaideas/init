@@ -3,7 +3,6 @@ import analyze from "adamantite/analyze"
 
 const config: KnipConfig = {
   ...analyze,
-  ignore: ["cli/**"],
   ignoreExportsUsedInFile: true,
   ignoreFiles: [],
   rules: {

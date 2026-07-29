@@ -11,8 +11,6 @@ export default defineConfig({
     "**/*.d.ts",
     "**/*.gen.ts",
     "**/*.generated.ts",
-    // The standalone CLI runs its own Adamantite checks outside the root workspace.
-    "cli/**",
     // TODO: adelrodriguez -- Shadcn registry source is excluded until its generated code is reconciled with Adamantite.
     "packages/ui/**",
   ],

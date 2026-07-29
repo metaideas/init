@@ -15,10 +15,12 @@ import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import env from "#shared/env.ts"
 import { LoggerCategory, logger } from "#shared/logger.ts"
+import { withLanguageDetection } from "#shared/middleware.ts"
 import { factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
+app.use(withLanguageDetection)
 app.use(honoLogger({ category: LoggerCategory.HONO }))
 app.use(contextStorage())
 app.use(
