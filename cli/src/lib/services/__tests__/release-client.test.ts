@@ -14,5 +14,6 @@ describe("mapReleaseError", () => {
 
   test("preserves generic release failures", () => {
     expect(mapReleaseError(new Error("network failed"))._tag).toBe("VersionCheckFailed")
+    expect(mapReleaseError(null)._tag).toBe("VersionCheckFailed")
   })
 })

@@ -123,4 +123,4 @@ export const workspaces = {
       name: "workflows",
     },
   ],
-} as const
+}

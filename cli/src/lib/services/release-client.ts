@@ -7,14 +7,21 @@ import * as Schema from "effect/Schema"
 import { GitHubRateLimited, VersionCheckFailed } from "#lib/shared/errors.ts"
 import { ReleaseInfoSchema, type ReleaseInfo } from "#lib/shared/releases.ts"
 
-type GitHubError = {
-  readonly response?: { readonly headers?: Record<string, string> }
-  readonly status?: number
-}
-
-export function mapReleaseError(cause: unknown): GitHubRateLimited | VersionCheckFailed {
-  const error = cause as GitHubError
-  if (error.status === 403 && error.response?.headers?.["x-ratelimit-remaining"] === "0") {
+export function mapReleaseError(cause: unknown) {
+  if (
+    typeof cause === "object" &&
+    cause !== null &&
+    "status" in cause &&
+    cause.status === 403 &&
+    "response" in cause &&
+    typeof cause.response === "object" &&
+    cause.response !== null &&
+    "headers" in cause.response &&
+    typeof cause.response.headers === "object" &&
+    cause.response.headers !== null &&
+    "x-ratelimit-remaining" in cause.response.headers &&
+    cause.response.headers["x-ratelimit-remaining"] === "0"
+  ) {
     return new GitHubRateLimited()
   }
   return new VersionCheckFailed({ cause })
@@ -23,10 +30,7 @@ export function mapReleaseError(cause: unknown): GitHubRateLimited | VersionChec
 export class ReleaseClient extends Context.Service<
   ReleaseClient,
   {
-    readonly getLatest: () => Effect.Effect<
-      ReleaseInfo,
-      GitHubRateLimited | VersionCheckFailed | Schema.SchemaError
-    >
+    readonly getLatest: () => Effect.Effect<ReleaseInfo, GitHubRateLimited | VersionCheckFailed>
   }
 >()("ReleaseClient") {
   static readonly layer = Layer.succeed(this)({
@@ -34,7 +38,12 @@ export class ReleaseClient extends Context.Service<
       const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN })
       return Effect.tryPromise({
         catch: mapReleaseError,
-        try: () => octokit.repos.getLatestRelease({ owner: "metaideas", repo: "init" }),
+        try: (signal) =>
+          octokit.repos.getLatestRelease({
+            owner: "metaideas",
+            repo: "init",
+            request: { signal },
+          }),
       }).pipe(
         Effect.flatMap((response) =>
           Schema.decodeUnknownEffect(ReleaseInfoSchema)({
@@ -42,7 +51,7 @@ export class ReleaseClient extends Context.Service<
             name: response.data.name ?? "",
             publishedAt: response.data.published_at ?? "",
             tagName: response.data.tag_name,
-          })
+          }).pipe(Effect.mapError((cause) => new VersionCheckFailed({ cause })))
         )
       )
     },

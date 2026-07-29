@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test"
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as BunServices from "@effect/platform-bun/BunServices"
 import * as Effect from "effect/Effect"
 import {
   compareVersions,
@@ -62,7 +62,7 @@ describe("getVersion", () => {
     process.chdir(temporaryDirectory)
     await writeFile(".template-version.json", '{".":"init@v1.1.0"}\n')
 
-    const version = await Effect.runPromise(getVersion().pipe(Effect.provide(NodeServices.layer)))
+    const version = await Effect.runPromise(getVersion().pipe(Effect.provide(BunServices.layer)))
 
     expect(version).toBe("1.1.0")
   })
@@ -73,7 +73,7 @@ describe("getVersion", () => {
     await writeFile(".template-version.json", "not json\n")
 
     const error = await Effect.runPromise(
-      Effect.flip(getVersion().pipe(Effect.provide(NodeServices.layer)))
+      Effect.flip(getVersion().pipe(Effect.provide(BunServices.layer)))
     )
 
     expect(String(error)).toContain("JSON Parse error")
@@ -86,7 +86,7 @@ describe("updateTemplateVersion", () => {
     process.chdir(temporaryDirectory)
 
     await Effect.runPromise(
-      updateTemplateVersion("init@v2.0.0").pipe(Effect.provide(NodeServices.layer))
+      updateTemplateVersion("init@v2.0.0").pipe(Effect.provide(BunServices.layer))
     )
 
     const content = await readFile(".template-version.json", "utf8")
@@ -95,7 +95,7 @@ describe("updateTemplateVersion", () => {
 
   test("propagates invalid versions", async () => {
     const error = await Effect.runPromise(
-      Effect.flip(updateTemplateVersion("latest").pipe(Effect.provide(NodeServices.layer)))
+      Effect.flip(updateTemplateVersion("latest").pipe(Effect.provide(BunServices.layer)))
     )
     expect(error.message).toContain("Invalid version")
   })

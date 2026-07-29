@@ -2,7 +2,7 @@ import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Schema from "effect/Schema"
 import { compare, valid } from "semver"
-import { InvalidVersion, NotInInitProject } from "#lib/shared/errors.ts"
+import { InvalidVersion, NotInInitProject, TemplateVersionParseFailed } from "#lib/shared/errors.ts"
 
 export const ReleaseInfoSchema = Schema.Struct({
   body: Schema.String,
@@ -17,24 +17,21 @@ const TEMPLATE_VERSION_FILE = ".template-version.json"
 const COMPONENT_PREFIX_REGEX = /^.*@/
 const TemplateVersionSchema = Schema.Struct({ ".": Schema.String })
 
-export function normalizeVersion(version: string) {
+export const normalizeVersion = Effect.fn("normalizeVersion")(function* (version: string) {
   const normalizedVersion = valid(version.replace(COMPONENT_PREFIX_REGEX, ""))
+  if (!normalizedVersion) return yield* Effect.fail(new InvalidVersion({ version }))
   return normalizedVersion
-    ? Effect.succeed(normalizedVersion)
-    : Effect.fail(new InvalidVersion({ version }))
-}
+})
 
 export const getVersion = Effect.fn("getVersion")(function* () {
   const fs = yield* FileSystem.FileSystem
   if (!(yield* fs.exists(TEMPLATE_VERSION_FILE))) return null
 
   const content = yield* fs.readFileString(TEMPLATE_VERSION_FILE)
-  return yield* Schema.decodeUnknownEffect(Schema.fromJsonString(TemplateVersionSchema))(
+  const data = yield* Schema.decodeUnknownEffect(Schema.fromJsonString(TemplateVersionSchema))(
     content
-  ).pipe(
-    Effect.flatMap((data) => normalizeVersion(data["."])),
-    Effect.map((version): string | null => version)
-  )
+  ).pipe(Effect.mapError((cause) => new TemplateVersionParseFailed({ cause })))
+  return yield* normalizeVersion(data["."]).pipe(Effect.map((version) => version))
 })
 
 export const compareVersions = Effect.fn("compareVersions")(function* (

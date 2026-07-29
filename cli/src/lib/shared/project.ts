@@ -5,29 +5,25 @@ import { PackageJsonParseFailed } from "#lib/shared/errors.ts"
 
 const PROJECT_NAME_REGEX = /^[a-z0-9][a-z0-9-_]*$/
 
-export function getProjectNameValidationError(value: string | undefined): string | undefined {
+export function getProjectNameValidationError(value: string | undefined) {
   const name = value?.trim() ?? ""
   if (!name) return "Project name is required."
-  if (!PROJECT_NAME_REGEX.test(name)) {
-    return "Project name can only contain lowercase letters, numbers, hyphens, and underscores."
-  }
-  return undefined
+  return PROJECT_NAME_REGEX.test(name)
+    ? undefined
+    : "Project name can only contain lowercase letters, numbers, hyphens, and underscores."
 }
 
-export function normalizeProjectName(value: string): string {
+export function normalizeProjectName(value: string) {
   return value.trim()
 }
 
 export const PackageJsonSchema = Schema.Struct({ name: Schema.String })
+const PackageJsonRecordSchema = Schema.Record(Schema.String, Schema.Unknown)
 
 export const readPackageJson = Effect.fn("readPackageJson")(function* () {
   const fs = yield* FileSystem.FileSystem
   const content = yield* fs.readFileString("package.json")
-  const parsed = yield* Effect.try({
-    catch: (cause) => new PackageJsonParseFailed({ cause }),
-    try: () => JSON.parse(content) as unknown,
-  })
-  return yield* Schema.decodeUnknownEffect(PackageJsonSchema)(parsed).pipe(
+  return yield* Schema.decodeUnknownEffect(Schema.fromJsonString(PackageJsonSchema))(content).pipe(
     Effect.mapError((cause) => new PackageJsonParseFailed({ cause }))
   )
 })
@@ -38,13 +34,11 @@ export const updatePackageJson = Effect.fn("updatePackageJson")(function* (
 ) {
   const fs = yield* FileSystem.FileSystem
   const content = yield* fs.readFileString("package.json")
-  const packageJson = yield* Effect.try({
-    catch: (cause) => new PackageJsonParseFailed({ cause }),
-    try: () => JSON.parse(content) as Record<string, unknown>,
-  })
-  packageJson.name = projectName
-  if (version) packageJson.version = version
-  yield* fs.writeFileString("package.json", `${JSON.stringify(packageJson, null, 2)}\n`)
+  const packageJson = yield* Schema.decodeUnknownEffect(
+    Schema.fromJsonString(PackageJsonRecordSchema)
+  )(content).pipe(Effect.mapError((cause) => new PackageJsonParseFailed({ cause })))
+  const updated = { ...packageJson, name: projectName, ...(version ? { version } : {}) }
+  yield* fs.writeFileString("package.json", `${JSON.stringify(updated, null, 2)}\n`)
 })
 
 const EXCLUDED_DIRS = [
@@ -58,13 +52,13 @@ const EXCLUDED_DIRS = [
   ".cache",
   ".pnpm-store",
   ".yarn",
-] as const
+]
 
-const EXCLUDED_FILES = [".DS_Store"] as const
+const EXCLUDED_FILES = [".DS_Store"]
 const PATH_NORMALIZE_REGEX = /^\.\//
 const PATH_SEP_NORMALIZE_REGEX = /\\/g
 
-export function checkShouldExclude(filePath: string): boolean {
+export function checkShouldExclude(filePath: string) {
   const normalizedPath = filePath
     .replace(PATH_NORMALIZE_REGEX, "")
     .replace(PATH_SEP_NORMALIZE_REGEX, "/")
@@ -105,9 +99,9 @@ const TEXT_FILE_EXTENSIONS = [
   ".txt",
   ".yaml",
   ".yml",
-] as const
+]
 
-export function checkIsTextFile(file: string): boolean {
+export function checkIsTextFile(file: string) {
   return (
     TEXT_FILE_EXTENSIONS.some((extension) => file.endsWith(extension)) ||
     file.includes("package.json") ||

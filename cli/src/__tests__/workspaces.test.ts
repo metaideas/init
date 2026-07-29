@@ -56,4 +56,20 @@ describe("cli workspaces configuration", () => {
       }
     }
   })
+
+  test("package inventory matches package workspaces", async () => {
+    const packageJsonPaths = await Array.fromAsync(
+      new Bun.Glob("packages/*/package.json").scan({ cwd: rootDir.pathname })
+    )
+    const actualPackageNames = await Promise.all(
+      packageJsonPaths.map(async (packageJsonPath) => {
+        const packageJson = await Bun.file(new URL(packageJsonPath, rootDir)).json()
+        return (packageJson.name as string).replace("@init/", "")
+      })
+    )
+
+    expect(workspaces.packages.map((pkg) => pkg.name).toSorted()).toEqual(
+      actualPackageNames.toSorted()
+    )
+  })
 })
