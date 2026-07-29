@@ -36,9 +36,15 @@ Fix (agreed direction):
 - `apps/desktop/src/shared/assets/react.svg`, `apps/extension/src/shared/assets/react.svg`: delete leftover starter assets.
 - `apps/mobile`: delete unused `src/shared/components/ui/alert.tsx`, `ui/toggle.tsx`, `external-link.tsx`, and stock Expo images (`react-logo*.png`, `partial-react-logo.png`).
 - `apps/mobile/android/sentry.properties` (and iOS equivalent): remove hardcoded `defaults.org=metaideas` / `init-mobile` values (genericize/placeholder them). Decided: `ios/`/`android/` **stay committed** — do not gitignore them; just fix the leaked template-author values.
-- `apps/docs`: minimum viable de-starterization — fix the social link in `astro.config.ts` (points at `https://github.com/withastro/starlight`), remove the dead Paraglide codegen (`@inlang/paraglide-js` dep + `codegen` script + `src/shared/internationalization/` output — Starlight uses its own i18n), remove the unused React integration (`@astrojs/react`), replace stock example content with 1-2 short pages about the scaffolded project. Keep the app.
+- `apps/docs`: minimum viable de-starterization — fix the social link in `astro.config.ts` (points at `https://github.com/withastro/starlight`), remove the unused React integration (`@astrojs/react`), replace stock example content with 1-2 short pages about the scaffolded project, and use one page or component to demonstrate the shared Paraglide catalog alongside Starlight's own navigation i18n. Keep the app.
 - `apps/web`: replace the meta-refresh redirect in `src/pages/index.astro` with a proper redirect (Astro `redirects` config or middleware); add root `404.astro`; add `@astrojs/sitemap` + RSS for the blog (standard marketing-site table stakes, no external services).
-- Paraglide i18n: compiled output is generated into all 7 apps but consumed only by `app` and `web`. Remove the codegen wiring from `desktop`, `extension`, `mobile`, `docs` (keep the `@tooling/internationalization` package; apps can re-add codegen when they need i18n).
+- Paraglide i18n: make the shared catalog an intentional, demonstrated capability in every app. Keep the existing `app` locale toggle and `web` locale routes, then add the smallest native example for each remaining runtime:
+  - `desktop`: a locale toggle that translates the local-filesystem example's labels and feedback.
+  - `extension`: localized popup text with a locale toggle persisted through extension storage.
+  - `mobile`: a locale toggle and one translated screen using the generated runtime/messages.
+  - `docs`: one localized custom page or component backed by Paraglide; Starlight continues to own documentation-shell/navigation i18n.
+  - `api`: compile the shared catalog for the server and localize one exemplar REST response from `Accept-Language`, with an explicit base-locale fallback.
+  - Keep translation source in `tooling/internationalization/project.inlang`, keep generated output app-local, and ensure every generated runtime is imported by its app. The examples should establish the locale-detection, persistence, and fallback pattern appropriate to each runtime without requiring an external service.
 - `apps/api` context wiring: the global tRPC/route context hard-sets `session: null` while `requireSession` resolves per-request — confusing double wiring. Make session resolution live in one place (the middleware) and remove the misleading context default/comment.
 - `apps/mobile`: **delete the unreachable better-auth client** (`src/shared/auth.ts` — full client with admin/org plugins, imported by nothing) and drop `@init/auth` from mobile's deps. Decided: mobile ships without an auth client by default; it returns as two registry items (plan 07): `mobile-auth-client-api` (points at `apps/api`'s better-auth handler) and `mobile-auth-client-convex` (uses `@convex-dev/better-auth`'s client plugin + Convex site URL). Keep `@init/auth`'s expo subpaths — they serve the registry items and package selection.
 
@@ -49,7 +55,7 @@ Fix (agreed direction):
 - Replace the `greet` demo (`src-tauri` command + `features/demo`) with a small, genuinely useful **local filesystem example**: e.g., a feature that picks a directory/file via the Tauri dialog plugin, reads/writes it through a Rust command or the fs plugin, and shows the Tauri `invoke` + TanStack Query `mutationOptions` pattern on something real.
 - Remove the API-oriented wiring that exists "by default": `PUBLIC_API_URL` in `src/shared/env.ts` and the unused URL builder in `shared/utils.ts`. Connecting desktop to the API/auth becomes an opt-in registry item later (plan 07), not template default.
 - Keep: the Tauri/Vite config (`TAURI_*` handling), theme toggle, router shell, error boundary (§1).
-- No auth, no tRPC client, no i18n by default.
+- No auth or tRPC client by default. Keep the self-contained i18n example from §4.
 
 ## 5. Turbo/CI wiring
 
@@ -57,8 +63,7 @@ Fix (agreed direction):
 - Add `turbo.json` with `build` `outputs` for `apps/web` and `apps/docs` (Astro `dist/`) so builds cache.
 - Root `turbo.json` build env: move API-only vars (`INNGEST_*`, `REDIS_URL`) out of the global build env into `apps/api`'s task config.
 - `apps/app/src/shared/env.ts` + `apps/app/turbo.json`: the frontend extends `db()` preset and lists `DATABASE_URL`/`RESEND_API_KEY` in build env, but app talks to the DB only via the API. Remove server-side presets/vars that belong to `api`.
-- `.github/workflows`: add a `turbo build` job (build all apps) so PRs catch build breakage — currently only lint/format/test run, and there are ~2 test files.
-- `infra/local/docker-compose.yml`: add `healthcheck` blocks to redis/postgres/minio/inngest, and bootstrap the MinIO buckets declaratively (an `mc`-based init container creating the buckets from `packages/db`'s `StorageBucket` constants) — today the bucket only exists because it was created by hand in the gitignored `.data` dir. This bootstrap also serves plan 07's files-sdk contract suite, which runs live against local MinIO.
+- `infra/local/docker-compose.yml`: add `healthcheck` blocks to redis/postgres/minio/inngest, and bootstrap the default `assets` MinIO bucket declaratively with an `mc`-based init container. Bucket names are deployment configuration after plan 02 removed the old storage enum; the files-sdk registry item may extend this list for its contract suite. Today the bucket only exists because it was created by hand in the gitignored `.data` dir.
 
 ## 6. Seed real tests
 
@@ -70,8 +75,8 @@ Make `tests.yml` meaningful with a few high-value tests (bun:test, `__tests__` f
 
 ## Acceptance criteria
 
-- `bun run check`, `bun run analyze`, `bun test`, `turbo build` all pass locally.
+- `bun run check`, `bun run analyze`, and `bun test` all pass locally.
 - No route in `app` can white-screen without a styled fallback.
 - Forgot-password flow completes against local stack with no external keys (email visible via MOCK_RESEND logging/preview).
-- `rg "TEST_VAR|@webext-core" --glob '!node_modules'` returns nothing.
-- CI includes a build job.
+- Every app imports its generated Paraglide output and demonstrates locale selection or negotiation with a working base-locale fallback.
+- `rg "TEST_VAR|@webext-core" apps --glob '!node_modules'` returns nothing.

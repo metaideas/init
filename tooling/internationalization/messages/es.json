@@ -1,9 +1,19 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "example_message": "Hola mundo {username}",
-  "spanish": "Español",
+  "api_greeting": "¡Hola {name}!",
+  "choose_file": "Elegir un archivo de texto",
+  "desktop_file_description": "Abre, edita y guarda un archivo de texto local mediante un comando de Tauri.",
+  "desktop_file_title": "Editor de archivos locales",
   "english": "Inglés",
-  "german": "Alemán",
-  "switch_locale": "Cambiar configuración regional",
-  "not_found": "No encontrado"
+  "example_message": "Hola mundo {username}",
+  "extension_description": "Esta ventana usa el catálogo compartido de Paraglide y recuerda tu idioma.",
+  "extension_title": "Extensión de Init",
+  "file_saved": "Archivo guardado",
+  "mobile_description": "Esta pantalla usa el catálogo compartido de Paraglide.",
+  "mobile_title": "Te damos la bienvenida a Init",
+  "no_file_selected": "Elige un archivo para comenzar a editar.",
+  "not_found": "No encontrado",
+  "save_file": "Guardar archivo",
+  "spanish": "Español",
+  "switch_locale": "Cambiar idioma"
 }

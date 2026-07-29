@@ -1,7 +1,5 @@
 import crypto from "node:crypto"
-import { UnauthenticatedError, UnauthorizedError } from "@init/core/errors"
 import { createMiddleware } from "@tanstack/react-start"
-import { authClient } from "#shared/auth.ts"
 import { logger } from "#shared/logger.ts"
 
 export const withRequestId = createMiddleware().server(({ next }) =>
@@ -19,27 +17,3 @@ export const withLogger = createMiddleware()
       },
     })
   )
-
-export const requireSession = createMiddleware()
-  .middleware([withRequestId])
-  .server(async ({ next }) => {
-    const { data: session } = await authClient.getSession()
-
-    if (!session) {
-      throw new UnauthenticatedError()
-    }
-
-    return next({ context: { session } })
-  })
-
-export const requireAdmin = createMiddleware()
-  .middleware([requireSession])
-  .server(({ next, context }) => {
-    const { user } = context.session
-
-    if (user.role !== "admin") {
-      throw new UnauthorizedError({ userId: context.session.user.id })
-    }
-
-    return next()
-  })

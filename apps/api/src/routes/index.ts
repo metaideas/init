@@ -37,14 +37,11 @@ app.use(
   })
 )
 
-// Add context dependencies
 app.use(async (c, next) => {
   c.set("auth", auth)
   c.set("db", database())
   c.set("kv", kv())
   c.set("logger", logger)
-  c.set("session", null)
-
   await next()
 })
 
@@ -59,7 +56,6 @@ app.onError((error, c) => {
   return c.text("Internal Server Error", 500)
 })
 
-// Authentication routes
 app.on(["POST", "GET"], "/auth/**", (c) => c.var.auth.handler(c.req.raw))
 
 export const router = app
@@ -83,7 +79,6 @@ export const router = app
       },
     })
   )
-  .get("/ping", (c) => c.text(Date.now().toString()))
   .route("/health", healthRoutes)
   .route("/workflows", workflowRoutes)
   .route("/trpc", trpcRoutes)

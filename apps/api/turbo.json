@@ -2,12 +2,13 @@
   "$schema": "https://turborepo.org/schema.json",
   "extends": ["//"],
   "tasks": {
-    "build:types": {
-      "outputs": ["dist/**"]
-    },
-    "deploy": {
-      "dependsOn": ["^check", "^format"],
-      "env": []
+    "build": {
+      "env": [
+        "INNGEST_EVENT_KEY",
+        "INNGEST_SIGNING_KEY",
+        "INNGEST_SIGNING_KEY_FALLBACK",
+        "REDIS_URL"
+      ]
     }
   }
 }

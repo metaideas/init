@@ -1,7 +1,6 @@
-import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import { trpcServer } from "@hono/trpc-server"
 import authProcedures from "#features/auth/procedures.ts"
-import { createRouter, createTRPCContext, publicProcedure } from "#shared/trpc.ts"
+import { createRouter, createTRPCContext, protectedProcedure } from "#shared/trpc.ts"
 import { factory } from "#shared/utils.ts"
 
 /**
@@ -9,14 +8,12 @@ import { factory } from "#shared/utils.ts"
  */
 export const trpcRouter = createRouter({
   auth: authProcedures,
-  hello: publicProcedure.query(() => ({
+  hello: protectedProcedure.query(() => ({
     message: "Hello, this message is from the TRPC server!",
   })),
 })
 
 export type TRPCRouter = typeof trpcRouter
-export type TRPCRouterOutput = inferRouterOutputs<typeof trpcRouter>
-export type TRPCRouterInput = inferRouterInputs<typeof trpcRouter>
 
 /**
  * The TRPC router is used to handle all TRPC requests by the TRPC client.

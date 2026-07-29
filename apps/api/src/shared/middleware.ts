@@ -1,4 +1,5 @@
 import type { DeepMerge } from "@init/utils/type"
+import type { Context } from "hono"
 import { findIp } from "@arcjet/ip"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
@@ -7,21 +8,29 @@ import { type TimeExpression, ms } from "qte"
 import type { Session } from "#shared/auth.ts"
 import type { AppContext } from "#shared/types.ts"
 
-export const requireSession = createMiddleware<
-  DeepMerge<AppContext, { Variables: { session: Session } }>
->(async (c, next) => {
-  const session = await c.var.auth.api.getSession({
-    headers: c.req.raw.headers,
+type ProtectedAppContext = DeepMerge<AppContext, { Variables: { session: Session } }>
+type SessionResolver = (context: Context<ProtectedAppContext>) => Promise<Session | null>
+
+export function createRequireSession(
+  resolveSession: SessionResolver = (context) =>
+    context.var.auth.api.getSession({
+      headers: context.req.raw.headers,
+    })
+) {
+  return createMiddleware<ProtectedAppContext>(async (context, next) => {
+    const session = await resolveSession(context)
+
+    if (!session) {
+      throw new HTTPException(401, { message: "Unauthorized" })
+    }
+
+    context.set("session", session)
+
+    await next()
   })
+}
 
-  if (!session) {
-    throw new HTTPException(401, { message: "Unauthorized" })
-  }
-
-  c.set("session", session)
-
-  await next()
-})
+export const requireSession = createRequireSession()
 
 /**
  * Adds basic rate limiting protection with a fixed window to the request.

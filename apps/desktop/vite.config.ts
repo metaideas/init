@@ -25,7 +25,7 @@ export default defineConfig(async ({ mode }) => {
       paraglide({
         outdir: "./src/shared/internationalization",
         project: "../../tooling/internationalization/project.inlang",
-        strategy: ["baseLocale"],
+        strategy: ["localStorage", "baseLocale"],
       }),
       tanstackRouter({
         autoCodeSplitting: false,

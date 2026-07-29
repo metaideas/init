@@ -4,30 +4,7 @@
   "tasks": {
     "build": {
       "outputs": [".output/**"],
-      "env": [
-        "AXIOM_DATASET",
-        "AXIOM_TOKEN",
-
-        "AUTH_SECRET",
-
-        "DATABASE_URL",
-        "DATABASE_AUTH_TOKEN",
-
-        "EMAIL_FROM",
-
-        "GITHUB_CLIENT_ID",
-        "GITHUB_CLIENT_SECRET",
-
-        "GOOGLE_CLIENT_ID",
-        "GOOGLE_CLIENT_SECRET",
-
-        "RESEND_API_KEY",
-
-        "SENTRY_AUTH_TOKEN",
-        "SENTRY_DSN",
-        "SENTRY_ORG",
-        "SENTRY_PROJECT"
-      ]
+      "env": ["PUBLIC_SENTRY_DEBUG", "PUBLIC_SENTRY_DSN"]
     }
   }
 }

@@ -2,6 +2,8 @@ import { AUTH_APP_NAME, AUTH_COOKIE_PREFIX } from "@init/auth/constants"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
+import { sendEmail } from "@init/email/client"
+import PasswordReset from "@init/email/templates/password-reset"
 import { seconds } from "qte"
 import env from "#shared/env.ts"
 
@@ -17,6 +19,12 @@ export const auth = createAuth({
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail(PasswordReset({ resetUrl: url }), {
+        emails: [user.email],
+        subject: `Reset your ${AUTH_APP_NAME} password`,
+      })
+    },
   },
   plugins: [admin(), organization()],
   secret: env.AUTH_SECRET,

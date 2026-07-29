@@ -11,6 +11,7 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "dev": "bun --hot src/index.ts",
     "start": "bun --bun src/index.ts"
   },
@@ -20,6 +21,7 @@
     "@hono/trpc-server": "0.4.2",
     "@init/auth": "workspace:*",
     "@init/db": "workspace:*",
+    "@init/email": "workspace:*",
     "@init/env": "workspace:*",
     "@init/kv": "workspace:*",
     "@init/observability": "workspace:*",
@@ -35,6 +37,7 @@
     "superjson": "2.2.6"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "2.8.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.3.14",
     "typescript": "7.0.2"
