@@ -1,3 +1,4 @@
+import * as z from "@init/utils/schema"
 import { createFiles } from "files-sdk"
 import { bunS3 } from "files-sdk/bun-s3"
 import { contentType } from "files-sdk/content-type"
@@ -7,14 +8,6 @@ import env from "#shared/env.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 export const FILES_MAX_URL_AGE = 15 * 60
-
-function checkIsSafeFileKey(key: string): boolean {
-  const segments = key.split("/")
-  return (
-    segments.every((segment) => segment !== "" && segment !== "." && segment !== "..") &&
-    /^[\w./-]+$/u.test(key)
-  )
-}
 
 export const files = createFiles({
   adapter: bunS3({
@@ -32,7 +25,14 @@ export const files = createFiles({
     }),
     validation({
       allowedTypes: ["image/*", "application/pdf"],
-      key: checkIsSafeFileKey,
+      key: (key) =>
+        z
+          .string()
+          .regex(/^[\w.-]+(?:\/[\w.-]+)*$/u)
+          .refine((value) =>
+            value.split("/").every((segment) => segment !== "." && segment !== "..")
+          )
+          .safeParse(key).success,
       maxSize: FILES_MAX_UPLOAD_SIZE,
       minSize: 1,
     }),
