@@ -1,6 +1,0 @@
-import { createFilesClient } from "files-sdk/client"
-import env from "#shared/env.ts"
-
-export const files = createFilesClient({
-  endpoint: new URL("/v1/files", env.PUBLIC_API_URL).toString(),
-})

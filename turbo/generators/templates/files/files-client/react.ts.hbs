@@ -4,9 +4,8 @@ import {
   type Transport,
 } from "files-sdk/client"
 import { useFiles as useFilesBase } from "files-sdk/react"
-import { buildApiUrl } from "#shared/utils.ts"
 
-const endpoint = buildApiUrl("/v1/files")
+const endpoint = "{{endpoint}}"
 
 function checkIsGatewayRequest(requestUrl: string): boolean {
   const request = new URL(requestUrl, endpoint)
@@ -73,7 +72,7 @@ const transport: Transport = (request) =>
 const fetchWithCredentials = Object.assign(
   (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
     fetch(input, { ...init, credentials: "include" }),
-  { preconnect: fetch.preconnect }
+  fetch
 )
 
 export function useFiles() {

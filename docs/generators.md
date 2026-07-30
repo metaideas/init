@@ -136,14 +136,14 @@ Generate the optional client in an app that consumes the API:
 
 ```bash
 bun run generate files-client
-bun run generate files-client --args app
-bun run generate files-client --args web
+bun run generate files-client --args app http://localhost:3000/v1/files
+bun run generate files-client --args web http://localhost:3000/v1/files
 ```
 
-The generator supports the React `apps/app` and Astro `apps/web` workspaces. The React
-template creates `apps/app/src/shared/files.ts`, exports the app-local `useFiles` hook
-plus `useFile`, `useList`, and `useSearch`, and authenticates both JSON and XHR upload
-traffic.
+The generator can target any workspace under `apps/`. It creates
+`src/shared/files.ts`, exports the app-local `useFiles` hook plus `useFile`, `useList`,
+and `useSearch`, and authenticates both JSON and XHR upload traffic. Astro consumers use
+the same React integration through Astro's React renderer.
 
 ```tsx
 import { useFiles, useList } from "#shared/files.ts"
@@ -161,16 +161,6 @@ function FilesExample() {
 
   return null
 }
-```
-
-The Astro template creates `apps/web/src/shared/files.ts` with a framework-independent
-`files` client from `files-sdk/client`. It also adds the validated `PUBLIC_API_URL`
-setting used to construct the `/v1/files` endpoint:
-
-```ts
-import { files } from "#shared/files.ts"
-
-const file = await files.download("report.pdf")
 ```
 
 Use `files.download(key)` when code needs the bytes. Use `files.url(key)` for an
