@@ -16,7 +16,7 @@ export const files = createFiles({
     ...(env.S3_ENDPOINT ? { endpoint: env.S3_ENDPOINT } : {}),
     region: env.S3_REGION,
     secretAccessKey: env.S3_SECRET_ACCESS_KEY,
-    virtualHostedStyle: !env.S3_FORCE_PATH_STYLE,
+    virtualHostedStyle: !env.S3_ENDPOINT,
   }),
   plugins: [
     signedUrlPolicy({

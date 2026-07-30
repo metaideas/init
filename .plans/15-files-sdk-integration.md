@@ -85,7 +85,6 @@ Validate and document:
 - `S3_ACCESS_KEY_ID`;
 - `S3_BUCKET`;
 - `S3_ENDPOINT`;
-- `S3_FORCE_PATH_STYLE`;
 - `S3_REGION`;
 - `S3_SECRET_ACCESS_KEY`.
 
