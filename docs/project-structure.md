@@ -331,12 +331,12 @@ packages/package-name
   └── scripts/                # Scripts
 ```
 
-You can create a new package using the following command:
+You can create a new package with:
 
 ```sh
-bun run generate
+bun run generate new-package
 ```
 
-Then select `new-package`. To connect an app to an existing backend workspace, use the
-`connect-backend` recipe described in
-[Project generators](./generators.md).
+Optional copy-once package code is available through `bun run generate code-snippets`.
+To connect an app to an existing backend workspace, use `connect-backend`. See
+[Project generators](./generators.md) for both workflows.

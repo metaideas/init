@@ -4,9 +4,58 @@ Run `bun run generate` to open Turbo's generator menu. Generators are local reci
 from the exact template snapshot in the project. They do not download a catalog,
 update previously generated files, or track template drift.
 
+`turbo/generators/config.ts` registers four implementations from
+`turbo/generators/commands`: `code-snippets.ts`, `new-feature.ts`, `new-package.ts`,
+and `connect-backend.ts`. Generated source belongs in Handlebars files under
+`templates/`. Keep each generator direct and self-contained instead of introducing
+shared recipe, adapter, or utility layers.
+
+## Add code snippets
+
+The `code-snippets` generator adds optional source code to an existing workspace:
+
+```bash
+bun run generate code-snippets
+```
+
+| Category            | Selection                   | Target                         | Requirements             |
+| ------------------- | --------------------------- | ------------------------------ | ------------------------ |
+| Utilities           | `codec`                     | `packages/utils/src/codec.ts`  | `packages/utils`         |
+| Utilities           | `assert`                    | `packages/utils/src/assert.ts` | `packages/utils`, `core` |
+| Environment presets | `openai`, `anthropic`, `s3` | `packages/env/src/presets.ts`  | `packages/env`           |
+
+Choose **Utilities** or **Environment presets**, then select one or more snippets from
+that category. Utility snippets create user-owned files once. Environment presets
+prepend all selected preset exports in one operation.
+
+Code snippet selections assume their required workspaces already exist. Existing targets
+are skipped, so rerunning a utility or selecting an installed environment preset does
+not duplicate it.
+
+Environment presets validate values but do not automatically attach themselves to an
+app. Extend a selected preset from the relevant app or package environment
+configuration when that integration is needed.
+
+## Create project scaffolds
+
+`new-feature` creates selected files under an app's `src/features` directory:
+
+```bash
+bun run generate new-feature
+```
+
+`new-package` creates a workspace under `packages/` using the project's current npm
+scope, shared TypeScript configuration, and TypeScript version:
+
+```bash
+bun run generate new-package
+```
+
+Both scaffold generators preserve existing files on rerun.
+
 ## Connect a backend
 
-`connect-backend` has one interface for the maintained backend adapters:
+`connect-backend` has one interface for the maintained backend connections:
 
 ```bash
 bun run generate connect-backend
@@ -22,9 +71,8 @@ bun run generate connect-backend --args desktop trpc false true
 ```
 
 The arguments are the target app, backend, auth wiring, and additive example. `true`
-and `false` are accepted for both confirm prompts. Interactive runs skip auth for
-Convex and desktop targets. Positional runs retain the stable four-argument shape;
-Convex forces auth on, while desktop requires the auth value to be `false`.
+and `false` are accepted for both confirm prompts. Convex always enables auth, while
+desktop requires the auth value to be `false`.
 
 | Backend | Targets                    | Auth behavior                                          |
 | ------- | -------------------------- | ------------------------------------------------------ |
@@ -44,10 +92,10 @@ Package names are read from workspace manifests, so connections continue to work
 
 ### Generated ownership
 
-All adapters add files and use the shipped `shared/components/providers.tsx` seam.
+The connections add files and use the shipped `shared/components/providers.tsx` seam.
 Reruns skip user-owned files rather than replacing them, and every skip is printed.
 
-| Adapter       | Owned files and additive seams                                                                                                                                |
+| Connection    | Owned files and additive seams                                                                                                                                |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Convex mobile | `shared/auth.ts`, `shared/components/convex-provider.tsx`, the `(auth)` route group, the Convex env preset and template values, optional `convex-example.tsx` |
 | Hono app      | `shared/api.ts`, `PUBLIC_API_URL` in `.env.template`, optional `routes/backend-example.tsx`                                                                   |

@@ -1,19 +1,46 @@
 import type { PlopTypes } from "@turbo/gen"
-import { getAppChoices } from "../../shared/utils"
+import Bun from "bun"
+
+type NewFeatureAnswers = PlopTypes.Answers & {
+  app: string
+  files: string[] | string
+  name: string
+}
 
 export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
+  const apps = [
+    ...new Bun.Glob("*/package.json").scanSync({
+      cwd: `${process.cwd()}/apps`,
+    }),
+  ]
+    .map((entry) => entry.split("/")[0])
+    .filter((app): app is string => app !== undefined)
+    .toSorted()
+
   plop.setGenerator("new-feature", {
-    actions: (answers) => {
-      const selectedFiles: string[] = answers?.files ?? []
-      const regularFiles = selectedFiles.filter((file) => !["assets", "components"].includes(file))
+    actions: (rawAnswers) => {
+      const answers = rawAnswers as NewFeatureAnswers
+      const app = plop.renderString("{{kebabCase value}}", { value: answers.app })
+      const feature = plop.renderString("{{kebabCase value}}", { value: answers.name })
+      const destination = `apps/${app}/src/features/${feature}`
+      const selectedFiles = Array.isArray(answers.files)
+        ? answers.files
+        : answers.files.split(",").map((file) => file.trim())
+      const generatedFiles = selectedFiles.filter(
+        (file) => file !== "assets" && file !== "components"
+      )
+      const pathsToFormat = generatedFiles.map((file) => `${destination}/${file}.ts`)
       const actions: PlopTypes.Actions = []
 
-      if (regularFiles.length > 0) {
+      if (generatedFiles.length > 0) {
         actions.push({
-          base: "templates/new-feature/",
+          base: "templates/scaffolds/new-feature/",
           destination: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/",
           globOptions: {},
-          templateFiles: regularFiles.map((file) => `templates/new-feature/${file}.ts.hbs`),
+          skipIfExists: true,
+          templateFiles: generatedFiles.map(
+            (file) => `templates/scaffolds/new-feature/${file}.ts.hbs`
+          ),
           type: "addMany",
         })
       }
@@ -21,7 +48,8 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
       if (selectedFiles.includes("assets")) {
         actions.push({
           path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
-          templateFile: "templates/new-feature/assets/.gitkeep",
+          skipIfExists: true,
+          templateFile: "templates/scaffolds/new-feature/assets/.gitkeep",
           type: "add",
         })
       }
@@ -29,17 +57,33 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
       if (selectedFiles.includes("components")) {
         actions.push({
           path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
-          templateFile: "templates/new-feature/components/.gitkeep",
+          skipIfExists: true,
+          templateFile: "templates/scaffolds/new-feature/components/.gitkeep",
           type: "add",
         })
       }
+
+      actions.push(async () => {
+        const checkedPaths = await Promise.all(
+          pathsToFormat.map(async (path) => ((await Bun.file(path).exists()) ? path : undefined))
+        )
+        const existingPaths = checkedPaths.filter((path): path is string => path !== undefined)
+
+        if (existingPaths.length === 0) return `[SKIPPED] No generated files need formatting`
+
+        await Bun.$`bun run format -- ${existingPaths}`
+        return `Created feature ${feature} in apps/${app}`
+      })
 
       return actions
     },
     description: "Generate a new feature with customizable file selection",
     prompts: [
       {
-        choices: getAppChoices(),
+        choices:
+          apps.length > 0
+            ? apps.map((app) => ({ name: app, value: app }))
+            : [{ name: "No apps found", value: "" }],
         message: "Which app would you like to add the feature to?",
         name: "app",
         type: "list",

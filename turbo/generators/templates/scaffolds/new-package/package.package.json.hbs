@@ -1,5 +1,5 @@
 {
-  "name": "@init/{{ name }}",
+  "name": "{{ packageScope }}/{{ kebabCase name }}",
   "private": true,
   "type": "module",
   "exports": {
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tooling/tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "{{ toolingPackage }}": "workspace:*",
+    "typescript": "{{ typescriptVersion }}"
   }
 }

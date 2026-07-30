@@ -44,7 +44,7 @@ app should also fail the public site's build.
 Rework the homepage and shared layout in `apps/web` into the Init landing page:
 
 - Logo/wordmark
-- Headline: **"Start once, ship everything"**
+- Headline: **"Start once. Ship everywhere."**
 - Description: **"Modern monorepo template for shipping TypeScript apps everywhere."**
 - Copyable scaffold command:
 
@@ -177,7 +177,7 @@ Manual:
 - Source module: `apps/web`
 - Hosting: Vercel at `init.now`
 - Visual reference: `get-convex/v1/apps/web`
-- Tagline: "Start once, ship everything" / "Modern monorepo template for shipping
+- Tagline: "Start once. Ship everywhere." / "Modern monorepo template for shipping
   TypeScript apps everywhere."
 - Scaffold command: `bun create metaideas/init my-app`
 - Scaffold behavior: the branded site ships as replaceable demo content when `web` is
