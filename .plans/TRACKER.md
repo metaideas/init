@@ -9,11 +9,13 @@ Plans for evolving the `init` template monorepo. Each plan is self-contained and
 | 07  | [Local template recipes](07-template-recipes.md)                             | 13, 14        | M    | Pending |
 | 10  | [init.now marketing site](10-marketing-site.md)                              | 13 (soft)     | M    | Pending |
 | 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 05 (soft), 13 | M    | Pending |
+| 15  | [Files SDK integration](15-files-sdk-integration.md)                         | 07            | M    | Pending |
 
 Plan 07 can proceed on the generator conventions established by completed plan 14:
 plain Plop generators, shared helpers, `skipIfExists` idempotency, and local
-snapshot-matched templates. Plans 10 and 12 remain independently unblocked; the
-marketing site no longer blocks or distributes optional code.
+snapshot-matched templates. Plan 15 follows once that recipe catalog exists. Plans 10
+and 12 remain independently unblocked; the marketing site no longer blocks or
+distributes optional code.
 
 ## Completed plans
 

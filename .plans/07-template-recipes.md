@@ -68,9 +68,6 @@ turbo/generators/
       s3.ts
     payments/
       stripe-agent-toolkit.ts
-    files/
-      files-sdk.ts
-      files-client.ts       # deferred; see §3
   templates/
     utilities/
       codec/
@@ -82,8 +79,6 @@ turbo/generators/
     env/
     payments/
       stripe-agent-toolkit/
-    files/
-      files-sdk/
 ```
 
 - `config.ts` is the sole executable generator entrypoint. Public generators:
@@ -95,8 +90,8 @@ turbo/generators/
 - Mirror the category between `recipes/` and `templates/`. Do not duplicate generated
   code in docs or a second distribution directory.
 - Every plan that removes restorable code must add its canonical target, dependency/env
-  requirements, and concrete source snippet here before deleting it. The generated
-  recipe must compile.
+  requirements, and concrete source snippet to the owning plan before deleting it. The
+  generated recipe must compile.
 
 Recipe targets use template-relative paths such as `packages/utils/src/codec.ts`.
 Canonical sources use `@init/*`; `bun template setup` rewrites them with the rest of the
@@ -109,11 +104,10 @@ rather than assuming a scope.
 - `assert` — assertion helpers importing `@init/core/errors` (was
   `packages/utils/src/assert.ts`)
 - `stripe-agent-toolkit` — (was `packages/payments/src/helpers.ts` `createAgentToolkit`)
-- `files-sdk` — storage integration for `apps/api` replacing `packages/storage/`; see §3
-- `files-client` — per-app client for the `files-sdk` backend; deferred until this
-  plan's core lands; see §3
 - env presets not available upstream in `@t3-oss/env-core/presets-zod`: `openai`,
   `anthropic`, `s3`
+- ~~`files-sdk` / `files-client`~~ — **moved to Plan 15** so storage integration can
+  evolve independently after the core recipe catalog lands
 - ~~`railway`~~ — **dropped**: available upstream in `@t3-oss/env-core/presets-zod`;
   users import it directly
 - ~~`email-organization-invitation`~~ — **dropped**: simple email template, not worth a
@@ -250,76 +244,7 @@ export const s3 = () =>
   })
 ```
 
-## 3. `files-sdk` recipe requirements
-
-The storage integration splits in two:
-
-- **`files-sdk`** — the API-side integration, part of this plan.
-- **`files-client`** — a per-app client recipe (supporting all apps, like the old
-  `hono-client`/`trpc-client` pattern), **deferred until the rest of this plan is
-  finished**.
-
-`files-sdk` treats storage as an application integration for `apps/api`, not a thin
-S3-helper port:
-
-1. Install `files-sdk` with `bun add --exact` and only the chosen adapter's optional
-   peer dependencies. Default to `files-sdk/bun-s3` for the lightweight Bun template;
-   document `files-sdk/s3` as the richer S3 option for provider metadata, cache control,
-   delimiter listing, server-side copy, durable multipart uploads, and stronger
-   signed-upload policies. Do not use runtime provider loading unless a generated
-   project genuinely selects providers at runtime.
-2. Put the provider adapter, `Files` instance, bucket configuration, and plugin
-   composition in `apps/api/src/shared/files.ts`. Mount the `files-sdk/hono` backend
-   integration in `apps/api/src/routes/files.ts`. There is no shared storage workspace
-   or wrapper API.
-3. Keep server and client imports separate so provider credentials and native SDKs
-   cannot enter frontend bundles. Frontends use `files-sdk/client` or the relevant
-   framework integration directly (via the future `files-client` recipe); server code
-   uses provider subpaths.
-4. Make the backend deny-by-default. Integrate Init authentication, authorize operations
-   plus bucket/key prefixes, validate file type and size before issuing upload
-   authorization, and require a validated `FILES_API_SECRET`. Never rely on the SDK
-   gateway's random per-process fallback, which is unsuitable across multiple instances.
-5. Start with a conservative plugin policy: content-type handling, validation, and
-   signed-URL policy. Keep compression, encryption, deduplication, versioning, usage
-   accounting, soft deletion, failover, and tiering opt-in because they change
-   semantics, persistence, or cost.
-6. Keep `packages/db`'s `assets` table as the application source of truth for ownership,
-   organization, lifecycle status, expiry, and application metadata. Provider object
-   metadata is not authoritative. Signed direct uploads transfer bytes outside
-   `Files.upload()`, so the route must constrain authorization, verify the resulting
-   object, and only then mark the asset available.
-7. Document capability differences instead of promising false portability. In
-   particular, `bun-s3` lacks custom metadata, cache control, delimiter results, and
-   server-side copy; its copy passes bytes through the process and resumable uploads
-   buffer in-process. Use `files.capabilities` where available and keep
-   provider-specific access behind the API composition root.
-8. Do not mirror all upstream providers into a database enum. Store provider, bucket,
-   and MIME type as text; a generated project can impose its own allowlist if needed.
-
-The recipe prompts for one maintained provider adapter. It may use explicit internal
-variants (for example `files-sdk-bun-s3`, `files-sdk-s3`, and `files-sdk-r2`) when that
-keeps each implementation simpler. Only the selected adapter's dependencies and
-environment schema are generated.
-
-Coordination notes:
-
-- **The recipe requires `apps/api`.** Preflight via `ensureWorkspaceExists` reports the
-  missing workspace and the exact `bun template add app api` remedy before writing. A
-  `files-sdk-convex` recipe (the adapter exists) is separate future work because its
-  mount point differs too much to parameterize.
-- **Storage fields are deployment configuration.** Plan 02 leaves provider, bucket, and
-  MIME type as plain text; the recipe's `files.ts` composition owns its bucket and
-  prefix configuration.
-- **Environment configuration is part of the generated result:** `FILES_API_SECRET` and
-  the selected adapter's provider variables are added to validation and appended to env
-  templates during the same run. The recipe must leave complete wiring rather than
-  print a manual TODO.
-- Verification is manual: scaffold, generate, run `bun run check`, and exercise the
-  route against local MinIO (`infra/local/docker-compose.yml`) if desired. No CI
-  contract suite.
-
-## 4. Generator interface and installation workflow
+## 3. Generator interface and installation workflow
 
 Expose the copy-once catalog through the `template` generator:
 
@@ -345,13 +270,11 @@ add` remedy for missing workspaces and abort.
 5. Return a concise result listing created files, dependencies, and environment values
    the user must supply.
 
-## 5. Recipe health (manual)
+## 4. Recipe health (manual)
 
 - Verify recipes manually in disposable scaffold copies after `bun template setup`:
   generated files use the renamed scope and the project passes `bun run check`.
-- Test at least `codec`, one env preset, and the default `files-sdk` provider. The
-  files-sdk check asserts there is no `@init/storage` workspace/import and that
-  server-only provider modules are absent from client builds.
+- Test at least `codec`, one env preset, and `stripe-agent-toolkit`.
 - Run recipes against the smallest supported workspace selection and verify missing
   requirements fail before any write.
 - Include recipe sources and generator implementation in Adamantite/knip analysis while
@@ -368,9 +291,6 @@ No unit-test suite or CI harness for the generators; testing is local and manual
   `bun run check` passes.
 - Installing an env preset recipe appends exactly one named export to
   `packages/env/src/presets.ts`; rerunning is a no-op.
-- Installing a `files-sdk` provider variant produces a typechecking authenticated Hono
-  route with only that provider's dependencies and validated env variables, appended to
-  the env template in the same run.
 - Every recipe sourced from removed template code has a canonical snippet in this plan
   (or in Plan 14 for backend wiring), and its generated files typecheck.
 - Fresh scaffold runtime workspaces contain no copies of optional recipe output;
@@ -388,6 +308,7 @@ No unit-test suite or CI harness for the generators; testing is local and manual
 - Recipes never modify existing user-owned consumers; additions are additive and easy
   to remove.
 - All backend connection and auth-client wiring moved to Plan 14's `connect-backend`.
+- File storage integration moved to Plan 15.
 - `railway` and `email-organization-invitation` recipes dropped.
 - Recipes ship with the scaffold and follow its template commit. There is no hosted
   catalog or updater.
@@ -400,5 +321,5 @@ No unit-test suite or CI harness for the generators; testing is local and manual
 - Automatically adding a missing workspace or deploying an external service.
 - Moving selectable, lifecycle-owning packages into copy-once recipes.
 - Backend transport and auth-client adapters owned by Plan 14.
-- The `files-client` recipe implementation (deferred until this plan's core lands).
+- File storage recipes owned by Plan 15.
 - AST-based or syntax-aware file merging beyond anchored appends/modifies.
