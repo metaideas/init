@@ -1,0 +1,61 @@
+import type { TRPCRouter } from "{{apiPackage}}/client"
+import { createIsomorphicFn } from "@tanstack/react-start"
+import { getRequestHeaders } from "@tanstack/react-start/server"
+import { useQueryClient } from "@tanstack/react-query"
+import { createTRPCClient, httpBatchStreamLink, loggerLink } from "@trpc/client"
+import { createTRPCContext } from "@trpc/tanstack-react-query"
+import type { PropsWithChildren } from "react"
+import { useMemo } from "react"
+import superjson from "superjson"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const {
+  useTRPC,
+  useTRPCClient,
+  TRPCProvider: TRPCProviderBase,
+} = createTRPCContext<TRPCRouter>()
+
+const url = buildApiUrl("/trpc")
+
+export const makeTRPCClient = createIsomorphicFn()
+  .server(() =>
+    createTRPCClient<TRPCRouter>({
+      links: [
+        httpBatchStreamLink({
+          headers: getRequestHeaders,
+          transformer: superjson,
+          url,
+        }),
+      ],
+    })
+  )
+  .client(() =>
+    createTRPCClient<TRPCRouter>({
+      links: [
+        loggerLink({
+          colorMode: "ansi",
+          enabled: () => import.meta.env.DEV,
+        }),
+        httpBatchStreamLink({
+          fetch: (requestUrl, options) =>
+            fetch(requestUrl, {
+              ...options,
+              credentials: "include",
+            }),
+          transformer: superjson,
+          url,
+        }),
+      ],
+    })
+  )
+
+export function TRPCProvider({ children }: PropsWithChildren) {
+  const queryClient = useQueryClient()
+  const trpcClient = useMemo(() => makeTRPCClient(), [])
+
+  return (
+    <TRPCProviderBase queryClient={queryClient} trpcClient={trpcClient}>
+      {children}
+    </TRPCProviderBase>
+  )
+}

@@ -1,0 +1,27 @@
+import { ActivityIndicator } from "{{nativeUiPackage}}/components/activity-indicator"
+import { Stack } from "expo-router"
+import { View } from "react-native"
+import { useSession } from "#shared/auth.ts"
+
+export default function AuthLayout() {
+  const { data: session, isPending } = useSession()
+
+  if (isPending) {
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
+  return (
+    <Stack>
+      <Stack.Protected guard={!!session}>
+        <Stack.Screen name="(authenticated)" />
+      </Stack.Protected>
+      <Stack.Protected guard={!session}>
+        <Stack.Screen name="(unauthenticated)" />
+      </Stack.Protected>
+    </Stack>
+  )
+}

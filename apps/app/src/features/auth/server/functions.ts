@@ -1,17 +1,25 @@
+import { PasswordResetRequestError } from "@init/core/errors"
 import * as z from "@init/utils/schema"
+import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
-import { auth } from "#features/auth/server/index.ts"
+import { authClient } from "#shared/auth.ts"
 import { publicFunction } from "#shared/server/functions.ts"
 import { buildUrl } from "#shared/utils.ts"
 
-async function getCurrentSession() {
-  return auth.api.getSession({ headers: getRequestHeaders() })
-}
-
-export const validateSession = publicFunction.handler(getCurrentSession)
+export const validateSession = createIsomorphicFn()
+  .client(async () => {
+    const { data: session } = await authClient.getSession()
+    return session
+  })
+  .server(async () => {
+    const { data: session } = await authClient.getSession({
+      fetchOptions: { headers: getRequestHeaders() },
+    })
+    return session
+  })
 
 export const getGreeting = publicFunction.handler(async () => {
-  const session = await getCurrentSession()
+  const session = await validateSession()
   if (!session) throw new Error("Unauthorized")
 
   return { message: `Hello, ${session.user.name}!` }
@@ -30,13 +38,16 @@ export const checkEmailAvailability = publicFunction
 export const forgotPassword = publicFunction
   .validator(z.object({ email: z.email() }))
   .handler(async ({ data }) => {
-    await auth.api.requestPasswordReset({
-      body: {
-        email: data.email,
-        redirectTo: buildUrl("/reset-password"),
-      },
-      headers: getRequestHeaders(),
+    const { error } = await authClient.requestPasswordReset({
+      email: data.email,
+      fetchOptions: { headers: getRequestHeaders() },
+      redirectTo: buildUrl("/reset-password"),
     })
 
+    if (error) {
+      throw new PasswordResetRequestError().withMessage(
+        error.message ?? "Unable to request a password reset"
+      )
+    }
     return { success: true }
   })

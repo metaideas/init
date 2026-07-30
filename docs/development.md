@@ -47,4 +47,5 @@ bun run <command> --filter <workspace>
 - `bun template add package <name>` - Add a package workspace from the template
 - `bun run scripts` - Run the extensible entry point for project-owned scripts
 
-Template updates are agent-driven; see [Updating your project](../README.md#updating-your-project).
+Template updates are agent-driven; see
+[Updating your project](./template-commands.md#updating-your-project).

@@ -1,0 +1,21 @@
+import { useQuery } from "@tanstack/react-query"
+import { Text } from "{{nativeUiPackage}}/components/text"
+import { View } from "react-native"
+import { api } from "#shared/api.ts"
+
+export default function BackendExampleScreen() {
+  const greeting = useQuery({
+    queryFn: async () => {
+      const response = await api.v1.hello.$get({ query: { name: "Init" } })
+      if (!response.ok) throw new Error("The API request failed")
+      return response.text()
+    },
+    queryKey: ["backend-example"],
+  })
+
+  return (
+    <View className="flex-1 items-center justify-center bg-background px-6">
+      <Text>{greeting.data ?? (greeting.isPending ? "Loading…" : greeting.error.message)}</Text>
+    </View>
+  )
+}

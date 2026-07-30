@@ -1,0 +1,23 @@
+import { convexClient } from "{{backendPackage}}/client/auth"
+import { createAuthClient } from "{{authPackage}}/client"
+import { adminClient, organizationClient } from "{{authPackage}}/client/plugins"
+import { expoClient } from "{{authPackage}}/expo/client"
+import { accessControl, adminRole, memberRole, ownerRole } from "{{authPackage}}/permissions"
+import * as SecureStore from "expo-secure-store"
+import env from "#shared/env.ts"
+
+export const auth = createAuthClient(env.EXPO_PUBLIC_CONVEX_SITE_URL, [
+  expoClient({ storage: SecureStore }),
+  convexClient(),
+  adminClient(),
+  organizationClient({
+    ac: accessControl,
+    roles: {
+      admin: adminRole,
+      member: memberRole,
+      owner: ownerRole,
+    },
+  }),
+])
+
+export const { useSession } = auth

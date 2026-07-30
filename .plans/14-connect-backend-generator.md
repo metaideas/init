@@ -1,6 +1,6 @@
 # 14 — Generic backend connection generator
 
-**Status:** Pending
+**Status:** Completed
 **Size:** M
 **Depends on:** 05, 13
 **Affects:** 07 (establishes the shared generator conventions that Plan 07 expands)
@@ -197,8 +197,8 @@ handler.
   | Backend | Targets              | Auth prompt | Notes                                    |
   | ------- | -------------------- | ----------- | ---------------------------------------- |
   | Convex  | mobile               | always on   | Convex client wiring is auth-integrated  |
-  | Hono    | app, desktop, mobile | opt-in      | subsumes the old `hono-client` generator |
-  | tRPC    | app, desktop         | opt-in      | subsumes the old `trpc-client` generator |
+  | Hono    | app, desktop, mobile | app/mobile  | subsumes the old `hono-client` generator |
+  | tRPC    | app, desktop         | app only    | subsumes the old `trpc-client` generator |
 
 - Remove the public `hono-client` and `trpc-client` generators. Their templates move
   under `turbo/generators/templates/backend-clients/` as internal adapter templates.
@@ -227,7 +227,8 @@ The adapter then generates, from templates under
   EXPO_PUBLIC_CONVEX_SITE_URL="https://example.convex.site"
   ```
 
-- the Convex provider inserted through `shared/components/providers.tsx`;
+- the Convex provider inserted through `shared/components/providers.tsx`, with a
+  `ConvexQueryClient` connected to mobile's existing persisted TanStack Query client;
 - the auth client at `apps/mobile/src/shared/auth.ts` (auth is always part of this
   adapter):
 
@@ -261,7 +262,10 @@ The adapter then generates, from templates under
   variant; see §6);
 - with `example` true: a small additive feature and route querying the existing public
   documents API from `packages/backend`, generated inside the
-  `(auth)/(authenticated)` route group from §6.
+  `(auth)/(authenticated)` route group from §6. The example uses
+  `useQuery(convexQuery(...))`, so loading and error states use the normal TanStack
+  Query result object while Convex remains realtime. The backend client's
+  `useConvexQuery` export remains the native Convex hook.
 
 `packages/backend`'s `convex/_generated` output is committed, so generated targets
 typecheck before any Convex deployment or account exists. A missing URL value is a
@@ -627,6 +631,9 @@ Run generator smoke tests manually in disposable scaffold copies (no CI harness)
   route.
 - Each adapter's connection-only run produces production wiring, no demo screen, and
   the project checks without external accounts or deployments.
+- Convex mobile wiring connects `ConvexQueryClient` to the existing persisted
+  `QueryClient`; its example reads loading and error state from
+  `useQuery(convexQuery(...))`.
 - Rerunning the same command is a no-op; adding auth or the example later only adds the
   new layer.
 - A renamed npm scope is discovered correctly and leaves no hardcoded `@init/`

@@ -45,4 +45,18 @@ bun template add package auth
 
 `bun run scripts` is the extensible entry point for scripts owned by your project.
 
-There is no automated template `update` or `check` command. See [Updating your project](../README.md#updating-your-project) for the agent-driven update workflow.
+## Updating Your Project
+
+`bun template setup` creates `.template.json` with the template repository, the commit
+used to create the project, and the creation time:
+
+```json
+{ "template": "metaideas/init", "commit": "<sha>", "createdAt": "<ISO date>" }
+```
+
+There is no automated template `update` or `check` command. To bring in template
+improvements, ask your coding agent to compare
+[metaideas/init](https://github.com/metaideas/init) from the stamped commit to `HEAD`
+and apply the changes that are relevant to your project. Tell it to propagate upstream
+deletions and normalize your renamed scope before diffing: local `@<scope>/` references
+correspond to upstream `@init/` references.

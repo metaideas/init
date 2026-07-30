@@ -9,13 +9,11 @@ Plans for evolving the `init` template monorepo. Each plan is self-contained and
 | 07  | [Local template recipes](07-template-recipes.md)                             | 13, 14        | M    | Pending |
 | 10  | [init.now marketing site](10-marketing-site.md)                              | 13 (soft)     | M    | Pending |
 | 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 05 (soft), 13 | M    | Pending |
-| 14  | [Generic backend connection generator](14-connect-backend-generator.md)      | 05, 13        | M    | Pending |
 
-Ordering: 14 can proceed next and establishes the shared generator conventions (plain
-Plop generators, shared helpers, `skipIfExists` idempotency) plus the `connect-backend`
-adapters, which now own all backend and auth-client wiring. Plan 07 follows by adding
-the copy-once template recipe catalog on the same conventions. Plans 10 and 12 remain independently unblocked; the marketing site no longer
-blocks or distributes optional code.
+Plan 07 can proceed on the generator conventions established by completed plan 14:
+plain Plop generators, shared helpers, `skipIfExists` idempotency, and local
+snapshot-matched templates. Plans 10 and 12 remain independently unblocked; the
+marketing site no longer blocks or distributes optional code.
 
 ## Completed plans
 
@@ -28,6 +26,7 @@ blocks or distributes optional code.
 | 05  | [Convex backend example & conventions](05-convex-backend-example.md)                | Durable conventions retained; demo superseded by 14 |
 | 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)                   | CLI is deleted by plan 13; kept as history          |
 | 13  | [Descope: delete the CLI, return to template scripts](13-descope-cli-to-scripts.md) | CLI removed; template scripts restored              |
+| 14  | [Generic backend connection generator](14-connect-backend-generator.md)             | Unified Convex, Hono, and tRPC adapter workflow     |
 
 ## Deleted plans
 

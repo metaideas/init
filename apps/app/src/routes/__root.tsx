@@ -1,7 +1,4 @@
 import type { ReactNode } from "react"
-import { Toaster } from "@init/ui/components/sonner"
-import { ThemeProvider } from "@init/ui/components/theme"
-import { TooltipProvider } from "@init/ui/components/tooltip"
 import globals from "@init/ui/globals.css?url"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { FormDevtoolsPanel } from "@tanstack/react-form-devtools"
@@ -11,6 +8,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { RouterContext } from "#router.tsx"
 import { ThemeScript } from "#features/theme/components/theme-script.tsx"
 import { getTheme, setTheme } from "#features/theme/server/functions.ts"
+import Providers from "#shared/components/providers.tsx"
 import { baseLocale } from "#shared/internationalization/runtime.js"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -34,13 +32,10 @@ function RootComponent() {
 
   return (
     <RootDocument>
-      <ThemeProvider setTheme={(value) => void setTheme({ data: value })} theme={theme}>
-        <ThemeScript />
-        <TooltipProvider>
-          <Outlet />
-          <Toaster />
-        </TooltipProvider>
-      </ThemeProvider>
+      <ThemeScript />
+      <Providers setTheme={(value) => void setTheme({ data: value })} theme={theme}>
+        <Outlet />
+      </Providers>
 
       {import.meta.env.DEV ? (
         <TanStackDevtools

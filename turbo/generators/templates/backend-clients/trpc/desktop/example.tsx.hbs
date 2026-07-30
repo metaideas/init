@@ -1,0 +1,24 @@
+import { useQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { useTRPC } from "#shared/trpc.tsx"
+
+export const Route = createFileRoute("/trpc-example")({
+  component: TRPCExample,
+})
+
+function TRPCExample() {
+  const trpc = useTRPC()
+  const result = useQuery(
+    trpc.auth.checks.emailAvailable.queryOptions({ email: "example@example.com" })
+  )
+
+  return (
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <p>
+        {result.isPending
+          ? "Loading…"
+          : `Example email is ${result.data?.isAvailable ? "available" : "already used"}.`}
+      </p>
+    </main>
+  )
+}

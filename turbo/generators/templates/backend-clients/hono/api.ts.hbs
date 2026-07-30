@@ -1,4 +1,4 @@
-import { createClient } from "api/client"
+import { createClient } from "{{apiPackage}}/client"
 import { buildApiUrl } from "#shared/utils.ts"
 
 export const api = createClient(buildApiUrl("/"))

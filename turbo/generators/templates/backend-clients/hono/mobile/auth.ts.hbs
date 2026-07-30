@@ -1,0 +1,26 @@
+import { createAuthClient } from "{{authPackage}}/client"
+import { adminClient, organizationClient } from "{{authPackage}}/client/plugins"
+import { expoClient } from "{{authPackage}}/expo/client"
+import { accessControl, adminRole, memberRole, ownerRole } from "{{authPackage}}/permissions"
+import * as SecureStore from "expo-secure-store"
+import { buildApiUrl } from "#shared/utils.ts"
+
+export const auth = createAuthClient(buildApiUrl("/auth"), [
+  expoClient({ storage: SecureStore }),
+  adminClient(),
+  organizationClient({
+    ac: accessControl,
+    roles: {
+      admin: adminRole,
+      member: memberRole,
+      owner: ownerRole,
+    },
+  }),
+])
+
+export const { useSession } = auth
+
+export function getAuthHeaders() {
+  const cookie = auth.getCookie()
+  return cookie ? { Cookie: cookie } : {}
+}
