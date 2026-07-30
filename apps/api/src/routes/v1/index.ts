@@ -1,11 +1,13 @@
 import * as z from "@init/utils/schema"
 import { describeRoute, resolver, validator } from "hono-openapi"
+import filesRoutes from "#routes/v1/files.ts"
 import { m } from "#shared/internationalization/messages.js"
 import { requireSession } from "#shared/middleware.ts"
 import { factory } from "#shared/utils.ts"
 
 export default factory
   .createApp()
+  .route("/files", filesRoutes)
   .get(
     "/hello",
     describeRoute({

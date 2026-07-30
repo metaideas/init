@@ -4,11 +4,11 @@ Run `bun run generate` to open Turbo's generator menu. Generators are local reci
 from the exact template snapshot in the project. They do not download a catalog,
 update previously generated files, or track template drift.
 
-`turbo/generators/config.ts` registers four implementations from
-`turbo/generators/commands`: `code-snippets.ts`, `new-feature.ts`, `new-package.ts`,
-and `connect-backend.ts`. Generated source belongs in Handlebars files under
-`templates/`. Keep each generator direct and self-contained instead of introducing
-shared recipe, adapter, or utility layers.
+`turbo/generators/config.ts` registers implementations from
+`turbo/generators/commands`, including project scaffolds, backend connections, code
+snippets, and the Files SDK client integration. Generated source belongs in
+Handlebars files under `templates/`. Keep each generator direct and self-contained
+instead of introducing shared recipe, adapter, or utility layers.
 
 ## Add code snippets
 
@@ -123,3 +123,46 @@ compatible.
 The former `hono-client` and `trpc-client` commands are removed. Use
 `connect-backend` so dependency, environment, provider, auth, and example wiring are
 applied consistently.
+
+## Add a Files SDK client
+
+`apps/api` always includes the authenticated Files SDK gateway at `/v1/files`, alongside
+the built-in tRPC and Hono routes. Its `src/shared/files.ts` composition uses Bun's
+native S3 adapter with local MinIO defaults. Every operation requires the existing Init
+session and is scoped to `users/<user-id>/`. Uploads are limited to 10 MiB and accept
+images and PDF files by default.
+
+Generate the optional React client in an app that consumes the API:
+
+```bash
+bun run generate files-client
+bun run generate files-client --args app
+```
+
+The client currently supports `apps/app`, the maintained React web app with
+authenticated Hono connectivity. It creates `apps/app/src/shared/files.ts`, exports the
+app-local `useFiles` hook plus `useFile`, `useList`, and `useSearch`, and authenticates
+both JSON and XHR upload traffic.
+
+```tsx
+import { useFiles, useList } from "#shared/files.ts"
+
+function FilesExample() {
+  const files = useFiles()
+  const listing = useList({ prefix: "documents/" })
+
+  async function upload(file: File) {
+    await files.upload(file, {
+      onProgress: ({ fraction }) => console.log(fraction),
+    })
+    await listing.refetch()
+  }
+
+  return null
+}
+```
+
+Use `files.download(key)` when code needs the bytes. Use `files.url(key)` for an
+`img`, anchor, or video source when the selected adapter supports signed URLs. The hook
+also exposes `files.error`, `files.abort()`, `files.reset()`, and capability checks.
+Rerunning the generator reports skips without replacing generated application code.
