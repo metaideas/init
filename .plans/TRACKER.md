@@ -4,25 +4,30 @@ Plans for evolving the `init` template monorepo. Each plan is self-contained and
 
 ## Active plans
 
-| #   | Plan                                                                                | Depends on    | Size | Status  |
-| --- | ----------------------------------------------------------------------------------- | ------------- | ---- | ------- |
-| 05  | [Convex backend example & conventions](05-convex-backend-example.md)                | —             | S    | Pending |
-| 07  | [Registry (init.now)](07-registry.md)                                               | 10, 13        | L    | Pending |
-| 10  | [init.now marketing site](10-marketing-site.md)                                     | 13 (soft)     | M    | Pending |
-| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md)        | 05 (soft), 13 | M    | Pending |
-| 13  | [Descope: delete the CLI, return to template scripts](13-descope-cli-to-scripts.md) | —             | M    | Pending |
+| #   | Plan                                                                         | Depends on    | Size | Status  |
+| --- | ---------------------------------------------------------------------------- | ------------- | ---- | ------- |
+| 07  | [Local template recipes](07-template-recipes.md)                             | 13, 14        | M    | Pending |
+| 10  | [init.now marketing site](10-marketing-site.md)                              | 13 (soft)     | M    | Pending |
+| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 05 (soft), 13 | M    | Pending |
+| 14  | [Generic backend connection generator](14-connect-backend-generator.md)      | 05, 13        | M    | Pending |
 
-Ordering: **13 runs first** — it changes how projects are created and managed, which 10 and 12 document and 07 builds on. 10 markets the `bun create` flow. 07 is last — it hosts copy-once "registry backlog" items on the site built in 10, consumed via browse/copy-paste, agent-fetchable URLs, and/or the shadcn registry format (no CLI).
+Ordering: 14 can proceed next and establishes the shared generator conventions (plain
+Plop generators, shared helpers, `skipIfExists` idempotency) plus the `connect-backend`
+adapters, which now own all backend and auth-client wiring. Plan 07 follows by adding
+the copy-once template recipe catalog on the same conventions. Plans 10 and 12 remain independently unblocked; the marketing site no longer
+blocks or distributes optional code.
 
 ## Completed plans
 
-| #   | Plan                                                                   | Notes                                      |
-| --- | ---------------------------------------------------------------------- | ------------------------------------------ |
-| 01  | [CLI correctness fixes](01-cli-correctness-fixes.md)                   | CLI is deleted by plan 13; kept as history |
-| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md) |                                            |
-| 03  | [App hygiene](03-app-hygiene.md)                                       |                                            |
-| 04  | [CLI manifest & setup rework](04-cli-manifest-and-setup.md)            | CLI is deleted by plan 13; kept as history |
-| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)      | CLI is deleted by plan 13; kept as history |
+| #   | Plan                                                                                | Notes                                               |
+| --- | ----------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 01  | [CLI correctness fixes](01-cli-correctness-fixes.md)                                | CLI is deleted by plan 13; kept as history          |
+| 02  | [Package consolidation & dead-code sweep](02-package-consolidation.md)              |                                                     |
+| 03  | [App hygiene](03-app-hygiene.md)                                                    |                                                     |
+| 04  | [CLI manifest & setup rework](04-cli-manifest-and-setup.md)                         | CLI is deleted by plan 13; kept as history          |
+| 05  | [Convex backend example & conventions](05-convex-backend-example.md)                | Durable conventions retained; demo superseded by 14 |
+| 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)                   | CLI is deleted by plan 13; kept as history          |
+| 13  | [Descope: delete the CLI, return to template scripts](13-descope-cli-to-scripts.md) | CLI removed; template scripts restored              |
 
 ## Deleted plans
 
@@ -32,11 +37,14 @@ Plans 06 (update command rework), 08 (CLI release automation), and 11 (`bun crea
 
 - This repo is a template monorepo. Users scaffold projects with `bun create metaideas/init`, then manage them with plain scripts inside the template (`bun template setup`, `bun template rename`, `bun template add app|package`). See plan 13.
 - **CLI removal (decided, plan 13)**: the `init-now` npm package is deprecated and `cli/` deleted. No published tooling, no release-please, no template versioning. Projects stamp the template commit sha in `.template.json` at setup time so agents can diff against upstream for updates.
-- Guiding principle: **the template ships a wired, consumed core with zero required external services**. Optional capability lives in selectable packages (chosen during `bun template setup`) or, eventually, a hosted registry (plan 07). Local dev must work with `docker compose` alone — no accounts, no API keys.
-- Packages vs registry criterion (decided):
+- Guiding principle: **the template ships a wired, consumed core with zero required external services**. Optional capability lives in selectable packages (chosen during `bun template setup`) or snapshot-matched local Turbo recipes (plan 07). Local dev must work with `docker compose` alone — no accounts, no API keys.
+- Packages vs template-recipe criterion (decided):
   - **Package** = ongoing dependency with its own third-party deps and lifecycle (payments, ai, analytics, kv, email client). These stay, even with zero in-template consumers, because setup lets users select them.
-  - **Registry item** = copy-once code the user owns after install (email templates, one-off utils, extra UI components, auth integration snippets, env presets).
-- `apps/app` is independently full-stack through TanStack Start server routes/functions. `apps/api` (Hono) and `packages/backend` (Convex) are optional backend choices connected through registry-installed adapters; Convex stays in `packages/` because it is consumed like a library (client + generated types) and deploys to Convex cloud.
+  - **Template recipe** = copy-once code the user owns after generation (email templates, one-off utils, extra UI components, auth integration snippets, env presets).
+- Recipe definitions ship inside `turbo/generators/` and match the scaffold's recorded
+  template commit. There is no hosted registry or independent updater; existing projects
+  receive newer recipes through the documented agent-assisted upstream diff workflow.
+- `apps/app` is independently full-stack through TanStack Start server routes/functions. `apps/api` (Hono) and `packages/backend` (Convex) are optional backend choices; Plan 14 connects them to clients through local generator adapters. Convex stays in `packages/` because it is consumed like a library (client + generated types) and deploys to Convex cloud.
 
 ## Verification (run after any code change)
 

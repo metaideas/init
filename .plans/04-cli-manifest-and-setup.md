@@ -148,7 +148,7 @@ The dashboard loader calls `getGreeting()` directly, and the sign-up form calls 
 
 - Delete the app's `api: "workspace:*"` dependency and both `TRPCRouter` imports.
 - Remove the app-wide tRPC provider/context and the now-unused `@trpc/client` and `@trpc/tanstack-react-query` dependencies.
-- Remove `PUBLIC_API_URL` from the default app env schema/template. The registry integrations in plan 07 add it when a project opts into a remote Hono API.
+- Remove `PUBLIC_API_URL` from the default app env schema/template. The local template recipes in plan 07 add it when a project opts into a remote Hono API.
 - Keep `apps/api` fully functional for mobile, desktop, extensions, third-party clients, or projects that deliberately choose a separately deployed Hono backend.
 - Do not add a local/remote abstraction before installing a second adapter. TanStack server functions are the default implementation; plan 07 installs the real remote adapters at the seam when requested.
 

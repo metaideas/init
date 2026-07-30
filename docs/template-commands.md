@@ -9,8 +9,8 @@ Commands for configuring and extending projects created with `bun create metaide
 Configure a newly created project. This command:
 
 - Prompts for the apps and packages to keep
-- Sets the project name and package scope
-- Rewrites `@init/` references for the selected scope
+- Sets the project name, which is also used as the package scope
+- Rewrites `@init/` references with the project name
 - Stamps `.template.json` with the source template, commit, and creation time
 
 ```bash

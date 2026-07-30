@@ -32,7 +32,6 @@
     "@tanstack/react-query": "^5.90.20",
     "convex": "1.42.3",
     "fluent-convex": "0.13.0",
-    "qte": "0.1.1",
     "std-env": "4.2.0"
   },
   "devDependencies": {

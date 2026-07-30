@@ -1,5 +1,9 @@
 # Plan 05 — Convex backend example & conventions
 
+**Status:** Completed
+**Note:** Durable auth and backend conventions retained; the always-on mobile demo is
+superseded by Plan 14.
+
 `packages/backend` (Convex + `@convex-dev/better-auth`) is an intentional backend option alongside `apps/api`. The TanStack Start app is independently full-stack through its own server routes/functions (plan 04); projects can keep that default, add a self-managed Hono API, or adopt Convex (e.g., a mobile app that doesn't want to run a server). Decision: Convex **stays in `packages/`** — it is consumed like a library (React client + generated types) and deploys to Convex cloud, not our infra; this also matches Convex's own Turborepo conventions.
 
 The problem: today it has **zero consumers**, so the alternative is asserted but never demonstrated, and drift between the two auth setups goes unnoticed.
@@ -26,7 +30,7 @@ Don't force-share code between alternatives (they must delete cleanly), but elim
 
 - `AGENTS.md`: the Project Structure section says deployables live in `apps/`. Add a carve-out: _hosted-platform backends consumed as libraries (e.g., Convex) live in `packages/`_. This prevents relitigating the placement.
 - `docs/project-structure.md`: same clarification; also fix the stale claim that `scripts/` contains the template-sync script (sync lives in the `init-now` CLI).
-- Add a short `packages/backend/README.md` section (or extend the existing one): when to keep TanStack Start local server functions, choose Convex, or choose `apps/api`; document that optional app adapters are installed from the registry rather than shipped in the default app.
+- Add a short `packages/backend/README.md` section (or extend the existing one): when to keep TanStack Start local server functions, choose Convex, or choose `apps/api`; document that optional app adapters are generated locally rather than shipped in the default app.
 
 ## Acceptance criteria
 

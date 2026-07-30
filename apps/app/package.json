@@ -28,7 +28,6 @@
     "@tanstack/react-router": "1.170.18",
     "@tanstack/react-router-ssr-query": "1.167.1",
     "@tanstack/react-start": "1.168.32",
-    "qte": "0.1.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "std-env": "4.2.0",

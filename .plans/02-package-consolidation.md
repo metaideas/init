@@ -2,7 +2,9 @@
 
 Consolidate micro-packages and remove dead code from `packages/`. Decisions below are final (agreed with the maintainer) unless marked "confirm first".
 
-Anything removed that is still _useful as copy-once code_ must be recorded in `.plans/07-registry.md` under "Registry backlog" instead of being lost — append to that list as you delete.
+Anything removed that is still _useful as copy-once code_ must be recorded in
+`.plans/07-template-recipes.md` under "Template recipe backlog" instead of being
+lost—append to that list as you delete.
 
 ## 1. Merge `@init/error` into `@init/core` as `@init/core/errors`
 
@@ -32,14 +34,14 @@ Steps:
 1. Remove the `StorageBucket` and `MimeType` imports and their `.$type<...>()` annotations from `packages/db/src/schema.ts`; keep `bucket` and `mimeType` as plain text columns. Do not move these implementation types into db or add `mime` there. Bucket names are deployment configuration, and MIME values can include parameters such as `text/plain; charset=utf-8` that the old static type excludes.
 2. Replace the `storage_provider` PostgreSQL enum with a required text `provider` column with no default. Do not encode `files-sdk`'s provider catalog as a database enum or default to S3: generated projects should choose their provider explicitly and may add their own constraint if desired. Delete the existing migration history and regenerate one baseline migration from the final template schema.
 3. Remove `@init/storage` from `packages/db/package.json`. No replacement db dependency is needed.
-4. Delete the unused runtime helpers rather than preserving their implementation: `files-sdk` replaces the S3 factory and provides content-type facilities; the current silent key sanitizer is not a sufficient authorization or key-policy boundary. Plan 07's registry backlog contains the replacement `files-sdk` integration recipe, not a copy of these helpers.
-5. Delete `packages/storage/`. Remove the `s3` env preset from `packages/env/src/presets.ts` (its only purpose was this package); the future registry recipe adds only the selected provider's validated variables. Update `cli/src/workspaces.ts` and knip config.
+4. Delete the unused runtime helpers rather than preserving their implementation: `files-sdk` replaces the S3 factory and provides content-type facilities; the current silent key sanitizer is not a sufficient authorization or key-policy boundary. Plan 07's template recipe backlog contains the replacement `files-sdk` integration recipe, not a copy of these helpers.
+5. Delete `packages/storage/`. Remove the `s3` env preset from `packages/env/src/presets.ts` (its only purpose was this package); the future template recipe adds only the selected provider's validated variables. Update `cli/src/workspaces.ts` and knip config.
 
 ## 3. Dead-code sweep
 
 Delete, updating package.json deps/exports accordingly:
 
-- `packages/utils/src/assert.ts` and `packages/utils/src/codec.ts` — zero importers. Add both to registry backlog.
+- `packages/utils/src/assert.ts` and `packages/utils/src/codec.ts` — zero importers. Add both to the template recipe backlog.
 - `unstorage` dependency in `packages/utils/package.json` — nothing imports it.
 - `packages/env/src/presets.ts`: delete `railway`, `openai`, `anthropic` presets (no corresponding package/consumer). KEEP `convex` (serves `packages/backend`), `posthog` (serves `packages/analytics`), `stripe` (payments), `resend` (email). Delete `s3` per §2.
 - `packages/observability`: KEEP the uptime component, its `./uptime` export, and `@openstatus/react` dependency as an intentional selectable capability.
@@ -48,7 +50,7 @@ Delete, updating package.json deps/exports accordingly:
 - `packages/db/src/helpers.ts`: KEEP the `increment` and `decrement` helpers as useful Drizzle primitives.
 - `packages/analytics`: KEEP the package and the platform-specific `useIdentifyUser` implementations in `src/product/react.ts` and `src/product/expo.ts`; do not deduplicate them.
 - `packages/email/src/client.ts`: dedupe the verbatim `MOCK_RESEND` preview logic between `sendEmail` and `batchEmails`.
-- `packages/payments/src/helpers.ts`: delete `createAgentToolkit` (Stripe AI Agent Toolkit) and its deps; add to registry backlog (confirmed by maintainer). Keep the rest of payments.
+- `packages/payments/src/helpers.ts`: delete `createAgentToolkit` (Stripe AI Agent Toolkit) and its deps; add it to the template recipe backlog (confirmed by maintainer). Keep the rest of payments.
 - `packages/ai`: KEEP as-is (selectable unit, maintainer decision).
 
 ## 3b. Root-level dead infrastructure
@@ -68,4 +70,4 @@ Every package added/removed above must be reflected in `cli/src/workspaces.ts` a
 - The template has exactly one baseline database migration; the storage provider is required text with no enum or default.
 - `@init/core/errors` contains the domain errors, with no root barrel or `unused()` placeholders.
 - `bun run check`, `bun run analyze` (knip should report fewer issues, none new), `bun run check:monorepo`, `bun test`, and `cd cli && bun test` all pass.
-- Registry backlog section in `.plans/07-registry.md` lists every useful deletion.
+- The template recipe backlog in `.plans/07-template-recipes.md` lists every useful deletion.
