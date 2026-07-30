@@ -8,7 +8,7 @@ Plans for evolving the `init` template monorepo. Each plan is self-contained and
 | --- | ---------------------------------------------------------------------------- | ------------- | ---- | ------- |
 | 10  | [init.now marketing site](10-marketing-site.md)                              | 13 (soft)     | M    | Pending |
 | 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 05 (soft), 13 | M    | Pending |
-| 15  | [Files SDK integration](15-files-sdk-integration.md)                         | 07            | M    | Pending |
+| 15  | [Files SDK server + React client generators](15-files-sdk-integration.md)    | 07            | M    | Pending |
 
 Plan 15 can proceed on the local recipe catalog established by completed plan 07.
 Plans 10 and 12 remain independently unblocked; the marketing site no longer blocks
