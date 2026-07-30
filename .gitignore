@@ -104,3 +104,4 @@ apps/desktop/src-tauri/gen/schemas
 
 # inlang
 **/project.inlang/cache
+.vercel

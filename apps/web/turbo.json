@@ -3,7 +3,11 @@
   "extends": ["//"],
   "tasks": {
     "build": {
+      "env": ["PUBLIC_SITE_URL"],
       "outputs": ["dist/**"]
+    },
+    "typegen": {
+      "env": ["PUBLIC_SITE_URL"]
     }
   }
 }

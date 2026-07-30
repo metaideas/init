@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="64" height="36" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V36" fill="none" stroke="#252b33" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#7dd3fc" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#080a0d"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".7"/>
+  <circle cx="600" cy="315" r="420" fill="url(#glow)"/>
+  <rect x="64" y="56" width="1072" height="518" rx="24" fill="#080a0d" stroke="#303842"/>
+  <path d="m106 87 44 24-44 24V87Z" fill="#f1f3f5"/>
+  <path d="m116 101 18 10-18 10v-20Z" fill="#080a0d"/>
+  <text x="164" y="121" fill="#f1f3f5" font-family="ui-monospace, monospace" font-size="28" font-weight="700">init</text>
+  <text x="96" y="294" fill="#f1f3f5" font-family="Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-5">Start once.</text>
+  <text x="96" y="390" fill="none" stroke="#8b949e" stroke-width="2" font-family="Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-5">Ship everywhere.</text>
+  <text x="100" y="485" fill="#8b949e" font-family="ui-monospace, monospace" font-size="24">bun create metaideas/init my-app</text>
+  <circle cx="1080" cy="109" r="5" fill="#7dd3fc"/>
+</svg>

@@ -1,36 +1,18 @@
 ---
-import { m } from "#shared/internationalization/messages.js"
+import Landing from "#shared/components/landing.astro"
+import Layout from "#shared/components/layout.astro"
 import { locales } from "#shared/internationalization/runtime.js"
 import type { GetStaticPathsResult } from "astro"
-import Layout from "#shared/components/layout.astro"
-import { getCollection } from "astro:content"
 
 export function getStaticPaths() {
-  const paths = locales.map((locale) => ({
+  return locales.map((locale) => ({
     params: { lang: locale },
   })) satisfies GetStaticPathsResult
-
-  return paths
 }
 
-const collection = await getCollection("blog")
-
 const { lang } = Astro.params
-
-const posts = collection
-  .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .map((post) => (Object.assign(post, {slug:post.id.split(`/`).slice(1).join(`/`)})))
 ---
 
 <Layout lang={lang}>
-  <h1 class="text-2xl font-bold">Init</h1>
-  <p>{m.example_message({ username: "John" })}</p>
-  <ul>
-    {posts.map((post) => (
-        <li>
-          <a href={`/${lang}/blog/${post.slug}`}>{post.data.title}</a>
-        </li>
-      ))
-    }
-  </ul>
+  <Landing />
 </Layout>

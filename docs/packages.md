@@ -4,7 +4,7 @@ Shared libraries and hosted backends live in `packages/`. Apps consume them thro
 workspace dependencies, and package names follow the project's configured scope.
 
 Use `bun template add package <name>` to restore an available package that was removed
-during setup. See [Project structure](./project-structure.md) for the full package
+during setup. See [Project structure](./architecture/project-structure.md) for the full package
 catalog.
 
 ## Convex Backend

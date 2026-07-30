@@ -4,13 +4,9 @@ Plans for evolving the `init` template monorepo. Each plan is self-contained and
 
 ## Active plans
 
-| #   | Plan                                                                         | Depends on    | Size | Status  |
-| --- | ---------------------------------------------------------------------------- | ------------- | ---- | ------- |
-| 10  | [init.now marketing site](10-marketing-site.md)                              | 13 (soft)     | M    | Pending |
-| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md) | 05 (soft), 13 | M    | Pending |
-
-Plans 10 and 12 remain independently unblocked; the marketing site no longer blocks
-or distributes optional code.
+| #   | Plan                                            | Depends on | Size | Status                |
+| --- | ----------------------------------------------- | ---------- | ---- | --------------------- |
+| 10  | [init.now marketing site](10-marketing-site.md) | 13 (soft)  | M    | Pending (DNS cutover) |
 
 ## Completed plans
 
@@ -23,6 +19,7 @@ or distributes optional code.
 | 05  | [Convex backend example & conventions](05-convex-backend-example.md)                | Durable conventions retained; demo superseded by 14 |
 | 07  | [Local template recipes](07-template-recipes.md)                                    | Copy-once recipe catalog and scaffold generators    |
 | 09  | [CLI: Effect v4, adamantite, CI](09-cli-effect-v4-and-tooling.md)                   | CLI is deleted by plan 13; kept as history          |
+| 12  | [AGENTS.md + CONTEXT.md + docs refactor](12-agents-context-docs-refactor.md)        | Layered application and template documentation      |
 | 13  | [Descope: delete the CLI, return to template scripts](13-descope-cli-to-scripts.md) | CLI removed; template scripts restored              |
 | 14  | [Generic backend connection generator](14-connect-backend-generator.md)             | Unified Convex, Hono, and tRPC adapter workflow     |
 | 15  | [Files SDK API + React client generator](15-files-sdk-integration.md)               | Built-in API gateway and optional React client      |

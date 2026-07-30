@@ -1,12 +1,17 @@
 ---
 import { baseLocale, type Locale } from "#shared/internationalization/runtime.js"
+import { site } from "#shared/site"
 import "@init/ui/globals.css"
 
 type Props = {
+  description?: string
   lang?: Locale
+  title?: string
 }
 
-const { lang } = Astro.props
+const { description = site.description, lang, title = `${site.name} — ${site.tagline}` } = Astro.props
+const canonicalUrl = new URL(Astro.url.pathname, site.siteUrl)
+const socialImageUrl = new URL("/og-image.png", site.siteUrl)
 ---
 
 <!doctype html>
@@ -14,9 +19,26 @@ const { lang } = Astro.props
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>Init</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#080a0d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name}: ${site.tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <title>{title}</title>
   </head>
   <body>
     <slot />

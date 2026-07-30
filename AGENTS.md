@@ -1,129 +1,93 @@
 # AGENTS.md
 
-## Project Structure
+Read [`CONTEXT.md`](./CONTEXT.md) before exploring or changing code. It defines the
+project's vocabulary and points to the shipped architecture documentation.
 
-- Projects are organized in the following folders:
-  - `apps` - Cross-platform applications and user-facing products.
-  - `infra` - Infrastructure as code for local development and cloud providers.
-  - `packages` - Shared internal packages for use across apps. Hosted-platform backends consumed as libraries, such as Convex, also live here even though they deploy independently.
-  - `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
-- Apps and packages have their code in the `src` folder.
-- Apps organized in the following folders:
-  - `app`/`routes`/`entrypoints` - The router/entrypoint of the application, usually using file-based routing.
-  - `features` - Feature-based modules.
-  - `shared` - Shared utilities and helpers.
-- Keep routing structure and naming as consistent as possible between apps so a developer can jump between applications easily. For example, auth route grouping uses the same vocabulary everywhere: `_authenticated`/`_unauthenticated` pathless layouts in TanStack Start apps and `(authenticated)`/`(unauthenticated)` groups in Expo Router.
-- We enforce a unidirectional import flow between these three folders. The code only flows downwards to the routing folder, never going upwards.
-  - `shared` only imports outside dependencies. It cannot import from `features` or `routes`. Modules in `shared`  should be self-contained but can import from other modules in `shared`.
-    - `shared` should be used for services, utilities, and helpers that are used across the application.
-  - `features` can import from `shared`, but cannot import from other features.
-  - `routes` can import from `shared` and `features`, but routes cannot from other routes.
-  - Exception: in `apps/api`, routes may import other routes for Hono routing composition.
+## Agent skills
+
+### Issue tracker and triage
+
+Repository-specific GitHub issue and triage wiring, when configured, lives in
+`docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. These upstream files
+are removed by `bun template setup`; scaffold owners should run
+`setup-matt-pocock-skills` to create wiring for their own repository.
+
+### Domain documentation
+
+This is a single-context application. Read [`docs/agents/domain.md`](./docs/agents/domain.md)
+before recording domain decisions. While this is the upstream template, its governance
+decisions belong in `docs/template/adr/`; application-owner decisions belong in
+`docs/adr/`.
+
+## Quality control
+
+- Use Bun for package management and script execution.
+- Run `bun run format` after editing files.
+- Run `bun run check` after making changes.
+- Run `bun run analyze` after changing dependencies, imports, or exports.
+- Run `bun run check:monorepo` after changing workspace manifests or dependency wiring.
+- Use `bun test` for tests and `bun run build --filter=<workspace>` for targeted builds.
 
 ## Testing
 
-- We use `bun:test` for testing.
+- Use `bun:test`.
 - Add tests to a `__tests__` folder alongside the file under test.
-- Import from `bun:test`.
-- Use `test`, `describe`, and `expect`.
-- `describe` is named after the function under test.
-- `test` is named after the case. Use descriptive names for test cases.
-- Use Bun testing best practices.
+- Import `describe`, `expect`, and `test` from `bun:test`.
+- Name `describe` blocks after the function under test and test cases after the behavior.
 
-## Comment Policy
+## Comments
 
-- Comments that repeat what code does are unacceptable.
+- Prefer clear names and structure over explanatory comments.
+- Do not add comments that repeat the code, describe an obvious operation, or narrate a
+  change from an older implementation.
 - Delete commented-out code.
-- Avoid obvious comments ("increment counter").
-- Use good naming instead of comments.
-- Avoid comments about updates to old code ("<- now supports xyz").
-- Code should be self-documenting; if a comment explains WHAT, refactor instead.
 
-## Version Control
+## Version control
 
-- Use `git` for version control.
-- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
+- Use Git for version control.
+- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`,
+  `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`,
+  `breaking:`, `deprecate:`).
 
-## Coding Style (applies to `*.ts`, `*.tsx`)
+## TypeScript style
 
-### General (TypeScript)
+- Write concise, technical TypeScript with functional and declarative patterns.
+- Prefer `type` over `interface`; avoid enums in favor of readonly arrays or maps with
+  `as const`.
+- Use the `function` keyword for pure functions and components.
+- Use descriptive names with auxiliary verbs for state and behavior.
+- Use lowercase kebab-case for directories and files.
+- Favor default exports for components unless a module exports multiple functions.
+- Keep exported components first, followed by subcomponents, helpers, static content,
+  and types.
 
-- Write concise, technical TypeScript code.
-- Use functional and declarative programming; avoid classes unless necessary.
-- Prefer iteration and modularization over duplication.
-- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
-- Use descriptive function names with auxiliary verbs (e.g., `getUserSettings`, `setUserSettings`, `checkIsMobile`).
-- Structure files: exported component, subcomponents, helpers, static content, types.
+## Imports and boundaries
 
-### Imports
-
-- We use subpath imports for imports within the same package.
-  - Subpath imports are prefixed with `#` and are relative to the `src` folder.
-- Reduce relative imports as much as possible.
-- Use the `@init/` alias for importing packages in the monorepo.
-- Never allow imports between `apps`. The only exception is the `api/src/client.ts` file.
+- Use `#` subpath imports within a package; they resolve from its `src` directory.
+- Use `@init/*` to import another workspace package.
+- Never import between apps, except from `apps/api/src/client.ts`.
+- Within an app, imports flow `shared` → `features` → routes/entrypoints:
+  - `shared` imports only dependencies and other `shared` modules.
+  - A feature may import `shared`, but not another feature.
+  - Routes and entrypoints may import `shared` and features, but not other routes.
+  - `apps/api` routes may import other routes for Hono composition.
 - Avoid circular imports.
 
-### Naming Conventions
+## UI
 
-- Use lowercase with dashes (kebab-case) for directories and files (e.g., `components/auth-wizard`).
-- Favor default exports for components, unless exporting multiple functions.
+- Use `@init/ui` for web UI and `#shared/components/ui` for mobile UI.
+- Use `cn` from `@init/utils/ui` for class name composition.
+- Keep web UI responsive, accessible, dark-mode compatible, and composed from the
+  existing Radix and Tailwind foundations.
 
-### TypeScript Usage
+## Scoped rules
 
-- Use TypeScript for all code; prefer `type` over `interface`.
-- Avoid enums; use readonly arrays or maps with `as const`.
-- Use functional components with props and children, and destructure props.
-
-### Syntax and Formatting
-
-- Use the `function` keyword for pure functions.
-- Use the `function` keyword for components.
-- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
-- Use declarative JSX.
-
-### UI and Styling
-
-- Use components inside `@init/ui` for web projects and `#shared/components/ui` for mobile projects.
-- Use the `cn` function inside `@init/utils/ui` for classname composition.
-
-## Database (applies to `packages/db/**`)
-
-- Our database schema is in `packages/db/src/schema.ts`.
-- We use Drizzle as our ORM. Follow Drizzle best practices.
-- Use timestamps in `packages/db/src/schema.ts` where it makes sense.
-- Use prefixed IDs for entities; see `packages/db/src/schema.ts` and the `id` function.
-- Prefixes should be 4 letters with no conflicts.
-
-## Expo (applies to `apps/mobile/**`)
-
-- Prefer functional components with React hooks.
-- Leverage Expo SDK features and APIs.
-- Use React Navigation for structure and navigation.
-- Manage assets with Expo's asset system.
-- Use Reanimated for performant animations.
-
-## Hono (applies to `apps/api/**`)
-
-- Use middleware for authentication and logging.
-- Implement route handlers using `app.get`, `app.post`, etc.
-- Structure routes modularly.
-- Handle errors globally with `app.onError`.
-- Use `c.text()`, `c.json()`, and `c.redirect()` for responses.
-- Leverage caching with `Cache-Control` or KV storage.
-
-## Web UI (applies to `apps/app/**`, `apps/desktop/**`, `apps/docs/**`, `apps/extension/**`, `apps/web/**`)
-
-- Use components inside `@init/ui` with proper composition and customization.
-- Leverage Radix UI primitives for accessible interactive components.
-- Follow Tailwind CSS class naming conventions and utility patterns.
-- Implement mobile-first responsive design with Tailwind breakpoints.
-- Maintain consistent spacing and layout using Tailwind's spacing scale.
-- Use Tailwind's color system for consistent theming.
-- Implement dark mode support using Tailwind's `dark` variant.
-- Ensure components are accessible following WCAG guidelines.
-- Keep component styles modular and reusable.
-- Optimize component bundle size through proper code splitting.
+- `packages/db/**`: use Drizzle, the shared prefixed-ID helper, non-conflicting
+  four-letter ID prefixes, and timestamps where appropriate.
+- `apps/mobile/**`: use functional React components, Expo APIs, Expo Router navigation,
+  Expo asset handling, and Reanimated for performance-sensitive animation.
+- `apps/api/**`: use Hono middleware for authentication and logging, modular handlers,
+  `app.onError` for global errors, and Hono response helpers.
 
 <!-- ADAMANTITE:START -->
 

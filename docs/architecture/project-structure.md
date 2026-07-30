@@ -33,6 +33,7 @@ root
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── env                   # Environment variable management and validation
   │   ├── kv                    # Redis client database integration using Upstash
+  │   ├── native-ui             # Reusable React Native UI components
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
@@ -41,8 +42,8 @@ root
   │
   ├── tooling             # Shared development and build tools
   │   ├── internationalization  # Inlang project configuration and translations
+  │   ├── env                   # Shared environment tooling
   │   ├── tsconfig          # TypeScript configuration
-  │   └── helpers           # Common utility functions for tooling and scripts
   │
   └── turbo               # Turborepo configuration for monorepo management
       └── generators        # Code generators for packages and tooling
@@ -339,4 +340,4 @@ bun run generate new-package
 
 Optional copy-once package code is available through `bun run generate code-snippets`.
 To connect an app to an existing backend workspace, use `connect-backend`. See
-[Project generators](./generators.md) for both workflows.
+[Project generators](../generators.md) for both workflows.

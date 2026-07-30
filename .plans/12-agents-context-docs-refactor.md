@@ -1,5 +1,7 @@
 # Plan 12 — AGENTS.md → AGENTS.md + CONTEXT.md + docs refactor
 
+**Status:** Completed
+
 Restructure this repo's agent-facing documentation from one overloaded `AGENTS.md` into
 the layered setup: **`AGENTS.md`** (standing rules and commands) + **`CONTEXT.md`**
 (domain language and orientation) + **`docs/`** (agent workflows, application

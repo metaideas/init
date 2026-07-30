@@ -10,13 +10,10 @@ await ensureEnv(process.env.NODE_ENV ?? "development", import.meta.dirname)
 const { default: env } = await import("./src/shared/env.ts")
 
 export default defineConfig({
-  redirects: {
-    "/": "/en/",
-  },
   server: {
     port: 3006,
   },
-  site: env.PUBLIC_SITE_URL ?? "http://localhost:3006",
+  site: env.PUBLIC_SITE_URL ?? "https://init.now",
 
   i18n: {
     defaultLocale: "en",

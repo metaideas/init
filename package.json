@@ -70,7 +70,9 @@
     "cleanupPaths": [
       ".github/workflows/opencode.yml",
       ".plans",
-      "docs/research"
+      "docs/agents/issue-tracker.md",
+      "docs/agents/triage-labels.md",
+      "docs/template"
     ]
   },
   "trustedDependencies": [

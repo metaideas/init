@@ -1,0 +1,10 @@
+.git
+.vercel
+.turbo
+**/.astro
+**/.env
+**/.env.local
+**/.turbo
+**/dist
+**/node_modules
+.data
