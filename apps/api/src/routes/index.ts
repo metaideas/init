@@ -31,7 +31,7 @@ app.use(
 app.use(
   cors({
     allowHeaders: ["Content-Type", "Authorization", "trpc-accept"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
+    allowMethods: ["POST", "GET", "PUT", "OPTIONS"],
     credentials: true,
     exposeHeaders: ["Content-Length"],
     maxAge: 600,

@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { auth, db, inngest, kv, resend, sentry } from "@init/env/presets"
+import { auth, db, inngest, kv, resend, s3, sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 import { isCI } from "std-env"
 
@@ -13,6 +13,7 @@ export default createEnv({
     kv(),
     inngest(),
     resend(),
+    s3(),
     sentry.server(),
   ],
   runtimeEnv: process.env,
@@ -26,6 +27,7 @@ export default createEnv({
         )
       ),
     BASE_URL: z.url(),
+    FILES_API_SECRET: z.string().min(32),
     PORT: z.coerce.number().default(3000),
   },
   skipValidation: isCI,

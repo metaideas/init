@@ -125,6 +125,19 @@ export const resend = () =>
     skipValidation: isCI,
   })
 
+export const s3 = () =>
+  createEnv({
+    runtimeEnv: env,
+    server: {
+      S3_ACCESS_KEY_ID: z.string(),
+      S3_BUCKET: z.string().optional(),
+      S3_ENDPOINT: z.string().optional(),
+      S3_REGION: z.string().optional(),
+      S3_SECRET_ACCESS_KEY: z.string(),
+    },
+    skipValidation: isCI,
+  })
+
 export const sentry = {
   client: () =>
     createEnv({
