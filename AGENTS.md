@@ -5,13 +5,14 @@
 - Projects are organized in the following folders:
   - `apps` - Cross-platform applications and user-facing products.
   - `infra` - Infrastructure as code for local development and cloud providers.
-  - `packages` - Shared internal packages for use across apps.
+  - `packages` - Shared internal packages for use across apps. Hosted-platform backends consumed as libraries, such as Convex, also live here even though they deploy independently.
   - `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
 - Apps and packages have their code in the `src` folder.
 - Apps organized in the following folders:
   - `app`/`routes`/`entrypoints` - The router/entrypoint of the application, usually using file-based routing.
   - `features` - Feature-based modules.
   - `shared` - Shared utilities and helpers.
+- Keep routing structure and naming as consistent as possible between apps so a developer can jump between applications easily. For example, auth route grouping uses the same vocabulary everywhere: `_authenticated`/`_unauthenticated` pathless layouts in TanStack Start apps and `(authenticated)`/`(unauthenticated)` groups in Expo Router.
 - We enforce a unidirectional import flow between these three folders. The code only flows downwards to the routing folder, never going upwards.
   - `shared` only imports outside dependencies. It cannot import from `features` or `routes`. Modules in `shared`  should be self-contained but can import from other modules in `shared`.
     - `shared` should be used for services, utilities, and helpers that are used across the application.

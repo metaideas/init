@@ -46,14 +46,14 @@ Fix (agreed direction):
   - `api`: compile the shared catalog for the server and localize one exemplar REST response from `Accept-Language`, with an explicit base-locale fallback.
   - Keep translation source in `tooling/internationalization/project.inlang`, keep generated output app-local, and ensure every generated runtime is imported by its app. The examples should establish the locale-detection, persistence, and fallback pattern appropriate to each runtime without requiring an external service.
 - `apps/api` context wiring: the global tRPC/route context hard-sets `session: null` while `requireSession` resolves per-request — confusing double wiring. Make session resolution live in one place (the middleware) and remove the misleading context default/comment.
-- `apps/mobile`: **delete the unreachable better-auth client** (`src/shared/auth.ts` — full client with admin/org plugins, imported by nothing) and drop `@init/auth` from mobile's deps. Decided: mobile ships without an auth client by default; it returns as two registry items (plan 07): `mobile-auth-client-api` (points at `apps/api`'s better-auth handler) and `mobile-auth-client-convex` (uses `@convex-dev/better-auth`'s client plugin + Convex site URL). Keep `@init/auth`'s expo subpaths — they serve the registry items and package selection.
+- `apps/mobile`: **delete the unreachable better-auth client** (`src/shared/auth.ts` — full client with admin/org plugins, imported by nothing) and drop `@init/auth` from mobile's deps. Decided: mobile ships without an auth client by default; it returns as two local template recipes (plan 07): `mobile-auth-client-api` (points at `apps/api`'s better-auth handler) and `mobile-auth-client-convex` (uses `@convex-dev/better-auth`'s client plugin + Convex site URL). Keep `@init/auth`'s expo subpaths — they serve the recipes and package selection.
 
 ## 4b. Desktop: local-first direction (decided)
 
 `apps/desktop` stays and gets **smart, local-first investment** — desktop apps often do local filesystem work with no API at all, so outbound connections are unnecessary by default:
 
 - Replace the `greet` demo (`src-tauri` command + `features/demo`) with a small, genuinely useful **local filesystem example**: e.g., a feature that picks a directory/file via the Tauri dialog plugin, reads/writes it through a Rust command or the fs plugin, and shows the Tauri `invoke` + TanStack Query `mutationOptions` pattern on something real.
-- Remove the API-oriented wiring that exists "by default": `PUBLIC_API_URL` in `src/shared/env.ts` and the unused URL builder in `shared/utils.ts`. Connecting desktop to the API/auth becomes an opt-in registry item later (plan 07), not template default.
+- Remove the API-oriented wiring that exists "by default": `PUBLIC_API_URL` in `src/shared/env.ts` and the unused URL builder in `shared/utils.ts`. Connecting desktop to the API/auth becomes an opt-in template recipe later (plan 07), not template default.
 - Keep: the Tauri/Vite config (`TAURI_*` handling), theme toggle, router shell, error boundary (§1).
 - No auth or tRPC client by default. Keep the self-contained i18n example from §4.
 
@@ -63,7 +63,7 @@ Fix (agreed direction):
 - Add `turbo.json` with `build` `outputs` for `apps/web` and `apps/docs` (Astro `dist/`) so builds cache.
 - Root `turbo.json` build env: move API-only vars (`INNGEST_*`, `REDIS_URL`) out of the global build env into `apps/api`'s task config.
 - `apps/app/src/shared/env.ts` + `apps/app/turbo.json`: the frontend extends `db()` preset and lists `DATABASE_URL`/`RESEND_API_KEY` in build env, but app talks to the DB only via the API. Remove server-side presets/vars that belong to `api`.
-- `infra/local/docker-compose.yml`: add `healthcheck` blocks to redis/postgres/minio/inngest, and bootstrap the default `assets` MinIO bucket declaratively with an `mc`-based init container. Bucket names are deployment configuration after plan 02 removed the old storage enum; the files-sdk registry item may extend this list for its contract suite. Today the bucket only exists because it was created by hand in the gitignored `.data` dir.
+- `infra/local/docker-compose.yml`: add `healthcheck` blocks to redis/postgres/minio/inngest, and bootstrap the default `assets` MinIO bucket declaratively with an `mc`-based init container. Bucket names are deployment configuration after plan 02 removed the old storage enum; the files-sdk template recipe may extend this list for its contract suite. Today the bucket only exists because it was created by hand in the gitignored `.data` dir.
 
 ## Acceptance criteria
 

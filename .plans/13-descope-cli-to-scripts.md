@@ -1,12 +1,13 @@
 # 13 — Descope: delete the CLI, return to template scripts
 
-**Status:** Pending
+**Status:** Completed
 **Size:** M
 **Depends on:** —
 **Supersedes:** 06 (update rework), 08 (release automation), 11 (`bun create init-now`) — all
 three deleted from `.plans/`; their only durable ideas (rename idempotency, CI smoke test)
 are folded into this plan
-**Affects:** 07 (registry) and 10 (marketing site) survive, but must drop their CLI coupling
+**Affects:** 07 becomes local Turbo template recipes; 10 remains a standalone marketing
+site with no code-distribution responsibility
 
 ## Decision
 
@@ -143,10 +144,11 @@ scripts/
 - Plans 06, 08, 11 are superseded by this plan.
 - Plan 10 (marketing site) survives but should market the template/`bun create` flow,
   not an npm package.
-- Plan 07 (registry) survives — it hosts copy-once snippets on init.now for later
-  reference — but must be reworked to drop the CLI as the consumption mechanism.
-  Snippets are consumed by browsing/copy-paste, agent-fetchable URLs, and/or the
-  shadcn registry format (`bunx shadcn add`) instead of an `init-now` command.
+- Plan 07 survives as snapshot-matched Turbo template recipes stored in the scaffold
+  itself. It reuses the existing `bun generate` command surface and does not introduce
+  a hosted catalog, shadcn format, or independently versioned installer.
+- Plan 10 markets the GitHub template and `bun create metaideas/init` flow only; it
+  does not host recipe artifacts.
 
 ## Verification
 
@@ -169,5 +171,4 @@ Manual:
 
 - Any form of automated `update`/`check`.
 - Publishing anything to npm.
-- The registry (plan 07). If copy-once code sharing is wanted later, revisit it as
-  docs/snippets or a shadcn-style flow — independent of any CLI.
+- The local template recipe catalog and shared generator installer (plan 07).

@@ -37,13 +37,19 @@ This will:
 
 `template setup` prompts for apps first, then packages. Later, add workspaces with `bun template add app <name>` or `bun template add package <name>`.
 
-3. Start your local services using `docker`:
+3. Generate source files and types:
+
+```bash
+bun run codegen
+```
+
+4. Start your local services using `docker`:
 
 ```bash
 bun run docker:up
 ```
 
-4. Start the development server:
+5. Start the development server:
 
 ```bash
 bun run dev # or bun run dev --filter <workspace> to start a specific workspace
@@ -52,6 +58,7 @@ bun run dev # or bun run dev --filter <workspace> to start a specific workspace
 ### First Run Checklist
 
 - Run `bun template setup`
+- Generate source files and types with `bun run codegen`
 - Start services with `bun run docker:up`
 - Start a workspace with `bun run dev --filter <workspace>`
 

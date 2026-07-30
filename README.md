@@ -26,12 +26,12 @@ A modern monorepo template for shipping TypeScript apps everywhere: web, mobile,
 
 Template commands configure and extend a project created from this repository:
 
-| Command                           | Description                                                                                              |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `bun template setup`              | Configure the project: choose apps and packages, set its name and scope, and stamp the template version. |
-| `bun template rename`             | Rename the project and rewrite the `@init/` scope.                                                       |
-| `bun template add app <name>`     | Copy an app workspace from the template with Turbo generators.                                           |
-| `bun template add package <name>` | Copy a package workspace from the template with Turbo generators.                                        |
+| Command                           | Description                                                                                    |
+| --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `bun template setup`              | Configure the project: choose apps and packages, set its name, and stamp the template version. |
+| `bun template rename`             | Rename the project and rewrite the `@init/` scope.                                             |
+| `bun template add app <name>`     | Copy an app workspace from the template with Turbo generators.                                 |
+| `bun template add package <name>` | Copy a package workspace from the template with Turbo generators.                              |
 
 ## Quickstart
 

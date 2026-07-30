@@ -1,24 +1,24 @@
-import { AUTH_APP_NAME, AUTH_COOKIE_PREFIX } from "@init/auth/constants"
+import {
+  AUTH_ADVANCED_OPTIONS,
+  AUTH_APP_NAME,
+  AUTH_EMAIL_AND_PASSWORD_OPTIONS,
+  AUTH_SESSION_OPTIONS,
+} from "@init/auth/constants"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
-import { seconds } from "qte"
 import env from "#shared/env.ts"
 
 export const auth = createAuth({
-  advanced: {
-    cookiePrefix: AUTH_COOKIE_PREFIX,
-    database: { generateId: false },
-  },
+  advanced: AUTH_ADVANCED_OPTIONS,
   appName: AUTH_APP_NAME,
   basePath: "/auth",
   baseURL: env.BASE_URL,
   database: databaseAdapter(database()),
   emailAndPassword: {
-    autoSignIn: true,
-    enabled: true,
+    ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {
       await sendEmail(PasswordReset({ resetUrl: url }), {
         emails: [user.email],
@@ -28,10 +28,7 @@ export const auth = createAuth({
   },
   plugins: [admin(), organization()],
   secret: env.AUTH_SECRET,
-  session: {
-    expiresIn: seconds("30d"),
-    updateAge: seconds("15d"),
-  },
+  session: AUTH_SESSION_OPTIONS,
   socialProviders: {
     github: {
       clientId: env.GITHUB_CLIENT_ID,
