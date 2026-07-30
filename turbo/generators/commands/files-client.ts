@@ -1,7 +1,7 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
-export type FilesClientApp = "app" | "web"
+type FilesClientApp = "app" | "web"
 
 type FilesClientAnswers = PlopTypes.Answers & {
   app: FilesClientApp
@@ -16,7 +16,7 @@ type PackageJson = {
 
 const SUPPORTED_CLIENT_APPS = ["app", "web"] as const satisfies readonly FilesClientApp[]
 
-export function checkIsSupportedFilesClientApp(app: string): app is FilesClientApp {
+function checkIsSupportedFilesClientApp(app: string): app is FilesClientApp {
   return SUPPORTED_CLIENT_APPS.some((supportedApp) => supportedApp === app)
 }
 
