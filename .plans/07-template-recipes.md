@@ -1,6 +1,6 @@
 # Plan 07 — Local template recipes
 
-**Status:** Pending
+**Status:** Completed
 **Size:** M
 **Depends on:** 13, 14
 
@@ -66,8 +66,6 @@ turbo/generators/
       openai.ts
       anthropic.ts
       s3.ts
-    payments/
-      stripe-agent-toolkit.ts
   templates/
     utilities/
       codec/
@@ -77,8 +75,6 @@ turbo/generators/
       new-package/
     backend-clients/        # owned by Plan 14
     env/
-    payments/
-      stripe-agent-toolkit/
 ```
 
 - `config.ts` is the sole executable generator entrypoint. Public generators:
@@ -103,7 +99,7 @@ rather than assuming a scope.
 - `codec` — Zod JSON codec (was `packages/utils/src/codec.ts`)
 - `assert` — assertion helpers importing `@init/core/errors` (was
   `packages/utils/src/assert.ts`)
-- `stripe-agent-toolkit` — (was `packages/payments/src/helpers.ts` `createAgentToolkit`)
+- ~~`stripe-agent-toolkit`~~ — **dropped**: too small to justify a dedicated recipe
 - env presets not available upstream in `@t3-oss/env-core/presets-zod`: `openai`,
   `anthropic`, `s3`
 - ~~`files-sdk` / `files-client`~~ — **moved to Plan 15** so storage integration can
@@ -175,30 +171,6 @@ export function throwIf(condition: boolean, message: string): asserts condition 
   if (condition) {
     throw new AssertConditionFailedError({ condition: "throwIf" }).withMessage(message)
   }
-}
-```
-
-### Payments recipe requirements
-
-`stripe-agent-toolkit` targets `packages/payments/src/agent-toolkit.ts`, requires the
-selected `@init/payments` workspace, installs `@stripe/agent-toolkit` with
-`bun add --exact`, and exports:
-
-```ts
-import { StripeAgentToolkit } from "@stripe/agent-toolkit/ai-sdk"
-import { stripe as env } from "@init/env/presets"
-
-export function createAgentToolkit() {
-  return new StripeAgentToolkit({
-    configuration: {
-      actions: {
-        paymentLinks: { create: true },
-        prices: { create: true },
-        products: { create: true },
-      },
-    },
-    secretKey: env().STRIPE_SECRET_KEY,
-  })
 }
 ```
 
@@ -274,7 +246,7 @@ add` remedy for missing workspaces and abort.
 
 - Verify recipes manually in disposable scaffold copies after `bun template setup`:
   generated files use the renamed scope and the project passes `bun run check`.
-- Test at least `codec`, one env preset, and `stripe-agent-toolkit`.
+- Test at least `codec` and one env preset.
 - Run recipes against the smallest supported workspace selection and verify missing
   requirements fail before any write.
 - Include recipe sources and generator implementation in Adamantite/knip analysis while
@@ -287,8 +259,8 @@ No unit-test suite or CI harness for the generators; testing is local and manual
 - `bun run generate` lists the catalog recipes, and
   `bun run generate template --args codec` works non-interactively in a scaffolded
   project.
-- Installing `codec` into a renamed project yields imports under the project scope, and
-  `bun run check` passes.
+- Installing recipes into a renamed project yields workspace imports under the project
+  scope, and `bun run check` passes.
 - Installing an env preset recipe appends exactly one named export to
   `packages/env/src/presets.ts`; rerunning is a no-op.
 - Every recipe sourced from removed template code has a canonical snippet in this plan
@@ -309,6 +281,7 @@ No unit-test suite or CI harness for the generators; testing is local and manual
   to remove.
 - All backend connection and auth-client wiring moved to Plan 14's `connect-backend`.
 - File storage integration moved to Plan 15.
+- The Stripe Agent Toolkit helper was dropped because it does not warrant a recipe.
 - `railway` and `email-organization-invitation` recipes dropped.
 - Recipes ship with the scaffold and follow its template commit. There is no hosted
   catalog or updater.

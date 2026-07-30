@@ -2,7 +2,7 @@
   <h1 align="center">▶︎ <code>init</code></h1>
 
   <p align="center">
-    <em><strong>Start once, ship everything.</strong></em>
+    <em><strong>Start once. Ship everywhere.</strong></em>
   </p>
 
   <p align="center">
