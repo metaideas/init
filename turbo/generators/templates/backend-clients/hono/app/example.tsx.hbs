@@ -1,0 +1,24 @@
+import { useQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { api } from "#shared/api.ts"
+
+export const Route = createFileRoute("/backend-example")({
+  component: BackendExample,
+})
+
+function BackendExample() {
+  const greeting = useQuery({
+    queryFn: async () => {
+      const response = await api.v1.hello.$get({ query: { name: "Init" } })
+      if (!response.ok) throw new Error("The API request failed")
+      return response.text()
+    },
+    queryKey: ["backend-example"],
+  })
+
+  return (
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <p>{greeting.data ?? (greeting.isPending ? "Loading…" : greeting.error.message)}</p>
+    </main>
+  )
+}

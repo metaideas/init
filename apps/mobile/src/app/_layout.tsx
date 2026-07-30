@@ -1,18 +1,13 @@
-import { ActionSheetProvider } from "@expo/react-native-action-sheet"
 import { Button } from "@init/native-ui/components/button"
 import { Text } from "@init/native-ui/components/text"
 import { monitoringWrap } from "@init/observability/monitoring/expo"
-import { PortalHost } from "@rn-primitives/portal"
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { type ErrorBoundaryProps, Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
 import { useEffect } from "react"
 import { View } from "react-native"
-import { KeyboardProvider } from "react-native-keyboard-controller"
-import { SafeAreaProvider } from "react-native-safe-area-context"
+import Providers from "#shared/components/providers.tsx"
 import { useHideSplashScreen } from "#shared/hooks.ts"
 import { logger } from "#shared/logger.ts"
-import { persister, queryClient } from "#shared/query-client.ts"
 
 import "#shared/styles/globals.css"
 
@@ -49,23 +44,9 @@ function RootLayout() {
   useHideSplashScreen(true)
 
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      onSuccess={async () => {
-        await queryClient.resumePausedMutations()
-        void queryClient.invalidateQueries()
-      }}
-      persistOptions={{ persister }}
-    >
-      <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
-        <ActionSheetProvider>
-          <SafeAreaProvider>
-            <Stack />
-            <PortalHost />
-          </SafeAreaProvider>
-        </ActionSheetProvider>
-      </KeyboardProvider>
-    </PersistQueryClientProvider>
+    <Providers>
+      <Stack />
+    </Providers>
   )
 }
 

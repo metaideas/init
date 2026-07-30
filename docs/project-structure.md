@@ -334,7 +334,9 @@ packages/package-name
 You can create a new package using the following command:
 
 ```sh
-bun generate
+bun run generate
 ```
 
-And then selecting the `internal-package` option.
+Then select `new-package`. To connect an app to an existing backend workspace, use the
+`connect-backend` recipe described in
+[Project generators](./generators.md).

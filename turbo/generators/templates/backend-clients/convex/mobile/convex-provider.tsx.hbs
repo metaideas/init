@@ -1,0 +1,34 @@
+import type { PropsWithChildren } from "react"
+import { ConvexQueryClient, ConvexReactClient } from "{{backendPackage}}/client"
+import type { AuthClient } from "{{backendPackage}}/client/auth"
+import { ConvexBetterAuthProvider } from "{{backendPackage}}/client/auth"
+import { auth } from "#shared/auth.ts"
+import env from "#shared/env.ts"
+import { queryClient } from "#shared/query-client.ts"
+
+const convex = new ConvexReactClient(env.EXPO_PUBLIC_CONVEX_URL, {
+  expectAuth: true,
+  unsavedChangesWarning: false,
+})
+const convexQueryClient = new ConvexQueryClient(convex)
+const defaultOptions = queryClient.getDefaultOptions()
+
+queryClient.setDefaultOptions({
+  ...defaultOptions,
+  queries: {
+    ...defaultOptions.queries,
+    queryFn: convexQueryClient.queryFn(),
+    queryKeyHashFn: convexQueryClient.hashFn(defaultOptions.queries?.queryKeyHashFn),
+  },
+})
+convexQueryClient.connect(queryClient)
+
+const convexAuth = auth as unknown as AuthClient
+
+export default function ConvexProvider({ children }: PropsWithChildren) {
+  return (
+    <ConvexBetterAuthProvider authClient={convexAuth} client={convex}>
+      {children}
+    </ConvexBetterAuthProvider>
+  )
+}

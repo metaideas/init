@@ -11,6 +11,13 @@
 - Bun: `1.3.x` (matches `package.json` `packageManager`)
 - Node.js: `>=24` (matches `package.json` `engines`)
 
+## Create a Project
+
+```bash
+bun create metaideas/init my-app
+cd my-app
+```
+
 ## Setup
 
 1. Install the dependencies using `bun`:
@@ -36,6 +43,28 @@ This will:
 ### Choosing Workspaces
 
 `template setup` prompts for apps first, then packages. Later, add workspaces with `bun template add app <name>` or `bun template add package <name>`.
+
+### Choosing a Backend
+
+- Keep the TanStack Start server routes and functions in `apps/app` for a full-stack web
+  app with no separate backend deployment.
+- Keep `packages/backend` when clients such as `apps/mobile` benefit from Convex
+  realtime data, managed functions, and a hosted database.
+- Keep `apps/api` when you want a self-managed Hono service, OpenAPI routes, or
+  infrastructure control.
+
+These are alternatives, not layers every project must run. Apps connect to a backend
+explicitly; no client is wired to `packages/backend` by default.
+
+Once you have chosen, connect an app with the backend generator:
+
+```bash
+bun run generate connect-backend
+```
+
+See [Project generators](./generators.md) for supported combinations and command-line
+examples. The generator configures local wiring but does not deploy a backend or create
+external credentials.
 
 3. Generate source files and types:
 

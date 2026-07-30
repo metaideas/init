@@ -1,0 +1,25 @@
+import { api } from "{{backendPackage}}/api"
+import { convexQuery } from "{{backendPackage}}/client"
+import { Text } from "{{nativeUiPackage}}/components/text"
+import { useQuery } from "@tanstack/react-query"
+import { View } from "react-native"
+
+export default function ConvexExampleScreen() {
+  const { data: documents, isError, isPending } = useQuery(
+    convexQuery(api.public.documents.list, {})
+  )
+
+  return (
+    <View className="flex-1 gap-3 bg-background px-6 py-12">
+      <Text className="text-2xl font-semibold">Recent documents</Text>
+      {isPending && <Text>Loading…</Text>}
+      {isError && <Text>Could not load documents.</Text>}
+      {documents?.map((document) => (
+        <View className="gap-1 rounded-md border border-border p-4" key={document._id}>
+          <Text className="font-semibold">{document.name}</Text>
+          <Text>{document.content}</Text>
+        </View>
+      ))}
+    </View>
+  )
+}

@@ -6,5 +6,14 @@ export class UnauthorizedError extends Faultier.Tagged("UnauthorizedError")<{
   userId: string
 }>() {}
 
-export type AuthenticationError = UnauthenticatedError | UnauthorizedError
-export const AuthFault = Faultier.registry({ UnauthenticatedError, UnauthorizedError })
+export class PasswordResetRequestError extends Faultier.Tagged("PasswordResetRequestError")() {}
+
+export type AuthenticationError =
+  | PasswordResetRequestError
+  | UnauthenticatedError
+  | UnauthorizedError
+export const AuthFault = Faultier.registry({
+  PasswordResetRequestError,
+  UnauthenticatedError,
+  UnauthorizedError,
+})
