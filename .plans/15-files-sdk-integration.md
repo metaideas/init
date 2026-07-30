@@ -100,10 +100,10 @@ bun run generate files-client
 bun run generate files-client --args app
 ```
 
-The generator requires the built-in `/v1/files` API contract before writing. Initial
-support covers `apps/app`, the maintained React web client with an authenticated Hono
-connection. React Native and clients without supported auth transport fail preflight
-without partial writes.
+The generator requires the built-in `/v1/files` API contract before writing. It supports
+the React `apps/app` client and a framework-independent client for the Astro `apps/web`
+workspace. React Native and clients without supported transport fail preflight without
+partial writes.
 
 The generator:
 
@@ -115,6 +115,9 @@ The generator:
 5. Preserves XHR upload progress.
 6. Exposes an app-local `useFiles` hook plus `useFile`, `useList`, and `useSearch`.
 7. Keeps every provider import and credential out of the client workspace.
+
+For Astro, generate a `files` client with `createFilesClient` from `files-sdk/client`
+and configure its endpoint from a validated `PUBLIC_API_URL`.
 
 The generator creates infrastructure, not feature UI. Documentation includes concise
 upload, progress, download-versus-URL, error, cancellation, and reactive-read examples.
@@ -151,6 +154,8 @@ bun test
 - The checked-in API environment template works with local MinIO.
 - `bun run generate files-client --args app` creates a type-checking authenticated React
   client for `/v1/files`.
+- `bun run generate files-client --args web` creates a type-checking
+  framework-independent Astro client.
 - The client retains upload progress and never imports server-only modules.
 - Rerunning the generator is a reported no-op.
 - Missing or unsupported requirements fail during preflight without partial writes.

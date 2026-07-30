@@ -2,8 +2,9 @@ import { describe, expect, test } from "bun:test"
 import { checkIsSupportedFilesClientApp } from "../files-client"
 
 describe("checkIsSupportedFilesClientApp", () => {
-  test("supports the authenticated React app", () => {
+  test("supports the React and Astro apps", () => {
     expect(checkIsSupportedFilesClientApp("app")).toBeTrue()
+    expect(checkIsSupportedFilesClientApp("web")).toBeTrue()
   })
 
   test("rejects clients without supported authentication transport", () => {

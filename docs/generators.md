@@ -132,17 +132,18 @@ native S3 adapter with local MinIO defaults. Every operation requires the existi
 session and is scoped to `users/<user-id>/`. Uploads are limited to 10 MiB and accept
 images and PDF files by default.
 
-Generate the optional React client in an app that consumes the API:
+Generate the optional client in an app that consumes the API:
 
 ```bash
 bun run generate files-client
 bun run generate files-client --args app
+bun run generate files-client --args web
 ```
 
-The client currently supports `apps/app`, the maintained React web app with
-authenticated Hono connectivity. It creates `apps/app/src/shared/files.ts`, exports the
-app-local `useFiles` hook plus `useFile`, `useList`, and `useSearch`, and authenticates
-both JSON and XHR upload traffic.
+The generator supports the React `apps/app` and Astro `apps/web` workspaces. The React
+template creates `apps/app/src/shared/files.ts`, exports the app-local `useFiles` hook
+plus `useFile`, `useList`, and `useSearch`, and authenticates both JSON and XHR upload
+traffic.
 
 ```tsx
 import { useFiles, useList } from "#shared/files.ts"
@@ -160,6 +161,16 @@ function FilesExample() {
 
   return null
 }
+```
+
+The Astro template creates `apps/web/src/shared/files.ts` with a framework-independent
+`files` client from `files-sdk/client`. It also adds the validated `PUBLIC_API_URL`
+setting used to construct the `/v1/files` endpoint:
+
+```ts
+import { files } from "#shared/files.ts"
+
+const file = await files.download("report.pdf")
 ```
 
 Use `files.download(key)` when code needs the bytes. Use `files.url(key)` for an
