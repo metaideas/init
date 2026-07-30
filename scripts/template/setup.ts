@@ -215,10 +215,6 @@ export default defineCommand({
         describe: "Project name for the root package",
         type: "string",
       })
-      .option("scope", {
-        describe: "Npm scope, without the leading @",
-        type: "string",
-      })
       .option("keep-apps", {
         array: true,
         describe: "Apps to keep (comma-separated or repeated)",
@@ -252,7 +248,6 @@ export default defineCommand({
     const rootPackage = await readJson(join(rootDir, "package.json"))
     const defaultName = typeof rootPackage.name === "string" ? rootPackage.name : "project"
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
-    const defaultScope = sourceScope
 
     const keepApps =
       getSelectedNames(args.keepApps) ??
@@ -272,8 +267,6 @@ export default defineCommand({
           ))
     const projectName =
       args.name ?? (yes ? defaultName : await promptForText("Project name", defaultName))
-    const scope =
-      args.scope ?? (yes ? defaultScope : await promptForText("Npm scope", defaultScope))
     const shouldInitializeGit =
       args.git ?? (yes ? true : await promptForConfirmation("Initialize a git repository?"))
     const shouldInstall =
@@ -301,7 +294,7 @@ export default defineCommand({
 
     await pruneWorkspaces(rootDir, apps, selection.keepApps)
     await pruneWorkspaces(rootDir, packages, selection.keepPackages)
-    await renameProject({ projectName, rootDir, scope, sourceScope })
+    await renameProject({ projectName, rootDir, scope: projectName, sourceScope })
     await writeTemplateStamp(rootDir)
 
     if (shouldInitializeGit && !(await Bun.file(join(rootDir, ".git")).exists()))
