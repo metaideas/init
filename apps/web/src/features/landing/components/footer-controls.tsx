@@ -21,7 +21,7 @@ export default function FooterControls() {
           render={
             <a
               href={GITHUB_URL}
-              aria-label={m.landing_github_aria({ name: SITE_NAME })}
+              aria-label={m.web_landing_controls_github_aria({ name: SITE_NAME })}
               title="GitHub"
             />
           }
@@ -47,13 +47,13 @@ function LocaleToggle() {
             size="icon-lg"
             type="button"
             variant="ghost"
-            aria-label={m.switch_locale()}
-            title={m.switch_locale()}
+            aria-label={m.shared_locale_switch()}
+            title={m.shared_locale_switch()}
           />
         }
       >
         <Icon.Languages className="size-[1.15rem]" />
-        <span className="sr-only">{m.switch_locale()}</span>
+        <span className="sr-only">{m.shared_locale_switch()}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" side="top">
         <DropdownMenuItem
@@ -61,14 +61,14 @@ function LocaleToggle() {
             void setLocale("en")
           }}
         >
-          🇺🇸 {m.english()}
+          🇺🇸 {m.shared_locale_english()}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             void setLocale("es")
           }}
         >
-          🇪🇸 {m.spanish()}
+          🇪🇸 {m.shared_locale_spanish()}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -87,14 +87,14 @@ function FooterThemeToggle() {
             size="icon-lg"
             type="button"
             variant="ghost"
-            aria-label={m.toggle_theme()}
-            title={m.toggle_theme()}
+            aria-label={m.web_landing_controls_theme_toggle()}
+            title={m.web_landing_controls_theme_toggle()}
           />
         }
       >
         <Icon.Sun className="size-[1.15rem] dark:hidden" />
         <Icon.Moon className="hidden size-[1.15rem] dark:block" />
-        <span className="sr-only">{m.toggle_theme()}</span>
+        <span className="sr-only">{m.web_landing_controls_theme_toggle()}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" side="top">
         <DropdownMenuItem
@@ -102,21 +102,21 @@ function FooterThemeToggle() {
             setTheme("light")
           }}
         >
-          {m.theme_light()}
+          {m.web_landing_controls_theme_light()}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             setTheme("dark")
           }}
         >
-          {m.theme_dark()}
+          {m.web_landing_controls_theme_dark()}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             setTheme("system")
           }}
         >
-          {m.theme_system()}
+          {m.web_landing_controls_theme_system()}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

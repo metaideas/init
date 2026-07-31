@@ -63,7 +63,7 @@
     "uniwind": "1.3.0"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "2.8.0",
+    "@inlang/paraglide-js": "2.23.0",
     "@sentry/cli": "2.56.0",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.1.13",

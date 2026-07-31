@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@astrojs/ts-plugin": "1.10.6",
-    "@inlang/paraglide-js": "2.8.0",
+    "@inlang/paraglide-js": "2.23.0",
     "@tailwindcss/vite": "4.3.3",
     "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",

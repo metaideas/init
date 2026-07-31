@@ -1,12 +1,5 @@
 ---
 import { m } from "#shared/internationalization/messages.js"
-import { baseLocale, type Locale, locales } from "#shared/internationalization/runtime.js"
-
-const requestedLocale = Astro.currentLocale
-const locale: Locale =
-  requestedLocale && locales.includes(requestedLocale as Locale)
-    ? (requestedLocale as Locale)
-    : baseLocale
 ---
 
-<p>{m.example_message({ username: "Init" }, { locale })}</p>
+<p>{m.docs_example_greeting({ username: "Init" })}</p>

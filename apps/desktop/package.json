@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.29.7",
-    "@inlang/paraglide-js": "2.8.0",
+    "@inlang/paraglide-js": "2.23.0",
     "@rolldown/plugin-babel": "0.2.3",
     "@tailwindcss/vite": "4.3.3",
     "@tanstack/devtools-vite": "0.8.3",

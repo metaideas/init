@@ -20,12 +20,12 @@ export default function PopupDemo() {
   return (
     <div className="flex h-[420px] w-[420px] flex-col items-center justify-center gap-6 p-8">
       <div className="flex max-w-sm flex-col items-center gap-2 text-center">
-        <Typography.H1>{m.extension_title({}, { locale })}</Typography.H1>
-        <Typography.P>{m.extension_description({}, { locale })}</Typography.P>
+        <Typography.H1>{m.extension_demo_title({}, { locale })}</Typography.H1>
+        <Typography.P>{m.extension_demo_description({}, { locale })}</Typography.P>
       </div>
 
       <fieldset className="flex gap-2">
-        <legend className="sr-only">{m.switch_locale({}, { locale })}</legend>
+        <legend className="sr-only">{m.shared_locale_switch({}, { locale })}</legend>
         <Button
           aria-pressed={locale === "en"}
           onClick={() => {
@@ -33,7 +33,7 @@ export default function PopupDemo() {
           }}
           variant={locale === "en" ? "default" : "outline"}
         >
-          {m.english({}, { locale })}
+          {m.shared_locale_english({}, { locale })}
         </Button>
         <Button
           aria-pressed={locale === "es"}
@@ -42,7 +42,7 @@ export default function PopupDemo() {
           }}
           variant={locale === "es" ? "default" : "outline"}
         >
-          {m.spanish({}, { locale })}
+          {m.shared_locale_spanish({}, { locale })}
         </Button>
       </fieldset>
 

@@ -15,7 +15,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "2.8.0",
+    "@inlang/paraglide-js": "2.23.0",
     "@tooling/tsconfig": "workspace:*"
   }
 }

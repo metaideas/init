@@ -5,17 +5,17 @@ import { m } from "#shared/internationalization/messages.js"
 ---
 
 <section
-  class="relative z-3 grid w-full -translate-y-5 grid-cols-[minmax(0,1fr)] items-stretch bg-white/20 backdrop-blur-[3px] dark:bg-black/20 min-[40rem]:-translate-y-8"
+  class="relative z-3 -mb-5 grid w-full -translate-y-5 grid-cols-[minmax(0,1fr)] items-stretch bg-white/20 backdrop-blur-[3px] dark:bg-black/20 min-[40rem]:-mb-8 min-[40rem]:-translate-y-8"
   aria-labelledby="featuring-title"
 >
   <p
     id="featuring-title"
     class="m-0 flex items-center justify-center px-4 py-[0.7rem] font-sans text-[0.7rem] font-medium tracking-[0.14em] text-neutral-500 uppercase dark:text-[#7a838d]"
   >
-    {m.landing_featured_technologies()}
+    {m.web_landing_technologies_heading()}
   </p>
   <div
-    class="overflow-hidden pb-3 [mask-image:none] motion-reduce:overflow-x-auto min-[40rem]:[mask-image:linear-gradient(90deg,transparent,black_4rem,black_calc(100%-4rem),transparent)] motion-reduce:min-[40rem]:[mask-image:none]"
+    class="overflow-hidden pb-4 [mask-image:none] motion-reduce:overflow-x-auto min-[40rem]:[mask-image:linear-gradient(90deg,transparent,black_4rem,black_calc(100%-4rem),transparent)] motion-reduce:min-[40rem]:[mask-image:none]"
   >
     <div class="flex w-max hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-safe:[animation:marquee_38s_linear_infinite]">
       <ul class="m-0 flex list-none p-0">

@@ -1,23 +1,26 @@
 ---
-import { baseLocale, type Locale } from "#shared/internationalization/runtime.js"
+import { getLocale } from "#shared/internationalization/runtime.js"
 import { m } from "#shared/internationalization/messages.js"
 import { SITE_NAME, SITE_URL } from "#shared/constants.ts"
 import "@init/ui/globals.css"
 
 type Props = {
   description?: string
-  lang?: Locale
   title?: string
 }
 
-const tagline = `${m.landing_headline_first()} ${m.landing_headline_second()}`
-const { description = m.landing_description(), lang, title = `${SITE_NAME} — ${tagline}` } = Astro.props
+const locale = getLocale()
+const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_headline_second()}`
+const {
+  description = m.web_landing_hero_description(),
+  title = `${SITE_NAME} — ${tagline}`,
+} = Astro.props
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 const socialImageUrl = new URL("/og-image.png", SITE_URL)
 ---
 
 <!doctype html>
-<html lang={lang || baseLocale}>
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
