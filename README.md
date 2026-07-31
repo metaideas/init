@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center">▶︎ <code>init</code></h1>
+  <img src="./.github/assets/init-logo.png" alt="Init" width="600">
 
   <p align="center">
     <em><strong>Start once. Ship everywhere.</strong></em>

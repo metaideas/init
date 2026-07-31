@@ -1,6 +1,6 @@
 # Plan 10 — `init.now` marketing site
 
-**Status:** Pending (DNS cutover)
+**Status:** Completed
 **Size:** M
 **Depends on:** 13 (soft)
 **Affects:** 12 (there is no separate template-internal website context)

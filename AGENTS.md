@@ -1,39 +1,24 @@
 # AGENTS.md
 
 Read [`CONTEXT.md`](./CONTEXT.md) before exploring or changing code. It defines the
-project's vocabulary and points to the shipped architecture documentation.
+project's vocabulary.
 
-## Agent skills
+## Repository guidance
 
-### Issue tracker and triage
-
-Repository-specific GitHub issue and triage wiring, when configured, lives in
-`docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. These upstream files
-are removed by `bun template setup`; scaffold owners should run
-`setup-matt-pocock-skills` to create wiring for their own repository.
-
-### Domain documentation
-
-This is a single-context application. Read [`docs/agents/domain.md`](./docs/agents/domain.md)
-before recording domain decisions. While this is the upstream template, its governance
-decisions belong in `docs/template/adr/`; application-owner decisions belong in
-`docs/adr/`.
-
-## Quality control
-
-- Use Bun for package management and script execution.
-- Run `bun run format` after editing files.
-- Run `bun run check` after making changes.
-- Run `bun run analyze` after changing dependencies, imports, or exports.
-- Run `bun run check:monorepo` after changing workspace manifests or dependency wiring.
-- Use `bun test` for tests and `bun run build --filter=<workspace>` for targeted builds.
+- Follow [`docs/agents/domain.md`](./docs/agents/domain.md) when exploring architecture
+  or recording domain decisions.
+- Follow [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md) and
+  [`docs/agents/triage-labels.md`](./docs/agents/triage-labels.md) for issue work when
+  those files exist.
 
 ## Testing
 
+- Use Bun for package management and script execution.
 - Use `bun:test`.
 - Add tests to a `__tests__` folder alongside the file under test.
 - Import `describe`, `expect`, and `test` from `bun:test`.
 - Name `describe` blocks after the function under test and test cases after the behavior.
+- Use `bun run build --filter=<workspace>` for targeted builds.
 
 ## Comments
 
@@ -44,7 +29,6 @@ decisions belong in `docs/template/adr/`; application-owner decisions belong in
 
 ## Version control
 
-- Use Git for version control.
 - Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`,
   `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`,
   `breaking:`, `deprecate:`).

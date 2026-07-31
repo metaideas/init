@@ -1,0 +1,17 @@
+---
+import "@fontsource-variable/geist-mono"
+
+import Footer from "#features/landing/components/footer.astro"
+import Hero from "#features/landing/components/hero.astro"
+import LandingBackground from "#features/landing/components/landing-background.astro"
+import TechnologyMarquee from "#features/landing/components/technology-marquee.astro"
+---
+
+<div
+  class="relative isolate grid min-h-svh min-w-80 grid-rows-[minmax(30rem,1fr)_auto_auto] overflow-hidden bg-[radial-gradient(circle_at_50%_48%,rgb(14_165_233_/_6%),transparent_28rem),#fafafa] font-sans text-neutral-950 scheme-light dark:bg-[radial-gradient(circle_at_50%_48%,rgb(125_211_252_/_8%),transparent_28rem),#080a0d] dark:text-[#f1f3f5] dark:scheme-dark min-[40rem]:grid-rows-[minmax(33rem,1fr)_auto_auto]"
+>
+  <LandingBackground />
+  <Hero />
+  <TechnologyMarquee />
+  <Footer />
+</div>

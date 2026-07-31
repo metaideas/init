@@ -44,7 +44,7 @@ export function ThemeProvider({
       return theme
     }
 
-    if (storageKey && typeof globalThis !== "undefined") {
+    if (storageKey && typeof window !== "undefined") {
       const stored = localStorage.getItem(storageKey)
       if (stored && THEMES.includes(stored as Theme)) {
         return stored as Theme
