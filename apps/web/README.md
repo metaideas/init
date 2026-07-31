@@ -21,8 +21,9 @@ Init builds use `https://init.now`.
 ## Make it yours
 
 Replace the wordmark and favicon, headline and supporting copy, scaffold command,
-GitHub URL, technology list, and social preview metadata. The primary content lives in
-`src/shared/components/landing.astro`; shared site values live in `src/shared/site.ts`.
+GitHub URL, technology list, and social preview metadata. The landing feature lives in
+`src/features/landing`; shared site values live in `src/shared/constants.ts`, and copy
+lives in the shared internationalization catalogs.
 
-Localization, blog content collections, RSS, sitemap generation, and 404 pages remain
-available even though the v1 homepage stays focused on the scaffold.
+Localization, blog content collections, sitemap generation, and 404 pages remain available
+even though the v1 homepage stays focused on the scaffold.

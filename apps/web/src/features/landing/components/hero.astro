@@ -1,0 +1,123 @@
+---
+import { SCAFFOLD_COMMAND, SITE_NAME } from "#shared/constants.ts"
+import { m } from "#shared/internationalization/messages.js"
+
+const tagline = `${m.landing_headline_first()} ${m.landing_headline_second()}`
+---
+
+<main
+  class="relative z-2 flex w-[min(100%-2rem,72rem)] flex-col items-center place-self-center py-10 text-center min-[40rem]:py-[4.5rem] min-[40rem]:pb-24"
+>
+  <p
+    class="mb-6 inline-flex items-center gap-2 text-2xl leading-none font-[650] tracking-[-0.03em] text-neutral-600 [font-family:'Geist_Mono_Variable',ui-monospace,monospace] dark:text-[#c8cdd2]"
+  >
+    <img class="size-5 shrink-0 dark:invert" src="/init-logo.svg" alt="" width="20" height="20" />
+    <span translate="no">{SITE_NAME.toLowerCase()}</span>
+  </p>
+
+  <h1
+    class="m-0 font-sans text-[clamp(3.25rem,17vw,5rem)] leading-none font-[760] tracking-[-0.075em] text-balance min-[40rem]:text-[clamp(3.35rem,10.3vw,9rem)]"
+    aria-label={tagline}
+  >
+    <span
+      class="block bg-[linear-gradient(90deg,transparent,var(--background)_4%,var(--background)_96%,transparent)] tracking-[0em] text-background [-webkit-text-stroke:2.5px_var(--muted-foreground)] [paint-order:stroke_fill] motion-safe:[animation:reveal-line_900ms_cubic-bezier(0.16,1,0.3,1)_both]"
+      aria-hidden="true"
+    >
+      {m.landing_headline_first()}
+    </span>
+    <span
+      class="block whitespace-nowrap text-[clamp(2.25rem,12vw,4.1rem)] tracking-[-0.02em] [word-spacing:0.08em] motion-safe:[animation:reveal-line_900ms_cubic-bezier(0.16,1,0.3,1)_110ms_both] min-[40rem]:text-[1em] min-[40rem]:whitespace-normal min-[40rem]:[word-spacing:normal]"
+      aria-hidden="true"
+    >
+      {m.landing_headline_second()}
+    </span>
+  </h1>
+
+  <p
+    class="mt-6 max-w-80 text-[clamp(1rem,2.2vw,1.2rem)] leading-[1.6] text-balance text-neutral-600 dark:text-[#aab1b9] min-[40rem]:mt-8 min-[40rem]:max-w-xl"
+  >
+    {m.landing_description()}
+  </p>
+
+  <div
+    class="mt-9 grid w-[min(100%,34rem)] grid-cols-[auto_minmax(0,1fr)_auto] items-center rounded-[0.8rem] border border-neutral-300 bg-white/95 p-[0.35rem] text-left shadow-[0_1.5rem_5rem_rgb(0_0_0_/_10%),inset_0_1px_rgb(255_255_255_/_75%)] dark:border-[#303842] dark:bg-[rgb(13_17_22_/_92%)] dark:shadow-[0_1.5rem_5rem_rgb(0_0_0_/_32%),inset_0_1px_rgb(255_255_255_/_4%)]"
+  >
+    <span class="pl-[0.9rem] font-mono text-[0.8rem] text-sky-500 dark:text-sky-300" aria-hidden="true">$</span>
+    <code
+      class="overflow-hidden px-[0.65rem] py-[0.8rem] font-mono text-[clamp(0.68rem,2.2vw,0.83rem)] text-ellipsis whitespace-nowrap"
+      translate="no">{SCAFFOLD_COMMAND}</code
+    >
+    <button
+      class="group inline-flex min-h-11 touch-manipulation cursor-pointer items-center gap-[0.45rem] rounded-[0.55rem] border border-neutral-300 bg-neutral-100 px-3 py-[0.7rem] font-mono text-[0.68rem] text-neutral-600 [transition:border-color_160ms_ease,color_160ms_ease,transform_160ms_ease] [-webkit-tap-highlight-color:rgb(125_211_252_/_12%)] hover:border-neutral-500 hover:text-neutral-950 active:translate-y-px focus-visible:rounded-[0.35rem] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-sky-500 data-[copied=true]:border-sky-500/55 data-[copied=true]:text-sky-600 dark:border-[#38414c] dark:bg-[#161c24] dark:text-[#c8cdd2] dark:hover:border-[#5b6978] dark:hover:text-[#f1f3f5] dark:focus-visible:outline-sky-300 dark:data-[copied=true]:border-sky-300/55 dark:data-[copied=true]:text-sky-300"
+      type="button"
+      data-copy-command={SCAFFOLD_COMMAND}
+      aria-label={m.landing_command_copy_aria()}
+    >
+      <svg
+        class="w-[0.85rem] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:hidden"
+        viewBox="0 0 18 18"
+        aria-hidden="true"
+      >
+        <rect x="6.25" y="6.25" width="8.5" height="8.5" rx="1.5"></rect>
+        <path d="M3.25 11.75h-.5a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5h7.5a1.5 1.5 0 0 1 1.5 1.5v.5"></path>
+      </svg>
+      <svg
+        class="hidden w-[0.85rem] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:block"
+        viewBox="0 0 18 18"
+        aria-hidden="true"
+      >
+        <path d="m3 9.5 3.5 3.5L15 4.5"></path>
+      </svg>
+      <span class="copy-label hidden min-[40rem]:inline">{m.landing_command_copy()}</span>
+    </button>
+    <span class="sr-only" aria-live="polite" data-copy-status></span>
+  </div>
+</main>
+
+<script>
+  import { SCAFFOLD_COMMAND } from "#shared/constants"
+  import { m } from "#shared/internationalization/messages.js"
+
+  const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-command]")
+  const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]")
+  let resetTimer: ReturnType<typeof setTimeout> | undefined
+
+  const copyCommand = async function () {
+    if (!copyButton || !copyStatus) return
+
+    await navigator.clipboard.writeText(SCAFFOLD_COMMAND)
+    copyButton.dataset.copied = "true"
+    copyButton.setAttribute("aria-label", m.landing_command_copied_aria())
+    const copyLabel = copyButton.querySelector(".copy-label")
+    if (copyLabel) copyLabel.textContent = m.landing_command_copied()
+    copyStatus.textContent = m.landing_command_copied_status()
+
+    clearTimeout(resetTimer)
+    resetTimer = setTimeout(() => {
+      copyButton.dataset.copied = "false"
+      copyButton.setAttribute("aria-label", m.landing_command_copy_aria())
+      if (copyLabel) copyLabel.textContent = m.landing_command_copy()
+      copyStatus.textContent = ""
+    }, 2000)
+  }
+
+  copyButton?.addEventListener("click", () => {
+    copyCommand().catch(() => {
+      if (copyStatus) copyStatus.textContent = m.landing_command_copy_error()
+    })
+  })
+</script>
+
+<style>
+  @keyframes reveal-line {
+    from {
+      opacity: 0;
+      transform: translateY(0.45em);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

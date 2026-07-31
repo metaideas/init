@@ -10,6 +10,7 @@ await ensureEnv(process.env.NODE_ENV ?? "development", import.meta.dirname)
 const { default: env } = await import("./src/shared/env.ts")
 
 export default defineConfig({
+  output: "static",
   server: {
     port: 3006,
   },

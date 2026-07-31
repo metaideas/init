@@ -1,0 +1,26 @@
+---
+import type { SimpleIcon } from "simple-icons"
+
+type Props = Pick<SimpleIcon, "path" | "title"> & {
+  isAccessible?: boolean
+}
+
+const { isAccessible = false, path, title } = Astro.props
+---
+
+<li
+  class="group relative grid min-h-[4.5rem] min-w-[8.5rem] place-items-center px-7 py-[1.15rem] outline-none"
+  tabindex={isAccessible ? 0 : undefined}
+  aria-label={isAccessible ? title : undefined}
+>
+  <svg class="size-[1.8rem] translate-y-2.5 fill-neutral-500 dark:fill-[#aab1b9]" viewBox="0 0 24 24" aria-hidden="true">
+    <path d={path}></path>
+  </svg>
+  <span
+    class="pointer-events-none absolute top-0 left-1/2 origin-bottom -translate-x-1/2 translate-y-1 scale-95 rounded-full bg-neutral-950/90 px-3.5 py-1.5 text-sm leading-none font-[650] tracking-[-0.03em] whitespace-nowrap text-white opacity-0 shadow-[0_0.5rem_1.5rem_rgb(0_0_0_/_20%)] ring-1 ring-white/15 backdrop-blur-md transition-[opacity,transform] delay-0 duration-100 ease-out [font-family:'Geist_Mono_Variable',ui-monospace,monospace] group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-hover:delay-150 group-hover:duration-150 group-focus-visible:translate-y-0 group-focus-visible:scale-100 group-focus-visible:opacity-100 group-focus-visible:duration-0 motion-reduce:transition-none dark:bg-white/90 dark:text-neutral-950 dark:ring-black/10"
+    aria-hidden="true"
+    translate="no"
+  >
+    {title}
+  </span>
+</li>
