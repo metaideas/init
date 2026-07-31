@@ -10,9 +10,8 @@ export function getStaticPaths() {
   })) satisfies GetStaticPathsResult
 }
 
-const { lang } = Astro.params
 ---
 
-<Layout lang={lang}>
+<Layout>
   <Landing />
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import { locales } from "#shared/internationalization/runtime.js"
 import Layout from "#shared/components/layout.astro"
+import { m } from "#shared/internationalization/messages.js"
 
 export function getStaticPaths() {
   return locales.map((locale) => ({ params: { lang: locale } }))
@@ -9,11 +10,11 @@ export function getStaticPaths() {
 const { lang } = Astro.params
 ---
 
-<Layout lang={lang}>
+<Layout>
   <main class="mx-auto flex min-h-screen max-w-2xl items-center justify-center p-6 text-center">
     <div class="space-y-3">
       <p class="text-sm font-medium text-muted-foreground">404</p>
-      <h1 class="text-3xl font-semibold tracking-tight">Not found</h1>
+      <h1 class="text-3xl font-semibold tracking-tight">{m.web_not_found_title()}</h1>
       <a class="underline underline-offset-4" href={`/${lang}/`}>Return home</a>
     </div>
   </main>

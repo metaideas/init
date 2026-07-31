@@ -30,7 +30,7 @@
     "wouter": "^3.7.1"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "2.8.0",
+    "@inlang/paraglide-js": "2.23.0",
     "@tailwindcss/vite": "4.3.3",
     "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",

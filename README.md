@@ -10,7 +10,7 @@
   </p>
 </div>
 
-Modern monorepo template for shipping TypeScript apps everywhere.
+A modern monorepo template for whatever you build next.
 
 See the template in action at [init.now](https://init.now). The public site is the same
 polished Astro marketing app included when a scaffold keeps the `web` workspace.
@@ -22,6 +22,7 @@ generators. The site is not a hosted recipe catalog or project updater.
 
 - [Getting Started](./docs/getting-started.md)
 - [Development](./docs/development.md)
+- [Internationalization](./docs/internationalization.md)
 - [Project Structure](./docs/architecture/project-structure.md)
 - [Package Guidance](./docs/packages.md)
 - [Template Commands](./docs/template-commands.md)

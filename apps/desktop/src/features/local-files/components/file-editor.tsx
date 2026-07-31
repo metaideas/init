@@ -37,8 +37,8 @@ export default function FileEditor() {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <CardTitle>{m.desktop_file_title()}</CardTitle>
-        <CardDescription>{m.desktop_file_description()}</CardDescription>
+        <CardTitle>{m.desktop_local_files_title()}</CardTitle>
+        <CardDescription>{m.desktop_local_files_description()}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-3">
@@ -49,17 +49,17 @@ export default function FileEditor() {
             }}
             type="button"
           >
-            {m.choose_file()}
+            {m.desktop_local_files_choose()}
           </Button>
           <p className="min-w-0 truncate text-sm text-muted-foreground">
-            {path ?? m.no_file_selected()}
+            {path ?? m.desktop_local_files_empty_state()}
           </p>
         </div>
 
         {path ? (
           <>
             <Textarea
-              aria-label={m.desktop_file_title()}
+              aria-label={m.desktop_local_files_title()}
               className="min-h-80 resize-y font-mono text-base"
               onChange={(event) => {
                 saveFile.reset()
@@ -69,10 +69,10 @@ export default function FileEditor() {
             />
             <div className="flex items-center gap-3">
               <Button disabled={saveFile.isPending} onClick={save} type="button">
-                {m.save_file()}
+                {m.desktop_local_files_save()}
               </Button>
               <p aria-live="polite" className="text-sm text-muted-foreground">
-                {isSaved ? m.file_saved() : null}
+                {isSaved ? m.desktop_local_files_saved_status() : null}
               </p>
             </div>
           </>

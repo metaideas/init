@@ -15,7 +15,7 @@ const currentYear = new Date().getFullYear()
     <p
       class="flex min-h-8 w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-center text-sm sm:w-auto sm:justify-start sm:text-left"
     >
-      <span>{m.landing_footer_copyright()}</span>
+      <span>{m.web_landing_footer_copyright()}</span>
       <a
         class="group relative inline-flex items-center gap-1 rounded-sm whitespace-nowrap text-current transition-colors duration-150 after:absolute after:-inset-x-1 after:-inset-y-3 hover:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 dark:hover:text-white"
         href={COMPANY_URL}
@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear()
         <img class="size-5 shrink-0 dark:invert" src="/logo.svg" alt="" width="20" height="20" />
         <span class="underline-offset-4 group-hover:underline">{COMPANY_NAME}</span>
       </a>
-      <span>{m.landing_footer_rights({ year: currentYear })}</span>
+      <span>{m.web_landing_footer_rights({ year: currentYear })}</span>
     </p>
 
     <nav class="flex w-full justify-center sm:w-auto" aria-label="Footer">

@@ -15,7 +15,7 @@ export function LocaleToggle() {
       <DropdownMenuTrigger render={<Button size="icon" variant="outline" />}>
         <Icon.Languages className="size-4" />
 
-        <span className="sr-only">{m.switch_locale()}</span>
+        <span className="sr-only">{m.shared_locale_switch()}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
@@ -23,14 +23,14 @@ export function LocaleToggle() {
             void setLocale("es")
           }}
         >
-          🇪🇸 {m.spanish()}
+          🇪🇸 {m.shared_locale_spanish()}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             void setLocale("en")
           }}
         >
-          🇺🇸 {m.english()}
+          🇺🇸 {m.shared_locale_english()}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

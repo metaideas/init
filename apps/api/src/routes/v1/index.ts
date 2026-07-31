@@ -26,7 +26,9 @@ export default factory
     validator("query", z.object({ name: z.string().optional() })),
     (c) => {
       const query = c.req.valid("query")
-      return c.text(m.api_greeting({ name: query.name ?? "Hono" }, { locale: c.var.language }))
+      return c.text(
+        m.api_hello_greeting({ name: query.name ?? "Hono" }, { locale: c.var.language })
+      )
     }
   )
   .get("/me", requireSession, (c) => c.json(c.var.session.user))

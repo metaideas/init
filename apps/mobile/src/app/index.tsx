@@ -69,18 +69,21 @@ export default function Screen() {
           },
           ref: searchBarRef,
         }}
-        title={m.mobile_title({}, { locale })}
+        title={m.mobile_home_title({}, { locale })}
       />
       {isSearching ? null : (
         <View className="flex-1 items-center justify-center gap-8 bg-background">
           <View className="items-center justify-center gap-3 px-6">
             <Text className="text-center text-base leading-6 font-semibold text-primary">
-              {m.mobile_title({}, { locale })}
+              {m.mobile_home_title({}, { locale })}
             </Text>
             <Text className="text-center text-base leading-6 text-muted-foreground">
-              {m.mobile_description({}, { locale })}
+              {m.mobile_home_description({}, { locale })}
             </Text>
-            <View accessibilityLabel={m.switch_locale({}, { locale })} className="flex-row gap-2">
+            <View
+              accessibilityLabel={m.shared_locale_switch({}, { locale })}
+              className="flex-row gap-2"
+            >
               <Button
                 accessibilityState={{ selected: locale === "en" }}
                 onPress={() => {
@@ -88,7 +91,7 @@ export default function Screen() {
                 }}
                 variant={locale === "en" ? "default" : "outline"}
               >
-                <Text>{m.english({}, { locale })}</Text>
+                <Text>{m.shared_locale_english({}, { locale })}</Text>
               </Button>
               <Button
                 accessibilityState={{ selected: locale === "es" }}
@@ -97,7 +100,7 @@ export default function Screen() {
                 }}
                 variant={locale === "es" ? "default" : "outline"}
               >
-                <Text>{m.spanish({}, { locale })}</Text>
+                <Text>{m.shared_locale_spanish({}, { locale })}</Text>
               </Button>
             </View>
           </View>
