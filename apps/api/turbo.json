@@ -4,6 +4,8 @@
   "tasks": {
     "build": {
       "env": [
+        "INNGEST_BASE_URL",
+        "INNGEST_DEV",
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
         "INNGEST_SIGNING_KEY_FALLBACK",

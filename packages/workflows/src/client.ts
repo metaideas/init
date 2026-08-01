@@ -2,12 +2,8 @@ import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { dependencyInjectionMiddleware, Inngest } from "inngest"
 import { extendedTracesMiddleware } from "inngest/experimental"
-import schemas from "#schema.ts"
 
-/**
- * Events type - inferred from the event schemas
- */
-export type Events = typeof schemas
+export type { Events } from "#schema.ts"
 
 export const inngest = singleton(
   "inngest",
@@ -21,6 +17,5 @@ export const inngest = singleton(
         }),
         extendedTracesMiddleware({ behaviour: "auto" }),
       ],
-      schemas,
     })
 )

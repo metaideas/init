@@ -1,9 +1,15 @@
 import * as z from "@init/utils/schema"
-import { EventSchemas } from "inngest"
+import { eventType } from "inngest"
 
-export default new EventSchemas().fromSchema({
-  "demo/email.sent": z.object({
+export const demoEmailSent = eventType("demo/email.sent", {
+  schema: z.object({
     email: z.email(),
     userId: z.string(),
   }),
 })
+
+const events = { demoEmailSent }
+
+export default events
+
+export type Events = typeof events
