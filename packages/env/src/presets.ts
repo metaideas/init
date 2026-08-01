@@ -98,6 +98,8 @@ export const inngest = () =>
   createEnv({
     runtimeEnv: env,
     server: {
+      INNGEST_BASE_URL: z.url().optional(),
+      INNGEST_DEV: z.stringbool().default(false),
       INNGEST_EVENT_KEY: z.string(),
       INNGEST_SIGNING_KEY: z.string(),
       INNGEST_SIGNING_KEY_FALLBACK: z.string().optional(),

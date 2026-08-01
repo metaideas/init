@@ -16,12 +16,12 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "portless",
-    "dev:app": "inngest dev --port ${PORT:-8288} --connect-executor-grpc-port $(( ${PORT:-8288} + 10000 )) --connect-gateway-grpc-port $(( ${PORT:-8288} + 11000 )) --connect-gateway-port $(( ${PORT:-8288} + 12000 )) -u ${INNGEST_API_URL:-https://api.init.localhost/workflows} --poll-interval 60"
+    "dev:app": "inngest dev --port ${PORT:-8288} --connect-executor-grpc-port $(( ${PORT:-8288} + 10000 )) --connect-gateway-grpc-port $(( ${PORT:-8288} + 11000 )) --connect-gateway-port $(( ${PORT:-8288} + 12000 ))"
   },
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
-    "inngest": "3.49.3"
+    "inngest": "4.14.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
