@@ -1,4 +1,4 @@
-# 0004: Use one marketing app for Init and scaffolds
+# 0004: Use one marketing app for init and scaffolds
 
 ## Status
 

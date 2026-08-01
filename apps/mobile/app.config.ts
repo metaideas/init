@@ -1,7 +1,7 @@
 import type { ConfigContext, ExpoConfig } from "expo/config"
 
 const APP_ID = "init"
-const APP_NAME = "Init"
+const APP_NAME = "init"
 const APP_OWNER = "metaideas"
 const APP_BUNDLE_IDENTIFIER = `app.${APP_OWNER}.${APP_ID}`
 const VERSION = "1.0.0"

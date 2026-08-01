@@ -16,7 +16,7 @@ bun run build --filter=web
 
 The app uses static output and needs no external service. Set
 `PUBLIC_SITE_URL=https://example.com` when building a branded deployment; production
-Init builds use `https://init.now`.
+init builds use `https://init.now`.
 
 ## Make it yours
 

@@ -1,6 +1,7 @@
 export const COMPANY_NAME = "Metaideas"
 export const COMPANY_URL = "https://metaideas.io"
+export const DOCS_URL = "https://docs.init.now"
 export const GITHUB_URL = "https://github.com/metaideas/init"
 export const SCAFFOLD_COMMAND = "bun create metaideas/init my-app"
-export const SITE_NAME = "Init"
+export const SITE_NAME = "init"
 export const SITE_URL = "https://init.now"

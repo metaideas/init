@@ -1,0 +1,50 @@
+---
+import { marketingUrl } from "#shared/utils.ts";
+---
+
+<div class="site-title" aria-label="init documentation">
+    <a class="wordmark" href={marketingUrl} aria-label="init home">init</a>
+    <span class="divider" aria-hidden="true">/</span>
+    <a class="section" href="/" aria-label="Documentation home">docs</a>
+</div>
+
+<style>
+    .site-title {
+        display: inline-flex;
+        min-width: 0;
+        align-items: center;
+        gap: 0.45rem;
+        color: var(--sl-color-white);
+        font-family: var(--sl-font-mono);
+        font-size: 1rem;
+        font-weight: 650;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+    }
+
+    .wordmark,
+    .section {
+        border-radius: 0.25rem;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .wordmark {
+        font-weight: 800;
+    }
+
+    .section {
+        color: var(--sl-color-gray-3);
+    }
+
+    .wordmark:hover,
+    .section:hover {
+        color: var(--sl-color-text-accent);
+    }
+
+    .wordmark:focus-visible,
+    .section:focus-visible {
+        outline: 2px solid var(--sl-color-accent);
+        outline-offset: 0.25rem;
+    }
+</style>

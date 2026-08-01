@@ -1,4 +1,7 @@
-# Desktop behavior
+---
+title: Desktop Behavior
+description: Understand init's local-first Tauri desktop boundary and optional remote backend connectivity.
+---
 
 `apps/desktop` is a Tauri application with a TanStack Router frontend and a Rust native
 shell.

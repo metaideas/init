@@ -1,0 +1,36 @@
+---
+import { DOCS_URL, SITE_NAME } from "#shared/constants.ts"
+import { m } from "#shared/internationalization/messages.js"
+---
+
+<header
+  class="relative z-3 w-full bg-white/20 text-neutral-950 backdrop-blur-[3px] dark:bg-black/20 dark:text-[#f1f3f5]"
+>
+  <div class="mx-auto flex min-h-16 w-full max-w-[90rem] items-center justify-between px-4 sm:px-7">
+    <a
+      class="inline-flex min-h-11 items-center gap-2 rounded-md px-2 font-mono text-base leading-none font-[800] tracking-[-0.03em] transition-colors hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 dark:hover:bg-white/10"
+      href="/"
+      aria-label={`${SITE_NAME} home`}
+    >
+      <img class="size-5 shrink-0 dark:invert" src="/init-logo.svg" alt="" width="20" height="20" />
+      <span translate="no">{SITE_NAME.toLowerCase()}</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <a
+        class="inline-flex min-h-11 items-center gap-2 rounded-[0.6rem] border border-neutral-400 bg-transparent px-3.5 text-sm font-semibold text-neutral-700 transition-[background-color,border-color,color,transform] hover:border-neutral-500 hover:bg-neutral-100/70 hover:text-neutral-950 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 dark:border-[#59636e] dark:text-[#d8dde2] dark:hover:border-[#818b96] dark:hover:bg-white/10 dark:hover:text-white"
+        href={DOCS_URL}
+      >
+        <span>{m.web_landing_header_docs()}</span>
+        <svg
+          class="size-4 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round]"
+          viewBox="0 0 18 18"
+          aria-hidden="true"
+        >
+          <path d="M5.25 12.75 12.75 5.25"></path>
+          <path d="M6.75 5.25h6v6"></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</header>

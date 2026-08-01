@@ -1,5 +1,5 @@
 ---
-import { SCAFFOLD_COMMAND, SITE_NAME } from "#shared/constants.ts"
+import { SCAFFOLD_COMMAND } from "#shared/constants.ts"
 import ShipTargets from "#features/landing/components/ship-targets.astro"
 import { m } from "#shared/internationalization/messages.js"
 
@@ -9,13 +9,6 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
 <main
   class="relative z-2 flex w-[min(100%-2rem,72rem)] flex-col items-center place-self-center py-10 text-center min-[40rem]:py-[4.5rem] min-[40rem]:pb-24"
 >
-  <p
-    class="mb-6 inline-flex items-center gap-2 text-2xl leading-none font-[800] tracking-[-0.03em] text-neutral-600 [font-family:'Geist_Mono_Variable',ui-monospace,monospace] dark:text-[#c8cdd2]"
-  >
-    <img class="size-5 shrink-0 dark:invert" src="/init-logo.svg" alt="" width="20" height="20" />
-    <span translate="no">{SITE_NAME.toLowerCase()}</span>
-  </p>
-
   <h1
     class="m-0 font-sans text-[clamp(3.25rem,17vw,5rem)] leading-none font-[760] tracking-[-0.075em] text-balance min-[40rem]:text-[clamp(3.35rem,10.3vw,9rem)]"
     aria-label={tagline}
@@ -51,7 +44,7 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
       translate="no">{SCAFFOLD_COMMAND}</code
     >
     <button
-      class="group inline-flex size-11 touch-manipulation cursor-pointer items-center justify-center rounded-[0.55rem] border border-neutral-300 bg-neutral-100 text-neutral-600 [transition:border-color_160ms_ease,color_160ms_ease,transform_160ms_ease] [-webkit-tap-highlight-color:transparent] hover:border-neutral-500 hover:text-neutral-950 active:translate-y-px focus-visible:rounded-[0.35rem] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neutral-500 dark:border-[#38414c] dark:bg-[#161c24] dark:text-[#c8cdd2] dark:hover:border-[#5b6978] dark:hover:text-[#f1f3f5] dark:focus-visible:outline-[#aab1b9]"
+      class="group grid size-11 touch-manipulation cursor-pointer place-items-center rounded-[0.55rem] border border-neutral-300 bg-neutral-100 text-neutral-600 [transition:border-color_160ms_ease,color_160ms_ease,transform_160ms_ease] [-webkit-tap-highlight-color:transparent] hover:border-neutral-500 hover:text-neutral-950 active:translate-y-px focus-visible:rounded-[0.35rem] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neutral-500 dark:border-[#38414c] dark:bg-[#161c24] dark:text-[#c8cdd2] dark:hover:border-[#5b6978] dark:hover:text-[#f1f3f5] dark:focus-visible:outline-[#aab1b9]"
       type="button"
       data-copy-command={SCAFFOLD_COMMAND}
       data-copy-label={m.web_landing_command_copy_aria()}
@@ -61,15 +54,15 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
       aria-label={m.web_landing_command_copy_aria()}
     >
       <svg
-        class="w-[0.85rem] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:hidden"
-        viewBox="0 0 18 18"
+        class="size-[1.15rem] shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:hidden"
+        viewBox="0 0 16 16"
         aria-hidden="true"
       >
         <rect x="6.25" y="6.25" width="8.5" height="8.5" rx="1.5"></rect>
         <path d="M3.25 11.75h-.5a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5h7.5a1.5 1.5 0 0 1 1.5 1.5v.5"></path>
       </svg>
       <svg
-        class="hidden w-[0.85rem] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:block"
+        class="hidden size-[1.15rem] shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:block"
         viewBox="0 0 18 18"
         aria-hidden="true"
       >

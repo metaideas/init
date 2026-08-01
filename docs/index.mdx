@@ -1,0 +1,44 @@
+---
+title: init documentation
+description: Select the workspaces you need, configure the template, and start building with init.
+template: splash
+hero:
+  title: '<span class="init-wordmark"><img src="/init-logo.svg" alt="" width="128" height="128" />init</span> <span class="documentation-title">Documentation</span>'
+  tagline: A practical guide to selecting, configuring, and extending your TypeScript monorepo.
+  actions:
+    - text: Get started
+      link: /getting-started/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/metaideas/init
+      icon: github
+      variant: secondary
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components"
+
+```sh
+bun create metaideas/init my-app
+```
+
+init is a selectable TypeScript monorepo template. Choose the application and package
+workspaces your product needs, then own the resulting scaffolded project.
+
+<CardGrid>
+  <Card title="Set up your project" icon="rocket">
+    Install the toolchain, scaffold a project, and start every selected workspace. [Start with
+    setup](./getting-started.md)
+  </Card>
+  <Card title="Select workspaces" icon="puzzle">
+    Understand the applications, packages, and backend alternatives you can keep or omit. [Review
+    the structure](./architecture/project-structure.md)
+  </Card>
+  <Card title="Use project generators" icon="seti:settings">
+    Add features, packages, backend connections, and focused integrations from local recipes.
+    [Explore generators](./generators.md)
+  </Card>
+  <Card title="Understand the architecture" icon="open-book">
+    Follow the boundaries that keep independently selectable workspaces composable. [Read
+    architecture guides](./architecture/backend-topology.md)
+  </Card>
+</CardGrid>

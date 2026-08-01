@@ -1,0 +1,44 @@
+---
+title: Documentación de init
+description: Selecciona los espacios de trabajo que necesitas, configura la plantilla y comienza a construir con init.
+template: splash
+hero:
+  title: '<span class="init-wordmark"><img src="/init-logo.svg" alt="" width="128" height="128" />init</span> <span class="documentation-title">Documentación</span>'
+  tagline: Una guía práctica para seleccionar, configurar y ampliar tu monorepo TypeScript.
+  actions:
+    - text: Comenzar
+      link: /getting-started/
+      icon: right-arrow
+    - text: Ver en GitHub
+      link: https://github.com/metaideas/init
+      icon: github
+      variant: secondary
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components"
+
+```sh
+bun create metaideas/init my-app
+```
+
+init es una plantilla de monorepo TypeScript seleccionable. Elige los espacios de trabajo
+de aplicaciones y paquetes que tu producto necesita y haz tuyo el proyecto creado.
+
+<CardGrid>
+  <Card title="Configura tu proyecto" icon="rocket">
+    Instala las herramientas, crea un proyecto e inicia cada espacio de trabajo seleccionado.
+    [Comienza con la configuración](/getting-started/)
+  </Card>
+  <Card title="Selecciona espacios de trabajo" icon="puzzle">
+    Conoce las aplicaciones, paquetes y alternativas de backend que puedes conservar u omitir.
+    [Revisa la estructura](/architecture/project-structure/)
+  </Card>
+  <Card title="Usa generadores del proyecto" icon="seti:settings">
+    Añade funciones, paquetes, conexiones de backend e integraciones desde recetas locales. [Explora
+    los generadores](/generators/)
+  </Card>
+  <Card title="Entiende la arquitectura" icon="open-book">
+    Sigue los límites que mantienen componibles los espacios de trabajo seleccionables. [Lee las
+    guías de arquitectura](/architecture/backend-topology/)
+  </Card>
+</CardGrid>

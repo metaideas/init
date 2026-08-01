@@ -1,17 +1,254 @@
 @layer base, starlight, theme, components, utilities;
 
+@import "@fontsource-variable/geist-mono";
 @import "@astrojs/starlight-tailwind";
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme {
-  /*
-	Configure your Tailwind theme that will be used by Starlight.
-	https://starlight.astro.build/guides/css-and-tailwind/#styling-starlight-with-tailwind
-	*/
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 }
 
-/*
-Add additional Tailwind styles to this file:
-https://tailwindcss.com/docs/adding-custom-styles#using-custom-css
-*/
+:root {
+  --sl-color-accent-low: oklch(0.97 0 0);
+  --sl-color-accent: oklch(0.205 0 0);
+  --sl-color-accent-high: oklch(0.145 0 0);
+  --sl-color-white: oklch(0.145 0 0);
+  --sl-color-gray-1: oklch(0.205 0 0);
+  --sl-color-gray-2: oklch(0.556 0 0);
+  --sl-color-gray-3: oklch(0.708 0 0);
+  --sl-color-gray-4: oklch(0.82 0 0);
+  --sl-color-gray-5: oklch(0.922 0 0);
+  --sl-color-gray-6: oklch(0.97 0 0);
+  --sl-color-gray-7: oklch(0.985 0 0);
+  --sl-color-black: oklch(1 0 0);
+  --sl-color-bg: oklch(1 0 0);
+  --sl-color-bg-nav: oklch(1 0 0 / 88%);
+  --sl-color-bg-sidebar: oklch(0.985 0 0);
+  --sl-color-bg-inline-code: oklch(0.97 0 0);
+  --sl-color-hairline-light: oklch(0.922 0 0);
+  --sl-color-hairline: oklch(0.922 0 0);
+  --sl-color-hairline-shade: oklch(0.82 0 0);
+  --sl-color-text: oklch(0.556 0 0);
+  --sl-color-text-accent: oklch(0.205 0 0);
+  --sl-color-text-invert: oklch(0.985 0 0);
+  --sl-font-mono: "Geist Mono Variable", ui-monospace, monospace;
+  --sl-content-width: 48rem;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent-low: oklch(0.269 0 0);
+  --sl-color-accent: oklch(0.985 0 0);
+  --sl-color-accent-high: oklch(0.985 0 0);
+  --sl-color-white: oklch(0.985 0 0);
+  --sl-color-gray-1: oklch(0.922 0 0);
+  --sl-color-gray-2: oklch(0.708 0 0);
+  --sl-color-gray-3: oklch(0.556 0 0);
+  --sl-color-gray-4: oklch(0.439 0 0);
+  --sl-color-gray-5: oklch(0.269 0 0);
+  --sl-color-gray-6: oklch(0.205 0 0);
+  --sl-color-gray-7: oklch(0.17 0 0);
+  --sl-color-black: oklch(0.145 0 0);
+  --sl-color-bg: oklch(0.145 0 0);
+  --sl-color-bg-nav: oklch(0.145 0 0 / 88%);
+  --sl-color-bg-sidebar: oklch(0.205 0 0);
+  --sl-color-bg-inline-code: oklch(0.269 0 0);
+  --sl-color-hairline-light: oklch(0.269 0 0);
+  --sl-color-hairline: oklch(0.269 0 0);
+  --sl-color-hairline-shade: oklch(0.439 0 0);
+  --sl-color-text: oklch(0.708 0 0);
+  --sl-color-text-accent: oklch(0.985 0 0);
+  --sl-color-text-invert: oklch(0.205 0 0);
+}
+
+html {
+  background: var(--sl-color-bg);
+  scrollbar-color: var(--sl-color-gray-4) transparent;
+}
+
+body {
+  overflow-x: clip;
+  letter-spacing: -0.008em;
+}
+
+header.header {
+  border-bottom: 1px solid var(--sl-color-hairline-light);
+  background-image:
+    radial-gradient(circle at 18% -80%, rgb(0 0 0 / 4%), transparent 24rem),
+    linear-gradient(var(--sl-color-bg-nav), var(--sl-color-bg-nav));
+  box-shadow: 0 1px 0 rgb(255 255 255 / 3%);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.sidebar-pane {
+  border-inline-end: 1px solid var(--sl-color-hairline);
+}
+
+.sidebar-content a[aria-current="page"] {
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+  box-shadow: inset 2px 0 var(--sl-color-accent);
+  font-weight: 620;
+}
+
+site-search button,
+button[data-open-modal] {
+  border-color: var(--sl-color-hairline-light) !important;
+  border-radius: 0.6rem !important;
+  background: color-mix(in srgb, var(--sl-color-gray-7) 78%, transparent) !important;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+:is(a, button, input, select, summary):focus-visible {
+  outline: 2px solid var(--sl-color-accent) !important;
+  outline-offset: 3px;
+}
+
+.sl-markdown-content :is(h1, h2, h3, h4) {
+  color: var(--sl-color-white);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.sl-markdown-content :not(pre) > code {
+  border: 1px solid var(--sl-color-hairline-light);
+  border-radius: 0.35rem;
+  padding: 0.08em 0.34em;
+  color: var(--sl-color-white);
+  font-size: 0.88em;
+}
+
+.expressive-code {
+  filter: drop-shadow(0 0.75rem 1.5rem rgb(0 0 0 / 5%));
+}
+
+.expressive-code .frame {
+  --ec-brdRad: 0.65rem;
+  --ec-brdWd: 1px;
+}
+
+.card {
+  border-color: var(--sl-color-hairline-light) !important;
+  border-radius: 0.75rem !important;
+  background: color-mix(in srgb, var(--sl-color-gray-7) 72%, transparent) !important;
+  box-shadow: 0 0.5rem 1.75rem rgb(0 0 0 / 3%);
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.card:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--sl-color-accent) 40%,
+    var(--sl-color-hairline-light)
+  ) !important;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 6%);
+  transform: translateY(-2px);
+}
+
+.card .icon {
+  border-color: var(--sl-color-hairline-light) !important;
+  background: var(--sl-color-gray-6) !important;
+  color: var(--sl-color-white) !important;
+}
+
+.starlight-aside {
+  border-radius: 0 0.55rem 0.55rem 0;
+}
+
+.pagination-links a {
+  border-color: var(--sl-color-hairline-light);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--sl-color-gray-7) 60%, transparent);
+}
+
+[data-page-title] {
+  letter-spacing: -0.05em;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: -8rem 0 -3rem;
+  background-image:
+    linear-gradient(rgb(0 0 0 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 0 0 / 5%) 1px, transparent 1px),
+    radial-gradient(circle at 34% 35%, rgb(0 0 0 / 6%), transparent 28rem);
+  background-position: center;
+  background-size:
+    3.5rem 3.5rem,
+    3.5rem 3.5rem,
+    auto;
+  content: "";
+  mask-image: linear-gradient(to bottom, black 35%, transparent 100%);
+  pointer-events: none;
+}
+
+:root[data-theme="dark"] header.header {
+  background-image:
+    radial-gradient(circle at 18% -80%, rgb(255 255 255 / 5%), transparent 24rem),
+    linear-gradient(var(--sl-color-bg-nav), var(--sl-color-bg-nav));
+}
+
+:root[data-theme="dark"] .hero::before {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px),
+    radial-gradient(circle at 34% 35%, rgb(255 255 255 / 7%), transparent 28rem);
+}
+
+.hero .tagline {
+  max-width: 42rem;
+  line-height: 1.55;
+}
+
+.hero .actions a {
+  min-height: 2.75rem;
+  border-radius: 0.55rem;
+  font-family: inherit;
+  font-size: 0.83rem;
+  font-weight: 620;
+}
+
+.init-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  font-family: var(--sl-font-mono);
+  font-weight: 800;
+}
+
+.init-wordmark img {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
+}
+
+.documentation-title {
+  display: block;
+  margin-top: 0.12em;
+}
+
+:root[data-theme="dark"] .init-wordmark img {
+  filter: invert(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}

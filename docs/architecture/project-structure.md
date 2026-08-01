@@ -1,4 +1,7 @@
-# Project structure
+---
+title: Project Structure
+description: Navigate init's application, package, infrastructure, and tooling workspaces and their import boundaries.
+---
 
 The project is divided into the following folders:
 
