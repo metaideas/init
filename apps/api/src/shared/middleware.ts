@@ -1,12 +1,10 @@
-import type { DeepMerge } from "@init/utils/type"
 import { findIp } from "@arcjet/ip"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 import { languageDetector } from "hono/language"
 import { type TimeExpression, ms } from "qte"
-import type { Session } from "#shared/auth.ts"
-import type { AppContext } from "#shared/types.ts"
+import type { AppContext, AuthenticatedAppContext } from "#shared/types.ts"
 import { baseLocale, locales } from "#shared/internationalization/runtime.js"
 
 export const withLanguageDetection = languageDetector({
@@ -16,9 +14,7 @@ export const withLanguageDetection = languageDetector({
   supportedLanguages: [...locales],
 })
 
-export const requireSession = createMiddleware<
-  DeepMerge<AppContext, { Variables: { session: Session } }>
->(async (c, next) => {
+export const requireSession = createMiddleware<AuthenticatedAppContext>(async (c, next) => {
   const session = await c.var.auth.api.getSession({
     headers: c.req.raw.headers,
   })

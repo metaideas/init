@@ -13,7 +13,7 @@ export const files = createFiles({
   adapter: bunS3({
     accessKeyId: env.S3_ACCESS_KEY_ID,
     bucket: env.S3_BUCKET,
-    ...(env.S3_ENDPOINT ? { endpoint: env.S3_ENDPOINT } : {}),
+    endpoint: env.S3_ENDPOINT,
     region: env.S3_REGION,
     secretAccessKey: env.S3_SECRET_ACCESS_KEY,
     virtualHostedStyle: !env.S3_ENDPOINT,

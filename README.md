@@ -12,11 +12,15 @@
 
 A modern monorepo template for whatever you build next.
 
-See the template in action at [init.now](https://init.now). The public site is the same
-polished Astro marketing app included when a scaffold keeps the `web` workspace.
+## What's included
 
-Init distributes optional copy-once code through local, snapshot-matched Turbo
-generators. The site is not a hosted recipe catalog or project updater.
+- Fullstack application using [TanStack Start](https://tanstack.com/start)
+- Marketing site and blog using [Astro](https://astro.build/)
+- Documentation site using [Astro](https://astro.build/) with [Starlight](https://starlight.astro.build/)
+- Mobile application using [Expo](https://expo.dev/)
+- API with [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
+- Desktop application using [Tauri](https://tauri.app/)
+- Browser extension using [WXT](https://wxt.dev/)
 
 ## Documentation
 
