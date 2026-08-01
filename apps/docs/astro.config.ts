@@ -18,6 +18,7 @@ export default defineConfig({
   integrations: [
     starlight({
       components: {
+        Head: "./src/shared/components/head.astro",
         LastUpdated: "./src/shared/components/last-updated.astro",
         SiteTitle: "./src/shared/components/site-title.astro",
       },
