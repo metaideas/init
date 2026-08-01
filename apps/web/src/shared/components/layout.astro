@@ -1,76 +1,66 @@
 ---
-import { getLocale } from "#shared/internationalization/runtime.js";
-import { m } from "#shared/internationalization/messages.js";
-import { SITE_NAME, SITE_URL } from "#shared/constants.ts";
-import "@init/ui/globals.css";
+import { getLocale } from "#shared/internationalization/runtime.js"
+import { m } from "#shared/internationalization/messages.js"
+import { SITE_NAME, SITE_URL } from "#shared/constants.ts"
+import "@init/ui/globals.css"
 
 type Props = {
-    description?: string;
-    title?: string;
-};
+  description?: string
+  title?: string
+}
 
-const locale = getLocale();
-const tagline = `${m.web_landing_hero_description()}`;
+const locale = getLocale()
+const tagline = `${m.web_landing_hero_description()}`
 const {
-    description = m.web_landing_hero_description(),
-    title = `${SITE_NAME} | ${tagline}`,
-} = Astro.props;
-const canonicalUrl = new URL(Astro.url.pathname, SITE_URL);
-const socialImageUrl = new URL("/og-image.png", SITE_URL);
+  description = m.web_landing_hero_description(),
+  title = `${SITE_NAME} | ${tagline}`,
+} = Astro.props
+const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
+const socialImageUrl = new URL("/og-image.png", SITE_URL)
 ---
 
 <!doctype html>
 <html lang={locale}>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="canonical" href={canonicalUrl} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        <meta name="description" content={description} />
-        <meta name="theme-color" content="#fafafa" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={SITE_NAME} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={socialImageUrl} />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={`${SITE_NAME}: ${tagline}`} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={socialImageUrl} />
-        <script is:inline type="module">
-            const storedTheme = localStorage.getItem("init-theme");
-            const prefersDark = globalThis.matchMedia(
-                "(prefers-color-scheme: dark)",
-            ).matches;
-            const theme =
-                storedTheme === "dark" || storedTheme === "light"
-                    ? storedTheme
-                    : prefersDark
-                      ? "dark"
-                      : "light";
-            document.documentElement.classList.add(theme);
-            document
-                .querySelector("meta[name='theme-color']")
-                ?.setAttribute(
-                    "content",
-                    theme === "dark" ? "#080a0d" : "#fafafa",
-                );
-            export default theme;
-        </script>
-        <script>
-            import { createWebAnalytics } from "@init/analytics/web";
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafafa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE_NAME}: ${tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <script is:inline type="module">
+      const storedTheme = localStorage.getItem("init-theme")
+      const prefersDark = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
+      const theme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : prefersDark ? "dark" : "light"
+      document.documentElement.classList.add(theme)
+      document
+        .querySelector("meta[name='theme-color']")
+        ?.setAttribute("content", theme === "dark" ? "#080a0d" : "#fafafa")
+      export default theme
+    </script>
+    <script>
+      import { createWebAnalytics } from "@init/analytics/web"
 
-            createWebAnalytics("init.now");
-        </script>
-        <title>{title}</title>
-    </head>
-    <body>
-        <slot />
-    </body>
+      createWebAnalytics("init.now")
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>

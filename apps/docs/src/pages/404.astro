@@ -1,96 +1,94 @@
 ---
-import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-import { marketingUrl } from "#shared/utils.ts";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro"
+import { marketingUrl } from "#shared/utils.ts"
 ---
 
 <StarlightPage
-    frontmatter={{
-        description:
-            "The requested init documentation page could not be found.",
-        editUrl: false,
-        lastUpdated: false,
-        template: "splash",
-        title: "That page isn’t in the scaffold.",
-    }}
-    hasSidebar={false}
+  frontmatter={{
+    description: "The requested init documentation page could not be found.",
+    editUrl: false,
+    lastUpdated: false,
+    template: "splash",
+    title: "That page isn’t in the scaffold.",
+  }}
+  hasSidebar={false}
 >
-    <div class="not-found">
-        <p class="code">404 / route unavailable</p>
-        <p>
-            Check the address, search the documentation, or return to the
-            overview to choose another path.
-        </p>
-        <div class="actions">
-            <a class="primary" href="/">Documentation overview</a>
-            <a href={marketingUrl}>Return to project home</a>
-        </div>
+  <div class="not-found">
+    <p class="code">404 / route unavailable</p>
+    <p>
+      Check the address, search the documentation, or return to the overview to choose another path.
+    </p>
+    <div class="actions">
+      <a class="primary" href="/">Documentation overview</a>
+      <a href={marketingUrl}>Return to project home</a>
     </div>
+  </div>
 </StarlightPage>
 
 <style>
-    .not-found {
-        display: grid;
-        max-width: 42rem;
-        min-height: min(32rem, 70vh);
-        margin-inline: auto;
-        place-content: center;
-        padding: 4rem 1.25rem;
-        text-align: center;
-    }
+  .not-found {
+    display: grid;
+    max-width: 42rem;
+    min-height: min(32rem, 70vh);
+    margin-inline: auto;
+    place-content: center;
+    padding: 4rem 1.25rem;
+    text-align: center;
+  }
 
-    .code {
-        margin: 0 0 1.25rem;
-        color: var(--sl-color-text-accent);
-        font-family: var(--sl-font-mono);
-        font-size: 0.78rem;
-        font-weight: 650;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-    }
+  .code {
+    margin: 0 0 1.25rem;
+    color: var(--sl-color-text-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
 
-    :global([data-page-title]) {
-        max-width: 42rem;
-        margin-inline: auto;
-        text-align: center;
-    }
+  :global([data-page-title]) {
+    max-width: 42rem;
+    margin-inline: auto;
+    text-align: center;
+  }
 
-    .not-found > p:not(.code) {
-        max-width: 38rem;
-        margin: 1.5rem auto 0;
-        color: var(--sl-color-gray-2);
-        font-size: 1.05rem;
-        line-height: 1.65;
-    }
+  .not-found > p:not(.code) {
+    max-width: 38rem;
+    margin: 1.5rem auto 0;
+    color: var(--sl-color-gray-2);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
 
-    .actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        margin-top: 2rem;
-    }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
 
-    .actions a {
-        display: inline-flex;
-        min-height: 2.75rem;
-        align-items: center;
-        border: 1px solid var(--sl-color-hairline-light);
-        border-radius: 0.55rem;
-        padding: 0.65rem 1rem;
-        color: var(--sl-color-white);
-        font-family: var(--sl-font-mono);
-        font-size: 0.82rem;
-        font-weight: 620;
-        text-decoration: none;
-    }
+  .actions a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    border: 1px solid var(--sl-color-hairline-light);
+    border-radius: 0.55rem;
+    padding: 0.65rem 1rem;
+    color: var(--sl-color-white);
+    font-family: var(--sl-font-mono);
+    font-size: 0.82rem;
+    font-weight: 620;
+    text-decoration: none;
+  }
 
-    .actions a:hover {
-        border-color: var(--sl-color-accent);
-    }
+  .actions a:hover {
+    border-color: var(--sl-color-accent);
+  }
 
-    .actions .primary {
-        border-color: var(--sl-color-accent-high);
-        background: var(--sl-color-accent-high);
-        color: var(--sl-color-text-invert);
-    }
+  .actions .primary {
+    border-color: var(--sl-color-accent-high);
+    background: var(--sl-color-accent-high);
+    color: var(--sl-color-text-invert);
+  }
 </style>

@@ -1,11 +1,11 @@
 ---
-import DefaultHead from "@astrojs/starlight/components/Head.astro";
+import DefaultHead from "@astrojs/starlight/components/Head.astro"
 ---
 
 <DefaultHead {...Astro.props} />
 
 <script>
-    import { createWebAnalytics } from "@init/analytics/web";
+  import { createWebAnalytics } from "@init/analytics/web"
 
-    createWebAnalytics("docs.init.now");
+  createWebAnalytics("docs.init.now")
 </script>
