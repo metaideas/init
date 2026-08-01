@@ -11,7 +11,8 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "bun --bun vite dev",
+    "dev": "portless",
+    "dev:app": "bun --bun vite dev",
     "preview": "bun --bun vite preview",
     "start": "node .output/server/index.mjs"
   },
@@ -56,5 +57,9 @@
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vite": "8.1.5"
+  },
+  "portless": {
+    "name": "init",
+    "script": "dev:app"
   }
 }

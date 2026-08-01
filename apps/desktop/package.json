@@ -11,7 +11,8 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "tauri dev"
+    "dev": "portless",
+    "dev:app": "tauri dev"
   },
   "dependencies": {
     "@init/env": "workspace:*",
@@ -46,5 +47,9 @@
     "babel-plugin-react-compiler": "1.0.0",
     "typescript": "7.0.2",
     "vite": "8.1.5"
+  },
+  "portless": {
+    "name": "desktop.init",
+    "script": "dev:app"
   }
 }

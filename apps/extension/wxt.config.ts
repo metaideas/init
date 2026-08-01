@@ -9,7 +9,7 @@ export default defineConfig({
     baseIconPath: "shared/assets/icon.svg",
   },
   dev: {
-    server: { port: 3005 },
+    server: { port: Number(process.env.PORT ?? 3005) },
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],

@@ -25,7 +25,7 @@
     "dev:apps": "turbo run dev --filter=!@init/*",
     "dev:packages": "turbo run dev --filter=@init/*",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
-    "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
+    "docker:up": "docker compose -f infra/local/docker-compose.yml up -d --remove-orphans",
     "fix": "adamantite fix",
     "fix:monorepo": "adamantite monorepo --fix",
     "format": "adamantite format",
@@ -48,6 +48,7 @@
     "oxfmt": "0.60.0",
     "oxlint": "1.75.0",
     "oxlint-tsgolint": "7.0.2001",
+    "portless": "0.15.5",
     "sherif": "1.13.0",
     "turbo": "2.10.7",
     "typescript": "7.0.2",
@@ -80,6 +81,7 @@
     "@sentry/cli",
     "@tailwindcss/oxide",
     "docs",
-    "extension"
+    "extension",
+    "inngest-cli"
   ]
 }

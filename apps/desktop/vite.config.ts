@@ -38,12 +38,11 @@ export default defineConfig(async ({ mode }) => {
       hmr: host
         ? {
             host,
-            port: 4003,
             protocol: "ws",
           }
         : undefined,
       host: host ?? false,
-      port: 3003,
+      port: Number(process.env.PORT ?? 3003),
       strictPort: true,
       watch: {
         ignored: ["**/src-tauri/**"],

@@ -78,50 +78,60 @@ bun run codegen
 bun run docker:up
 ```
 
-5. Start the development server:
+5. Start the development servers through Portless:
 
 ```bash
-bun run dev # or bun run dev --filter <workspace> to start a specific workspace
+bun run dev
 ```
+
+Portless serves local HTTP development servers over named HTTPS URLs. On first use it
+creates a local certificate authority, asks the operating system to trust it, and
+starts its proxy on port 443. The project scope determines the hostname suffix; the
+default template uses:
+
+- App: `https://init.localhost`
+- API: `https://api.init.localhost`
+- Web: `https://web.init.localhost`
+- Docs: `https://docs.init.localhost`
+- Mobile server: `https://mobile.init.localhost`
+- Desktop frontend: `https://desktop.init.localhost`
+- Extension server: `https://extension.init.localhost`
+- Drizzle Studio: `https://db.init.localhost`
+- Email preview: `https://email.init.localhost`
+- Inngest: `https://workflows.init.localhost`
+
+Running `bun template setup` or a root `bun template rename` changes `init` in these
+hostnames to the normalized project scope. The App owns the bare project hostname.
+
+Every HTTP-serving workspace uses `portless` as its `dev` script and keeps its
+framework command in `dev:app`. Running `bun run dev` inside `apps/api`, for example,
+serves `https://api.init.localhost`. At the repository root, the same command runs all
+workspaces through Turbo. Package-local Portless configuration keeps both entry points
+on the same names.
 
 ### First Run Checklist
 
 - Run `bun template setup`
 - Generate source files and types with `bun run codegen`
 - Start services with `bun run docker:up`
-- Start a workspace with `bun run dev --filter <workspace>`
+- Start the named HTTPS development topology with `bun run dev`
+- Run `portless doctor` if a local URL or certificate is unavailable
 
-### Ports
+### Port Allocation
 
-#### Apps
+Portless assigns an available upstream port to each application and package UI when it
+starts. The public HTTPS names stay stable even when two projects run simultaneously.
+Separate projects must use different npm scopes so their public names do not collide;
+Git worktrees receive automatic route prefixes. Use `portless list` to inspect the
+current assignments.
 
-Apps run in the 3000-3999 range.
+#### Infrastructure Ports
 
-- API: `3000`
-- App: `3001`
-- Mobile: `3002`
-- Desktop: `3003`
-- Docs: `3004`
-- Extension: `3005`
-- Web: `3006`
-
-#### Packages
-
-Packages run in the 4000-4999 range.
-
-- Email: `4000`
-- Convex: `4001`
-- Convex site: `4002`
-- Desktop HMR: `4003`
-
-#### Infra
-
-Infra runs in the 8000-8999 range.
+Docker infrastructure retains fixed host ports and can still conflict across projects:
 
 - Redis: `8000`
 - Database: `8001`
 - Minio: `8002` (S3), `8003` (console)
-- Workflows (Inngest): `8004`
 
 ### Troubleshooting
 
@@ -129,3 +139,7 @@ Infra runs in the 8000-8999 range.
 - Node version mismatch: install Node.js `>=24` with your version manager.
 - Docker services not running: check `docker ps`, then run `bun run docker:up`.
 - Missing env variables: compare `.env.local` with each `.env.template`.
+- Portless trust or DNS problems: run `portless doctor`, then follow its suggested
+  `portless trust` or `portless hosts sync` command.
+- `.localhost` is available only on the development machine. Expo on a physical device
+  requires Portless LAN mode and a `.local` hostname.

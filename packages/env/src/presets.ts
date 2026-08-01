@@ -114,6 +114,15 @@ export const kv = () =>
     skipValidation: isCI,
   })
 
+export const portless = () =>
+  createEnv({
+    runtimeEnv: env,
+    server: {
+      PORTLESS_URL: z.url().optional(),
+    },
+    skipValidation: isCI,
+  })
+
 export const resend = () =>
   createEnv({
     runtimeEnv: env,

@@ -12,11 +12,15 @@ import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
 import env from "#shared/env.ts"
 
+const trustedOrigins = env.PORTLESS_URL
+  ? [...new Set([...env.AUTH_TRUSTED_ORIGINS, env.PORTLESS_URL])]
+  : env.AUTH_TRUSTED_ORIGINS
+
 export const auth = createAuth({
   advanced: AUTH_ADVANCED_OPTIONS,
   appName: AUTH_APP_NAME,
   basePath: "/api/auth",
-  baseURL: env.PUBLIC_BASE_URL,
+  baseURL: env.PORTLESS_URL ?? env.PUBLIC_BASE_URL,
   database: databaseAdapter(database()),
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
@@ -42,5 +46,5 @@ export const auth = createAuth({
       enabled: true,
     },
   },
-  trustedOrigins: env.AUTH_TRUSTED_ORIGINS,
+  trustedOrigins,
 })

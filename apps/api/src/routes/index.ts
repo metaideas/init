@@ -14,11 +14,10 @@ import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
 import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
-import env from "#shared/env.ts"
 import { files } from "#shared/files.ts"
 import { LoggerCategory, logger } from "#shared/logger.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
-import { factory } from "#shared/utils.ts"
+import { allowedOrigins, factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
@@ -37,7 +36,7 @@ app.use(
     credentials: true,
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
-    origin: env.ALLOWED_API_ORIGINS,
+    origin: allowedOrigins,
   })
 )
 

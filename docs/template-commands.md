@@ -11,6 +11,7 @@ Configure a newly created project. This command:
 - Prompts for the apps and packages to keep
 - Sets the project name, which is also used as the package scope
 - Rewrites `@init/` references with the project name
+- Sets package-local Portless route names from the normalized package scope
 - Stamps `.template.json` with the source template, commit, and creation time
 
 ```bash
@@ -19,7 +20,8 @@ bun template setup
 
 ### `bun template rename`
 
-Rename the project and rewrite its `@init/` package scope references.
+Rename the project, rewrite its package scope references, and update its Portless
+hostnames.
 
 ```bash
 bun template rename --name <name> [--scope <scope>]
@@ -27,7 +29,8 @@ bun template rename --name <name> [--scope <scope>]
 
 ### `bun template add app <name>`
 
-Copy an app workspace from the template using Turbo generators, then apply the project's package scope.
+Copy an app workspace from the template using Turbo generators, apply the project's
+package scope, and restore its Portless route configuration.
 
 ```bash
 bun template add app web
@@ -35,7 +38,8 @@ bun template add app web
 
 ### `bun template add package <name>`
 
-Copy a package workspace from the template using Turbo generators, then apply the project's package scope.
+Copy a package workspace from the template using Turbo generators, apply the project's
+package scope, and restore its Portless route configuration when it owns a local UI.
 
 ```bash
 bun template add package auth

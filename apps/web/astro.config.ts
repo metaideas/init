@@ -12,7 +12,7 @@ const { default: env } = await import("./src/shared/env.ts")
 export default defineConfig({
   output: "static",
   server: {
-    port: 3006,
+    port: Number(process.env.PORT ?? 3006),
   },
   site: env.PUBLIC_SITE_URL ?? "https://init.now",
 

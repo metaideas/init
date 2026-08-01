@@ -12,7 +12,8 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "wxt",
+    "dev": "portless",
+    "dev:app": "wxt",
     "dev:firefox": "wxt -b firefox",
     "postinstall": "wxt prepare",
     "typegen": "wxt prepare",
@@ -43,5 +44,9 @@
     "vite": "8.1.5",
     "web-ext": "10.5.0",
     "wxt": "0.21.1"
+  },
+  "portless": {
+    "name": "extension.init",
+    "script": "dev:app"
   }
 }
