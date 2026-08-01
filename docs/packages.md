@@ -1,4 +1,7 @@
-# Package Guidance
+---
+title: Package Guidance
+description: Understand init's shared package workspaces, hosted backend package, and key-value storage conventions.
+---
 
 Shared libraries and hosted backends live in `packages/`. Apps consume them through
 workspace dependencies, and package names follow the project's configured scope.

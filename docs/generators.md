@@ -1,4 +1,7 @@
-# Project generators
+---
+title: Project Generators
+description: Use init's local recipes to add features, packages, backend connections, snippets, and Files SDK clients.
+---
 
 Run `bun run generate` to open Turbo's generator menu. Generators are local recipes
 from the exact template snapshot in the project. They do not download a catalog,
@@ -128,7 +131,7 @@ applied consistently.
 
 `apps/api` always includes the authenticated Files SDK gateway at `/files`, alongside
 the built-in tRPC and Hono routes. Its `src/shared/files.ts` composition uses Bun's
-native S3 adapter with local MinIO defaults. Every operation requires the existing Init
+native S3 adapter with local MinIO defaults. Every operation requires the existing init
 session and is scoped to `users/<user-id>/`. Uploads are limited to 10 MiB and accept
 images and PDF files by default.
 

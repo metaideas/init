@@ -1,4 +1,7 @@
-# File service
+---
+title: File Service
+description: Understand the authenticated Files SDK gateway, local S3-compatible storage, and its security boundaries.
+---
 
 When `apps/api` is selected, it includes an authenticated Files SDK gateway at
 `/files`.
@@ -15,7 +18,7 @@ copy-once integrations produced by the local `files-client` generator.
 
 ## Security boundaries
 
-- Every gateway operation requires the existing Init session.
+- Every gateway operation requires the existing init session.
 - Object keys are scoped to `users/<user-id>/`; callers cannot select another user's
   prefix.
 - Uploads default to images and PDF documents and are limited to 10 MiB.

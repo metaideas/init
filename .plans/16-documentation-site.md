@@ -1,9 +1,9 @@
-# Plan 16 — Init documentation site
+# Plan 16 — init documentation site
 
-**Status:** Pending
+**Status:** Complete
 **Size:** L
 
-Turn `apps/docs` into the public Init documentation site and the polished,
+Turn `apps/docs` into the public init documentation site and the polished,
 replaceable Starlight example that ships when a scaffold owner selects the docs
 workspace. Present the consumer-facing material already authored under root `docs/`
 instead of maintaining a second copy inside the application workspace, and bring the
@@ -11,7 +11,7 @@ visual system into the same family as `apps/web`.
 
 The result should preserve Starlight's documentation strengths—accessible navigation,
 search, table of contents, code presentation, localization, and static output—while
-adopting Init's typography, neutral palette, sky accent, wordmark, and restrained visual
+adopting init's typography, neutral palette, sky accent, wordmark, and restrained visual
 character. It should feel related to the marketing site without turning documentation
 pages into another landing page.
 
@@ -19,7 +19,7 @@ pages into another landing page.
 
 Use one documentation-site workspace with two roles:
 
-- In the template repository, it presents Init's own consumer documentation.
+- In the template repository, it presents init's own consumer documentation.
 - In a scaffolded project, it is a complete documentation-site example that renders
   the scaffold owner's inherited and subsequently authored root documentation.
 - Root `docs/` owns authored Markdown and MDX content.
@@ -75,11 +75,11 @@ homepage under `apps/docs/src/content/docs/index.mdx`.
 
 The homepage should include:
 
-- the Init wordmark and concise documentation-specific introduction;
+- the init wordmark and concise documentation-specific introduction;
 - the scaffold command `bun create metaideas/init my-app`;
 - a primary action to Getting Started and a secondary GitHub action;
 - cards leading to setup, workspace selection, project generators, and architecture;
-- a compact statement that Init is a selectable TypeScript monorepo template, using
+- a compact statement that init is a selectable TypeScript monorepo template, using
   the vocabulary in `CONTEXT.md`;
 - no marketing marquee, oversized animated headline, or duplicated marketing footer.
 
@@ -160,7 +160,7 @@ Adopt the marketing site's visual language:
 - compatible radii, focus rings, and light/dark contrast;
 - subtle radial glow or grid detail on the splash homepage and header, not behind long
   reading surfaces;
-- Init favicon, logo, and social-preview artwork sized for documentation use.
+- init favicon, logo, and social-preview artwork sized for documentation use.
 
 Style the Starlight primitives that readers encounter most:
 
@@ -187,7 +187,7 @@ both themes, and keep touch targets usable on narrow screens.
 ## 5. Complete public-site metadata and behavior
 
 Configure a canonical `site` URL so Starlight's sitemap is generated without the
-current warning. Use the intended Init docs hostname as the production default and
+current warning. Use the intended init docs hostname as the production default and
 allow scaffold owners to replace it through the same environment-tooling conventions
 used by `apps/web`.
 
@@ -195,7 +195,7 @@ Add or configure:
 
 - site title and description;
 - canonical URLs;
-- Init favicon;
+- init favicon;
 - Open Graph and social-preview metadata;
 - theme color for light and dark modes;
 - GitHub social link;

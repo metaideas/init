@@ -1,6 +1,9 @@
-# Backend topology
+---
+title: Backend Topology
+description: Choose between TanStack Start, Hono, and Convex backend shapes without coupling every init workspace.
+---
 
-Init supports three backend shapes without requiring every project to keep all of them.
+init supports three backend shapes without requiring every project to keep all of them.
 
 ## TanStack Start
 

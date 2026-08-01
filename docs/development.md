@@ -1,8 +1,13 @@
-# Development
+---
+title: Development
+description: Run, build, test, and maintain an init project with Bun, Turbo, Adamantite, and Portless.
+sidebar:
+  order: 3
+---
 
 ## Tooling Requirements
 
-See `docs/getting-started.md` for the authoritative versions. In short:
+See [Getting Started](./getting-started.md) for the authoritative versions. In short:
 
 - Bun `1.3.x`
 - Node.js `>=24`

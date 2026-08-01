@@ -1,4 +1,7 @@
-# Internationalization
+---
+title: Internationalization
+description: Maintain shared Paraglide message catalogs and stable translation keys across init workspaces.
+---
 
 The files in `tooling/internationalization/messages/` are the source catalogs for every
 application workspace. Keep all locale files structurally identical and update every

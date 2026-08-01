@@ -12,9 +12,9 @@ node_modules
 !.yarn/versions
 
 # Environment variables
-!.env.template
 .env
 .env.*
+!.env.template
 
 # Testing
 coverage

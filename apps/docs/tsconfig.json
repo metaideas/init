@@ -4,7 +4,8 @@
     "jsx": "preserve",
     // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
-    "plugins": [{ "name": "@astrojs/ts-plugin" }]
+    "plugins": [{ "name": "@astrojs/ts-plugin" }],
+    "types": ["bun"]
   },
   "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"],
   "exclude": ["dist", "node_modules"]

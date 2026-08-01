@@ -1,4 +1,7 @@
-# Template Commands
+---
+title: Template Commands
+description: Configure, rename, and extend scaffolded init projects with local template commands.
+---
 
 Commands for configuring and extending projects created with `bun create metaideas/init <name>`.
 

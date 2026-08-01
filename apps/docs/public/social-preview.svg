@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" fill="none" stroke="#252b33" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#080a0d"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".65"/>
+  <circle cx="380" cy="250" r="420" fill="url(#glow)"/>
+  <rect x="64" y="56" width="1072" height="518" rx="24" fill="#080a0d" fill-opacity=".88" stroke="#303842"/>
+  <path transform="translate(100 83) scale(.42)" d="M64 64h20v20H44V44h60v60H24V24h80" fill="none" stroke="#f1f3f5" stroke-width="13"/>
+  <text x="164" y="121" fill="#f1f3f5" font-family="ui-monospace, monospace" font-size="28" font-weight="700">init / docs</text>
+  <text x="100" y="304" fill="#f1f3f5" font-family="Arial, sans-serif" font-size="80" font-weight="700" letter-spacing="-4">Build from a clear start.</text>
+  <text x="104" y="382" fill="#aab2bb" font-family="Arial, sans-serif" font-size="32">Select, configure, and extend your TypeScript monorepo.</text>
+  <text x="104" y="490" fill="#7dd3fc" font-family="ui-monospace, monospace" font-size="23">bun create metaideas/init my-app</text>
+</svg>

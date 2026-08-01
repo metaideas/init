@@ -6,7 +6,7 @@ import { api } from "#shared/api.ts"
 export default function BackendExampleScreen() {
   const greeting = useQuery({
     queryFn: async () => {
-      const response = await api.v1.hello.$get({ query: { name: "Init" } })
+      const response = await api.v1.hello.$get({ query: { name: "init" } })
       if (!response.ok) throw new Error("The API request failed")
       return response.text()
     },

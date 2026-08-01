@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./.github/assets/init-logo.png" alt="Init" width="600">
+  <img src="./.github/assets/init-logo.png" alt="init" width="600">
 
   <p align="center">
     <em><strong>Start once. Ship everywhere.</strong></em>
@@ -24,6 +24,7 @@ A modern monorepo template for whatever you build next.
 
 ## Documentation
 
+- [init documentation](https://docs.init.now)
 - [Getting Started](./docs/getting-started.md)
 - [Development](./docs/development.md)
 - [Internationalization](./docs/internationalization.md)

@@ -1,4 +1,9 @@
-# Getting Started
+---
+title: Getting Started
+description: Create an init project, select its workspaces, and start the local development environment.
+sidebar:
+  order: 2
+---
 
 ## Prerequisites
 

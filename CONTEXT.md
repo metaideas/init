@@ -1,6 +1,6 @@
-# Init
+# init
 
-Init is a TypeScript monorepo template from which developers select the application and
+init is a TypeScript monorepo template from which developers select the application and
 package workspaces needed for their product.
 
 ## Language
