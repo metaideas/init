@@ -136,8 +136,8 @@ Generate the optional client in an app that consumes the API:
 
 ```bash
 bun run generate files-client
-bun run generate files-client --args app http://localhost:3000/files
-bun run generate files-client --args web http://localhost:3000/files
+bun run generate files-client --args app https://api.init.localhost/files
+bun run generate files-client --args web https://api.init.localhost/files
 ```
 
 The generator can target any workspace under `apps/`. It creates

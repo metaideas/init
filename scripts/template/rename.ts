@@ -2,6 +2,7 @@ import { join, resolve } from "node:path"
 import consola from "consola"
 
 import { defineCommand } from "../utils"
+import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
   getProjectScope,
@@ -32,23 +33,35 @@ export async function renameProject({
 }: RenameOptions): Promise<RenameResult> {
   const normalizedScope = normalizeScope(scope)
   const normalizedSourceScope = normalizeScope(sourceScope)
-  const changedFiles = await replaceTextInFiles(
-    rootDir,
-    getScopePrefix(normalizedSourceScope),
-    getScopePrefix(normalizedScope)
+  const changedFiles = new Set(
+    await replaceTextInFiles(
+      rootDir,
+      getScopePrefix(normalizedSourceScope),
+      getScopePrefix(normalizedScope)
+    )
   )
 
-  if (!projectName) return { changedFiles }
+  for (const path of await replaceTextInFiles(
+    rootDir,
+    `${normalizedSourceScope}.localhost`,
+    `${normalizedScope}.localhost`
+  ))
+    changedFiles.add(path)
+
+  if (!projectName) return { changedFiles: [...changedFiles] }
+
+  for (const path of await updatePortlessProjectName(rootDir, normalizedScope))
+    changedFiles.add(path)
 
   const packageJsonPath = join(rootDir, "package.json")
   const packageJson = await readJson(packageJsonPath)
-  if (packageJson.name === projectName) return { changedFiles }
+  if (packageJson.name !== projectName) {
+    packageJson.name = projectName
+    await writeJson(packageJsonPath, packageJson)
+    changedFiles.add(packageJsonPath)
+  }
 
-  packageJson.name = projectName
-  await writeJson(packageJsonPath, packageJson)
-  changedFiles.push(packageJsonPath)
-
-  return { changedFiles }
+  return { changedFiles: [...changedFiles] }
 }
 
 export default defineCommand({

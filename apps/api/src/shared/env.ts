@@ -1,5 +1,5 @@
 import { createEnv } from "@init/env"
-import { auth, db, inngest, kv, resend, s3, sentry } from "@init/env/presets"
+import { auth, db, inngest, kv, portless, resend, s3, sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 import { isCI } from "std-env"
 
@@ -11,6 +11,7 @@ export default createEnv({
     auth.providers.google(),
     db(),
     kv(),
+    portless(),
     inngest(),
     resend(),
     s3(),

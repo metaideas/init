@@ -103,7 +103,7 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
         type: "list",
       },
       {
-        default: "http://localhost:3000/files",
+        default: "https://api.init.localhost/files",
         message: "What is the Files SDK endpoint?",
         name: "endpoint",
         type: "input",

@@ -4,10 +4,10 @@ import type { AuthenticatedAppContext } from "#shared/types.ts"
 import env from "#shared/env.ts"
 import { files, FILES_MAX_UPLOAD_SIZE, FILES_MAX_URL_AGE } from "#shared/files.ts"
 import { requireSession } from "#shared/middleware.ts"
-import { context, factory } from "#shared/utils.ts"
+import { allowedOrigins, context, factory } from "#shared/utils.ts"
 
 const router = createFilesRouter({
-  allowedOrigins: env.ALLOWED_API_ORIGINS,
+  allowedOrigins,
   authorize: () => {
     const ctx = context<AuthenticatedAppContext>()
 

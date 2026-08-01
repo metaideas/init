@@ -13,7 +13,8 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "bun --hot src/index.ts",
+    "dev": "portless",
+    "dev:app": "bun --hot src/index.ts",
     "start": "bun --bun src/index.ts"
   },
   "dependencies": {
@@ -43,5 +44,9 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.3.14",
     "typescript": "7.0.2"
+  },
+  "portless": {
+    "name": "api.init",
+    "script": "dev:app"
   }
 }

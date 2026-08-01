@@ -11,7 +11,8 @@
     "build": "email build --dir src/templates",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "email dev --dir src/templates --port 4000",
+    "dev": "portless",
+    "dev:app": "email dev --dir src/templates --port ${PORT:-4000}",
     "export": "email export --dir src/templates"
   },
   "dependencies": {
@@ -32,5 +33,9 @@
     "react": "19.1.0",
     "react-email": "6.9.1",
     "typescript": "7.0.2"
+  },
+  "portless": {
+    "name": "email.init",
+    "script": "dev:app"
   }
 }

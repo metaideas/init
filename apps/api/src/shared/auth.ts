@@ -10,12 +10,13 @@ import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
 import env from "#shared/env.ts"
+import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({
   advanced: AUTH_ADVANCED_OPTIONS,
   appName: AUTH_APP_NAME,
   basePath: "/auth",
-  baseURL: env.BASE_URL,
+  baseURL: baseUrl,
   database: databaseAdapter(database()),
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
@@ -41,7 +42,7 @@ export const auth = createAuth({
       enabled: true,
     },
   },
-  trustedOrigins: env.ALLOWED_API_ORIGINS,
+  trustedOrigins: allowedOrigins,
 })
 
 export type Auth = typeof auth

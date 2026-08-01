@@ -14,7 +14,9 @@
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
-    "clean": "git clean -xdf .cache .turbo dist node_modules"
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "portless",
+    "dev:app": "inngest dev --port ${PORT:-8288} --connect-executor-grpc-port $(( ${PORT:-8288} + 10000 )) --connect-gateway-grpc-port $(( ${PORT:-8288} + 11000 )) --connect-gateway-port $(( ${PORT:-8288} + 12000 )) -u ${INNGEST_API_URL:-https://api.init.localhost/workflows} --poll-interval 60"
   },
   "dependencies": {
     "@init/observability": "workspace:*",
@@ -23,6 +25,11 @@
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "inngest-cli": "1.40.0",
     "typescript": "7.0.2"
+  },
+  "portless": {
+    "name": "workflows.init",
+    "script": "dev:app"
   }
 }

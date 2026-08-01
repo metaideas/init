@@ -12,7 +12,8 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "astro dev",
+    "dev": "portless",
+    "dev:app": "astro dev",
     "preview": "astro preview",
     "typegen": "astro sync"
   },
@@ -29,5 +30,9 @@
     "@tooling/tsconfig": "workspace:*",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2"
+  },
+  "portless": {
+    "name": "docs.init",
+    "script": "dev:app"
   }
 }

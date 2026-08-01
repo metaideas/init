@@ -15,7 +15,8 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "bun --bun drizzle-kit studio",
+    "dev": "portless",
+    "dev:app": "bun --bun drizzle-kit studio --port ${PORT:-4983}",
     "generate": "bun --bun drizzle-kit generate",
     "migrate": "bun --bun drizzle-kit migrate",
     "push": "bun --bun drizzle-kit push",
@@ -35,5 +36,9 @@
     "drizzle-seed": "0.3.1",
     "postgres": "3.4.8",
     "typescript": "7.0.2"
+  },
+  "portless": {
+    "name": "db.init",
+    "script": "dev:app"
   }
 }

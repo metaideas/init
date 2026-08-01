@@ -46,7 +46,7 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 3004,
+    port: Number(process.env.PORT ?? 3004),
   },
   vite: {
     plugins: [

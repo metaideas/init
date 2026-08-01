@@ -1,5 +1,5 @@
 import { createEnv, REACT_PUBLIC_ENV_PREFIX } from "@init/env"
-import { auth, db, resend, sentry } from "@init/env/presets"
+import { auth, db, portless, resend, sentry } from "@init/env/presets"
 import * as z from "@init/utils/schema"
 import { env, isCI } from "std-env"
 
@@ -14,6 +14,7 @@ export default createEnv({
     auth.providers.github(),
     auth.providers.google(),
     db(),
+    portless(),
     resend(),
     sentry.client(),
   ],
