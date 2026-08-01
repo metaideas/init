@@ -1,0 +1,11 @@
+---
+import DefaultHead from "@astrojs/starlight/components/Head.astro";
+---
+
+<DefaultHead />
+
+<script>
+    import { createWebAnalytics } from "@init/analytics/web";
+
+    createWebAnalytics("docs.init.now");
+</script>

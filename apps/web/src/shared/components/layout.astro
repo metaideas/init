@@ -63,6 +63,11 @@ const socialImageUrl = new URL("/og-image.png", SITE_URL);
                 );
             export default theme;
         </script>
+        <script>
+            import { createWebAnalytics } from "@init/analytics/web";
+
+            createWebAnalytics("init.now");
+        </script>
         <title>{title}</title>
     </head>
     <body>
