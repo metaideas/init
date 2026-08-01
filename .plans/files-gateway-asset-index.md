@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed.
+Implemented; awaiting review.
 
 ## Objective
 
@@ -13,7 +13,7 @@ Exercise one complete authenticated file lifecycle through the API application:
 3. a Files SDK `onAction` hook records the object's ownership and metadata in the
    `storage.assets` table;
 4. another user cannot access the object; and
-5. deleting the object marks the asset record as deleted.
+5. deleting the object removes the asset record.
 
 Keep the Files SDK gateway at the versionless `/files` transport seam. Reserve
 `/v1/assets` for a future application-owned HTTP interface over asset IDs, ownership,
@@ -33,14 +33,15 @@ organizations, metadata, and references.
 - The route does not perform a second Better Auth session lookup inside `authorize`.
 - Successful upload completion creates or updates one `storage.assets` row owned by
   the authenticated user.
-- Successful deletion marks the matching asset row as `deleted`.
+- Successful deletion removes the matching asset row owned by the authenticated user.
 - `onAction` dispatches successful events to local `handleUpload` and `handleDelete`
   functions in the singleton module; there is no persistence service or custom Files
   SDK plugin.
-- Repeated upload-completion events are idempotent through the existing unique index
-  on `(bucket, key)`.
+- Repeated upload-completion events are idempotent through the unique index on `key`.
 - Database failures from the fire-and-forget hook are caught and logged without
   producing unhandled promise rejections.
+- The template contains exactly one baseline database migration generated from the
+  current schema.
 - Formatting, static checks, dependency analysis, and relevant build verification
   pass.
 
@@ -91,26 +92,27 @@ Use a switch to keep the hook concise. Single upload and head events call
 `handleDelete`. These handlers remain private functions in `shared/files.ts` and
 execute the Drizzle operations directly.
 
-### Keep the current asset schema
+### Use a Files-SDK-shaped asset record
 
-The existing `storage.assets` table already contains the fields required by this
-slice:
+The `storage.assets` table stores the stable asset ID, Files SDK metadata, and two
+distinct user roles:
 
-- `(bucket, key)` provides storage identity and idempotency;
-- `uploaderId` records the authenticated owner for the current model;
-- `provider`, `mimeType`, `size`, `name`, and `metadata` describe the object; and
-- `status` represents `available` and `deleted` lifecycle states.
+- `key`, `name`, `size`, `type`, `etag`, `lastModified`, and `metadata` mirror the
+  stored file returned by Files SDK;
+- `ownerId` records the user to whom the asset belongs; and
+- `uploaderId` records the user who placed the asset in managed storage.
 
-Do not rename `uploaderId`, remove organization support, or otherwise redesign the
-schema in this change. Those decisions can be made when the application-owned
-`/v1/assets` interface is designed.
+The current upload flow assigns the authenticated user to both roles. Keeping them
+separate preserves creation provenance if ownership changes later. The configured
+Files singleton owns one bucket, so the storage key is the unique object identity and
+bucket/provider columns are unnecessary.
 
 ### Observe upload and head completion
 
 Handle successful `upload` events and successful `head` events. Direct/proxied uploads
 can produce an upload result, while completion of a direct or presigned upload can be
-confirmed through a follow-up `head`. The `(bucket, key)` conflict target makes both
-paths idempotent.
+confirmed through a follow-up `head`. The unique `key` conflict target makes both paths
+idempotent.
 
 Do not support copy or move until their destination-ownership behavior is explicitly
 defined. Do not build the index from list results.
@@ -196,9 +198,9 @@ export const requireSession = createMiddleware<AuthenticatedAppContext>(async (c
 Replace `apps/api/src/shared/files.ts` with this proposed implementation:
 
 ```ts
-import { assets } from "@init/db/schema"
+import { assets, type UserId } from "@init/db/schema"
 import * as z from "@init/utils/schema"
-import { and, eq, inArray } from "drizzle-orm"
+import { helpers } from "@init/db/helpers"
 import type { DeleteManyResult, StoredFile, UploadResult } from "files-sdk"
 import { createFiles } from "files-sdk"
 import { bunS3 } from "files-sdk/bun-s3"
@@ -238,6 +240,8 @@ export const files = createFiles({
           handleDelete(keys)
           break
         }
+        default:
+          break
       }
     },
   },
@@ -271,27 +275,27 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
   void ctx.var.db
     .insert(assets)
     .values({
-      bucket: env.S3_BUCKET,
+      etag: file.etag,
       key,
-      metadata: file.etag ? { etag: file.etag } : null,
-      mimeType,
+      lastModified: file.lastModified,
+      metadata: "metadata" in file ? file.metadata : undefined,
       name,
-      provider: "bun-s3",
+      ownerId: ctx.var.session.user.id as UserId,
       size: file.size,
-      status: "available",
-      uploaderId: ctx.var.session.user.id,
+      type: mimeType,
+      uploaderId: ctx.var.session.user.id as UserId,
     })
     .onConflictDoUpdate({
-      target: [assets.bucket, assets.key],
       set: {
-        errorMessage: null,
-        metadata: file.etag ? { etag: file.etag } : null,
-        mimeType,
+        etag: file.etag,
+        lastModified: file.lastModified,
+        metadata: "metadata" in file ? file.metadata : undefined,
         name,
         size: file.size,
-        status: "available",
+        type: mimeType,
         updatedAt: new Date(),
       },
+      target: assets.key,
     })
     .catch((error: unknown) => {
       ctx.var.logger.error(`Failed to record asset: ${String(error)}`)
@@ -304,20 +308,15 @@ function handleDelete(keys: string[]) {
   const ctx = context<AuthenticatedAppContext>()
 
   void ctx.var.db
-    .update(assets)
-    .set({
-      status: "deleted",
-      updatedAt: new Date(),
-    })
+    .delete(assets)
     .where(
-      and(
-        eq(assets.bucket, env.S3_BUCKET),
-        inArray(assets.key, keys),
-        eq(assets.uploaderId, ctx.var.session.user.id)
+      helpers.and(
+        helpers.inArray(assets.key, keys),
+        helpers.eq(assets.ownerId, ctx.var.session.user.id as UserId)
       )
     )
     .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to mark asset as deleted: ${String(error)}`)
+      ctx.var.logger.error(`Failed to delete asset records: ${String(error)}`)
     })
 }
 ```
@@ -328,8 +327,8 @@ an authenticated request.
 
 This intentionally makes action-producing use of this singleton request-bound: a
 future caller that invokes it outside Hono context would not have a session to assign
-as `uploaderId` and must use a separately configured Files instance or establish an
-equivalent ownership context.
+as `ownerId` and `uploaderId` and must use a separately configured Files instance or
+establish an equivalent ownership context.
 
 ### 4. Implement the complete versionless gateway route
 
@@ -390,21 +389,17 @@ keys that were successfully removed change status.
 `onAction` to read the session from Hono context storage. Remove the old direct `auth`
 import, `auth.api.getSession()` call, and `FilesError` authorization branch.
 
-### 5. Declare the direct Drizzle dependency
+### 5. Expose Drizzle through the database package
 
-Because the shared Files module constructs Drizzle expressions itself, add the
-installed Drizzle version as a direct dependency of `apps/api`:
+Keep Drizzle's package identity behind `@init/db` and expose its helpers as a namespace
+from `packages/db/src/helpers.ts`:
 
-```diff
- "dependencies": {
-   "@init/workflows": "workspace:*",
-   "@scalar/hono-api-reference": "^0.9.48",
-   "@trpc/server": "11.8.1",
-+  "drizzle-orm": "0.45.2",
-   "files-sdk": "2.2.2",
-   "hono": "4.12.32"
- }
+```ts
+export * as helpers from "drizzle-orm"
 ```
+
+The API imports `helpers` from `@init/db/helpers`; it does not declare a separate direct
+Drizzle dependency.
 
 ### 6. Limit the initial operation surface
 
@@ -413,7 +408,13 @@ listing, download, URL, and deletion. It excludes `copy` and `move` because the 
 does not update destination ownership, and excludes versioning and trash operations
 because the configured Files instance does not install those plugins.
 
-### 7. Verify the change
+### 7. Regenerate the baseline migration
+
+Delete the existing migration SQL and metadata, then run `bun run generate` from
+`packages/db`. The template deliberately keeps one starting migration and does not
+preserve migration history for databases created from earlier template revisions.
+
+### 8. Verify the change
 
 Run the repository-managed static checks:
 
@@ -430,7 +431,6 @@ this change.
 ## Explicitly out of scope
 
 - Implementing `/v1/assets`.
-- Renaming `uploaderId` or redesigning the asset schema.
 - Making the asset table the source of truth for object existence.
 - Transactional guarantees between object storage and Postgres.
 - A reconciliation worker for missing or stale asset rows.
@@ -442,8 +442,8 @@ this change.
 
 - Design the application-owned `/v1/assets` interface around asset IDs rather than raw
   storage keys.
-- Decide whether ownership should become `userId`, a polymorphic owner, or separate
-  user/organization ownership records.
+- Decide whether ownership should expand from a User owner to a polymorphic owner or
+  separate user/organization ownership records.
 - Add reconciliation if production requirements demand repair of missed hook writes.
 - Define database behavior for copy, move, bulk operations, and failed uploads.
 - Add domain references from future records to `assets.id` instead of duplicating

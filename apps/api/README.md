@@ -4,6 +4,6 @@
 
 API server built with [Hono](https://hono.dev/).
 
-The versioned router includes the authenticated Files SDK gateway at `/v1/files`.
+The API server includes the authenticated Files SDK gateway at `/files`.
 Provider composition and upload policy live in `src/shared/files.ts`; local development
 uses the MinIO service and `assets` bucket from `infra/local/docker-compose.yml`.

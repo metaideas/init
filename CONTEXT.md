@@ -45,3 +45,14 @@ _Avoid_: Required backend, backend layer
 **Preset**:
 A reusable environment or tooling configuration selected by a local project generator.
 _Avoid_: Template recipe
+
+**Asset**:
+A stored file represented by a stable identity so other domain records can refer to
+it. An Asset has one Owner and records the Uploader who placed it in managed storage.
+
+**Asset Owner**:
+The User to whom an Asset belongs. Ownership can differ from creation provenance.
+
+**Asset Uploader**:
+The User who placed an Asset in managed storage. The Uploader does not necessarily
+remain its Owner.

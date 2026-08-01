@@ -39,23 +39,23 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
         async () => {
           const requiredPaths = [
             "apps/api/src/shared/files.ts",
-            "apps/api/src/routes/v1/files.ts",
+            "apps/api/src/routes/files.ts",
             `${appPath}/package.json`,
           ]
           const missingPaths = await getMissingPaths(requiredPaths)
           if (missingPaths.length > 0)
             throw new Error(
-              `The files-client generator requires the /v1/files server from apps/api and the selected app workspace. Restore the API with \`bun template add app api\`. Missing: ${missingPaths.join(", ")}`
+              `The files-client generator requires the /files server from apps/api and the selected app workspace. Restore the API with \`bun template add app api\`. Missing: ${missingPaths.join(", ")}`
             )
 
-          const [v1Routes, packageJson, hasClient] = await Promise.all([
-            Bun.file("apps/api/src/routes/v1/index.ts").text(),
+          const [routes, packageJson, hasClient] = await Promise.all([
+            Bun.file("apps/api/src/routes/index.ts").text(),
             Bun.file(`${appPath}/package.json`).json() as Promise<PackageJson>,
             Bun.file(clientPath).exists(),
           ])
-          if (!v1Routes.includes('.route("/files", filesRoutes)'))
+          if (!routes.includes('.route("/files", filesRoutes)'))
             throw new Error(
-              "The files-client generator requires the Files SDK server mounted at /v1/files in apps/api."
+              "The files-client generator requires the Files SDK server mounted at /files in apps/api."
             )
 
           const installedPackages = {
@@ -103,7 +103,7 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
         type: "list",
       },
       {
-        default: "http://localhost:3000/v1/files",
+        default: "http://localhost:3000/files",
         message: "What is the Files SDK endpoint?",
         name: "endpoint",
         type: "input",

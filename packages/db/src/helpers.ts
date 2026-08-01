@@ -2,6 +2,8 @@ import * as z from "@init/utils/schema"
 import { type AnyColumn, sql } from "drizzle-orm"
 import { createSchemaFactory } from "drizzle-zod"
 
+export * as operators from "drizzle-orm/sql/expressions/conditions"
+
 export function increment(column: AnyColumn, value = 1) {
   return sql`${column} + ${value}`
 }

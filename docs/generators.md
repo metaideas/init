@@ -126,7 +126,7 @@ applied consistently.
 
 ## Add a Files SDK client
 
-`apps/api` always includes the authenticated Files SDK gateway at `/v1/files`, alongside
+`apps/api` always includes the authenticated Files SDK gateway at `/files`, alongside
 the built-in tRPC and Hono routes. Its `src/shared/files.ts` composition uses Bun's
 native S3 adapter with local MinIO defaults. Every operation requires the existing Init
 session and is scoped to `users/<user-id>/`. Uploads are limited to 10 MiB and accept
@@ -136,8 +136,8 @@ Generate the optional client in an app that consumes the API:
 
 ```bash
 bun run generate files-client
-bun run generate files-client --args app http://localhost:3000/v1/files
-bun run generate files-client --args web http://localhost:3000/v1/files
+bun run generate files-client --args app http://localhost:3000/files
+bun run generate files-client --args web http://localhost:3000/files
 ```
 
 The generator can target any workspace under `apps/`. It creates
