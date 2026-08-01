@@ -1,7 +1,7 @@
 # File service
 
 When `apps/api` is selected, it includes an authenticated Files SDK gateway at
-`/v1/files`.
+`/files`.
 
 ## Composition
 

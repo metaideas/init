@@ -371,50 +371,31 @@ export type ActivityLogType = ActivityLog["type"]
 // ==========================STORAGE==========================
 export const storageSchema = pg.pgSchema("storage")
 
-export const assetStatus = storageSchema.enum("asset_status", [
-  "pending",
-  "uploading",
-  "available",
-  "processing",
-  "failed",
-  "deleted",
-])
-
 export const assets = storageSchema.table(
   "assets",
   {
     ...id("AssetId", "asst"),
     ...timestamps,
 
-    bucket: pg.text().notNull(),
+    uploaderId: pg
+      .text()
+      .references(() => users.id, {
+        onDelete: "set null",
+        onUpdate: "cascade",
+      })
+      .$type<UserId>(),
 
-    errorMessage: pg.text(),
-
-    expiresAt: pg.timestamp({ withTimezone: true }),
+    etag: pg.text(),
 
     key: pg.text().notNull(),
 
-    metadata: pg.jsonb(),
+    lastModified: pg.bigint({ mode: "number" }),
 
-    mimeType: pg.text().notNull(),
+    metadata: pg.jsonb().$type<Record<string, string>>(),
 
     name: pg.text().notNull(),
 
-    organizationId: pg
-      .text()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
-
-    provider: pg.text().notNull(),
-
-    size: pg.integer().notNull(),
-
-    status: assetStatus().notNull().default("pending"),
-
-    uploaderId: pg
+    ownerId: pg
       .text()
       .notNull()
       .references(() => users.id, {
@@ -422,23 +403,21 @@ export const assets = storageSchema.table(
         onUpdate: "cascade",
       })
       .$type<UserId>(),
+
+    size: pg.integer().notNull(),
+
+    type: pg.text().notNull(),
   },
   (table) => [
+    pg.uniqueIndex("storage_assets_key_unique_idx").on(table.key),
+    pg.index("storage_assets_owner_id_idx").on(table.ownerId),
     pg.index("storage_assets_uploader_id_idx").on(table.uploaderId),
-    pg.index("storage_assets_organization_id_idx").on(table.organizationId),
-    pg.index("storage_assets_bucket_idx").on(table.bucket),
-    pg.index("storage_assets_provider_idx").on(table.provider),
-    pg.index("storage_assets_status_idx").on(table.status),
-    pg.index("storage_assets_expires_at_idx").on(table.expiresAt),
-    pg.uniqueIndex("storage_assets_bucket_key_unique_idx").on(table.bucket, table.key),
   ]
 )
 
 export type Asset = typeof assets.$inferSelect
 export type NewAsset = typeof assets.$inferInsert
 export type AssetId = Asset["id"]
-export type AssetStatus = Asset["status"]
-export type StorageProvider = Asset["provider"]
 
 // Relations
 
@@ -448,8 +427,9 @@ export const userRelations = relations(users, ({ many }) => ({
     relationName: "impersonator",
   }),
   members: many(members),
+  ownedAssets: many(assets, { relationName: "assetOwner" }),
   sessions: many(sessions, { relationName: "user" }),
-  uploadedAssets: many(assets),
+  uploadedAssets: many(assets, { relationName: "assetUploader" }),
 }))
 
 export const accountRelations = relations(accounts, ({ one }) => ({
@@ -492,7 +472,6 @@ export const memberRelations = relations(members, ({ one, many }) => ({
 
 export const organizationRelations = relations(organizations, ({ many }) => ({
   activityLogs: many(activityLogs),
-  assets: many(assets),
   invitations: many(invitations),
   members: many(members),
 }))
@@ -520,12 +499,14 @@ export const activityLogRelations = relations(activityLogs, ({ one }) => ({
 }))
 
 export const assetRelations = relations(assets, ({ one }) => ({
-  organization: one(organizations, {
-    fields: [assets.organizationId],
-    references: [organizations.id],
+  owner: one(users, {
+    fields: [assets.ownerId],
+    references: [users.id],
+    relationName: "assetOwner",
   }),
   uploader: one(users, {
     fields: [assets.uploaderId],
     references: [users.id],
+    relationName: "assetUploader",
   }),
 }))
