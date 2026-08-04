@@ -7,9 +7,8 @@ project's vocabulary.
 
 - Follow [`docs/agents/domain.md`](./docs/agents/domain.md) when exploring architecture
   or recording domain decisions.
-- Follow [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md) and
-  [`docs/agents/triage-labels.md`](./docs/agents/triage-labels.md) for issue work when
-  those files exist.
+- Follow the issue-tracker and triage-label guidance under `docs/agents/` for issue work
+  when those files exist.
 
 ## Testing
 

@@ -10,17 +10,17 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
   class="relative z-2 flex w-[min(100%-2rem,72rem)] flex-col items-center place-self-center py-10 text-center min-[40rem]:py-[4.5rem] min-[40rem]:pb-24"
 >
   <h1
-    class="m-0 font-sans text-[clamp(3.25rem,17vw,5rem)] leading-none font-[760] tracking-[-0.075em] text-balance min-[40rem]:text-[clamp(3.35rem,10.3vw,9rem)]"
+    class="m-0 font-sans text-[clamp(2.25rem,12vw,4.1rem)] leading-none font-[760] tracking-[-0.075em] text-balance min-[40rem]:text-[clamp(3.35rem,10.3vw,9rem)]"
     aria-label={tagline}
   >
     <span
-      class="block bg-[linear-gradient(90deg,transparent,var(--background)_4%,var(--background)_96%,transparent)] tracking-[0em] text-background [-webkit-text-stroke:2.5px_var(--muted-foreground)] [paint-order:stroke_fill] motion-safe:[animation:reveal-line_900ms_cubic-bezier(0.16,1,0.3,1)_both]"
+      class="hero-intro block bg-[linear-gradient(90deg,transparent,var(--background)_4%,var(--background)_96%,transparent)] tracking-[0em] text-background [-webkit-text-stroke:4px_var(--muted-foreground)] [paint-order:stroke_fill] [--hero-intro-delay:0ms]"
       aria-hidden="true"
     >
       {m.web_landing_hero_headline_first()}
     </span>
     <span
-      class="block whitespace-nowrap text-[clamp(2.25rem,12vw,4.1rem)] tracking-[-0.02em] [word-spacing:0.08em] motion-safe:[animation:reveal-line_900ms_cubic-bezier(0.16,1,0.3,1)_110ms_both] min-[40rem]:text-[1em] min-[40rem]:whitespace-normal min-[40rem]:[word-spacing:normal]"
+      class="hero-intro block whitespace-nowrap tracking-[-0.02em] [word-spacing:0.08em] [--hero-intro-delay:55ms] min-[40rem]:whitespace-normal min-[40rem]:[word-spacing:normal]"
       aria-hidden="true"
     >
       {m.web_landing_hero_headline_second()}
@@ -28,15 +28,17 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
   </h1>
 
   <p
-    class="mt-6 max-w-80 text-[clamp(1rem,2.2vw,1.2rem)] leading-[1.6] text-balance text-neutral-600 dark:text-[#aab1b9] min-[40rem]:mt-8 min-[40rem]:max-w-xl"
+    class="hero-intro mt-6 max-w-80 text-[clamp(1rem,2.2vw,1.2rem)] leading-[1.6] text-balance text-neutral-600 [--hero-intro-delay:110ms] dark:text-[#aab1b9] min-[40rem]:mt-8 min-[40rem]:max-w-xl"
   >
     {m.web_landing_hero_description()}
   </p>
 
-  <ShipTargets />
+  <div class="hero-intro [--hero-intro-delay:150ms]">
+    <ShipTargets />
+  </div>
 
   <div
-    class="mt-9 grid w-[min(100%,26rem)] grid-cols-[auto_minmax(0,1fr)_auto] items-center rounded-[0.8rem] border border-neutral-300 bg-white/95 p-[0.35rem] text-left shadow-[0_1.5rem_5rem_rgb(0_0_0_/_10%),inset_0_1px_rgb(255_255_255_/_75%)] dark:border-[#303842] dark:bg-[rgb(13_17_22_/_92%)] dark:shadow-[0_1.5rem_5rem_rgb(0_0_0_/_32%),inset_0_1px_rgb(255_255_255_/_4%)]"
+    class="hero-intro mt-9 grid w-[min(100%,26rem)] grid-cols-[auto_minmax(0,1fr)_auto] items-center rounded-[0.8rem] border border-neutral-300 bg-white/95 p-[0.35rem] text-left shadow-[0_1.5rem_5rem_rgb(0_0_0_/_10%),inset_0_1px_rgb(255_255_255_/_75%)] [--hero-intro-delay:190ms] dark:border-[#303842] dark:bg-[rgb(13_17_22_/_92%)] dark:shadow-[0_1.5rem_5rem_rgb(0_0_0_/_32%),inset_0_1px_rgb(255_255_255_/_4%)]"
   >
     <span class="pl-[0.9rem] font-mono text-[0.8rem] text-neutral-500 dark:text-[#aab1b9]" aria-hidden="true">$</span>
     <code
@@ -44,7 +46,7 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
       translate="no">{SCAFFOLD_COMMAND}</code
     >
     <button
-      class="group grid size-11 touch-manipulation cursor-pointer place-items-center rounded-[0.55rem] border border-neutral-300 bg-neutral-100 text-neutral-600 [transition:border-color_160ms_ease,color_160ms_ease,transform_160ms_ease] [-webkit-tap-highlight-color:transparent] hover:border-neutral-500 hover:text-neutral-950 active:translate-y-px focus-visible:rounded-[0.35rem] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neutral-500 dark:border-[#38414c] dark:bg-[#161c24] dark:text-[#c8cdd2] dark:hover:border-[#5b6978] dark:hover:text-[#f1f3f5] dark:focus-visible:outline-[#aab1b9]"
+      class="group relative grid size-11 touch-manipulation cursor-pointer place-items-center rounded-[0.55rem] border border-neutral-300 bg-neutral-100 text-neutral-600 [transition:border-color_150ms_ease,color_150ms_ease,scale_120ms_cubic-bezier(0.215,0.61,0.355,1)] [-webkit-tap-highlight-color:transparent] hover:border-neutral-500 hover:text-neutral-950 active:scale-[0.97] focus-visible:rounded-[0.35rem] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-neutral-500 motion-reduce:transition-none dark:border-[#38414c] dark:bg-[#161c24] dark:text-[#c8cdd2] dark:hover:border-[#5b6978] dark:hover:text-[#f1f3f5] dark:focus-visible:outline-[#aab1b9]"
       type="button"
       data-copy-command={SCAFFOLD_COMMAND}
       data-copy-label={m.web_landing_command_copy_aria()}
@@ -54,7 +56,7 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
       aria-label={m.web_landing_command_copy_aria()}
     >
       <svg
-        class="size-[1.15rem] shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:hidden"
+        class="absolute size-[1.15rem] shrink-0 scale-100 rotate-0 fill-none stroke-current opacity-100 [stroke-linecap:round] [stroke-linejoin:round] [transition:opacity_150ms_cubic-bezier(0.215,0.61,0.355,1),scale_150ms_cubic-bezier(0.215,0.61,0.355,1),rotate_150ms_cubic-bezier(0.215,0.61,0.355,1)] group-data-[copied=true]:scale-75 group-data-[copied=true]:-rotate-6 group-data-[copied=true]:opacity-0 motion-reduce:transition-none"
         viewBox="0 0 16 16"
         aria-hidden="true"
       >
@@ -62,7 +64,7 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
         <path d="M3.25 11.75h-.5a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5h7.5a1.5 1.5 0 0 1 1.5 1.5v.5"></path>
       </svg>
       <svg
-        class="hidden size-[1.15rem] shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] group-data-[copied=true]:block"
+        class="absolute size-[1.15rem] shrink-0 scale-75 rotate-6 fill-none stroke-current opacity-0 [stroke-linecap:round] [stroke-linejoin:round] [transition:opacity_150ms_cubic-bezier(0.215,0.61,0.355,1),scale_150ms_cubic-bezier(0.215,0.61,0.355,1),rotate_150ms_cubic-bezier(0.215,0.61,0.355,1)] group-data-[copied=true]:scale-100 group-data-[copied=true]:rotate-0 group-data-[copied=true]:opacity-100 motion-reduce:transition-none"
         viewBox="0 0 18 18"
         aria-hidden="true"
       >
@@ -104,15 +106,25 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
 </script>
 
 <style>
-  @keyframes reveal-line {
+  .hero-intro {
+    animation: hero-intro 360ms cubic-bezier(0.165, 0.84, 0.44, 1) var(--hero-intro-delay) both;
+  }
+
+  @keyframes hero-intro {
     from {
       opacity: 0;
-      transform: translateY(0.45em);
+      transform: translateY(0.75rem);
     }
 
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-intro {
+      animation: none;
     }
   }
 </style>
