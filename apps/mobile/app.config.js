@@ -1,18 +1,16 @@
-import type { ConfigContext, ExpoConfig } from "expo/config"
-
 const APP_ID = "init"
 const APP_NAME = "init"
 const APP_OWNER = "metaideas"
 const APP_BUNDLE_IDENTIFIER = `app.${APP_OWNER}.${APP_ID}`
 const VERSION = "1.0.0"
 
-const expoConfig: ExpoConfig = {
+const expoConfig = {
   android: {
     adaptiveIcon: {
-      backgroundColor: "#ffffff",
+      backgroundColor: "#f1f3f5",
       foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
+      monochromeImage: "./src/shared/assets/images/adaptive-icon.png",
     },
-    edgeToEdgeEnabled: true,
     package: APP_BUNDLE_IDENTIFIER,
     predictiveBackGestureEnabled: false,
   },
@@ -23,6 +21,10 @@ const expoConfig: ExpoConfig = {
   icon: "./src/shared/assets/images/icon.png",
   ios: {
     bundleIdentifier: APP_BUNDLE_IDENTIFIER,
+    icon: {
+      dark: "./src/shared/assets/images/icon-dark.png",
+      light: "./src/shared/assets/images/icon-light.png",
+    },
     supportsTablet: true,
   },
   name: APP_NAME,
@@ -37,7 +39,11 @@ const expoConfig: ExpoConfig = {
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f1f3f5",
+        dark: {
+          backgroundColor: "#080a0d",
+          image: "./src/shared/assets/images/splash-icon-dark.png",
+        },
         image: "./src/shared/assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
@@ -66,7 +72,14 @@ const expoConfig: ExpoConfig = {
   },
 }
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
-  ...expoConfig,
-})
+/**
+ * @param {import("expo/config").ConfigContext} context
+ *
+ * @returns {import("expo/config").ExpoConfig} Expo configuration.
+ */
+export default function configureExpo({ config }) {
+  return {
+    ...config,
+    ...expoConfig,
+  }
+}

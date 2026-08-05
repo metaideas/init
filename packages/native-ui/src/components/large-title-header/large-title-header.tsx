@@ -128,7 +128,11 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
               }}
             >
               <TextInput
-                autoCapitalize={props.searchBar.autoCapitalize}
+                autoCapitalize={
+                  props.searchBar.autoCapitalize === "systemDefault"
+                    ? undefined
+                    : props.searchBar.autoCapitalize
+                }
                 blurOnSubmit={props.searchBar.materialBlurOnSubmit}
                 className="flex-1 text-base text-foreground"
                 keyboardType={searchBarInputTypeToKeyboardType(props.searchBar.inputType)}
