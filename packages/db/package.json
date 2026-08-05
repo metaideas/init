@@ -15,26 +15,28 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "varlock codegen",
     "dev": "portless",
-    "dev:app": "bun --bun drizzle-kit studio --port ${PORT:-4983}",
-    "generate": "bun --bun drizzle-kit generate",
-    "migrate": "bun --bun drizzle-kit migrate",
-    "push": "bun --bun drizzle-kit push",
-    "reset": "bun --bun run ./scripts/reset.ts",
-    "seed": "bun --bun run ./scripts/seed.ts"
+    "dev:app": "varlock run -- bun --bun drizzle-kit studio --port ${PORT:-4983}",
+    "env:check": "varlock load",
+    "generate": "varlock run -- bun --bun drizzle-kit generate",
+    "migrate": "varlock run -- bun --bun drizzle-kit migrate",
+    "push": "varlock run -- bun --bun drizzle-kit push",
+    "reset": "varlock run -- bun --bun run ./scripts/reset.ts",
+    "seed": "varlock run -- bun --bun run ./scripts/seed.ts"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "drizzle-orm": "0.45.2",
-    "drizzle-zod": "0.8.3"
+    "drizzle-zod": "0.8.3",
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "drizzle-kit": "0.31.8",
+    "drizzle-kit": "0.31.10",
     "drizzle-seed": "0.3.1",
-    "postgres": "3.4.8",
+    "postgres": "3.4.9",
     "typescript": "7.0.2"
   },
   "portless": {

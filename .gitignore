@@ -14,7 +14,12 @@ node_modules
 # Environment variables
 .env
 .env.*
-!.env.template
+!.env.schema
+!.env.development
+!**/env/.env.shared
+!**/env/.env.client
+!**/env/.env.server
+!**/env/.env.build
 
 # Testing
 coverage

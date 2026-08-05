@@ -10,12 +10,16 @@
     "build": "tauri build",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "codegen": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
+    "codegen": "bun run --parallel \"codegen:*\"",
+    "codegen:env": "varlock codegen",
+    "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
     "dev": "portless",
-    "dev:app": "tauri dev"
+    "dev:app": "tauri dev",
+    "env:check": "varlock load",
+    "env:scan": "test -d dist && varlock scan --path .env.schema dist",
+    "env:scan:build": "bun --bun vite build"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
@@ -28,7 +32,7 @@
     "@tauri-apps/plugin-dialog": "2.7.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "std-env": "4.2.0"
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@babel/core": "7.29.7",
@@ -38,11 +42,11 @@
     "@tanstack/devtools-vite": "0.8.3",
     "@tanstack/router-plugin": "1.168.23",
     "@tauri-apps/cli": "2.9.6",
-    "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/babel__core": "7.20.5",
     "@types/react": "19.2.4",
     "@types/react-dom": "19.1.9",
+    "@varlock/vite-integration": "1.4.0",
     "@vitejs/plugin-react": "6.0.4",
     "babel-plugin-react-compiler": "1.0.0",
     "typescript": "7.0.2",

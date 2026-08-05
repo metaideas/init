@@ -21,23 +21,14 @@ The `code-snippets` generator adds optional source code to an existing workspace
 bun run generate code-snippets
 ```
 
-| Category            | Selection                   | Target                         | Requirements             |
-| ------------------- | --------------------------- | ------------------------------ | ------------------------ |
-| Utilities           | `codec`                     | `packages/utils/src/codec.ts`  | `packages/utils`         |
-| Utilities           | `assert`                    | `packages/utils/src/assert.ts` | `packages/utils`, `core` |
-| Environment presets | `openai`, `anthropic`, `s3` | `packages/env/src/presets.ts`  | `packages/env`           |
+| Category  | Selection | Target                         | Requirements             |
+| --------- | --------- | ------------------------------ | ------------------------ |
+| Utilities | `codec`   | `packages/utils/src/codec.ts`  | `packages/utils`         |
+| Utilities | `assert`  | `packages/utils/src/assert.ts` | `packages/utils`, `core` |
 
-Choose **Utilities** or **Environment presets**, then select one or more snippets from
-that category. Utility snippets create user-owned files once. Environment presets
-prepend all selected preset exports in one operation.
-
-Code snippet selections assume their required workspaces already exist. Existing targets
-are skipped, so rerunning a utility or selecting an installed environment preset does
-not duplicate it.
-
-Environment presets validate values but do not automatically attach themselves to an
-app. Extend a selected preset from the relevant app or package environment
-configuration when that integration is needed.
+Select one or more utility snippets. Selections assume their required workspaces already
+exist, and existing targets are skipped on rerun. Environment contracts are owned by
+workspace schemas and backend commands instead of code-snippet presets.
 
 ## Create project scaffolds
 
@@ -98,14 +89,14 @@ Package names are read from workspace manifests, so connections continue to work
 The connections add files and use the shipped `shared/components/providers.tsx` seam.
 Reruns skip user-owned files rather than replacing them, and every skip is printed.
 
-| Connection    | Owned files and additive seams                                                                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Convex mobile | `shared/auth.ts`, `shared/components/convex-provider.tsx`, the `(auth)` route group, the Convex env preset and template values, optional `convex-example.tsx` |
-| Hono app      | `shared/api.ts`, `PUBLIC_API_URL` in `.env.template`, optional `routes/backend-example.tsx`                                                                   |
-| Hono desktop  | `shared/api.ts`, `shared/utils.ts`, API URL env schema/template wiring, and optional `routes/backend-example.tsx`                                             |
-| Hono mobile   | `shared/api.ts`, `shared/utils.ts`, API URL env schema/template wiring, optional `shared/auth.ts`, `(auth)` route group, and backend example screen           |
-| tRPC app      | `shared/trpc.tsx`, provider seam entry, `PUBLIC_API_URL` in `.env.template`, optional `routes/trpc-example.tsx`                                               |
-| tRPC desktop  | `shared/trpc.tsx`, provider seam entry, `shared/utils.ts`, API URL env schema/template wiring, and optional `routes/trpc-example.tsx`                         |
+| Connection    | Owned files and additive seams                                                                                                                       |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Convex mobile | `shared/auth.ts`, `shared/components/convex-provider.tsx`, the `(auth)` route group, Convex keys in `.env.schema`, and optional `convex-example.tsx` |
+| Hono app      | `shared/api.ts`, the application-owned optional `PUBLIC_API_URL`, and optional `routes/backend-example.tsx`                                          |
+| Hono desktop  | `shared/api.ts`, `shared/utils.ts`, API URL schema/development values, and optional `routes/backend-example.tsx`                                     |
+| Hono mobile   | `shared/api.ts`, `shared/utils.ts`, API URL schema/development values, optional `shared/auth.ts`, auth routes, and an example screen                 |
+| tRPC app      | `shared/trpc.tsx`, provider seam entry, the application-owned optional `PUBLIC_API_URL`, and optional `routes/trpc-example.tsx`                      |
+| tRPC desktop  | `shared/trpc.tsx`, provider seam entry, `shared/utils.ts`, API URL schema/development values, and optional `routes/trpc-example.tsx`                 |
 
 Examples are additive and can be deleted independently. Existing dashboards, sign-up
 forms, server functions, and default mobile routes are not modified. On mobile, only

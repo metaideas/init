@@ -3,13 +3,13 @@
 import { database } from "@init/db/client"
 import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
-import { db as env } from "@init/env/presets"
 import { reset } from "drizzle-seed"
+import { ENV } from "#env.generated.ts"
 
 async function main() {
   console.log("\n🔄 Database Reset\n")
 
-  if (!checkIsLocalDatabase(env().DATABASE_URL)) {
+  if (!checkIsLocalDatabase(ENV.DATABASE_URL)) {
     throw new Error(
       "Cannot reset a non-local database. This script only works with local databases."
     )

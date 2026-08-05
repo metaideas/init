@@ -1,6 +1,6 @@
 # Plan 18 — Adopt Varlock across init
 
-**Status:** Gated by Plan 17
+**Status:** Implemented (Plan 17 gate explicitly waived 2026-08-05)
 **Size:** L
 
 Replace T3 Env and init's overlapping environment loaders with Varlock after Plan 17
@@ -107,8 +107,7 @@ packages/db/
 │   └── server.env
 ├── .env.schema
 └── src/
-    ├── env.generated.ts
-    └── env.ts
+    └── env.generated.ts
 
 packages/observability/
 ├── env/
@@ -121,21 +120,21 @@ packages/observability/
 apps/api/
 ├── .env.schema
 └── src/shared/
-    ├── env.generated.ts
-    └── env.ts
+    └── env.generated.ts
 ```
 
 ## 3. Replace runtime env APIs
 
 Generate local TypeScript modules with `exposeEnv=local` and environment augmentation
-disabled. Keep application-facing imports stable where useful:
+disabled. Import the generated `ENV` binding directly:
 
 ```ts
-import { env } from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 ```
 
-The handwritten `env.ts` may re-export the generated `ENV`, but it must not reconstruct
-`process.env`, merge `import.meta.env`, or run a second validation library.
+Client-visible code must preserve the literal uppercase `ENV.<KEY>` identifier because
+Varlock's Vite and Expo integrations use that syntax for static replacement. Do not
+alias the generated binding to lowercase `env`.
 
 Update shared packages to import their package-local generated environment module or
 receive explicit configuration, following the ownership decision. Remove imports of

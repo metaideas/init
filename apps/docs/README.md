@@ -42,8 +42,8 @@ decisions do not enter public routes or search.
 
 - Wordmark and marketing return link: `src/shared/components/site-title.astro`
 - Colors and component styling: `src/shared/styles/globals.css`
-- Site URL: `PUBLIC_SITE_URL` in `.env.template`, with the production fallback in
-  `src/shared/constants.ts`
+- Site URL: `PUBLIC_SITE_URL` in `.env.schema`, with safe development values in
+  `.env.development` and the production fallback in `src/shared/constants.ts`
 - Marketing return URL: `PUBLIC_MARKETING_URL`; development otherwise derives the
   matching `web.<project>.localhost` URL and production uses `init.now`
 - Navigation, locales, edit links, and head metadata: `astro.config.ts`

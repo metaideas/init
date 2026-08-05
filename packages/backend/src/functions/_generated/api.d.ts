@@ -18,7 +18,6 @@ import type * as public_documents from "../public/documents.js";
 import type * as public_messages from "../public/messages.js";
 import type * as shared_auth from "../shared/auth.js";
 import type * as shared_convex from "../shared/convex.js";
-import type * as shared_env from "../shared/env.js";
 import type * as system_health from "../system/health.js";
 
 import type {
@@ -38,7 +37,6 @@ declare const fullApi: ApiFromModules<{
   "public/messages": typeof public_messages;
   "shared/auth": typeof shared_auth;
   "shared/convex": typeof shared_convex;
-  "shared/env": typeof shared_env;
   "system/health": typeof system_health;
 }>;
 

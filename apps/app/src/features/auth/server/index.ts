@@ -10,17 +10,17 @@ import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 
-const trustedOrigins = env.PORTLESS_URL
-  ? [...new Set([...env.AUTH_TRUSTED_ORIGINS, env.PORTLESS_URL])]
-  : env.AUTH_TRUSTED_ORIGINS
+const trustedOrigins = ENV.PORTLESS_URL
+  ? [...new Set([...ENV.AUTH_TRUSTED_ORIGINS, ENV.PORTLESS_URL])]
+  : ENV.AUTH_TRUSTED_ORIGINS
 
 export const auth = createAuth({
   advanced: AUTH_ADVANCED_OPTIONS,
   appName: AUTH_APP_NAME,
   basePath: "/api/auth",
-  baseURL: env.PORTLESS_URL ?? env.PUBLIC_BASE_URL,
+  baseURL: ENV.PORTLESS_URL ?? ENV.PUBLIC_BASE_URL,
   database: databaseAdapter(database()),
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
@@ -32,17 +32,17 @@ export const auth = createAuth({
     },
   },
   plugins: [admin(), organization(), cookies()],
-  secret: env.AUTH_SECRET,
+  secret: ENV.AUTH_SECRET,
   session: AUTH_SESSION_OPTIONS,
   socialProviders: {
     github: {
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+      clientId: ENV.GITHUB_CLIENT_ID,
+      clientSecret: ENV.GITHUB_CLIENT_SECRET,
       enabled: true,
     },
     google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientId: ENV.GOOGLE_CLIENT_ID,
+      clientSecret: ENV.GOOGLE_CLIENT_SECRET,
       enabled: true,
     },
   },

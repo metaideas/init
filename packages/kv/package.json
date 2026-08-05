@@ -12,13 +12,15 @@
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
-    "clean": "git clean -xdf .cache .turbo dist node_modules"
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "varlock codegen",
+    "env:check": "varlock load"
   },
   "dependencies": {
-    "@init/env": "workspace:*",
     "@init/utils": "workspace:*",
     "ioredis": "5.11.1",
-    "unstorage": "1.17.5"
+    "unstorage": "1.17.5",
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

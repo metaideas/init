@@ -1,7 +1,8 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
-import { ensureEnv } from "@tooling/env/vite"
+import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
 import { defineConfig } from "wxt"
+import { ENV } from "#shared/env.generated.ts"
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -9,23 +10,20 @@ export default defineConfig({
     baseIconPath: "shared/assets/icon.svg",
   },
   dev: {
-    server: { port: Number(process.env.PORT ?? 3005) },
+    server: { port: ENV.PORT },
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
   srcDir: "src",
-  vite: async ({ mode }) => {
-    await ensureEnv(mode, import.meta.dirname)
-
-    return {
-      plugins: [
-        tailwindcss(),
-        paraglide({
-          outdir: "./src/shared/internationalization",
-          project: "../../tooling/internationalization/project.inlang",
-          strategy: ["localStorage", "baseLocale"],
-        }),
-      ],
-    }
-  },
+  vite: () => ({
+    plugins: [
+      varlock(),
+      tailwindcss(),
+      paraglide({
+        outdir: "./src/shared/internationalization",
+        project: "../../tooling/internationalization/project.inlang",
+        strategy: ["localStorage", "baseLocale"],
+      }),
+    ],
+  }),
 })

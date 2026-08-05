@@ -9,9 +9,7 @@ type ConnectBackendAnswers = PlopTypes.Answers & {
   apiPackage?: string
   authPackage?: string
   backendPackage?: string
-  envPackage?: string
   nativeUiPackage?: string
-  utilsPackage?: string
   workspaceDependenciesChanged?: boolean
 }
 
@@ -59,33 +57,18 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
             const authPackageJson = (await Bun.file("packages/auth/package.json").json()) as {
               name: string
             }
-            const envPackageJson = (await Bun.file("packages/env/package.json").json()) as {
-              name: string
-            }
             const nativeUiPackageJson = (await Bun.file(
               "packages/native-ui/package.json"
             ).json()) as { name: string }
 
             answers.backendPackage = backendPackageJson.name
             answers.authPackage = authPackageJson.name
-            answers.envPackage = envPackageJson.name
             answers.nativeUiPackage = nativeUiPackageJson.name
           } else {
             const apiPackageJson = (await Bun.file("apps/api/package.json").json()) as {
               name: string
             }
             answers.apiPackage = apiPackageJson.name
-
-            if (answers.app !== "app") {
-              const envPackageJson = (await Bun.file("packages/env/package.json").json()) as {
-                name: string
-              }
-              const utilsPackageJson = (await Bun.file("packages/utils/package.json").json()) as {
-                name: string
-              }
-              answers.envPackage = envPackageJson.name
-              answers.utilsPackage = utilsPackageJson.name
-            }
 
             if (answers.app === "mobile" && (answers.auth || answers.example)) {
               const nativeUiPackageJson = (await Bun.file(
@@ -132,12 +115,12 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
           await Bun.write(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`)
           answers.workspaceDependenciesChanged = true
           return `${packageJsonPath}: added ${missingPackageNames.join(", ")}`
-        }
+        },
+        async () => addBackendEnvironment(appPath, answers.backend)
       )
 
       if (answers.backend === "convex") {
         const providersPath = "apps/mobile/src/shared/components/providers.tsx"
-        const envPath = "apps/mobile/src/shared/env.ts"
 
         actions.push(
           {
@@ -151,56 +134,6 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
             skipIfExists: true,
             templateFile: "templates/backend-clients/convex/mobile/auth.ts.hbs",
             type: "add",
-          },
-          {
-            path: envPath,
-            pattern: /import \{ sentry \} from "[^"]+\/presets"/,
-            skip: async () => {
-              const contents = await Bun.file(envPath).text()
-              return contents.includes("import { convex, sentry }")
-                ? `${envPath} already imports the Convex preset`
-                : false
-            },
-            template: 'import { convex, sentry } from "{{envPackage}}/presets"',
-            type: "modify",
-          },
-          {
-            path: envPath,
-            pattern: "  extends: [",
-            skip: async () => {
-              const contents = await Bun.file(envPath).text()
-              return contents.includes("convex.expo()")
-                ? `${envPath} already uses the Convex preset`
-                : false
-            },
-            template: "  extends: [convex.expo(), ",
-            type: "modify",
-          },
-          {
-            path: envPath,
-            pattern: "createEnv({",
-            skip: async () => {
-              const contents = await Bun.file(envPath).text()
-              return contents.includes("export default createEnv")
-                ? `${envPath} already has a default export`
-                : false
-            },
-            template: "export default createEnv({",
-            type: "modify",
-          },
-          {
-            path: "apps/mobile/.env.template",
-            pattern: /$/,
-            separator: "\n",
-            skip: async () => {
-              const contents = await Bun.file("apps/mobile/.env.template").text()
-              return contents.includes("EXPO_PUBLIC_CONVEX_URL=")
-                ? "apps/mobile/.env.template already contains Convex variables"
-                : false
-            },
-            templateFile: "templates/backend-clients/convex/mobile/env.hbs",
-            type: "append",
-            unique: false,
           },
           {
             path: providersPath,
@@ -277,9 +210,6 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
       }
 
       if (answers.backend === "hono") {
-        const envPath = `${appPath}/src/shared/env.ts`
-        const envKey = answers.app === "mobile" ? "EXPO_PUBLIC_API_URL" : "PUBLIC_API_URL"
-
         actions.push({
           path: `${appPath}/src/shared/api.ts`,
           skipIfExists: true,
@@ -287,92 +217,13 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
           type: "add",
         })
 
-        if (answers.app === "app") {
+        if (answers.app !== "app") {
           actions.push({
-            path: "apps/app/.env.template",
-            pattern: /$/,
-            separator: "\n",
-            skip: async () => {
-              const contents = await Bun.file("apps/app/.env.template").text()
-              return contents.includes("PUBLIC_API_URL=")
-                ? "apps/app/.env.template already contains PUBLIC_API_URL"
-                : false
-            },
-            templateFile: "templates/backend-clients/hono/app/env.hbs",
-            type: "append",
-            unique: false,
+            path: `${appPath}/src/shared/utils.ts`,
+            skipIfExists: true,
+            templateFile: `templates/backend-clients/hono/${answers.app}/utils.ts.hbs`,
+            type: "add",
           })
-        } else {
-          const presetName = answers.app === "desktop" ? "tauri" : "sentry"
-          const presetPattern =
-            answers.app === "desktop"
-              ? /import \{ tauri \} from "[^"]+\/presets"/
-              : /import \{ sentry \} from "[^"]+\/presets"/
-
-          actions.push(
-            {
-              path: envPath,
-              pattern: presetPattern,
-              skip: async () => {
-                const contents = await Bun.file(envPath).text()
-                return contents.includes('import * as z from "')
-                  ? `${envPath} already imports the schema package`
-                  : false
-              },
-              template: `import { ${presetName} } from "{{envPackage}}/presets"\nimport * as z from "{{utilsPackage}}/schema"`,
-              type: "modify",
-            },
-            {
-              path: envPath,
-              pattern: "  client: {},",
-              skip: async () => {
-                const contents = await Bun.file(envPath).text()
-                return contents.includes(`${envKey}:`)
-                  ? `${envPath} already contains ${envKey}`
-                  : false
-              },
-              template: `  client: {\n    ${envKey}: z.url(),\n  },`,
-              type: "modify",
-            }
-          )
-
-          if (answers.app === "mobile") {
-            actions.push({
-              path: envPath,
-              pattern: "createEnv({",
-              skip: async () => {
-                const contents = await Bun.file(envPath).text()
-                return contents.includes("export default createEnv")
-                  ? `${envPath} already has a default export`
-                  : false
-              },
-              template: "export default createEnv({",
-              type: "modify",
-            })
-          }
-
-          actions.push(
-            {
-              path: `${appPath}/src/shared/utils.ts`,
-              skipIfExists: true,
-              templateFile: `templates/backend-clients/hono/${answers.app}/utils.ts.hbs`,
-              type: "add",
-            },
-            {
-              path: `${appPath}/.env.template`,
-              pattern: /$/,
-              separator: "\n",
-              skip: async () => {
-                const contents = await Bun.file(`${appPath}/.env.template`).text()
-                return contents.includes(`${envKey}=`)
-                  ? `${appPath}/.env.template already contains ${envKey}`
-                  : false
-              },
-              templateFile: `templates/backend-clients/hono/${answers.app}/env.hbs`,
-              type: "append",
-              unique: false,
-            }
-          )
         }
 
         if (answers.auth && answers.app === "app") {
@@ -455,71 +306,13 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
           type: "add",
         })
 
-        if (answers.app === "app") {
+        if (answers.app !== "app") {
           actions.push({
-            path: "apps/app/.env.template",
-            pattern: /$/,
-            separator: "\n",
-            skip: async () => {
-              const contents = await Bun.file("apps/app/.env.template").text()
-              return contents.includes("PUBLIC_API_URL=")
-                ? "apps/app/.env.template already contains PUBLIC_API_URL"
-                : false
-            },
-            templateFile: "templates/backend-clients/hono/app/env.hbs",
-            type: "append",
-            unique: false,
+            path: "apps/desktop/src/shared/utils.ts",
+            skipIfExists: true,
+            templateFile: "templates/backend-clients/hono/desktop/utils.ts.hbs",
+            type: "add",
           })
-        } else {
-          const envPath = "apps/desktop/src/shared/env.ts"
-
-          actions.push(
-            {
-              path: envPath,
-              pattern: /import \{ tauri \} from "[^"]+\/presets"/,
-              skip: async () => {
-                const contents = await Bun.file(envPath).text()
-                return contents.includes('import * as z from "')
-                  ? `${envPath} already imports the schema package`
-                  : false
-              },
-              template:
-                'import { tauri } from "{{envPackage}}/presets"\nimport * as z from "{{utilsPackage}}/schema"',
-              type: "modify",
-            },
-            {
-              path: envPath,
-              pattern: "  client: {},",
-              skip: async () => {
-                const contents = await Bun.file(envPath).text()
-                return contents.includes("PUBLIC_API_URL:")
-                  ? `${envPath} already contains PUBLIC_API_URL`
-                  : false
-              },
-              template: "  client: {\n    PUBLIC_API_URL: z.url(),\n  },",
-              type: "modify",
-            },
-            {
-              path: "apps/desktop/src/shared/utils.ts",
-              skipIfExists: true,
-              templateFile: "templates/backend-clients/hono/desktop/utils.ts.hbs",
-              type: "add",
-            },
-            {
-              path: "apps/desktop/.env.template",
-              pattern: /$/,
-              separator: "\n",
-              skip: async () => {
-                const contents = await Bun.file("apps/desktop/.env.template").text()
-                return contents.includes("PUBLIC_API_URL=")
-                  ? "apps/desktop/.env.template already contains PUBLIC_API_URL"
-                  : false
-              },
-              templateFile: "templates/backend-clients/hono/desktop/env.hbs",
-              type: "append",
-              unique: false,
-            }
-          )
         }
 
         if (answers.app === "app") {
@@ -660,11 +453,13 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
         async () => {
           const generatedPaths = [
             `${appPath}/package.json`,
+            `${appPath}/.env.development`,
+            `${appPath}/.env.schema`,
             `${appPath}/src/shared/api.ts`,
             `${appPath}/src/shared/auth.ts`,
             `${appPath}/src/shared/components/convex-provider.tsx`,
             `${appPath}/src/shared/components/providers.tsx`,
-            `${appPath}/src/shared/env.ts`,
+            `${appPath}/src/shared/env.generated.ts`,
             `${appPath}/src/shared/trpc.tsx`,
             `${appPath}/src/shared/utils.ts`,
             `${appPath}/src/app/(auth)/_layout.tsx`,
@@ -682,6 +477,7 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
           )
           const existingPaths = checkedPaths.filter((path): path is string => path !== undefined)
 
+          await Bun.$`cd ${appPath} && varlock codegen`
           await Bun.$`bun run format -- ${existingPaths}`
           return `Connected apps/${answers.app} to ${answers.backend}`
         }
@@ -720,4 +516,90 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
       },
     ],
   })
+}
+
+type EnvironmentEntry = {
+  key: string
+  schema: string
+  developmentValue: string
+}
+
+const API_ENVIRONMENTS = {
+  desktop: {
+    developmentValue: "https://api.init.localhost",
+    key: "PUBLIC_API_URL",
+    schema: "# Remote API URL.\n# @public @type=url(matches=/^https?:\\/\\//)\nPUBLIC_API_URL=",
+  },
+  mobile: {
+    developmentValue: "https://api.init.localhost",
+    key: "EXPO_PUBLIC_API_URL",
+    schema:
+      "# Remote API URL.\n# @public @static @type=url(matches=/^https?:\\/\\//)\nEXPO_PUBLIC_API_URL=",
+  },
+} as const
+
+const CONVEX_ENVIRONMENTS = [
+  {
+    developmentValue: "https://example.convex.site",
+    key: "EXPO_PUBLIC_CONVEX_SITE_URL",
+    schema: "# Convex HTTP action URL.\n# @public @static @type=url\nEXPO_PUBLIC_CONVEX_SITE_URL=",
+  },
+  {
+    developmentValue: "https://example.convex.cloud",
+    key: "EXPO_PUBLIC_CONVEX_URL",
+    schema: "# Convex deployment URL.\n# @public @static @type=url\nEXPO_PUBLIC_CONVEX_URL=",
+  },
+] as const satisfies readonly EnvironmentEntry[]
+
+export async function addBackendEnvironment(
+  appPath: string,
+  backend: ConnectBackendAnswers["backend"]
+): Promise<string> {
+  const entries =
+    backend === "convex"
+      ? CONVEX_ENVIRONMENTS
+      : [API_ENVIRONMENTS[appPath === "apps/mobile" ? "mobile" : "desktop"]]
+
+  const schemaPath = `${appPath}/.env.schema`
+  const developmentPath = `${appPath}/.env.development`
+  const schema = await Bun.file(schemaPath).text()
+  const development = (await Bun.file(developmentPath).exists())
+    ? await Bun.file(developmentPath).text()
+    : ""
+  const nextSchema = appendEnvironmentSchemaEntries(schema, entries)
+  const nextDevelopment = appendEnvironmentValues(development, entries)
+
+  if (nextSchema !== schema) await Bun.write(schemaPath, nextSchema)
+
+  if (nextDevelopment !== development) await Bun.write(developmentPath, nextDevelopment)
+
+  const addedKeys = entries
+    .filter(({ key }) => !hasEnvironmentKey(schema, key) || !hasEnvironmentKey(development, key))
+    .map(({ key }) => key)
+  return addedKeys.length > 0
+    ? `${appPath}: added ${addedKeys.join(", ")}`
+    : `[SKIPPED] ${appPath} environment is already connected`
+}
+
+function appendEnvironmentSchemaEntries(
+  contents: string,
+  entries: readonly EnvironmentEntry[]
+): string {
+  const missingEntries = entries.filter(({ key }) => !hasEnvironmentKey(contents, key))
+  if (missingEntries.length === 0) return contents
+
+  return `${contents.trimEnd()}\n\n${missingEntries.map(({ schema }) => schema).join("\n\n")}\n`
+}
+
+function appendEnvironmentValues(contents: string, entries: readonly EnvironmentEntry[]): string {
+  const missingEntries = entries.filter(({ key }) => !hasEnvironmentKey(contents, key))
+  if (missingEntries.length === 0) return contents
+
+  return `${contents.trimEnd()}${contents.trim() ? "\n" : ""}${missingEntries
+    .map(({ developmentValue, key }) => `${key}=${developmentValue}`)
+    .join("\n")}\n`
+}
+
+function hasEnvironmentKey(contents: string, key: string): boolean {
+  return contents.split("\n").some((line) => line.startsWith(`${key}=`))
 }

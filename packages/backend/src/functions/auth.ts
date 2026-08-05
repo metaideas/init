@@ -1,8 +1,8 @@
 import type { GenericCtx } from "@convex-dev/better-auth"
 import { createAuth } from "@init/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
+import { env } from "#functions/_generated/server.js"
 import { authComponent, createAuthOptions } from "#functions/shared/auth.ts"
-import env from "#functions/shared/env.ts"
 
 export { authComponent } from "#functions/shared/auth.ts"
 
@@ -13,5 +13,7 @@ export const convexAuth = (ctx: GenericCtx<DataModel>) =>
     ...createAuthOptions(ctx),
     baseURL: env.CONVEX_SITE_URL,
     secret: env.AUTH_SECRET,
-    trustedOrigins: env.AUTH_TRUSTED_ORIGINS,
+    trustedOrigins: env.AUTH_TRUSTED_ORIGINS.split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean),
   })

@@ -4,9 +4,9 @@ import { adminClient, organizationClient } from "{{authPackage}}/client/plugins"
 import { expoClient } from "{{authPackage}}/expo/client"
 import { accessControl, adminRole, memberRole, ownerRole } from "{{authPackage}}/permissions"
 import * as SecureStore from "expo-secure-store"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 
-export const auth = createAuthClient(env.EXPO_PUBLIC_CONVEX_SITE_URL, [
+export const auth = createAuthClient(ENV.EXPO_PUBLIC_CONVEX_SITE_URL, [
   expoClient({ storage: SecureStore }),
   convexClient(),
   adminClient(),

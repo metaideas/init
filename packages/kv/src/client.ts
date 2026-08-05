@@ -1,12 +1,12 @@
-import { kv as env } from "@init/env/presets"
 import { singleton } from "@init/utils/singleton"
 import { createStorage, type Storage } from "unstorage"
 import redisDriver from "unstorage/drivers/redis"
+import { ENV } from "#env.generated.ts"
 
 export type KeyPart = string | number
 
 export function kv(): Storage {
-  return singleton("kv", () => createStorage({ driver: redisDriver({ url: env().REDIS_URL }) }))
+  return singleton("kv", () => createStorage({ driver: redisDriver({ url: ENV.REDIS_URL }) }))
 }
 
 export function normalizeKey(...parts: KeyPart[]): string {

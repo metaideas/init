@@ -34,7 +34,6 @@ root
   │   ├── core                  # Shared core logic and business rules
   │   ├── db                    # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
-  │   ├── env                   # Environment variable management and validation
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── native-ui             # Reusable React Native UI components
   │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
@@ -45,8 +44,7 @@ root
   │
   ├── tooling             # Shared development and build tools
   │   ├── internationalization  # Inlang project configuration and translations
-  │   ├── env                   # Shared environment tooling
-  │   ├── tsconfig          # TypeScript configuration
+  │   └── tsconfig              # TypeScript configuration
   │
   └── turbo               # Turborepo configuration for monorepo management
       └── generators        # Code generators for packages and tooling

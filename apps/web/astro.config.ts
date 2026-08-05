@@ -3,18 +3,16 @@ import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
-import { ensureEnv } from "@tooling/env/vite"
+import varlock from "@varlock/astro-integration"
 import { defineConfig } from "astro/config"
-
-await ensureEnv(process.env.NODE_ENV ?? "development", import.meta.dirname)
-const { default: env } = await import("./src/shared/env.ts")
+import { ENV } from "./src/shared/env.generated.ts"
 
 export default defineConfig({
   output: "static",
   server: {
-    port: Number(process.env.PORT ?? 3006),
+    port: ENV.PORT,
   },
-  site: env.PUBLIC_SITE_URL ?? "https://init.now",
+  site: ENV.PUBLIC_SITE_URL ?? "https://init.now",
 
   i18n: {
     defaultLocale: "en",
@@ -33,6 +31,7 @@ export default defineConfig({
   },
 
   integrations: [
+    varlock(),
     react(),
     mdx(),
     sitemap({

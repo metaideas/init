@@ -16,26 +16,34 @@ See [Getting Started](./getting-started.md) for the authoritative versions. In s
 
 These match the root `package.json` scripts.
 
-| Command                | Description                                |
-| ---------------------- | ------------------------------------------ |
-| `bun run dev`          | Start all workspaces with named HTTPS URLs |
-| `bun run dev:apps`     | Start application workspaces with Portless |
-| `bun run dev:packages` | Start package workspaces with Portless     |
-| `bun run build`        | Build all workspaces                       |
-| `bun run clean`        | Clean build artifacts                      |
-| `bun run check`        | Run Adamantite checks                      |
-| `bun run fix`          | Auto-fix issues with Adamantite            |
-| `bun run format`       | Format code with Adamantite                |
-| `bun run test`         | Run the test suite                         |
-| `bun run docker:up`    | Start local services                       |
-| `bun run docker:down`  | Stop local services                        |
-| `bun run boundaries`   | Generate dependency boundaries report      |
+| Command                | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| `bun run dev`          | Start all workspaces with named HTTPS URLs           |
+| `bun run dev:apps`     | Start application workspaces with Portless           |
+| `bun run dev:packages` | Start package workspaces with Portless               |
+| `bun run build`        | Build all workspaces                                 |
+| `bun run clean`        | Clean build artifacts                                |
+| `bun run check`        | Generate types and run Adamantite checks             |
+| `bun run codegen`      | Generate workspace source and env types              |
+| `bun run env:check`    | Validate Varlock workspaces in parallel              |
+| `bun run env:scan`     | Build and scan client artifacts for sensitive values |
+| `bun run fix`          | Auto-fix issues with Adamantite                      |
+| `bun run format`       | Format code with Adamantite                          |
+| `bun run test`         | Run the test suite                                   |
+| `bun run docker:up`    | Start local services                                 |
+| `bun run docker:down`  | Stop local services                                  |
+| `bun run boundaries`   | Generate dependency boundaries report                |
 
 If you want to run a command for a specific workspace, you can use the following syntax:
 
 ```bash
 bun run <command> --filter <workspace>
 ```
+
+Application workspaces split generation into `codegen:env` and `codegen:i18n`.
+Their `codegen` script runs both concurrently with Bun's parallel script runner, so
+Turbo retains one dependency boundary while either generator can still be invoked
+independently during development.
 
 ## Portless
 

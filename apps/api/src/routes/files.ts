@@ -1,7 +1,7 @@
 import { createFilesRouter } from "files-sdk/api"
 import { createRouteHandler } from "files-sdk/hono"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 import { files, FILES_MAX_UPLOAD_SIZE, FILES_MAX_URL_AGE } from "#shared/files.ts"
 import { requireSession } from "#shared/middleware.ts"
 import { allowedOrigins, context, factory } from "#shared/utils.ts"
@@ -34,7 +34,7 @@ const router = createFilesRouter({
     "upload",
     "url",
   ],
-  secret: env.FILES_API_SECRET,
+  secret: ENV.FILES_API_SECRET,
 })
 
 export default factory.createApp().all("/", requireSession, createRouteHandler(router))

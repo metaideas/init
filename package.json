@@ -15,7 +15,7 @@
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "bump:deps": "bun update --interactive --recursive",
-    "check": "adamantite check",
+    "check": "bun run codegen && adamantite check",
     "check:monorepo": "adamantite monorepo",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "codegen": "turbo run codegen --continue --concurrency=1",
@@ -26,6 +26,8 @@
     "dev:packages": "turbo run dev --filter=@init/*",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d --remove-orphans",
+    "env:check": "turbo run env:check --continue",
+    "env:scan": "turbo run env:scan --continue",
     "fix": "adamantite fix",
     "fix:monorepo": "adamantite monorepo --fix",
     "format": "adamantite format",
@@ -52,6 +54,7 @@
     "sherif": "1.13.0",
     "turbo": "2.10.7",
     "typescript": "7.0.2",
+    "varlock": "1.16.0",
     "yargs": "18.0.0"
   },
   "overrides": {

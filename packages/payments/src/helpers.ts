@@ -1,7 +1,7 @@
 import type { Stripe } from "stripe"
-import { stripe as env } from "@init/env/presets"
 import { kv, namespaceKey } from "@init/kv/client"
 import { payments } from "#client.ts"
+import { ENV } from "#env.generated.ts"
 
 const paymentsKey = namespaceKey("payments")
 
@@ -104,7 +104,7 @@ export async function parseWebhook(request: Request) {
 
   const body = await request.text()
 
-  const event = payments().webhooks.constructEvent(body, signature, env().STRIPE_WEBHOOK_SECRET)
+  const event = payments().webhooks.constructEvent(body, signature, ENV.STRIPE_WEBHOOK_SECRET)
 
   if (!checkIsAllowedEvent(event)) {
     throw new Error("Invalid event")

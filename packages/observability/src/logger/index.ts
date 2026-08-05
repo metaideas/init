@@ -1,3 +1,4 @@
+import { isDevelopment } from "@init/utils/env"
 import {
   type Config,
   type Logger as LogtapeLogger,
@@ -8,7 +9,6 @@ import {
   jsonLinesFormatter,
 } from "@logtape/logtape"
 import { getPrettyFormatter } from "@logtape/pretty"
-import { isDevelopment } from "std-env"
 import { redactSink } from "#logger/utils.ts"
 
 export const LoggerCategory = {
