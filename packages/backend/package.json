@@ -26,13 +26,11 @@
     "@convex-dev/react-query": "0.1.0",
     "@init/auth": "workspace:*",
     "@init/core": "workspace:*",
-    "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
     "convex": "1.42.3",
-    "fluent-convex": "0.13.0",
-    "std-env": "4.2.0"
+    "fluent-convex": "0.13.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

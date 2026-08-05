@@ -1,9 +1,9 @@
 import { createUrlBuilder } from "{{utilsPackage}}/url"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 
 const isProduction = process.env.NODE_ENV === "production"
 
 export const buildApiUrl = createUrlBuilder(
-  env.EXPO_PUBLIC_API_URL,
+  ENV.EXPO_PUBLIC_API_URL,
   isProduction ? "https" : "http"
 )

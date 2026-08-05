@@ -3,19 +3,19 @@ import { unified } from "@astrojs/markdown-remark"
 import starlight from "@astrojs/starlight"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
-import { ensureEnv } from "@tooling/env/vite"
+import varlock from "@varlock/astro-integration"
 import { defineConfig } from "astro/config"
 
 import { DOCS_DESCRIPTION, DOCS_URL, GITHUB_URL, SITE_NAME } from "./src/shared/constants.ts"
+import { ENV } from "./src/shared/env.generated.ts"
 import rewriteDocsLinks from "./src/shared/markdown-links.ts"
 
-await ensureEnv(process.env.NODE_ENV ?? "development", import.meta.dirname)
-const { default: env } = await import("./src/shared/env.ts")
 const { marketingUrl } = await import("./src/shared/utils.ts")
-const site = env.PUBLIC_SITE_URL ?? DOCS_URL
+const site = ENV.PUBLIC_SITE_URL ?? DOCS_URL
 
 export default defineConfig({
   integrations: [
+    varlock(),
     starlight({
       components: {
         Head: "./src/shared/components/head.astro",
@@ -86,6 +86,7 @@ export default defineConfig({
         },
         {
           items: [
+            { label: "Environment Configuration", slug: "environment" },
             { label: "Project Generators", slug: "generators" },
             { label: "Package Guidance", slug: "packages" },
             { label: "Internationalization", slug: "internationalization" },
@@ -125,7 +126,7 @@ export default defineConfig({
   },
   output: "static",
   server: {
-    port: Number(process.env.PORT ?? 3004),
+    port: ENV.PORT,
   },
   site,
   vite: {

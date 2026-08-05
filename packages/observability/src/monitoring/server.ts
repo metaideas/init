@@ -1,15 +1,14 @@
-import { sentry } from "@init/env/presets"
+import { isProduction, isTest } from "@init/utils/env"
 import * as Sentry from "@sentry/node"
-import { isProduction, isTest } from "std-env"
+import { ENV } from "#env.generated.ts"
 
 export function initializeErrorMonitoring() {
   const monitoringSampleRate = isProduction ? 0.1 : 1
-  const env = sentry.server()
   const environment = isProduction ? "production" : isTest ? "test" : "development"
 
   Sentry.init({
-    debug: env.SENTRY_DEBUG,
-    dsn: env.SENTRY_DSN,
+    debug: ENV.SENTRY_DEBUG,
+    dsn: ENV.SENTRY_DSN,
 
     enableLogs: true,
 

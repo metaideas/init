@@ -11,20 +11,22 @@
     "build": "email build --dir src/templates",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "varlock codegen",
     "dev": "portless",
     "dev:app": "email dev --dir src/templates --port ${PORT:-4000}",
+    "env:check": "varlock load",
     "export": "email export --dir src/templates"
   },
   "dependencies": {
     "@init/core": "workspace:*",
-    "@init/env": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/utils": "workspace:*",
     "@react-email/components": "1.0.12",
     "@react-email/render": "2.1.0",
     "date-fns": "4.1.0",
     "qte": "0.1.1",
-    "resend": "6.7.0"
+    "resend": "6.7.0",
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@react-email/ui": "6.9.1",

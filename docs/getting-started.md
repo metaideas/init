@@ -77,6 +77,11 @@ external credentials.
 bun run codegen
 ```
 
+Application contracts live in `.env.schema`, with safe committed local values in
+`.env.development`. Put personal overrides in `.env.local`, then run
+`bun run env:check`. See [Environment configuration](./environment.md) for package
+contracts, production values, and secret stores.
+
 4. Start your local services using `docker`:
 
 ```bash
@@ -94,7 +99,7 @@ creates a local certificate authority, asks the operating system to trust it, an
 starts its proxy on port 443. The project scope determines the hostname suffix; the
 default template uses:
 
-- App: `https://init.localhost`
+- App: `https://app.init.localhost`
 - API: `https://api.init.localhost`
 - Web: `https://web.init.localhost`
 - Docs: `https://docs.init.localhost`
@@ -106,7 +111,7 @@ default template uses:
 - Inngest: `https://workflows.init.localhost`
 
 Running `bun template setup` or a root `bun template rename` changes `init` in these
-hostnames to the normalized project scope. The App owns the bare project hostname.
+hostnames to the normalized project scope. The App uses the `app` subdomain.
 
 Every HTTP-serving workspace uses `portless` as its `dev` script and keeps its
 framework command in `dev:app`. Running `bun run dev` inside `apps/api`, for example,
@@ -143,7 +148,8 @@ Docker infrastructure retains fixed host ports and can still conflict across pro
 - Bun version mismatch: run `bun --version`, update to `1.3.x`.
 - Node version mismatch: install Node.js `>=24` with your version manager.
 - Docker services not running: check `docker ps`, then run `bun run docker:up`.
-- Missing env variables: compare `.env.local` with each `.env.template`.
+- Missing environment variables: run `bun run env:check`, then inspect the owning
+  `.env.schema` and your ignored `.env.local` overrides.
 - Portless trust or DNS problems: run `portless doctor`, then follow its suggested
   `portless trust` or `portless hosts sync` command.
 - `.localhost` is available only on the development machine. Expo on a physical device

@@ -1,12 +1,12 @@
 import type { ReactNode } from "react"
 import { SendEmailError, BatchSendEmailError } from "@init/core/errors"
-import { resend } from "@init/env/presets"
 import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
 import { type TimeExpression, ms } from "qte"
 import { Resend } from "resend"
+import { ENV } from "./env.generated.ts"
 
 type EmailSendParams = {
   emails: string[]
@@ -15,15 +15,14 @@ type EmailSendParams = {
   from?: string
 }
 
-export const email = singleton("email", () => new Resend(resend().RESEND_API_KEY))
+export const email = singleton("email", () => new Resend(ENV.RESEND_API_KEY))
 
 const logger = getLogger(LoggerCategory.EMAIL)
 
 export async function sendEmail(body: ReactNode, params: EmailSendParams) {
-  const env = resend()
-  const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
+  const { emails, subject, sendAt, from = ENV.EMAIL_FROM } = params
 
-  if (env.MOCK_RESEND) {
+  if (ENV.MOCK_RESEND) {
     await previewEmail(body, { emails, from, sendAt, subject })
 
     return { id: "mock-id" }
@@ -55,11 +54,9 @@ export async function sendEmail(body: ReactNode, params: EmailSendParams) {
 }
 
 export async function batchEmails(payload: Array<EmailSendParams & { body: ReactNode }>) {
-  const env = resend()
-
-  if (env.MOCK_RESEND) {
+  if (ENV.MOCK_RESEND) {
     const promises = payload.map(async ({ body, ...params }, index) => {
-      const { emails, subject, sendAt, from = env.EMAIL_FROM } = params
+      const { emails, subject, sendAt, from = ENV.EMAIL_FROM } = params
 
       await previewEmail(body, { emails, from, sendAt, subject })
 
@@ -70,7 +67,7 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
   }
 
   const { data, error } = await email.batch.send(
-    payload.map(({ body, emails, subject, sendAt, from = env.EMAIL_FROM }) => ({
+    payload.map(({ body, emails, subject, sendAt, from = ENV.EMAIL_FROM }) => ({
       from,
       react: body,
       scheduledAt:
@@ -87,7 +84,7 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
   if (error) {
     throw new BatchSendEmailError({
       emails: payload.flatMap(({ emails }) => emails),
-      from: env.EMAIL_FROM,
+      from: ENV.EMAIL_FROM,
       subject: payload.map(({ subject }) => subject).join(", "),
     })
   }

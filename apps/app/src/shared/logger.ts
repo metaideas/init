@@ -1,6 +1,6 @@
 import { buildLogger, LoggerCategory } from "@init/observability/logger"
+import { hasWindow } from "@init/utils/env"
 import { singleton } from "@init/utils/singleton"
-import { hasWindow } from "std-env"
 
 export const logger = singleton("logger:app", () =>
   buildLogger([LoggerCategory.DEFAULT], {

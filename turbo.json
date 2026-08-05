@@ -1,30 +1,34 @@
 {
   "$schema": "https://v2-10-7.turborepo.dev/schema.json",
-  "globalPassThroughEnv": ["CI"],
+  "globalPassThroughEnv": ["CI", "VARLOCK_ENV", "_VARLOCK_ENV_KEY"],
   "concurrency": "15",
   "tasks": {
     "build": {
       "dependsOn": ["codegen", "^codegen"],
       "env": [
-        "AUTH_SECRET",
-
+        "ALLOWED_API_ORIGINS",
+        "ARCJET_KEY",
+        "AUTH_*",
+        "BASE_URL",
         "DATABASE_URL",
-        "DATABASE_AUTH_TOKEN",
-
         "EMAIL_FROM",
-
-        "GITHUB_CLIENT_ID",
-        "GITHUB_CLIENT_SECRET",
-
-        "GOOGLE_CLIENT_ID",
-        "GOOGLE_CLIENT_SECRET",
-
+        "EXPO_PUBLIC_*",
+        "FILES_API_SECRET",
+        "GITHUB_*",
+        "GOOGLE_*",
+        "INNGEST_*",
+        "MOCK_RESEND",
+        "PORT",
+        "PORTLESS_URL",
+        "POSTHOG_*",
+        "PUBLIC_*",
+        "REDIS_URL",
         "RESEND_API_KEY",
-
-        "SENTRY_AUTH_TOKEN",
-        "SENTRY_DSN",
-        "SENTRY_ORG",
-        "SENTRY_PROJECT"
+        "RUN_PRODUCTION_MIGRATIONS",
+        "S3_*",
+        "SENTRY_*",
+        "STRIPE_*",
+        "TAURI_*"
       ]
     },
     "clean": {
@@ -51,7 +55,29 @@
       "persistent": true
     },
     "codegen": {
-      "dependsOn": ["typegen"]
+      "dependsOn": ["typegen"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/packages/*/env/**",
+        "$TURBO_ROOT$/tooling/internationalization/**"
+      ],
+      "outputs": [
+        "src/env.generated.ts",
+        "src/shared/env.generated.ts",
+        "src/shared/internationalization/**"
+      ]
+    },
+    "env:check": {
+      "cache": false,
+      "passThroughEnv": ["*"]
+    },
+    "env:scan": {
+      "cache": false,
+      "dependsOn": ["env:scan:build"]
+    },
+    "env:scan:build": {
+      "cache": false,
+      "dependsOn": ["codegen", "^codegen"]
     },
     "typegen": {},
     "//#analyze": {},

@@ -9,7 +9,7 @@ import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({
@@ -28,17 +28,17 @@ export const auth = createAuth({
     },
   },
   plugins: [admin(), organization()],
-  secret: env.AUTH_SECRET,
+  secret: ENV.AUTH_SECRET,
   session: AUTH_SESSION_OPTIONS,
   socialProviders: {
     github: {
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+      clientId: ENV.GITHUB_CLIENT_ID,
+      clientSecret: ENV.GITHUB_CLIENT_SECRET,
       enabled: true,
     },
     google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientId: ENV.GOOGLE_CLIENT_ID,
+      clientSecret: ENV.GOOGLE_CLIENT_SECRET,
       enabled: true,
     },
   },

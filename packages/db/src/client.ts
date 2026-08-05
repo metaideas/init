@@ -1,9 +1,9 @@
-import { db as env } from "@init/env/presets"
 import { LoggerCategory } from "@init/observability/logger"
 import { drizzleLogger } from "@init/observability/logger/integrations"
 import { singleton } from "@init/utils/singleton"
 import { SQL } from "bun"
 import { drizzle } from "drizzle-orm/bun-sql"
+import { ENV } from "#env.generated.ts"
 import * as schema from "#schema.ts"
 
 export function connect(url: string) {
@@ -18,7 +18,7 @@ export function connect(url: string) {
 }
 
 export function database() {
-  return singleton("database", () => connect(env().DATABASE_URL))
+  return singleton("database", () => connect(ENV.DATABASE_URL))
 }
 
 export type Database = ReturnType<typeof database>

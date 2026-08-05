@@ -3,10 +3,10 @@ import { ConvexQueryClient, ConvexReactClient } from "{{backendPackage}}/client"
 import type { AuthClient } from "{{backendPackage}}/client/auth"
 import { ConvexBetterAuthProvider } from "{{backendPackage}}/client/auth"
 import { auth } from "#shared/auth.ts"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 import { queryClient } from "#shared/query-client.ts"
 
-const convex = new ConvexReactClient(env.EXPO_PUBLIC_CONVEX_URL, {
+const convex = new ConvexReactClient(ENV.EXPO_PUBLIC_CONVEX_URL, {
   expectAuth: true,
   unsavedChangesWarning: false,
 })

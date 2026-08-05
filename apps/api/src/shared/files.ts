@@ -8,7 +8,7 @@ import { contentType } from "files-sdk/content-type"
 import { signedUrlPolicy } from "files-sdk/signed-url-policy"
 import { validation } from "files-sdk/validation"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
-import env from "#shared/env.ts"
+import { ENV } from "#shared/env.generated.ts"
 import { context } from "#shared/utils.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
@@ -16,12 +16,12 @@ export const FILES_MAX_URL_AGE = 15 * 60
 
 export const files = createFiles({
   adapter: bunS3({
-    accessKeyId: env.S3_ACCESS_KEY_ID,
-    bucket: env.S3_BUCKET,
-    endpoint: env.S3_ENDPOINT,
-    region: env.S3_REGION,
-    secretAccessKey: env.S3_SECRET_ACCESS_KEY,
-    virtualHostedStyle: !env.S3_ENDPOINT,
+    accessKeyId: ENV.S3_ACCESS_KEY_ID,
+    bucket: ENV.S3_BUCKET,
+    endpoint: ENV.S3_ENDPOINT,
+    region: ENV.S3_REGION,
+    secretAccessKey: ENV.S3_SECRET_ACCESS_KEY,
+    virtualHostedStyle: !ENV.S3_ENDPOINT,
   }),
   hooks: {
     onAction(event) {

@@ -3,14 +3,13 @@
 import { database } from "@init/db/client"
 import { checkIsLocalDatabase } from "@init/db/helpers"
 import * as schema from "@init/db/schema"
-import { db as env } from "@init/env/presets"
-import Bun from "bun"
-import { seed } from "drizzle-seed"
+import { reset, seed } from "drizzle-seed"
+import { ENV } from "#env.generated.ts"
 
 async function main() {
   console.log("\n🌱 Database Seed\n")
 
-  if (!checkIsLocalDatabase(env().DATABASE_URL)) {
+  if (!checkIsLocalDatabase(ENV.DATABASE_URL)) {
     throw new Error(
       "Cannot seed a non-local database. This script only works with local databases."
     )
@@ -18,9 +17,9 @@ async function main() {
 
   const db = database()
 
-  console.log("   Pushing database schema...\n")
-  await Bun.$`drizzle-kit push`
-  console.log("✅ Database schema pushed\n")
+  console.log("   Removing existing data...\n")
+  await reset(db, schema)
+  console.log("✅ Existing data removed\n")
 
   console.log("   Seeding database...\n")
 
@@ -44,6 +43,7 @@ async function main() {
       count: 10,
       with: {
         accounts: 1,
+        members: 1,
       },
     },
     verifications: {

@@ -5,6 +5,9 @@ const config: KnipConfig = {
   ...analyze,
   ignoreExportsUsedInFile: true,
   ignoreFiles: [],
+  ignoreIssues: {
+    "**/env.generated.ts": ["exports", "types"],
+  },
   rules: {
     ...analyze.rules,
     binaries: "error",
@@ -33,21 +36,22 @@ const config: KnipConfig = {
       entry: "src/routeTree.gen.{ts,js}",
     },
     "apps/desktop": {
-      entry: "src/shared/env.ts",
+      entry: "src/shared/env.generated.ts",
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },
     "apps/docs": {
       project: "src/**/*.{astro,css,js,jsx,mdx,ts,tsx}",
     },
     "apps/extension": {
-      entry: ["src/entrypoints/**/*.{ts,tsx}", "src/shared/env.ts"],
+      entry: ["src/entrypoints/**/*.{ts,tsx}", "src/shared/env.generated.ts"],
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },
     "apps/mobile": {
+      entry: "src/shared/env.generated.ts",
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },
     "apps/web": {
-      entry: "src/shared/env.ts",
+      entry: "src/shared/env.generated.ts",
       project: "src/**/*.{astro,css,js,jsx,mdx,ts,tsx}",
     },
     "packages/*": {
@@ -58,6 +62,7 @@ const config: KnipConfig = {
         config: [],
         entry: ["drizzle.config.ts", "src/schema.ts"],
       },
+      entry: ["scripts/*.ts"],
     },
     "packages/native-ui": {
       project: "src/**/*.{css,js,jsx,ts,tsx}",
