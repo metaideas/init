@@ -26,8 +26,8 @@
     "@tanstack/react-router-devtools": "1.167.0",
     "@tauri-apps/api": "2.9.1",
     "@tauri-apps/plugin-dialog": "2.7.2",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "std-env": "4.2.0"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "@tooling/env": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/babel__core": "7.20.5",
-    "@types/react": "19.1.13",
+    "@types/react": "19.2.4",
     "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "6.0.4",
     "babel-plugin-react-compiler": "1.0.0",

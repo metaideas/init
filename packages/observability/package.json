@@ -29,12 +29,12 @@
     "@sentry/browser": "10.32.1",
     "@sentry/core": "10.32.1",
     "@sentry/node": "10.32.1",
-    "@sentry/react-native": "~7.2.0",
+    "@sentry/react-native": "~7.11.0",
     "std-env": "4.2.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.13",
+    "@types/react": "19.2.4",
     "typescript": "7.0.2"
   }
 }

@@ -29,8 +29,8 @@
   "devDependencies": {
     "@react-email/ui": "6.9.1",
     "@tooling/tsconfig": "workspace:*",
-    "@types/react": "19.1.13",
-    "react": "19.1.0",
+    "@types/react": "19.2.4",
+    "react": "19.2.3",
     "react-email": "6.9.1",
     "typescript": "7.0.2"
   },
