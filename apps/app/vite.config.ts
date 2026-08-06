@@ -11,11 +11,14 @@ import { defineConfig } from "vite"
 import { ENV } from "#shared/env.generated.ts"
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ["bun"],
+  },
   plugins: [
+    devtools(),
     varlock(),
     tailwindcss(),
     tanstackStart(),
-    devtools(),
     react(),
     babel({ presets: [reactCompilerPreset()] }),
     paraglide({
