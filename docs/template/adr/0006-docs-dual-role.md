@@ -6,8 +6,7 @@ Accepted
 
 ## Decision
 
-`apps/docs` is both the public init documentation site and the replaceable Starlight
-example that ships when a scaffold owner selects the docs workspace.
+`apps/docs` is the public init documentation site and a replaceable Starlight example. The template includes the example when a scaffold owner selects the docs workspace.
 
 Root `docs/` owns authored Markdown and MDX. The docs application owns presentation,
 routing, navigation, search, metadata, localization behavior, styles, and static
@@ -15,8 +14,7 @@ assets. Its content collection publishes explicitly supported consumer documenta
 from root `docs/` and excludes upstream governance, maintainer instructions, research,
 and application decision records by default.
 
-The site reads root documents directly through Astro's content loader. It does not
-copy or synchronize a second content tree inside `apps/docs`.
+The site reads root documents directly with Astro's content loader. It does not copy or synchronize another content tree in `apps/docs`.
 
 ## Consequences
 

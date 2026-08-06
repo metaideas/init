@@ -10,17 +10,17 @@
   </p>
 </div>
 
-A modern monorepo template for whatever you build next.
+A modern monorepo Template for the next product you build.
 
 ## What's included
 
-- Fullstack application using [TanStack Start](https://tanstack.com/start)
-- Marketing site and blog using [Astro](https://astro.build/)
-- Documentation site using [Astro](https://astro.build/) with [Starlight](https://starlight.astro.build/)
-- Mobile application using [Expo](https://expo.dev/)
-- API with [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
-- Desktop application using [Tauri](https://tauri.app/)
-- Browser extension using [WXT](https://wxt.dev/)
+- A full-stack application that uses [TanStack Start](https://tanstack.com/start)
+- A marketing site and blog that use [Astro](https://astro.build/)
+- A documentation site that uses [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
+- A mobile application that uses [Expo](https://expo.dev/)
+- An API that uses [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
+- A desktop application that uses [Tauri](https://tauri.app/)
+- A browser extension that uses [WXT](https://wxt.dev/)
 
 ## Documentation
 
