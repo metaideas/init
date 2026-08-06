@@ -1,76 +1,35 @@
 # AGENTS.md
 
-Read [`CONTEXT.md`](./CONTEXT.md) before exploring or changing code. It defines the
-project's vocabulary.
+Use ASD-STE100 Simplified Technical English for all communication.
+
+Before you explore or change code, read the relevant `CONTEXT.md` files. Use the
+ubiquitous language in these files.
 
 ## Repository guidance
 
-- Follow [`docs/agents/domain.md`](./docs/agents/domain.md) when exploring architecture
-  or recording domain decisions.
-- Follow the issue-tracker and triage-label guidance under `docs/agents/` for issue work
-  when those files exist.
+- When you explore architecture, follow [`docs/agents/domain.md`](./docs/agents/domain.md).
+- When you record domain decisions, follow [`docs/agents/domain.md`](./docs/agents/domain.md).
+- For issue work, follow the guidance for issue trackers and triage labels in
+  `docs/agents/` when the files exist.
 
-## Testing
+## Coding standards
 
-- Use Bun for package management and script execution.
-- Use `bun:test`.
-- Add tests to a `__tests__` folder alongside the file under test.
-- Import `describe`, `expect`, and `test` from `bun:test`.
-- Name `describe` blocks after the function under test and test cases after the behavior.
-- Use `bun run build --filter=<workspace>` for targeted builds.
+Before you write code, read the standard that applies to your task:
 
-## Comments
+- Tests: [`docs/agents/testing.md`](./docs/agents/testing.md)
+- Comments: [`docs/agents/comments.md`](./docs/agents/comments.md)
+- Commits: [`docs/agents/version-control.md`](./docs/agents/version-control.md)
+- TypeScript style: [`docs/agents/typescript-style.md`](./docs/agents/typescript-style.md)
+- Imports and boundaries: [`docs/agents/imports-and-boundaries.md`](./docs/agents/imports-and-boundaries.md)
+- UI: [`docs/agents/ui.md`](./docs/agents/ui.md)
 
-- Prefer clear names and structure over explanatory comments.
-- Do not add comments that repeat the code, describe an obvious operation, or narrate a
-  change from an older implementation.
-- Delete commented-out code.
+## Workspace rules
 
-## Version control
+Each workspace with special rules has its own `AGENTS.md`:
 
-- Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`,
-  `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`,
-  `breaking:`, `deprecate:`).
-
-## TypeScript style
-
-- Write concise, technical TypeScript with functional and declarative patterns.
-- Prefer `type` over `interface`; avoid enums in favor of readonly arrays or maps with
-  `as const`.
-- Use the `function` keyword for pure functions and components.
-- Use descriptive names with auxiliary verbs for state and behavior.
-- Use lowercase kebab-case for directories and files.
-- Favor default exports for components unless a module exports multiple functions.
-- Keep exported components first, followed by subcomponents, helpers, static content,
-  and types.
-
-## Imports and boundaries
-
-- Use `#` subpath imports within a package; they resolve from its `src` directory.
-- Use `@init/*` to import another workspace package.
-- Never import between apps, except from `apps/api/src/client.ts`.
-- Within an app, imports flow `shared` → `features` → routes/entrypoints:
-  - `shared` imports only dependencies and other `shared` modules.
-  - A feature may import `shared`, but not another feature.
-  - Routes and entrypoints may import `shared` and features, but not other routes.
-  - `apps/api` routes may import other routes for Hono composition.
-- Avoid circular imports.
-
-## UI
-
-- Use `@init/ui` for web UI and `#shared/components/ui` for mobile UI.
-- Use `cn` from `@init/utils/ui` for class name composition.
-- Keep web UI responsive, accessible, dark-mode compatible, and composed from the
-  existing Radix and Tailwind foundations.
-
-## Scoped rules
-
-- `packages/db/**`: use Drizzle, the shared prefixed-ID helper, non-conflicting
-  four-letter ID prefixes, and timestamps where appropriate.
-- `apps/mobile/**`: use functional React components, Expo APIs, Expo Router navigation,
-  Expo asset handling, and Reanimated for performance-sensitive animation.
-- `apps/api/**`: use Hono middleware for authentication and logging, modular handlers,
-  `app.onError` for global errors, and Hono response helpers.
+- [`packages/db/AGENTS.md`](./packages/db/AGENTS.md)
+- [`apps/mobile/AGENTS.md`](./apps/mobile/AGENTS.md)
+- [`apps/api/AGENTS.md`](./apps/api/AGENTS.md)
 
 <!-- ADAMANTITE:START -->
 

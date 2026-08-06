@@ -1,14 +1,14 @@
 ---
 title: Project Structure
-description: Navigate init's application, package, infrastructure, and tooling workspaces and their import boundaries.
+description: Navigate the Application, Package, infrastructure, and tooling workspaces in init and their import boundaries.
 ---
 
-The project is divided into the following folders:
+The Template has the following folders:
 
-- `apps` - Cross-platform applications and user-facing products.
-- `infra` - Infrastructure as code for local development and cloud providers.
-- `packages` - Shared internal packages for use across apps. Hosted-platform backends consumed as libraries, such as Convex, also live here even though they deploy independently.
-- `tooling` - Shared development configuration and script helpers. If a configuration is used across workspaces and not related to a specific package, it should go here.
+- `apps` - Application workspaces for multiple platforms and user-facing products.
+- `infra` - Infrastructure code for local development and cloud providers.
+- `packages` - Shared internal Package workspaces for Application workspaces. Backends on hosted platforms, such as Convex, also exist here. Application workspaces consume them as libraries. They deploy independently.
+- `tooling` - Shared configuration for development and helpers for scripts. Put configuration here when workspaces use it and it does not relate to a specific Package workspace.
 
 ## General monorepo structure
 
@@ -52,22 +52,22 @@ root
 
 ## App structure
 
-Each app has a `src` folder that contains the source code for the app.
+Each Application workspace has a `src` folder. It contains the source code for the Application workspace.
 
-Apps are usually organized in three folders:
+Application workspaces usually use three folders:
 
-- The main router (e.g., `app` for Expo, `routes` for TanStack Start and Vite projects).
-  - Some projects, like the browser extension, have an extra folder that can be considered part of the routing logic.
-- A `shared` folder for shared utilities and components.
-- A `features` folder for feature-based modules.
+- The main router, such as `app` for Expo or `routes` for TanStack Start and Vite projects.
+  - The browser extension has an additional folder. It forms part of the routing logic.
+- A `shared` folder for utilities and components.
+- A `features` folder for modules by feature.
 
-We follow a unidirectional import flow between these three folders. The code only flows downwards to the routing folder, never going upwards. What this means is that the `features` folder can import from the `shared` folder, but the `shared` folder cannot import from the `features` folder. The `app/routing` folder can import from either the features or the shared folder, but never the other way around. This makes the code more organized and easier to understand.
+These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The `app/routing` folder can import from the `features` or `shared` folder. Neither folder can import from the `app/routing` folder. This flow organizes the code and makes it easier to understand.
 
-Feature folders are also vertical slices of the app and do not have any dependencies between them. This keeps the code organized and easier to understand. If you find yourself needing to import something from a different feature, you should first consider if it can be moved to the `shared` folder.
+Feature folders are vertical slices in an Application workspace. A feature folder does not depend on another feature folder. This structure organizes the code and makes it easier to understand. Before you import an item from another feature, determine if the `shared` folder can contain it.
 
 ### API
 
-This is a high-performance API server built with Hono, providing TRPC endpoints and running on Bun with TypeScript.
+This API server uses Hono and runs on Bun with TypeScript. It provides TRPC endpoints.
 
 ```sh
 apps/api
@@ -98,7 +98,7 @@ apps/api
 
 ### App
 
-This is a web application using TanStack Start with authentication and full-stack features.
+This web application uses TanStack Start. It provides authentication and full-stack features.
 
 ```sh
 apps/app
@@ -144,7 +144,7 @@ apps/app
 
 ### Mobile
 
-This is a cross-platform mobile application built with Expo and React Native, featuring authentication and native capabilities.
+This mobile application uses Expo and React Native. It provides authentication and native capabilities.
 
 ```sh
 apps/mobile
@@ -183,7 +183,7 @@ apps/mobile
 
 ### Desktop
 
-This is a cross-platform desktop application built with Tauri, combining a Rust backend with a TanStack Router frontend for native performance.
+This desktop application uses Tauri. It combines a Rust backend with a TanStack Router frontend for native performance.
 
 ```sh
 apps/desktop
@@ -220,7 +220,7 @@ apps/desktop
 
 ### Extension
 
-This is a cross-browser web extension built with WXT framework, providing enhanced web browsing capabilities across Chrome, Firefox, and other browsers.
+This web extension uses the WXT framework. It provides enhanced web browsing capabilities in Chrome, Firefox, and other browsers.
 
 ```sh
 apps/extension
@@ -264,7 +264,7 @@ apps/extension
 
 ### Docs
 
-This is a documentation website built with Astro and Starlight, providing comprehensive project documentation with search and navigation features.
+This documentation website uses Astro and Starlight. It provides project documentation with search and navigation features.
 
 ```sh
 apps/docs
@@ -294,7 +294,7 @@ apps/docs
 
 ### Web
 
-This is a marketing website and blog built with Astro, focusing on static content and SEO optimization.
+This marketing website and blog use Astro. They use static content and SEO optimization.
 
 ```sh
 apps/web
@@ -325,7 +325,7 @@ apps/web
 
 ## Package structure
 
-Packages don't have an strict structure. A general guideline is that all runtime code should be in the `src` folder, while scripts should be in the `scripts` folder.
+Package workspaces do not have a strict structure. A general guideline places all runtime code in the `src` folder. It places scripts in the `scripts` folder.
 
 ```sh
 packages/package-name
@@ -333,12 +333,12 @@ packages/package-name
   └── scripts/                # Scripts
 ```
 
-You can create a new package with:
+Run the following command to create a new Package workspace:
 
 ```sh
 bun run generate new-package
 ```
 
-Optional copy-once package code is available through `bun run generate code-snippets`.
-To connect an app to an existing backend workspace, use `connect-backend`. See
+The `bun run generate code-snippets` command provides optional copy-once package code.
+Run `connect-backend` to connect an Application workspace to an existing backend workspace. See
 [Project generators](../generators.md) for both workflows.

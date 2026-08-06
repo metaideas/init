@@ -7,9 +7,9 @@ sidebar:
 
 ## Prerequisites
 
-- We use [bun](https://bun.sh/) as our package manager.
-- You'll need Node.js installed (see tooling expectations below).
-- You'll need Docker installed for running the database and Redis. I recommend using [OrbStack](https://orbstack.dev/) for managing your containers.
+- Use [bun](https://bun.sh/) as the package manager.
+- Install Node.js. See the tooling requirements below.
+- Install Docker to run the database and Redis. Use [OrbStack](https://orbstack.dev/) to manage containers.
 
 ## Tooling Expectations
 
@@ -25,7 +25,7 @@ cd my-app
 
 ## Setup
 
-1. Install the dependencies using `bun`:
+1. Install the dependencies with `bun`:
 
 ```bash
 bun install
@@ -37,39 +37,33 @@ bun install
 bun template setup
 ```
 
-This will:
+The command does the following:
 
-- Let you choose the workspaces you want to include
-- Rename the project and update all the imports
-- Initialize a Git repository if needed
-- Clean up internal template files
-- Install dependencies
+- It lets you select the workspaces to include.
+- It renames the project and updates all imports.
+- It initializes a Git repository when necessary.
+- It removes the internal template files.
+- It installs the dependencies.
 
 ### Choosing Workspaces
 
-`template setup` prompts for apps first, then packages. Later, add workspaces with `bun template add app <name>` or `bun template add package <name>`.
+`template setup` prompts first for application workspaces and then for package workspaces. Add workspaces later with `bun template add app <name>` or `bun template add package <name>`.
 
 ### Choosing a Backend
 
-- Keep the TanStack Start server routes and functions in `apps/app` for a full-stack web
-  app with no separate backend deployment.
-- Keep `packages/backend` when clients such as `apps/mobile` benefit from Convex
-  realtime data, managed functions, and a hosted database.
-- Keep `apps/api` when you want a self-managed Hono service, OpenAPI routes, or
-  infrastructure control.
+- Keep the TanStack Start server routes and functions in `apps/app` for a full-stack web application without a separate backend deployment.
+- Keep `packages/backend` when clients such as `apps/mobile` need Convex real-time data, managed functions, and a hosted database.
+- Keep `apps/api` for a self-managed Hono service, OpenAPI routes, or infrastructure control.
 
-These are alternatives, not layers every project must run. Apps connect to a backend
-explicitly; no client is wired to `packages/backend` by default.
+These are alternatives, not layers that every project must run. Application workspaces connect to a backend explicitly. No client connects to `packages/backend` by default.
 
-Once you have chosen, connect an app with the backend generator:
+After you select a backend alternative, connect an application workspace with the backend generator:
 
 ```bash
 bun run generate connect-backend
 ```
 
-See [Project generators](./generators.md) for supported combinations and command-line
-examples. The generator configures local wiring but does not deploy a backend or create
-external credentials.
+See [Project generators](./generators.md) for supported combinations and command-line examples. The generator configures local connections. It does not deploy a backend or create external credentials.
 
 3. Generate source files and types:
 
@@ -77,27 +71,21 @@ external credentials.
 bun run codegen
 ```
 
-Application contracts live in `.env.schema`, with safe committed local values in
-`.env.development`. Put personal overrides in `.env.local`, then run
-`bun run env:check`. See [Environment configuration](./environment.md) for package
-contracts, production values, and secret stores.
+Application contracts are in `.env.schema`. Safe local values are committed in `.env.development`. Put personal overrides in `.env.local`. Then run `bun run env:check`. See [Environment configuration](./environment.md) for package contracts, production values, and secret stores.
 
-4. Start your local services using `docker`:
+4. Start the local services with `docker`:
 
 ```bash
 bun run docker:up
 ```
 
-5. Start the development servers through Portless:
+5. Start the development servers with Portless:
 
 ```bash
 bun run dev
 ```
 
-Portless serves local HTTP development servers over named HTTPS URLs. On first use it
-creates a local certificate authority, asks the operating system to trust it, and
-starts its proxy on port 443. The project scope determines the hostname suffix; the
-default template uses:
+Portless serves local HTTP development servers through named HTTPS URLs. On its first use, it creates a local certificate authority. It asks the operating system to trust the authority. It starts its proxy on port 443. The project scope sets the hostname suffix. The template uses these names by default:
 
 - App: `https://app.init.localhost`
 - API: `https://api.init.localhost`
@@ -110,34 +98,25 @@ default template uses:
 - Email preview: `https://email.init.localhost`
 - Inngest: `https://workflows.init.localhost`
 
-Running `bun template setup` or a root `bun template rename` changes `init` in these
-hostnames to the normalized project scope. The App uses the `app` subdomain.
+`bun template setup` or a root `bun template rename` changes `init` in these hostnames to the normalized project scope. The application workspace uses the `app` subdomain.
 
-Every HTTP-serving workspace uses `portless` as its `dev` script and keeps its
-framework command in `dev:app`. Running `bun run dev` inside `apps/api`, for example,
-serves `https://api.init.localhost`. At the repository root, the same command runs all
-workspaces through Turbo. Package-local Portless configuration keeps both entry points
-on the same names.
+Every HTTP-serving workspace uses `portless` as its `dev` script. Each workspace keeps its framework command in `dev:app`. For example, `bun run dev` in `apps/api` serves `https://api.init.localhost`. At the repository root, the same command runs all workspaces through Turbo. The package-local Portless configuration keeps both entry points on the same names.
 
 ### First Run Checklist
 
-- Run `bun template setup`
-- Generate source files and types with `bun run codegen`
-- Start services with `bun run docker:up`
-- Start the named HTTPS development topology with `bun run dev`
-- Run `portless doctor` if a local URL or certificate is unavailable
+- Run `bun template setup`.
+- Generate source files and types with `bun run codegen`.
+- Start services with `bun run docker:up`.
+- Start the named HTTPS development topology with `bun run dev`.
+- If a local URL or certificate is unavailable, run `portless doctor`.
 
 ### Port Allocation
 
-Portless assigns an available upstream port to each application and package UI when it
-starts. The public HTTPS names stay stable even when two projects run simultaneously.
-Separate projects must use different npm scopes so their public names do not collide;
-Git worktrees receive automatic route prefixes. Use `portless list` to inspect the
-current assignments.
+Portless assigns an available upstream port to each application workspace and package UI at startup. The public HTTPS names stay stable when two projects run at the same time. Separate projects must use different npm scopes. This prevents public-name conflicts. Git worktrees receive automatic route prefixes. Use `portless list` to examine the current assignments.
 
 #### Infrastructure Ports
 
-Docker infrastructure retains fixed host ports and can still conflict across projects:
+Docker infrastructure uses fixed host ports. These ports can conflict across projects:
 
 - Redis: `8000`
 - Database: `8001`
@@ -145,12 +124,10 @@ Docker infrastructure retains fixed host ports and can still conflict across pro
 
 ### Troubleshooting
 
-- Bun version mismatch: run `bun --version`, update to `1.3.x`.
-- Node version mismatch: install Node.js `>=24` with your version manager.
-- Docker services not running: check `docker ps`, then run `bun run docker:up`.
-- Missing environment variables: run `bun run env:check`, then inspect the owning
-  `.env.schema` and your ignored `.env.local` overrides.
-- Portless trust or DNS problems: run `portless doctor`, then follow its suggested
-  `portless trust` or `portless hosts sync` command.
+- For a Bun version mismatch, run `bun --version`. Update to `1.3.x`.
+- For a Node version mismatch, install Node.js `>=24` with the version manager.
+- When Docker services do not run, examine `docker ps`. Then run `bun run docker:up`.
+- For missing environment variables, run `bun run env:check`. Then examine the owning `.env.schema` and the ignored `.env.local` overrides.
+- For Portless trust or DNS problems, run `portless doctor`. Then run its suggested `portless trust` or `portless hosts sync` command.
 - `.localhost` is available only on the development machine. Expo on a physical device
   requires Portless LAN mode and a `.local` hostname.

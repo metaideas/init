@@ -1,39 +1,39 @@
 ---
 title: Backend Topology
-description: Choose between TanStack Start, Hono, and Convex backend shapes without coupling every init workspace.
+description: Choose among TanStack Start, Hono, and Convex backend shapes without coupling all workspaces in init.
 ---
 
-init supports three backend shapes without requiring every project to keep all of them.
+init supports three backend shapes. A Scaffolded project does not require all three backend shapes.
 
 ## TanStack Start
 
-`apps/app` is independently full-stack. Its server routes and server functions are the
-smallest backend option when a project only needs the web application. They do not
+`apps/app` is independently full-stack. Its server routes and functions provide the
+smallest backend option when a Scaffolded project only needs the web application. They do not
 require `apps/api`.
 
 ## Hono API
 
-`apps/api` is an optional Bun-hosted Hono service. It exposes Hono RPC and tRPC clients
-from `apps/api/src/client.ts`, the only permitted cross-app import. It also contains the
-authenticated Files SDK gateway.
+`apps/api` is an optional Hono service. It runs on Bun and exposes Hono RPC and tRPC
+clients from `apps/api/src/client.ts`. Application workspaces can import only this file
+from another Application workspace. It also contains the authenticated Files SDK gateway.
 
-Client applications connect through the local `connect-backend` generator. The
-generator owns adapter seams and environment wiring; applications never import source
+Run the local `connect-backend` generator to connect client Application workspaces. The generator
+owns adapter seams and environment wiring. Application workspaces never import source
 from `apps/api` outside the exported client contract.
 
 ## Convex
 
-`packages/backend` is an optional Convex backend with generated API types and a React
-client. It lives in `packages/` because applications consume it as a workspace library,
-even though it deploys independently to Convex.
+`packages/backend` is an optional Convex backend with API types that Convex generates and
+a React client. It exists in `packages/` because Application workspaces consume it as a
+workspace library. It deploys independently to Convex.
 
-The local `connect-backend` generator adds the client provider and auth wiring to
-supported apps. Keeping Convex is an explicit workspace selection and therefore an
-explicit hosted-service choice.
+Run the local `connect-backend` generator to add the client provider and authentication
+wiring to supported Application workspaces. When you select Convex, you explicitly select
+a workspace and a hosted service.
 
 ## Local defaults
 
 The default application core runs without a hosted account. Local service dependencies
 use `infra/local/docker-compose.yml`. Optional backend workspaces and client adapters
-should remain removable without leaving imports, environment requirements, or build
-failures behind.
+must remain removable. Their removal must not leave imports, environment requirements, or
+build failures.
