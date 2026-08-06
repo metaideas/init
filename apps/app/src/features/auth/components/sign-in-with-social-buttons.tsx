@@ -1,6 +1,6 @@
 import { Button } from "@init/ui/components/button"
 import { Icon } from "@init/ui/components/icon"
-import { toast } from "@init/ui/components/sonner"
+import { toast } from "@init/ui/components/toast"
 import { cn } from "@init/utils/ui"
 import { useState } from "react"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
@@ -21,7 +21,7 @@ export function SignInWithGoogleButton({ className }: { className?: string }) {
           fetchOptions: {
             onError() {
               setLoading(false)
-              toast.error("Failed to sign in with Google")
+              toast.add({ title: "Failed to sign in with Google", type: "error" })
             },
           },
           provider: "google",
@@ -59,7 +59,7 @@ export function SignInWithGitHubButton({ className }: { className?: string }) {
           fetchOptions: {
             onError() {
               setLoading(false)
-              toast.error("Failed to sign in with GitHub")
+              toast.add({ title: "Failed to sign in with GitHub", type: "error" })
             },
           },
           provider: "github",
