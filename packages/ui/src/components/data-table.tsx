@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { type ColumnDef, type RowData, tableFeatures, useTable } from "@tanstack/react-table"
 
 import {
   Table,
@@ -13,23 +13,27 @@ import {
 } from "#components/table.tsx"
 import { cn } from "#utils"
 
-type DataTableProps<TData, TValue> = {
+const dataTableFeatures = tableFeatures({})
+
+type DataTableFeatures = typeof dataTableFeatures
+
+type DataTableProps<TData extends RowData> = {
   className?: string
-  columns: ColumnDef<TData, TValue>[]
+  columns: ColumnDef<DataTableFeatures, TData>[]
   data: TData[]
   emptyMessage?: ReactNode
 }
 
-function DataTable<TData, TValue>({
+function DataTable<TData extends RowData>({
   className,
   columns,
   data,
   emptyMessage = "No results.",
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
+}: DataTableProps<TData>) {
+  const table = useTable({
+    features: dataTableFeatures,
     columns,
     data,
-    getCoreRowModel: getCoreRowModel(),
   })
 
   return (
@@ -40,9 +44,7 @@ function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder ? null : <table.FlexRender header={header} />}
                 </TableHead>
               ))}
             </TableRow>
@@ -54,7 +56,7 @@ function DataTable<TData, TValue>({
               <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <table.FlexRender cell={cell} />
                   </TableCell>
                 ))}
               </TableRow>
@@ -75,4 +77,4 @@ function DataTable<TData, TValue>({
   )
 }
 
-export { DataTable, type DataTableProps }
+export { DataTable, dataTableFeatures, type DataTableFeatures, type DataTableProps }
