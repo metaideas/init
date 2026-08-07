@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import {
+  LuArrowDown,
   LuArrowLeft,
   LuArrowRight,
   LuCheck,
@@ -73,6 +74,7 @@ export function SVGIcon({
 
 export const Icon = {
   AlertCircle: LuCircleAlert,
+  ArrowDown: LuArrowDown,
   ArrowLeft: LuArrowLeft,
   ArrowRight: LuArrowRight,
   Check: LuCheck,

@@ -1,7 +1,7 @@
 import type { Theme } from "@init/ui/constants"
 import type { ReactNode } from "react"
-import { Toaster } from "@init/ui/components/sonner"
 import { ThemeProvider } from "@init/ui/components/theme"
+import { Toaster } from "@init/ui/components/toast"
 import { TooltipProvider } from "@init/ui/components/tooltip"
 
 export default function Providers({

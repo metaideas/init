@@ -1,6 +1,6 @@
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
-import { toast } from "@init/ui/components/sonner"
+import { toast } from "@init/ui/components/toast"
 import { useNavigate } from "@tanstack/react-router"
 import { ResetPasswordFormSchema as schema } from "#features/auth/validation.ts"
 import { authClient } from "#shared/auth.ts"
@@ -17,10 +17,10 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         },
         {
           onError: ({ error }) => {
-            toast.error(error.message, { position: "bottom-center" })
+            toast.add({ title: error.message, type: "error" })
           },
           onSuccess: () => {
-            toast.success("Your password has been reset", { position: "bottom-center" })
+            toast.add({ title: "Your password has been reset", type: "success" })
             void navigate({ to: "/sign-in" })
           },
         }

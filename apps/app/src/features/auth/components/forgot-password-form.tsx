@@ -1,6 +1,6 @@
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
-import { toast } from "@init/ui/components/sonner"
+import { toast } from "@init/ui/components/toast"
 import { useServerFn } from "@tanstack/react-start"
 import { forgotPassword } from "#features/auth/server/functions.ts"
 import { ForgotPasswordFormSchema as schema } from "#features/auth/validation.ts"
@@ -14,8 +14,9 @@ export default function ForgotPasswordForm() {
         data: { email: value.email },
       })
 
-      toast.success("Password reset link sent to your email", {
-        position: "bottom-center",
+      toast.add({
+        title: "Password reset link sent to your email",
+        type: "success",
       })
 
       form.reset()

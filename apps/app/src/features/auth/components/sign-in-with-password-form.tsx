@@ -1,7 +1,7 @@
 import { Button } from "@init/ui/components/button"
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
-import { toast } from "@init/ui/components/sonner"
+import { toast } from "@init/ui/components/toast"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { SignInWithPasswordFormSchema as schema } from "#features/auth/validation.ts"
@@ -16,7 +16,7 @@ export default function SignInWithPasswordForm() {
         { email: value.email, password: value.password },
         {
           onError: (error) => {
-            toast.error(error.error.message, { position: "bottom-center" })
+            toast.add({ title: error.error.message, type: "error" })
           },
           onSuccess: () => {
             void navigate({ to: AUTHENTICATED_PATHNAME })
