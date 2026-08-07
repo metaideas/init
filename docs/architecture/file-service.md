@@ -1,29 +1,28 @@
 ---
 title: File Service
-description: Understand the authenticated Files SDK gateway, local S3-compatible storage, and its security boundaries.
+description: Understand the authenticated gateway for the Files SDK, local S3-compatible storage, and the security boundaries.
 ---
 
-When `apps/api` is selected, it includes an authenticated Files SDK gateway at
+When you select `apps/api`, it includes an authenticated Files SDK gateway at
 `/files`.
 
 ## Composition
 
-`apps/api/src/shared/files.ts` composes the Files SDK with Bun's native S3 adapter. Local
-development targets the MinIO service in `infra/local/docker-compose.yml`; deployments
-can provide compatible S3 configuration through the API workspace's validated
-environment.
+`apps/api/src/shared/files.ts` combines the Files SDK with Bun's native S3 adapter. Local
+development uses the MinIO service in `infra/local/docker-compose.yml`. Deployments
+can provide compatible S3 configuration through environment validation in the API
+workspace.
 
-The gateway is part of the selected API workspace. Application clients are optional,
-copy-once integrations produced by the local `files-client` generator.
+The gateway is part of the API workspace when you select it. The local `files-client`
+generator creates optional, copy-once client integrations.
 
 ## Security boundaries
 
-- Every gateway operation requires the existing init session.
-- Object keys are scoped to `users/<user-id>/`; callers cannot select another user's
-  prefix.
-- Uploads default to images and PDF documents and are limited to 10 MiB.
-- Browser applications call the gateway rather than receiving storage credentials.
-- Provider errors and metadata should not cross the trust boundary without filtering.
+- Every gateway operation requires an existing init session.
+- Object keys use the `users/<user-id>/` scope. A caller cannot select the prefix of another user.
+- Uploads accept images and PDF documents by default. They have a limit of 10 MiB.
+- Browser applications call the gateway. They do not receive storage credentials.
+- Filter provider errors and metadata before they cross the trust boundary.
 
-Changing accepted content, size limits, key scoping, or authentication changes the
-application's security policy and should be recorded in an application decision record.
+Changes to accepted content, size limits, key scoping, or authentication alter the
+application's security policy. Record each change in an application decision record.

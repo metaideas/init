@@ -1,25 +1,19 @@
 # Domain documentation
 
-Use the repository's domain documentation before exploring code or recording a
-decision.
+Before you examine code or record a decision, use the domain documentation of the repository.
 
 ## Before exploring
 
 1. Read the root `CONTEXT.md`.
 2. Read the relevant document under `docs/architecture/`.
-3. Read decision records that affect the area, if their directories exist.
+3. If the directories exist, read decision records that affect the area.
 
-Use glossary terms consistently in issues, implementation plans, code, and decision
-records. If a needed concept is missing, verify that it is a real domain distinction
-before adding vocabulary.
+Use glossary terms consistently in issues, implementation plans, code, and decision records. Before you add vocabulary, verify that a missing concept is a real domain distinction.
 
 ## Decision routing
 
-- In this upstream template, selection and governance decisions belong in
-  `docs/template/adr/`.
-- Decisions made by the owner of an application belong in `docs/adr/`.
-- If `docs/template/` does not exist, only the application route remains.
+- In this template, put selection and governance decisions in `docs/template/adr/`.
+- Put decisions from the owner of an application workspace in `docs/adr/`.
+- If `docs/template/` does not exist, use only the application route.
 
-Do not present an upstream template choice as if a scaffold owner made it. If new work
-contradicts an existing decision, surface the conflict explicitly rather than silently
-overwriting the record.
+Do not present a template choice as a choice from a scaffolded project owner. If new work contradicts an existing decision, state the conflict explicitly. Do not overwrite the record without notice.
