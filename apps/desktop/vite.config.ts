@@ -20,8 +20,8 @@ export default defineConfig(() => {
     },
     clearScreen: false,
     plugins: [
-      varlock(),
       devtools(),
+      varlock(),
       tailwindcss(),
       paraglide({
         outdir: "./src/shared/internationalization",

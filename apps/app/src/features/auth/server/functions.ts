@@ -18,13 +18,6 @@ export const validateSession = createIsomorphicFn()
     return session
   })
 
-export const getGreeting = publicFunction.handler(async () => {
-  const session = await validateSession()
-  if (!session) throw new Error("Unauthorized")
-
-  return { message: `Hello, ${session.user.name}!` }
-})
-
 export const checkEmailAvailability = publicFunction
   .validator(z.object({ email: z.email() }))
   .handler(async ({ context, data }) => {

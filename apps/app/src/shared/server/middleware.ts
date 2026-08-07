@@ -1,7 +1,11 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
-import { createMiddleware } from "@tanstack/react-start"
+import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
 import { logger } from "#shared/logger.ts"
+
+export const withCsrf = createCsrfMiddleware({
+  filter: (context) => context.handlerType === "serverFn",
+})
 
 export const withRequestId = createMiddleware().server(({ next }) =>
   next({ context: { requestId: crypto.randomUUID() } })
