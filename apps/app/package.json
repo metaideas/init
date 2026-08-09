@@ -22,6 +22,7 @@
     "start": "varlock run -- node .output/server/index.mjs"
   },
   "dependencies": {
+    "@init/ai": "workspace:*",
     "@init/auth": "workspace:*",
     "@init/core": "workspace:*",
     "@init/db": "workspace:*",
