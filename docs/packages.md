@@ -1,30 +1,23 @@
 ---
 title: Package Guidance
-description: Understand init's shared package workspaces, hosted backend package, and key-value storage conventions.
+description: Understand the shared package workspaces, hosted backend package, and key-value storage conventions in init.
 ---
 
-Shared libraries and hosted backends live in `packages/`. Apps consume them through
-workspace dependencies, and package names follow the project's configured scope.
+Shared libraries and hosted backends are in `packages/`. Application workspaces consume them through workspace dependencies. Package names use the configured scope of the project.
 
-Use `bun template add package <name>` to restore an available package that was removed
-during setup. See [Project structure](./architecture/project-structure.md) for the full package
-catalog.
+Use `bun template add package <name>` to restore an available package workspace that setup removed. See [Project structure](./architecture/project-structure.md) for the full package catalog.
 
 ## Convex Backend
 
-`packages/backend` is a hosted backend built with Convex and Better Auth. Apps consume
-its generated API types and React client as a workspace package, while Convex deploys
-the functions independently.
+`packages/backend` is a hosted backend built with Convex and Better Auth. Application workspaces consume its generated API types and React client as a package workspace. Convex deploys the functions independently.
 
-Use `connect-backend` to add the client, environment, provider, and optional example
-wiring to a supported app:
+Use `connect-backend` to add the client, environment, provider, and optional example connections to a supported application workspace:
 
 ```bash
 bun run generate connect-backend --args mobile convex false false
 ```
 
-See [Project generators](./generators.md) for the supported matrix and generated
-ownership. The generator does not deploy Convex or create credentials.
+See [Project generators](./generators.md) for the supported matrix and generated ownership. The template command does not deploy Convex or create credentials.
 
 Run `bun run --filter @init/backend dev` to connect the package to a Convex deployment.
 
@@ -39,14 +32,10 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 
 ## Key-Value Storage
 
-`packages/kv` provides key-value storage through
-[unstorage](https://unstorage.unjs.io/) and uses its Redis driver by default.
+`packages/kv` provides key-value storage through [unstorage](https://unstorage.unjs.io/). By default, it uses the Redis driver of unstorage.
 
-`kv()` lazily returns the shared unstorage `Storage` instance.
-`normalizeKey(...parts)` joins key parts with `:`, while `namespaceKey(namespace)`
-returns a key helper with that namespace prefix.
+`kv()` returns the shared unstorage `Storage` instance when code first requests it. `normalizeKey(...parts)` joins key parts with `:`. `namespaceKey(namespace)` returns a key helper with the namespace prefix.
 
-Values must be JSON-serializable; dates are returned as strings.
+Values must be JSON-serializable. The storage returns dates as strings.
 
-To use another backend, change the driver passed to `createStorage` in
-`packages/kv/src/client.ts`.
+To use another backend, change the driver passed to `createStorage` in `packages/kv/src/client.ts`.

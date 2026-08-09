@@ -1,21 +1,21 @@
 ---
 title: Template Commands
-description: Configure, rename, and extend scaffolded init projects with local template commands.
+description: Configure, rename, and extend scaffolded projects from init with local template commands.
 ---
 
-Commands for configuring and extending projects created with `bun create metaideas/init <name>`.
+Use these template commands to configure and extend projects created with `bun create metaideas/init <name>`.
 
 ## Commands
 
 ### `bun template setup`
 
-Configure a newly created project. This command:
+Configure a newly created project. This command does the following:
 
-- Prompts for the apps and packages to keep
-- Sets the project name, which is also used as the package scope
-- Rewrites `@init/` references with the project name
-- Sets package-local Portless route names from the normalized package scope
-- Stamps `.template.json` with the source template, commit, and creation time
+- It prompts you to select the application and package workspaces to keep.
+- It sets the project name, which is also the package scope.
+- It rewrites `@init/` references with the project name.
+- It sets package-local Portless route names from the normalized package scope.
+- It records the source template, commit, and creation time in `.template.json`.
 
 ```bash
 bun template setup
@@ -23,8 +23,7 @@ bun template setup
 
 ### `bun template rename`
 
-Rename the project, rewrite its package scope references, and update its Portless
-hostnames.
+Rename the project. Rewrite its package scope references. Update its Portless hostnames.
 
 ```bash
 bun template rename --name <name> [--scope <scope>]
@@ -32,8 +31,7 @@ bun template rename --name <name> [--scope <scope>]
 
 ### `bun template add app <name>`
 
-Copy an app workspace from the template using Turbo generators, apply the project's
-package scope, and restore its Portless route configuration.
+Copy an application workspace from the template with Turbo generators. Apply the package scope of the project. Restore its Portless route configuration.
 
 ```bash
 bun template add app web
@@ -41,8 +39,7 @@ bun template add app web
 
 ### `bun template add package <name>`
 
-Copy a package workspace from the template using Turbo generators, apply the project's
-package scope, and restore its Portless route configuration when it owns a local UI.
+Copy a package workspace from the template with Turbo generators. Apply the package scope of the project. When it owns a local UI, restore its Portless route configuration.
 
 ```bash
 bun template add package auth
@@ -50,20 +47,14 @@ bun template add package auth
 
 ## Project scripts
 
-`bun run scripts` is the extensible entry point for scripts owned by your project.
+`bun run scripts` is the extensible entry point for scripts that the project owns.
 
 ## Updating Your Project
 
-`bun template setup` creates `.template.json` with the template repository, the commit
-used to create the project, and the creation time:
+`bun template setup` creates `.template.json`. The file contains the template repository, the commit used to create the project, and the creation time:
 
 ```json
 { "template": "metaideas/init", "commit": "<sha>", "createdAt": "<ISO date>" }
 ```
 
-There is no automated template `update` or `check` command. To bring in template
-improvements, ask your coding agent to compare
-[metaideas/init](https://github.com/metaideas/init) from the stamped commit to `HEAD`
-and apply the changes that are relevant to your project. Tell it to propagate upstream
-deletions and normalize your renamed scope before diffing: local `@<scope>/` references
-correspond to upstream `@init/` references.
+There is no automated template `update` or `check` command. To add template improvements, ask the coding agent to compare [metaideas/init](https://github.com/metaideas/init) from the recorded commit to `HEAD`. Ask it to apply changes that are relevant to the project. Before it compares the code, tell it to propagate upstream deletions. Tell it to normalize the renamed scope. Local `@<scope>/` references correspond to upstream `@init/` references.

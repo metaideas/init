@@ -98,8 +98,7 @@ apps/desktop/src-tauri/gen/schemas
 # Mobile/React Native/Expo
 
 # Editor directories and files (additional)
-.vscode/*
-!.vscode/extensions.json
+.vscode
 .idea
 *.suo
 *.ntvs*

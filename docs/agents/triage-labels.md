@@ -1,12 +1,11 @@
 # Triage labels
 
-| Skill role        | Repository label  | Meaning                                            |
-| ----------------- | ----------------- | -------------------------------------------------- |
-| `needs-triage`    | `needs-triage`    | A maintainer needs to evaluate the issue           |
-| `needs-info`      | `needs-info`      | More information is required from the reporter     |
-| `ready-for-agent` | `ready-for-agent` | Fully specified and suitable for autonomous work   |
-| `ready-for-human` | `ready-for-human` | Requires maintainer judgment or external authority |
-| `wontfix`         | `wontfix`         | The repository will not action the issue           |
+| Skill role        | Repository label  | Meaning                                                       |
+| ----------------- | ----------------- | ------------------------------------------------------------- |
+| `needs-triage`    | `needs-triage`    | A maintainer must evaluate the issue.                         |
+| `needs-info`      | `needs-info`      | The reporter must provide more information.                   |
+| `ready-for-agent` | `ready-for-agent` | The issue is complete and suitable for autonomous work.       |
+| `ready-for-human` | `ready-for-human` | The issue requires maintainer judgment or external authority. |
+| `wontfix`         | `wontfix`         | The repository will not act on the issue.                     |
 
-This file is upstream wiring. `bun template setup` removes it so scaffold owners can
-configure vocabulary for their own tracker.
+This file is an internal cleanup path. `bun template setup` removes it so scaffolded project owners can configure the vocabulary for their tracker.
