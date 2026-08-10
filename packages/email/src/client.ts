@@ -4,7 +4,7 @@ import { getLogger, LoggerCategory } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
-import { type TimeExpression, ms } from "qte"
+import { type TimeExpression, ms } from "humanspan"
 import { Resend } from "resend"
 import { ENV } from "./env.generated.ts"
 

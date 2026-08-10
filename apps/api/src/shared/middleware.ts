@@ -3,7 +3,7 @@ import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
 import { languageDetector } from "hono/language"
-import { type TimeExpression, ms } from "qte"
+import { type TimeExpression, ms } from "humanspan"
 import type { AppContext, AuthenticatedAppContext } from "#shared/types.ts"
 import { baseLocale, locales } from "#shared/internationalization/runtime.js"
 
