@@ -24,7 +24,7 @@
     "@react-email/components": "1.0.12",
     "@react-email/render": "2.1.0",
     "date-fns": "4.1.0",
-    "qte": "0.1.1",
+    "humanspan": "0.2.0",
     "resend": "6.7.0",
     "varlock": "1.16.0"
   },

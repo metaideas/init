@@ -27,7 +27,7 @@
     "@better-auth/expo": "1.6.25",
     "better-auth": "1.6.25",
     "drizzle-orm": "0.45.2",
-    "qte": "0.1.1"
+    "humanspan": "0.2.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
