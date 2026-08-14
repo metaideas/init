@@ -13,15 +13,7 @@ export const withRequestId = createMiddleware().server(({ next }) =>
 
 export const withLogger = createMiddleware()
   .middleware([withRequestId])
-  .server(({ next, context }) =>
-    next({
-      context: {
-        logger: logger.getChild("server-function").with({
-          requestId: context.requestId,
-        }),
-      },
-    })
-  )
+  .server(({ next }) => next({ context: { logger } }))
 
 export const withDatabase = createMiddleware().server(({ next }) =>
   next({ context: { database: database() } })

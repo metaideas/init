@@ -12,7 +12,7 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
-        logger.warn("Error hiding splash screen:", { error })
+        logger.warn({ error, message: "Error hiding splash screen" })
       }
     }
 

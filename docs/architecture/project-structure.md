@@ -36,7 +36,7 @@ root
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── kv                    # Redis client database integration using Upstash
   │   ├── native-ui             # Reusable React Native UI components
-  │   ├── observability         # Logging, error tracking, and monitoring using Sentry and Axiom
+  │   ├── observability         # Wide-event logging with evlog, error tracking and monitoring with Sentry
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   ├── utils                 # Shared helpers and constants for packages and apps

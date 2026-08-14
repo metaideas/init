@@ -1,4 +1,5 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
+import { observability } from "@init/observability/logger/vite"
 import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
@@ -17,6 +18,7 @@ export default defineConfig({
   plugins: [
     devtools(),
     varlock(),
+    observability({ service: "app" }),
     tailwindcss(),
     tanstackStart(),
     react(),

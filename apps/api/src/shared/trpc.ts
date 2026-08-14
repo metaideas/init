@@ -13,7 +13,7 @@ export function createTRPCContext(opts: FetchCreateContextFnOptions, c: Context<
     db: c.var.db,
     info: opts.info,
     kv: c.var.kv,
-    logger: c.var.logger.with({ group: "trpc" }),
+    log: c.var.log,
     req: opts.req,
     resHeaders: opts.resHeaders,
   }

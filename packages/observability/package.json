@@ -1,7 +1,7 @@
 {
   "name": "@init/observability",
   "private": true,
-  "description": "Logging, error tracking, and monitoring using Sentry",
+  "description": "Wide-event logging with evlog, error tracking and monitoring with Sentry",
   "license": "MIT",
   "type": "module",
   "imports": {
@@ -22,21 +22,19 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@logtape/drizzle-orm": "1.3.6",
-    "@logtape/hono": "1.3.6",
-    "@logtape/logtape": "^1.3.1",
-    "@logtape/pretty": "^1.3.1",
-    "@logtape/redaction": "1.3.6",
     "@openstatus/react": "^0.0.3",
     "@sentry/browser": "10.32.1",
     "@sentry/core": "10.32.1",
     "@sentry/node": "10.32.1",
     "@sentry/react-native": "~7.11.0",
+    "evlog": "^2.26.0",
     "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.2.4",
-    "typescript": "7.0.2"
+    "hono": "4.12.32",
+    "typescript": "7.0.2",
+    "vite": "8.1.5"
   }
 }
