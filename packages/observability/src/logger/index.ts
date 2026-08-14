@@ -39,6 +39,14 @@ export function createLogger(options: CreateLoggerOptions) {
  */
 export { log } from "evlog"
 
+/**
+ * Open a request-scoped wide event for custom framework integrations
+ * (e.g. TanStack Start request middleware). Accumulate context with
+ * `set()` and call `emit()` when the response is ready — emitted events
+ * ship through the global drain configured by `createLogger`.
+ */
+export { createRequestLogger } from "evlog"
+
 export { createError, parseError } from "evlog"
 export type { DrainContext, ParsedError, RequestLogger, WideEvent } from "evlog"
 export type Logger = Log
