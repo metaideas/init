@@ -1,4 +1,5 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
+import { observability } from "@init/observability/logger/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
 import { defineConfig } from "wxt"
@@ -23,6 +24,7 @@ export default defineConfig({
   vite: () => ({
     plugins: [
       varlock(),
+      observability({ service: "extension" }),
       tailwindcss(),
       paraglide({
         outdir: "./src/shared/internationalization",

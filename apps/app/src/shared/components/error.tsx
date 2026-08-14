@@ -12,7 +12,7 @@ import { logger } from "#shared/logger.ts"
 
 export default function ErrorFallback({ error, reset }: ErrorComponentProps) {
   useEffect(() => {
-    logger.error("Route rendering failed", { error })
+    logger.error({ error, message: "Route rendering failed" })
   }, [error])
 
   return (

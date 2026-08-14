@@ -4,7 +4,7 @@ import { logger } from "#shared/logger.ts"
 
 export default defineBackground({
   main: () => {
-    logger.with({ id: browser.runtime.id }).info`Hello from the background script!`
+    logger.info({ id: browser.runtime.id, message: "Hello from the background script!" })
   },
   type: "module",
 })
