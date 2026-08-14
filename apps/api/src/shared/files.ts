@@ -8,6 +8,7 @@ import { signedUrlPolicy } from "files-sdk/signed-url-policy"
 import { validation } from "files-sdk/validation"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
 import { ENV } from "#shared/env.generated.ts"
+import { logger } from "#shared/logger.ts"
 import { context } from "#shared/utils.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
@@ -101,8 +102,8 @@ function handleUpload(key: string, file: ParsedUploadResult | ParsedStoredFile) 
   const metadata = isUploadResult ? undefined : file.metadata
   const name = isUploadResult ? (key.split("/").at(-1) ?? key) : file.name
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  const logFailure = (cause: unknown) => {
-    ctx.var.logger.error(`Failed to record asset: ${String(cause)}`)
+  const logFailure = (error: unknown) => {
+    logger.error({ error, key, message: "Failed to record asset" })
   }
 
   void ctx.var.db
@@ -138,8 +139,8 @@ function handleDelete(keys: string[]) {
 
   const ctx = context<AuthenticatedAppContext>()
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  const logFailure = (cause: unknown) => {
-    ctx.var.logger.error(`Failed to delete asset records: ${String(cause)}`)
+  const logFailure = (error: unknown) => {
+    logger.error({ error, keys, message: "Failed to delete asset records" })
   }
 
   void ctx.var.db
