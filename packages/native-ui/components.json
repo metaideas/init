@@ -14,9 +14,9 @@
   "aliases": {
     "components": "#components",
     "hooks": "#hooks",
-    "lib": "#utils",
+    "lib": "@init/utils/ui",
     "ui": "#components",
-    "utils": "#utils"
+    "utils": "@init/utils/ui"
   },
   "registries": {
     "@rnr": "https://reactnativereusables.com/r/uniwind/{name}.json"

@@ -5,8 +5,7 @@
   "license": "MIT",
   "type": "module",
   "imports": {
-    "#*": "./src/*",
-    "#utils": "@init/utils/ui"
+    "#*": "./src/*"
   },
   "exports": {
     "./components/*": "./src/components/*.tsx",
