@@ -9,6 +9,9 @@
       --color-background: hsl(0 0% 100%);
       --color-foreground: hsl(0 0% 3.9%);
       --color-card: hsl(0 0% 100%);
+      --color-card-foreground: hsl(0 0% 3.9%);
+      --color-popover: hsl(0 0% 100%);
+      --color-popover-foreground: hsl(0 0% 3.9%);
       --color-root: hsl(0 0% 100%);
       --color-primary: hsl(0 0% 9%);
       --color-primary-foreground: hsl(0 0% 98%);
@@ -28,6 +31,9 @@
       --color-background: hsl(0 0% 3.9%);
       --color-foreground: hsl(0 0% 98%);
       --color-card: hsl(0 0% 3.9%);
+      --color-card-foreground: hsl(0 0% 98%);
+      --color-popover: hsl(0 0% 3.9%);
+      --color-popover-foreground: hsl(0 0% 98%);
       --color-root: hsl(0 0% 3.9%);
       --color-primary: hsl(0 0% 98%);
       --color-primary-foreground: hsl(0 0% 9%);

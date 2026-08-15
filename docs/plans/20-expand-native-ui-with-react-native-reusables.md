@@ -1,6 +1,9 @@
 # Plan 20 — Expand native UI with React Native Reusables
 
-**Status:** Gated by Plan 19
+**Status:** Largely implemented ahead of Plan 19 — the full React Native Reusables
+Uniwind registry (31 components) was vendored into `@init/native-ui` via the shadcn CLI
+and adapted to repo conventions. Catalog stories and on-device iOS/Android verification
+from Plan 19 remain outstanding.
 **Size:** L
 
 Expand `@init/native-ui` toward the complete React Native Reusables component set after

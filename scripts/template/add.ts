@@ -75,12 +75,10 @@ async function getMissingTemplateDependencies(
   const prefix = getScopePrefix(TEMPLATE_SCOPE)
   const candidates = getDependencyNames(packageJson)
     .filter((dependencyName) => dependencyName.startsWith(prefix))
-    .map(
-      (dependencyName): TemplateWorkspace => ({
-        kind: "package",
-        name: dependencyName.slice(prefix.length),
-      })
-    )
+    .map((dependencyName): TemplateWorkspace => ({
+      kind: "package",
+      name: dependencyName.slice(prefix.length),
+    }))
     .filter((workspace) => {
       const workspacePath = getWorkspacePath(workspace)
       if (visited.has(workspacePath)) return false
