@@ -62,7 +62,7 @@ accordion, alert, alert-dialog, aspect-ratio, avatar, badge, button, card, check
 
 Overlay components (`alert-dialog`, `context-menu`, `dialog`, `dropdown-menu`, `hover-card`, `menubar`, `popover`, `select`, `tooltip`) render through `@rn-primitives/portal`, so the consuming app must mount a `PortalHost` near the root (see `apps/mobile/src/shared/components/providers.tsx`).
 
-Icons use [lucide-react-native](https://lucide.dev) through the `Icon` wrapper:
+Icons use [lucide-react-native](https://lucide.dev) through the `Icon` wrapper. Consuming apps that render icons must list `lucide-react-native` in their own dependencies (as `apps/mobile` does), since the icon components are imported directly:
 
 ```tsx
 import { ArrowRight } from "lucide-react-native"

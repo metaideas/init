@@ -17,7 +17,7 @@ const textVariants = cva(
     },
     variants: {
       variant: {
-        blockquote: "mt-4 border-l-2 pl-3 italic sm:mt-6 sm:pl-6",
+        blockquote: "mt-4 border-l-2 border-border pl-3 italic sm:mt-6 sm:pl-6",
         code: cn(
           "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
         ),
