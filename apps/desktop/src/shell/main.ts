@@ -47,11 +47,30 @@ function registerLocalFileHandlers() {
 function createWindow() {
   const window = new BrowserWindow({
     height: 600,
+    // `packagerConfig.icon` does not apply on Linux; the window needs the icon
+    // directly. The packaged file ships inside the renderer output via
+    // `public/`; in development the renderer is served from memory, so the
+    // icon resolves from the project directory instead.
+    icon: MAIN_WINDOW_VITE_DEV_SERVER_URL
+      ? path.join(app.getAppPath(), "public/icon.png")
+      : path.join(import.meta.dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/icon.png`),
     title: "desktop",
     webPreferences: {
       preload: path.join(import.meta.dirname, "preload.cjs"),
     },
     width: 800,
+  })
+
+  // The renderer never opens new windows or leaves the application. Denying
+  // both by default keeps a compromised renderer from loading remote content.
+  window.webContents.setWindowOpenHandler(() => ({ action: "deny" }))
+  window.webContents.on("will-navigate", (navigation, url) => {
+    const isDevServer =
+      MAIN_WINDOW_VITE_DEV_SERVER_URL && url.startsWith(MAIN_WINDOW_VITE_DEV_SERVER_URL)
+
+    if (!isDevServer) {
+      navigation.preventDefault()
+    }
   })
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

@@ -8,8 +8,18 @@ import { VitePlugin } from "@electron-forge/plugin-vite"
 import { FuseV1Options, FuseVersion } from "@electron/fuses"
 
 const config: ForgeConfig = {
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ["darwin"]), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({}),
+    new MakerZIP({}, ["darwin"]),
+    // `packagerConfig.icon` only reaches macOS and Windows; the Linux makers
+    // need the icon passed explicitly.
+    new MakerRpm({ options: { icon: "./public/icon.png" } }),
+    new MakerDeb({ options: { icon: "./public/icon.png" } }),
+  ],
   packagerConfig: {
+    // Carries the identifier forward from the Tauri configuration so installed
+    // builds keep their preferences, Keychain, and TCC identity.
+    appBundleId: "com.desktop.app",
     asar: true,
     icon: "./icons/icon",
   },
