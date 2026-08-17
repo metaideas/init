@@ -27,8 +27,7 @@
         "RUN_PRODUCTION_MIGRATIONS",
         "S3_*",
         "SENTRY_*",
-        "STRIPE_*",
-        "TAURI_*"
+        "STRIPE_*"
       ]
     },
     "clean": {

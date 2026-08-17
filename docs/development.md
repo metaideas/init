@@ -52,7 +52,7 @@ Drizzle Studio, React Email, and the Inngest development server use the same pac
 
 The first run can request administrator access to trust the local Portless certificate authority and bind port 443. Use `portless doctor` to examine the proxy, certificate, DNS, and route health.
 
-Portless routes the Mobile, Desktop, and Extension development servers. It does not replace Expo, Tauri, or browser-extension launch behavior. `.localhost` resolves only on the development machine. Physical devices require Portless LAN mode and `.local`.
+Portless routes the Mobile, Desktop, and Extension development servers. It does not replace Expo, Electron, or browser-extension launch behavior. `.localhost` resolves only on the development machine. Physical devices require Portless LAN mode and `.local`.
 
 ## Managing Dependencies
 

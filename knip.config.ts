@@ -36,7 +36,12 @@ const config: KnipConfig = {
       entry: "src/routeTree.gen.{ts,js}",
     },
     "apps/desktop": {
-      entry: "src/shared/env.generated.ts",
+      entry: [
+        "src/shared/env.generated.ts",
+        "src/shell/main.ts",
+        "src/shell/preload.ts",
+        "forge.config.ts",
+      ],
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },
     "apps/docs": {

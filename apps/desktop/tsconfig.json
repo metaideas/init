@@ -4,5 +4,12 @@
     "jsx": "preserve"
   },
   "exclude": ["node_modules"],
-  "include": ["reset.d.ts", "src", "vite.config.ts"]
+  "include": [
+    "reset.d.ts",
+    "src",
+    "forge.config.ts",
+    "vite.main.config.ts",
+    "vite.preload.config.ts",
+    "vite.renderer.config.ts"
+  ]
 }

@@ -64,11 +64,10 @@ Required production credentials are absent from committed development files when
 
 ## Framework boundaries
 
-- TanStack Start and desktop Vite place the Varlock Vite plugin first. Their config files can read launcher-supplied `PORT` and `TAURI_*` values before plugin execution. Application modules use the typed `ENV` binding.
+- TanStack Start and desktop Vite place the Varlock Vite plugin first. Their config files can read the launcher-supplied `PORT` value before plugin execution. Application modules use the typed `ENV` binding.
 - Astro sites place the Varlock integration first.
 - WXT installs the Varlock Vite plugin through the Vite configuration seam.
 - Expo combines the Babel and Metro integrations outside Sentry and Uniwind. The pre-bundle `app.config.js` is the only compatibility location that reads `process.env`. Its commands run through Varlock.
-- Tauri-supplied `TAURI_*` values are optional dynamic build inputs in the desktop schema.
 
 Run `bun run env:scan` to build each client artifact and scan it for sensitive values in the committed development contract. Scans use explicit paths for schemas and development fixtures. Ignored local overrides cannot change CI results. Each workspace verifies its expected artifact directory before a scan. A missing build fails instead of passing without a result.
 

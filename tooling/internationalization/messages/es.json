@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "api_hello_greeting": "¡Hola {name}!",
   "desktop_local_files_choose": "Elegir un archivo de texto",
-  "desktop_local_files_description": "Abre, edita y guarda un archivo de texto local mediante un comando de Tauri.",
+  "desktop_local_files_description": "Abre, edita y guarda un archivo de texto local mediante el puente de escritorio de Electron.",
   "desktop_local_files_empty_state": "Elige un archivo para comenzar a editar.",
   "desktop_local_files_save": "Guardar archivo",
   "desktop_local_files_saved_status": "Archivo guardado",
