@@ -20,10 +20,10 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const foregroundValue = useCSSVariable("--color-foreground")
   const mutedValue = useCSSVariable("--color-muted-foreground")
 
-  const background = typeof backgroundValue === "string" ? backgroundValue : undefined
-  const card = typeof cardValue === "string" ? cardValue : background
-  const foreground = typeof foregroundValue === "string" ? foregroundValue : undefined
-  const mutedForeground = typeof mutedValue === "string" ? mutedValue : foreground
+  const background = colorVariableToString(backgroundValue)
+  const card = colorVariableToString(cardValue) ?? background
+  const foreground = colorVariableToString(foregroundValue)
+  const mutedForeground = colorVariableToString(mutedValue) ?? foreground
 
   return (
     <>
@@ -77,16 +77,12 @@ function propsToScreenOptions(
     headerLargeTitleStyle: foregroundColor ? { color: foregroundColor } : undefined,
     headerLeft: props.leftView
       ? (headerProps) => (
-          <View className="flex-row justify-center gap-4">
-            {typeof props.leftView === "function" ? props.leftView(headerProps) : props.leftView}
-          </View>
+          <View className="flex-row justify-center gap-4">{props.leftView?.(headerProps)}</View>
         )
       : undefined,
     headerRight: props.rightView
       ? (headerProps) => (
-          <View className="flex-row justify-center gap-4">
-            {typeof props.rightView === "function" ? props.rightView(headerProps) : props.rightView}
-          </View>
+          <View className="flex-row justify-center gap-4">{props.rightView?.(headerProps)}</View>
         )
       : undefined,
     headerSearchBarOptions: props.searchBar
@@ -111,6 +107,7 @@ function propsToScreenOptions(
           },
           onSearchButtonPress: props.searchBar.onSearchButtonPress,
           placeholder: props.searchBar.placeholder ?? "Search...",
+          // SAFETY: The native search bar writes the full command set to a ref that exposes a safe subset.
           ref: props.searchBar.ref as NativeStackNavigationSearchBarOptions["ref"],
           textColor: props.searchBar.textColor ?? foregroundColor,
           tintColor: props.searchBar.iosTintColor ?? mutedForegroundColor,
@@ -128,6 +125,13 @@ function propsToScreenOptions(
     headerTransparent: isLiquidGlassSupported ? true : props.iosBlurEffect !== "none",
     ...props.screen,
   }
+}
+
+function colorVariableToString(value: string | number | undefined): string | undefined {
+  if (value?.constructor === Number) return undefined
+
+  // SAFETY: Uniwind returns only strings, numbers, or undefined, and the numeric case exits above.
+  return value as string | undefined
 }
 
 export { LargeTitleHeader }

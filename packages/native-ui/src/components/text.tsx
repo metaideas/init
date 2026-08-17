@@ -46,21 +46,10 @@ type TextVariantProps = VariantProps<typeof textVariants>
 
 type TextVariant = NonNullable<TextVariantProps["variant"]>
 
-const ROLE: Partial<Record<TextVariant, Role>> = {
-  blockquote: Platform.select({ web: "blockquote" as Role }),
-  code: Platform.select({ web: "code" as Role }),
-  h1: "heading",
-  h2: "heading",
-  h3: "heading",
-  h4: "heading",
-}
-
-const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
-  h1: "1",
-  h2: "2",
-  h3: "3",
-  h4: "4",
-}
+// SAFETY: React Native for Web supports the blockquote role although the native Role type omits it.
+const WEB_BLOCKQUOTE_ROLE = "blockquote" as Role
+// SAFETY: React Native for Web supports the code role although the native Role type omits it.
+const WEB_CODE_ROLE = "code" as Role
 
 const TextClassContext = React.createContext<string | undefined>(undefined)
 
@@ -79,11 +68,42 @@ function Text({
   return (
     <Component
       className={cn(textVariants({ variant }), textClass, className)}
-      role={variant ? ROLE[variant] : undefined}
-      aria-level={variant ? ARIA_LEVEL[variant] : undefined}
+      role={roleForVariant(variant)}
+      aria-level={ariaLevelForVariant(variant)}
       {...props}
     />
   )
+}
+
+function roleForVariant(variant: TextVariant | null | undefined): Role | undefined {
+  switch (variant) {
+    case "blockquote":
+      return Platform.OS === "web" ? WEB_BLOCKQUOTE_ROLE : undefined
+    case "code":
+      return Platform.OS === "web" ? WEB_CODE_ROLE : undefined
+    case "h1":
+    case "h2":
+    case "h3":
+    case "h4":
+      return "heading"
+    default:
+      return undefined
+  }
+}
+
+function ariaLevelForVariant(variant: TextVariant | null | undefined): string | undefined {
+  switch (variant) {
+    case "h1":
+      return "1"
+    case "h2":
+      return "2"
+    case "h3":
+      return "3"
+    case "h4":
+      return "4"
+    default:
+      return undefined
+  }
 }
 
 export { Text, TextClassContext }

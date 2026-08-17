@@ -8,9 +8,10 @@ export const createTable = pg.pgTableCreator((name) => name)
 
 export const UNIQUE_ID_LENGTH = 24
 
-export function id<B extends string, P extends string>(brand: B, prefix: ConstrainedString<P, 4>) {
-  const IdSchema = z.branded(brand)
-
+export function id<Schema extends z.ZodType<string>, P extends string>(
+  IdSchema: Schema,
+  prefix: ConstrainedString<P, 4>
+) {
   const generateId = createIdGenerator({ prefix, size: UNIQUE_ID_LENGTH })
 
   return {
@@ -34,7 +35,7 @@ export const timestamps = {
 
 // Insert your tables here
 export const documents = createTable("documents", {
-  ...id("DocumentId", "doc"),
+  ...id(z.branded("DocumentId"), "doc"),
   ...timestamps,
 
   content: pg.text().notNull(),
@@ -45,11 +46,12 @@ export const documents = createTable("documents", {
 export const authSchema = pg.pgSchema("auth")
 
 export const userRole = authSchema.enum("user_role", ["user", "admin"])
+export const UserIdSchema = z.branded("UserId")
 
 export const users = authSchema.table(
   "users",
   {
-    ...id("UserId", "user"),
+    ...id(UserIdSchema, "user"),
     ...timestamps,
 
     banExpiresAt: pg.timestamp({ withTimezone: true }),
@@ -81,7 +83,7 @@ export type UserRole = User["role"]
 export const accounts = authSchema.table(
   "accounts",
   {
-    ...id("AccountId", "acct"),
+    ...id(z.branded("AccountId"), "acct"),
     ...timestamps,
 
     accessToken: pg.text(),
@@ -124,7 +126,7 @@ export type AccountId = Account["id"]
 export const verifications = authSchema.table(
   "verifications",
   {
-    ...id("VerificationId", "verf"),
+    ...id(z.branded("VerificationId"), "verf"),
     ...timestamps,
 
     identifier: pg.text().notNull(),
@@ -144,7 +146,7 @@ export type NewVerification = typeof verifications.$inferInsert
 export const sessions = authSchema.table(
   "sessions",
   {
-    ...id("SessionId", "sess"),
+    ...id(z.branded("SessionId"), "sess"),
     ...timestamps,
 
     expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
@@ -196,7 +198,7 @@ export const organizationSchema = pg.pgSchema("organization")
 export const organizations = organizationSchema.table(
   "organizations",
   {
-    ...id("OrganizationId", "org"),
+    ...id(z.branded("OrganizationId"), "org"),
     ...timestamps,
 
     name: pg.text().notNull(),
@@ -216,7 +218,7 @@ export const memberRole = organizationSchema.enum("member_role", ["member", "adm
 export const members = organizationSchema.table(
   "members",
   {
-    ...id("MemberId", "memb"),
+    ...id(z.branded("MemberId"), "memb"),
     ...timestamps,
 
     userId: pg
@@ -259,7 +261,7 @@ export const invitationStatus = organizationSchema.enum("invitation_status", [
 export const invitations = organizationSchema.table(
   "invitations",
   {
-    ...id("InvitationId", "invt"),
+    ...id(z.branded("InvitationId"), "invt"),
     ...timestamps,
 
     email: pg.text().notNull(),
@@ -304,7 +306,7 @@ export type InvitationStatus = Invitation["status"]
 export const activityLogs = organizationSchema.table(
   "activity_logs",
   {
-    ...id("ActivityLogId", "alog"),
+    ...id(z.branded("ActivityLogId"), "alog"),
 
     createdAt: pg.timestamp({ withTimezone: true }).notNull().defaultNow(),
 
@@ -374,7 +376,7 @@ export const storageSchema = pg.pgSchema("storage")
 export const assets = storageSchema.table(
   "assets",
   {
-    ...id("AssetId", "asst"),
+    ...id(z.branded("AssetId"), "asst"),
     ...timestamps,
 
     uploaderId: pg

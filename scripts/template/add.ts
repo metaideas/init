@@ -10,6 +10,7 @@ import {
   readJson,
   runCommand,
   TEMPLATE_SCOPE,
+  type JsonObject,
   type WorkspaceKind,
 } from "./shared"
 
@@ -63,7 +64,7 @@ async function copyTemplateWorkspace(rootDir: string, workspace: TemplateWorkspa
 
 async function getMissingTemplateDependencies(
   rootDir: string,
-  packageJson: Record<string, unknown>,
+  packageJson: JsonObject,
   visited: Set<string>
 ) {
   const prefix = getScopePrefix(TEMPLATE_SCOPE)

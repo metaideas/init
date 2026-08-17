@@ -1,6 +1,8 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
+import { getAnswerString, getAnswerStrings, requireAnswers } from "../boundaries"
+
 type NewFeatureAnswers = PlopTypes.Answers & {
   app: string
   files: string[] | string
@@ -19,17 +21,18 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
 
   plop.setGenerator("new-feature", {
     actions: (rawAnswers) => {
-      const answers = rawAnswers as NewFeatureAnswers
-      const app = plop.renderString("{{kebabCase value}}", { value: answers.app })
-      const feature = plop.renderString("{{kebabCase value}}", { value: answers.name })
-      const destination = `apps/${app}/src/features/${feature}`
+      const providedAnswers = requireAnswers(rawAnswers)
+      const answers: NewFeatureAnswers = Object.assign(providedAnswers, {
+        app: getAnswerString(providedAnswers, "app"),
+        files: getAnswerStrings(providedAnswers, "files"),
+        name: getAnswerString(providedAnswers, "name"),
+      })
       const selectedFiles = Array.isArray(answers.files)
         ? answers.files
         : answers.files.split(",").map((file) => file.trim())
       const generatedFiles = selectedFiles.filter(
         (file) => file !== "assets" && file !== "components"
       )
-      const pathsToFormat = generatedFiles.map((file) => `${destination}/${file}.ts`)
       const actions: PlopTypes.Actions = []
 
       if (generatedFiles.length > 0) {
@@ -62,18 +65,6 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
           type: "add",
         })
       }
-
-      actions.push(async () => {
-        const checkedPaths = await Promise.all(
-          pathsToFormat.map(async (path) => ((await Bun.file(path).exists()) ? path : undefined))
-        )
-        const existingPaths = checkedPaths.filter((path): path is string => path !== undefined)
-
-        if (existingPaths.length === 0) return `[SKIPPED] No generated files need formatting`
-
-        await Bun.$`bun run format -- ${existingPaths}`
-        return `Created feature ${feature} in apps/${app}`
-      })
 
       return actions
     },
