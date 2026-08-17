@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "api_hello_greeting": "Hello {name}!",
   "desktop_local_files_choose": "Choose a text file",
-  "desktop_local_files_description": "Open, edit, and save a local text file through a Tauri command.",
+  "desktop_local_files_description": "Open, edit, and save a local text file through the Electron desktop bridge.",
   "desktop_local_files_empty_state": "Choose a file to start editing.",
   "desktop_local_files_save": "Save file",
   "desktop_local_files_saved_status": "File saved",

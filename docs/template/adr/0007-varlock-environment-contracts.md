@@ -25,7 +25,7 @@ claim that another workspace's variables exist.
 
 Sensitivity metadata and the selected framework integration are the client security
 boundary; public-looking prefixes remain only where a framework or platform requires
-them. Vite, Astro, WXT, Expo/Metro, and Tauri use their Varlock integration. Expo's
+them. Vite, Astro, WXT, Expo/Metro, and Electron use their Varlock integration. Expo's
 JavaScript application configuration retains documented `process.env` compatibility
 because Expo evaluates that configuration before application modules. Bun's automatic
 dotenv loading is disabled and Varlock-managed runtime commands are wrapped so only

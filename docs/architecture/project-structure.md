@@ -17,7 +17,7 @@ root
   ├── apps                # Cross-platform applications
   │   ├── app               # TanStack Start web application
   │   ├── api               # Hono API with RPC client running on Bun
-  │   ├── desktop           # Tauri desktop application with TanStack Router
+  │   ├── desktop           # Electron desktop application with TanStack Router
   │   ├── docs              # Astro Starlight documentation site
   │   ├── extension         # WXT browser extension
   │   ├── mobile            # Expo mobile application
@@ -183,12 +183,14 @@ apps/mobile
 
 ### Desktop
 
-This desktop application uses Tauri. It combines a Rust backend with a TanStack Router frontend for native performance.
+This desktop application uses Electron Forge. It combines an Electron main process with a TanStack Router renderer.
 
 ```sh
 apps/desktop
   └── src/                    # Source code
-      ├── routes/               # File-based routing for TanStack Router
+      ├── shell/                # Electron main process and preload script
+      │
+      ├── renderer/             # Renderer entry and file-based TanStack Router routes
       │
       ├── shared/               # Shared utilities and helpers
       │   ├── assets/            # Static assets shared across the app

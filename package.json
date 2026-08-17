@@ -84,6 +84,7 @@
     "@sentry/cli",
     "@tailwindcss/oxide",
     "docs",
+    "electron",
     "extension",
     "inngest-cli"
   ]

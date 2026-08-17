@@ -19,7 +19,7 @@ A modern monorepo Template for the next product you build.
 - A documentation site that uses [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
 - A mobile application that uses [Expo](https://expo.dev/)
 - An API that uses [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
-- A desktop application that uses [Tauri](https://tauri.app/)
+- A desktop application that uses [Electron Forge](https://www.electronforge.io/)
 - A browser extension that uses [WXT](https://wxt.dev/)
 
 ## Documentation

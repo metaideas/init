@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "env": [],
-      "outputs": ["dist/**", "src-tauri/target/**", "src-tauri/gen/**"]
+      "outputs": [".vite/**", "out/**"]
     }
   }
 }
