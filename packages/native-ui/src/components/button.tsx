@@ -1,11 +1,9 @@
-import type * as React from "react"
+/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import { cn } from "@init/utils/ui"
 import { cva, type VariantProps } from "class-variance-authority"
-import { useMemo } from "react"
 import { Platform, Pressable } from "react-native"
-import { TextClassContext } from "./text"
+import { TextClassContext } from "#components/text.tsx"
 
-// NOTE: group-* is not supported yet by Uniwind.
 const buttonVariants = cva(
   cn(
     "group shrink-0 flex-row items-center justify-center gap-2 rounded-md shadow-none",
@@ -43,7 +41,9 @@ const buttonVariants = cva(
         link: "",
         outline: cn(
           "border border-border bg-background shadow-sm shadow-black/5 active:bg-accent dark:border-input dark:bg-input/30 dark:active:bg-input/50",
-          Platform.select({ web: "hover:bg-accent dark:hover:bg-input/50" })
+          Platform.select({
+            web: "hover:bg-accent dark:hover:bg-input/50",
+          })
         ),
         secondary: cn(
           "bg-secondary shadow-sm shadow-black/5 active:bg-secondary/80",
@@ -94,12 +94,11 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants>
 
 function Button({ className, variant, size, ...props }: ButtonProps) {
-  const textClassName = useMemo(() => buttonTextVariants({ size, variant }), [size, variant])
-
   return (
-    <TextClassContext.Provider value={textClassName}>
+    <TextClassContext.Provider value={buttonTextVariants({ size, variant })}>
       <Pressable
         className={cn(props.disabled && "opacity-50", buttonVariants({ size, variant }), className)}
+        accessibilityRole="button"
         {...props}
       />
     </TextClassContext.Provider>

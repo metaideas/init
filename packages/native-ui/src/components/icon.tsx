@@ -1,16 +1,14 @@
-import type { ElementType } from "react"
+import type { LucideIcon, LucideProps } from "lucide-react-native"
 import { cn } from "@init/utils/ui"
+import * as React from "react"
 import { withUniwind } from "uniwind"
+import { TextClassContext } from "#components/text.tsx"
 
-type IconProps = {
-  [key: string]: unknown
-  as: ElementType
-  className?: string
-  color?: string
-  size?: number
-}
+type IconProps = LucideProps & {
+  as: LucideIcon
+} & React.RefAttributes<LucideIcon>
 
-function IconImpl({ as: IconComponent, className: _className, ...props }: IconProps) {
+function IconImpl({ as: IconComponent, ...props }: IconProps) {
   return <IconComponent {...props} />
 }
 
@@ -25,9 +23,33 @@ const StyledIcon = withUniwind(IconImpl, {
   },
 })
 
+/**
+ * A wrapper component for Lucide icons with Uniwind `className` support via `withUniwind`.
+ *
+ * This component allows you to render any Lucide icon while applying utility classes using
+ * `uniwind`. It avoids the need to wrap or configure each icon individually.
+ *
+ * @example
+ *   ;```tsx
+ *   import { ArrowRight } from "lucide-react-native"
+ *   import { Icon } from "@init/native-ui/components/icon"
+ *
+ *   ;<Icon as={ArrowRight} className="text-red-500 size-4" />
+ *   ```
+ *
+ * @param {LucideIcon} as - The Lucide icon component to render.
+ * @param {string} className - Utility classes to style the icon using Uniwind.
+ * @param {number} size - Icon size (overrides the size class).
+ * @param {...LucideProps} ...props - Additional Lucide icon props passed to the "as" icon.
+ */
 function Icon({ as: IconComponent, className, ...props }: IconProps) {
+  const textClass = React.useContext(TextClassContext)
   return (
-    <StyledIcon as={IconComponent} className={cn("size-5 text-foreground", className)} {...props} />
+    <StyledIcon
+      as={IconComponent}
+      className={cn("size-5 text-foreground", textClass, className)}
+      {...props}
+    />
   )
 }
 

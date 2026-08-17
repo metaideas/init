@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "#components",
+    "hooks": "#hooks",
+    "lib": "@init/utils/ui",
+    "ui": "#components",
+    "utils": "@init/utils/ui"
+  },
+  "registries": {
+    "@rnr": "https://reactnativereusables.com/r/uniwind/{name}.json"
+  }
+}

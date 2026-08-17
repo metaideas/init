@@ -12,28 +12,57 @@
     "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo dist node_modules"
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "components:add": "shadcn add",
+    "components:diff": "shadcn add --diff"
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@rn-primitives/slot": "1.2.0",
+    "@rn-primitives/accordion": "1.5.2",
+    "@rn-primitives/alert-dialog": "1.5.2",
+    "@rn-primitives/aspect-ratio": "1.5.2",
+    "@rn-primitives/avatar": "1.5.2",
+    "@rn-primitives/checkbox": "1.5.2",
+    "@rn-primitives/collapsible": "1.5.2",
+    "@rn-primitives/context-menu": "1.5.2",
+    "@rn-primitives/dialog": "1.5.2",
+    "@rn-primitives/dropdown-menu": "1.5.2",
+    "@rn-primitives/hover-card": "1.5.2",
+    "@rn-primitives/label": "1.5.2",
+    "@rn-primitives/menubar": "1.5.2",
+    "@rn-primitives/popover": "1.5.2",
+    "@rn-primitives/portal": "1.5.2",
+    "@rn-primitives/progress": "1.5.2",
+    "@rn-primitives/radio-group": "1.5.2",
+    "@rn-primitives/select": "1.5.2",
+    "@rn-primitives/separator": "1.5.2",
+    "@rn-primitives/slot": "1.5.2",
+    "@rn-primitives/switch": "1.5.2",
+    "@rn-primitives/tabs": "1.5.2",
+    "@rn-primitives/toggle": "1.5.2",
+    "@rn-primitives/toggle-group": "1.5.2",
+    "@rn-primitives/tooltip": "1.5.2",
     "class-variance-authority": "0.7.1",
     "expo-glass-effect": "~57.0.1",
     "expo-router": "~57.0.10",
+    "lucide-react-native": "0.577.0",
     "react-native-reanimated": "4.5.1",
     "react-native-screens": "~4.26.0",
+    "react-native-svg": "15.15.4",
     "tailwindcss": "4.3.3",
     "uniwind": "1.10.1"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.2.4",
+    "shadcn": "4.16.2",
     "typescript": "7.0.2"
   },
   "peerDependencies": {
     "expo-glass-effect": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*"
   },
   "init": {
     "relationships": {
