@@ -43,12 +43,46 @@ export type Workspace = {
   name: string
 }
 
-export async function readJson(path: string): Promise<Record<string, unknown>> {
-  return JSON.parse(await Bun.file(path).text()) as Record<string, unknown>
+export type JsonValue = boolean | null | number | string | JsonObject | JsonValue[]
+
+export type JsonObject = {
+  [key: string]: JsonValue | undefined
 }
 
-export async function writeJson(path: string, value: unknown) {
+export async function readJson(path: string): Promise<JsonObject> {
+  const value: unknown = JSON.parse(await Bun.file(path).text())
+  if (value === null || !(value instanceof Object) || Array.isArray(value))
+    throw new Error(`Expected ${path} to contain a JSON object.`)
+
+  // SAFETY: JSON.parse returned a non-null, non-array object, and JSON values have the JsonValue contract.
+  return value as JsonObject
+}
+
+export async function writeJson(path: string, value: JsonValue) {
   await Bun.write(path, `${JSON.stringify(value, null, 2)}\n`)
+}
+
+export function isJsonObject(value: JsonValue | undefined): value is JsonObject {
+  return (
+    value !== null && value !== undefined && !Array.isArray(value) && value.constructor === Object
+  )
+}
+
+export function getJsonString(object: JsonObject, key: string) {
+  const value = object[key]
+  return value?.constructor === String ? String(value) : undefined
+}
+
+export function getJsonObject(object: JsonObject, key: string) {
+  const value = object[key]
+  return isJsonObject(value) ? value : undefined
+}
+
+export function getJsonStringArray(object: JsonObject, key: string) {
+  const value = object[key]
+  if (!Array.isArray(value) || !value.every((entry) => entry?.constructor === String)) return
+
+  return value.map(String)
 }
 
 export function normalizeScope(scope: string) {
@@ -68,13 +102,10 @@ export function getScopePrefix(scope: string) {
   return `@${scope}/`
 }
 
-export function getDependencyNames(packageJson: Record<string, unknown>) {
-  return ["dependencies", "devDependencies", "peerDependencies"].flatMap((field) => {
-    const dependencies = packageJson[field]
-    return dependencies && typeof dependencies === "object" && !Array.isArray(dependencies)
-      ? Object.keys(dependencies)
-      : []
-  })
+export function getDependencyNames(packageJson: JsonObject) {
+  return ["dependencies", "devDependencies", "peerDependencies"].flatMap((field) =>
+    Object.keys(getJsonObject(packageJson, field) ?? {})
+  )
 }
 
 export async function getWorkspaces(rootDir: string, kind: WorkspaceKind) {
@@ -153,12 +184,10 @@ export async function getProjectScope(rootDir: string) {
   const packageNames = await Promise.all(
     workspaces.flat().map(async (workspace) => {
       const packageJson = await readJson(join(workspace.directory, "package.json"))
-      return packageJson.name
+      return getJsonString(packageJson, "name")
     })
   )
-  const packageName = packageNames.find(
-    (name): name is string => typeof name === "string" && /^@[^/]+\//.test(name)
-  )
+  const packageName = packageNames.find((name) => name !== undefined && /^@[^/]+\//.test(name))
   const match = packageName && /^@([^/]+)\//.exec(packageName)
   const scope = match?.[1]
   if (scope) return normalizeScope(scope)

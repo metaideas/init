@@ -1,10 +1,11 @@
 import core from "adamantite/lint"
+import antislop from "adamantite/lint/antislop"
 import node from "adamantite/lint/node"
 import react from "adamantite/lint/react"
 import { defineConfig } from "oxlint"
 
 export default defineConfig({
-  extends: [core, react, node],
+  extends: [core, react, antislop, node],
   ignorePatterns: [
     "**/*.hbs",
     "**/src/**/_generated",

@@ -23,6 +23,7 @@ function NativeOnlyAnimatedView(
         React.RefAttributes<typeof AnimatedPressable> & { as: "Pressable" })
 ) {
   if (Platform.OS === "web") {
+    // SAFETY: React component children satisfy ReactNode even when Reanimated widens its children prop.
     return props.children as React.ReactNode
   }
   if (props.as === "Pressable") {

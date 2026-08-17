@@ -1,6 +1,6 @@
 import { join, relative } from "node:path"
 
-import { getWorkspaces, readJson, writeJson } from "./shared"
+import { getJsonObject, getJsonString, getWorkspaces, readJson, writeJson } from "./shared"
 
 export function getWorkspaceRouteName(workspacePath: string, projectName: string) {
   const normalizedWorkspacePath = workspacePath.replaceAll("\\", "/")
@@ -19,11 +19,11 @@ async function updateWorkspacePackageName(
   if (!(await Bun.file(packageJsonPath).exists())) return null
 
   const packageJson = await readJson(packageJsonPath)
-  const portless = packageJson.portless as { name?: string } | undefined
+  const portless = getJsonObject(packageJson, "portless")
   if (!portless) return null
 
   const routeName = getWorkspaceRouteName(workspacePath, projectName)
-  if (portless.name === routeName) return null
+  if (getJsonString(portless, "name") === routeName) return null
 
   portless.name = routeName
   await writeJson(packageJsonPath, packageJson)

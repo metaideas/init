@@ -1,9 +1,19 @@
 import type { Stripe } from "stripe"
 import { kv, namespaceKey } from "@init/kv/client"
+import * as z from "@init/utils/schema"
 import { payments } from "#client.ts"
 import { ENV } from "#env.generated.ts"
 
 const paymentsKey = namespaceKey("payments")
+const expandedPaymentMethodSchema = z.object({
+  card: z
+    .object({
+      brand: z.string(),
+      last4: z.string(),
+    })
+    .nullable()
+    .optional(),
+})
 
 export type SubscriptionCache =
   | {
@@ -66,18 +76,21 @@ export async function syncSubscription(customerId: string): Promise<Subscription
     return data
   }
 
+  const paymentMethodResult = expandedPaymentMethodSchema.safeParse(
+    subscription.default_payment_method
+  )
+
   // Store complete subscription state
   data = {
     cancelAtPeriodEnd: subscription.cancel_at_period_end,
     currentPeriodEnd: subscription.items.data[0].current_period_end,
     currentPeriodStart: subscription.items.data[0].current_period_start,
-    paymentMethod:
-      subscription.default_payment_method && typeof subscription.default_payment_method !== "string"
-        ? {
-            brand: subscription.default_payment_method.card?.brand ?? null,
-            last4: subscription.default_payment_method.card?.last4 ?? null,
-          }
-        : null,
+    paymentMethod: paymentMethodResult.success
+      ? {
+          brand: paymentMethodResult.data.card?.brand ?? null,
+          last4: paymentMethodResult.data.card?.last4 ?? null,
+        }
+      : null,
     priceId: subscription.items.data[0].price.id,
     status: subscription.status,
     subscriptionId: subscription.id,
@@ -98,7 +111,7 @@ export function checkIsAllowedEvent(
 export async function parseWebhook(request: Request) {
   const signature = request.headers.get("stripe-signature")
 
-  if (typeof signature !== "string") {
+  if (signature === null) {
     throw new Error("Missing stripe-signature header")
   }
 

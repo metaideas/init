@@ -14,8 +14,8 @@ try {
     .demandCommand(1, "Choose a command. Run --help to see available commands.")
     .strict()
     .help()
-    .fail((message, error: unknown, yargs) => {
-      if (error !== undefined) throw error as Error
+    .fail((message, error: Error | undefined, yargs) => {
+      if (error !== undefined) throw error
 
       yargs.showHelp()
       if (message) consola.error(message)

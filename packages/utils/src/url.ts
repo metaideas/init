@@ -33,9 +33,10 @@ export function createUrlBuilder(baseUrl: string, protocol: "http" | "https" = "
       return normalized
     }
 
-    const filteredQuery = Object.fromEntries(
-      Object.entries(options.query).filter(([, v]) => v !== undefined)
-    ) as Record<string, string | number | boolean>
+    const filteredQuery: Record<string, string | number | boolean> = {}
+    for (const [key, value] of Object.entries(options.query)) {
+      if (value !== undefined) filteredQuery[key] = value
+    }
 
     return withQuery(normalized, filteredQuery)
   }

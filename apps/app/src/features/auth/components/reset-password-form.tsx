@@ -2,7 +2,7 @@ import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { useNavigate } from "@tanstack/react-router"
-import { ResetPasswordFormSchema as schema } from "#features/auth/validation.ts"
+import { PasswordSchema, ResetPasswordFormSchema as schema } from "#features/auth/validation.ts"
 import { authClient } from "#shared/auth.ts"
 
 export default function ResetPasswordForm({ token }: { token: string }) {
@@ -39,7 +39,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
+          <form.AppField name="password" validators={{ onBlur: PasswordSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>New password</field.Label>
@@ -48,10 +48,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
               </field.Field>
             )}
           </form.AppField>
-          <form.AppField
-            name="confirmPassword"
-            validators={{ onBlur: schema.shape.confirmPassword }}
-          >
+          <form.AppField name="confirmPassword" validators={{ onBlur: PasswordSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Confirm new password</field.Label>

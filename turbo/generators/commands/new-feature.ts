@@ -1,6 +1,8 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
+import { getAnswerString, getAnswerStrings, requireAnswers } from "../boundaries"
+
 type NewFeatureAnswers = PlopTypes.Answers & {
   app: string
   files: string[] | string
@@ -19,7 +21,12 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
 
   plop.setGenerator("new-feature", {
     actions: (rawAnswers) => {
-      const answers = rawAnswers as NewFeatureAnswers
+      const providedAnswers = requireAnswers(rawAnswers)
+      const answers: NewFeatureAnswers = Object.assign(providedAnswers, {
+        app: getAnswerString(providedAnswers, "app"),
+        files: getAnswerStrings(providedAnswers, "files"),
+        name: getAnswerString(providedAnswers, "name"),
+      })
       const app = plop.renderString("{{kebabCase value}}", { value: answers.app })
       const feature = plop.renderString("{{kebabCase value}}", { value: answers.name })
       const destination = `apps/${app}/src/features/${feature}`

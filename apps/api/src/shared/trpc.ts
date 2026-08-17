@@ -22,11 +22,14 @@ export function createTRPCContext(opts: FetchCreateContextFnOptions, c: Context<
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
 
 export const t = initTRPC.context<TRPCContext>().create({
-  errorFormatter({ shape, error }) {
+  errorFormatter(formatterInput) {
+    const { error } = formatterInput
+    const formattedError = formatterInput["shape"]
+
     return {
-      ...shape,
+      ...formattedError,
       data: {
-        ...shape.data,
+        ...formattedError.data,
         zodError: error.cause instanceof z.ZodError ? error.cause.flatten() : null,
       },
     }
