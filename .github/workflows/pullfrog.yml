@@ -26,7 +26,10 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run agent
-        uses: pullfrog/pullfrog@v0
+        # TODO: adelrodriguez -- Temporarily pinned: the v0 tag resolves to v0.1.58,
+        # which runs `npx pullfrog@^0.1.58`, but 0.1.58 was never published to npm
+        # (latest is 0.1.57). Restore @v0 once upstream publishes.
+        uses: pullfrog/pullfrog@v0.1.57
         with:
           prompt: ${{ inputs.prompt }}
         env:
