@@ -1,18 +1,7 @@
-import { buildLogger, LoggerCategory } from "@init/observability/logger"
+import { createLogger } from "@init/observability/logger"
+import { buildDrain } from "@init/observability/logger/drains"
 import { singleton } from "@init/utils/singleton"
 
-export const logger = singleton("logger:api", () =>
-  buildLogger(
-    [
-      LoggerCategory.DEFAULT,
-      LoggerCategory.EMAIL,
-      LoggerCategory.LOGTAPE,
-      LoggerCategory.HONO,
-      LoggerCategory.DRIZZLE_ORM,
-      LoggerCategory.INNGEST,
-    ],
-    { async: true }
-  )
-)
+export const drain = singleton("drain:api", () => buildDrain())
 
-export { LoggerCategory } from "@init/observability/logger"
+export const logger = singleton("logger:api", () => createLogger({ drain, service: "api" }))

@@ -9,6 +9,7 @@ import { signedUrlPolicy } from "files-sdk/signed-url-policy"
 import { validation } from "files-sdk/validation"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
 import { ENV } from "#shared/env.generated.ts"
+import { logger } from "#shared/logger.ts"
 import { context } from "#shared/utils.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
@@ -98,7 +99,7 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
       target: assets.key,
     })
     .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to record asset: ${String(error)}`)
+      logger.error({ error, key, message: "Failed to record asset" })
     })
 }
 
@@ -116,6 +117,6 @@ function handleDelete(keys: string[]) {
       )
     )
     .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to delete asset records: ${String(error)}`)
+      logger.error({ error, keys, message: "Failed to delete asset records" })
     })
 }

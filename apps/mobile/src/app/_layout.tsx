@@ -15,7 +15,7 @@ void SplashScreen.preventAutoHideAsync()
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   useEffect(() => {
-    logger.error("Route rendering failed", { error })
+    logger.error({ error, message: "Route rendering failed" })
   }, [error])
 
   return (

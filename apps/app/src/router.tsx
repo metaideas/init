@@ -23,7 +23,7 @@ export function getRouter() {
 
   const router = createRouter({
     context: {
-      logger: logger.getChild("router"),
+      logger,
       queryClient,
     } satisfies RouterContext,
     defaultErrorComponent: ErrorFallback,

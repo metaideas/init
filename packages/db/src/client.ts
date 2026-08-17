@@ -1,5 +1,4 @@
-import { LoggerCategory } from "@init/observability/logger"
-import { drizzleLogger } from "@init/observability/logger/integrations"
+import { log } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { SQL } from "bun"
 import { drizzle } from "drizzle-orm/bun-sql"
@@ -12,7 +11,11 @@ export function connect(url: string) {
   return drizzle({
     casing: "snake_case",
     client,
-    logger: drizzleLogger({ category: LoggerCategory.DRIZZLE_ORM }),
+    logger: {
+      logQuery(query, params) {
+        log.debug({ params, query, scope: "drizzle" })
+      },
+    },
     schema,
   })
 }

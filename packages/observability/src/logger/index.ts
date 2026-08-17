@@ -1,118 +1,52 @@
-import { isDevelopment } from "@init/utils/env"
-import {
-  type Config,
-  type Logger as LogtapeLogger,
-  configure,
-  configureSync,
-  getConsoleSink,
-  getLogger as getLogtapeLogger,
-  jsonLinesFormatter,
-} from "@logtape/logtape"
-import { getPrettyFormatter } from "@logtape/pretty"
-import { redactSink } from "#logger/utils.ts"
+import type { DrainContext, Log, RedactConfig } from "evlog"
+import { initLogger, log } from "evlog"
 
-export const LoggerCategory = {
-  CONVEX: ["convex"],
-  DEFAULT: ["default"],
-  DRIZZLE_ORM: ["drizzle-orm"],
-  EMAIL: ["email"],
-  HONO: ["hono"],
-  INNGEST: ["inngest"],
-  LOGTAPE: ["logtape", "meta"],
-} as const satisfies Record<string, string[]>
-
-type LoggerCategoryType = (typeof LoggerCategory)[keyof typeof LoggerCategory]
-
-type BuildLoggerOptions = {
-  async?: boolean
+type CreateLoggerOptions = {
+  /** Service name stamped on every event. */
+  service: string
+  /** Overrides evlog's environment auto-detection (pretty output, redaction defaults). */
   isDevelopment?: boolean
+  /** Ships emitted events to external services. Build one with `buildDrain()` from `#logger/drains.ts`. */
+  drain?: (ctx: DrainContext) => void | Promise<void>
+  /** PII redaction. Defaults to evlog's built-ins (on in production, off in development). */
+  redact?: boolean | RedactConfig
 }
 
-const LOGGER_CONFIGS = [
-  {
-    category: LoggerCategory.LOGTAPE,
-    lowestLevel: "warning",
-    sinks: ["meta"],
-  },
-  {
-    category: LoggerCategory.INNGEST,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.CONVEX,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.HONO,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.DRIZZLE_ORM,
-    lowestLevel: "debug",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.EMAIL,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.DEFAULT,
-    lowestLevel: "trace",
-    sinks: ["console"],
-  },
-] as const satisfies Config<string, string>["loggers"]
+/**
+ * Configure evlog for this app and return the logger. Call once at startup,
+ * wrapped in `singleton` from `@init/utils/singleton`.
+ *
+ * The configuration is process-wide and last-call-wins, so each app must call
+ * this exactly once. Framework integrations that auto-initialize (the Vite
+ * plugin, Nitro module) detect an existing configuration and skip their own.
+ */
+export function createLogger(options: CreateLoggerOptions) {
+  const { service, isDevelopment, drain, redact } = options
 
-export function buildLogger(
-  categories: readonly LoggerCategoryType[],
-  options?: BuildLoggerOptions
-) {
-  if (categories.length === 0) {
-    throw new Error("At least one logger category is required")
-  }
-
-  const isDev = options?.isDevelopment ?? isDevelopment
-  const consoleSink = getConsoleSink({
-    formatter: isDev
-      ? getPrettyFormatter({
-          categoryTruncate: "middle",
-          categoryWidth: 15,
-          levelStyle: "bold",
-          messageStyle: "reset",
-          properties: true,
-          timestamp: "time",
-        })
-      : jsonLinesFormatter,
-    nonBlocking: options?.async === true,
+  initLogger({
+    env: { service },
+    ...(isDevelopment === undefined ? {} : { pretty: isDevelopment }),
+    ...(drain === undefined ? {} : { drain }),
+    ...(redact === undefined ? {} : { redact }),
   })
 
-  const configuredCategories = new Set(categories.map((category) => category.join("/")))
-
-  const config: Config<string, string> = {
-    loggers: LOGGER_CONFIGS.filter((logger) => configuredCategories.has(logger.category.join("/"))),
-    sinks: {
-      console: redactSink(consoleSink),
-      meta: consoleSink,
-    },
-  }
-
-  if (options?.async) {
-    void configure(config)
-  } else {
-    configureSync(config)
-  }
-
-  const defaultCategoryKey = LoggerCategory.DEFAULT.join("/")
-  const defaultCategory = categories.find((category) => category.join("/") === defaultCategoryKey)
-
-  return getLogger(defaultCategory ?? categories[0])
+  return log
 }
 
-export function getLogger(category: LoggerCategoryType = LoggerCategory.DEFAULT) {
-  return getLogtapeLogger(category)
-}
+/**
+ * The ambient logger, for packages and non-request code. Same instance the
+ * app configured through `createLogger`.
+ */
+export { log } from "evlog"
 
-export type Logger = LogtapeLogger
+/**
+ * Open a request-scoped wide event for custom framework integrations
+ * (e.g. TanStack Start request middleware). Accumulate context with
+ * `set()` and call `emit()` when the response is ready — emitted events
+ * ship through the global drain configured by `createLogger`.
+ */
+export { createRequestLogger } from "evlog"
+
+export { createError, parseError } from "evlog"
+export type { DrainContext, ParsedError, RequestLogger, WideEvent } from "evlog"
+export type Logger = Log

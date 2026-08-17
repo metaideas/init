@@ -8,6 +8,7 @@ import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
+import { log } from "@init/observability/logger"
 import PasswordReset from "@init/email/templates/password-reset"
 import { ENV } from "#shared/env.generated.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
@@ -25,6 +26,12 @@ export const auth = createAuth({
         emails: [user.email],
         subject: `Reset your ${AUTH_APP_NAME} password`,
       })
+    },
+  },
+  logger: {
+    level: "warn",
+    log: (level, message, ...details) => {
+      log[level]({ message, scope: "auth", ...(details.length > 0 ? { details } : {}) })
     },
   },
   plugins: [admin(), organization()],
