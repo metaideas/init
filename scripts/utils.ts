@@ -64,12 +64,19 @@ export function getOptionBeforeCommand(
   parentCommandName: string,
   commandNames: ReadonlySet<string>
 ) {
-  if (rawArgs[0] !== parentCommandName) return null
-  const argument = rawArgs[1]
+  if (rawArgs.includes("--help") || rawArgs.includes("-h")) return null
+
+  const parentCommandIndex = rawArgs.findIndex((argument) => !argument.startsWith("-"))
+  if (parentCommandIndex === -1 || rawArgs[parentCommandIndex] !== parentCommandName) return null
+
+  const leadingOption = rawArgs.slice(0, parentCommandIndex).find((argument) => argument !== "--")
+  if (leadingOption) return leadingOption
+
+  const argument = rawArgs[parentCommandIndex + 1]
   if (!argument || commandNames.has(argument)) return null
-  if (argument === "--" || argument === "--help" || argument === "-h") return null
-  if ((argument === "--version" || argument === "-v") && rawArgs.length === 2) return null
-  if (argument.startsWith("-")) return argument.replace(/^-+/, "").split("=", 1)[0]
+  if (argument === "--") return null
+  if ((argument === "--version" || argument === "-v") && rawArgs.length === 1) return null
+  if (argument.startsWith("-")) return argument.split("=", 1)[0]
 
   return null
 }

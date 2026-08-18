@@ -23,8 +23,12 @@ describe("getOptionBeforeCommand", () => {
 
   test("returns an option before a leaf command", () => {
     expect(getOptionBeforeCommand(["template", "--yes", "setup"], "template", commandNames)).toBe(
-      "yes"
+      "--yes"
     )
+    expect(getOptionBeforeCommand(["--bogus", "template", "setup"], "template", commandNames)).toBe(
+      "--bogus"
+    )
+    expect(getOptionBeforeCommand(["template", "-x", "setup"], "template", commandNames)).toBe("-x")
   })
 
   test("accepts options after a leaf command and built-in help", () => {

@@ -22,7 +22,7 @@ const misplacedOption = getOptionBeforeCommand(
 )
 
 if (misplacedOption) {
-  consola.error(`Place --${misplacedOption} after the template subcommand.`)
+  consola.error(`Place ${misplacedOption} after the template subcommand.`)
   process.exitCode = 1
 } else {
   await runMain(main, { rawArgs })
