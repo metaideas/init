@@ -59,13 +59,17 @@ export function getUnknownOption(rawArgs: string[], args: ArgsDef): string | und
   return undefined
 }
 
-export function getOptionBeforeCommand(rawArgs: string[], commandNames: ReadonlySet<string>) {
-  for (const argument of rawArgs) {
-    if (commandNames.has(argument)) return null
-    if (!argument.startsWith("--") || argument === "--help" || argument === "--version") continue
-
-    return argument.slice(2).split("=", 1)[0]
-  }
+export function getOptionBeforeCommand(
+  rawArgs: string[],
+  parentCommandName: string,
+  commandNames: ReadonlySet<string>
+) {
+  if (rawArgs[0] !== parentCommandName) return null
+  const argument = rawArgs[1]
+  if (!argument || commandNames.has(argument)) return null
+  if (argument === "--" || argument === "--help" || argument === "-h") return null
+  if ((argument === "--version" || argument === "-v") && rawArgs.length === 2) return null
+  if (argument.startsWith("-")) return argument.replace(/^-+/, "").split("=", 1)[0]
 
   return null
 }

@@ -19,15 +19,25 @@ describe("getUnknownOption", () => {
 })
 
 describe("getOptionBeforeCommand", () => {
-  const commandNames = new Set(["add", "rename", "setup"])
+  const commandNames = new Set(["setup"])
 
   test("returns an option before a leaf command", () => {
-    expect(getOptionBeforeCommand(["template", "--yes", "setup"], commandNames)).toBe("yes")
-    expect(getOptionBeforeCommand(["--bogus", "template", "rename"], commandNames)).toBe("bogus")
+    expect(getOptionBeforeCommand(["template", "--yes", "setup"], "template", commandNames)).toBe(
+      "yes"
+    )
   })
 
   test("accepts options after a leaf command and built-in help", () => {
-    expect(getOptionBeforeCommand(["template", "setup", "--yes"], commandNames)).toBeNull()
-    expect(getOptionBeforeCommand(["template", "--help"], commandNames)).toBeNull()
+    expect(
+      getOptionBeforeCommand(["template", "setup", "--yes"], "template", commandNames)
+    ).toBeNull()
+    expect(getOptionBeforeCommand(["template", "--help"], "template", commandNames)).toBeNull()
+  })
+
+  test("leaves unknown and root commands to citty", () => {
+    expect(
+      getOptionBeforeCommand(["template", "nope", "--flag"], "template", commandNames)
+    ).toBeNull()
+    expect(getOptionBeforeCommand(["nope", "--flag"], "template", commandNames)).toBeNull()
   })
 })

@@ -1,10 +1,8 @@
 import { defineCommand, runMain } from "citty"
 import consola from "consola"
 
-import template from "./template"
+import template, { templateSubCommands } from "./template"
 import { getOptionBeforeCommand } from "./utils"
-
-const templateCommandNames = new Set(["add", "rename", "setup"])
 
 const main = defineCommand({
   meta: {
@@ -17,7 +15,11 @@ const main = defineCommand({
 })
 
 const rawArgs = process.argv.slice(2)
-const misplacedOption = getOptionBeforeCommand(rawArgs, templateCommandNames)
+const misplacedOption = getOptionBeforeCommand(
+  rawArgs,
+  "template",
+  new Set(Object.keys(templateSubCommands))
+)
 
 if (misplacedOption) {
   consola.error(`Place --${misplacedOption} after the template subcommand.`)
