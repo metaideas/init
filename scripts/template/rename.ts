@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineCommand } from "../utils"
 import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
@@ -65,23 +65,25 @@ export async function renameProject({
 }
 
 export default defineCommand({
-  builder: (yargs) =>
-    yargs
-      .option("name", {
-        describe: "New root package name",
-        type: "string",
-      })
-      .option("scope", {
-        describe: "New npm scope, without the leading @ (defaults to --name)",
-        type: "string",
-      })
-      .option("workspace", {
-        describe: "Rewrite only this workspace directory",
-        type: "string",
-      }),
-  command: "rename",
-  describe: "Rename the project and replace the template workspace scope",
-  handler: async (args) => {
+  args: {
+    name: {
+      description: "New root package name",
+      type: "string",
+    },
+    scope: {
+      description: "New npm scope, without the leading @ (defaults to --name)",
+      type: "string",
+    },
+    workspace: {
+      description: "Rewrite only this workspace directory",
+      type: "string",
+    },
+  },
+  meta: {
+    description: "Rename the project and replace the template workspace scope",
+    name: "rename",
+  },
+  run: async ({ args }) => {
     const projectRoot = resolve(process.cwd())
     const projectName = args.name
     if (!args.workspace && !projectName) {

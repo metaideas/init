@@ -1,7 +1,7 @@
 import { join, relative } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineCommand } from "../utils"
 import { renameProject } from "./rename"
 import {
   getDependencyNames,
@@ -23,8 +23,19 @@ type TemplateStamp = {
   template: "metaideas/init"
 }
 
-function getSelectedNames(values: string[] | undefined) {
-  return values?.flatMap((value) => value.split(",")).filter(Boolean)
+function getOptionValues(rawArgs: string[], optionName: string) {
+  const values: string[] = []
+
+  for (const [index, argument] of rawArgs.entries()) {
+    if (argument === `--${optionName}`) {
+      const value = rawArgs[index + 1]
+      if (value && !value.startsWith("-")) values.push(value)
+    } else if (argument.startsWith(`--${optionName}=`)) {
+      values.push(argument.slice(optionName.length + 3))
+    }
+  }
+
+  return values.length > 0 ? values.flatMap((value) => value.split(",")).filter(Boolean) : undefined
 }
 
 async function promptForWorkspaceNames(kind: "app" | "package", names: string[]) {
@@ -209,37 +220,39 @@ async function cleanupTemplateFiles(rootDir: string) {
 }
 
 export default defineCommand({
-  builder: (yargs) =>
-    yargs
-      .option("name", {
-        describe: "Project name for the root package",
-        type: "string",
-      })
-      .option("keep-apps", {
-        array: true,
-        describe: "Apps to keep (comma-separated or repeated)",
-        type: "string",
-      })
-      .option("keep-packages", {
-        array: true,
-        describe: "Packages to keep (comma-separated or repeated)",
-        type: "string",
-      })
-      .option("yes", {
-        describe: "Accept defaults for any option not provided and skip prompts",
-        type: "boolean",
-      })
-      .option("git", {
-        describe: "Initialize a git repository; use --no-git to skip",
-        type: "boolean",
-      })
-      .option("install", {
-        describe: "Run bun install; use --no-install to skip",
-        type: "boolean",
-      }),
-  command: "setup",
-  describe: "Select workspaces, rename the project, and remove template files",
-  handler: async (args) => {
+  args: {
+    git: {
+      description: "Initialize a git repository",
+      negativeDescription: "Skip git repository initialization",
+      type: "boolean",
+    },
+    install: {
+      description: "Run bun install",
+      negativeDescription: "Skip bun install",
+      type: "boolean",
+    },
+    "keep-apps": {
+      description: "Apps to keep (comma-separated or repeated)",
+      type: "string",
+    },
+    "keep-packages": {
+      description: "Packages to keep (comma-separated or repeated)",
+      type: "string",
+    },
+    name: {
+      description: "Project name for the root package",
+      type: "string",
+    },
+    yes: {
+      description: "Accept defaults for any option not provided and skip prompts",
+      type: "boolean",
+    },
+  },
+  meta: {
+    description: "Select workspaces, rename the project, and remove template files",
+    name: "setup",
+  },
+  run: async ({ args, rawArgs }) => {
     const rootDir = process.cwd()
     const yes = args.yes ?? false
 
@@ -250,7 +263,7 @@ export default defineCommand({
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
 
     const keepApps =
-      getSelectedNames(args.keepApps) ??
+      getOptionValues(rawArgs, "keep-apps") ??
       (yes
         ? apps.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
@@ -258,7 +271,7 @@ export default defineCommand({
             apps.map((workspace) => workspace.name)
           ))
     const keepPackages =
-      getSelectedNames(args.keepPackages) ??
+      getOptionValues(rawArgs, "keep-packages") ??
       (yes
         ? packages.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(

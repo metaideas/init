@@ -1,7 +1,7 @@
 import { join } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineCommand } from "../utils"
 import { restorePortlessWorkspaces } from "./portless"
 import { renameProject } from "./rename"
 import {
@@ -129,22 +129,30 @@ async function addWorkspaces(
 }
 
 export default defineCommand({
-  builder: (yargs) =>
-    yargs
-      .positional("kind", {
-        choices: ["app", "package"] as const,
-        demandOption: true,
-        describe: "Workspace type to add",
-        type: "string",
-      })
-      .positional("name", {
-        demandOption: true,
-        describe: "Name of the template workspace to copy",
-        type: "string",
-      }),
-  command: "add <kind> <name>",
-  describe: "Copy an app or package from the init template",
-  handler: async (args) => {
+  args: {
+    kind: {
+      description: "Workspace type to add",
+      required: true,
+      type: "positional",
+    },
+    name: {
+      description: "Name of the template workspace to copy",
+      required: true,
+      type: "positional",
+    },
+  },
+  meta: {
+    description: "Copy an app or package from the init template",
+    name: "add",
+  },
+  run: async ({ args }) => {
+    if (args.kind !== "app" && args.kind !== "package") {
+      throw TemplateFault.create("InvalidArgumentsError").withDescription(
+        `Unknown workspace type: ${args.kind}.`,
+        "The workspace type must be app or package."
+      )
+    }
+
     const rootDir = process.cwd()
     const scope = await getProjectScope(rootDir)
     const target: TemplateWorkspace = { kind: args.kind, name: args.name }
