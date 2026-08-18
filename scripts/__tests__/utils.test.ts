@@ -28,6 +28,9 @@ describe("getOptionBeforeCommand", () => {
     expect(getOptionBeforeCommand(["--bogus", "template", "setup"], "template", commandNames)).toBe(
       "--bogus"
     )
+    expect(
+      getOptionBeforeCommand(["--bogus=value", "template", "setup"], "template", commandNames)
+    ).toBe("--bogus")
     expect(getOptionBeforeCommand(["template", "-x", "setup"], "template", commandNames)).toBe("-x")
   })
 

@@ -70,12 +70,11 @@ export function getOptionBeforeCommand(
   if (parentCommandIndex === -1 || rawArgs[parentCommandIndex] !== parentCommandName) return null
 
   const leadingOption = rawArgs.slice(0, parentCommandIndex).find((argument) => argument !== "--")
-  if (leadingOption) return leadingOption
+  if (leadingOption) return leadingOption.split("=", 1)[0]
 
   const argument = rawArgs[parentCommandIndex + 1]
   if (!argument || commandNames.has(argument)) return null
   if (argument === "--") return null
-  if ((argument === "--version" || argument === "-v") && rawArgs.length === 1) return null
   if (argument.startsWith("-")) return argument.split("=", 1)[0]
 
   return null
