@@ -14,7 +14,7 @@ Configure a newly created project. This command does the following:
 - It prompts you to select the application and package workspaces to keep.
 - It sets the project name, which is also the package scope.
 - It rewrites `@init/` references with the project name.
-- It sets package-local Portless route names from the normalized package scope.
+- It rewrites the `.localhost` hostnames in the environment files and `infra/local/Caddyfile` from the normalized package scope.
 - It records the source template, commit, and creation time in `.template.json`.
 
 ```bash
@@ -23,7 +23,7 @@ bun template setup
 
 ### `bun template rename`
 
-Rename the project. Rewrite its package scope references. Update its Portless hostnames.
+Rename the project. Rewrite its package scope references. Update its `.localhost` hostnames, including the `infra/local/Caddyfile` routes.
 
 ```bash
 bun template rename --name <name> [--scope <scope>]
@@ -31,7 +31,7 @@ bun template rename --name <name> [--scope <scope>]
 
 ### `bun template add app <name>`
 
-Copy an application workspace from the template with Turbo generators. Apply the package scope of the project. Restore its Portless route configuration.
+Copy an application workspace from the template with Turbo generators. Apply the package scope of the project. When the workspace serves HTTP in development, add its route to `infra/local/Caddyfile`.
 
 ```bash
 bun template add app web
@@ -39,7 +39,7 @@ bun template add app web
 
 ### `bun template add package <name>`
 
-Copy a package workspace from the template with Turbo generators. Apply the package scope of the project. When it owns a local UI, restore its Portless route configuration.
+Copy a package workspace from the template with Turbo generators. Apply the package scope of the project. When it owns a local UI, add its route to `infra/local/Caddyfile`.
 
 ```bash
 bun template add package auth

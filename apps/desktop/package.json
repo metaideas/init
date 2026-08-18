@@ -15,8 +15,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "portless",
-    "dev:app": "electron-forge start",
+    "dev": "electron-forge start",
     "env:check": "varlock load",
     "env:scan": "test -d dist && varlock scan --path .env.schema dist",
     "env:scan:build": "bun --bun vite build --config vite.renderer.config.ts",
@@ -63,9 +62,5 @@
     "electron": "43.4.0",
     "typescript": "7.0.2",
     "vite": "8.1.5"
-  },
-  "portless": {
-    "name": "desktop.init",
-    "script": "dev:app"
   }
 }

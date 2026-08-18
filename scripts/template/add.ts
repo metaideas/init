@@ -2,7 +2,6 @@ import { join } from "node:path"
 import consola from "consola"
 
 import { defineCommand } from "../utils"
-import { restorePortlessWorkspaces } from "./portless"
 import { renameProject } from "./rename"
 import {
   getDependencyNames,
@@ -158,7 +157,6 @@ export default defineCommand({
     }
 
     const copiedPaths = await addWorkspaces(rootDir, scope, [target], new Set([targetPath]))
-    await restorePortlessWorkspaces(rootDir, copiedPaths, scope)
     consola.success(`Added ${copiedPaths.join(", ")}. Run bun install to link the new workspaces.`)
   },
 })

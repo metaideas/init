@@ -1,0 +1,31 @@
+{
+	admin off
+}
+
+app.init.localhost {
+	reverse_proxy host.docker.internal:3001
+}
+
+api.init.localhost {
+	reverse_proxy host.docker.internal:3000
+}
+
+web.init.localhost {
+	reverse_proxy host.docker.internal:3006
+}
+
+docs.init.localhost {
+	reverse_proxy host.docker.internal:3004
+}
+
+db.init.localhost {
+	reverse_proxy host.docker.internal:4983
+}
+
+email.init.localhost {
+	reverse_proxy host.docker.internal:4000
+}
+
+workflows.init.localhost {
+	reverse_proxy host.docker.internal:8288
+}

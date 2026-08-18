@@ -1,0 +1,9 @@
+# On Linux, bridge-network containers cannot reach host ports when a firewall
+# drops traffic from the Docker bridge, so Caddy joins the host network and
+# dials the development servers over loopback instead.
+services:
+  caddy:
+    network_mode: host
+    ports: !reset []
+    extra_hosts: !override
+      - "host.docker.internal:127.0.0.1"

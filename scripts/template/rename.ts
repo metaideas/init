@@ -2,7 +2,6 @@ import { join, resolve } from "node:path"
 import consola from "consola"
 
 import { defineCommand } from "../utils"
-import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
   getProjectScope,
@@ -49,9 +48,6 @@ export async function renameProject({
     changedFiles.add(path)
 
   if (!projectName) return { changedFiles: [...changedFiles] }
-
-  for (const path of await updatePortlessProjectName(rootDir, normalizedScope))
-    changedFiles.add(path)
 
   const packageJsonPath = join(rootDir, "package.json")
   const packageJson = await readJson(packageJsonPath)

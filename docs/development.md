@@ -19,8 +19,8 @@ These commands match the scripts in the root `package.json`.
 | Command                | Description                                           |
 | ---------------------- | ----------------------------------------------------- |
 | `bun run dev`          | Start all workspaces with named HTTPS URLs.           |
-| `bun run dev:apps`     | Start application workspaces with Portless.           |
-| `bun run dev:packages` | Start package workspaces with Portless.               |
+| `bun run dev:apps`     | Start the application workspace dev servers.          |
+| `bun run dev:packages` | Start the package workspace dev servers.              |
 | `bun run build`        | Build all workspaces.                                 |
 | `bun run clean`        | Remove build artifacts.                               |
 | `bun run check`        | Generate types and run Adamantite checks.             |
@@ -31,6 +31,7 @@ These commands match the scripts in the root `package.json`.
 | `bun run format`       | Format code with Adamantite.                          |
 | `bun run test`         | Run the test suite.                                   |
 | `bun run docker:up`    | Start the local services.                             |
+| `bun run caddy:trust`  | Trust the local Caddy certificate authority.          |
 | `bun run docker:down`  | Stop the local services.                              |
 | `bun run boundaries`   | Generate the report for dependency boundaries.        |
 
@@ -42,17 +43,17 @@ bun run <command> --filter <workspace>
 
 Application workspaces separate generation into `codegen:env` and `codegen:i18n`. Their `codegen` script runs both commands at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run either generator independently during development.
 
-## Portless
+## Local HTTPS Proxy
 
-Every HTTP-serving workspace uses `portless` as its `dev` script. Each workspace keeps its framework command in `dev:app`, as [Portless recommends for Turborepo](https://portless.sh/configuration). Root commands such as `bun run dev` and local commands such as `cd apps/api && bun run dev` use named HTTPS URLs. The normalized npm scope sets the hostname suffix. For a scope named `example`, the application workspace uses `https://example.localhost`. The API uses `https://api.example.localhost`. Other HTTP development servers use `<workspace>.example.localhost`.
+A Caddy service in `infra/local/docker-compose.yml` serves the HTTP development servers through named HTTPS URLs on port 443. `infra/local/Caddyfile` maps each hostname to the fixed port of its development server. The normalized npm scope sets the hostname suffix. For a scope named `example`, the application workspace uses `https://app.example.localhost`. The API uses `https://api.example.localhost`. Other HTTP development servers use `<workspace>.example.localhost`. Browsers resolve `.localhost` hostnames to the loopback interface without configuration. `bun template setup` and `bun template rename` rewrite the hostnames in the Caddyfile together with the environment files.
 
-The package-local `portless` object in each HTTP-serving workspace defines its project-qualified name and `dev:app` script. Portless assigns an available upstream port at runtime. Multiple projects can run at the same time without shared application ports. Separate projects must use distinct npm scopes and Portless names. Git worktrees receive automatic route prefixes.
+`bun run docker:up` starts the proxy with the other local services. On its first start, Caddy creates a local certificate authority under `infra/local/.data/caddy`. Run `bun run caddy:trust` once to install that authority in the operating system trust store. Until then, browsers warn about the HTTPS names. Because the proxy binds ports 80 and 443 on the host, only one project can run its local stack at a time. The Caddyfile disables the Caddy admin endpoint; restart the service with `docker compose restart caddy` after editing routes.
 
-Drizzle Studio, React Email, and the Inngest development server use the same package-local pattern. Inngest runs from `packages/workflows`. Docker Compose is reserved for data infrastructure.
+On macOS and Windows, the Caddy container publishes ports 80 and 443 and reaches the development servers through Docker Desktop's `host.docker.internal`. On Linux, `bun run docker:up` layers `infra/local/docker-compose.linux.yml`, which joins Caddy to the host network and points `host.docker.internal` at the loopback interface, because firewalls commonly drop traffic from the Docker bridge to the host.
 
-The first run can request administrator access to trust the local Portless certificate authority and bind port 443. Use `portless doctor` to examine the proxy, certificate, DNS, and route health.
+Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed port: API `3000`, App `3001`, Docs `3004`, Web `3006`, Drizzle Studio `4983`, React Email `4000`, and Inngest `8288`. Inngest runs from `packages/workflows`.
 
-Portless routes the Mobile, Desktop, and Extension development servers. It does not replace Expo, Electron, or browser-extension launch behavior. `.localhost` resolves only on the development machine. Physical devices require Portless LAN mode and `.local`.
+The Mobile (`3002`), Desktop (`3003`), and Extension (`3005`) development servers are not proxied. Expo, Electron, and the browser-extension tooling consume them directly on their localhost ports. `.localhost` resolves only on the development machine. Physical devices must use the Expo LAN URL.
 
 ## Managing Dependencies
 
