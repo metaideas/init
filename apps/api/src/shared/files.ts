@@ -1,4 +1,3 @@
-import type { DeleteManyResult, StoredFile, UploadResult } from "files-sdk"
 import { operators } from "@init/db/helpers"
 import { assets, type UserId } from "@init/db/schema"
 import * as z from "@init/utils/schema"
@@ -13,6 +12,24 @@ import { context } from "#shared/utils.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 export const FILES_MAX_URL_AGE = 15 * 60
+
+const userIdSchema = z.branded("UserId")
+const uploadResultSchema = z.object({
+  contentType: z.string(),
+  etag: z.string(),
+  lastModified: z.number(),
+  metadata: z.record(z.string(), z.string()).optional(),
+  name: z.string(),
+  size: z.number(),
+})
+const storedFileSchema = z.object({
+  etag: z.string(),
+  lastModified: z.number(),
+  metadata: z.record(z.string(), z.string()).optional(),
+  size: z.number(),
+  type: z.string(),
+})
+const deleteManyResultSchema = z.object({ deleted: z.array(z.string()) })
 
 export const files = createFiles({
   adapter: bunS3({
@@ -29,13 +46,13 @@ export const files = createFiles({
 
       switch (event.type) {
         case "upload":
-          if (event.key) handleUpload(event.key, event.result as UploadResult)
+          if (event.key) handleUpload(event.key, uploadResultSchema.parse(event.result))
           break
         case "head":
-          if (event.key) handleUpload(event.key, event.result as StoredFile)
+          if (event.key) handleUpload(event.key, storedFileSchema.parse(event.result))
           break
         case "delete": {
-          const keys = event.key ? [event.key] : (event.result as DeleteManyResult).deleted
+          const keys = event.key ? [event.key] : deleteManyResultSchema.parse(event.result).deleted
 
           handleDelete(keys)
           break
@@ -67,10 +84,17 @@ export const files = createFiles({
   ],
 })
 
-function handleUpload(key: string, file: UploadResult | StoredFile) {
+type ParsedUploadResult = z.infer<typeof uploadResultSchema>
+type ParsedStoredFile = z.infer<typeof storedFileSchema>
+
+function handleUpload(key: string, file: ParsedUploadResult | ParsedStoredFile) {
   const ctx = context<AuthenticatedAppContext>()
   const mimeType = "contentType" in file ? file.contentType : file.type
   const name = "name" in file ? file.name : (key.split("/").at(-1) ?? key)
+  const userId: UserId = userIdSchema.parse(ctx.var.session.user.id)
+  const logFailure = (cause: unknown) => {
+    ctx.var.logger.error(`Failed to record asset: ${String(cause)}`)
+  }
 
   void ctx.var.db
     .insert(assets)
@@ -80,10 +104,10 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
       lastModified: file.lastModified,
       metadata: "metadata" in file ? file.metadata : undefined,
       name,
-      ownerId: ctx.var.session.user.id as UserId,
+      ownerId: userId,
       size: file.size,
       type: mimeType,
-      uploaderId: ctx.var.session.user.id as UserId,
+      uploaderId: userId,
     })
     .onConflictDoUpdate({
       set: {
@@ -97,25 +121,20 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
       },
       target: assets.key,
     })
-    .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to record asset: ${String(error)}`)
-    })
+    .catch(logFailure)
 }
 
 function handleDelete(keys: string[]) {
   if (keys.length === 0) return
 
   const ctx = context<AuthenticatedAppContext>()
+  const userId: UserId = userIdSchema.parse(ctx.var.session.user.id)
+  const logFailure = (cause: unknown) => {
+    ctx.var.logger.error(`Failed to delete asset records: ${String(cause)}`)
+  }
 
   void ctx.var.db
     .delete(assets)
-    .where(
-      operators.and(
-        operators.inArray(assets.key, keys),
-        operators.eq(assets.ownerId, ctx.var.session.user.id as UserId)
-      )
-    )
-    .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to delete asset records: ${String(error)}`)
-    })
+    .where(operators.and(operators.inArray(assets.key, keys), operators.eq(assets.ownerId, userId)))
+    .catch(logFailure)
 }

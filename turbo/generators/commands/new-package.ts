@@ -1,6 +1,8 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
+import { getAnswerString, readPackageJson, readPackageName, requireAnswers } from "../boundaries"
+
 type NewPackageAnswers = PlopTypes.Answers & {
   name: string
   packageScope?: string
@@ -11,26 +13,24 @@ type NewPackageAnswers = PlopTypes.Answers & {
 export function registerNewPackageGenerator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("new-package", {
     actions: (rawAnswers) => {
-      const answers = rawAnswers as NewPackageAnswers
+      const providedAnswers = requireAnswers(rawAnswers)
+      const answers: NewPackageAnswers = Object.assign(providedAnswers, {
+        name: getAnswerString(providedAnswers, "name"),
+      })
       const name = plop.renderString("{{kebabCase value}}", { value: answers.name })
       const packagePath = `packages/${name}`
 
       return [
         async () => {
-          const rootPackageJson = (await Bun.file("package.json").json()) as {
-            name?: string
-            devDependencies?: Record<string, string>
-          }
-          const toolingPackageJson = (await Bun.file("tooling/tsconfig/package.json").json()) as {
-            name: string
-          }
+          const rootPackageJson = await readPackageJson("package.json")
+          const toolingPackageName = await readPackageName("tooling/tsconfig/package.json")
           const workspacePackageJsonPaths = new Bun.Glob("{apps,packages}/*/package.json")
           let packageScope: string | undefined
 
           for await (const packageJsonPath of workspacePackageJsonPaths.scan({
             cwd: process.cwd(),
           })) {
-            const packageJson = (await Bun.file(packageJsonPath).json()) as { name?: string }
+            const packageJson = await readPackageJson(packageJsonPath)
             const match = packageJson.name?.match(/^@([^/]+)\//)
             if (match?.[1]) {
               packageScope = match[1]
@@ -48,7 +48,7 @@ export function registerNewPackageGenerator(plop: PlopTypes.NodePlopAPI): void {
           Object.assign(answers, {
             name,
             packageScope: `@${packageScope}`,
-            toolingPackage: toolingPackageJson.name,
+            toolingPackage: toolingPackageName,
             typescriptVersion,
           })
           return `Prepared ${packagePath}`

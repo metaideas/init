@@ -4,7 +4,11 @@ import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { SignInWithPasswordFormSchema as schema } from "#features/auth/validation.ts"
+import {
+  EmailSchema,
+  PasswordSchema,
+  SignInWithPasswordFormSchema as schema,
+} from "#features/auth/validation.ts"
 import { signIn } from "#shared/auth.ts"
 
 export default function SignInWithPasswordForm() {
@@ -37,7 +41,7 @@ export default function SignInWithPasswordForm() {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
+          <form.AppField name="email" validators={{ onBlur: EmailSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Email address</field.Label>
@@ -47,7 +51,7 @@ export default function SignInWithPasswordForm() {
               </field.Field>
             )}
           </form.AppField>
-          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
+          <form.AppField name="password" validators={{ onBlur: PasswordSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Password</field.Label>

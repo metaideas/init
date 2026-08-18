@@ -1,38 +1,43 @@
 ---
-import { spawnSync } from "node:child_process"
-import { basename, dirname, resolve } from "node:path"
+import { spawnSync } from "node:child_process";
+import { basename, dirname, resolve } from "node:path";
 
-const { entry, lang, lastUpdated: routeLastUpdated } = Astro.locals.starlightRoute
+const {
+    entry,
+    lang,
+    lastUpdated: routeLastUpdated,
+} = Astro.locals.starlightRoute;
 const lastUpdated =
-  routeLastUpdated ?? (entry.filePath ? getLastUpdated(entry.filePath) : undefined)
+    routeLastUpdated ??
+    (entry.filePath ? getLastUpdated(entry.filePath) : undefined);
 
 function getLastUpdated(filePath: string) {
-  const absolutePath = resolve(import.meta.dirname, "../../..", filePath)
-  const result = spawnSync(
-    "git",
-    ["log", "--format=%ct", "--max-count=1", basename(absolutePath)],
-    {
-      cwd: dirname(absolutePath),
-      encoding: "utf8",
-    },
-  )
-  const timestamp = typeof result.stdout === "string" ? Number(result.stdout.trim()) : Number.NaN
-  return result.status === 0 && Number.isFinite(timestamp) && timestamp > 0
-    ? new Date(timestamp * 1000)
-    : undefined
+    const absolutePath = resolve(import.meta.dirname, "../../..", filePath);
+    const result = spawnSync(
+        "git",
+        ["log", "--format=%ct", "--max-count=1", basename(absolutePath)],
+        {
+            cwd: dirname(absolutePath),
+            encoding: "utf8",
+        },
+    );
+    const timestamp = Number(result.stdout.trim());
+    return result.status === 0 && Number.isFinite(timestamp) && timestamp > 0
+        ? new Date(timestamp * 1000)
+        : undefined;
 }
 ---
 
 {
-  lastUpdated && (
-    <p>
-      {Astro.locals.t("page.lastUpdated")} {" "}
-      <time datetime={lastUpdated.toISOString()}>
-        {lastUpdated.toLocaleDateString(lang, {
-          dateStyle: "medium",
-          timeZone: "UTC",
-        })}
-      </time>
-    </p>
-  )
+    lastUpdated && (
+        <p>
+            {Astro.locals.t("page.lastUpdated")}{" "}
+            <time datetime={lastUpdated.toISOString()}>
+                {lastUpdated.toLocaleDateString(lang, {
+                    dateStyle: "medium",
+                    timeZone: "UTC",
+                })}
+            </time>
+        </p>
+    )
 }

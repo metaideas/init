@@ -23,8 +23,7 @@ function checkIsLocale(value: string): value is Locale {
 }
 
 export default function Screen() {
-  const backgroundValue = useCSSVariable("--color-background")
-  const background = typeof backgroundValue === "string" ? backgroundValue : undefined
+  const background = useCSSVariable("--color-background")?.toString()
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [locale, setLocale] = useState<Locale>(() => getLocale())
   const [searchQuery, setSearchQuery] = useState("")

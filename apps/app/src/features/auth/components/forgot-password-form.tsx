@@ -3,7 +3,7 @@ import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { useServerFn } from "@tanstack/react-start"
 import { forgotPassword } from "#features/auth/server/functions.ts"
-import { ForgotPasswordFormSchema as schema } from "#features/auth/validation.ts"
+import { EmailSchema, ForgotPasswordFormSchema as schema } from "#features/auth/validation.ts"
 
 export default function ForgotPasswordForm() {
   const execute = useServerFn(forgotPassword)
@@ -36,7 +36,7 @@ export default function ForgotPasswordForm() {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField name="email" validators={{ onBlur: schema.shape.email }}>
+          <form.AppField name="email" validators={{ onBlur: EmailSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Email address</field.Label>

@@ -3,7 +3,12 @@ import { useForm } from "@init/ui/components/form"
 import { useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { checkEmailAvailability } from "#features/auth/server/functions.ts"
-import { SignUpFormSchema as schema } from "#features/auth/validation.ts"
+import {
+  EmailSchema,
+  NameSchema,
+  PasswordSchema,
+  SignUpFormSchema as schema,
+} from "#features/auth/validation.ts"
 import { signUp } from "#shared/auth.ts"
 
 export default function SignUpForm() {
@@ -32,7 +37,7 @@ export default function SignUpForm() {
     >
       <form.AppForm>
         <FieldGroup>
-          <form.AppField name="name" validators={{ onBlur: schema.shape.name }}>
+          <form.AppField name="name" validators={{ onBlur: NameSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Name</field.Label>
@@ -46,7 +51,7 @@ export default function SignUpForm() {
           <form.AppField
             name="email"
             validators={{
-              onBlur: schema.shape.email,
+              onBlur: EmailSchema,
               onBlurAsync: async ({ value }) => {
                 const { isAvailable } = await checkEmailAvailability({
                   data: {
@@ -71,7 +76,7 @@ export default function SignUpForm() {
               </field.Field>
             )}
           </form.AppField>
-          <form.AppField name="password" validators={{ onBlur: schema.shape.password }}>
+          <form.AppField name="password" validators={{ onBlur: PasswordSchema }}>
             {(field) => (
               <field.Field>
                 <field.Label>Password</field.Label>
@@ -85,12 +90,9 @@ export default function SignUpForm() {
           <form.AppField
             name="confirmPassword"
             validators={{
-              onBlur: schema.shape.confirmPassword.refine(
-                (v) => v === form.getFieldValue("password"),
-                {
-                  message: "Passwords don't match",
-                }
-              ),
+              onBlur: PasswordSchema.refine((v) => v === form.getFieldValue("password"), {
+                message: "Passwords don't match",
+              }),
               onBlurListenTo: ["password"],
               onChangeListenTo: ["password"],
             }}

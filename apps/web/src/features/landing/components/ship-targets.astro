@@ -1,125 +1,139 @@
 ---
-import { m } from "#shared/internationalization/messages.js"
+import { m } from "#shared/internationalization/messages.js";
 
 const targets = [
-  m.web_landing_ship_targets_web(),
-  m.web_landing_ship_targets_mobile(),
-  m.web_landing_ship_targets_desktop(),
-  m.web_landing_ship_targets_marketing(),
-  m.web_landing_ship_targets_docs(),
-  m.web_landing_ship_targets_extension(),
-] as const
-const prefix = m.web_landing_ship_targets_prefix()
+    m.web_landing_ship_targets_web(),
+    m.web_landing_ship_targets_mobile(),
+    m.web_landing_ship_targets_desktop(),
+    m.web_landing_ship_targets_marketing(),
+    m.web_landing_ship_targets_docs(),
+    m.web_landing_ship_targets_extension(),
+] as const;
+const prefix = m.web_landing_ship_targets_prefix();
 ---
 
 <div class="mt-1 min-h-7">
-  <p class="sr-only">{m.web_landing_ship_targets_summary()}</p>
-  <p
-    class="ship-target-stage group relative m-0 inline-grid min-h-7 overflow-hidden font-sans text-[clamp(1rem,2.2vw,1.2rem)] leading-7 text-neutral-600 dark:text-[#aab1b9]"
-    data-ship-targets={JSON.stringify(targets)}
-    aria-hidden="true"
-  >
-    {
-      targets.map((target) => (
-        <span class="invisible col-start-1 row-start-1 whitespace-nowrap">
-          {prefix} {target}
-        </span>
-      ))
-    }
-    <span
-      class="ship-target-phrase absolute top-0 left-1/2 inline-flex whitespace-nowrap [transform:translateX(calc(-50%+var(--ship-target-shift,0px)))] transition-transform duration-[320ms] ease-[cubic-bezier(0.45,0,0.55,1)] will-change-transform motion-reduce:transform-none motion-reduce:transition-none"
+    <p class="sr-only">{m.web_landing_ship_targets_summary()}</p>
+    <p
+        class="ship-target-stage group relative m-0 inline-grid min-h-7 overflow-hidden font-sans text-[clamp(1rem,2.2vw,1.2rem)] leading-7 text-neutral-600 dark:text-[#aab1b9]"
+        data-ship-targets={JSON.stringify(targets)}
+        aria-hidden="true"
     >
-      <span>{prefix}&nbsp;</span>
-      <span
-        class="ship-target-copy inline-block translate-y-0 opacity-100 transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.215,0.61,0.355,1)] will-change-[opacity,transform] group-data-[phase=enter]:translate-y-[0.2em] group-data-[phase=enter]:opacity-0 group-data-[phase=exit]:-translate-y-[0.2em] group-data-[phase=exit]:opacity-0 group-data-[phase=exit]:duration-[160ms] motion-reduce:transform-none motion-reduce:transition-none"
-        >{targets[0]}</span
-      >
-    </span>
-  </p>
+        {
+            targets.map((target) => (
+                <span class="invisible col-start-1 row-start-1 whitespace-nowrap">
+                    {prefix} {target}
+                </span>
+            ))
+        }
+        <span
+            class="ship-target-phrase absolute top-0 left-1/2 inline-flex whitespace-nowrap [transform:translateX(calc(-50%+var(--ship-target-shift,0px)))] transition-transform duration-[320ms] ease-[cubic-bezier(0.45,0,0.55,1)] will-change-transform motion-reduce:transform-none motion-reduce:transition-none"
+        >
+            <span>{prefix}&nbsp;</span>
+            <span
+                class="ship-target-copy inline-block translate-y-0 opacity-100 transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.215,0.61,0.355,1)] will-change-[opacity,transform] group-data-[phase=enter]:translate-y-[0.2em] group-data-[phase=enter]:opacity-0 group-data-[phase=exit]:-translate-y-[0.2em] group-data-[phase=exit]:opacity-0 group-data-[phase=exit]:duration-[160ms] motion-reduce:transform-none motion-reduce:transition-none"
+                >{targets[0]}</span
+            >
+        </span>
+    </p>
 </div>
 
 <script>
-  const HOLD_DURATION = 2200
-  const EXIT_DURATION = 160
-  const MOVE_DURATION = 320
-  const ENTER_DURATION = 180
+    import * as z from "@init/utils/schema";
 
-  export function initializeShipTargetAnimation(targetStage: HTMLElement) {
-    const phraseElement = targetStage.querySelector<HTMLElement>(".ship-target-phrase")
-    const copyElement = targetStage.querySelector<HTMLElement>(".ship-target-copy")
-    if (!(phraseElement && copyElement)) return
+    const shipTargetsSchema = z.array(z.string());
 
-    const stage = targetStage
-    const phrase = phraseElement
-    const copy = copyElement
-    const targets = JSON.parse(stage.dataset.shipTargets ?? "[]") as string[]
-    const reducedMotion = globalThis.matchMedia("(prefers-reduced-motion: reduce)")
-    let currentIndex = 0
-    let isInViewport = true
-    let timer: ReturnType<typeof setTimeout> | undefined
+    const HOLD_DURATION = 2200;
+    const EXIT_DURATION = 160;
+    const MOVE_DURATION = 320;
+    const ENTER_DURATION = 180;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      isInViewport = entry?.isIntersecting ?? false
-    })
+    export function initializeShipTargetAnimation(targetStage: HTMLElement) {
+        const phraseElement = targetStage.querySelector<HTMLElement>(
+            ".ship-target-phrase",
+        );
+        const copyElement =
+            targetStage.querySelector<HTMLElement>(".ship-target-copy");
+        if (!(phraseElement && copyElement)) return;
 
-    function reset() {
-      globalThis.clearTimeout(timer)
-      currentIndex = 0
-      copy.textContent = targets[0] ?? ""
-      stage.dataset.phase = "idle"
-      phrase.style.removeProperty("--ship-target-shift")
-      phrase.style.removeProperty("transition")
+        const stage = targetStage;
+        const phrase = phraseElement;
+        const copy = copyElement;
+        const targets = shipTargetsSchema.parse(
+            JSON.parse(stage.dataset.shipTargets ?? "[]"),
+        );
+        const reducedMotion = globalThis.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        );
+        let currentIndex = 0;
+        let isInViewport = true;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
+        const observer = new IntersectionObserver(([entry]) => {
+            isInViewport = entry?.isIntersecting ?? false;
+        });
+
+        function reset() {
+            globalThis.clearTimeout(timer);
+            currentIndex = 0;
+            copy.textContent = targets[0] ?? "";
+            stage.dataset.phase = "idle";
+            phrase.style.removeProperty("--ship-target-shift");
+            phrase.style.removeProperty("transition");
+        }
+
+        function scheduleNext() {
+            globalThis.clearTimeout(timer);
+            timer = globalThis.setTimeout(transitionToNext, HOLD_DURATION);
+        }
+
+        function transitionToNext() {
+            if (reducedMotion.matches || targets.length < 2) return;
+            if (!isInViewport || globalThis.document.hidden) {
+                scheduleNext();
+                return;
+            }
+
+            const previousLeft = phrase.getBoundingClientRect().left;
+            stage.dataset.phase = "exit";
+
+            timer = globalThis.setTimeout(() => {
+                if (reducedMotion.matches) return;
+
+                currentIndex = (currentIndex + 1) % targets.length;
+                copy.textContent = targets[currentIndex] ?? "";
+                stage.dataset.phase = "enter";
+
+                const nextLeft = phrase.getBoundingClientRect().left;
+                phrase.style.setProperty("transition", "none");
+                phrase.style.setProperty(
+                    "--ship-target-shift",
+                    `${previousLeft - nextLeft}px`,
+                );
+                void phrase.offsetWidth;
+                phrase.style.removeProperty("transition");
+                phrase.style.setProperty("--ship-target-shift", "0px");
+
+                timer = globalThis.setTimeout(() => {
+                    if (reducedMotion.matches) return;
+                    stage.dataset.phase = "idle";
+                    timer = globalThis.setTimeout(scheduleNext, ENTER_DURATION);
+                }, MOVE_DURATION);
+            }, EXIT_DURATION);
+        }
+
+        function handleMotionPreferenceChange() {
+            if (reducedMotion.matches) reset();
+            else scheduleNext();
+        }
+
+        observer.observe(stage);
+        reducedMotion.addEventListener("change", handleMotionPreferenceChange);
+
+        if (reducedMotion.matches) reset();
+        else scheduleNext();
     }
 
-    function scheduleNext() {
-      globalThis.clearTimeout(timer)
-      timer = globalThis.setTimeout(transitionToNext, HOLD_DURATION)
-    }
-
-    function transitionToNext() {
-      if (reducedMotion.matches || targets.length < 2) return
-      if (!isInViewport || globalThis.document.hidden) {
-        scheduleNext()
-        return
-      }
-
-      const previousLeft = phrase.getBoundingClientRect().left
-      stage.dataset.phase = "exit"
-
-      timer = globalThis.setTimeout(() => {
-        if (reducedMotion.matches) return
-
-        currentIndex = (currentIndex + 1) % targets.length
-        copy.textContent = targets[currentIndex] ?? ""
-        stage.dataset.phase = "enter"
-
-        const nextLeft = phrase.getBoundingClientRect().left
-        phrase.style.setProperty("transition", "none")
-        phrase.style.setProperty("--ship-target-shift", `${previousLeft - nextLeft}px`)
-        void phrase.offsetWidth
-        phrase.style.removeProperty("transition")
-        phrase.style.setProperty("--ship-target-shift", "0px")
-
-        timer = globalThis.setTimeout(() => {
-          if (reducedMotion.matches) return
-          stage.dataset.phase = "idle"
-          timer = globalThis.setTimeout(scheduleNext, ENTER_DURATION)
-        }, MOVE_DURATION)
-      }, EXIT_DURATION)
-    }
-
-    function handleMotionPreferenceChange() {
-      if (reducedMotion.matches) reset()
-      else scheduleNext()
-    }
-
-    observer.observe(stage)
-    reducedMotion.addEventListener("change", handleMotionPreferenceChange)
-
-    if (reducedMotion.matches) reset()
-    else scheduleNext()
-  }
-
-  const stage = document.querySelector<HTMLElement>(".ship-target-stage")
-  if (stage) initializeShipTargetAnimation(stage)
+    const stage = document.querySelector<HTMLElement>(".ship-target-stage");
+    if (stage) initializeShipTargetAnimation(stage);
 </script>

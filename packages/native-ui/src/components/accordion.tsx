@@ -15,17 +15,10 @@ import Animated, {
 import { Icon } from "#components/icon.tsx"
 import { TextClassContext } from "#components/text.tsx"
 
-function Accordion({
-  children,
-  ref: _ref,
-  ...props
-}: Omit<React.ComponentProps<typeof AccordionPrimitive.Root>, "asChild">) {
+function Accordion({ children, ref: _ref, ...props }: AccordionProps) {
   return (
     <LayoutAnimationConfig skipEntering>
-      <AccordionPrimitive.Root
-        {...(props as AccordionPrimitive.RootProps)}
-        asChild={Platform.OS !== "web"}
-      >
+      <AccordionPrimitive.Root {...props} asChild={Platform.OS !== "web"}>
         <Animated.View layout={LinearTransition.duration(200)}>{children}</Animated.View>
       </AccordionPrimitive.Root>
     </LayoutAnimationConfig>
@@ -58,6 +51,9 @@ function AccordionItem({
     </AccordionPrimitive.Item>
   )
 }
+
+type AccordionProps = AccordionPrimitive.RootProps &
+  Pick<React.ComponentProps<typeof AccordionPrimitive.Root>, "ref">
 
 const Trigger = Platform.OS === "web" ? View : Pressable
 

@@ -28,8 +28,8 @@ type LessThanOrEqual<
  */
 export type DeepMerge<T, U> = Omit<T, keyof U> & {
   [K in keyof U]: K extends keyof T
-    ? T[K] extends Record<string, unknown>
-      ? U[K] extends Record<string, unknown>
+    ? T[K] extends object
+      ? U[K] extends object
         ? DeepMerge<T[K], U[K]>
         : U[K]
       : U[K]
