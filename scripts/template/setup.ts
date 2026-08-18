@@ -1,7 +1,7 @@
 import { join, relative } from "node:path"
-import { defineCommand } from "citty"
 import consola from "consola"
 
+import { defineTemplateCommand, normalizeOptionName } from "../utils"
 import { renameProject } from "./rename"
 import {
   getDependencyNames,
@@ -23,15 +23,21 @@ type TemplateStamp = {
   template: "metaideas/init"
 }
 
-function getOptionValues(rawArgs: string[], optionName: string) {
+export function getOptionValues(rawArgs: string[], optionName: string) {
   const values: string[] = []
+  const normalizedOptionName = normalizeOptionName(optionName)
 
   for (const [index, argument] of rawArgs.entries()) {
-    if (argument === `--${optionName}`) {
+    if (!argument.startsWith("--")) continue
+
+    const [name, inlineValue] = argument.slice(2).split("=", 2)
+    if (!name || normalizeOptionName(name) !== normalizedOptionName) continue
+
+    if (inlineValue === undefined) {
       const value = rawArgs[index + 1]
       if (value && !value.startsWith("-")) values.push(value)
-    } else if (argument.startsWith(`--${optionName}=`)) {
-      values.push(argument.slice(optionName.length + 3))
+    } else {
+      values.push(inlineValue)
     }
   }
 
@@ -219,7 +225,7 @@ async function cleanupTemplateFiles(rootDir: string) {
   await writeJson(packageJsonPath, packageJson)
 }
 
-export default defineCommand({
+export default defineTemplateCommand({
   args: {
     git: {
       description: "Initialize a git repository",

@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path"
-import { defineCommand } from "citty"
 import consola from "consola"
 
+import { defineTemplateCommand } from "../utils"
 import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
@@ -64,7 +64,7 @@ export async function renameProject({
   return { changedFiles: [...changedFiles] }
 }
 
-export default defineCommand({
+export default defineTemplateCommand({
   args: {
     name: {
       description: "New root package name",

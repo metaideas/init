@@ -1,7 +1,7 @@
 import { join } from "node:path"
-import { defineCommand } from "citty"
 import consola from "consola"
 
+import { defineTemplateCommand } from "../utils"
 import { restorePortlessWorkspaces } from "./portless"
 import { renameProject } from "./rename"
 import {
@@ -128,10 +128,10 @@ async function addWorkspaces(
   ]
 }
 
-export default defineCommand({
+export default defineTemplateCommand({
   args: {
     kind: {
-      description: "Workspace type to add",
+      description: "Workspace type to add: app or package",
       required: true,
       type: "positional",
     },
