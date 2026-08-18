@@ -1,8 +1,14 @@
-import { defineCommand, type ArgsDef, type CommandContext, type CommandDef } from "citty"
+import { defineCommand, showUsage, type ArgsDef, type CommandContext, type CommandDef } from "citty"
 import consola from "consola"
 import { isFault } from "faultier"
 
-export function defineTemplateCommand<const T extends ArgsDef>(definition: CommandDef<T>) {
+type TemplateCommandDefinition<T extends ArgsDef> = Omit<CommandDef<T>, "args"> & {
+  args: T
+}
+
+export function defineTemplateCommand<const T extends ArgsDef>(
+  definition: TemplateCommandDefinition<T>
+) {
   const run = definition.run
 
   return defineCommand({
@@ -10,8 +16,9 @@ export function defineTemplateCommand<const T extends ArgsDef>(definition: Comma
     run: run
       ? async (context: CommandContext<T>) => {
           try {
-            const unknownOption = getUnknownOption(context.rawArgs, definition.args as T)
+            const unknownOption = getUnknownOption(context.rawArgs, definition.args)
             if (unknownOption) {
+              await showUsage(context.cmd)
               consola.error(`Unknown option: --${unknownOption}`)
               process.exitCode = 1
               return
@@ -32,7 +39,7 @@ export function defineTemplateCommand<const T extends ArgsDef>(definition: Comma
   })
 }
 
-function getUnknownOption(rawArgs: string[], args: ArgsDef): string | undefined {
+export function getUnknownOption(rawArgs: string[], args: ArgsDef): string | undefined {
   const knownNames = new Set<string>()
 
   for (const [name, definition] of Object.entries(args)) {
@@ -50,6 +57,17 @@ function getUnknownOption(rawArgs: string[], args: ArgsDef): string | undefined 
   }
 
   return undefined
+}
+
+export function getOptionBeforeCommand(rawArgs: string[], commandNames: ReadonlySet<string>) {
+  for (const argument of rawArgs) {
+    if (commandNames.has(argument)) return null
+    if (!argument.startsWith("--") || argument === "--help" || argument === "--version") continue
+
+    return argument.slice(2).split("=", 1)[0]
+  }
+
+  return null
 }
 
 function getAliases(alias: string | string[] | undefined) {
