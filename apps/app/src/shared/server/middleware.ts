@@ -9,9 +9,8 @@ export const withCsrf = createCsrfMiddleware({
 })
 
 /**
- * Opens one wide event per server request (SSR and server function calls)
- * and emits it with the response status. Handlers and server functions can
- * add context through `context.log`.
+ * Opens one wide event per server request (SSR and server function calls) and emits it with the
+ * response status. Handlers and server functions can add context through `context.log`.
  */
 export const withWideEvent = createMiddleware({ type: "request" }).server(
   async ({ request, pathname, next, handlerType, serverFnMeta }) => {
@@ -19,7 +18,9 @@ export const withWideEvent = createMiddleware({ type: "request" }).server(
 
     log.set({
       handlerType,
-      ...(serverFnMeta ? { serverFn: { filename: serverFnMeta.filename, name: serverFnMeta.name } } : {}),
+      ...(serverFnMeta
+        ? { serverFn: { filename: serverFnMeta.filename, name: serverFnMeta.name } }
+        : {}),
     })
 
     try {

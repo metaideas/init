@@ -1,5 +1,5 @@
-import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { observability } from "@init/observability/logger/vite"
+import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
