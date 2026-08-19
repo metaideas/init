@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineTemplateCommand } from "../utils"
 import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
@@ -10,7 +10,6 @@ import {
   normalizeScope,
   readJson,
   replaceTextInFiles,
-  TemplateFault,
   writeJson,
 } from "./shared"
 
@@ -64,7 +63,7 @@ export async function renameProject({
   return { changedFiles: [...changedFiles] }
 }
 
-export default defineTemplateCommand({
+export default defineCommand({
   args: {
     name: {
       description: "New root package name",
@@ -87,32 +86,20 @@ export default defineTemplateCommand({
     const projectRoot = resolve(process.cwd())
     const projectName = args.name
     if (!args.workspace && !projectName) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Provide --name when renaming a project.",
-        "A project rename requires --name when --workspace is not set."
-      )
+      throw new Error("Provide --name when you rename a project.")
     }
 
     const scope = args.scope ?? projectName
     if (!scope) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Provide --scope when renaming a workspace.",
-        "A workspace rename requires --scope when --name is not set."
-      )
+      throw new Error("Provide --scope when you rename a workspace.")
     }
 
     const rootDir = args.workspace ? resolve(projectRoot, args.workspace) : projectRoot
     if (args.workspace && !checkIsPathWithinRoot(projectRoot, rootDir)) {
-      throw TemplateFault.create("PathEscapeError", { path: args.workspace }).withDescription(
-        "Workspace path must be inside the project.",
-        `Resolved workspace path: ${rootDir}.`
-      )
+      throw new Error(`Workspace path must be inside the project: ${rootDir}.`)
     }
     if (!(await Bun.file(join(rootDir, "package.json")).exists())) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Workspace path must contain a package.json file.",
-        `Resolved workspace path: ${rootDir}.`
-      )
+      throw new Error(`Workspace path must contain a package.json file: ${rootDir}.`)
     }
 
     const result = await renameProject({

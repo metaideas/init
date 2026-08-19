@@ -1,36 +1,4 @@
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path"
-import * as Faultier from "faultier"
-
-export class CommandFailedError extends Faultier.Tagged("CommandFailedError")<{
-  command: string
-  exitCode: number
-}>() {}
-
-export class InvalidArgumentsError extends Faultier.Tagged("InvalidArgumentsError")() {}
-
-export class InvalidScopeError extends Faultier.Tagged("InvalidScopeError")<{
-  scope: string
-}>() {}
-
-export class PathEscapeError extends Faultier.Tagged("PathEscapeError")<{
-  path: string
-}>() {}
-
-export class TemplateFetchError extends Faultier.Tagged("TemplateFetchError")() {}
-
-export class UnknownWorkspaceError extends Faultier.Tagged("UnknownWorkspaceError")<{
-  kind: string
-  names: string
-}>() {}
-
-export const TemplateFault = Faultier.registry({
-  CommandFailedError,
-  InvalidArgumentsError,
-  InvalidScopeError,
-  PathEscapeError,
-  TemplateFetchError,
-  UnknownWorkspaceError,
-})
 
 export const TEMPLATE_SCOPE = "init"
 
@@ -55,9 +23,8 @@ export function normalizeScope(scope: string) {
   const normalizedScope = scope.replace(/^@/, "").trim()
 
   if (!/^[a-z0-9][a-z0-9-]*$/i.test(normalizedScope)) {
-    throw TemplateFault.create("InvalidScopeError", { scope }).withDescription(
-      "The npm scope must contain only letters, numbers, and dashes.",
-      `Received scope: ${JSON.stringify(scope)}.`
+    throw new Error(
+      `The npm scope must contain only letters, numbers, and dashes. Received: ${JSON.stringify(scope)}.`
     )
   }
 
@@ -163,10 +130,7 @@ export async function getProjectScope(rootDir: string) {
   const scope = match?.[1]
   if (scope) return normalizeScope(scope)
 
-  throw TemplateFault.create("InvalidScopeError", { scope: "" }).withDescription(
-    "Could not determine the project npm scope from its workspaces.",
-    "No workspace package name contains an npm scope."
-  )
+  throw new Error("Could not determine the project npm scope from its workspaces.")
 }
 
 export function checkIsPathWithinRoot(rootDir: string, path: string) {
@@ -185,10 +149,7 @@ export async function removePath(rootDir: string, relativePath: string) {
   const path = resolve(resolvedRootDir, relativePath)
 
   if (!checkIsPathWithinRoot(resolvedRootDir, path)) {
-    throw TemplateFault.create("PathEscapeError", { path: relativePath }).withDescription(
-      `Cleanup path must be within the project: ${relativePath}`,
-      `Resolved cleanup path: ${path}.`
-    )
+    throw new Error(`Cleanup path must be within the project: ${relativePath}.`)
   }
 
   await Bun.$`rm -rf ${path}`.quiet()
@@ -203,9 +164,6 @@ export async function runCommand(command: string[], rootDir: string) {
   const exitCode = await process.exited
 
   if (exitCode !== 0) {
-    throw TemplateFault.create("CommandFailedError", {
-      command: command.join(" "),
-      exitCode,
-    }).withDescription(`Command failed: ${command.join(" ")}.`, `Exited with code ${exitCode}.`)
+    throw new Error(`Command failed: ${command.join(" ")}. Exited with code ${exitCode}.`)
   }
 }

@@ -1,7 +1,7 @@
 import { join } from "node:path"
 import consola from "consola"
 
-import { defineTemplateCommand } from "../utils"
+import { defineCommand } from "citty"
 import { restorePortlessWorkspaces } from "./portless"
 import { renameProject } from "./rename"
 import {
@@ -11,7 +11,6 @@ import {
   readJson,
   runCommand,
   TEMPLATE_SCOPE,
-  TemplateFault,
   type WorkspaceKind,
 } from "./shared"
 
@@ -55,12 +54,8 @@ async function copyTemplateWorkspace(rootDir: string, workspace: TemplateWorkspa
 
   const packageJsonPath = join(rootDir, workspacePath, "package.json")
   if (!(await Bun.file(packageJsonPath).exists())) {
-    throw TemplateFault.create("CommandFailedError", {
-      command: command.join(" "),
-      exitCode: 1,
-    }).withDescription(
-      `Command failed: ${command.join(" ")}.`,
-      `The generator did not create the ${workspacePath} workspace.`
+    throw new Error(
+      `Command failed: ${command.join(" ")}. The generator did not create the ${workspacePath} workspace.`
     )
   }
 
@@ -128,7 +123,7 @@ async function addWorkspaces(
   ]
 }
 
-export default defineTemplateCommand({
+export default defineCommand({
   args: {
     kind: {
       description: "Workspace type to add: app or package",
@@ -147,10 +142,7 @@ export default defineTemplateCommand({
   },
   run: async ({ args }) => {
     if (args.kind !== "app" && args.kind !== "package") {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        `Unknown workspace type: ${args.kind}.`,
-        "The workspace type must be app or package."
-      )
+      throw new Error(`Unknown workspace type: ${args.kind}. Use app or package.`)
     }
 
     const rootDir = process.cwd()
@@ -159,10 +151,7 @@ export default defineTemplateCommand({
     const targetPath = getWorkspacePath(target)
 
     if (await Bun.file(join(rootDir, targetPath, "package.json")).exists()) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        `The ${targetPath} workspace already exists in this project.`,
-        "Remove it first if you want to copy it again from the template."
-      )
+      throw new Error(`The ${targetPath} workspace already exists in this project.`)
     }
 
     const copiedPaths = await addWorkspaces(rootDir, scope, [target], new Set([targetPath]))

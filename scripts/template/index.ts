@@ -4,7 +4,7 @@ import add from "./add"
 import rename from "./rename"
 import setup from "./setup"
 
-export const templateSubCommands = {
+const subCommands = {
   add,
   rename,
   setup,
@@ -15,5 +15,5 @@ export default defineCommand({
     description: "Configure and maintain this template project",
     name: "template",
   },
-  subCommands: templateSubCommands,
+  subCommands,
 })

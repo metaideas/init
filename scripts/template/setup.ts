@@ -1,7 +1,7 @@
 import { join, relative } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineTemplateCommand, normalizeOptionName } from "../utils"
 import { renameProject } from "./rename"
 import {
   getDependencyNames,
@@ -11,7 +11,6 @@ import {
   removePath,
   runCommand,
   TEMPLATE_SCOPE,
-  TemplateFault,
   type Workspace,
   type WorkspaceKind,
   writeJson,
@@ -21,27 +20,6 @@ type TemplateStamp = {
   commit?: string
   createdAt: string
   template: "metaideas/init"
-}
-
-export function getOptionValues(rawArgs: string[], optionName: string) {
-  const values: string[] = []
-  const normalizedOptionName = normalizeOptionName(optionName)
-
-  for (const [index, argument] of rawArgs.entries()) {
-    if (!argument.startsWith("--")) continue
-
-    const [name, inlineValue] = argument.slice(2).split("=", 2)
-    if (!name || normalizeOptionName(name) !== normalizedOptionName) continue
-
-    if (inlineValue === undefined) {
-      const value = rawArgs[index + 1]
-      if (value && !value.startsWith("-")) values.push(value)
-    } else {
-      values.push(inlineValue)
-    }
-  }
-
-  return values.length > 0 ? values.flatMap((value) => value.split(",")).filter(Boolean) : undefined
 }
 
 async function promptForWorkspaceNames(kind: "app" | "package", names: string[]) {
@@ -75,27 +53,17 @@ async function getCommit() {
   try {
     const response = await fetch("https://api.github.com/repos/metaideas/init/commits/main")
     if (!response.ok) {
-      throw TemplateFault.create("TemplateFetchError").withDescription(
-        "Could not fetch the template commit.",
-        `GitHub returned ${response.status}.`
-      )
+      throw new Error(`Could not fetch the template commit. GitHub returned ${response.status}.`)
     }
 
     const body = (await response.json()) as { sha?: unknown }
     if (typeof body.sha !== "string") {
-      throw TemplateFault.create("TemplateFetchError").withDescription(
-        "Could not fetch the template commit.",
-        "GitHub did not return a commit SHA."
-      )
+      throw new Error("Could not fetch the template commit. GitHub did not return a commit SHA.")
     }
 
     return body.sha
   } catch (error) {
-    if (TemplateFault.is(error)) throw error
-
-    throw TemplateFault.wrap(error)
-      .as("TemplateFetchError")
-      .withDescription("Could not fetch the template commit.", "GitHub request failed.")
+    throw new Error("Could not fetch the template commit.", { cause: error })
   }
 }
 
@@ -108,12 +76,7 @@ async function writeTemplateStamp(rootDir: string) {
   try {
     stamp.commit = await getCommit()
   } catch (error) {
-    const fault = TemplateFault.is(error)
-      ? error
-      : TemplateFault.wrap(error)
-          .as("TemplateFetchError")
-          .withDescription("Could not fetch the template commit.", "GitHub request failed.")
-    consola.warn(fault.flatten())
+    consola.warn(error)
   }
 
   await writeJson(join(rootDir, ".template.json"), stamp)
@@ -122,12 +85,8 @@ async function writeTemplateStamp(rootDir: string) {
 function validateSelection(kind: WorkspaceKind, selected: string[], available: string[]) {
   const unknown = selected.filter((name) => !available.includes(name))
   if (unknown.length > 0) {
-    throw TemplateFault.create("UnknownWorkspaceError", {
-      kind,
-      names: unknown.join(", "),
-    }).withDescription(
-      `Unknown ${kind} workspace(s): ${unknown.join(", ")}`,
-      `Available ${kind} workspaces: ${available.join(", ") || "none"}.`
+    throw new Error(
+      `Unknown ${kind} workspace(s): ${unknown.join(", ")}. Available: ${available.join(", ") || "none"}.`
     )
   }
 }
@@ -225,7 +184,7 @@ async function cleanupTemplateFiles(rootDir: string) {
   await writeJson(packageJsonPath, packageJson)
 }
 
-export default defineTemplateCommand({
+export default defineCommand({
   args: {
     git: {
       description: "Initialize a git repository",
@@ -238,11 +197,11 @@ export default defineTemplateCommand({
       type: "boolean",
     },
     "keep-apps": {
-      description: "Apps to keep (comma-separated or repeated)",
+      description: "Apps to keep (comma-separated)",
       type: "string",
     },
     "keep-packages": {
-      description: "Packages to keep (comma-separated or repeated)",
+      description: "Packages to keep (comma-separated)",
       type: "string",
     },
     name: {
@@ -258,7 +217,7 @@ export default defineTemplateCommand({
     description: "Select workspaces, rename the project, and remove template files",
     name: "setup",
   },
-  run: async ({ args, rawArgs }) => {
+  run: async ({ args }) => {
     const rootDir = process.cwd()
     const yes = args.yes ?? false
 
@@ -269,7 +228,7 @@ export default defineTemplateCommand({
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
 
     const keepApps =
-      getOptionValues(rawArgs, "keep-apps") ??
+      args["keep-apps"]?.split(",").filter(Boolean) ??
       (yes
         ? apps.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
@@ -277,7 +236,7 @@ export default defineTemplateCommand({
             apps.map((workspace) => workspace.name)
           ))
     const keepPackages =
-      getOptionValues(rawArgs, "keep-packages") ??
+      args["keep-packages"]?.split(",").filter(Boolean) ??
       (yes
         ? packages.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
