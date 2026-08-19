@@ -1,5 +1,5 @@
-import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import { observability } from "@init/observability/logger/vite"
+import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
 import { defineConfig } from "wxt"
