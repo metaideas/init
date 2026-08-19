@@ -1,7 +1,7 @@
 import { join } from "node:path"
 import consola from "consola"
 
-import { defineCommand } from "../utils"
+import { defineCommand } from "citty"
 import { restorePortlessWorkspaces } from "./portless"
 import { renameProject } from "./rename"
 import {
@@ -11,7 +11,6 @@ import {
   readJson,
   runCommand,
   TEMPLATE_SCOPE,
-  TemplateFault,
   type WorkspaceKind,
 } from "./shared"
 
@@ -55,12 +54,8 @@ async function copyTemplateWorkspace(rootDir: string, workspace: TemplateWorkspa
 
   const packageJsonPath = join(rootDir, workspacePath, "package.json")
   if (!(await Bun.file(packageJsonPath).exists())) {
-    throw TemplateFault.create("CommandFailedError", {
-      command: command.join(" "),
-      exitCode: 1,
-    }).withDescription(
-      `Command failed: ${command.join(" ")}.`,
-      `The generator did not create the ${workspacePath} workspace.`
+    throw new Error(
+      `Command failed: ${command.join(" ")}. The generator did not create the ${workspacePath} workspace.`
     )
   }
 
@@ -129,32 +124,38 @@ async function addWorkspaces(
 }
 
 export default defineCommand({
-  builder: (yargs) =>
-    yargs
-      .positional("kind", {
-        choices: ["app", "package"] as const,
-        demandOption: true,
-        describe: "Workspace type to add",
-        type: "string",
-      })
-      .positional("name", {
-        demandOption: true,
-        describe: "Name of the template workspace to copy",
-        type: "string",
-      }),
-  command: "add <kind> <name>",
-  describe: "Copy an app or package from the init template",
-  handler: async (args) => {
+  args: {
+    kind: {
+      description: "Workspace type to add: app or package",
+      required: true,
+      type: "positional",
+    },
+    name: {
+      description: "Name of the template workspace to copy",
+      required: true,
+      type: "positional",
+    },
+  },
+  meta: {
+    description: "Copy an app or package from the init template",
+    name: "add",
+  },
+  run: async ({ args }) => {
+    if (args.kind !== "app" && args.kind !== "package") {
+      consola.error(`Unknown workspace type: ${args.kind}. Use app or package.`)
+      process.exitCode = 1
+      return
+    }
+
     const rootDir = process.cwd()
     const scope = await getProjectScope(rootDir)
     const target: TemplateWorkspace = { kind: args.kind, name: args.name }
     const targetPath = getWorkspacePath(target)
 
     if (await Bun.file(join(rootDir, targetPath, "package.json")).exists()) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        `The ${targetPath} workspace already exists in this project.`,
-        "Remove it first if you want to copy it again from the template."
-      )
+      consola.error(`The ${targetPath} workspace already exists in this project.`)
+      process.exitCode = 1
+      return
     }
 
     const copiedPaths = await addWorkspaces(rootDir, scope, [target], new Set([targetPath]))

@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path"
+import { defineCommand } from "citty"
 import consola from "consola"
 
-import { defineCommand } from "../utils"
 import { updatePortlessProjectName } from "./portless"
 import {
   checkIsPathWithinRoot,
@@ -10,7 +10,6 @@ import {
   normalizeScope,
   readJson,
   replaceTextInFiles,
-  TemplateFault,
   writeJson,
 } from "./shared"
 
@@ -65,52 +64,57 @@ export async function renameProject({
 }
 
 export default defineCommand({
-  builder: (yargs) =>
-    yargs
-      .option("name", {
-        describe: "New root package name",
-        type: "string",
-      })
-      .option("scope", {
-        describe: "New npm scope, without the leading @ (defaults to --name)",
-        type: "string",
-      })
-      .option("workspace", {
-        describe: "Rewrite only this workspace directory",
-        type: "string",
-      }),
-  command: "rename",
-  describe: "Rename the project and replace the template workspace scope",
-  handler: async (args) => {
+  args: {
+    name: {
+      description: "New root package name",
+      type: "string",
+    },
+    scope: {
+      description: "New npm scope, without the leading @ (defaults to --name)",
+      type: "string",
+    },
+    workspace: {
+      description: "Rewrite only this workspace directory",
+      type: "string",
+    },
+  },
+  meta: {
+    description: "Rename the project and replace the template workspace scope",
+    name: "rename",
+  },
+  run: async ({ args }) => {
     const projectRoot = resolve(process.cwd())
     const projectName = args.name
     if (!args.workspace && !projectName) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Provide --name when renaming a project.",
-        "A project rename requires --name when --workspace is not set."
-      )
+      consola.error("Provide --name when you rename a project.")
+      process.exitCode = 1
+      return
     }
 
     const scope = args.scope ?? projectName
     if (!scope) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Provide --scope when renaming a workspace.",
-        "A workspace rename requires --scope when --name is not set."
-      )
+      consola.error("Provide --scope when you rename a workspace.")
+      process.exitCode = 1
+      return
+    }
+    try {
+      normalizeScope(scope)
+    } catch (error) {
+      consola.error(error instanceof Error ? error.message : error)
+      process.exitCode = 1
+      return
     }
 
     const rootDir = args.workspace ? resolve(projectRoot, args.workspace) : projectRoot
     if (args.workspace && !checkIsPathWithinRoot(projectRoot, rootDir)) {
-      throw TemplateFault.create("PathEscapeError", { path: args.workspace }).withDescription(
-        "Workspace path must be inside the project.",
-        `Resolved workspace path: ${rootDir}.`
-      )
+      consola.error(`Workspace path must be inside the project: ${rootDir}.`)
+      process.exitCode = 1
+      return
     }
     if (!(await Bun.file(join(rootDir, "package.json")).exists())) {
-      throw TemplateFault.create("InvalidArgumentsError").withDescription(
-        "Workspace path must contain a package.json file.",
-        `Resolved workspace path: ${rootDir}.`
-      )
+      consola.error(`Workspace path must contain a package.json file: ${rootDir}.`)
+      process.exitCode = 1
+      return
     }
 
     const result = await renameProject({
