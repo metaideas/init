@@ -86,20 +86,35 @@ export default defineCommand({
     const projectRoot = resolve(process.cwd())
     const projectName = args.name
     if (!args.workspace && !projectName) {
-      throw new Error("Provide --name when you rename a project.")
+      consola.error("Provide --name when you rename a project.")
+      process.exitCode = 1
+      return
     }
 
     const scope = args.scope ?? projectName
     if (!scope) {
-      throw new Error("Provide --scope when you rename a workspace.")
+      consola.error("Provide --scope when you rename a workspace.")
+      process.exitCode = 1
+      return
+    }
+    try {
+      normalizeScope(scope)
+    } catch (error) {
+      consola.error(error instanceof Error ? error.message : error)
+      process.exitCode = 1
+      return
     }
 
     const rootDir = args.workspace ? resolve(projectRoot, args.workspace) : projectRoot
     if (args.workspace && !checkIsPathWithinRoot(projectRoot, rootDir)) {
-      throw new Error(`Workspace path must be inside the project: ${rootDir}.`)
+      consola.error(`Workspace path must be inside the project: ${rootDir}.`)
+      process.exitCode = 1
+      return
     }
     if (!(await Bun.file(join(rootDir, "package.json")).exists())) {
-      throw new Error(`Workspace path must contain a package.json file: ${rootDir}.`)
+      consola.error(`Workspace path must contain a package.json file: ${rootDir}.`)
+      process.exitCode = 1
+      return
     }
 
     const result = await renameProject({

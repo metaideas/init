@@ -142,7 +142,9 @@ export default defineCommand({
   },
   run: async ({ args }) => {
     if (args.kind !== "app" && args.kind !== "package") {
-      throw new Error(`Unknown workspace type: ${args.kind}. Use app or package.`)
+      consola.error(`Unknown workspace type: ${args.kind}. Use app or package.`)
+      process.exitCode = 1
+      return
     }
 
     const rootDir = process.cwd()
@@ -151,7 +153,9 @@ export default defineCommand({
     const targetPath = getWorkspacePath(target)
 
     if (await Bun.file(join(rootDir, targetPath, "package.json")).exists()) {
-      throw new Error(`The ${targetPath} workspace already exists in this project.`)
+      consola.error(`The ${targetPath} workspace already exists in this project.`)
+      process.exitCode = 1
+      return
     }
 
     const copiedPaths = await addWorkspaces(rootDir, scope, [target], new Set([targetPath]))

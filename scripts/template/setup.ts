@@ -7,6 +7,7 @@ import {
   getDependencyNames,
   getProjectScope,
   getWorkspaces,
+  normalizeScope,
   readJson,
   removePath,
   runCommand,
@@ -82,13 +83,17 @@ async function writeTemplateStamp(rootDir: string) {
   await writeJson(join(rootDir, ".template.json"), stamp)
 }
 
-function validateSelection(kind: WorkspaceKind, selected: string[], available: string[]) {
+function getSelectionError(
+  kind: WorkspaceKind,
+  selected: string[],
+  available: string[]
+): string | null {
   const unknown = selected.filter((name) => !available.includes(name))
   if (unknown.length > 0) {
-    throw new Error(
-      `Unknown ${kind} workspace(s): ${unknown.join(", ")}. Available: ${available.join(", ") || "none"}.`
-    )
+    return `Unknown ${kind} workspace(s): ${unknown.join(", ")}. Available: ${available.join(", ") || "none"}.`
   }
+
+  return null
 }
 
 type WorkspaceWithDependencies = Workspace & {
@@ -217,18 +222,52 @@ export default defineCommand({
     description: "Select workspaces, rename the project, and remove template files",
     name: "setup",
   },
-  run: async ({ args }) => {
+  run: async ({ args, rawArgs }) => {
     const rootDir = process.cwd()
     const yes = args.yes ?? false
+    const hasEmptyKeepAppsOption = rawArgs.some(
+      (argument, index) =>
+        (argument === "--keep-apps" || argument === "--keepApps") &&
+        rawArgs[index + 1]?.startsWith("-") !== false
+    )
+    const hasEmptyKeepPackagesOption = rawArgs.some(
+      (argument, index) =>
+        (argument === "--keep-packages" || argument === "--keepPackages") &&
+        rawArgs[index + 1]?.startsWith("-") !== false
+    )
+
+    if (hasEmptyKeepAppsOption) {
+      consola.error("Provide at least one workspace name with --keep-apps.")
+      process.exitCode = 1
+      return
+    }
+    if (hasEmptyKeepPackagesOption) {
+      consola.error("Provide at least one workspace name with --keep-packages.")
+      process.exitCode = 1
+      return
+    }
 
     const apps = await getWorkspaces(rootDir, "app")
     const packages = await getWorkspaces(rootDir, "package")
     const rootPackage = await readJson(join(rootDir, "package.json"))
     const defaultName = typeof rootPackage.name === "string" ? rootPackage.name : "project"
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
+    const selectedApps = args["keep-apps"]?.split(",").filter(Boolean)
+    const selectedPackages = args["keep-packages"]?.split(",").filter(Boolean)
+
+    if (args["keep-apps"] !== undefined && selectedApps?.length === 0) {
+      consola.error("Provide at least one workspace name with --keep-apps.")
+      process.exitCode = 1
+      return
+    }
+    if (args["keep-packages"] !== undefined && selectedPackages?.length === 0) {
+      consola.error("Provide at least one workspace name with --keep-packages.")
+      process.exitCode = 1
+      return
+    }
 
     const keepApps =
-      args["keep-apps"]?.split(",").filter(Boolean) ??
+      selectedApps ??
       (yes
         ? apps.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
@@ -236,7 +275,7 @@ export default defineCommand({
             apps.map((workspace) => workspace.name)
           ))
     const keepPackages =
-      args["keep-packages"]?.split(",").filter(Boolean) ??
+      selectedPackages ??
       (yes
         ? packages.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
@@ -250,16 +289,29 @@ export default defineCommand({
     const shouldInstall =
       args.install ?? (yes ? true : await promptForConfirmation("Run bun install?"))
 
-    validateSelection(
-      "app",
-      keepApps,
-      apps.map((workspace) => workspace.name)
-    )
-    validateSelection(
-      "package",
-      keepPackages,
-      packages.map((workspace) => workspace.name)
-    )
+    const selectionError =
+      getSelectionError(
+        "app",
+        keepApps,
+        apps.map((workspace) => workspace.name)
+      ) ??
+      getSelectionError(
+        "package",
+        keepPackages,
+        packages.map((workspace) => workspace.name)
+      )
+    if (selectionError) {
+      consola.error(selectionError)
+      process.exitCode = 1
+      return
+    }
+    try {
+      normalizeScope(projectName)
+    } catch (error) {
+      consola.error(error instanceof Error ? error.message : error)
+      process.exitCode = 1
+      return
+    }
 
     const selection = await expandWorkspaceSelection(apps, packages, keepApps, keepPackages)
     if (selection.autoKept.length > 0) {
