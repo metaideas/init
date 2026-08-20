@@ -85,7 +85,7 @@ bun run docker:up
 bun run dev
 ```
 
-Each workspace serves on a fixed local port. The port is the `PORT` default in the workspace `.env.schema`:
+Each workspace serves on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts:
 
 - API: `http://localhost:3000`
 - App: `http://localhost:3001`
@@ -94,7 +94,7 @@ Each workspace serves on a fixed local port. The port is the `PORT` default in t
 - Docs: `http://localhost:3004`
 - Extension server: `http://localhost:3005`
 - Web: `http://localhost:3006`
-- Drizzle Studio: `https://local.drizzle.studio` (local server on `4000`)
+- Drizzle Studio: `https://local.drizzle.studio?port=4000` (local server on `4000`)
 - Email preview: `http://localhost:4001`
 - Inngest: `http://localhost:4002`
 
@@ -121,5 +121,5 @@ Docker infrastructure uses fixed host ports. These ports can conflict across pro
 - For a Node version mismatch, install Node.js `>=24` with the version manager.
 - When Docker services do not run, examine `docker ps`. Then run `bun run docker:up`.
 - For missing environment variables, run `bun run env:check`. Then examine the owning `.env.schema` and the ignored `.env.local` overrides.
-- For a port conflict, find the process with `lsof -i :<port>`. Each workspace port is the `PORT` default in its `.env.schema`.
+- For a port conflict, find the process with `lsof -i :<port>`. Application workspace ports are the `PORT` defaults in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts.
 - Expo on a physical device requires the development machine's LAN IP instead of `localhost`.

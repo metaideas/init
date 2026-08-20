@@ -44,7 +44,7 @@ Application workspaces separate generation into `codegen:env` and `codegen:i18n`
 
 ## Development Servers
 
-Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed local port. Each application declares its port as the `PORT` default in its `.env.schema`, and its framework configuration reads `ENV.PORT`:
+Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`, and their framework configuration reads `ENV.PORT`. The Mobile server and the package development servers set theirs with a `${PORT:-<port>}` fallback in the `dev` script:
 
 | Workspace         | URL                     |
 | ----------------- | ----------------------- |
@@ -55,11 +55,11 @@ Each HTTP-serving workspace runs its framework command directly as its `dev` scr
 | Docs              | `http://localhost:3004` |
 | Extension server  | `http://localhost:3005` |
 | Web               | `http://localhost:3006` |
-| Drizzle Studio    | `https://local.drizzle.studio` |
+| Drizzle Studio    | `https://local.drizzle.studio?port=4000` |
 | Email preview     | `http://localhost:4001` |
 | Inngest           | `http://localhost:4002` |
 
-Package development servers use the 4000 block in alphabetical order: `db` on `4000`, `email` on `4001`, and `workflows` on `4002`. The Inngest development server polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio's local server listens on `http://localhost:4000` and the interface opens at `https://local.drizzle.studio`.
+Package development servers use the 4000 block in alphabetical order: `db` on `4000`, `email` on `4001`, and `workflows` on `4002`. The Inngest development server polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio's local server listens on `http://localhost:4000`; open the interface at `https://local.drizzle.studio?port=4000`, since the bare hosted URL connects to Drizzle's default port instead.
 
 ## Managing Dependencies
 

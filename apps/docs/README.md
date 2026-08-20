@@ -44,8 +44,8 @@ decisions do not enter public routes or search.
 - Colors and component styling: `src/shared/styles/globals.css`
 - Site URL: `PUBLIC_SITE_URL` in `.env.schema`, with safe development values in
   `.env.development` and the production fallback in `src/shared/constants.ts`
-- Marketing return URL: `PUBLIC_MARKETING_URL`; development otherwise derives the
-  matching `web.<project>.localhost` URL and production uses `init.now`
+- Marketing return URL: `PUBLIC_MARKETING_URL`; development otherwise falls back to
+  the Web workspace at `http://localhost:3006` and production uses `init.now`
 - Navigation, locales, edit links, and head metadata: `astro.config.ts`
 - Favicon and social preview: `public/`
 

@@ -1,6 +1,7 @@
 import {
   AUTH_ADVANCED_OPTIONS,
   AUTH_APP_NAME,
+  AUTH_COOKIE_PREFIX,
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
@@ -13,7 +14,10 @@ import { ENV } from "#shared/env.generated.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({
-  advanced: AUTH_ADVANCED_OPTIONS,
+  // The app's auth instance shares the localhost cookie jar during
+  // development, so this instance namespaces its cookies to keep the two
+  // sessions from clobbering each other.
+  advanced: { ...AUTH_ADVANCED_OPTIONS, cookiePrefix: `${AUTH_COOKIE_PREFIX}-api` },
   appName: AUTH_APP_NAME,
   basePath: "/auth",
   baseURL: baseUrl,
