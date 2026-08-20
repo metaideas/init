@@ -16,8 +16,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "varlock codegen",
-    "dev": "portless",
-    "dev:app": "varlock run -- bun --bun drizzle-kit studio --port ${PORT:-4983}",
+    "dev": "varlock run -- bun --bun drizzle-kit studio",
     "env:check": "varlock load",
     "generate": "varlock run -- bun --bun drizzle-kit generate",
     "migrate": "varlock run -- bun --bun drizzle-kit migrate",
@@ -38,9 +37,5 @@
     "drizzle-seed": "0.3.1",
     "postgres": "3.4.9",
     "typescript": "7.0.2"
-  },
-  "portless": {
-    "name": "db.init",
-    "script": "dev:app"
   }
 }

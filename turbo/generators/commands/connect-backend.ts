@@ -526,12 +526,12 @@ type EnvironmentEntry = {
 
 const API_ENVIRONMENTS = {
   desktop: {
-    developmentValue: "https://api.init.localhost",
+    developmentValue: "http://localhost:3000",
     key: "PUBLIC_API_URL",
     schema: "# Remote API URL.\n# @public @type=url(matches=/^https?:\\/\\//)\nPUBLIC_API_URL=",
   },
   mobile: {
-    developmentValue: "https://api.init.localhost",
+    developmentValue: "http://localhost:3000",
     key: "EXPO_PUBLIC_API_URL",
     schema:
       "# Remote API URL.\n# @public @static @type=url(matches=/^https?:\\/\\//)\nEXPO_PUBLIC_API_URL=",
