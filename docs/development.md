@@ -1,6 +1,6 @@
 ---
 title: Development
-description: Run, build, test, and maintain an init project with Bun, Turbo, Adamantite, and Portless.
+description: Run, build, test, and maintain an init project with Bun, Turbo, and Adamantite.
 sidebar:
   order: 3
 ---
@@ -18,9 +18,9 @@ These commands match the scripts in the root `package.json`.
 
 | Command                | Description                                           |
 | ---------------------- | ----------------------------------------------------- |
-| `bun run dev`          | Start all workspaces with named HTTPS URLs.           |
-| `bun run dev:apps`     | Start application workspaces with Portless.           |
-| `bun run dev:packages` | Start package workspaces with Portless.               |
+| `bun run dev`          | Start all workspaces on their fixed local ports.      |
+| `bun run dev:apps`     | Start application workspaces.                         |
+| `bun run dev:packages` | Start package workspaces.                             |
 | `bun run build`        | Build all workspaces.                                 |
 | `bun run clean`        | Remove build artifacts.                               |
 | `bun run check`        | Generate types and run Adamantite checks.             |
@@ -42,17 +42,24 @@ bun run <command> --filter <workspace>
 
 Application workspaces separate generation into `codegen:env` and `codegen:i18n`. Their `codegen` script runs both commands at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run either generator independently during development.
 
-## Portless
+## Development Servers
 
-Every HTTP-serving workspace uses `portless` as its `dev` script. Each workspace keeps its framework command in `dev:app`, as [Portless recommends for Turborepo](https://portless.sh/configuration). Root commands such as `bun run dev` and local commands such as `cd apps/api && bun run dev` use named HTTPS URLs. The normalized npm scope sets the hostname suffix. For a scope named `example`, the application workspace uses `https://example.localhost`. The API uses `https://api.example.localhost`. Other HTTP development servers use `<workspace>.example.localhost`.
+Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`, and their framework configuration reads `ENV.PORT`. The Mobile server and the package development servers set theirs with a `${PORT:-<port>}` fallback in the `dev` script:
 
-The package-local `portless` object in each HTTP-serving workspace defines its project-qualified name and `dev:app` script. Portless assigns an available upstream port at runtime. Multiple projects can run at the same time without shared application ports. Separate projects must use distinct npm scopes and Portless names. Git worktrees receive automatic route prefixes.
+| Workspace         | URL                     |
+| ----------------- | ----------------------- |
+| API               | `http://localhost:3000` |
+| App               | `http://localhost:3001` |
+| Mobile server     | `http://localhost:3002` |
+| Desktop frontend  | `http://localhost:3003` |
+| Docs              | `http://localhost:3004` |
+| Extension server  | `http://localhost:3005` |
+| Web               | `http://localhost:3006` |
+| Drizzle Studio    | `https://local.drizzle.studio?port=4000` |
+| Email preview     | `http://localhost:4001` |
+| Inngest           | `http://localhost:4002` |
 
-Drizzle Studio, React Email, and the Inngest development server use the same package-local pattern. Inngest runs from `packages/workflows`. Docker Compose is reserved for data infrastructure.
-
-The first run can request administrator access to trust the local Portless certificate authority and bind port 443. Use `portless doctor` to examine the proxy, certificate, DNS, and route health.
-
-Portless routes the Mobile, Desktop, and Extension development servers. It does not replace Expo, Electron, or browser-extension launch behavior. `.localhost` resolves only on the development machine. Physical devices require Portless LAN mode and `.local`.
+Package development servers use the 4000 block in alphabetical order: `db` on `4000`, `email` on `4001`, and `workflows` on `4002`. The Inngest development server polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio's local server listens on `http://localhost:4000`; open the interface at `https://local.drizzle.studio?port=4000`, since the bare hosted URL connects to Drizzle's default port instead.
 
 ## Managing Dependencies
 

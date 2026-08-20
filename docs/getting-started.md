@@ -79,40 +79,33 @@ Application contracts are in `.env.schema`. Safe local values are committed in `
 bun run docker:up
 ```
 
-5. Start the development servers with Portless:
+5. Start the development servers:
 
 ```bash
 bun run dev
 ```
 
-Portless serves local HTTP development servers through named HTTPS URLs. On its first use, it creates a local certificate authority. It asks the operating system to trust the authority. It starts its proxy on port 443. The project scope sets the hostname suffix. The template uses these names by default:
+Each workspace serves on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts:
 
-- App: `https://app.init.localhost`
-- API: `https://api.init.localhost`
-- Web: `https://web.init.localhost`
-- Docs: `https://docs.init.localhost`
-- Mobile server: `https://mobile.init.localhost`
-- Desktop frontend: `https://desktop.init.localhost`
-- Extension server: `https://extension.init.localhost`
-- Drizzle Studio: `https://db.init.localhost`
-- Email preview: `https://email.init.localhost`
-- Inngest: `https://workflows.init.localhost`
+- API: `http://localhost:3000`
+- App: `http://localhost:3001`
+- Mobile server: `http://localhost:3002`
+- Desktop frontend: `http://localhost:3003`
+- Docs: `http://localhost:3004`
+- Extension server: `http://localhost:3005`
+- Web: `http://localhost:3006`
+- Drizzle Studio: `https://local.drizzle.studio?port=4000` (local server on `4000`)
+- Email preview: `http://localhost:4001`
+- Inngest: `http://localhost:4002`
 
-`bun template setup` or a root `bun template rename` changes `init` in these hostnames to the normalized project scope. The application workspace uses the `app` subdomain.
-
-Every HTTP-serving workspace uses `portless` as its `dev` script. Each workspace keeps its framework command in `dev:app`. For example, `bun run dev` in `apps/api` serves `https://api.init.localhost`. At the repository root, the same command runs all workspaces through Turbo. The package-local Portless configuration keeps both entry points on the same names.
+At the repository root, `bun run dev` runs all workspaces through Turbo. Inside a workspace, the same command starts that workspace alone.
 
 ### First Run Checklist
 
 - Run `bun template setup`.
 - Generate source files and types with `bun run codegen`.
 - Start services with `bun run docker:up`.
-- Start the named HTTPS development topology with `bun run dev`.
-- If a local URL or certificate is unavailable, run `portless doctor`.
-
-### Port Allocation
-
-Portless assigns an available upstream port to each application workspace and package UI at startup. The public HTTPS names stay stable when two projects run at the same time. Separate projects must use different npm scopes. This prevents public-name conflicts. Git worktrees receive automatic route prefixes. Use `portless list` to examine the current assignments.
+- Start the development servers with `bun run dev`.
 
 #### Infrastructure Ports
 
@@ -128,6 +121,5 @@ Docker infrastructure uses fixed host ports. These ports can conflict across pro
 - For a Node version mismatch, install Node.js `>=24` with the version manager.
 - When Docker services do not run, examine `docker ps`. Then run `bun run docker:up`.
 - For missing environment variables, run `bun run env:check`. Then examine the owning `.env.schema` and the ignored `.env.local` overrides.
-- For Portless trust or DNS problems, run `portless doctor`. Then run its suggested `portless trust` or `portless hosts sync` command.
-- `.localhost` is available only on the development machine. Expo on a physical device
-  requires Portless LAN mode and a `.local` hostname.
+- For a port conflict, find the process with `lsof -i :<port>`. Application workspace ports are the `PORT` defaults in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts.
+- Expo on a physical device requires the development machine's LAN IP instead of `localhost`.

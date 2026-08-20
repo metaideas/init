@@ -15,8 +15,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "portless",
-    "dev:app": "varlock run -- bun --no-env-file --hot src/index.ts",
+    "dev": "varlock run -- bun --no-env-file --hot src/index.ts",
     "env:check": "varlock load",
     "start": "varlock run -- bun --no-env-file --bun src/index.ts"
   },
@@ -46,9 +45,5 @@
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.3.14",
     "typescript": "7.0.2"
-  },
-  "portless": {
-    "name": "api.init",
-    "script": "dev:app"
   }
 }
