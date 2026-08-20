@@ -55,11 +55,11 @@ Each HTTP-serving workspace runs its framework command directly as its `dev` scr
 | Docs              | `http://localhost:3004` |
 | Extension server  | `http://localhost:3005` |
 | Web               | `http://localhost:3006` |
-| Email preview     | `http://localhost:4000` |
 | Drizzle Studio    | `https://local.drizzle.studio` |
-| Inngest           | `http://localhost:8288` |
+| Email preview     | `http://localhost:4001` |
+| Inngest           | `http://localhost:4002` |
 
-The Inngest development server runs from `packages/workflows` and polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio runs from `packages/db`; its local server listens on `http://localhost:4983` and the interface opens at `https://local.drizzle.studio`.
+Package development servers use the 4000 block in alphabetical order: `db` on `4000`, `email` on `4001`, and `workflows` on `4002`. The Inngest development server polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio's local server listens on `http://localhost:4000` and the interface opens at `https://local.drizzle.studio`.
 
 ## Managing Dependencies
 

@@ -15,7 +15,7 @@
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "inngest dev -u http://localhost:3000/workflows"
+    "dev": "inngest dev --port ${PORT:-4002} -u http://localhost:3000/workflows"
   },
   "dependencies": {
     "@init/observability": "workspace:*",

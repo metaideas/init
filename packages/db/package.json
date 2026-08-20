@@ -16,7 +16,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "varlock codegen",
-    "dev": "varlock run -- bun --bun drizzle-kit studio",
+    "dev": "varlock run -- bun --bun drizzle-kit studio --port ${PORT:-4000}",
     "env:check": "varlock load",
     "generate": "varlock run -- bun --bun drizzle-kit generate",
     "migrate": "varlock run -- bun --bun drizzle-kit migrate",
