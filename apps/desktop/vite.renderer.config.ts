@@ -1,10 +1,9 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
-import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
-import react, { reactCompilerPreset } from "@vitejs/plugin-react"
+import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import { ENV } from "#shared/env.generated.ts"
 
@@ -30,8 +29,7 @@ export default defineConfig(() => ({
       routesDirectory: "src/renderer/routes",
       target: "react",
     }),
-    react(),
-    babel({ presets: [reactCompilerPreset()] }),
+    react({ compiler: true }),
   ],
   resolve: {
     // The Forge Vite plugin turns `preserveSymlinks` on, which breaks package
