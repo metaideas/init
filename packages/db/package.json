@@ -10,7 +10,8 @@
   "exports": {
     "./helpers": "./src/helpers.ts",
     "./schema": "./src/schema.ts",
-    "./client": "./src/client.ts"
+    "./client": "./src/client.ts",
+    "./context": "./src/context.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
