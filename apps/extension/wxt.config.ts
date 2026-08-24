@@ -14,6 +14,11 @@ export default defineConfig({
   },
   imports: false,
   modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
+  react: {
+    vite: {
+      compiler: true,
+    },
+  },
   srcDir: "src",
   vite: () => ({
     plugins: [
