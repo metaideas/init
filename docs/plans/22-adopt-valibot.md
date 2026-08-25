@@ -50,8 +50,8 @@ preserve:
    `packages/utils/src/__tests__/schema.test.ts`.
 2. Add tests for authentication field messages and the password confirmation error
    path in `apps/app/src/features/auth/__tests__/validation.test.ts`.
-3. Add tests for parsing Files SDK results and rejecting invalid user identifiers at
-   the API boundary.
+3. Add tests for the existing Files SDK object-key validator. Preserve its accepted
+   characters, path rules, and rejection of `.` and `..` segments.
 4. Add a test for the public tRPC validation error response. Record its field paths
    and messages without treating the Zod class or issue codes as part of the new
    contract.
@@ -69,16 +69,19 @@ paths, and user-facing messages. Internal issue codes can change.
 Create a short-lived migration branch for one representative path before changing the
 shared export. Use the `/hello` Hono route and one authentication form schema.
 
-1. Install `valibot` and `@valibot/to-json-schema` in the workspaces that own the
-   shared validator and OpenAPI generation. Add a temporary
-   `@init/utils/schema-valibot` entry point. Keep `@init/utils/schema` on Zod.
-2. Convert the `/hello` query and response schemas to Valibot without changing
+1. Add `valibot` to `packages/utils`. Add a temporary
+   `@init/utils/schema-valibot` entry point, which `apps/app` can use through its
+   existing `@init/utils` dependency. Keep `@init/utils/schema` on Zod.
+2. Add `@valibot/to-json-schema` to `apps/api` for OpenAPI generation. Do not add a
+   direct Valibot dependency to `apps/app`.
+3. Convert the `/hello` query and response schemas to Valibot without changing
    `validator()` or `resolver()`.
-3. Generate the OpenAPI document and compare it with the baseline.
-4. Convert one TanStack Form field and one TanStack Router search schema.
-5. Verify field errors, route search inference, server validation, and production
+4. Generate the OpenAPI document and compare it with the baseline.
+5. Convert one TanStack Form field and one TanStack Router search schema through the
+   temporary entry point.
+6. Verify field errors, route search inference, server validation, and production
    builds.
-6. Inspect the resulting browser chunk. Confirm that Valibot tree shaking works
+7. Inspect the resulting browser chunk. Confirm that Valibot tree shaking works
    through the temporary re-export before committing to that boundary.
 
 Stop and redesign the shared import if the barrel prevents useful tree shaking. In
@@ -132,7 +135,7 @@ Convert the schemas in `apps/api`:
 
 - Hono route input and response schemas.
 - tRPC procedure inputs.
-- Files SDK result parsing and branded user IDs.
+- The Files SDK object-key validator.
 
 Replace `schema.parse(input)` and `schema.safeParse(input)` with Valibot's functional
 parse APIs. Keep validation at the existing trust boundaries. Change these callers
@@ -147,10 +150,11 @@ on it, document this as a Template breaking change.
 
 Convert:
 
-- Stripe result validation in `packages/payments`.
 - Inngest event schemas in `packages/workflows`.
 
 Inngest accepts Standard Schema directly, so its surrounding API must not change.
+`packages/payments` has no schema to migrate on `main`. Do not add payment validation
+as part of this migration.
 
 ### Database package workspace
 
@@ -216,9 +220,9 @@ Do not reproduce Zod's internal codec API.
 Keep `apps/web/src/content.config.ts` on `astro/zod`. Do not pass Astro schemas through
 `@init/utils/schema`, and do not add adapters that depend on Astro internals.
 
-The landing-page `shipTargetsSchema` is project-owned and can move to Valibot. Only
-content collection schemas and other released Astro APIs that require Zod remain on
-Zod.
+The landing-page animation uses an unchecked `JSON.parse` assertion on `main`. Do not
+add a ship-target schema as part of this migration. Only content collection schemas
+and other released Astro APIs that require Zod remain on Zod.
 
 When Astro releases Standard Schema support:
 
@@ -282,7 +286,7 @@ Manually verify:
 - Hono rejects invalid input and its generated OpenAPI document is unchanged where
   validation semantics are unchanged.
 - tRPC returns the documented neutral validation error shape.
-- Files SDK provider data does not cross the gateway without validation.
+- The Files SDK object-key validator preserves its current behavior.
 - Inngest event payloads remain inferred and validated.
 - Drizzle-generated schemas preserve database types and optionality.
 - The generated JSON codec validates decoded values and reports malformed JSON.
