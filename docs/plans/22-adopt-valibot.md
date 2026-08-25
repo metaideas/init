@@ -70,7 +70,8 @@ Create a short-lived migration branch for one representative path before changin
 shared export. Use the `/hello` Hono route and one authentication form schema.
 
 1. Install `valibot` and `@valibot/to-json-schema` in the workspaces that own the
-   shared validator and OpenAPI generation.
+   shared validator and OpenAPI generation. Add a temporary
+   `@init/utils/schema-valibot` entry point. Keep `@init/utils/schema` on Zod.
 2. Convert the `/hello` query and response schemas to Valibot without changing
    `validator()` or `resolver()`.
 3. Generate the OpenAPI document and compare it with the baseline.
@@ -78,20 +79,21 @@ shared export. Use the `/hello` Hono route and one authentication form schema.
 5. Verify field errors, route search inference, server validation, and production
    builds.
 6. Inspect the resulting browser chunk. Confirm that Valibot tree shaking works
-   through the `@init/utils/schema` re-export before committing to that boundary.
+   through the temporary re-export before committing to that boundary.
 
 Stop and redesign the shared import if the barrel prevents useful tree shaking. In
 that case, import Valibot directly in client application workspaces and keep only the
 custom reusable schemas in `@init/utils/schema`.
 
-## 3. Change the shared schema package
+## 3. Add a parallel Valibot entry point
 
 After the vertical slice passes:
 
-1. Replace the `zod` dependency in `packages/utils` with `valibot`.
-2. Remove `zod-form-data`. The repository does not use its exported helpers.
-3. Rewrite `packages/utils/src/schema.ts` with Valibot schemas and actions.
-4. Export Valibot's API from `@init/utils/schema`.
+1. Keep the temporary `@init/utils/schema-valibot` entry point for the migration.
+2. Keep `@init/utils/schema`, `zod`, and `zod-form-data` unchanged while Zod callers
+   remain.
+3. Implement the shared Valibot schemas and actions in the temporary entry point.
+4. Export Valibot's API from the temporary entry point.
 5. Preserve the inferred output of `branded()` so Drizzle identifiers keep their
    nominal distinction.
 6. Use `InferInput` and `InferOutput` explicitly where input and parsed output can
@@ -101,10 +103,15 @@ Test URL host restrictions, IPv4 and IPv6 behavior, optional fields, unknown obj
 keys, and branded string inference. Zod and Valibot can have different default object
 and issue behavior, so the tests must settle each intended rule.
 
-## 4. Migrate project-owned schemas by workspace
+The temporary entry point is a migration seam, not a permanent compatibility layer.
+Each caller imports either the Zod entry point or the Valibot entry point. Do not mix
+both libraries in one schema.
 
-Migrate in verifiable groups. Run the affected workspace tests and build after each
-group.
+## 4. Migrate callers to the parallel entry point
+
+Migrate callers in the following groups. Each group must pass its affected tests and
+compiler check before the next group starts. The unchanged Zod entry point keeps the
+remaining callers buildable.
 
 ### Application workspace
 
@@ -116,7 +123,8 @@ Convert the schemas in `apps/app`:
 - Reset-password search parameters.
 
 Replace chained Zod methods with Valibot composition. Preserve the existing error
-messages and the `confirmPassword` error path.
+messages and the `confirmPassword` error path. Change these callers to import
+`@init/utils/schema-valibot`.
 
 ### API workspace
 
@@ -127,7 +135,8 @@ Convert the schemas in `apps/api`:
 - Files SDK result parsing and branded user IDs.
 
 Replace `schema.parse(input)` and `schema.safeParse(input)` with Valibot's functional
-parse APIs. Keep validation at the existing trust boundaries.
+parse APIs. Keep validation at the existing trust boundaries. Change these callers
+to import `@init/utils/schema-valibot`.
 
 Replace the tRPC `zodError` response field with a validator-neutral
 `validationError` value. Define one stable response shape with message and path data.
@@ -140,11 +149,10 @@ Convert:
 
 - Stripe result validation in `packages/payments`.
 - Inngest event schemas in `packages/workflows`.
-- Branded database identifier inference in `packages/db`.
 
 Inngest accepts Standard Schema directly, so its surrounding API must not change.
 
-## 5. Replace Drizzle's Zod integration
+### Database package workspace
 
 Do not combine this migration with an unnecessary Drizzle major upgrade.
 
@@ -152,15 +160,36 @@ Do not combine this migration with an unnecessary Drizzle major upgrade.
    `drizzle-orm` version.
 2. Prefer `drizzle-orm/valibot` when the pinned version exports it. Otherwise use the
    matching `drizzle-valibot` package.
-3. Replace `drizzle-zod` and remove the Zod schema factory configuration.
-4. Verify select, insert, and update schema inference.
-5. Verify branded ID columns, nullable columns, defaulted columns, timestamps, enums,
+3. Convert branded database identifier inference to
+   `@init/utils/schema-valibot`.
+4. Replace `drizzle-zod` and remove the Zod schema factory configuration in the same
+   verification unit.
+5. Verify select, insert, and update schema inference.
+6. Verify branded ID columns, nullable columns, defaulted columns, timestamps, enums,
    and JSON columns.
-6. Run dependency analysis and the monorepo consistency check after the package
+7. Run dependency analysis and the monorepo consistency check after the package
    change.
 
 Do not upgrade Drizzle only to use a different import path. Record a later migration
 if the consolidated integration requires Drizzle 1.
+
+## 5. Promote Valibot to the shared entry point
+
+After all project-owned callers use the temporary Valibot entry point:
+
+1. Search tracked source and template recipes for callers of `@init/utils/schema`.
+   Confirm that no Zod caller remains on that shared entry point. Track Astro's
+   explicit `astro/zod` import separately.
+2. Make `packages/utils/src/schema.ts` export the tested Valibot implementation.
+3. Change all `@init/utils/schema-valibot` imports to `@init/utils/schema`.
+4. Delete the temporary entry point in the same commit.
+5. Remove the direct `zod` and `zod-form-data` dependencies from `packages/utils`.
+   The repository does not use the form-data helpers.
+6. Run the full repository checks before starting the template recipe migration.
+
+This promotion is one atomic verification unit. The repository must not contain a
+commit where `@init/utils/schema` exports Valibot while one of its callers still uses
+a Zod-specific API.
 
 ## 6. Rewrite the optional JSON codec recipe
 
@@ -233,17 +262,18 @@ Also run targeted builds and generation:
 
 ```sh
 bun run build --filter=app
-bun run build --filter=api
 bun run build --filter=web
-bun run build --filter=@init/db
-bun run build --filter=@init/payments
-bun run build --filter=@init/workflows
+bun x tsc --noEmit --project apps/api/tsconfig.json
+bun x tsc --noEmit --project packages/db/tsconfig.json
+bun x tsc --noEmit --project packages/payments/tsconfig.json
+bun x tsc --noEmit --project packages/workflows/tsconfig.json
 bun --bun turbo generate
 ```
 
-Use the actual workspace filters from the root Turborepo configuration if these
-display names differ. For API code without a build script, run its type check and a
-production start smoke test through its package scripts.
+The application commands run real builds. The package commands invoke the TypeScript
+compiler directly because those workspaces do not define `build` scripts. Run an API
+production-start smoke test after its compiler check when the required local services
+and environment values are available.
 
 Manually verify:
 
