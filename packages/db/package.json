@@ -8,7 +8,7 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./helpers": "./src/helpers.ts",
+    "./helpers/*": "./src/helpers/*.ts",
     "./schema": "./src/schema.ts",
     "./client": "./src/client.ts"
   },

@@ -1,5 +1,5 @@
 import type { DeleteManyResult, StoredFile, UploadResult } from "files-sdk"
-import { operators } from "@init/db/helpers"
+import { operators } from "@init/db/helpers/sql"
 import { assets, type UserId } from "@init/db/schema"
 import * as z from "@init/utils/schema"
 import { createFiles } from "files-sdk"
