@@ -1,7 +1,6 @@
 // oxlint-disable no-console - We use console.log for logging in scripts
 
-import { database } from "@init/db/client"
-import { checkIsLocalDatabase } from "@init/db/helpers"
+import { checkIsLocalDatabase, database } from "@init/db/client"
 import * as schema from "@init/db/schema"
 import { reset } from "drizzle-seed"
 import { ENV } from "#env.generated.ts"

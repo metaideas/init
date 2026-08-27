@@ -1,4 +1,4 @@
-import { checkIsLocalDatabase } from "@init/db/helpers"
+import { checkIsLocalDatabase } from "@init/db/client"
 import { defineConfig } from "drizzle-kit"
 import { ENV } from "#env.generated.ts"
 

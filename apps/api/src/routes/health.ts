@@ -1,4 +1,4 @@
-import { sql } from "@init/db/helpers"
+import { sql } from "@init/db/helpers/sql"
 import { withRateLimiting } from "#shared/middleware.ts"
 import { factory } from "#shared/utils.ts"
 

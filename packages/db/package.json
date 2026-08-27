@@ -8,10 +8,9 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./helpers": "./src/helpers.ts",
+    "./helpers/*": "./src/helpers/*.ts",
     "./schema": "./src/schema.ts",
-    "./client": "./src/client.ts",
-    "./context": "./src/context.ts"
+    "./client": "./src/client.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",

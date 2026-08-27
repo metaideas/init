@@ -21,4 +21,8 @@ export function database() {
   return singleton("database", () => connect(ENV.DATABASE_URL))
 }
 
+export function checkIsLocalDatabase(url: string) {
+  return url.includes("localhost") || url.includes("127.0.0.1")
+}
+
 export type Database = ReturnType<typeof database>
