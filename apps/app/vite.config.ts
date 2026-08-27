@@ -1,11 +1,10 @@
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
-import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import { I18N_COOKIE_NAME } from "@tooling/internationalization"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
-import react, { reactCompilerPreset } from "@vitejs/plugin-react"
+import react from "@vitejs/plugin-react"
 import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 import { ENV } from "#shared/env.generated.ts"
@@ -19,8 +18,7 @@ export default defineConfig({
     varlock(),
     tailwindcss(),
     tanstackStart(),
-    react(),
-    babel({ presets: [reactCompilerPreset()] }),
+    react({ compiler: true }),
     paraglide({
       cookieName: I18N_COOKIE_NAME,
       outdir: "./src/shared/internationalization",
