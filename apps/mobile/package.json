@@ -13,9 +13,8 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "bun run scripts/codegen.ts",
-    "dev": "portless",
+    "dev": "varlock run -- expo start --port ${PORT:-3002}",
     "dev:android": "varlock run -- expo start --android",
-    "dev:app": "varlock run -- expo start --port ${PORT:-3002}",
     "dev:ios": "varlock run -- expo start --ios",
     "doctor": "expo-doctor",
     "env:check": "varlock load",
@@ -86,9 +85,5 @@
         "typescript"
       ]
     }
-  },
-  "portless": {
-    "name": "mobile.init",
-    "script": "dev:app"
   }
 }

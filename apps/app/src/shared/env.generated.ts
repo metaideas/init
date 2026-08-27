@@ -28,13 +28,6 @@ export type CoercedEnvSchema = {
   PUBLIC_API_URL?: string;
   
   /**
-   * **PORTLESS_URL**  
-   * Optional Portless URL supplied to local server commands.  
-   * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M24%2021V9h-2v14h8v-2zm-4-6v-4c0-1.103-.897-2-2-2h-6v14h2v-6h1.48l2.335%206h2.145l-2.333-6H18c1.103%200%202-.897%202-2m-6-4h4v4h-4zM8%2023H4c-1.103%200-2-.897-2-2V9h2v12h4V9h2v12c0%201.103-.897%202-2%202%22%2F%3E%3C%2Fsvg%3E)   
-   */
-  PORTLESS_URL?: string;
-  
-  /**
    * **PORT**  
    * Local Vite server port.  
    * ![icon](data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23808080%22%20d%3D%22M20.95%2022.375L18%2019.425v2.225h-2V16h5.65v2H19.4l2.95%202.95zM12%2022q-2.075%200-3.9-.788t-3.175-2.137T2.788%2015.9T2%2012t.788-3.9t2.137-3.175T8.1%202.788T12%202t3.9.788t3.175%202.137T21.213%208.1T22%2012q0%20.5-.05%201t-.15%201h-2.05q.125-.5.188-1T20%2012t-.062-1t-.188-1h-3.4q.075.5.113%201t.037%201t-.037%201t-.113%201h-2q.075-.5.113-1t.037-1t-.037-1t-.113-1h-4.7q-.075.5-.112%201T9.5%2012t.038%201t.112%201H13v2h-2.9q.3%201.075.775%202.063T12%2019.95q.5%200%201-.062t1-.113v2.05q-.5.05-1%20.113T12%2022m-7.75-8h3.4q-.075-.5-.112-1T7.5%2012t.038-1t.112-1h-3.4q-.125.5-.187%201T4%2012t.063%201t.187%201m.85-6h2.95q.225-.925.563-1.812T9.4%204.45q-1.375.45-2.475%201.363T5.1%208m4.3%2011.55q-.45-.85-.788-1.737T8.05%2016H5.1q.725%201.275%201.825%202.188T9.4%2019.55M10.1%208h3.8q-.3-1.075-.775-2.062T12%204.05q-.65.9-1.125%201.888T10.1%208m5.85%200h2.95q-.725-1.275-1.825-2.187T14.6%204.45q.45.85.788%201.738T15.95%208%22%2F%3E%3C%2Fsvg%3E)   
@@ -134,7 +127,7 @@ export type CoercedEnvSchema = {
   
 };
 
-type _CoercedEnvSchema_8842e194 = CoercedEnvSchema;
+type _CoercedEnvSchema_e8481ffe = CoercedEnvSchema;
 
 export type EnvSchemaAsStrings = {
   [Property in keyof CoercedEnvSchema]:
@@ -142,9 +135,9 @@ export type EnvSchemaAsStrings = {
       : (CoercedEnvSchema[Property] extends boolean ? ('true' | 'false') : string)
 };
 
-type _EnvSchemaAsStrings_8842e194 = EnvSchemaAsStrings;
+type _EnvSchemaAsStrings_e8481ffe = EnvSchemaAsStrings;
 
-export type PublicCoercedEnvSchema = Readonly<Pick<CoercedEnvSchema, 'PUBLIC_BASE_URL' | 'PUBLIC_API_URL' | 'PORTLESS_URL' | 'PORT' | 'AUTH_TRUSTED_ORIGINS' | 'GITHUB_CLIENT_ID' | 'GOOGLE_CLIENT_ID' | 'EMAIL_FROM' | 'MOCK_RESEND' | 'PUBLIC_SENTRY_DSN' | 'RUN_PRODUCTION_MIGRATIONS' | 'PUBLIC_SENTRY_DEBUG'>>;
+export type PublicCoercedEnvSchema = Readonly<Pick<CoercedEnvSchema, 'PUBLIC_BASE_URL' | 'PUBLIC_API_URL' | 'PORT' | 'AUTH_TRUSTED_ORIGINS' | 'GITHUB_CLIENT_ID' | 'GOOGLE_CLIENT_ID' | 'EMAIL_FROM' | 'MOCK_RESEND' | 'PUBLIC_SENTRY_DSN' | 'RUN_PRODUCTION_MIGRATIONS' | 'PUBLIC_SENTRY_DEBUG'>>;
 
 // re-export of the runtime ENV proxy, typed to this package's schema
 export const ENV = _ENV as unknown as Readonly<CoercedEnvSchema>;

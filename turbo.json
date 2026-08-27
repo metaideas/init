@@ -19,7 +19,6 @@
         "INNGEST_*",
         "MOCK_RESEND",
         "PORT",
-        "PORTLESS_URL",
         "POSTHOG_*",
         "PUBLIC_*",
         "REDIS_URL",
@@ -44,10 +43,6 @@
     "push": {
       "cache": false,
       "interactive": true
-    },
-    "studio": {
-      "cache": false,
-      "persistent": true
     },
     "start": {
       "cache": false,

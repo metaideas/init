@@ -12,8 +12,7 @@
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "varlock codegen",
-    "dev": "portless",
-    "dev:app": "email dev --dir src/templates --port ${PORT:-4000}",
+    "dev": "email dev --dir src/templates --port ${PORT:-4001}",
     "env:check": "varlock load",
     "export": "email export --dir src/templates"
   },
@@ -35,9 +34,5 @@
     "react": "19.2.3",
     "react-email": "6.9.1",
     "typescript": "7.0.2"
-  },
-  "portless": {
-    "name": "email.init",
-    "script": "dev:app"
   }
 }

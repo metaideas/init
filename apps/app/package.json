@@ -13,8 +13,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "portless",
-    "dev:app": "bun --bun vite dev",
+    "dev": "bun --bun vite dev",
     "env:check": "varlock load",
     "env:scan": "test -d .output/public && varlock scan --path .env.schema --path .env.development .output/public",
     "env:scan:build": "bun --bun vite build",
@@ -62,9 +61,5 @@
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vite": "8.1.5"
-  },
-  "portless": {
-    "name": "app.init",
-    "script": "dev:app"
   }
 }

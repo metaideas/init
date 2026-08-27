@@ -14,8 +14,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "portless",
-    "dev:app": "wxt",
+    "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "env:check": "varlock load",
     "env:scan": "test -d .output && varlock scan --path .env.schema .output",
@@ -48,9 +47,5 @@
     "vite": "8.1.5",
     "web-ext": "10.5.0",
     "wxt": "0.21.1"
-  },
-  "portless": {
-    "name": "extension.init",
-    "script": "dev:app"
   }
 }

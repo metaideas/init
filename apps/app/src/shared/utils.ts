@@ -2,7 +2,7 @@ import { hasWindow } from "@init/utils/env"
 import { createUrlBuilder } from "@init/utils/url"
 import { ENV } from "#shared/env.generated.ts"
 
-const baseUrl = hasWindow ? globalThis.location.origin : (ENV.PORTLESS_URL ?? ENV.PUBLIC_BASE_URL)
+const baseUrl = hasWindow ? globalThis.location.origin : ENV.PUBLIC_BASE_URL
 
 export const buildUrl = createUrlBuilder(baseUrl, getProtocol(baseUrl))
 

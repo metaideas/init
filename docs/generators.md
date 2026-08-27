@@ -99,8 +99,8 @@ Generate the optional client in an application workspace that consumes the API:
 
 ```bash
 bun run generate files-client
-bun run generate files-client --args app https://api.init.localhost/files
-bun run generate files-client --args web https://api.init.localhost/files
+bun run generate files-client --args app http://localhost:3000/files
+bun run generate files-client --args web http://localhost:3000/files
 ```
 
 The template command can target any workspace under `apps/`. It creates `src/shared/files.ts`. It exports the application-local `useFiles` hook, `useFile`, `useList`, and `useSearch`. It authenticates JSON and XHR upload traffic. Astro consumers use the same React integration through the Astro React renderer.

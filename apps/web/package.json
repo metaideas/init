@@ -14,8 +14,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "portless",
-    "dev:app": "astro dev",
+    "dev": "astro dev",
     "env:check": "varlock load",
     "env:scan": "test -d dist && varlock scan --path .env.schema --path .env.development dist",
     "env:scan:build": "astro build",
@@ -45,9 +44,5 @@
     "@varlock/astro-integration": "1.3.0",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2"
-  },
-  "portless": {
-    "name": "web.init",
-    "script": "dev:app"
   }
 }

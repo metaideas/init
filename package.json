@@ -48,7 +48,6 @@
     "oxfmt": "0.63.0",
     "oxlint": "1.78.0",
     "oxlint-tsgolint": "7.0.2001",
-    "portless": "0.15.5",
     "sherif": "1.13.0",
     "turbo": "2.10.7",
     "typescript": "7.0.2",
