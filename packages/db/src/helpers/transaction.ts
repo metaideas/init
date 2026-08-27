@@ -6,8 +6,8 @@ export type DatabaseTransaction = Parameters<Parameters<Database["transaction"]>
 const storage = new AsyncLocalStorage<DatabaseTransaction>()
 
 /**
- * Runs the operation inside a transaction. Nested calls reuse the active
- * transaction, so composed domain operations commit or roll back together.
+ * Runs the operation inside a transaction. Nested calls reuse the active transaction, so composed
+ * domain operations commit or roll back together.
  */
 export async function withTransaction<T>(
   operation: (transaction: DatabaseTransaction) => Promise<T>
