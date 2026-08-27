@@ -1,12 +1,13 @@
 import { createAuthClient } from "{{authPackage}}/client"
 import { adminClient, organizationClient } from "{{authPackage}}/client/plugins"
+import { AUTH_API_COOKIE_PREFIX } from "{{authPackage}}/constants"
 import { expoClient } from "{{authPackage}}/expo/client"
 import { accessControl, adminRole, memberRole, ownerRole } from "{{authPackage}}/permissions"
 import * as SecureStore from "expo-secure-store"
 import { buildApiUrl } from "#shared/utils.ts"
 
 export const auth = createAuthClient(buildApiUrl("/auth"), [
-  expoClient({ storage: SecureStore }),
+  expoClient({ cookiePrefix: AUTH_API_COOKIE_PREFIX, storage: SecureStore }),
   adminClient(),
   organizationClient({
     ac: accessControl,
