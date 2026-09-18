@@ -89,8 +89,8 @@ function MessageScrollerButton({
   variant = "secondary",
   size = "icon-sm",
   ...props
-}: React.ComponentProps<typeof MessageScrollerPrimitive.Button> &
-  Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
+}: React.ComponentProps<typeof MessageScrollerPrimitive.Button>
+  & Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
   return (
     <MessageScrollerPrimitive.Button
       data-slot="message-scroller-button"

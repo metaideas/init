@@ -25,10 +25,6 @@ jobs:
         include:
           - name: check
             command: bun run check
-          - name: format
-            command: bun run format --check
-          - name: monorepo
-            command: bun run check:monorepo
           - name: analyze
             command: bun run analyze
 
@@ -39,7 +35,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2

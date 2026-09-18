@@ -104,8 +104,8 @@ function SelectContent({
                       props.side === "top" && "slide-in-from-bottom-2"
                     ),
                   }),
-                  position === "popper" &&
-                    Platform.select({
+                  position === "popper"
+                    && Platform.select({
                       web: cn(
                         props.side === "bottom" && "translate-y-1",
                         props.side === "top" && "-translate-y-1"
@@ -120,8 +120,8 @@ function SelectContent({
                 <SelectPrimitive.Viewport
                   className={cn(
                     "p-1",
-                    position === "popper" &&
-                      cn(
+                    position === "popper"
+                      && cn(
                         "w-full",
                         Platform.select({
                           web: "h-[var(--radix-select-trigger-height)] min-w-[var(--radix-select-trigger-width)]",

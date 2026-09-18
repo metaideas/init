@@ -227,13 +227,13 @@ export default defineCommand({
     const yes = args.yes ?? false
     const hasEmptyKeepAppsOption = rawArgs.some(
       (argument, index) =>
-        (argument === "--keep-apps" || argument === "--keepApps") &&
-        rawArgs[index + 1]?.startsWith("-") !== false
+        (argument === "--keep-apps" || argument === "--keepApps")
+        && rawArgs[index + 1]?.startsWith("-") !== false
     )
     const hasEmptyKeepPackagesOption = rawArgs.some(
       (argument, index) =>
-        (argument === "--keep-packages" || argument === "--keepPackages") &&
-        rawArgs[index + 1]?.startsWith("-") !== false
+        (argument === "--keep-packages" || argument === "--keepPackages")
+        && rawArgs[index + 1]?.startsWith("-") !== false
     )
 
     if (hasEmptyKeepAppsOption) {
@@ -267,16 +267,16 @@ export default defineCommand({
     }
 
     const keepApps =
-      selectedApps ??
-      (yes
+      selectedApps
+      ?? (yes
         ? apps.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
             "app",
             apps.map((workspace) => workspace.name)
           ))
     const keepPackages =
-      selectedPackages ??
-      (yes
+      selectedPackages
+      ?? (yes
         ? packages.map((workspace) => workspace.name)
         : await promptForWorkspaceNames(
             "package",
@@ -294,8 +294,8 @@ export default defineCommand({
         "app",
         keepApps,
         apps.map((workspace) => workspace.name)
-      ) ??
-      getSelectionError(
+      )
+      ?? getSelectionError(
         "package",
         keepPackages,
         packages.map((workspace) => workspace.name)

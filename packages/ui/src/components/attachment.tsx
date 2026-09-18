@@ -30,8 +30,8 @@ function Attachment({
   size = "default",
   orientation = "horizontal",
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof attachmentVariants> & {
+}: React.ComponentProps<"div">
+  & VariantProps<typeof attachmentVariants> & {
     state?: "idle" | "uploading" | "processing" | "error" | "done"
   }) {
   return (
