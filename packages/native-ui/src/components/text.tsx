@@ -69,9 +69,9 @@ function Text({
   asChild = false,
   variant = "default",
   ...props
-}: React.ComponentProps<typeof RNText> &
-  React.RefAttributes<typeof RNText> &
-  TextVariantProps & {
+}: React.ComponentProps<typeof RNText>
+  & React.RefAttributes<typeof RNText>
+  & TextVariantProps & {
     asChild?: boolean
   }) {
   const textClass = React.useContext(TextClassContext)

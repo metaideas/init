@@ -25,6 +25,7 @@ export default defineConfig({
       rules: {
         "import/unambiguous": "off",
         "typescript/no-require-imports": "off",
+        "typescript/no-var-requires": "off",
         "unicorn/prefer-module": "off",
       },
     },

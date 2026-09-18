@@ -17,8 +17,8 @@ export function env() {
   return z.enum(["development", "production", "test"])
 }
 
-export function branded<T extends string>(_: T) {
-  return z.string().brand<T>()
+export function branded<T extends string>(brand: T) {
+  return z.string().brand(brand)
 }
 
 /**

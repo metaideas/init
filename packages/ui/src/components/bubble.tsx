@@ -47,8 +47,8 @@ function Bubble({
   align = "start",
   className,
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof bubbleVariants> & {
+}: React.ComponentProps<"div">
+  & VariantProps<typeof bubbleVariants> & {
     align?: "start" | "end"
   }) {
   return (

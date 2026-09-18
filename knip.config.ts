@@ -1,8 +1,9 @@
 import type { KnipConfig } from "knip"
-import analyze from "adamantite/analyze"
+import analyze, { ignoreDependencies } from "adamantite/analyze"
 
 const config: KnipConfig = {
   ...analyze,
+  ignoreDependencies: [...ignoreDependencies.monorepo],
   ignoreExportsUsedInFile: true,
   ignoreFiles: [],
   ignoreIssues: {

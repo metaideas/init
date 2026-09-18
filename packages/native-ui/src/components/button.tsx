@@ -89,9 +89,9 @@ const buttonTextVariants = cva(
   }
 )
 
-type ButtonProps = React.ComponentProps<typeof Pressable> &
-  React.RefAttributes<typeof Pressable> &
-  VariantProps<typeof buttonVariants>
+type ButtonProps = React.ComponentProps<typeof Pressable>
+  & React.RefAttributes<typeof Pressable>
+  & VariantProps<typeof buttonVariants>
 
 function Button({ className, variant, size, ...props }: ButtonProps) {
   return (

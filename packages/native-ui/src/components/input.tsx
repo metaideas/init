@@ -9,8 +9,8 @@ function Input({
     <TextInput
       className={cn(
         "flex h-10 w-full min-w-0 flex-row items-center rounded-md border border-input bg-background px-3 py-1 text-base leading-5 text-foreground shadow-sm shadow-black/5 sm:h-9 dark:bg-input/30",
-        props.editable === false &&
-          cn(
+        props.editable === false
+          && cn(
             "opacity-50",
             Platform.select({ web: "disabled:pointer-events-none disabled:cursor-not-allowed" })
           ),

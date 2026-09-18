@@ -35,12 +35,12 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
       const appPath = `apps/${answers.app}`
       const actions: PlopTypes.Actions = []
       const isSupported =
-        (answers.app === "mobile" && answers.backend === "convex") ||
-        (answers.app === "mobile" && answers.backend === "hono") ||
-        (answers.app === "app" && answers.backend === "hono") ||
-        (answers.app === "desktop" && answers.backend === "hono") ||
-        (answers.app === "app" && answers.backend === "trpc") ||
-        (answers.app === "desktop" && answers.backend === "trpc")
+        (answers.app === "mobile" && answers.backend === "convex")
+        || (answers.app === "mobile" && answers.backend === "hono")
+        || (answers.app === "app" && answers.backend === "hono")
+        || (answers.app === "desktop" && answers.backend === "hono")
+        || (answers.app === "app" && answers.backend === "trpc")
+        || (answers.app === "desktop" && answers.backend === "trpc")
 
       if (!isSupported)
         throw new Error(`Unsupported backend connection: ${answers.app} + ${answers.backend}`)

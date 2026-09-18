@@ -13,8 +13,8 @@ function Alert({
   icon,
   iconClassName,
   ...props
-}: React.ComponentProps<typeof View> &
-  React.RefAttributes<View> & {
+}: React.ComponentProps<typeof View>
+  & React.RefAttributes<View> & {
     icon: LucideIcon
     variant?: "default" | "destructive"
     iconClassName?: string

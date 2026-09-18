@@ -52,8 +52,8 @@ function ToggleGroupItem({
   isFirst,
   isLast,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants> & {
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Item>
+  & VariantProps<typeof toggleVariants> & {
     isFirst?: boolean
     isLast?: boolean
   }) {

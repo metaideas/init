@@ -137,10 +137,10 @@ export function checkIsPathWithinRoot(rootDir: string, path: string) {
   const pathFromRoot = relative(rootDir, path)
 
   return (
-    pathFromRoot !== "" &&
-    pathFromRoot !== ".." &&
-    !pathFromRoot.startsWith(`..${sep}`) &&
-    !isAbsolute(pathFromRoot)
+    pathFromRoot !== ""
+    && pathFromRoot !== ".."
+    && !pathFromRoot.startsWith(`..${sep}`)
+    && !isAbsolute(pathFromRoot)
   )
 }
 
