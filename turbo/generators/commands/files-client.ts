@@ -1,16 +1,13 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
+import { getAnswerString, readPackageJson, requireAnswers } from "../boundaries"
+
 type FilesClientAnswers = PlopTypes.Answers & {
   app: string
   dependencyRequired?: boolean
   endpoint: string
   isInstalled?: boolean
-}
-
-type PackageJson = {
-  dependencies?: Record<string, string>
-  devDependencies?: Record<string, string>
 }
 
 async function getMissingPaths(paths: readonly string[]): Promise<string[]> {
@@ -32,7 +29,11 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
 
   plop.setGenerator("files-client", {
     actions: (rawAnswers) => {
-      const answers = rawAnswers as FilesClientAnswers
+      const providedAnswers = requireAnswers(rawAnswers)
+      const answers: FilesClientAnswers = Object.assign(providedAnswers, {
+        app: getAnswerString(providedAnswers, "app"),
+        endpoint: getAnswerString(providedAnswers, "endpoint"),
+      })
       const appPath = `apps/${answers.app}`
       const clientPath = `${appPath}/src/shared/files.ts`
       const actions: PlopTypes.Actions = [
@@ -50,7 +51,7 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
 
           const [routes, packageJson, hasClient] = await Promise.all([
             Bun.file("apps/api/src/routes/index.ts").text(),
-            Bun.file(`${appPath}/package.json`).json() as Promise<PackageJson>,
+            readPackageJson(`${appPath}/package.json`),
             Bun.file(clientPath).exists(),
           ])
           if (!routes.includes('.route("/files", filesRoutes)'))
@@ -80,12 +81,6 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
           skipIfExists: true,
           templateFile: "templates/files/files-client/react.ts.hbs",
           type: "add",
-        },
-        async () => {
-          await Bun.$`bun run format -- ${appPath}/package.json ${clientPath}`
-          return answers.isInstalled
-            ? `[SKIPPED] Files SDK client is already installed in ${appPath}`
-            : `Generated the Files SDK React client in ${appPath}`
         },
       ]
 

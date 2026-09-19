@@ -3,13 +3,13 @@ import * as z from "@init/utils/schema"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import ResetPasswordForm from "#features/auth/components/reset-password-form.tsx"
 
-const searchSchema = z.object({
+const SearchSchema = z.object({
   token: z.string().optional(),
 })
 
 export const Route = createFileRoute("/reset-password")({
   component: RouteComponent,
-  validateSearch: searchSchema,
+  validateSearch: SearchSchema,
 })
 
 function RouteComponent() {

@@ -9,6 +9,7 @@ Apply these rules when you write TypeScript.
 - Use `readonly` arrays or maps with `as const`.
 - Use the `function` keyword for pure functions and components.
 - Use descriptive names.
+- Name runtime validation schema constants in PascalCase, such as `UserIdSchema`.
 - Use auxiliary verbs for state and behavior.
 - Use lowercase kebab-case names for directories and files.
 - Favor default exports for components.

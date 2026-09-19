@@ -34,6 +34,7 @@ export default {
     },
     "apps/app": {
       entry: "src/routeTree.gen.{ts,js}",
+      vite: false,
     },
     "apps/desktop": {
       entry: [
@@ -48,11 +49,13 @@ export default {
       project: "src/**/*.{astro,css,js,jsx,mdx,ts,tsx}",
     },
     "apps/extension": {
-      entry: ["src/entrypoints/**/*.{ts,tsx}", "src/shared/env.generated.ts"],
+      entry: ["src/entrypoints/**/*.{ts,tsx}", "src/shared/env.generated.ts", "wxt.config.ts"],
       project: "src/**/*.{css,js,jsx,ts,tsx}",
+      wxt: false,
     },
     "apps/mobile": {
       entry: "src/shared/env.generated.ts",
+      ignoreDependencies: ["lucide-react-native"],
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },
     "apps/web": {
