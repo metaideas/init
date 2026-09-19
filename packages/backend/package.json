@@ -27,7 +27,6 @@
     "@init/auth": "workspace:*",
     "@init/core": "workspace:*",
     "@init/observability": "workspace:*",
-    "@init/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
     "convex": "1.42.3",
     "fluent-convex": "0.13.0"
