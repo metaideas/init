@@ -1,6 +1,5 @@
 import { UnauthenticatedError, UnauthorizedError } from "@init/core/errors"
-import { buildLogger, LoggerCategory } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
+import { log } from "@init/observability/logger"
 import { createBuilder } from "fluent-convex"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import type { ActionCtx, MutationCtx, QueryCtx } from "#functions/_generated/server.js"
@@ -8,9 +7,7 @@ import { authComponent } from "#functions/shared/auth.ts"
 
 export const convex = createBuilder<DataModel>()
 
-export const withLogger = convex.createMiddleware((ctx, next) =>
-  next({ ...ctx, logger: singleton("logger:convex", () => buildLogger([LoggerCategory.CONVEX])) })
-)
+export const withLogger = convex.createMiddleware((ctx, next) => next({ ...ctx, logger: log }))
 
 export type GenericCtx = QueryCtx | ActionCtx | MutationCtx
 

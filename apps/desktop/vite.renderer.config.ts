@@ -1,3 +1,4 @@
+import { observability } from "@init/observability/logger/vite"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
@@ -17,6 +18,7 @@ export default defineConfig(() => ({
   plugins: [
     devtools(),
     varlock(),
+    observability({ service: "desktop" }),
     tailwindcss(),
     paraglide({
       outdir: "./src/shared/internationalization",

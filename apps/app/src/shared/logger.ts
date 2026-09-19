@@ -1,10 +1,9 @@
-import { buildLogger, LoggerCategory } from "@init/observability/logger"
-import { hasWindow } from "@init/utils/env"
+import { createLogger } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 
 export const logger = singleton("logger:app", () =>
-  buildLogger([LoggerCategory.DEFAULT], {
-    async: !hasWindow,
+  createLogger({
     isDevelopment: import.meta.env.DEV,
+    service: "app",
   })
 )

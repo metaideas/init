@@ -20,7 +20,7 @@ const history = createHashHistory()
 const router = createRouter({
   Wrap: ({ children }) => <Providers>{children}</Providers>,
   context: {
-    logger: logger.with({ group: "router" }),
+    logger,
     queryClient,
   } satisfies RouterContext,
   defaultErrorComponent: ErrorFallback,
