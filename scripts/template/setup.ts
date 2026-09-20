@@ -5,6 +5,9 @@ import consola from "consola"
 import { renameProject } from "./rename"
 import {
   getDependencyNames,
+  getJsonObject,
+  getJsonString,
+  getJsonStringArray,
   getProjectScope,
   getWorkspaces,
   normalizeScope,
@@ -24,12 +27,14 @@ type TemplateStamp = {
 }
 
 async function promptForWorkspaceNames(kind: "app" | "package", names: string[]) {
-  const selected = (await consola.prompt(`Select ${kind}s to keep`, {
+  const selected = await consola.prompt(`Select ${kind}s to keep`, {
     cancel: "reject",
     initial: names,
-    options: names.map((name) => ({ label: name, value: name })),
+    options: names,
     type: "multiselect",
-  })) as unknown as string[]
+  })
+  if (!Array.isArray(selected) || !selected.every((value) => value.constructor === String))
+    throw new Error(`Expected the ${kind} selection to contain workspace names.`)
 
   return selected
 }
@@ -57,12 +62,15 @@ async function getCommit() {
       throw new Error(`Could not fetch the template commit. GitHub returned ${response.status}.`)
     }
 
-    const body = (await response.json()) as { sha?: unknown }
-    if (typeof body.sha !== "string") {
+    const body: unknown = await response.json()
+    if (body === null || !(body instanceof Object) || !("sha" in body)) {
       throw new Error("Could not fetch the template commit. GitHub did not return a commit SHA.")
     }
+    const sha = body.sha
+    if (sha?.constructor !== String)
+      throw new Error("Could not fetch the template commit. GitHub did not return a commit SHA.")
 
-    return body.sha
+    return String(sha)
   } catch (error) {
     throw new Error("Could not fetch the template commit.", { cause: error })
   }
@@ -119,14 +127,14 @@ async function expandWorkspaceSelection(
   const workspaces: WorkspaceWithDependencies[] = await Promise.all(
     workspaceEntries.map(async (workspace) => {
       const packageJson = await readJson(join(workspace.directory, "package.json"))
-      const packageName = packageJson.name
+      const packageName = getJsonString(packageJson, "name")
 
       return {
         dependencies: getDependencyNames(packageJson),
         directory: workspace.directory,
         kind: workspace.kind,
         name: workspace.name,
-        packageName: typeof packageName === "string" ? packageName : "",
+        packageName: packageName ?? "",
       }
     })
   )
@@ -175,14 +183,10 @@ async function pruneWorkspaces(rootDir: string, workspaces: Workspace[], selecte
 async function cleanupTemplateFiles(rootDir: string) {
   const packageJsonPath = join(rootDir, "package.json")
   const packageJson = await readJson(packageJsonPath)
-  const init = packageJson.init as { cleanupPaths?: unknown } | undefined
-  const cleanupPaths = Array.isArray(init?.cleanupPaths) ? init.cleanupPaths : []
+  const init = getJsonObject(packageJson, "init")
+  const cleanupPaths = init ? (getJsonStringArray(init, "cleanupPaths") ?? []) : []
 
-  await Promise.all(
-    cleanupPaths
-      .filter((path): path is string => typeof path === "string")
-      .map((path) => removePath(rootDir, path))
-  )
+  await Promise.all(cleanupPaths.map((path) => removePath(rootDir, path)))
 
   delete packageJson["bun-create"]
   delete packageJson.init
@@ -250,7 +254,7 @@ export default defineCommand({
     const apps = await getWorkspaces(rootDir, "app")
     const packages = await getWorkspaces(rootDir, "package")
     const rootPackage = await readJson(join(rootDir, "package.json"))
-    const defaultName = typeof rootPackage.name === "string" ? rootPackage.name : "project"
+    const defaultName = getJsonString(rootPackage, "name") ?? "project"
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
     const selectedApps = args["keep-apps"]?.split(",").filter(Boolean)
     const selectedPackages = args["keep-packages"]?.split(",").filter(Boolean)

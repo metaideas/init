@@ -1,6 +1,5 @@
-import type { DeleteManyResult, StoredFile, UploadResult } from "files-sdk"
 import { operators } from "@init/db/helpers/sql"
-import { assets, type UserId } from "@init/db/schema"
+import { assets, type UserId, UserIdSchema } from "@init/db/schema"
 import * as z from "@init/utils/schema"
 import { createFiles } from "files-sdk"
 import { bunS3 } from "files-sdk/bun-s3"
@@ -13,6 +12,22 @@ import { context } from "#shared/utils.ts"
 
 export const FILES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 export const FILES_MAX_URL_AGE = 15 * 60
+
+const UploadResultSchema = z.object({
+  contentType: z.string(),
+  etag: z.string().optional(),
+  lastModified: z.number().optional(),
+  size: z.number(),
+})
+const StoredFileSchema = z.object({
+  etag: z.string().optional(),
+  lastModified: z.number().optional(),
+  metadata: z.record(z.string(), z.string()).optional(),
+  name: z.string(),
+  size: z.number(),
+  type: z.string(),
+})
+const DeleteManyResultSchema = z.object({ deleted: z.array(z.string()) })
 
 export const files = createFiles({
   adapter: bunS3({
@@ -27,21 +42,30 @@ export const files = createFiles({
     onAction(event) {
       if (event.status !== "success") return
 
-      switch (event.type) {
-        case "upload":
-          if (event.key) handleUpload(event.key, event.result as UploadResult)
-          break
-        case "head":
-          if (event.key) handleUpload(event.key, event.result as StoredFile)
-          break
-        case "delete": {
-          const keys = event.key ? [event.key] : (event.result as DeleteManyResult).deleted
+      try {
+        switch (event.type) {
+          case "upload":
+            if (event.key) handleUpload(event.key, UploadResultSchema.parse(event.result))
+            break
+          case "head":
+            if (event.key) handleUpload(event.key, StoredFileSchema.parse(event.result))
+            break
+          case "delete": {
+            const keys = event.key
+              ? [event.key]
+              : DeleteManyResultSchema.parse(event.result).deleted
 
-          handleDelete(keys)
-          break
+            handleDelete(keys)
+            break
+          }
+          default:
+            break
         }
-        default:
-          break
+      } catch (error) {
+        const ctx = context<AuthenticatedAppContext>()
+        ctx.var.logger.error(
+          `Failed to process successful ${event.type} file action: ${String(error)}`
+        )
       }
     },
   },
@@ -67,10 +91,19 @@ export const files = createFiles({
   ],
 })
 
-function handleUpload(key: string, file: UploadResult | StoredFile) {
+type ParsedUploadResult = z.infer<typeof UploadResultSchema>
+type ParsedStoredFile = z.infer<typeof StoredFileSchema>
+
+function handleUpload(key: string, file: ParsedUploadResult | ParsedStoredFile) {
   const ctx = context<AuthenticatedAppContext>()
-  const mimeType = "contentType" in file ? file.contentType : file.type
-  const name = "name" in file ? file.name : (key.split("/").at(-1) ?? key)
+  const isUploadResult = "contentType" in file
+  const mimeType = isUploadResult ? file.contentType : file.type
+  const metadata = isUploadResult ? undefined : file.metadata
+  const name = isUploadResult ? (key.split("/").at(-1) ?? key) : file.name
+  const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
+  const logFailure = (cause: unknown) => {
+    ctx.var.logger.error(`Failed to record asset: ${String(cause)}`)
+  }
 
   void ctx.var.db
     .insert(assets)
@@ -78,18 +111,18 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
       etag: file.etag,
       key,
       lastModified: file.lastModified,
-      metadata: "metadata" in file ? file.metadata : undefined,
+      metadata,
       name,
-      ownerId: ctx.var.session.user.id as UserId,
+      ownerId: userId,
       size: file.size,
       type: mimeType,
-      uploaderId: ctx.var.session.user.id as UserId,
+      uploaderId: userId,
     })
     .onConflictDoUpdate({
       set: {
         etag: file.etag,
         lastModified: file.lastModified,
-        metadata: "metadata" in file ? file.metadata : undefined,
+        metadata,
         name,
         size: file.size,
         type: mimeType,
@@ -97,25 +130,20 @@ function handleUpload(key: string, file: UploadResult | StoredFile) {
       },
       target: assets.key,
     })
-    .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to record asset: ${String(error)}`)
-    })
+    .catch(logFailure)
 }
 
 function handleDelete(keys: string[]) {
   if (keys.length === 0) return
 
   const ctx = context<AuthenticatedAppContext>()
+  const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
+  const logFailure = (cause: unknown) => {
+    ctx.var.logger.error(`Failed to delete asset records: ${String(cause)}`)
+  }
 
   void ctx.var.db
     .delete(assets)
-    .where(
-      operators.and(
-        operators.inArray(assets.key, keys),
-        operators.eq(assets.ownerId, ctx.var.session.user.id as UserId)
-      )
-    )
-    .catch((error: unknown) => {
-      ctx.var.logger.error(`Failed to delete asset records: ${String(error)}`)
-    })
+    .where(operators.and(operators.inArray(assets.key, keys), operators.eq(assets.ownerId, userId)))
+    .catch(logFailure)
 }

@@ -1,4 +1,3 @@
-import type { ReactNode } from "react"
 import { Stack } from "expo-router"
 import * as React from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
@@ -19,13 +18,13 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const borderValue = useCSSVariable("--color-border")
   const mutedValue = useCSSVariable("--color-muted-foreground")
 
-  const background = typeof backgroundValue === "string" ? backgroundValue : undefined
-  const card = typeof cardValue === "string" ? cardValue : background
-  const foreground = typeof foregroundValue === "string" ? foregroundValue : undefined
-  const borderColor = typeof borderValue === "string" ? borderValue : undefined
-  const input = typeof inputValue === "string" ? inputValue : borderColor
-  const primary = typeof primaryValue === "string" ? primaryValue : foreground
-  const muted = typeof mutedValue === "string" ? mutedValue : undefined
+  const background = colorVariableToString(backgroundValue)
+  const card = colorVariableToString(cardValue) ?? background
+  const foreground = colorVariableToString(foregroundValue)
+  const borderColor = colorVariableToString(borderValue)
+  const input = colorVariableToString(inputValue) ?? borderColor
+  const primary = colorVariableToString(primaryValue) ?? foreground
+  const muted = colorVariableToString(mutedValue)
 
   const canShowOverlay = Boolean(props.searchBar?.content) && (isFocused || searchValue.length > 0)
   const isInline = props.materialPreset === "inline"
@@ -189,17 +188,18 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   )
 }
 
-function renderHeaderView(view: unknown, tintColor: string | undefined): ReactNode {
-  if (typeof view === "function") {
-    const renderView = view as (headerProps: {
-      canGoBack: boolean
-      tintColor?: string
-    }) => ReactNode
+function renderHeaderView(
+  renderView: LargeTitleHeaderProps["leftView"],
+  tintColor: string | undefined
+) {
+  return renderView?.({ canGoBack: false, tintColor })
+}
 
-    return renderView({ canGoBack: false, tintColor })
-  }
+function colorVariableToString(value: string | number | undefined): string | undefined {
+  if (value?.constructor === Number) return undefined
 
-  return view as ReactNode
+  // SAFETY: Uniwind returns only strings, numbers, or undefined, and the numeric case exits above.
+  return value as string | undefined
 }
 
 function searchBarInputTypeToKeyboardType(
@@ -211,9 +211,14 @@ function searchBarInputTypeToKeyboardType(
     phone: "phone-pad",
   } as const
 
-  return inputType && inputType in keyboardTypeByInputType
-    ? keyboardTypeByInputType[inputType as keyof typeof keyboardTypeByInputType]
-    : "default"
+  switch (inputType) {
+    case "email":
+    case "number":
+    case "phone":
+      return keyboardTypeByInputType[inputType]
+    default:
+      return "default"
+  }
 }
 
 export { LargeTitleHeader }

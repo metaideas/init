@@ -39,6 +39,10 @@ const prefix = m.web_landing_ship_targets_prefix()
 </div>
 
 <script>
+  import * as z from "@init/utils/schema"
+
+  const ShipTargetsSchema = z.array(z.string())
+
   const HOLD_DURATION = 2200
   const EXIT_DURATION = 160
   const MOVE_DURATION = 320
@@ -52,7 +56,7 @@ const prefix = m.web_landing_ship_targets_prefix()
     const stage = targetStage
     const phrase = phraseElement
     const copy = copyElement
-    const targets = JSON.parse(stage.dataset.shipTargets ?? "[]") as string[]
+    const targets = ShipTargetsSchema.parse(JSON.parse(stage.dataset.shipTargets ?? "[]"))
     const reducedMotion = globalThis.matchMedia("(prefers-reduced-motion: reduce)")
     let currentIndex = 0
     let isInViewport = true

@@ -1,6 +1,14 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
+import {
+  getAnswerBoolean,
+  getAnswerString,
+  readPackageJson,
+  readPackageName,
+  requireAnswers,
+} from "../boundaries"
+
 type ConnectBackendAnswers = PlopTypes.Answers & {
   app: "app" | "desktop" | "mobile"
   auth: boolean
@@ -13,10 +21,22 @@ type ConnectBackendAnswers = PlopTypes.Answers & {
   workspaceDependenciesChanged?: boolean
 }
 
-type PackageJson = {
-  dependencies?: Record<string, string>
-  devDependencies?: Record<string, string>
-  name?: string
+function parseConnectBackendAnswers(
+  rawAnswers: PlopTypes.Answers | undefined
+): ConnectBackendAnswers {
+  const providedAnswers = requireAnswers(rawAnswers)
+  const app = getAnswerString(providedAnswers, "app")
+  const backend = getAnswerString(providedAnswers, "backend")
+  if (app !== "app" && app !== "desktop" && app !== "mobile")
+    throw new Error(`Unsupported app workspace: ${app}`)
+  if (backend !== "convex" && backend !== "hono" && backend !== "trpc")
+    throw new Error(`Unsupported backend: ${backend}`)
+
+  const auth = getAnswerBoolean(providedAnswers, "auth")
+  const example = getAnswerBoolean(providedAnswers, "example")
+  Object.assign(providedAnswers, { app, auth, backend, example })
+
+  return { ...providedAnswers, app, auth, backend, example }
 }
 
 export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): void {
@@ -31,7 +51,7 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
 
   plop.setGenerator("connect-backend", {
     actions: (rawAnswers) => {
-      const answers = rawAnswers as ConnectBackendAnswers
+      const answers = parseConnectBackendAnswers(rawAnswers)
       const appPath = `apps/${answers.app}`
       const actions: PlopTypes.Actions = []
       const isSupported =
@@ -51,37 +71,18 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
       actions.push(
         async () => {
           if (answers.backend === "convex") {
-            const backendPackageJson = (await Bun.file("packages/backend/package.json").json()) as {
-              name: string
-            }
-            const authPackageJson = (await Bun.file("packages/auth/package.json").json()) as {
-              name: string
-            }
-            const nativeUiPackageJson = (await Bun.file(
-              "packages/native-ui/package.json"
-            ).json()) as { name: string }
-
-            answers.backendPackage = backendPackageJson.name
-            answers.authPackage = authPackageJson.name
-            answers.nativeUiPackage = nativeUiPackageJson.name
+            answers.backendPackage = await readPackageName("packages/backend/package.json")
+            answers.authPackage = await readPackageName("packages/auth/package.json")
+            answers.nativeUiPackage = await readPackageName("packages/native-ui/package.json")
           } else {
-            const apiPackageJson = (await Bun.file("apps/api/package.json").json()) as {
-              name: string
-            }
-            answers.apiPackage = apiPackageJson.name
+            answers.apiPackage = await readPackageName("apps/api/package.json")
 
             if (answers.app === "mobile" && (answers.auth || answers.example)) {
-              const nativeUiPackageJson = (await Bun.file(
-                "packages/native-ui/package.json"
-              ).json()) as { name: string }
-              answers.nativeUiPackage = nativeUiPackageJson.name
+              answers.nativeUiPackage = await readPackageName("packages/native-ui/package.json")
             }
 
             if (answers.app === "mobile" && answers.auth) {
-              const authPackageJson = (await Bun.file("packages/auth/package.json").json()) as {
-                name: string
-              }
-              answers.authPackage = authPackageJson.name
+              answers.authPackage = await readPackageName("packages/auth/package.json")
             }
           }
 
@@ -89,7 +90,7 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
         },
         async () => {
           const packageJsonPath = `${appPath}/package.json`
-          const packageJson = (await Bun.file(packageJsonPath).json()) as PackageJson
+          const packageJson = await readPackageJson(packageJsonPath)
           const dependencies = packageJson.dependencies ?? {}
           const packageNames =
             answers.backend === "convex"
@@ -425,7 +426,7 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
       actions.push(
         async () => {
           if (answers.backend === "trpc") {
-            const packageJson = (await Bun.file(`${appPath}/package.json`).json()) as PackageJson
+            const packageJson = await readPackageJson(`${appPath}/package.json`)
             const installedPackages = {
               ...packageJson.dependencies,
               ...packageJson.devDependencies,
@@ -451,34 +452,7 @@ export function registerConnectBackendGenerator(plop: PlopTypes.NodePlopAPI): vo
           return `[SKIPPED] ${appPath}: dependencies already installed`
         },
         async () => {
-          const generatedPaths = [
-            `${appPath}/package.json`,
-            `${appPath}/.env.development`,
-            `${appPath}/.env.schema`,
-            `${appPath}/src/shared/api.ts`,
-            `${appPath}/src/shared/auth.ts`,
-            `${appPath}/src/shared/components/convex-provider.tsx`,
-            `${appPath}/src/shared/components/providers.tsx`,
-            `${appPath}/src/shared/env.generated.ts`,
-            `${appPath}/src/shared/trpc.tsx`,
-            `${appPath}/src/shared/utils.ts`,
-            `${appPath}/src/app/(auth)/_layout.tsx`,
-            `${appPath}/src/app/(auth)/(authenticated)/index.tsx`,
-            `${appPath}/src/app/(auth)/(authenticated)/backend-example.tsx`,
-            `${appPath}/src/app/(auth)/(authenticated)/convex-example.tsx`,
-            `${appPath}/src/app/(auth)/(unauthenticated)/sign-in.tsx`,
-            `${appPath}/src/app/backend-example.tsx`,
-            `${appPath}/src/routes/backend-example.tsx`,
-            `${appPath}/src/routes/trpc-example.tsx`,
-            `${appPath}/src/routeTree.gen.ts`,
-          ]
-          const checkedPaths = await Promise.all(
-            generatedPaths.map(async (path) => ((await Bun.file(path).exists()) ? path : undefined))
-          )
-          const existingPaths = checkedPaths.filter((path): path is string => path !== undefined)
-
           await Bun.$`cd ${appPath} && varlock codegen`
-          await Bun.$`bun run format -- ${existingPaths}`
           return `Connected apps/${answers.app} to ${answers.backend}`
         }
       )

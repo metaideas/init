@@ -10,10 +10,12 @@ export const PasswordSchema = z
   .min(8, { error: "Password must be more than 8 characters" })
   .max(32, { error: "Password must be less than 32 characters" })
 
+export const NameSchema = z.string().min(1, { error: "Name is required" })
+
 export const SignUpFormSchema = z.object({
   confirmPassword: PasswordSchema,
   email: EmailSchema,
-  name: z.string().min(1, { error: "Name is required" }),
+  name: NameSchema,
   password: PasswordSchema,
 })
 
