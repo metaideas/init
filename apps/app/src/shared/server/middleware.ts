@@ -1,9 +1,9 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
-import { createRequestLogger, parseError } from "@init/observability/logger"
+import { createRequestLogger } from "@init/observability/logger"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
-import { getRequest, getResponseStatus } from "@tanstack/react-start/server"
+import { getRequest, getResponse, getResponseStatus } from "@tanstack/react-start/server"
 import "#shared/logger.ts"
 
 export const withCsrf = createCsrfMiddleware({
@@ -39,7 +39,9 @@ export const withLogger = createMiddleware({ type: "function" }).server(
         log.set({ status: 404 })
       } else {
         log.error(error instanceof Error ? error : String(error))
-        log.set({ status: parseError(error).status })
+        // Start answers a thrown error with the status already set on the response, else 500; the
+        // error's own `status` is ignored.
+        log.set({ status: getResponse().status ?? 500 })
       }
 
       throw error
