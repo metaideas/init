@@ -13,6 +13,7 @@ import {
   normalizeScope,
   readJson,
   removePath,
+  removeTemplateSections,
   runCommand,
   TEMPLATE_SCOPE,
   type Workspace,
@@ -186,7 +187,15 @@ async function cleanupTemplateFiles(rootDir: string) {
   const init = getJsonObject(packageJson, "init")
   const cleanupPaths = init ? (getJsonStringArray(init, "cleanupPaths") ?? []) : []
 
+  const cleanupSections = init ? (getJsonStringArray(init, "cleanupSections") ?? []) : []
+
   await Promise.all(cleanupPaths.map((path) => removePath(rootDir, path)))
+  await Promise.all(
+    cleanupSections.map(async (relativePath) => {
+      const path = join(rootDir, relativePath)
+      await Bun.write(path, removeTemplateSections(await Bun.file(path).text()))
+    })
+  )
 
   delete packageJson["bun-create"]
   delete packageJson.init

@@ -10,7 +10,7 @@
   </p>
 </div>
 
-A modern monorepo Template for the next product you build.
+A modern monorepo template for the next product you build.
 
 ## What's included
 

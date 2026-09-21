@@ -1,7 +1,11 @@
 # init
 
+<!-- TEMPLATE:START -->
+
 init is a TypeScript monorepo template. Developers select the application workspaces
 and package workspaces for their product.
+
+<!-- TEMPLATE:END -->
 
 ## Language
 
@@ -39,10 +43,14 @@ A template command is a local command that configures a scaffolded project or ma
 its workspaces.
 _Avoid_: Generator
 
+<!-- TEMPLATE:START -->
+
 **Internal cleanup path**:
 An internal cleanup path is content that only maintainers use. Setup removes it from a
 scaffolded project.
 _Avoid_: Generated file
+
+<!-- TEMPLATE:END -->
 
 **Backend alternative**:
 A backend alternative is an optional backend shape that a scaffolded project selects.

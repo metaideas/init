@@ -71,6 +71,10 @@
       "docs/agents/issue-tracker.md",
       "docs/agents/triage-labels.md",
       "docs/template"
+    ],
+    "cleanupSections": [
+      "AGENTS.md",
+      "CONTEXT.md"
     ]
   },
   "trustedDependencies": [

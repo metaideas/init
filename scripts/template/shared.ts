@@ -184,6 +184,25 @@ export async function removePath(rootDir: string, relativePath: string) {
   await Bun.$`rm -rf ${path}`.quiet()
 }
 
+const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
+const TEMPLATE_SECTION_END = "<!-- TEMPLATE:END -->"
+
+export function removeTemplateSections(contents: string) {
+  let remaining = contents
+
+  while (remaining.includes(TEMPLATE_SECTION_START)) {
+    const start = remaining.indexOf(TEMPLATE_SECTION_START)
+    const end = remaining.indexOf(TEMPLATE_SECTION_END, start)
+    if (end === -1) {
+      throw new Error(`Expected ${TEMPLATE_SECTION_END} after each ${TEMPLATE_SECTION_START}.`)
+    }
+
+    remaining = remaining.slice(0, start) + remaining.slice(end + TEMPLATE_SECTION_END.length)
+  }
+
+  return remaining.replaceAll(/\n{3,}/g, "\n\n")
+}
+
 export async function runCommand(command: string[], rootDir: string) {
   const process = Bun.spawn(command, {
     cwd: rootDir,
