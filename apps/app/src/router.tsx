@@ -6,11 +6,11 @@ import SuperJSON from "superjson"
 import { routeTree } from "#routeTree.gen.ts"
 import ErrorFallback from "#shared/components/error.tsx"
 import NotFound from "#shared/components/not-found.tsx"
-import { logger } from "#shared/logger.ts"
+import { log } from "#shared/logger.ts"
 
 export type RouterContext = {
   queryClient: QueryClient
-  logger: typeof logger
+  log: typeof log
 }
 
 export function getRouter() {
@@ -23,7 +23,7 @@ export function getRouter() {
 
   const router = createRouter({
     context: {
-      logger,
+      log,
       queryClient,
     } satisfies RouterContext,
     defaultErrorComponent: ErrorFallback,

@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import { View } from "react-native"
 import Providers from "#shared/components/providers.tsx"
 import { useHideSplashScreen } from "#shared/hooks.ts"
-import { logger } from "#shared/logger.ts"
+import { log } from "#shared/logger.ts"
 
 import "#shared/styles/globals.css"
 
@@ -15,7 +15,7 @@ void SplashScreen.preventAutoHideAsync()
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   useEffect(() => {
-    logger.error({ error, message: "Route rendering failed" })
+    log.error({ error, message: "Route rendering failed" })
   }, [error])
 
   return (

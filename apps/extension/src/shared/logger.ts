@@ -1,9 +1,5 @@
-import { createLogger } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
+import { initLogger } from "@init/observability/logger"
 
-export const logger = singleton("logger:extension", () =>
-  createLogger({
-    isDevelopment: import.meta.env.DEV,
-    service: "extension",
-  })
-)
+initLogger({ env: { service: "extension" }, pretty: import.meta.env.DEV })
+
+export { log } from "@init/observability/logger"

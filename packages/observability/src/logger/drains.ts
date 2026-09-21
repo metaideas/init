@@ -6,7 +6,7 @@ import { ENV } from "#env.generated.ts"
 /**
  * Server-side drain shipping wide events to Sentry, wrapped in a pipeline with batching and retry.
  * Returns `undefined` when no DSN is configured so apps can pass the result straight to
- * `createLogger`.
+ * `initLogger`.
  *
  * Server-only: reads the observability environment. Client apps log to the console and rely on
  * Sentry's browser SDK for error capture.

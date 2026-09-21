@@ -7,7 +7,7 @@ import { authComponent } from "#functions/shared/auth.ts"
 
 export const convex = createBuilder<DataModel>()
 
-export const withLogger = convex.createMiddleware((ctx, next) => next({ ...ctx, logger: log }))
+export const withLogger = convex.createMiddleware((ctx, next) => next({ ...ctx, log }))
 
 export type GenericCtx = QueryCtx | ActionCtx | MutationCtx
 

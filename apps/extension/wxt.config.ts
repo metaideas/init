@@ -1,4 +1,4 @@
-import { observability } from "@init/observability/logger/vite"
+import { logTransforms } from "@init/observability/logger/vite"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
@@ -24,7 +24,7 @@ export default defineConfig({
   vite: () => ({
     plugins: [
       varlock(),
-      observability({ service: "extension" }),
+      logTransforms(),
       tailwindcss(),
       paraglide({
         outdir: "./src/shared/internationalization",

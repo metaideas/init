@@ -2,7 +2,7 @@ import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { database } from "@init/db/client"
 import { kv } from "@init/kv/client"
 import { parseError } from "@init/observability/logger"
-import { withRequestLogging } from "@init/observability/logger/hono"
+import { requestLogger } from "@init/observability/logger/hono"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
 import { openAPIRouteHandler } from "hono-openapi"
@@ -17,13 +17,12 @@ import v1Routes from "#routes/v1/index.ts"
 import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import { files } from "#shared/files.ts"
-import { drain } from "#shared/logger.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
 import { allowedOrigins, factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
-app.use(withRequestLogging({ drain }))
+app.use(requestLogger())
 app.use(withLanguageDetection)
 app.use(contextStorage())
 app.use(

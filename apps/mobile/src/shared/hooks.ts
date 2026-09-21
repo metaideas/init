@@ -1,6 +1,6 @@
 import * as SplashScreen from "expo-splash-screen"
 import { useEffect } from "react"
-import { logger } from "#shared/logger.ts"
+import { log } from "#shared/logger.ts"
 
 export function useHideSplashScreen(loaded: boolean) {
   useEffect(() => {
@@ -12,7 +12,7 @@ export function useHideSplashScreen(loaded: boolean) {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {
-        logger.warn({ error, message: "Error hiding splash screen" })
+        log.warn({ error, message: "Error hiding splash screen" })
       }
     }
 
