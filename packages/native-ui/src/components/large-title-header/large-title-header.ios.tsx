@@ -3,12 +3,12 @@ import * as React from "react"
 import { StyleSheet, View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
+import { checkIsLiquidGlassSupported } from "#utils.ts"
 import type {
   LargeTitleHeaderProps,
   NativeStackNavigationOptions,
   NativeStackNavigationSearchBarOptions,
 } from "./types"
-import { checkIsLiquidGlassSupported } from "../../utils"
 
 const isLiquidGlassSupported = checkIsLiquidGlassSupported()
 
