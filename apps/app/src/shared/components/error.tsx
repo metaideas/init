@@ -8,11 +8,11 @@ import {
   EmptyTitle,
 } from "@init/ui/components/empty"
 import { useEffect } from "react"
-import { logger } from "#shared/logger.ts"
+import { log } from "#shared/logger.ts"
 
 export default function ErrorFallback({ error, reset }: ErrorComponentProps) {
   useEffect(() => {
-    logger.error("Route rendering failed", { error })
+    log.error({ error, message: "Route rendering failed" })
   }, [error])
 
   return (

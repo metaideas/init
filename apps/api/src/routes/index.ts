@@ -1,6 +1,8 @@
+import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { database } from "@init/db/client"
 import { kv } from "@init/kv/client"
-import { honoLogger } from "@init/observability/logger/integrations"
+import { isStructuredError, parseError } from "@init/observability/logger"
+import { requestLogger } from "@init/observability/logger/hono"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
 import { openAPIRouteHandler } from "hono-openapi"
@@ -15,14 +17,13 @@ import v1Routes from "#routes/v1/index.ts"
 import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import { files } from "#shared/files.ts"
-import { LoggerCategory, logger } from "#shared/logger.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
 import { allowedOrigins, factory } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
+app.use(requestLogger())
 app.use(withLanguageDetection)
-app.use(honoLogger({ category: LoggerCategory.HONO }))
 app.use(contextStorage())
 app.use(
   secureHeaders({
@@ -45,7 +46,6 @@ app.use(async (c, next) => {
   c.set("db", database())
   c.set("files", files)
   c.set("kv", kv())
-  c.set("logger", logger)
   await next()
 })
 
@@ -54,10 +54,19 @@ app.onError((error, c) => {
     return error.getResponse()
   }
 
-  c.var.logger.error(error.message)
+  c.var.log.error(error)
   captureException(error)
 
-  return c.text("Internal Server Error", 500)
+  if (!isStructuredError(error)) {
+    return c.json({ message: "Internal Server Error" }, 500)
+  }
+
+  const parsed = parseError(error)
+
+  return c.json(
+    { fix: parsed.fix, message: parsed.message, why: parsed.why },
+    parsed.status as ContentfulStatusCode
+  )
 })
 
 app.on(["POST", "GET"], "/auth/**", (c) => c.var.auth.handler(c.req.raw))

@@ -1,4 +1,5 @@
 import { findIp } from "@arcjet/ip"
+import { identifyUser } from "@init/observability/logger/auth"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"
@@ -24,6 +25,7 @@ export const requireSession = createMiddleware<AuthenticatedAppContext>(async (c
   }
 
   c.set("session", session)
+  identifyUser(c.var.log, session)
 
   await next()
 })

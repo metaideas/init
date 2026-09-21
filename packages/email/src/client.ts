@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { SendEmailError, BatchSendEmailError } from "@init/core/errors"
-import { getLogger, LoggerCategory } from "@init/observability/logger"
+import { log } from "@init/observability/logger"
 import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
@@ -16,8 +16,6 @@ type EmailSendParams = {
 }
 
 export const email = singleton("email", () => new Resend(ENV.RESEND_API_KEY))
-
-const logger = getLogger(LoggerCategory.EMAIL)
 
 export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const { emails, subject, sendAt, from = ENV.EMAIL_FROM } = params
@@ -95,13 +93,14 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
 async function previewEmail(body: ReactNode, { emails, from, sendAt, subject }: EmailSendParams) {
   const text = await render(body, { plainText: true })
 
-  logger.warn`📪 MOCK_RESEND is enabled - emails will not be sent`
-  logger.info`📝 Email content preview:`
-  logger.info`FROM: ${from}`
-  logger.info`TO: ${emails.join(", ")}`
-  logger.info`SUBJECT: ${subject}`
-  logger.info`SEND AT: ${sendAt}`
-  logger.info`${"=".repeat(50)}`
-  logger.info`${text}`
-  logger.info`${"=".repeat(50)}`
+  log.warn("email", "📪 MOCK_RESEND is enabled - emails will not be sent")
+  log.info({
+    from,
+    message: "Email content preview",
+    scope: "email",
+    sendAt,
+    subject,
+    text,
+    to: emails,
+  })
 }

@@ -1,4 +1,5 @@
 import "#instrument.ts"
+import "#shared/logger.ts"
 
 import app from "#routes/index.ts"
 import { ENV } from "#shared/env.generated.ts"

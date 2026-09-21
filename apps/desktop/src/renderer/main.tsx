@@ -5,14 +5,14 @@ import ReactDOM from "react-dom/client"
 import { routeTree } from "#renderer/routeTree.gen.ts"
 import ErrorFallback from "#shared/components/error.tsx"
 import Providers from "#shared/components/providers.tsx"
-import { logger } from "#shared/logger.ts"
+import { log } from "#shared/logger.ts"
 import { queryClient } from "#shared/query-client.ts"
 
 import "@init/ui/globals.css"
 
 export type RouterContext = {
   queryClient: QueryClient
-  logger: typeof logger
+  log: typeof log
 }
 
 const history = createHashHistory()
@@ -20,7 +20,7 @@ const history = createHashHistory()
 const router = createRouter({
   Wrap: ({ children }) => <Providers>{children}</Providers>,
   context: {
-    logger: logger.with({ group: "router" }),
+    log,
     queryClient,
   } satisfies RouterContext,
   defaultErrorComponent: ErrorFallback,

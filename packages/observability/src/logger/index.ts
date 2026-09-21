@@ -1,118 +1,65 @@
+import type { LoggerConfig } from "evlog"
 import { isDevelopment } from "@init/utils/env"
-import {
-  type Config,
-  type Logger as LogtapeLogger,
-  configure,
-  configureSync,
-  getConsoleSink,
-  getLogger as getLogtapeLogger,
-  jsonLinesFormatter,
-} from "@logtape/logtape"
-import { getPrettyFormatter } from "@logtape/pretty"
-import { redactSink } from "#logger/utils.ts"
+import { EvlogError, initLogger as configure } from "evlog"
 
-export const LoggerCategory = {
-  CONVEX: ["convex"],
-  DEFAULT: ["default"],
-  DRIZZLE_ORM: ["drizzle-orm"],
-  EMAIL: ["email"],
-  HONO: ["hono"],
-  INNGEST: ["inngest"],
-  LOGTAPE: ["logtape", "meta"],
-} as const satisfies Record<string, string[]>
+/**
+ * The logger, shared by every app and package. It is process-wide: apps configure it once at
+ * startup with `initLogger` (from their `#shared/logger.ts`) and everything else just imports it.
+ */
+export { log } from "evlog"
 
-type LoggerCategoryType = (typeof LoggerCategory)[keyof typeof LoggerCategory]
+const SECRET_WORDS = [
+  "secret",
+  "password",
+  "passphrase",
+  "passcode",
+  "token",
+  "apikey",
+  "api_key",
+  "api-key",
+]
 
-type BuildLoggerOptions = {
-  async?: boolean
-  isDevelopment?: boolean
-}
+/**
+ * Field names masked in every environment, on top of evlog's value-based builtins (emails, JWTs,
+ * card numbers, ...), which stay production-only. A bare word matches the whole key in any casing;
+ * evlog's key globs are case-sensitive, so each word is also globbed in the casings it takes inside
+ * a longer key (`accessToken`, `CLIENT_SECRET`).
+ */
+const REDACTED_FIELDS = SECRET_WORDS.flatMap((word) => [
+  word,
+  `*${word}*`,
+  `*${word.charAt(0).toUpperCase()}${word.slice(1)}*`,
+  `*${word.toUpperCase()}*`,
+])
 
-const LOGGER_CONFIGS = [
-  {
-    category: LoggerCategory.LOGTAPE,
-    lowestLevel: "warning",
-    sinks: ["meta"],
-  },
-  {
-    category: LoggerCategory.INNGEST,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.CONVEX,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.HONO,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.DRIZZLE_ORM,
-    lowestLevel: "debug",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.EMAIL,
-    lowestLevel: "info",
-    sinks: ["console"],
-  },
-  {
-    category: LoggerCategory.DEFAULT,
-    lowestLevel: "trace",
-    sinks: ["console"],
-  },
-] as const satisfies Config<string, string>["loggers"]
-
-export function buildLogger(
-  categories: readonly LoggerCategoryType[],
-  options?: BuildLoggerOptions
-) {
-  if (categories.length === 0) {
-    throw new Error("At least one logger category is required")
-  }
-
-  const isDev = options?.isDevelopment ?? isDevelopment
-  const consoleSink = getConsoleSink({
-    formatter: isDev
-      ? getPrettyFormatter({
-          categoryTruncate: "middle",
-          categoryWidth: 15,
-          levelStyle: "bold",
-          messageStyle: "reset",
-          properties: true,
-          timestamp: "time",
-        })
-      : jsonLinesFormatter,
-    nonBlocking: options?.async === true,
+/**
+ * Configure the logger for an app. Call once at startup; the configuration is process-wide and
+ * last-call-wins. Server apps pass `buildDrain()` from `#logger/drains.ts` as `drain`.
+ *
+ * Secret-shaped fields are redacted by default; pass `redact` to override.
+ */
+export function initLogger(config: LoggerConfig) {
+  configure({
+    redact: { paths: REDACTED_FIELDS, ...(isDevelopment ? { builtins: false } : {}) },
+    ...config,
   })
-
-  const configuredCategories = new Set(categories.map((category) => category.join("/")))
-
-  const config: Config<string, string> = {
-    loggers: LOGGER_CONFIGS.filter((logger) => configuredCategories.has(logger.category.join("/"))),
-    sinks: {
-      console: redactSink(consoleSink),
-      meta: consoleSink,
-    },
-  }
-
-  if (options?.async) {
-    void configure(config)
-  } else {
-    configureSync(config)
-  }
-
-  const defaultCategoryKey = LoggerCategory.DEFAULT.join("/")
-  const defaultCategory = categories.find((category) => category.join("/") === defaultCategoryKey)
-
-  return getLogger(defaultCategory ?? categories[0])
 }
 
-export function getLogger(category: LoggerCategoryType = LoggerCategory.DEFAULT) {
-  return getLogtapeLogger(category)
-}
+/**
+ * Open a request-scoped wide event where evlog has no framework integration (e.g. TanStack Start
+ * request middleware). Accumulate context with `set()` and call `emit()` when the response is ready
+ * — emitted events ship through the drain configured by `initLogger`.
+ */
+export { createRequestLogger } from "evlog"
 
-export type Logger = LogtapeLogger
+export { createError, parseError } from "evlog"
+
+/**
+ * True for errors raised deliberately through `createError`. Only these carry a `message`, `why`
+ * and `fix` written for the caller; anything else may hold internal detail and must not be echoed
+ * in a response.
+ */
+export function isStructuredError(error: unknown) {
+  return EvlogError.isEvlogError(error)
+}
+export type { DrainContext, Log, LoggerConfig, ParsedError, RequestLogger, WideEvent } from "evlog"

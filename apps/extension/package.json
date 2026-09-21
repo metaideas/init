@@ -27,7 +27,6 @@
   "dependencies": {
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
-    "@init/utils": "workspace:*",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "varlock": "1.16.0",

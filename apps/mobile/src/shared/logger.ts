@@ -1,4 +1,5 @@
-import { buildLogger, LoggerCategory } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
+import { initLogger } from "@init/observability/logger"
 
-export const logger = singleton("logger:mobile", () => buildLogger([LoggerCategory.DEFAULT]))
+initLogger({ env: { service: "mobile" } })
+
+export { log } from "@init/observability/logger"

@@ -1,8 +1,5 @@
-import { buildLogger, LoggerCategory } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
+import { initLogger } from "@init/observability/logger"
 
-export const logger = singleton("logger:extension", () =>
-  buildLogger([LoggerCategory.DEFAULT], {
-    isDevelopment: import.meta.env.DEV,
-  })
-)
+initLogger({ env: { service: "extension" }, pretty: import.meta.env.DEV })
+
+export { log } from "@init/observability/logger"
