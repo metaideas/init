@@ -1,9 +1,9 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
-import { createRequestLogger } from "@init/observability/logger"
+import { createRequestLogger, parseError } from "@init/observability/logger"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
-import { getRequest } from "@tanstack/react-start/server"
+import { getRequest, getResponseStatus } from "@tanstack/react-start/server"
 import "#shared/logger.ts"
 
 export const withCsrf = createCsrfMiddleware({
@@ -11,8 +11,8 @@ export const withCsrf = createCsrfMiddleware({
 })
 
 /**
- * Opens one wide event per server function call and emits it when the function settles. Handlers
- * add context through `context.log`.
+ * Opens one wide event per server function call and emits it, with the response status, when the
+ * function settles. Handlers add context through `context.log`.
  */
 export const withLogger = createMiddleware({ type: "function" }).server(
   async ({ next, method, serverFnMeta }) => {
@@ -26,11 +26,20 @@ export const withLogger = createMiddleware({ type: "function" }).server(
     log.set({ serverFn: { filename: serverFnMeta.filename, name: serverFnMeta.name } })
 
     try {
-      return await next({ context: { log } })
+      const result = await next({ context: { log } })
+      log.set({ status: getResponseStatus() })
+
+      return result
     } catch (error) {
-      // Redirects and not-found are control flow, not failures.
-      if (!isRedirect(error) && !isNotFound(error)) {
+      // Function middleware never sees the final Response, so the status is derived from what was
+      // thrown. Redirects and not-found are control flow, not failures.
+      if (isRedirect(error)) {
+        log.set({ status: error.status })
+      } else if (isNotFound(error)) {
+        log.set({ status: 404 })
+      } else {
         log.error(error instanceof Error ? error : String(error))
+        log.set({ status: parseError(error).status })
       }
 
       throw error
