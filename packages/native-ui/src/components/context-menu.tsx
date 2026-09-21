@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 /* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
-import { cn } from "@init/utils/ui"
 import * as ContextMenuPrimitive from "@rn-primitives/context-menu"
+import { cn } from "cn"
 import { Check, ChevronDown, ChevronRight, ChevronUp } from "lucide-react-native"
 import * as React from "react"
 import { Platform, type StyleProp, StyleSheet, Text, View, type ViewStyle } from "react-native"

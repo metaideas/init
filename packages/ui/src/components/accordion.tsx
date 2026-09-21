@@ -1,7 +1,7 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 
+import { cn } from "cn"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (

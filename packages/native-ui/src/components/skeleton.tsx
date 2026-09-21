@@ -1,6 +1,6 @@
 import type * as React from "react"
 import type { View } from "react-native"
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 import Animated, { useAnimatedStyle, withRepeat, withTiming } from "react-native-reanimated"
 
 const duration = 1000

@@ -1,8 +1,8 @@
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu"
 import { cva } from "class-variance-authority"
 
+import { cn } from "cn"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function NavigationMenu({
   align = "start",

@@ -1,7 +1,7 @@
 import { Button } from "@init/ui/components/button"
 import { Icon } from "@init/ui/components/icon"
 import { toast } from "@init/ui/components/toast"
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 import { useState } from "react"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { signIn } from "#shared/auth.ts"

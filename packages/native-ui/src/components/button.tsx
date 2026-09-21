@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
-import { cn } from "@init/utils/ui"
 import { cva, type VariantProps } from "class-variance-authority"
+/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
+import { cn } from "cn"
 import { Platform, Pressable } from "react-native"
 import { TextClassContext } from "#components/text.tsx"
 

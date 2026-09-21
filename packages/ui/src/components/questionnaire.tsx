@@ -1,9 +1,9 @@
 import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionnaire"
 import * as React from "react"
 
+import { cn } from "cn"
 import { buttonVariants, type Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function Questionnaire({
   className,

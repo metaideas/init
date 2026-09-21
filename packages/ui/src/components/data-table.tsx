@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { type ColumnDef, type RowData, tableFeatures, useTable } from "@tanstack/react-table"
 
+import { cn } from "cn"
 import {
   Table,
   TableBody,
@@ -11,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "#components/table.tsx"
-import { cn } from "#utils"
 
 const dataTableFeatures = tableFeatures({})
 

@@ -1,5 +1,5 @@
 import type { LucideIcon, LucideProps } from "lucide-react-native"
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 import * as React from "react"
 import { withUniwind } from "uniwind"
 import { TextClassContext } from "#components/text.tsx"

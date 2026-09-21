@@ -33,6 +33,7 @@
     "@tanstack/react-router": "1.170.18",
     "@tanstack/react-router-ssr-query": "1.167.1",
     "@tanstack/react-start": "1.168.32",
+    "cn": "0.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "superjson": "2.2.6",

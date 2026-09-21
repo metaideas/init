@@ -80,6 +80,6 @@ bun run components:add @rnr/<name>   # add or overwrite from the registry
 bun run components:diff @rnr/<name>  # inspect upstream changes
 ```
 
-After adding a component, re-apply the local conventions: move files from `src/components/ui/` up to `src/components/`, fix the `cn` import to `@init/utils/ui`, and run `bun run format` and `bun run check` from the repository root.
+After adding a component, re-apply the local conventions: move files from `src/components/ui/` up to `src/components/`, fix the `cn` import to `cn`, and run `bun run format` and `bun run check` from the repository root.
 
 Component sources are adapted from [founded-labs/react-native-reusables](https://github.com/founded-labs/react-native-reusables) (MIT), vendored at commit `119d0b101ff0d18408dc392120e12b5c78ae0c05` (2026-07-02).

@@ -1,5 +1,5 @@
+import { cn } from "cn"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (

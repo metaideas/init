@@ -1,4 +1,4 @@
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 import { View } from "react-native"
 import { Text, TextClassContext } from "#components/text.tsx"
 
