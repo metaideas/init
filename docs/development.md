@@ -40,7 +40,7 @@ To run a command for one workspace, use this syntax:
 bun run <command> --filter <workspace>
 ```
 
-Application workspaces separate generation into `codegen:env` and `codegen:i18n`. Their `codegen` script runs both commands at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run either generator independently during development.
+Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web have `codegen:astro` in place of `codegen:i18n`. It runs `astro sync`, which generates the Astro types and compiles the Paraglide messages through the Vite plugin in `astro.config.ts`. This keeps one writer for the message output. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a generator independently during development.
 
 ## Development Servers
 
