@@ -14,9 +14,9 @@
     "boundaries": "turbo boundaries",
     "build": "turbo build",
     "bump:deps": "bun update --interactive --recursive",
-    "check": "bun run codegen && adamantite check",
+    "check": "adamantite check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
-    "codegen": "turbo run codegen --continue --concurrency=1",
+    "codegen": "turbo run codegen --continue --ui=stream --output-logs=errors-only",
     "db:migrate": "turbo --filter @init/db migrate",
     "db:push": "turbo --filter @init/db push",
     "dev": "turbo run dev",
@@ -32,8 +32,7 @@
     "start": "turbo run start",
     "template": "bun --bun run scripts/index.ts template",
     "test": "bun test",
-    "test:watch": "bun test --watch",
-    "typegen": "turbo run typegen --continue"
+    "test:watch": "bun test --watch"
   },
   "devDependencies": {
     "@turbo/gen": "2.10.7",

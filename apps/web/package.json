@@ -11,15 +11,16 @@
     "build": "astro build",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "codegen": "bun run --parallel \"codegen:*\"",
+    "codegen": "bun run --parallel codegen:env codegen:astro",
+    "codegen:astro": "bun run --sequential codegen:i18n codegen:types",
     "codegen:env": "varlock codegen",
-    "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
+    "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization --strategy url globalVariable baseLocale",
+    "codegen:types": "astro sync",
     "dev": "astro dev",
     "env:check": "varlock load",
     "env:scan": "test -d dist && varlock scan --path .env.schema --path .env.development dist",
     "env:scan:build": "astro build",
-    "preview": "astro preview",
-    "typegen": "astro sync"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.4",

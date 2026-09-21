@@ -23,6 +23,16 @@ Before you write code, read the standard that applies to your task:
 - Imports and boundaries: [`docs/agents/imports-and-boundaries.md`](./docs/agents/imports-and-boundaries.md)
 - UI: [`docs/agents/ui.md`](./docs/agents/ui.md)
 
+## Generated files
+
+Generated source files and types are not in version control. `bun run check` does not
+generate them.
+
+- After you clone the repository, create a worktree, or install dependencies, run
+  `bun run codegen`.
+- After you change an `.env.schema` file, a package `env` contract, or the
+  internationalization messages, run `bun run codegen` again.
+
 ## Workspace rules
 
 Each workspace with special rules has its own `AGENTS.md`:

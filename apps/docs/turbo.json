@@ -4,6 +4,10 @@
   "tasks": {
     "build": {
       "outputs": ["dist/**"]
+    },
+    "codegen": {
+      "inputs": ["$TURBO_EXTENDS$", "$TURBO_ROOT$/docs/**"],
+      "outputs": ["$TURBO_EXTENDS$", ".astro/**"]
     }
   }
 }
