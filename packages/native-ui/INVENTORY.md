@@ -106,3 +106,8 @@ Providers: **Portal** means the consuming app must mount a `PortalHost` from
 Plan documents mention Toast, Sheet, Drawer, Command, and ActivityIndicator. The pinned Uniwind
 registry does not contain them. Each one needs a separate public interface decision before it is
 added as a local component.
+
+The `connect-backend` generator template `mobile-auth/_layout.tsx.hbs` renders a loading state.
+It uses `ActivityIndicator` from `react-native`, because this package has no
+`components/activity-indicator` subpath. If the package gets a themed indicator, update the
+template and add an inventory row in the same change.
