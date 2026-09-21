@@ -1,6 +1,7 @@
 import crypto from "node:crypto"
 import { database } from "@init/db/client"
 import { createRequestLogger } from "@init/observability/logger"
+import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
 import { getRequest } from "@tanstack/react-start/server"
 import "#shared/logger.ts"
@@ -27,7 +28,11 @@ export const withLogger = createMiddleware({ type: "function" }).server(
     try {
       return await next({ context: { log } })
     } catch (error) {
-      log.error(error instanceof Error ? error : String(error))
+      // Redirects and not-found are control flow, not failures.
+      if (!isRedirect(error) && !isNotFound(error)) {
+        log.error(error instanceof Error ? error : String(error))
+      }
+
       throw error
     } finally {
       log.emit()

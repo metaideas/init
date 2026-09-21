@@ -1,7 +1,7 @@
 import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { database } from "@init/db/client"
 import { kv } from "@init/kv/client"
-import { parseError } from "@init/observability/logger"
+import { isStructuredError, parseError } from "@init/observability/logger"
 import { requestLogger } from "@init/observability/logger/hono"
 import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
@@ -56,6 +56,10 @@ app.onError((error, c) => {
 
   c.var.log.error(error)
   captureException(error)
+
+  if (!isStructuredError(error)) {
+    return c.json({ message: "Internal Server Error" }, 500)
+  }
 
   const parsed = parseError(error)
 
