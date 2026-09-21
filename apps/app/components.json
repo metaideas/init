@@ -5,7 +5,7 @@
     "hooks": "#shared/hooks",
     "lib": "#shared/utils",
     "ui": "@init/ui/components",
-    "utils": "cn"
+    "utils": "#shared/utils"
   },
   "rsc": true,
   "style": "base-vega",
