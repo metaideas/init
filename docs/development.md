@@ -23,7 +23,7 @@ These commands match the scripts in the root `package.json`.
 | `bun run dev:packages` | Start package workspaces.                             |
 | `bun run build`        | Build all workspaces.                                 |
 | `bun run clean`        | Remove build artifacts.                               |
-| `bun run check`        | Generate types and run Adamantite checks.             |
+| `bun run check`        | Run Adamantite checks.                                |
 | `bun run codegen`      | Generate workspace source and environment types.      |
 | `bun run env:check`    | Validate Varlock workspaces in parallel.              |
 | `bun run env:scan`     | Build client artifacts and scan for sensitive values. |

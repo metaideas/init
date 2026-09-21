@@ -5,6 +5,9 @@
     "build": {
       "env": [],
       "outputs": [".output/**"]
+    },
+    "codegen": {
+      "outputs": ["$TURBO_EXTENDS$", ".wxt/**"]
     }
   }
 }

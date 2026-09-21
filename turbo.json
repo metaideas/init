@@ -49,7 +49,6 @@
       "persistent": true
     },
     "codegen": {
-      "dependsOn": ["typegen"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/packages/*/env/**",
@@ -73,7 +72,6 @@
       "cache": false,
       "dependsOn": ["codegen", "^codegen"]
     },
-    "typegen": {},
     "//#analyze": {},
     "//#check": {},
     "//#check:monorepo": {},

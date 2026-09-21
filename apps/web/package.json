@@ -14,12 +14,12 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
+    "codegen:types": "astro sync",
     "dev": "astro dev",
     "env:check": "varlock load",
     "env:scan": "test -d dist && varlock scan --path .env.schema --path .env.development dist",
     "env:scan:build": "astro build",
-    "preview": "astro preview",
-    "typegen": "astro sync"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.4",

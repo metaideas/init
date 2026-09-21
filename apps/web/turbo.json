@@ -6,8 +6,9 @@
       "env": ["PUBLIC_SITE_URL"],
       "outputs": ["dist/**"]
     },
-    "typegen": {
-      "env": ["PUBLIC_SITE_URL"]
+    "codegen": {
+      "env": ["PUBLIC_SITE_URL"],
+      "outputs": ["$TURBO_EXTENDS$", ".astro/**"]
     }
   }
 }
