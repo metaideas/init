@@ -1,9 +1,9 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />

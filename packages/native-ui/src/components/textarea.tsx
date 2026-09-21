@@ -1,4 +1,4 @@
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 import { Platform, TextInput } from "react-native"
 
 function Textarea({

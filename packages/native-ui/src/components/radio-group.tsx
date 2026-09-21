@@ -1,6 +1,6 @@
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
-import { cn } from "@init/utils/ui"
 import * as RadioGroupPrimitive from "@rn-primitives/radio-group"
+/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
+import { cn } from "cn"
 import { Platform } from "react-native"
 
 function RadioGroup({

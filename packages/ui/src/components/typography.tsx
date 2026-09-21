@@ -1,5 +1,5 @@
 import type React from "react"
-import { cn } from "@init/utils/ui"
+import { cn } from "cn"
 
 function H1({ className, children, ...props }: React.ComponentProps<"h1">) {
   return (

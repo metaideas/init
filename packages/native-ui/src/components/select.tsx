@@ -1,6 +1,6 @@
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
-import { cn } from "@init/utils/ui"
 import * as SelectPrimitive from "@rn-primitives/select"
+/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
+import { cn } from "cn"
 import { Check, ChevronDown, ChevronDownIcon, ChevronUpIcon } from "lucide-react-native"
 import * as React from "react"
 import { Platform, StyleSheet, View } from "react-native"

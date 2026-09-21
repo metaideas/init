@@ -8,9 +8,9 @@ import {
 } from "@shadcn/react/message-scroller"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function MessageScrollerProvider(
   props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>

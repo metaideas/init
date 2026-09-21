@@ -17,7 +17,6 @@
     "components:diff": "shadcn add --diff"
   },
   "dependencies": {
-    "@init/utils": "workspace:*",
     "@rn-primitives/accordion": "1.5.2",
     "@rn-primitives/alert-dialog": "1.5.2",
     "@rn-primitives/aspect-ratio": "1.5.2",
@@ -43,6 +42,7 @@
     "@rn-primitives/toggle-group": "1.5.2",
     "@rn-primitives/tooltip": "1.5.2",
     "class-variance-authority": "0.7.1",
+    "cn": "0.3.0",
     "expo-glass-effect": "~57.0.1",
     "expo-router": "~57.0.10",
     "lucide-react-native": "0.577.0",

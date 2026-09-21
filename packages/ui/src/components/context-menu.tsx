@@ -1,8 +1,8 @@
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />

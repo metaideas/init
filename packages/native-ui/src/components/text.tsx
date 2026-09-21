@@ -1,6 +1,6 @@
-import { cn } from "@init/utils/ui"
 import { Slot } from "@rn-primitives/slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
 import * as React from "react"
 import { Platform, Text as RNText, type Role } from "react-native"
 

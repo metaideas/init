@@ -1,6 +1,6 @@
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
-import { cn } from "@init/utils/ui"
 import * as SeparatorPrimitive from "@rn-primitives/separator"
+/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
+import { cn } from "cn"
 
 function Separator({
   className,

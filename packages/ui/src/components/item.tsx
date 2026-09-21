@@ -3,8 +3,8 @@ import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Separator } from "#components/separator.tsx"
-import { cn } from "#utils"
 
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (

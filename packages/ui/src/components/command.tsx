@@ -1,6 +1,7 @@
 import { Command as CommandPrimitive } from "cmdk"
 import * as React from "react"
 
+import { cn } from "cn"
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import {
 } from "#components/dialog.tsx"
 import { Icon } from "#components/icon.tsx"
 import { InputGroup, InputGroupAddon } from "#components/input-group.tsx"
-import { cn } from "#utils"
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (

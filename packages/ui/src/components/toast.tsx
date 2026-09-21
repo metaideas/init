@@ -3,9 +3,9 @@
 import { Toast as ToastPrimitive } from "@base-ui/react/toast"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
-import { cn } from "#utils"
 
 const toast = ToastPrimitive.createToastManager()
 

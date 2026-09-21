@@ -1,6 +1,7 @@
 import { Combobox as ComboboxPrimitive } from "@base-ui/react"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
 import {
@@ -9,7 +10,6 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "#components/input-group.tsx"
-import { cn } from "#utils"
 
 const Combobox = ComboboxPrimitive.Root
 

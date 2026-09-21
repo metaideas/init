@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
+import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
 import { Input } from "#components/input.tsx"
@@ -17,7 +18,6 @@ import {
 import { Skeleton } from "#components/skeleton.tsx"
 import { Tooltip, TooltipContent, TooltipTrigger } from "#components/tooltip.tsx"
 import { useIsMobile } from "#hooks/use-mobile.ts"
-import { cn } from "#utils"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

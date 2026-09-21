@@ -1,6 +1,6 @@
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
-import { cn } from "@init/utils/ui"
 import * as AccordionPrimitive from "@rn-primitives/accordion"
+/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
+import { cn } from "cn"
 import { ChevronDown } from "lucide-react-native"
 import { Platform, Pressable, View } from "react-native"
 import Animated, {
