@@ -16,6 +16,6 @@ type BuildTransformOptions = {
  * Runtime configuration stays with `initLogger` in each app's `#shared/logger.ts`; evlog's
  * auto-init plugin is deliberately left out.
  */
-export function logTransforms(options: BuildTransformOptions = {}) {
+export function logger(options: BuildTransformOptions = {}) {
   return [createStripPlugin(options.strip ?? ["debug"]), createSourceLocationPlugin()]
 }
