@@ -117,7 +117,7 @@ Docker infrastructure uses fixed host ports. These ports can conflict across pro
 
 ### Troubleshooting
 
-- For a Bun version mismatch, run `bun --version`. Update to `1.3.x`.
+- For a Bun version mismatch, run `bun --version`. Update to `1.4.x`.
 - For a Node version mismatch, install Node.js `>=24` with the version manager.
 - When Docker services do not run, examine `docker ps`. Then run `bun run docker:up`.
 - For missing environment variables, run `bun run env:check`. Then examine the owning `.env.schema` and the ignored `.env.local` overrides.
