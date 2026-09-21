@@ -4,9 +4,9 @@ import {
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
-import { tanstackStartCookies as cookies } from "@init/auth/integrations/start"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
+import { tanstackStartCookies as cookies } from "@init/auth/start"
 import { database } from "@init/db/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
