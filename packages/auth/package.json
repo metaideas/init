@@ -11,11 +11,10 @@
     "./client/plugins": "./src/client/plugins.ts",
     "./constants": "./src/constants.ts",
     "./expo/*": "./src/expo/*.ts",
-    "./integrations/expo/*": "./src/integrations/expo/*.ts",
-    "./integrations/start": "./src/integrations/start.ts",
     "./permissions": "./src/permissions.ts",
     "./server": "./src/server/index.ts",
-    "./server/plugins": "./src/server/plugins.ts"
+    "./server/plugins": "./src/server/plugins.ts",
+    "./start": "./src/start.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
