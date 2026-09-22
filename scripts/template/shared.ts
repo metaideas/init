@@ -173,7 +173,7 @@ export function checkIsPathWithinRoot(rootDir: string, path: string) {
   )
 }
 
-export async function removePath(rootDir: string, relativePath: string) {
+export function resolvePathWithinRoot(rootDir: string, relativePath: string) {
   const resolvedRootDir = resolve(rootDir)
   const path = resolve(resolvedRootDir, relativePath)
 
@@ -181,7 +181,11 @@ export async function removePath(rootDir: string, relativePath: string) {
     throw new Error(`Cleanup path must be within the project: ${relativePath}.`)
   }
 
-  await Bun.$`rm -rf ${path}`.quiet()
+  return path
+}
+
+export async function removePath(rootDir: string, relativePath: string) {
+  await Bun.$`rm -rf ${resolvePathWithinRoot(rootDir, relativePath)}`.quiet()
 }
 
 const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
@@ -197,10 +201,26 @@ export function removeTemplateSections(contents: string) {
       throw new Error(`Expected ${TEMPLATE_SECTION_END} after each ${TEMPLATE_SECTION_START}.`)
     }
 
-    remaining = remaining.slice(0, start) + remaining.slice(end + TEMPLATE_SECTION_END.length)
+    remaining = joinAroundRemovedSection(
+      remaining.slice(0, start),
+      remaining.slice(end + TEMPLATE_SECTION_END.length)
+    )
   }
 
-  return remaining.replaceAll(/\n{3,}/g, "\n\n")
+  return remaining
+}
+
+function joinAroundRemovedSection(before: string, after: string) {
+  const trailingNewlines = /\n*$/.exec(before)?.[0] ?? ""
+  const leadingNewlines = /^\n*/.exec(after)?.[0] ?? ""
+  const isAtStart = before.length === trailingNewlines.length
+  const isAtEnd = after.length === leadingNewlines.length
+
+  if (isAtStart) return after.slice(leadingNewlines.length)
+  if (isAtEnd) return `${before.slice(0, before.length - trailingNewlines.length)}\n`
+  if (trailingNewlines.length === 0 || leadingNewlines.length === 0) return before + after
+
+  return `${before.slice(0, before.length - trailingNewlines.length)}\n\n${after.slice(leadingNewlines.length)}`
 }
 
 export async function runCommand(command: string[], rootDir: string) {

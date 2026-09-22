@@ -14,6 +14,7 @@ import {
   readJson,
   removePath,
   removeTemplateSections,
+  resolvePathWithinRoot,
   runCommand,
   TEMPLATE_SCOPE,
   type Workspace,
@@ -192,7 +193,7 @@ async function cleanupTemplateFiles(rootDir: string) {
   await Promise.all(cleanupPaths.map((path) => removePath(rootDir, path)))
   await Promise.all(
     cleanupSections.map(async (relativePath) => {
-      const path = join(rootDir, relativePath)
+      const path = resolvePathWithinRoot(rootDir, relativePath)
       await Bun.write(path, removeTemplateSections(await Bun.file(path).text()))
     })
   )
