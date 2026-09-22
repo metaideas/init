@@ -65,14 +65,10 @@
   },
   "init": {
     "cleanupPaths": [
-      ".github/workflows/pullfrog.yml",
-      "docs/agents/issue-tracker.md",
-      "docs/agents/triage-labels.md",
-      "docs/template"
+      ".github/workflows/pullfrog.yml"
     ],
     "cleanupSections": [
-      "AGENTS.md",
-      "CONTEXT.md"
+      "AGENTS.md"
     ]
   },
   "trustedDependencies": [

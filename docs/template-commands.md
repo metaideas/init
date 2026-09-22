@@ -15,7 +15,7 @@ Configure a newly created project. This command does the following:
 - It sets the project name, which is also the package scope.
 - It rewrites `@init/` references with the project name.
 - It records the source template, commit, and creation time in `.template.json`.
-- It removes content that only template maintainers use, including the marked template sections of `AGENTS.md` and `CONTEXT.md`.
+- It removes content that only template maintainers use, including the marked template sections of `AGENTS.md`.
 
 ```bash
 bun template setup
