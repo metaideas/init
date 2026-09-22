@@ -4,6 +4,9 @@
   "description": "Web and product analytics",
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./product/*": "./src/product/*.ts",
     "./web": "./src/web.ts"

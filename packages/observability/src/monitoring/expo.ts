@@ -19,9 +19,6 @@ export function initializeErrorMonitoring() {
     sendDefaultPii: true,
 
     tracesSampleRate: monitoringSampleRate,
-
-    // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
-    // spotlight: __DEV__,
   })
 }
 

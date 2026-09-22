@@ -25,7 +25,7 @@ export function rewriteDocsHref(href: string, sourceDocument = "index.mdx") {
   return fragment ? `${route}#${fragment}` : route
 }
 
-export default function rewriteDocsLinks() {
+export function rewriteDocsLinks() {
   return function transform(tree: MarkdownNode, file: MarkdownFile) {
     const sourceDocument = file.path
       ? relative(docsRoot, file.path).replaceAll("\\", "/")

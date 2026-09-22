@@ -8,7 +8,7 @@ import { defineConfig } from "astro/config"
 
 import { DOCS_DESCRIPTION, DOCS_URL, GITHUB_URL, SITE_NAME } from "./src/shared/constants.ts"
 import { ENV } from "./src/shared/env.generated.ts"
-import rewriteDocsLinks from "./src/shared/markdown-links.ts"
+import { rewriteDocsLinks } from "./src/shared/markdown-links.ts"
 
 const { marketingUrl } = await import("./src/shared/utils.ts")
 const site = ENV.PUBLIC_SITE_URL ?? DOCS_URL

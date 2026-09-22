@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import * as TogglePrimitive from "@rn-primitives/toggle"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"

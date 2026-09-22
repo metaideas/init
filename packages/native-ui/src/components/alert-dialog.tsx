@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import * as AlertDialogPrimitive from "@rn-primitives/alert-dialog"
 import { cn } from "cn"
 import * as React from "react"

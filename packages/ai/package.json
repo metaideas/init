@@ -4,6 +4,9 @@
   "description": "AI integrations and model provider registry",
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./helpers/ai-sdk": "./src/helpers/ai-sdk.ts",
     "./helpers/tanstack-ai": "./src/helpers/tanstack-ai.ts",
