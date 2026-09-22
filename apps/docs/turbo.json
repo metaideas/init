@@ -1,13 +1,15 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema": "https://v2-10-7.turborepo.dev/schema.json",
   "extends": ["//"],
   "tasks": {
     "build": {
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "env": ["PUBLIC_SITE_URL"]
     },
     "codegen": {
       "inputs": ["$TURBO_EXTENDS$", "$TURBO_ROOT$/docs/**"],
-      "outputs": ["$TURBO_EXTENDS$", ".astro/**"]
+      "outputs": ["$TURBO_EXTENDS$", ".astro/**"],
+      "env": ["PUBLIC_SITE_URL"]
     }
   }
 }

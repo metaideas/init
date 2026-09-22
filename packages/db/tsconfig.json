@@ -1,5 +1,4 @@
 {
   "extends": "@tooling/tsconfig/internal-package.json",
-  "include": ["drizzle.config.ts", "src", "scripts", "reset.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["drizzle.config.ts", "src", "scripts", "reset.d.ts"]
 }

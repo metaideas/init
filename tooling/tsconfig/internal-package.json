@@ -3,8 +3,9 @@
   "extends": "./base.json",
   "compilerOptions": {
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "jsx": "preserve"
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["${configDir}/src", "${configDir}/reset.d.ts"],
+  "display": "Internal package"
 }
