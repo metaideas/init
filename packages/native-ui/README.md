@@ -4,6 +4,3 @@
 
 React Native UI components library built with
 [React Native Reusables](https://reactnativereusables.com).
-
-See [Package Guidance](../../docs/packages.md#native-ui) for usage, the component
-inventory, and the add/update workflow.

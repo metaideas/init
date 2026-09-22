@@ -15,7 +15,6 @@ function Input({
             Platform.select({ web: "disabled:pointer-events-none disabled:cursor-not-allowed" })
           ),
         Platform.select({
-          native: "placeholder:text-muted-foreground/50",
           web: cn(
             "transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground md:text-sm",
             "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
@@ -24,6 +23,7 @@ function Input({
         }),
         className
       )}
+      placeholderTextColorClassName={Platform.select({ native: "accent-muted-foreground/50" })}
       {...props}
     />
   )
