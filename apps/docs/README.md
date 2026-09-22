@@ -34,9 +34,7 @@ assets. Editing a root document and rebuilding publishes the change; there is no
 command or duplicate content tree.
 
 The loader in `src/content.config.ts` publishes top-level guides, `docs/architecture/`,
-and `docs/es/`. It excludes `docs/agents/`, `docs/template/`, and `docs/adr/` by
-default so maintainer guidance, upstream governance, research, and application-owner
-decisions do not enter public routes or search.
+and `docs/es/`. Any other path under `docs/` stays out of public routes and search.
 
 ## Customize the site
 
