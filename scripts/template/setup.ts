@@ -339,12 +339,12 @@ export default defineCommand({
     await pruneWorkspaces(rootDir, packages, selection.keepPackages)
     await renameProject({ projectName, rootDir, scope: projectName, sourceScope })
     await writeTemplateStamp(rootDir)
+    await cleanupTemplateFiles(rootDir)
 
     if (shouldInitializeGit && !(await Bun.file(join(rootDir, ".git")).exists()))
       await runCommand(["git", "init"], rootDir)
     if (shouldInstall) await runCommand(["bun", "install"], rootDir)
 
-    await cleanupTemplateFiles(rootDir)
     consola.success("Template setup complete.")
   },
 })
