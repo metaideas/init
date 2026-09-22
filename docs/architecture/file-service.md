@@ -14,7 +14,7 @@ can provide compatible S3 configuration through environment validation in the AP
 workspace.
 
 The gateway is part of the API workspace when you select it. The local `files-client`
-generator creates optional, copy-once client integrations.
+template command creates optional, copy-once client integrations.
 
 ## Security boundaries
 
@@ -25,4 +25,4 @@ generator creates optional, copy-once client integrations.
 - Filter provider errors and metadata before they cross the trust boundary.
 
 Changes to accepted content, size limits, key scoping, or authentication alter the
-application's security policy. Record each change in an application decision record.
+application's security policy. Document each change in the pull request that makes it.

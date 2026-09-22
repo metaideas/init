@@ -1,14 +1,14 @@
 ---
 title: Project Structure
-description: Navigate the Application, Package, infrastructure, and tooling workspaces in init and their import boundaries.
+description: Navigate the application, package, infrastructure, and tooling workspaces in init and their import boundaries.
 ---
 
-The Template has the following folders:
+The template has the following folders:
 
 - `apps` - Application workspaces for multiple platforms and user-facing products.
 - `infra` - Infrastructure code for local development and cloud providers.
-- `packages` - Shared internal Package workspaces for Application workspaces. Backends on hosted platforms, such as Convex, also exist here. Application workspaces consume them as libraries. They deploy independently.
-- `tooling` - Shared configuration for development and helpers for scripts. Put configuration here when workspaces use it and it does not relate to a specific Package workspace.
+- `packages` - Shared internal package workspaces for application workspaces. Backends on hosted platforms, such as Convex, also exist here. Application workspaces consume them as libraries. They deploy independently.
+- `tooling` - Shared configuration for development and helpers for scripts. Put configuration here when workspaces use it and it does not relate to a specific package workspace.
 
 ## General monorepo structure
 
@@ -34,7 +34,7 @@ root
   │   ├── core                  # Shared core logic and business rules
   │   ├── db                    # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
-  │   ├── kv                    # Redis client database integration using Upstash
+  │   ├── kv                    # Key-value storage using unstorage with the Redis driver
   │   ├── native-ui             # Reusable React Native UI components
   │   ├── observability         # Wide-event logging with evlog, error tracking and monitoring with Sentry
   │   ├── payments              # Payment processing utilities using Stripe
@@ -42,58 +42,64 @@ root
   │   ├── utils                 # Shared helpers and constants for packages and apps
   │   └── workflows             # Background tasks and workflows using Inngest
   │
+  ├── scripts             # Template commands (bun template setup, rename, add)
+  │
   ├── tooling             # Shared development and build tools
   │   ├── internationalization  # Inlang project configuration and translations
   │   └── tsconfig              # TypeScript configuration
   │
   └── turbo               # Turborepo configuration for monorepo management
-      └── generators        # Code generators for packages and tooling
+      └── generators        # Template recipes that bun run generate applies
 ```
 
 ## App structure
 
-Each Application workspace has a `src` folder. It contains the source code for the Application workspace.
+Each application workspace has a `src` folder. It contains the source code for the application workspace.
 
 Application workspaces usually use three folders:
 
-- The main router, such as `app` for Expo or `routes` for TanStack Start and Vite projects.
-  - The browser extension has an additional folder. It forms part of the routing logic.
+- The main router, such as `app` for Expo, `routes` for TanStack Start and TanStack Router, `pages` for Astro, or `entrypoints` for WXT.
 - A `shared` folder for utilities and components.
-- A `features` folder for modules by feature.
+- A `features` folder for vertical slices of the product.
 
-These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The `app/routing` folder can import from the `features` or `shared` folder. Neither folder can import from the `app/routing` folder. This flow organizes the code and makes it easier to understand.
+These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The router folder can import from the `features` or `shared` folder. Neither folder can import from the router folder. This flow organizes the code and makes it easier to understand.
 
-Feature folders are vertical slices in an Application workspace. A feature folder does not depend on another feature folder. This structure organizes the code and makes it easier to understand. Before you import an item from another feature, determine if the `shared` folder can contain it.
+Feature folders are vertical slices in an application workspace. A feature folder does not depend on another feature folder. Before you import an item from another feature, determine if the `shared` folder can contain it.
+
+Every application workspace also owns an `.env.schema` contract and a generated `src/shared/env.generated.ts` binding. See [Environment configuration](../environment.md).
 
 ### API
 
-This API server uses Hono and runs on Bun with TypeScript. It provides TRPC endpoints.
+This API server uses Hono and runs on Bun with TypeScript. It provides tRPC endpoints and the Files SDK gateway.
 
 ```sh
 apps/api
   └── src/                    # Source code
-      ├── index.ts              # Entry point to the worker
-      ├── client.ts             # Hono and TRPC client type to be used in other apps
+      ├── index.ts              # Entry point to the server
+      ├── client.ts             # Hono and tRPC client types for other apps
       ├── instrument.ts         # Error monitoring instrumentation
       │
       ├── routes/               # Routing
-      │   ├── index.tsx           # Router entrypoint
-      │   └── ...                 # Other routes
+      │   ├── index.ts            # Router entrypoint, global middleware, and error handler
+      │   ├── files.ts            # Files SDK gateway
+      │   ├── health.ts           # Health check
+      │   ├── trpc.ts             # tRPC adapter
+      │   ├── workflows.ts        # Inngest endpoint
+      │   └── v1/                 # Versioned REST routes
       │
       ├── shared/               # Shared utilities and helpers
-      │   ├── middleware.ts       # Global middleware
-      │   ├── constants.ts        # Constant values and enums
-      │   ├── env.ts              # Environment variables
+      │   ├── auth.ts             # Better Auth server instance
+      │   ├── files.ts            # Files SDK composition
+      │   ├── logger.ts           # Logger instance
+      │   ├── middleware.ts       # Reusable middleware
+      │   ├── trpc.ts             # tRPC context and procedures
       │   ├── types.ts            # Shared types
       │   └── utils.ts            # General utility functions
       │
-      └── features/             # Feature based modules
-          └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-              ├── router.ts         # Feature-specific router
-              ├── procedures.ts     # Feature-specific procedures
-              ├── types.ts          # Feature-specific types
-              ├── utils.ts          # Feature-specific utilities
-              └── validation.ts     # Feature-specific validation schemas
+      └── features/             # Feature folders
+          └── [feature]/          # Specific feature (e.g. auth, demo)
+              ├── procedures.ts     # Feature-specific tRPC procedures
+              └── functions.ts      # Feature-specific workflow functions
 ```
 
 ### App
@@ -104,81 +110,62 @@ This web application uses TanStack Start. It provides authentication and full-st
 apps/app
   ├── src/                    # Source code
   │   ├── routes/               # File-based routing for TanStack Start
-  │   │   ├── (unauthenticated)/ # Unauthenticated routes (sign in, sign up, etc.)
-  │   │   ├── (authenticated)/   # Authenticated routes (dashboard, settings, etc.)
-  │   │   └── api/               # API routes
+  │   │   ├── __root.tsx          # Root route and document shell
+  │   │   ├── _unauthenticated/   # Unauthenticated routes (sign in, sign up, etc.)
+  │   │   ├── _authenticated/     # Authenticated routes (dashboard, settings, etc.)
+  │   │   └── api/                # API routes such as the auth handler
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/             # Static assets shared across the app (images, icons, etc.)
-  │   │   ├── auth/               # Authentication client and helpers
-  │   │   ├── components/         # Reusable components
-  │   │   ├── hooks/              # Custom React hooks
-  │   │   ├── server/             # Server-side code
-  │   │   │   ├── middleware.ts       # Global middleware
-  │   │   │   └── functions.ts        # Shared server functions for data fetching and mutations
-  │   │   ├── stores/             # Global state management stores
-  │   │   ├── styles/             # Global styles
-  │   │   ├── env.ts              # Environment variable configuration
-  │   │   ├── constants.ts        # Constant values and enums
-  │   │   ├── types.ts            # TypeScript type definitions
-  │   │   ├── utils.ts            # General utility functions
-  │   │   └── validation.ts       # Form and data validation schemas
+  │   │   ├── assets/             # Static assets shared across the app
+  │   │   ├── components/         # Reusable components, providers, error and not-found views
+  │   │   ├── server/             # Shared server functions, middleware, and serialization
+  │   │   ├── auth.ts             # Authentication client
+  │   │   ├── logger.ts           # Logger instance
+  │   │   └── utils.ts            # General utility functions
   │   │
-  │   ├── features/             # Feature-based modules
-  │   │   └──[feature]/           # Specific feature (e.g., auth, dashboard, settings)
-  │   │       ├── assets/           # Feature-specific assets
+  │   ├── features/             # Feature folders
+  │   │   └── [feature]/          # Specific feature (e.g. auth, demo, theme)
   │   │       ├── components/       # Feature-specific components
   │   │       ├── server/           # Feature-specific server functions
-  │   │       │   ├── middleware.ts       # Feature-specific middleware
-  │   │       │   └── functions.ts        # Feature-specific server functions for data fetching and mutations
-  │   │       ├── hooks.ts          # Feature-specific custom hooks
-  │   │       ├── stores.ts         # Feature-specific state stores
-  │   │       ├── types.ts          # Feature-specific type definitions
-  │   │       ├── utils.ts          # Feature-specific utility functions
+  │   │       ├── constants.ts      # Feature-specific constants
   │   │       └── validation.ts     # Feature-specific validation schemas
   │   │
-  │   └── instrumentation.ts    # Monitoring and analytics instrumentation
+  │   ├── router.tsx            # Router factory and context
+  │   ├── routeTree.gen.ts      # Generated route tree (committed)
+  │   ├── client.tsx            # Browser entry
+  │   ├── server.ts             # Server entry
+  │   └── start.ts              # TanStack Start instance
   │
-  └── global.d.ts               # Global TypeScript declarations
+  ├── reset.d.ts                # ts-reset type improvements
+  └── vite.config.ts            # Vite configuration
 ```
 
 ### Mobile
 
-This mobile application uses Expo and React Native. It provides authentication and native capabilities.
+This mobile application uses Expo and React Native. It provides native capabilities and connects to a backend through `connect-backend`.
 
 ```sh
 apps/mobile
   ├── src/                    # Source code
-  │   ├── app/                  # App router
+  │   ├── app/                  # Expo Router routes
+  │   │   ├── _layout.tsx         # Root layout and providers
+  │   │   ├── index.tsx           # Home screen
+  │   │   └── +not-found.tsx      # Not found screen
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/            # Static assets shared across the app
-  │   │   ├── styles/            # Global styles
-  │   │   ├── components/        # Shared components used across the entire app
-  │   │   ├── hooks.ts           # Custom React hooks
-  │   │   ├── i18n.ts            # Internationalization setup
-  │   │   ├── stores.ts          # Global state stores
-  │   │   ├── auth.ts            # Authentication client and helpers
-  │   │   ├── api.ts             # Global API and query client
-  │   │   ├── constants.ts       # Constant values and enums
-  │   │   ├── env.ts             # Environment variables
-  │   │   ├── types.ts           # Shared types
-  │   │   ├── utils.ts           # Shared utilities for the app
-  │   │   └── validation.ts      # Shared validation schemas
+  │   │   ├── assets/             # Icons and splash images
+  │   │   ├── components/         # Shared components and providers
+  │   │   ├── styles/             # Global styles
+  │   │   ├── hooks.ts            # Custom React hooks
+  │   │   ├── logger.ts           # Logger instance
+  │   │   └── query-client.ts     # TanStack Query client
   │   │
-  │   └── features/             # Feature based modules
-  │       └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-  │           ├── assets/          # Feature-specific assets
-  │           ├── components/      # Feature-specific components
-  │           ├── hooks.ts         # Feature-specific hooks
-  │           ├── mutations.ts     # Feature-specific mutations
-  │           ├── queries.ts       # Feature-specific queries
-  │           ├── stores.ts        # Feature-specific global state stores
-  │           ├── types.ts         # Feature-specific types
-  │           ├── utils.ts         # Feature-specific utilities
-  │           └── validation.ts    # Feature-specific validation schemas
+  │   ├── features/             # Feature folders, added by connect-backend or by you
+  │   ├── index.ts              # Expo Router entry
+  │   └── instrument.ts         # Error monitoring instrumentation
   │
-  └── app.config.ts             # Expo configuration
+  ├── scripts/codegen.ts        # Paraglide compilation for Metro
+  └── app.config.js             # Expo configuration
 ```
 
 ### Desktop
@@ -187,110 +174,76 @@ This desktop application uses Electron Forge. It combines an Electron main proce
 
 ```sh
 apps/desktop
-  └── src/                    # Source code
-      ├── shell/                # Electron main process and preload script
-      │
-      ├── renderer/             # Renderer entry and file-based TanStack Router routes
-      │
-      ├── shared/               # Shared utilities and helpers
-      │   ├── assets/            # Static assets shared across the app
-      │   ├── styles/            # Global styles
-      │   ├── components/        # Shared components used across the entire app
-      │   ├── auth.ts            # Authentication client and helpers
-      │   ├── hooks.ts           # Custom React hooks
-      │   ├── stores.ts          # Global state stores
-      │   ├── api.ts             # Global API and query client
-      │   ├── constants.ts       # Constant values and enums
-      │   ├── env.ts             # Environment variables
-      │   ├── types.ts           # Shared types
-      │   ├── utils.ts           # Shared utilities for the app
-      │   └── validation.ts      # Shared validation schemas
-      │
-      └── features/             # Feature based modules
-          └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-              ├── assets/          # Feature-specific assets
-              ├── components/      # Feature-specific components
-              ├── hooks.ts         # Feature-specific hooks
-              ├── mutations.ts     # Feature-specific mutations
-              ├── queries.ts       # Feature-specific queries
-              ├── stores.ts        # Feature-specific global state stores
-              ├── types.ts         # Feature-specific types
-              ├── utils.ts         # Feature-specific utilities
-              └── validation.ts    # Feature-specific validation schemas
+  ├── src/                    # Source code
+  │   ├── shell/                # Electron main process and preload script
+  │   │   ├── main.ts             # Main process
+  │   │   └── preload.ts          # Preload script that exposes window.desktop
+  │   │
+  │   ├── renderer/             # Renderer entry and file-based TanStack Router routes
+  │   │   ├── main.tsx            # Renderer entry and router context
+  │   │   ├── routes/             # Routes
+  │   │   └── routeTree.gen.ts    # Generated route tree (committed)
+  │   │
+  │   ├── shared/               # Shared utilities and helpers
+  │   │   ├── components/         # Shared components, providers, and error view
+  │   │   ├── desktop-bridge.ts   # Typed bridge contract between shell and renderer
+  │   │   ├── logger.ts           # Logger instance
+  │   │   └── query-client.ts     # TanStack Query client
+  │   │
+  │   └── features/             # Feature folders
+  │       └── [feature]/          # Specific feature (e.g. local-files)
+  │           ├── components/       # Feature-specific components
+  │           └── mutations.ts      # Feature-specific mutations
   │
+  ├── forge.config.ts           # Electron Forge configuration
+  ├── vite.main.config.ts       # Vite configuration for the main process
+  ├── vite.preload.config.ts    # Vite configuration for the preload script
+  └── vite.renderer.config.ts   # Vite configuration for the renderer
 ```
+
+The renderer never imports from `shell`. See [Desktop behavior](./desktop.md).
 
 ### Extension
 
-This web extension uses the WXT framework. It provides enhanced web browsing capabilities in Chrome, Firefox, and other browsers.
+This web extension uses the WXT framework. It runs in Chrome, Firefox, and other browsers.
 
 ```sh
 apps/extension
   ├── src/                    # Source code
-  │   ├── entrypoints/          # Entrypoints
-  │   │   ├── popup/              # Popup entrypoint
-  │   │   ├── background/         # Background script entrypoint
-  │   │   └── ...                 # Other entrypoints
+  │   ├── entrypoints/          # WXT entrypoints
+  │   │   ├── background.ts       # Background script
+  │   │   └── popup/              # Popup entrypoint
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── assets/            # Assets processed by WXT
-  │   │   ├── styles/            # Global styles
-  │   │   ├── components/        # Shared components used across the entire extension
-  │   │   ├── services/          # Shared services
-  │   │   ├── stores/            # Global state stores
-  │   │   ├── api.ts            # Global API and query client
-  │   │   ├── auth.ts           # Authentication client and helpers
-  │   │   ├── constants.ts      # Constant values and enums
-  │   │   ├── env.ts            # Environment variables
-  │   │   ├── hooks.ts          # Shared hooks
-  │   │   ├── i18n.ts           # Internationalization
-  │   │   ├── types.ts          # Shared types
-  │   │   ├── utils.ts          # Shared utilities for the app
-  │   │   └── validation.ts     # Shared validation schemas
+  │   │   ├── assets/             # Assets processed by WXT
+  │   │   └── logger.ts           # Logger instance
   │   │
-  │   └── features/             # Feature based modules
-  │       └──[feature]/           # Specific feature (e.g. auth, dashboard, settings)
-  │           ├── assets/          # Feature-specific assets
-  │           ├── components/      # Feature-specific components
-  │           ├── hooks/         # Feature-specific hooks
-  │           ├── mutations.ts     # Feature-specific mutations
-  │           ├── queries.ts       # Feature-specific queries
-  │           ├── services.ts      # Feature-specific services
-  │           ├── stores.ts        # Feature-specific global state stores
-  │           ├── types.ts         # Feature-specific types
-  │           ├── utils.ts         # Feature-specific utilities
-  │           └── validation.ts    # Feature-specific validation schemas
+  │   └── features/             # Feature folders
+  │       └── [feature]/          # Specific feature (e.g. demo)
+  │           └── components/       # Feature-specific components
   │
-  └── public/                 # Static assets not processed by WXT. Includes the extension icon.
+  └── wxt.config.ts             # WXT configuration
 ```
 
 ### Docs
 
-This documentation website uses Astro and Starlight. It provides project documentation with search and navigation features.
+This documentation website uses Astro and Starlight. It reads the root `docs/` folder directly and owns only presentation.
 
 ```sh
 apps/docs
   ├── src/                    # Source code
-  │   ├── content/              # Documentation content
-  │   │   └── docs/             # Documentation pages
-  │   │       ├── .../         # Other documentation pages
-  │   │       ├── [/lang]/      # Localized routes
-  │   │       │   ├── .../      # Localized pages
-  │   │       │   └── index.mdx # Localized homepage
-  │   │       └── index.mdx     # Homepage
+  │   ├── pages/                # Custom pages (404)
   │   │
   │   ├── shared/               # Shared utilities and assets
-  │   │   ├── assets/           # Images and static files
-  │   │   ├── components/       # Reusable components
-  │   │   ├── i18n.ts           # Internationalization setup
-  │   │   ├── stores.ts         # Global state stores
-  │   │   ├── auth.ts           # Authentication client and helpers
-  │   │   ├── api.ts            # Global API and query client
-  │   │   └── styles/           # Global styles
+  │   │   ├── components/         # Starlight component overrides
+  │   │   ├── styles/             # Global styles
+  │   │   ├── constants.ts        # Site constants
+  │   │   ├── markdown-links.ts   # Rewrites relative Markdown links to site routes
+  │   │   └── utils.ts            # General utility functions
   │   │
-  │   └── content.config.ts     # Content collection configuration
+  │   ├── content.config.ts     # Content collection that loads root docs/
+  │   └── middleware.ts         # Astro middleware
   │
-  ├── public/                   # Static assets
   └── astro.config.ts           # Astro and Starlight configuration
 ```
 
@@ -302,27 +255,27 @@ This marketing website and blog use Astro. They use static content and SEO optim
 apps/web
   ├── src/                    # Source code
   │   ├── pages/                # Pages
-  │   │   ├── [lang]/              # Localized routes
-  │   │   │   ├── .../             # Other pages
-  │   │   │   │   └── [slug].astro # Dynamic pages
-  │   │   │   ├── 404.astro        # Not found page
-  │   │   │   └── index.astro      # Homepage
-  │   │   └── index.astro          # Root redirect page
+  │   │   ├── [lang]/             # Localized routes
+  │   │   │   ├── blog/[slug].astro # Blog posts
+  │   │   │   ├── 404.astro         # Not found page
+  │   │   │   └── index.astro       # Homepage
+  │   │   ├── 404.astro           # Root not found page
+  │   │   └── index.astro         # Root redirect page
   │   │
   │   ├── content/              # Content collections
-  │   │   └── .../                # Other content collections
-  │   │       ├── [/lang]/        # Localized routes
-  │   │       │   ├── .../        # Localized pages
-  │   │       │   └── index.mdx   # Localized homepage
-  │   │       └── index.mdx       # Homepage
+  │   │   └── blog/               # Blog posts by locale
   │   │
   │   ├── shared/               # Shared utilities and helpers
-  │   │   ├── components/         # Reusable components
-  │   │   │   └── layout.astro    # Main layout component
-  │   │   └── env.ts              # Environment variable configuration
+  │   │   ├── components/         # Layout components
+  │   │   └── constants.ts        # Site constants
+  │   │
+  │   ├── features/             # Feature folders
+  │   │   └── landing/            # Landing page components and content
   │   │
   │   ├── content.config.ts     # Content collections configuration
   │   └── middleware.ts         # Astro middleware (to enable i18n for static builds)
+  │
+  └── astro.config.ts           # Astro configuration
 ```
 
 ## Package structure
@@ -335,12 +288,12 @@ packages/package-name
   └── scripts/                # Scripts
 ```
 
-Run the following command to create a new Package workspace:
+Run the following command to create a new package workspace:
 
 ```sh
 bun run generate new-package
 ```
 
 The `bun run generate code-snippets` command provides optional copy-once package code.
-Run `connect-backend` to connect an Application workspace to an existing backend workspace. See
+Run `connect-backend` to connect an application workspace to an existing backend workspace. See
 [Project generators](../generators.md) for both workflows.

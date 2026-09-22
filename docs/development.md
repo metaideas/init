@@ -9,7 +9,7 @@ sidebar:
 
 See [Getting Started](./getting-started.md) for the required versions. Use these versions:
 
-- Bun `1.3.x`
+- Bun `1.4.x`
 - Node.js `>=24`
 
 ## Commands
@@ -22,17 +22,24 @@ These commands match the scripts in the root `package.json`.
 | `bun run dev:apps`     | Start application workspaces.                         |
 | `bun run dev:packages` | Start package workspaces.                             |
 | `bun run build`        | Build all workspaces.                                 |
+| `bun run start`        | Start the built workspaces.                           |
 | `bun run clean`        | Remove build artifacts.                               |
-| `bun run check`        | Run Adamantite checks.                                |
+| `bun run check`        | Run Adamantite lint, format, and type checks.         |
+| `bun run fix`          | Apply safe lint fixes and format code.                |
+| `bun run analyze`      | Detect unused dependencies, files, and exports.       |
 | `bun run codegen`      | Generate workspace source and environment types.      |
 | `bun run env:check`    | Validate Varlock workspaces in parallel.              |
 | `bun run env:scan`     | Build client artifacts and scan for sensitive values. |
-| `bun run fix`          | Correct issues with Adamantite.                       |
-| `bun run format`       | Format code with Adamantite.                          |
 | `bun run test`         | Run the test suite.                                   |
+| `bun run test:watch`   | Run the test suite in watch mode.                     |
+| `bun run db:push`      | Push the Drizzle schema to the database.              |
+| `bun run db:migrate`   | Run the Drizzle migrations.                           |
 | `bun run docker:up`    | Start the local services.                             |
 | `bun run docker:down`  | Stop the local services.                              |
-| `bun run boundaries`   | Generate the report for dependency boundaries.        |
+| `bun run boundaries`   | Check Turborepo package boundaries.                   |
+| `bun run generate`     | Run a template recipe with Turbo generators.          |
+| `bun template`         | Run a template command (`setup`, `rename`, `add`).    |
+| `bun run scripts`      | Run the project script entry point.                   |
 
 To run a command for one workspace, use this syntax:
 
@@ -40,7 +47,7 @@ To run a command for one workspace, use this syntax:
 bun run <command> --filter <workspace>
 ```
 
-Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web also have `codegen:types`, which runs `astro sync`. `astro sync` compiles the Paraglide messages again through the Vite plugin in `astro.config.ts`, so these workspaces use `codegen:astro` to run `codegen:i18n` and then `codegen:types` in sequence. Only one process writes the message output at a time, and the output of the Vite plugin is the final result. Keep the `--strategy` value of `codegen:i18n` the same as the `strategy` in `astro.config.ts`. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a generator independently during development.
+Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. Mobile compiles the messages with `scripts/codegen.ts` so Metro receives the strategy it needs. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web also have `codegen:types`, which runs `astro sync`. `astro sync` compiles the Paraglide messages again through the Vite plugin in `astro.config.ts`, so these workspaces use `codegen:astro` to run `codegen:i18n` and then `codegen:types` in sequence. Only one process writes the message output at a time, and the output of the Vite plugin is the final result. Keep the `--strategy` value of `codegen:i18n` the same as the `strategy` in `astro.config.ts`. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a `codegen:*` script on its own during development. `bun install` runs `bun run codegen` through the root `postinstall` script, so a fresh clone or worktree starts with generated files.
 
 ## Development Servers
 
@@ -63,10 +70,8 @@ Package development servers use the 4000 block in alphabetical order: `db` on `4
 
 ## Managing Dependencies
 
-- `bun run bump:deps` - Update dependencies interactively.
-- `bun run analyze` - Detect unused dependencies and files.
-- `bun run check:monorepo` - Validate monorepo rules.
-- `bun run fix:monorepo` - Correct monorepo issues automatically.
+- `bun run bump:deps` - Update dependencies interactively across workspaces.
+- `bun run analyze` - Detect unused dependencies, files, and exports.
 
 ## Template Management
 

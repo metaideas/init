@@ -13,7 +13,7 @@ sidebar:
 
 ## Tooling Expectations
 
-- Bun: `1.3.x` (matches `package.json` `packageManager`)
+- Bun: `1.4.x` (matches `package.json` `packageManager`)
 - Node.js: `>=24` (matches `package.json` `engines`)
 
 ## Create a Project
@@ -57,15 +57,15 @@ The command does the following:
 
 These are alternatives, not layers that every project must run. Application workspaces connect to a backend explicitly. No client connects to `packages/backend` by default.
 
-After you select a backend alternative, connect an application workspace with the backend generator:
+After you select a backend alternative, connect an application workspace with the `connect-backend` template command:
 
 ```bash
 bun run generate connect-backend
 ```
 
-See [Project generators](./generators.md) for supported combinations and command-line examples. The generator configures local connections. It does not deploy a backend or create external credentials.
+See [Project generators](./generators.md) for supported combinations and command-line examples. The template command configures local connections. It does not deploy a backend or create external credentials.
 
-3. Generate source files and types:
+3. Confirm the generated source files and types. `bun install` generates them through the root `postinstall` script. Run the command again after you change an environment contract or a message catalog:
 
 ```bash
 bun run codegen
@@ -103,7 +103,6 @@ At the repository root, `bun run dev` runs all workspaces through Turbo. Inside 
 ### First Run Checklist
 
 - Run `bun template setup`.
-- Generate source files and types with `bun run codegen`.
 - Start services with `bun run docker:up`.
 - Start the development servers with `bun run dev`.
 
