@@ -28,6 +28,7 @@
     "env:scan": "turbo run env:scan --continue",
     "fix": "adamantite fix",
     "generate": "bun --bun turbo generate",
+    "postinstall": "bun run codegen",
     "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
     "template": "bun --bun run scripts/index.ts template",
