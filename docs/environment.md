@@ -54,7 +54,7 @@ Varlock writes `env.generated.ts`. Import the generated binding directly. Keep t
 import { ENV } from "#shared/env.generated.ts"
 ```
 
-Do not read project configuration from `process.env` or `import.meta.env` in application code. Do not alias the generated binding to lowercase `env`. Do not edit the generated file by hand.
+Do not read project configuration from `process.env` or `import.meta.env` in application code. Do not alias the generated binding to lowercase `env`. Do not edit the generated file by hand. The file is not in version control: `bun run codegen` regenerates it.
 
 ## Environment selection
 

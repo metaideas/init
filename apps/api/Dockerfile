@@ -20,11 +20,14 @@ RUN bun install
 
 COPY --from=builder /app/out/full/ .
 
+# Generate the ignored environment bindings and message catalogs for the pruned workspaces
+RUN bun run codegen
+
 # Runner stage: production image with non-root user
 FROM installer AS runner
 
 USER root
-RUN addgroup --system --gid 1001 appgroup && adduser --system --uid 1001 --ingroup appgroup appuser
+RUN groupadd --system --gid 1001 appgroup && useradd --system --uid 1001 --gid appgroup appuser
 RUN chown -R appuser:appgroup /app
 USER appuser
 

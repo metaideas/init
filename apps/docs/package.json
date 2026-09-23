@@ -37,6 +37,7 @@
     "@astrojs/ts-plugin": "1.10.6",
     "@inlang/paraglide-js": "2.23.0",
     "@tailwindcss/vite": "4.3.3",
+    "@tooling/internationalization": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/bun": "1.4.2",
     "@varlock/astro-integration": "1.3.0",

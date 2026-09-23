@@ -19,6 +19,10 @@
 # Source code for packages (needed for turbo prune to copy dependencies)
 !packages/**/src/**
 
+# Environment contracts and fragments (needed by varlock codegen)
+!packages/**/.env.schema
+!packages/**/env/**
+
 # TypeScript configs for packages (needed for module resolution)
 !packages/**/tsconfig.json
 
@@ -30,3 +34,8 @@
 
 # TypeScript configs for tooling (needed for module resolution)
 !tooling/**/tsconfig.json
+
+# Internationalization project and message catalogs (needed by paraglide codegen)
+!tooling/internationalization/project.inlang/settings.json
+!tooling/internationalization/project.inlang/.meta.json
+!tooling/internationalization/messages/**
