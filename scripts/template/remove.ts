@@ -55,13 +55,22 @@ export default defineCommand({
     const dependents = workspaces
       .filter((entry) => entry.dependencies.includes(target.packageName))
       .map((entry) => getWorkspacePath(entry))
-    const referencingFiles = await findTextReferences(rootDir, target.packageName)
-    const references = referencingFiles.map((path) => relative(rootDir, path))
+    const terms =
+      target.kind === "app"
+        ? [`"${target.packageName}"`, targetPath]
+        : [target.packageName, targetPath]
+    const referencingFiles = await Promise.all(
+      terms.map((term) => findTextReferences(rootDir, term))
+    )
+    const references = [...new Set(referencingFiles.flat())]
+      .map((path) => relative(rootDir, path))
+      .filter((path) => path !== "bun.lock")
+      .toSorted()
 
     if (dependents.length > 0)
       consola.warn(`Workspaces that depended on it: ${dependents.join(", ")}`)
     if (references.length > 0) {
-      consola.warn(`Files that still mention ${target.packageName}:\n  ${references.join("\n  ")}`)
+      consola.warn(`Files that still reference ${targetPath}:\n  ${references.join("\n  ")}`)
     }
 
     consola.info("Remove the references above, run bun install, then bun template doctor.")
