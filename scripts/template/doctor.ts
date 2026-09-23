@@ -178,8 +178,11 @@ const checks: Check[] = [
       )
 
       if (!stamp) {
-        const cleanupPaths = getJsonStringArray(init ?? {}, "cleanupPaths") ?? []
-        const cleanupSections = getJsonStringArray(init ?? {}, "cleanupSections") ?? []
+        if (!init)
+          return ["package.json has no init field, so setup cannot remove template content"]
+
+        const cleanupPaths = getJsonStringArray(init, "cleanupPaths") ?? []
+        const cleanupSections = getJsonStringArray(init, "cleanupSections") ?? []
         const missingPaths = await Promise.all(
           cleanupPaths.map(async (path) =>
             (await Bun.file(join(rootDir, path)).exists()) ? undefined : path
@@ -234,7 +237,11 @@ const checks: Check[] = [
 ]
 
 async function runTool(rootDir: string, command: readonly string[]) {
-  const result = await Bun.$`bun run ${command}`.cwd(rootDir).quiet().nothrow()
+  const result = await Bun.$`bun run ${command}`
+    .cwd(rootDir)
+    .env({ ...process.env, VARLOCK_ENV: process.env.VARLOCK_ENV ?? "development" })
+    .quiet()
+    .nothrow()
   if (result.exitCode === 0) return []
 
   return [
