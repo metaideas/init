@@ -9,17 +9,12 @@
     "verbatimModuleSyntax": false,
     "skipLibCheck": true,
     "allowJs": true,
-
     "lib": ["ESNext"],
-
     "module": "Preserve",
     "moduleResolution": "Bundler",
-
     "incremental": true,
     "isolatedModules": true,
-
     "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
     "disableSourceOfProjectReferenceRedirect": true
-  },
-  "exclude": ["node_modules", "dist"]
+  }
 }

@@ -1,9 +1,6 @@
 {
-  "extends": "@tooling/tsconfig/internal-package.json",
+  "extends": "@tooling/tsconfig/dom-package.json",
   "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": ["bun"]
-  },
-  "include": ["src", "reset.d.ts"],
-  "exclude": ["node_modules"]
+  }
 }

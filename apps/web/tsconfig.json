@@ -1,11 +1,12 @@
 {
   "extends": "@tooling/tsconfig/app.json",
   "compilerOptions": {
-    "jsx": "preserve",
-    // Properly support importing CJS modules in ESM
     "esModuleInterop": true,
-    "plugins": [{ "name": "@astrojs/ts-plugin" }]
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
   },
-  "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"],
-  "exclude": ["dist", "node_modules"]
+  "include": [".astro/types.d.ts", "src", "reset.d.ts", "astro.config.ts"]
 }

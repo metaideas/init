@@ -12,6 +12,7 @@
     "./globals.css": "./src/styles/globals.css"
   },
   "scripts": {
+    "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "components:add": "shadcn add",
     "components:diff": "shadcn add --diff"

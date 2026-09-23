@@ -1,9 +1,5 @@
 {
   "extends": "@tooling/tsconfig/app.json",
-  "compilerOptions": {
-    "jsx": "preserve"
-  },
-  "exclude": ["node_modules"],
   "include": [
     "reset.d.ts",
     "src",
