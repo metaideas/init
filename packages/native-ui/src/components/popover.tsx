@@ -1,5 +1,4 @@
 import * as PopoverPrimitive from "@rn-primitives/popover"
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import { cn } from "cn"
 import * as React from "react"
 import { Platform, StyleSheet } from "react-native"

@@ -1,5 +1,4 @@
 import * as CheckboxPrimitive from "@rn-primitives/checkbox"
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import { cn } from "cn"
 import { Check } from "lucide-react-native"
 import { Platform } from "react-native"

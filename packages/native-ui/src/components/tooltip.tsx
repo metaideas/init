@@ -1,5 +1,4 @@
 import * as TooltipPrimitive from "@rn-primitives/tooltip"
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import { cn } from "cn"
 import * as React from "react"
 import { Platform, StyleSheet } from "react-native"

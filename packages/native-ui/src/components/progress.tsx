@@ -1,5 +1,4 @@
 import * as ProgressPrimitive from "@rn-primitives/progress"
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import { cn } from "cn"
 import { Platform, View } from "react-native"
 import Animated, {

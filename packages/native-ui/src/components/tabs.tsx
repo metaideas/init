@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import * as TabsPrimitive from "@rn-primitives/tabs"
 import { cn } from "cn"
 import { Platform } from "react-native"

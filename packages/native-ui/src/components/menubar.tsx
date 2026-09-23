@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import * as MenubarPrimitive from "@rn-primitives/menubar"
 import { Portal } from "@rn-primitives/portal"
 import { cn } from "cn"

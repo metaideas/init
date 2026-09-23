@@ -3,6 +3,9 @@
   "private": true,
   "description": "Email templating and sending service using Resend",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "exports": {
     "./client": "./src/client.ts",
     "./templates/*": "./src/templates/*.tsx"

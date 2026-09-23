@@ -1,5 +1,4 @@
 import * as SwitchPrimitives from "@rn-primitives/switch"
-/* eslint-disable import/namespace -- oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles */
 import { cn } from "cn"
 import { Platform } from "react-native"
 
