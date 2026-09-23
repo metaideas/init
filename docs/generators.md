@@ -1,11 +1,11 @@
 ---
 title: Project Generators
-description: Use local template recipes to add features, package workspaces, backend connections, snippets, and Files SDK clients.
+description: Use local template recipes to add features, package workspaces, snippets, and Files SDK clients.
 ---
 
 Run `bun run generate` to open the Turbo generator menu. Template commands use local template recipes from the exact template snapshot in the project. They do not download a catalog. They do not update previously generated files. They do not track template drift.
 
-`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, backend connections, code snippets, and the Files SDK client integration. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
+`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, code snippets, and the Files SDK client integration. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
 
 ## Add code snippets
 
@@ -40,56 +40,7 @@ Both scaffold template commands preserve existing files on a repeat run.
 
 ## Connect a backend
 
-`connect-backend` provides one interface for the maintained backend connections:
-
-```bash
-bun run generate connect-backend
-bun run generate connect-backend --args <app> <backend> <auth> <example>
-```
-
-For example:
-
-```bash
-bun run generate connect-backend --args mobile convex false false
-bun run generate connect-backend --args app hono true false
-bun run generate connect-backend --args desktop trpc false true
-```
-
-The arguments specify the target application workspace, backend alternative, auth connection, and additive example. The prompts accept `true` and `false`. Convex always enables auth. Desktop requires the auth value to be `false`.
-
-| Backend | Targets                    | Auth behavior                                                        |
-| ------- | -------------------------- | -------------------------------------------------------------------- |
-| Convex  | `mobile`                   | Auth is required.                                                    |
-| Hono    | `app`, `desktop`, `mobile` | Auth is optional on `app` and `mobile`. Desktop does not support it. |
-| tRPC    | `app`, `desktop`           | Auth is optional on `app`. Desktop does not support it.              |
-
-Unsupported combinations fail before a write. The backend workspace for the connection must already exist:
-
-- Convex requires `packages/backend`. Restore it with `bun template add package backend`.
-- Hono and tRPC require `apps/api`. Restore it with `bun template add app api`.
-
-The template command reads package names from workspace manifests. Connections continue to work after `bun template rename`. It installs external tRPC dependencies with exact versions.
-
-### Generated ownership
-
-The connections add files and use the `shared/components/providers.tsx` seam that the template provides. Repeat runs skip user-owned files instead of replacing them. The command prints every skip.
-
-| Connection    | Owned files and additive seams                                                                                                                       |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Convex mobile | `shared/auth.ts`, `shared/components/convex-provider.tsx`, the `(auth)` route group, Convex keys in `.env.schema`, and optional `convex-example.tsx` |
-| Hono app      | `shared/api.ts`, the application-owned optional `PUBLIC_API_URL`, and optional `routes/backend-example.tsx`                                          |
-| Hono desktop  | `shared/api.ts`, `shared/utils.ts`, API URL schema/development values, and optional `routes/backend-example.tsx`                                     |
-| Hono mobile   | `shared/api.ts`, `shared/utils.ts`, API URL schema/development values, optional `shared/auth.ts`, auth routes, and an example screen                 |
-| tRPC app      | `shared/trpc.tsx`, provider seam entry, the application-owned optional `PUBLIC_API_URL`, and optional `routes/trpc-example.tsx`                      |
-| tRPC desktop  | `shared/trpc.tsx`, provider seam entry, `shared/utils.ts`, API URL schema/development values, and optional `routes/trpc-example.tsx`                 |
-
-Examples are additive. You can delete them independently. The command does not modify existing dashboards, sign-up forms, server functions, or default mobile routes. On mobile, only screens moved into `app/(auth)/(authenticated)/` require a session. The default routes remain public.
-
-The Convex mobile provider connects `ConvexQueryClient` to the existing persisted TanStack Query client of the application workspace. Generated queries use `useQuery(convexQuery(api.example.query, args))`. They retain Convex real-time updates and expose TanStack Query states such as `isPending` and `isError`. The backend client export `useConvexQuery` remains the native Convex hook for cases that require it.
-
-For `apps/app`, setting `PUBLIC_API_URL` selects the remote Hono auth/API deployment. Removing it restores the local `${PUBLIC_BASE_URL}/api` handler. When you use both deployments, keep the Better Auth cookie, secret, plugin, and trusted-origin configuration compatible.
-
-The former `hono-client` and `trpc-client` commands are removed. Use `connect-backend` to apply dependency, environment, provider, auth, and example connections consistently.
+Backend connections are not a generator. The `connect-backend` skill in `.agents/skills/connect-backend/` carries the supported matrix, the environment keys, the provider seam, and reference sources for the Hono, tRPC, and Convex clients. A coding agent applies it and verifies the result with `bun template doctor`.
 
 ## Add a Files SDK client
 

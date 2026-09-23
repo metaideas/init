@@ -21,14 +21,6 @@ export function getAnswerString(answers: PlopTypes.Answers, key: string) {
   return String(value)
 }
 
-export function getAnswerBoolean(answers: PlopTypes.Answers, key: string) {
-  const value = answers[key]
-  if (value === undefined || value === null || value.constructor !== Boolean)
-    throw new Error(`Expected generator answer ${key} to be a boolean.`)
-
-  return Boolean(value)
-}
-
 export function getAnswerStrings(answers: PlopTypes.Answers, key: string) {
   const value = answers[key]
   if (Array.isArray(value) && value.every((entry) => entry?.constructor === String))

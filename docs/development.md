@@ -16,30 +16,30 @@ See [Getting Started](./getting-started.md) for the required versions. Use these
 
 These commands match the scripts in the root `package.json`.
 
-| Command                | Description                                           |
-| ---------------------- | ----------------------------------------------------- |
-| `bun run dev`          | Start all workspaces on their fixed local ports.      |
-| `bun run dev:apps`     | Start application workspaces.                         |
-| `bun run dev:packages` | Start package workspaces.                             |
-| `bun run build`        | Build all workspaces.                                 |
-| `bun run start`        | Run the `start` task of each workspace.               |
-| `bun run clean`        | Remove build artifacts.                               |
-| `bun run check`        | Run Adamantite lint, format, and type checks.         |
-| `bun run fix`          | Apply safe lint fixes and format code.                |
-| `bun run analyze`      | Detect unused dependencies, files, and exports.       |
-| `bun run codegen`      | Generate workspace source and environment types.      |
-| `bun run env:check`    | Validate Varlock workspaces in parallel.              |
-| `bun run env:scan`     | Build client artifacts and scan for sensitive values. |
-| `bun run test`         | Run the test suite.                                   |
-| `bun run test:watch`   | Run the test suite in watch mode.                     |
-| `bun run db:push`      | Push the Drizzle schema to the database.              |
-| `bun run db:migrate`   | Run the Drizzle migrations.                           |
-| `bun run docker:up`    | Start the local services.                             |
-| `bun run docker:down`  | Stop the local services.                              |
-| `bun run boundaries`   | Check Turborepo package boundaries.                   |
-| `bun run generate`     | Run a template recipe with Turbo generators.          |
-| `bun template`         | Run a template command (`setup`, `rename`, `add`).    |
-| `bun run scripts`      | Run the project script entry point.                   |
+| Command                | Description                                                          |
+| ---------------------- | -------------------------------------------------------------------- |
+| `bun run dev`          | Start all workspaces on their fixed local ports.                     |
+| `bun run dev:apps`     | Start application workspaces.                                        |
+| `bun run dev:packages` | Start package workspaces.                                            |
+| `bun run build`        | Build all workspaces.                                                |
+| `bun run start`        | Run the `start` task of each workspace.                              |
+| `bun run clean`        | Remove build artifacts.                                              |
+| `bun run check`        | Run Adamantite lint, format, and type checks.                        |
+| `bun run fix`          | Apply safe lint fixes and format code.                               |
+| `bun run analyze`      | Detect unused dependencies, files, and exports.                      |
+| `bun run codegen`      | Generate workspace source and environment types.                     |
+| `bun run env:check`    | Validate Varlock workspaces in parallel.                             |
+| `bun run env:scan`     | Build client artifacts and scan for sensitive values.                |
+| `bun run test`         | Run the test suite.                                                  |
+| `bun run test:watch`   | Run the test suite in watch mode.                                    |
+| `bun run db:push`      | Push the Drizzle schema to the database.                             |
+| `bun run db:migrate`   | Run the Drizzle migrations.                                          |
+| `bun run docker:up`    | Start the local services.                                            |
+| `bun run docker:down`  | Stop the local services.                                             |
+| `bun run boundaries`   | Check Turborepo package boundaries.                                  |
+| `bun run generate`     | Run a template recipe with Turbo generators.                         |
+| `bun template`         | Run a template command (`setup`, `doctor`, `add`, `remove`, `diff`). |
+| `bun run scripts`      | Run the project script entry point.                                  |
 
 To run a command for one workspace, use this syntax:
 
@@ -76,9 +76,10 @@ Package development servers use the 4000 block in alphabetical order: `db` on `4
 ## Template Management
 
 - `bun template setup` - Configure the project and record its template version.
-- `bun template rename` - Rename the project and update package scope references.
-- `bun template add app <name>` - Add an application workspace from the template.
-- `bun template add package <name>` - Add a package workspace from the template.
+- `bun template doctor` - Verify workspace selection, environment contracts, and tooling.
+- `bun template add <kind> <name>` - Add a workspace from the template at the recorded commit.
+- `bun template remove <kind> <name>` - Delete a workspace and list what still references it.
+- `bun template diff` - Show upstream template changes since the recorded commit.
 - `bun run scripts` - Run the extensible entry point for scripts that the project owns.
 
-An agent applies template updates. See [Updating your project](./template-commands.md#updating-your-project).
+The skills in `.agents/skills/` drive these commands. See [Template commands](./template-commands.md).

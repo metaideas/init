@@ -30,7 +30,7 @@
     "generate": "bun --bun turbo generate",
     "scripts": "bun run scripts/index.ts",
     "start": "turbo run start",
-    "template": "bun --bun run scripts/index.ts template",
+    "template": "bun run scripts/index.ts template",
     "test": "bun test",
     "test:watch": "bun test --watch"
   },
@@ -61,7 +61,7 @@
   },
   "packageManager": "bun@1.4.2",
   "bun-create": {
-    "postinstall": "echo 'Next step: run `bun template setup` to configure your project.'"
+    "postinstall": "echo 'Next step: run `bun template setup`, or ask your coding agent to use the setup skill.'"
   },
   "init": {
     "cleanupPaths": [

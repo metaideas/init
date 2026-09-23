@@ -4,62 +4,39 @@ import consola from "consola"
 import { defineCommand } from "citty"
 import { renameProject } from "./rename"
 import {
+  fetchTemplate,
   getDependencyNames,
   getProjectScope,
   getScopePrefix,
+  getWorkspacePath,
   readJson,
-  runCommand,
+  readTemplateStamp,
+  TEMPLATE_REPO,
   TEMPLATE_SCOPE,
   type JsonObject,
   type WorkspaceKind,
 } from "./shared"
-
-const TEMPLATE_REPO = "metaideas/init"
-const TEMPLATE_BRANCH = "main"
 
 type TemplateWorkspace = {
   kind: WorkspaceKind
   name: string
 }
 
-function getWorkspacePath(workspace: TemplateWorkspace) {
-  return `${workspace.kind}s/${workspace.name}`
-}
-
-function getWorkspacePackageName(workspace: TemplateWorkspace) {
-  return workspace.kind === "package"
-    ? `${getScopePrefix(TEMPLATE_SCOPE)}${workspace.name}`
-    : workspace.name
-}
-
-async function copyTemplateWorkspace(rootDir: string, workspace: TemplateWorkspace) {
+async function copyTemplateWorkspace(rootDir: string, ref: string, workspace: TemplateWorkspace) {
   const workspacePath = getWorkspacePath(workspace)
-  const source = `https://github.com/${TEMPLATE_REPO}/tree/${TEMPLATE_BRANCH}/${workspacePath}`
-  const command = [
-    "bunx",
-    "turbo",
-    "gen",
-    "workspace",
-    "--copy",
-    source,
-    "--name",
-    getWorkspacePackageName(workspace),
-    "--type",
-    workspace.kind,
-    "--destination",
-    workspacePath,
-  ]
-
-  await runCommand(command, rootDir)
-
-  const packageJsonPath = join(rootDir, workspacePath, "package.json")
-  if (!(await Bun.file(packageJsonPath).exists())) {
+  const archive = await Bun.$`git archive --format=tar ${ref} ${workspacePath}`
+    .cwd(rootDir)
+    .quiet()
+    .nothrow()
+  if (archive.exitCode !== 0) {
     throw new Error(
-      `Command failed: ${command.join(" ")}. The generator did not create the ${workspacePath} workspace.`
+      `${workspacePath} does not exist in ${TEMPLATE_REPO}@${ref.slice(0, 12)}: ${archive.stderr.toString().trim()}`
     )
   }
 
-  return readJson(packageJsonPath)
+  await Bun.$`tar -x -C ${rootDir} < ${archive.stdout}`.quiet()
+
+  return readJson(join(rootDir, workspacePath, "package.json"))
 }
 
 async function getMissingTemplateDependencies(
@@ -92,6 +69,7 @@ async function getMissingTemplateDependencies(
 
 async function addWorkspaces(
   rootDir: string,
+  ref: string,
   scope: string,
   queue: TemplateWorkspace[],
   visited: Set<string>
@@ -100,7 +78,7 @@ async function addWorkspaces(
   if (!workspace) return []
 
   const workspacePath = getWorkspacePath(workspace)
-  const packageJson = await copyTemplateWorkspace(rootDir, workspace)
+  const packageJson = await copyTemplateWorkspace(rootDir, ref, workspace)
   const missing = await getMissingTemplateDependencies(rootDir, packageJson, visited)
 
   await renameProject({
@@ -119,7 +97,7 @@ async function addWorkspaces(
 
   return [
     workspacePath,
-    ...(await addWorkspaces(rootDir, scope, [...remaining, ...missing], visited)),
+    ...(await addWorkspaces(rootDir, ref, scope, [...remaining, ...missing], visited)),
   ]
 }
 
@@ -137,7 +115,7 @@ export default defineCommand({
     },
   },
   meta: {
-    description: "Copy an app or package from the init template",
+    description: "Copy an app or package from the template at the recorded commit",
     name: "add",
   },
   run: async ({ args }) => {
@@ -158,7 +136,12 @@ export default defineCommand({
       return
     }
 
-    const copiedPaths = await addWorkspaces(rootDir, scope, [target], new Set([targetPath]))
-    consola.success(`Added ${copiedPaths.join(", ")}. Run bun install to link the new workspaces.`)
+    const stamp = await readTemplateStamp(rootDir)
+    const head = await fetchTemplate(rootDir)
+    const ref = stamp?.commit ?? head
+    const copiedPaths = await addWorkspaces(rootDir, ref, scope, [target], new Set([targetPath]))
+    consola.success(
+      `Added ${copiedPaths.join(", ")} from ${TEMPLATE_REPO}@${ref.slice(0, 12)}. Run bun install, then bun template doctor.`
+    )
   },
 })

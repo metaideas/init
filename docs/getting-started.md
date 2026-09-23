@@ -57,13 +57,7 @@ The command does the following:
 
 These are alternatives, not layers that every project must run. Application workspaces connect to a backend explicitly. No client connects to `packages/backend` by default.
 
-After you select a backend alternative, connect an application workspace with the `connect-backend` template command:
-
-```bash
-bun run generate connect-backend
-```
-
-See [Project generators](./generators.md) for supported combinations and command-line examples. The template command configures local connections. It does not deploy a backend or create external credentials.
+After you select a backend alternative, connect an application workspace with the `connect-backend` skill in `.agents/skills/`. It configures local connections. It does not deploy a backend or create external credentials.
 
 3. Generate source files and types. Run the command again after you change an environment contract or a message catalog:
 
