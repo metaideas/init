@@ -25,4 +25,5 @@ template command creates optional, copy-once client integrations.
 - Filter provider errors and metadata before they cross the trust boundary.
 
 Changes to accepted content, size limits, key scoping, or authentication alter the
-application's security policy. Document each change in the pull request that makes it.
+application's security policy. Document each change in the pull request that makes it. In the
+template, also update the Files SDK decision in `AGENTS.md`.

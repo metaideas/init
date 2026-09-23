@@ -22,7 +22,7 @@ These commands match the scripts in the root `package.json`.
 | `bun run dev:apps`     | Start application workspaces.                         |
 | `bun run dev:packages` | Start package workspaces.                             |
 | `bun run build`        | Build all workspaces.                                 |
-| `bun run start`        | Start the built workspaces.                           |
+| `bun run start`        | Run the `start` task of each workspace.               |
 | `bun run clean`        | Remove build artifacts.                               |
 | `bun run check`        | Run Adamantite lint, format, and type checks.         |
 | `bun run fix`          | Apply safe lint fixes and format code.                |
@@ -47,7 +47,7 @@ To run a command for one workspace, use this syntax:
 bun run <command> --filter <workspace>
 ```
 
-Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. Mobile compiles the messages with `scripts/codegen.ts` so Metro receives the strategy it needs. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web also have `codegen:types`, which runs `astro sync`. `astro sync` compiles the Paraglide messages again through the Vite plugin in `astro.config.ts`, so these workspaces use `codegen:astro` to run `codegen:i18n` and then `codegen:types` in sequence. Only one process writes the message output at a time, and the output of the Vite plugin is the final result. Keep the `--strategy` value of `codegen:i18n` the same as the `strategy` in `astro.config.ts`. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a `codegen:*` script on its own during development. `bun install` runs `bun run codegen` through the root `postinstall` script, so a fresh clone or worktree starts with generated files.
+Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. Mobile compiles the messages with `scripts/codegen.ts` so Metro receives the strategy it needs. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web also have `codegen:types`, which runs `astro sync`. `astro sync` compiles the Paraglide messages again through the Vite plugin in `astro.config.ts`, so these workspaces use `codegen:astro` to run `codegen:i18n` and then `codegen:types` in sequence. Only one process writes the message output at a time, and the output of the Vite plugin is the final result. Keep the `--strategy` value of `codegen:i18n` the same as the `strategy` in `astro.config.ts`. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a `codegen:*` script on its own during development. Run `bun run codegen` after you clone the repository, create a worktree, or install dependencies.
 
 ## Development Servers
 

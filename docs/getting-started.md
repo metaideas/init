@@ -65,7 +65,7 @@ bun run generate connect-backend
 
 See [Project generators](./generators.md) for supported combinations and command-line examples. The template command configures local connections. It does not deploy a backend or create external credentials.
 
-3. Confirm the generated source files and types. `bun install` generates them through the root `postinstall` script. Run the command again after you change an environment contract or a message catalog:
+3. Generate source files and types. Run the command again after you change an environment contract or a message catalog:
 
 ```bash
 bun run codegen
@@ -103,6 +103,7 @@ At the repository root, `bun run dev` runs all workspaces through Turbo. Inside 
 ### First Run Checklist
 
 - Run `bun template setup`.
+- Generate source files and types with `bun run codegen`.
 - Start services with `bun run docker:up`.
 - Start the development servers with `bun run dev`.
 

@@ -160,7 +160,7 @@ apps/mobile
   │   │   ├── logger.ts           # Logger instance
   │   │   └── query-client.ts     # TanStack Query client
   │   │
-  │   ├── features/             # Feature folders, added by connect-backend or by you
+  │   ├── features/             # Feature folders, created with bun run generate new-feature
   │   ├── index.ts              # Expo Router entry
   │   └── instrument.ts         # Error monitoring instrumentation
   │
