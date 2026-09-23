@@ -80,7 +80,7 @@ bun run components:add @rnr/<name>   # add or overwrite from the registry
 bun run components:diff @rnr/<name>  # inspect upstream changes
 ```
 
-After adding a component, re-apply the local conventions: move files from `src/components/ui/` up to `src/components/`, fix the `cn` import to `cn`, and run `bun run format` and `bun run check` from the repository root.
+After adding a component, re-apply the local conventions: move files from `src/components/ui/` up to `src/components/`, change the `cn` import to the `cn` package, and run `bun run fix` and `bun run check` from the repository root.
 
 On native, set the placeholder color of a text input with `placeholderTextColorClassName` and an `accent-*` class. Uniwind does not apply the `placeholder:` variant on native.
 

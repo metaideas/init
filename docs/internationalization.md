@@ -33,7 +33,7 @@ web_landing_hero_headline_first
 
 1. Add the same key to `tooling/internationalization/messages/en.json` and every translated catalog.
 2. Preserve the same variables, markup, and variants in every locale.
-3. Run `bun run format` to format the catalogs consistently.
+3. Run `bun run fix` to format the catalogs consistently.
 4. Run `bun run codegen` to regenerate the Paraglide output for each workspace.
 5. Before you commit, run `bun run check`.
 

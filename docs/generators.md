@@ -63,7 +63,7 @@ The arguments specify the target application workspace, backend alternative, aut
 | Hono    | `app`, `desktop`, `mobile` | Auth is optional on `app` and `mobile`. Desktop does not support it. |
 | tRPC    | `app`, `desktop`           | Auth is optional on `app`. Desktop does not support it.              |
 
-Unsupported combinations fail before a write. The required backend workspace must already exist:
+Unsupported combinations fail before a write. The backend workspace for the connection must already exist:
 
 - Convex requires `packages/backend`. Restore it with `bun template add package backend`.
 - Hono and tRPC require `apps/api`. Restore it with `bun template add app api`.
