@@ -19,10 +19,9 @@ COPY --from=builder /app/out/json/ .
 RUN bun install
 
 COPY --from=builder /app/out/full/ .
-COPY --from=builder /app/tooling/internationalization/ ./tooling/internationalization/
 
-# Generate the ignored environment binding and message catalogs for the api
-RUN cd apps/api && bun run codegen
+# Generate the ignored environment bindings and message catalogs for the pruned workspaces
+RUN bun run codegen
 
 # Runner stage: production image with non-root user
 FROM installer AS runner

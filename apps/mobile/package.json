@@ -70,6 +70,7 @@
   "devDependencies": {
     "@inlang/paraglide-js": "2.23.0",
     "@sentry/cli": "2.56.0",
+    "@tooling/internationalization": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/react": "19.2.4",
     "@varlock/expo-integration": "1.2.0",

@@ -49,10 +49,12 @@
       "persistent": true
     },
     "codegen": {
+      "dependsOn": ["^codegen"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/packages/*/env/**",
-        "$TURBO_ROOT$/tooling/internationalization/**"
+        "$TURBO_ROOT$/tooling/internationalization/messages/**",
+        "$TURBO_ROOT$/tooling/internationalization/project.inlang/settings.json"
       ],
       "outputs": [
         "src/env.generated.ts",

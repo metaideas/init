@@ -1,0 +1,9 @@
+{
+  "$schema": "https://v2-10-7.turborepo.dev/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "codegen": {
+      "outputs": [".cache/paraglide/**", "project.inlang/cache/**"]
+    }
+  }
+}

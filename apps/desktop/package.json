@@ -48,6 +48,7 @@
     "@tailwindcss/vite": "4.3.3",
     "@tanstack/devtools-vite": "0.8.3",
     "@tanstack/router-plugin": "1.168.23",
+    "@tooling/internationalization": "workspace:*",
     "@tooling/tsconfig": "workspace:*",
     "@types/electron-squirrel-startup": "1.0.2",
     "@types/react": "19.2.4",
