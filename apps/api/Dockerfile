@@ -19,12 +19,16 @@ COPY --from=builder /app/out/json/ .
 RUN bun install
 
 COPY --from=builder /app/out/full/ .
+COPY --from=builder /app/tooling/internationalization/ ./tooling/internationalization/
+
+# Generate the ignored environment binding and message catalogs for the api
+RUN cd apps/api && bun run codegen
 
 # Runner stage: production image with non-root user
 FROM installer AS runner
 
 USER root
-RUN addgroup --system --gid 1001 appgroup && adduser --system --uid 1001 --ingroup appgroup appuser
+RUN groupadd --system --gid 1001 appgroup && useradd --system --uid 1001 --gid appgroup appuser
 RUN chown -R appuser:appgroup /app
 USER appuser
 

@@ -148,7 +148,8 @@ Domain terms:
 Each generated file follows the guidance of the tool that produces it.
 
 - Committed: `routeTree.gen.ts` (TanStack Router) and `_generated/` under `packages/backend/src/functions/` (Convex). The framework `dev` or `build` command regenerates them. Commit the result with the change that caused it.
-- Ignored: `env.generated.ts` (Varlock), `src/shared/internationalization/` (Paraglide), `.astro/` (Astro), and `.wxt/` (WXT). `bun run codegen` regenerates them, and `bun install` runs it through the root `postinstall` script. `bun run check` does not generate them.
+- Ignored: `env.generated.ts` (Varlock), `src/shared/internationalization/` (Paraglide), `.astro/` (Astro), and `.wxt/` (WXT). `bun run check` does not generate them.
+- After you clone the repository, create a worktree, or install dependencies, run `bun run codegen`.
 - After you change an `.env.schema` file, a package `env` contract, or the internationalization messages, run `bun run codegen` again.
 
 <!-- ADAMANTITE:START -->
