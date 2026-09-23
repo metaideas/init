@@ -1,6 +1,8 @@
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path"
 
 export const TEMPLATE_SCOPE = "init"
+export const TEMPLATE_REPO = "metaideas/init"
+export const TEMPLATE_STAMP_FILE = ".template.json"
 
 const ignoredDirectories = new Set([".cache", ".git", ".turbo", "build", "dist", "node_modules"])
 
@@ -9,6 +11,18 @@ export type WorkspaceKind = "app" | "package"
 export type Workspace = {
   directory: string
   name: string
+}
+
+export type WorkspaceNode = Workspace & {
+  dependencies: string[]
+  kind: WorkspaceKind
+  packageName: string
+}
+
+export type TemplateStamp = {
+  commit?: string
+  createdAt: string
+  template: string
 }
 
 export type JsonValue = boolean | null | number | string | JsonObject | JsonValue[]
@@ -89,6 +103,66 @@ export async function getWorkspaces(rootDir: string, kind: WorkspaceKind) {
   }
 
   return workspaces.toSorted((left, right) => left.name.localeCompare(right.name))
+}
+
+export async function getWorkspaceGraph(rootDir: string): Promise<WorkspaceNode[]> {
+  const kinds: WorkspaceKind[] = ["app", "package"]
+  const nodes = await Promise.all(
+    kinds.map(async (kind) => {
+      const workspaces = await getWorkspaces(rootDir, kind)
+
+      return Promise.all(
+        workspaces.map(async ({ directory, name }): Promise<WorkspaceNode> => {
+          const packageJson = await readJson(join(directory, "package.json"))
+
+          return {
+            dependencies: getDependencyNames(packageJson),
+            directory,
+            kind,
+            name,
+            packageName: getJsonString(packageJson, "name") ?? "",
+          }
+        })
+      )
+    })
+  )
+
+  return nodes.flat()
+}
+
+export function getWorkspacePath(workspace: Pick<WorkspaceNode, "kind" | "name">) {
+  return `${workspace.kind}s/${workspace.name}`
+}
+
+export async function readTemplateStamp(rootDir: string): Promise<TemplateStamp | undefined> {
+  const path = join(rootDir, TEMPLATE_STAMP_FILE)
+  if (!(await Bun.file(path).exists())) return
+
+  const stamp = await readJson(path)
+  return {
+    commit: getJsonString(stamp, "commit"),
+    createdAt: getJsonString(stamp, "createdAt") ?? "",
+    template: getJsonString(stamp, "template") ?? TEMPLATE_REPO,
+  }
+}
+
+export async function writeTemplateStamp(rootDir: string, stamp: TemplateStamp) {
+  await writeJson(join(rootDir, TEMPLATE_STAMP_FILE), stamp)
+}
+
+export const TEMPLATE_REMOTE = "template"
+
+export async function fetchTemplate(rootDir: string) {
+  const remote = await Bun.$`git remote get-url ${TEMPLATE_REMOTE}`.cwd(rootDir).quiet().nothrow()
+  if (remote.exitCode !== 0) {
+    await Bun.$`git remote add ${TEMPLATE_REMOTE} https://github.com/${TEMPLATE_REPO}.git`
+      .cwd(rootDir)
+      .quiet()
+  }
+  await Bun.$`git fetch --quiet ${TEMPLATE_REMOTE} main`.cwd(rootDir).quiet()
+
+  const head = await Bun.$`git rev-parse ${TEMPLATE_REMOTE}/main`.cwd(rootDir).text()
+  return head.trim()
 }
 
 export async function getTextFiles(rootDir: string) {
@@ -188,7 +262,7 @@ export async function removePath(rootDir: string, relativePath: string) {
   await Bun.$`rm -rf ${resolvePathWithinRoot(rootDir, relativePath)}`.quiet()
 }
 
-const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
+export const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
 const TEMPLATE_SECTION_END = "<!-- TEMPLATE:END -->"
 
 export function removeTemplateSections(contents: string) {

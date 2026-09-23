@@ -29,10 +29,11 @@ Use these terms in issues, plans, code, and documentation. Do not use the altern
 - **Application workspace**: a product surface that users see or that runs independently. Not "app package".
 - **Package workspace**: runtime code that application workspaces or other package workspaces share. Not "application package".
 - **Template recipe**: copy-once code in `turbo/generators/` that a scaffolded project owns after generation. Not "plugin" or "recipe package".
-- **Template command**: a local command that configures a scaffolded project or manages its workspaces, such as `bun template setup` or `bun run generate connect-backend`. Use "Turbo generator" only for the mechanism that runs a template recipe.
+- **Template command**: a local command that configures a scaffolded project or manages its workspaces, such as `bun template setup` or `bun template doctor`. Use "Turbo generator" only for the mechanism that runs a template recipe.
 - **Internal cleanup path**: content that only maintainers use. Setup removes it from a scaffolded project.
 - **Backend alternative**: an optional backend shape that a scaffolded project selects. Not "required backend" or "backend layer".
 - **Preset**: a reusable configuration for an environment or tooling that a template command selects.
+- **Skill**: an agent workflow in `.agents/skills/` that drives template commands and generators toward a passing `bun template doctor`.
 
 ## Template decisions
 
@@ -40,33 +41,17 @@ These decisions govern the template. When new work contradicts one, state the co
 
 1. **Packages and template recipes are different things.** A package workspace is an ongoing dependency with third-party dependencies and a lifecycle. A template recipe is code the scaffold owner copies once and edits directly. Payments, AI, analytics, key-value storage, and email clients are package workspaces. Email templates, small utilities, environment presets, UI additions, and authentication snippets are template recipes.
 2. **No external accounts by default.** The integrated core needs no hosted service, API key, or external account. Local development works with only the repository and its Docker Compose services. Hosted capabilities are explicit workspace or template command selections, and their absence must not leave required environment variables, imports, or failed builds.
-3. **Backend alternatives are workspaces.** The Hono API is `apps/api` and Convex is `packages/backend`. `apps/app` is independently full-stack through TanStack Start. No application workspace requires a backend workspace. Convex lives in `packages/` because application workspaces consume its generated API and React client as a library, even though it deploys separately. `connect-backend` adds client connections.
+3. **Backend alternatives are workspaces.** The Hono API is `apps/api` and Convex is `packages/backend`. `apps/app` is independently full-stack through TanStack Start. No application workspace requires a backend workspace. Convex lives in `packages/` because application workspaces consume its generated API and React client as a library, even though it deploys separately. The `connect-backend` skill adds client connections.
 4. **`apps/web` is both the public `init.now` site and the Astro marketing example.** Hosting independence is a deployment concern. It does not need a second source tree, lockfile, or dependency graph.
 5. **The Files SDK gateway is part of `apps/api`, and clients are generated.** The gateway uses Bun's S3 adapter with local MinIO defaults, session authentication, per-user object prefixes, content-type limits, and upload size limits. Application clients are optional and come from the `files-client` template command. A change to accepted content, size limits, key scoping, or authentication changes the security policy; record it here.
 6. **`apps/docs` is both the public documentation site and the Starlight example.** Root `docs/` owns authored Markdown and MDX. The docs application owns presentation only and reads root documents directly with Astro's content loader. It publishes the top-level guides, `docs/architecture/`, and `docs/es/`. It does not copy or synchronize another content tree.
 7. **Varlock owns environment contracts.** Package workspaces own reusable fragments under `env/` (`.env.shared`, `.env.client`, `.env.server`, `.env.build`). Application workspaces own complete `.env.schema` contracts and import only the fragments they consume. Committed `.env.development` files hold safe local values, ignored `.env.local` files override them, and deployment platforms own preview and production values. Global environment augmentation stays disabled. Convex is an independent boundary: backend functions declare their variables in `convex.config.ts` and Varlock does not synchronize secrets into Convex. Plain deployment-platform secrets are the default; 1Password is the documented optional secret store, and the template contains no vault or item identifiers.
 
-## Issue tracker
-
-The `metaideas/init` GitHub repository holds issues for this template. Use the GitHub CLI or connected GitHub tools. Infer the repository from the local Git remote.
-
-- Before you act, read the issue body and comments.
-- Use conventional issue titles that state the outcome.
-- Preserve the existing labels unless triage requires a deliberate change.
-- Link pull requests and follow-up issues to the originating issue.
-- When an agent workflow asks for the project issue tracker, publish implementation plans as issues.
-
-Triage labels:
-
-| Label             | Meaning                                                       |
-| ----------------- | ------------------------------------------------------------- |
-| `needs-triage`    | A maintainer must evaluate the issue.                         |
-| `needs-info`      | The reporter must provide more information.                   |
-| `ready-for-agent` | The issue is complete and suitable for autonomous work.       |
-| `ready-for-human` | The issue requires maintainer judgment or external authority. |
-| `wontfix`         | The repository will not act on the issue.                     |
-
 <!-- TEMPLATE:END -->
+
+## Skills
+
+Template work runs through the skills in `.agents/skills/`. Each skill states which template command or Turbo generator does the mechanical part and ends with `bun template doctor`; a passing doctor is the definition of done for setup, workspace changes, backend connections, and template updates. Reach for `setup`, `add-workspace`, `remove-workspace`, `connect-backend`, `new-package`, `new-feature`, `update-from-template`, or `doctor` before editing those areas by hand.
 
 ## Architecture
 

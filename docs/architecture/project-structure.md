@@ -142,7 +142,7 @@ apps/app
 
 ### Mobile
 
-This mobile application uses Expo and React Native. It provides native capabilities and connects to a backend through `connect-backend`.
+This mobile application uses Expo and React Native. It provides native capabilities and connects to a backend through the `connect-backend` skill.
 
 ```sh
 apps/mobile
@@ -295,5 +295,5 @@ bun run generate new-package
 ```
 
 The `bun run generate code-snippets` command provides optional copy-once package code.
-Run `connect-backend` to connect an application workspace to an existing backend workspace. See
-[Project generators](../generators.md) for both workflows.
+Apply the `connect-backend` skill to connect an application workspace to an existing backend
+workspace. See [Project generators](../generators.md) for the generator workflows.

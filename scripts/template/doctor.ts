@@ -1,0 +1,310 @@
+import { dirname, join, relative, resolve } from "node:path"
+import { defineCommand } from "citty"
+import consola from "consola"
+
+import {
+  findTextReferences,
+  getJsonObject,
+  getJsonStringArray,
+  getProjectScope,
+  getScopePrefix,
+  getWorkspaceGraph,
+  getWorkspacePath,
+  readJson,
+  readTemplateStamp,
+  TEMPLATE_SCOPE,
+  TEMPLATE_SECTION_START,
+  TEMPLATE_STAMP_FILE,
+  type TemplateStamp,
+  type WorkspaceNode,
+} from "./shared"
+
+type Context = {
+  envFiles: string[]
+  rootDir: string
+  scope: string
+  stamp: TemplateStamp | undefined
+  workspaces: WorkspaceNode[]
+}
+
+type Check = {
+  name: string
+  run: (context: Context) => Promise<string[]>
+}
+
+const BACKEND_MARKERS = [
+  { backend: { kind: "app", name: "api" }, file: "src/shared/api.ts" },
+  { backend: { kind: "app", name: "api" }, file: "src/shared/trpc.tsx" },
+  {
+    backend: { kind: "package", name: "backend" },
+    file: "src/shared/components/convex-provider.tsx",
+  },
+] as const
+
+const TOOL_COMMANDS = [
+  ["check"],
+  ["boundaries"],
+  ["analyze"],
+  ["env:check"],
+  ["build", "--output-logs=errors-only"],
+] as const
+
+async function collectEnvFiles(rootDir: string) {
+  const patterns = ["{apps,packages}/*/.env.schema", "packages/*/env/.env.*"]
+  const files = await Promise.all(
+    patterns.map((pattern) =>
+      Array.fromAsync(new Bun.Glob(pattern).scan({ cwd: rootDir, dot: true }))
+    )
+  )
+
+  return files.flat().map((path) => join(rootDir, path))
+}
+
+function matchDirectives(contents: string, directive: string) {
+  return [
+    ...contents.matchAll(new RegExp(`@${directive}\\(path=([^,)]+)|@${directive}\\(([^,)]+)`, "g")),
+  ]
+    .map((match) => match[1] ?? match[2])
+    .filter((path): path is string => path !== undefined)
+}
+
+async function checkEnvPaths(context: Context, directive: string, label: string) {
+  const failures = await Promise.all(
+    context.envFiles.map(async (file) => {
+      const contents = await Bun.file(file).text()
+      const missing = await Promise.all(
+        matchDirectives(contents, directive).map(async (path) => {
+          const target = resolve(dirname(file), path)
+          return (await Bun.file(target).exists()) ? undefined : path
+        })
+      )
+
+      return missing
+        .filter((path): path is string => path !== undefined)
+        .map((path) => `${relative(context.rootDir, file)} ${label} ${path}, which does not exist`)
+    })
+  )
+
+  return failures.flat()
+}
+
+const checks: Check[] = [
+  {
+    name: "Template scope is fully renamed",
+    run: async ({ rootDir, scope }) => {
+      if (scope === TEMPLATE_SCOPE) return []
+
+      const files = await findTextReferences(rootDir, getScopePrefix(TEMPLATE_SCOPE))
+      return files
+        .map((path) => relative(rootDir, path))
+        .filter((path) => path !== TEMPLATE_STAMP_FILE)
+        .map((path) => `${path} still references ${getScopePrefix(TEMPLATE_SCOPE)}`)
+    },
+  },
+  {
+    name: "Workspace dependencies resolve and flow from apps to packages",
+    run: ({ scope, workspaces }) => {
+      const byPackageName = new Map(workspaces.map((entry) => [entry.packageName, entry]))
+      const prefix = getScopePrefix(scope)
+
+      const failures = workspaces.flatMap((workspace) =>
+        workspace.dependencies.flatMap((dependency) => {
+          const target = byPackageName.get(dependency)
+          if (!target && dependency.startsWith(prefix))
+            return [
+              `${getWorkspacePath(workspace)} depends on ${dependency}, which is not a workspace`,
+            ]
+          if (target?.kind === "app" && workspace.kind === "package")
+            return [
+              `${getWorkspacePath(workspace)} depends on the ${getWorkspacePath(target)} application`,
+            ]
+          return []
+        })
+      )
+
+      return Promise.resolve(failures)
+    },
+  },
+  {
+    name: "Environment imports point at existing fragments",
+    run: (context) => checkEnvPaths(context, "import", "imports"),
+  },
+  {
+    name: "Generated environment types exist",
+    run: (context) => checkEnvPaths(context, "generateTsTypes", "generates"),
+  },
+  {
+    name: "Turbo build env entries are declared by a schema",
+    run: async ({ envFiles, rootDir }) => {
+      const turbo = await readJson(join(rootDir, "turbo.json"))
+      const build = getJsonObject(getJsonObject(turbo, "tasks") ?? {}, "build") ?? {}
+      const patterns = getJsonStringArray(build, "env") ?? []
+      const contents = await Promise.all(envFiles.map((file) => Bun.file(file).text()))
+      const keys = contents.flatMap((text) =>
+        [...text.matchAll(/^([A-Z][A-Z0-9_]*)=/gm)].map((match) => match[1])
+      )
+
+      return patterns
+        .filter((pattern) => {
+          const matcher = new RegExp(`^${pattern.replaceAll("*", ".*")}$`)
+          return !keys.some((key) => key !== undefined && matcher.test(key))
+        })
+        .map(
+          (pattern) =>
+            `turbo.json build.env lists ${pattern}, which no environment contract declares`
+        )
+    },
+  },
+  {
+    name: "Knip workspaces exist",
+    run: async ({ rootDir, workspaces }) => {
+      const config = await Bun.file(join(rootDir, "knip.config.ts")).text()
+      const paths = new Set(workspaces.map((workspace) => getWorkspacePath(workspace)))
+
+      return [...config.matchAll(/^\s+"((?:apps|packages)\/[^*"]+)":/gm)]
+        .map((match) => match[1])
+        .filter((path): path is string => path !== undefined && !paths.has(path))
+        .map((path) => `knip.config.ts configures ${path}, which does not exist`)
+    },
+  },
+  {
+    name: "Template-only content matches the project state",
+    run: async ({ rootDir, stamp }) => {
+      const packageJson = await readJson(join(rootDir, "package.json"))
+      const init = getJsonObject(packageJson, "init")
+      const allMarkedFiles = await findTextReferences(rootDir, TEMPLATE_SECTION_START)
+      const markedFiles = allMarkedFiles.filter(
+        (path) => !relative(rootDir, path).startsWith("scripts/")
+      )
+
+      if (!stamp) {
+        const cleanupPaths = init && getJsonStringArray(init, "cleanupPaths")
+        const cleanupSections = init && getJsonStringArray(init, "cleanupSections")
+        if (!cleanupPaths || !cleanupSections) {
+          return [
+            "package.json needs init.cleanupPaths and init.cleanupSections arrays so setup can remove template content",
+          ]
+        }
+        const missingPaths = await Promise.all(
+          cleanupPaths.map(async (path) =>
+            (await Bun.file(join(rootDir, path)).exists()) ? undefined : path
+          )
+        )
+
+        return [
+          ...missingPaths
+            .filter((path): path is string => path !== undefined)
+            .map((path) => `init.cleanupPaths lists ${path}, which does not exist`),
+          ...cleanupSections
+            .filter((path) => !markedFiles.includes(join(rootDir, path)))
+            .map(
+              (path) => `init.cleanupSections lists ${path}, which has no TEMPLATE:START marker`
+            ),
+        ]
+      }
+
+      return [
+        ...(stamp.commit ? [] : [`${TEMPLATE_STAMP_FILE} does not record the template commit`]),
+        ...(init ? ["package.json still has the init field"] : []),
+        ...("bun-create" in packageJson ? ["package.json still has the bun-create field"] : []),
+        ...markedFiles.map((path) => `${relative(rootDir, path)} still has TEMPLATE:START markers`),
+      ]
+    },
+  },
+  {
+    name: "Backend connections have their backend workspace",
+    run: async ({ workspaces }) => {
+      const apps = workspaces.filter((workspace) => workspace.kind === "app")
+      const failures = await Promise.all(
+        apps.flatMap((app) =>
+          BACKEND_MARKERS.map(async ({ backend, file }) => {
+            if (!(await Bun.file(join(app.directory, file)).exists())) return []
+
+            const target = workspaces.find(
+              (workspace) => workspace.kind === backend.kind && workspace.name === backend.name
+            )
+            const appPath = getWorkspacePath(app)
+            const backendPath = getWorkspacePath(backend)
+            if (!target) return [`${appPath}/${file} needs ${backendPath}, which does not exist`]
+            if (!app.dependencies.includes(target.packageName))
+              return [`${appPath}/${file} needs ${appPath} to depend on ${target.packageName}`]
+            return []
+          })
+        )
+      )
+
+      return failures.flat()
+    },
+  },
+]
+
+async function runTool(rootDir: string, command: readonly string[]) {
+  const result = await Bun.$`bun run ${command}`
+    .cwd(rootDir)
+    .env({ ...process.env, VARLOCK_ENV: process.env.VARLOCK_ENV ?? "development" })
+    .quiet()
+    .nothrow()
+  if (result.exitCode === 0) return []
+
+  return [
+    `bun run ${command.join(" ")} failed:\n${result.stdout.toString()}${result.stderr.toString()}`,
+  ]
+}
+
+function report(name: string, failures: string[]) {
+  if (failures.length === 0) {
+    consola.success(name)
+    return false
+  }
+
+  consola.fail(name)
+  for (const failure of failures) consola.log(`  - ${failure}`)
+  return true
+}
+
+export default defineCommand({
+  args: {
+    fast: {
+      description: "Skip the build step",
+      type: "boolean",
+    },
+  },
+  meta: {
+    description:
+      "Verify the workspace selection, environment contracts, and tooling of the project",
+    name: "doctor",
+  },
+  run: async ({ args }) => {
+    const rootDir = process.cwd()
+    const context: Context = {
+      envFiles: await collectEnvFiles(rootDir),
+      rootDir,
+      scope: await getProjectScope(rootDir),
+      stamp: await readTemplateStamp(rootDir),
+      workspaces: await getWorkspaceGraph(rootDir),
+    }
+    const tools = TOOL_COMMANDS.filter((command) => !(args.fast && command[0] === "build"))
+    const steps = [
+      ...checks.map(
+        (check) => () => check.run(context).then((failures) => report(check.name, failures))
+      ),
+      ...tools.map(
+        (command) => () =>
+          runTool(rootDir, command).then((failures) => report(`bun run ${command[0]}`, failures))
+      ),
+    ]
+    const failed = await steps.reduce(async (previous, step) => {
+      const previousFailed = await previous
+      const stepFailed = await step()
+      return previousFailed || stepFailed
+    }, Promise.resolve(false))
+
+    if (failed) {
+      consola.error("The doctor found problems. Fix them and run bun template doctor again.")
+      process.exitCode = 1
+      return
+    }
+
+    consola.success("The project is healthy.")
+  },
+})

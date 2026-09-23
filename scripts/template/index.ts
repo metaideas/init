@@ -1,19 +1,15 @@
 import { defineCommand } from "citty"
 
 import add from "./add"
-import rename from "./rename"
+import diff from "./diff"
+import doctor from "./doctor"
+import remove from "./remove"
 import setup from "./setup"
-
-const subCommands = {
-  add,
-  rename,
-  setup,
-}
 
 export default defineCommand({
   meta: {
     description: "Configure and maintain this template project",
     name: "template",
   },
-  subCommands,
+  subCommands: { add, diff, doctor, remove, setup },
 })
