@@ -10,6 +10,10 @@ import {
   type WorkspaceKind,
 } from "./shared"
 
+function isProse(path: string) {
+  return path.startsWith(".agents/") || path.endsWith(".md") || path.endsWith(".mdx")
+}
+
 function parseKind(value: string): WorkspaceKind | undefined {
   return value === "app" || value === "package" ? value : undefined
 }
@@ -57,14 +61,14 @@ export default defineCommand({
       .map((entry) => getWorkspacePath(entry))
     const terms =
       target.kind === "app"
-        ? [`"${target.packageName}"`, targetPath]
+        ? [`"${target.packageName}"`, `"${target.packageName}/`, targetPath]
         : [target.packageName, targetPath]
     const referencingFiles = await Promise.all(
       terms.map((term) => findTextReferences(rootDir, term))
     )
     const references = [...new Set(referencingFiles.flat())]
       .map((path) => relative(rootDir, path))
-      .filter((path) => path !== "bun.lock")
+      .filter((path) => !isProse(path) && path !== "bun.lock")
       .toSorted()
 
     if (dependents.length > 0)

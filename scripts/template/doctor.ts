@@ -178,11 +178,13 @@ const checks: Check[] = [
       )
 
       if (!stamp) {
-        if (!init)
-          return ["package.json has no init field, so setup cannot remove template content"]
-
-        const cleanupPaths = getJsonStringArray(init, "cleanupPaths") ?? []
-        const cleanupSections = getJsonStringArray(init, "cleanupSections") ?? []
+        const cleanupPaths = init && getJsonStringArray(init, "cleanupPaths")
+        const cleanupSections = init && getJsonStringArray(init, "cleanupSections")
+        if (!cleanupPaths || !cleanupSections) {
+          return [
+            "package.json needs init.cleanupPaths and init.cleanupSections arrays so setup can remove template content",
+          ]
+        }
         const missingPaths = await Promise.all(
           cleanupPaths.map(async (path) =>
             (await Bun.file(join(rootDir, path)).exists()) ? undefined : path
