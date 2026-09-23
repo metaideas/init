@@ -11,13 +11,7 @@ Use `bun template add package <name>` to restore an available package workspace 
 
 `packages/backend` is a hosted backend built with Convex and Better Auth. Application workspaces consume its generated API types and React client as a package workspace. Convex deploys the functions independently.
 
-Use `connect-backend` to add the client, environment, provider, and optional example connections to a supported application workspace:
-
-```bash
-bun run generate connect-backend --args mobile convex false false
-```
-
-See [Project generators](./generators.md) for the supported matrix and generated ownership. The template command does not deploy Convex or create credentials.
+Use the `connect-backend` skill in `.agents/skills/` to add the client, environment, provider, and optional example connections to `apps/mobile`. It does not deploy Convex or create credentials.
 
 Run `bun run --filter @init/backend dev` to connect the package to a Convex deployment.
 

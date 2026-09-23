@@ -4,11 +4,12 @@ import consola from "consola"
 
 import { renameProject } from "./rename"
 import {
-  getDependencyNames,
   getJsonObject,
   getJsonString,
   getJsonStringArray,
   getProjectScope,
+  getWorkspaceGraph,
+  getWorkspacePath,
   getWorkspaces,
   normalizeScope,
   readJson,
@@ -16,19 +17,16 @@ import {
   removeTemplateSections,
   resolvePathWithinRoot,
   runCommand,
+  TEMPLATE_REPO,
   TEMPLATE_SCOPE,
   type Workspace,
   type WorkspaceKind,
+  type WorkspaceNode,
   writeJson,
+  writeTemplateStamp,
 } from "./shared"
 
-type TemplateStamp = {
-  commit?: string
-  createdAt: string
-  template: "metaideas/init"
-}
-
-async function promptForWorkspaceNames(kind: "app" | "package", names: string[]) {
+async function promptForWorkspaceNames(kind: WorkspaceKind, names: string[]) {
   const selected = await consola.prompt(`Select ${kind}s to keep`, {
     cancel: "reject",
     initial: names,
@@ -42,55 +40,34 @@ async function promptForWorkspaceNames(kind: "app" | "package", names: string[])
 }
 
 async function promptForText(message: string, initial: string) {
-  return await consola.prompt(message, {
-    cancel: "reject",
-    default: initial,
-    type: "text",
-  })
+  return await consola.prompt(message, { cancel: "reject", default: initial, type: "text" })
 }
 
 async function promptForConfirmation(message: string) {
-  return await consola.prompt(message, {
-    cancel: "reject",
-    initial: true,
-    type: "confirm",
+  return await consola.prompt(message, { cancel: "reject", initial: true, type: "confirm" })
+}
+
+async function getTemplateCommit() {
+  const response = await fetch(`https://api.github.com/repos/${TEMPLATE_REPO}/commits/main`)
+  if (!response.ok) throw new Error(`GitHub returned ${response.status}.`)
+
+  const body: unknown = await response.json()
+  const sha = body instanceof Object && "sha" in body ? body.sha : undefined
+  if (sha?.constructor !== String) throw new Error("GitHub did not return a commit SHA.")
+
+  return String(sha)
+}
+
+async function stampProject(rootDir: string) {
+  const commit = await getTemplateCommit().catch((error: unknown): undefined => {
+    consola.warn("Could not record the template commit.", error)
   })
-}
 
-async function getCommit() {
-  try {
-    const response = await fetch("https://api.github.com/repos/metaideas/init/commits/main")
-    if (!response.ok) {
-      throw new Error(`Could not fetch the template commit. GitHub returned ${response.status}.`)
-    }
-
-    const body: unknown = await response.json()
-    if (body === null || !(body instanceof Object) || !("sha" in body)) {
-      throw new Error("Could not fetch the template commit. GitHub did not return a commit SHA.")
-    }
-    const sha = body.sha
-    if (sha?.constructor !== String)
-      throw new Error("Could not fetch the template commit. GitHub did not return a commit SHA.")
-
-    return String(sha)
-  } catch (error) {
-    throw new Error("Could not fetch the template commit.", { cause: error })
-  }
-}
-
-async function writeTemplateStamp(rootDir: string) {
-  const stamp: TemplateStamp = {
+  await writeTemplateStamp(rootDir, {
+    commit,
     createdAt: new Date().toISOString(),
-    template: "metaideas/init",
-  }
-
-  try {
-    stamp.commit = await getCommit()
-  } catch (error) {
-    consola.warn(error)
-  }
-
-  await writeJson(join(rootDir, ".template.json"), stamp)
+    template: TEMPLATE_REPO,
+  })
 }
 
 function getSelectionError(
@@ -106,71 +83,40 @@ function getSelectionError(
   return null
 }
 
-type WorkspaceWithDependencies = Workspace & {
-  dependencies: string[]
-  kind: WorkspaceKind
-  packageName: string
-}
-
-function getWorkspaceKey(workspace: Pick<WorkspaceWithDependencies, "kind" | "name">) {
+function getWorkspaceKey(workspace: Pick<WorkspaceNode, "kind" | "name">) {
   return `${workspace.kind}/${workspace.name}`
 }
 
-async function expandWorkspaceSelection(
-  apps: Workspace[],
-  packages: Workspace[],
+function expandWorkspaceSelection(
+  workspaces: WorkspaceNode[],
   selectedApps: string[],
   selectedPackages: string[]
 ) {
-  const workspaceEntries: Array<Workspace & { kind: WorkspaceKind }> = [
-    ...apps.map(({ directory, name }) => ({ directory, kind: "app" as const, name })),
-    ...packages.map(({ directory, name }) => ({ directory, kind: "package" as const, name })),
-  ]
-  const workspaces: WorkspaceWithDependencies[] = await Promise.all(
-    workspaceEntries.map(async (workspace) => {
-      const packageJson = await readJson(join(workspace.directory, "package.json"))
-      const packageName = getJsonString(packageJson, "name")
-
-      return {
-        dependencies: getDependencyNames(packageJson),
-        directory: workspace.directory,
-        kind: workspace.kind,
-        name: workspace.name,
-        packageName: packageName ?? "",
-      }
-    })
-  )
-  const workspacesByPackageName = new Map(
-    workspaces.map((workspace) => [workspace.packageName, workspace])
-  )
-  const selectedWorkspaceKeys = new Set([
+  const byPackageName = new Map(workspaces.map((workspace) => [workspace.packageName, workspace]))
+  const selectedKeys = new Set([
     ...selectedApps.map((name) => `app/${name}`),
     ...selectedPackages.map((name) => `package/${name}`),
   ])
-  const queue = workspaces.filter((workspace) =>
-    selectedWorkspaceKeys.has(getWorkspaceKey(workspace))
-  )
-  const autoKept: WorkspaceWithDependencies[] = []
+  const queue = workspaces.filter((workspace) => selectedKeys.has(getWorkspaceKey(workspace)))
+  const autoKept: WorkspaceNode[] = []
 
   for (const workspace of queue) {
     for (const dependencyName of workspace.dependencies) {
-      const dependency = workspacesByPackageName.get(dependencyName)
-      if (!dependency || selectedWorkspaceKeys.has(getWorkspaceKey(dependency))) continue
+      const dependency = byPackageName.get(dependencyName)
+      if (!dependency || selectedKeys.has(getWorkspaceKey(dependency))) continue
 
-      selectedWorkspaceKeys.add(getWorkspaceKey(dependency))
+      selectedKeys.add(getWorkspaceKey(dependency))
       queue.push(dependency)
       autoKept.push(dependency)
     }
   }
 
+  const kept = workspaces.filter((workspace) => selectedKeys.has(getWorkspaceKey(workspace)))
+
   return {
     autoKept,
-    keepApps: apps
-      .filter((workspace) => selectedWorkspaceKeys.has(`app/${workspace.name}`))
-      .map((workspace) => workspace.name),
-    keepPackages: packages
-      .filter((workspace) => selectedWorkspaceKeys.has(`package/${workspace.name}`))
-      .map((workspace) => workspace.name),
+    keepApps: kept.filter((workspace) => workspace.kind === "app").map(({ name }) => name),
+    keepPackages: kept.filter((workspace) => workspace.kind === "package").map(({ name }) => name),
   }
 }
 
@@ -327,25 +273,30 @@ export default defineCommand({
       return
     }
 
-    const selection = await expandWorkspaceSelection(apps, packages, keepApps, keepPackages)
+    const selection = expandWorkspaceSelection(
+      await getWorkspaceGraph(rootDir),
+      keepApps,
+      keepPackages
+    )
     if (selection.autoKept.length > 0) {
       consola.info(
-        `Keeping workspace dependencies: ${selection.autoKept
-          .map((workspace) => `${workspace.kind}s/${workspace.name}`)
-          .join(", ")}.`
+        `Keeping workspace dependencies: ${selection.autoKept.map(getWorkspacePath).join(", ")}.`
       )
     }
 
     await pruneWorkspaces(rootDir, apps, selection.keepApps)
     await pruneWorkspaces(rootDir, packages, selection.keepPackages)
     await renameProject({ projectName, rootDir, scope: projectName, sourceScope })
-    await writeTemplateStamp(rootDir)
+    await stampProject(rootDir)
     await cleanupTemplateFiles(rootDir)
 
     if (shouldInitializeGit && !(await Bun.file(join(rootDir, ".git")).exists()))
       await runCommand(["git", "init"], rootDir)
-    if (shouldInstall) await runCommand(["bun", "install"], rootDir)
+    if (shouldInstall) {
+      await runCommand(["bun", "install"], rootDir)
+      await runCommand(["bun", "run", "codegen"], rootDir)
+    }
 
-    consola.success("Template setup complete.")
+    consola.success("Template setup complete. Run `bun template doctor` to verify the project.")
   },
 })
