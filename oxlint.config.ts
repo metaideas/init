@@ -21,6 +21,12 @@ export default defineConfig({
   },
   overrides: [
     {
+      files: ["**/src/**"],
+      rules: {
+        "import/no-relative-parent-imports": "error",
+      },
+    },
+    {
       files: ["packages/native-ui/**"],
       rules: {
         // oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles.
@@ -37,4 +43,7 @@ export default defineConfig({
       },
     },
   ],
+  rules: {
+    "typescript/consistent-type-definitions": ["error", "type"],
+  },
 })
