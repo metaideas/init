@@ -66,6 +66,8 @@ These folders have a one-way import flow. The `features` folder can import from 
 
 Feature folders are vertical slices in an application workspace. A feature folder does not depend on another feature folder. Before you import an item from another feature, determine if the `shared` folder can contain it.
 
+`bun run check` enforces these flows through `no-restricted-imports` overrides in `oxlint.config.ts`. It generates one override for each feature folder, so a new feature folder is covered without a configuration change.
+
 Every application workspace also owns an `.env.schema` contract and a generated `src/shared/env.generated.ts` binding. See [Environment configuration](../environment.md).
 
 ### API
