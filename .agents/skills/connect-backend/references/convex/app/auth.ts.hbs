@@ -1,0 +1,12 @@
+import { convexClient } from "{{backendPackage}}/client/auth"
+import { createAuthClient } from "{{authPackage}}/client"
+import { adminClient, organizationClient } from "{{authPackage}}/client/plugins"
+import { ENV } from "#shared/env.generated.ts"
+
+export const authClient = createAuthClient(ENV.PUBLIC_CONVEX_SITE_URL, [
+  convexClient(),
+  adminClient(),
+  organizationClient(),
+])
+
+export const { useSession, signIn, signOut, signUp } = authClient

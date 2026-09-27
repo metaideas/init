@@ -1,0 +1,30 @@
+import { api } from "{{backendPackage}}/api"
+import { convexQuery } from "{{backendPackage}}/client"
+import { useQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+
+export const Route = createFileRoute("/convex-example")({
+  component: ConvexExample,
+})
+
+function ConvexExample() {
+  const {
+    data: documents,
+    isError,
+    isPending,
+  } = useQuery(convexQuery(api.public.documents.list, {}))
+
+  return (
+    <main className="flex min-h-screen flex-col gap-3 p-6">
+      <h1 className="text-2xl font-semibold">Recent documents</h1>
+      {isPending && <p>Loading…</p>}
+      {isError && <p>Could not load documents.</p>}
+      {documents?.map((document) => (
+        <article className="rounded-md border p-4" key={document._id}>
+          <h2 className="font-semibold">{document.name}</h2>
+          <p>{document.content}</p>
+        </article>
+      ))}
+    </main>
+  )
+}

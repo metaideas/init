@@ -40,7 +40,7 @@ Both scaffold template commands preserve existing files on a repeat run.
 
 ## Connect a backend
 
-Backend connections are not a generator. The `connect-backend` skill in `.agents/skills/connect-backend/` carries the supported matrix, the environment keys, the provider seam, and reference sources for the Hono, tRPC, and Convex clients. A coding agent applies it and verifies the result with `bun template doctor`.
+Backend connections are not a generator. The `connect-backend` skill in `.agents/skills/connect-backend/` carries the supported matrix, the environment keys, the provider seam, and reference sources for the Hono, tRPC, and Convex clients across `apps/app`, `apps/desktop`, and `apps/mobile`. A coding agent applies it and verifies the result with `bun template doctor`.
 
 ## Add a Files SDK client
 
