@@ -3,11 +3,9 @@ import Bun from "bun"
 
 import * as z from "zod"
 
-import { StringListSchema } from "../schemas"
-
 const AnswersSchema = z.object({
   app: z.string().min(1),
-  files: StringListSchema,
+  files: z.array(z.string()),
   name: z.string().min(1),
 })
 

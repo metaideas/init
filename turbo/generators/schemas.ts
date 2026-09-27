@@ -1,11 +1,6 @@
 import Bun from "bun"
 import * as z from "zod"
 
-export const StringListSchema = z.union([
-  z.array(z.string()),
-  z.string().transform((value) => value.split(",").map((entry) => entry.trim())),
-])
-
 const PackageJsonSchema = z.looseObject({
   dependencies: z.record(z.string(), z.string()).optional(),
   devDependencies: z.record(z.string(), z.string()).optional(),

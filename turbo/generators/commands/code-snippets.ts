@@ -3,10 +3,10 @@ import Bun from "bun"
 
 import * as z from "zod"
 
-import { readPackageJson, readPackageName, StringListSchema } from "../schemas"
+import { readPackageJson, readPackageName } from "../schemas"
 
 const AnswersSchema = z.object({
-  utilities: StringListSchema.pipe(z.array(z.enum(["assert", "codec"])).min(1)),
+  utilities: z.array(z.enum(["assert", "codec"])).min(1),
 })
 
 type CodeSnippetsAnswers = PlopTypes.Answers
