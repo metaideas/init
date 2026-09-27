@@ -4,41 +4,46 @@ import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { mergeForm, useTransform } from "@tanstack/react-form-start"
 import { Link, useNavigate } from "@tanstack/react-router"
+import type { SignInFormState } from "#features/auth/server/sign-in.ts"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { type FormErrorState, signInWithPasswordFormOptions } from "#features/auth/forms.ts"
-import { signInWithPassword } from "#features/auth/server/functions.ts"
-import { EmailSchema, PasswordSchema } from "#features/auth/validation.ts"
+import {
+  EmailSchema,
+  PasswordSchema,
+  SignInWithPasswordFormSchema,
+} from "#features/auth/validation.ts"
 import { signIn } from "#shared/auth.ts"
 
 /**
- * Posts natively to `signInWithPassword` until hydration. After that, it validates and signs in on
- * the client. `state` holds the errors from a failed native submission.
+ * Posts natively to the sign-in route until hydration. After that, it validates and signs in on the
+ * client. `state` holds the errors from a rejected native submission.
  */
-export default function SignInWithPasswordForm({ state }: { state: FormErrorState | null }) {
+export default function SignInWithPasswordForm({ state }: { state: SignInFormState | null }) {
   const navigate = useNavigate()
   const form = useForm({
-    ...signInWithPasswordFormOptions,
+    defaultValues: { email: "", password: "" },
     onSubmit: async ({ value }) => {
-      await signIn.email(value, {
-        onError: (error) => {
-          toast.add({ title: error.error.message, type: "error" })
-        },
-        onSuccess: () => {
-          void navigate({ to: AUTHENTICATED_PATHNAME })
-        },
-      })
+      await signIn.email(
+        { email: value.email, password: value.password },
+        {
+          onError: (error) => {
+            toast.add({ title: error.error.message, type: "error" })
+          },
+          onSuccess: () => {
+            void navigate({ to: AUTHENTICATED_PATHNAME })
+          },
+        }
+      )
     },
     transform: useTransform((baseForm) => (state ? mergeForm(baseForm, state) : baseForm), [state]),
+    validators: { onSubmit: SignInWithPasswordFormSchema },
   })
 
   return (
     <form
-      action={signInWithPassword.url}
-      encType="multipart/form-data"
       method="post"
-      onSubmit={(event) => {
-        event.preventDefault()
-        event.stopPropagation()
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
         void form.handleSubmit()
       }}
     >

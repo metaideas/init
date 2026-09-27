@@ -11,6 +11,12 @@ export const withCsrf = createCsrfMiddleware({
 })
 
 /**
+ * CSRF check for route handlers that accept native form submissions. The global `withCsrf` only
+ * covers server functions.
+ */
+export const withFormCsrf = createCsrfMiddleware()
+
+/**
  * Opens one wide event per server function call and emits it, with the response status, when the
  * function settles. Handlers add context through `context.log`.
  */

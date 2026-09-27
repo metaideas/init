@@ -1,5 +1,5 @@
 import type React from "react"
-import { type AnyFieldMeta, createFormHook, createFormHookContexts } from "@tanstack/react-form"
+import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
 import { Alert, AlertDescription, AlertTitle } from "#components/alert.tsx"
 import { Button } from "#components/button.tsx"
 import {
@@ -22,7 +22,7 @@ const { fieldContext, formContext, useFieldContext, useFormContext } = createFor
 
 function FieldInput(props: React.ComponentProps<typeof Input>) {
   const field = useFieldContext<string>()
-  const isInvalid = isFieldInvalid(field.state.meta)
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
   return (
     <Input
@@ -42,7 +42,7 @@ FieldInput.displayName = "FieldInput"
 
 function FieldTextarea(props: React.ComponentProps<typeof Textarea>) {
   const field = useFieldContext<string>()
-  const isInvalid = isFieldInvalid(field.state.meta)
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
   return (
     <Textarea
@@ -98,9 +98,10 @@ function FormServerError({
   const form = useFormContext()
 
   return (
-    <form.Subscribe selector={(formState) => getFormErrorMessage(formState.errorMap.onServer)}>
-      {(error) => {
-        if (!error) {
+    // oxlint-disable-next-line no-unsafe-return
+    <form.Subscribe selector={(formState) => [formState.errorMap.onServer ?? []]}>
+      {([error]) => {
+        if (!error || typeof error !== "string") {
           return null
         }
 
@@ -117,25 +118,6 @@ function FormServerError({
 }
 FormServerError.displayName = "FormServerError"
 
-/**
- * Server errors arrive before the user touches a field, so they mark it invalid immediately.
- */
-function isFieldInvalid(meta: AnyFieldMeta) {
-  return !meta.isValid && (meta.isTouched || meta.errorMap.onServer !== undefined)
-}
-
-function getFormErrorMessage(error: unknown) {
-  if (typeof error === "string") {
-    return error
-  }
-
-  if (typeof error === "object" && error !== null && "form" in error) {
-    return typeof error.form === "string" ? error.form : undefined
-  }
-
-  return undefined
-}
-
 export const { useAppForm: useForm, withForm } = createFormHook({
   fieldComponents: {
     Content: FieldContent,
@@ -143,7 +125,7 @@ export const { useAppForm: useForm, withForm } = createFormHook({
     Error: FieldError,
     Field: (props: React.ComponentProps<typeof Field>) => {
       const field = useFieldContext()
-      const isInvalid = isFieldInvalid(field.state.meta)
+      const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
       return <Field {...props} data-invalid={isInvalid} />
     },

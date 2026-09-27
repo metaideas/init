@@ -44,7 +44,7 @@
     "@tailwindcss/vite": "4.3.3",
     "@tanstack/devtools-vite": "0.8.3",
     "@tanstack/react-devtools": "0.10.9",
-    "@tanstack/react-form-devtools": "0.2.13",
+    "@tanstack/react-form-devtools": "0.2.34",
     "@tanstack/react-query-devtools": "5.91.2",
     "@tanstack/react-router-devtools": "1.167.0",
     "@tooling/internationalization": "workspace:*",
