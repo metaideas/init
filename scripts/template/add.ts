@@ -9,11 +9,11 @@ import {
   getProjectScope,
   getScopePrefix,
   getWorkspacePath,
-  readJson,
+  readPackageJson,
   readTemplateStamp,
   TEMPLATE_REPO,
   TEMPLATE_SCOPE,
-  type JsonObject,
+  type PackageJson,
   type WorkspaceKind,
 } from "./shared"
 
@@ -36,12 +36,12 @@ async function copyTemplateWorkspace(rootDir: string, ref: string, workspace: Te
 
   await Bun.$`tar -x -C ${rootDir} < ${archive.stdout}`.quiet()
 
-  return readJson(join(rootDir, workspacePath, "package.json"))
+  return readPackageJson(join(rootDir, workspacePath, "package.json"))
 }
 
 async function getMissingTemplateDependencies(
   rootDir: string,
-  packageJson: JsonObject,
+  packageJson: PackageJson,
   visited: Set<string>
 ) {
   const prefix = getScopePrefix(TEMPLATE_SCOPE)

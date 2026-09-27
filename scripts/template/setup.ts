@@ -1,24 +1,23 @@
 import { join, relative } from "node:path"
 import { defineCommand } from "citty"
 import consola from "consola"
+import * as z from "zod"
 
 import { renameProject } from "./rename"
 import {
-  getJsonObject,
-  getJsonString,
-  getJsonStringArray,
   getProjectScope,
   getWorkspaceGraph,
   getWorkspacePath,
   getWorkspaces,
   normalizeScope,
-  readJson,
+  readPackageJson,
   removePath,
   removeTemplateSections,
   resolvePathWithinRoot,
   runCommand,
   TEMPLATE_REPO,
   TEMPLATE_SCOPE,
+  TemplateInitSchema,
   type Workspace,
   type WorkspaceKind,
   type WorkspaceNode,
@@ -51,11 +50,7 @@ async function getTemplateCommit() {
   const response = await fetch(`https://api.github.com/repos/${TEMPLATE_REPO}/commits/main`)
   if (!response.ok) throw new Error(`GitHub returned ${response.status}.`)
 
-  const body: unknown = await response.json()
-  const sha = body instanceof Object && "sha" in body ? body.sha : undefined
-  if (sha?.constructor !== String) throw new Error("GitHub did not return a commit SHA.")
-
-  return String(sha)
+  return z.object({ sha: z.string() }).parse(await response.json()).sha
 }
 
 async function stampProject(rootDir: string) {
@@ -130,11 +125,9 @@ async function pruneWorkspaces(rootDir: string, workspaces: Workspace[], selecte
 
 async function cleanupTemplateFiles(rootDir: string) {
   const packageJsonPath = join(rootDir, "package.json")
-  const packageJson = await readJson(packageJsonPath)
-  const init = getJsonObject(packageJson, "init")
-  const cleanupPaths = init ? (getJsonStringArray(init, "cleanupPaths") ?? []) : []
-
-  const cleanupSections = init ? (getJsonStringArray(init, "cleanupSections") ?? []) : []
+  const packageJson = await readPackageJson(packageJsonPath)
+  const init = TemplateInitSchema.safeParse(packageJson.init)
+  const { cleanupPaths, cleanupSections } = init.data ?? { cleanupPaths: [], cleanupSections: [] }
 
   await Promise.all(cleanupPaths.map((path) => removePath(rootDir, path)))
   await Promise.all(
@@ -209,8 +202,8 @@ export default defineCommand({
 
     const apps = await getWorkspaces(rootDir, "app")
     const packages = await getWorkspaces(rootDir, "package")
-    const rootPackage = await readJson(join(rootDir, "package.json"))
-    const defaultName = getJsonString(rootPackage, "name") ?? "project"
+    const rootPackage = await readPackageJson(join(rootDir, "package.json"))
+    const defaultName = rootPackage.name ?? "project"
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
     const selectedApps = args["keep-apps"]?.split(",").filter(Boolean)
     const selectedPackages = args["keep-packages"]?.split(",").filter(Boolean)

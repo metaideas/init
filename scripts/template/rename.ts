@@ -1,6 +1,12 @@
 import { join } from "node:path"
 
-import { getScopePrefix, normalizeScope, readJson, replaceTextInFiles, writeJson } from "./shared"
+import {
+  getScopePrefix,
+  normalizeScope,
+  readPackageJson,
+  replaceTextInFiles,
+  writeJson,
+} from "./shared"
 
 export type RenameOptions = {
   projectName?: string
@@ -21,7 +27,7 @@ export async function renameProject({ rootDir, projectName, scope, sourceScope }
   if (!projectName) return { changedFiles: [...changedFiles] }
 
   const packageJsonPath = join(rootDir, "package.json")
-  const packageJson = await readJson(packageJsonPath)
+  const packageJson = await readPackageJson(packageJsonPath)
   if (packageJson.name !== projectName) {
     packageJson.name = projectName
     await writeJson(packageJsonPath, packageJson)

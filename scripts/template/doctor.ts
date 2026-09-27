@@ -1,20 +1,20 @@
 import { dirname, join, relative, resolve } from "node:path"
 import { defineCommand } from "citty"
 import consola from "consola"
+import * as z from "zod"
 
 import {
   findTextReferences,
-  getJsonObject,
-  getJsonStringArray,
   getProjectScope,
   getScopePrefix,
   getWorkspaceGraph,
   getWorkspacePath,
-  readJson,
+  readPackageJson,
   readTemplateStamp,
   TEMPLATE_SCOPE,
   TEMPLATE_SECTION_START,
   TEMPLATE_STAMP_FILE,
+  TemplateInitSchema,
   type TemplateStamp,
   type WorkspaceNode,
 } from "./shared"
@@ -40,6 +40,10 @@ const BACKEND_MARKERS = [
     file: "src/shared/components/convex-provider.tsx",
   },
 ] as const
+
+const TurboJsonSchema = z.object({
+  tasks: z.record(z.string(), z.looseObject({ env: z.array(z.string()).optional() })),
+})
 
 const TOOL_COMMANDS = [
   ["check"],
@@ -136,9 +140,8 @@ const checks: Check[] = [
   {
     name: "Turbo build env entries are declared by a schema",
     run: async ({ envFiles, rootDir }) => {
-      const turbo = await readJson(join(rootDir, "turbo.json"))
-      const build = getJsonObject(getJsonObject(turbo, "tasks") ?? {}, "build") ?? {}
-      const patterns = getJsonStringArray(build, "env") ?? []
+      const turbo = TurboJsonSchema.parse(await Bun.file(join(rootDir, "turbo.json")).json())
+      const patterns = turbo.tasks.build?.env ?? []
       const contents = await Promise.all(envFiles.map((file) => Bun.file(file).text()))
       const keys = contents.flatMap((text) =>
         [...text.matchAll(/^([A-Z][A-Z0-9_]*)=/gm)].map((match) => match[1])
@@ -170,21 +173,21 @@ const checks: Check[] = [
   {
     name: "Template-only content matches the project state",
     run: async ({ rootDir, stamp }) => {
-      const packageJson = await readJson(join(rootDir, "package.json"))
-      const init = getJsonObject(packageJson, "init")
+      const packageJson = await readPackageJson(join(rootDir, "package.json"))
+      const init = TemplateInitSchema.safeParse(packageJson.init)
       const allMarkedFiles = await findTextReferences(rootDir, TEMPLATE_SECTION_START)
       const markedFiles = allMarkedFiles.filter(
         (path) => !relative(rootDir, path).startsWith("scripts/")
       )
 
       if (!stamp) {
-        const cleanupPaths = init && getJsonStringArray(init, "cleanupPaths")
-        const cleanupSections = init && getJsonStringArray(init, "cleanupSections")
-        if (!cleanupPaths || !cleanupSections) {
+        if (!init.success) {
           return [
             "package.json needs init.cleanupPaths and init.cleanupSections arrays so setup can remove template content",
           ]
         }
+
+        const { cleanupPaths, cleanupSections } = init.data
         const missingPaths = await Promise.all(
           cleanupPaths.map(async (path) =>
             (await Bun.file(join(rootDir, path)).exists()) ? undefined : path
@@ -205,7 +208,7 @@ const checks: Check[] = [
 
       return [
         ...(stamp.commit ? [] : [`${TEMPLATE_STAMP_FILE} does not record the template commit`]),
-        ...(init ? ["package.json still has the init field"] : []),
+        ...("init" in packageJson ? ["package.json still has the init field"] : []),
         ...("bun-create" in packageJson ? ["package.json still has the bun-create field"] : []),
         ...markedFiles.map((path) => `${relative(rootDir, path)} still has TEMPLATE:START markers`),
       ]
