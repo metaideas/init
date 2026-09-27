@@ -8,7 +8,6 @@ import { signedUrlPolicy } from "files-sdk/signed-url-policy"
 import { validation } from "files-sdk/validation"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
 import { ENV } from "#shared/env.generated.ts"
-import { FileKeySchema } from "#shared/file-key.ts"
 import { log } from "#shared/logger.ts"
 import { context } from "#shared/utils.ts"
 
@@ -79,7 +78,14 @@ export const files = createFiles({
     }),
     validation({
       allowedTypes: ["image/*", "application/pdf"],
-      key: (key) => FileKeySchema.safeParse(key).success,
+      key: (key) =>
+        z
+          .string()
+          .regex(/^[\w.-]+(?:\/[\w.-]+)*$/u)
+          .refine((value) =>
+            value.split("/").every((segment) => segment !== "." && segment !== "..")
+          )
+          .safeParse(key).success,
       maxSize: FILES_MAX_UPLOAD_SIZE,
       minSize: 1,
     }),
