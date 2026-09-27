@@ -1,25 +1,28 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
-import { getAnswerStrings, readPackageJson, readPackageName, requireAnswers } from "../boundaries"
+import * as z from "zod"
 
-type CodeSnippetsAnswers = PlopTypes.Answers & {
-  utilities?: Array<"assert" | "codec">
-  corePackage?: string
-}
+import { readPackageJson, readPackageName, StringListSchema } from "../schemas"
+
+const AnswersSchema = z.object({
+  utilities: StringListSchema.pipe(z.array(z.enum(["assert", "codec"])).min(1)),
+})
+
+type CodeSnippetsAnswers = PlopTypes.Answers
+  & z.infer<typeof AnswersSchema> & { corePackage?: string }
 
 export function registerCodeSnippetsGenerator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("code-snippets", {
     actions: (rawAnswers) => {
-      const providedAnswers = requireAnswers(rawAnswers)
-      const utilities = getAnswerStrings(providedAnswers, "utilities").filter(
-        (utility): utility is "assert" | "codec" => utility === "assert" || utility === "codec"
+      const answers: CodeSnippetsAnswers = Object.assign(
+        rawAnswers ?? {},
+        AnswersSchema.parse(rawAnswers)
       )
-      const answers: CodeSnippetsAnswers = Object.assign(providedAnswers, { utilities })
 
       const actions: PlopTypes.Actions = []
 
-      if (answers.utilities?.includes("codec")) {
+      if (answers.utilities.includes("codec")) {
         actions.push({
           path: "packages/utils/src/codec.ts",
           skipIfExists: true,
@@ -28,7 +31,7 @@ export function registerCodeSnippetsGenerator(plop: PlopTypes.NodePlopAPI): void
         })
       }
 
-      if (answers.utilities?.includes("assert")) {
+      if (answers.utilities.includes("assert")) {
         actions.push(
           async () => {
             const corePackageName = await readPackageName("packages/core/package.json")
@@ -57,11 +60,11 @@ export function registerCodeSnippetsGenerator(plop: PlopTypes.NodePlopAPI): void
       }
 
       actions.push(async () => {
-        if (answers.utilities?.includes("assert")) {
+        if (answers.utilities.includes("assert")) {
           await Bun.$`bun install`
         }
 
-        return `Installed utility snippets: ${answers.utilities?.join(", ")}`
+        return `Installed utility snippets: ${answers.utilities.join(", ")}`
       })
 
       return actions

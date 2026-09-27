@@ -1,22 +1,26 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
-import { getAnswerString, readPackageJson, readPackageName, requireAnswers } from "../boundaries"
+import * as z from "zod"
 
-type NewPackageAnswers = PlopTypes.Answers & {
-  name: string
-  packageScope?: string
-  toolingPackage?: string
-  typescriptVersion?: string
-}
+import { readPackageJson, readPackageName } from "../schemas"
+
+const AnswersSchema = z.object({ name: z.string().min(1) })
+
+type NewPackageAnswers = PlopTypes.Answers
+  & z.infer<typeof AnswersSchema> & {
+    packageScope?: string
+    toolingPackage?: string
+    typescriptVersion?: string
+  }
 
 export function registerNewPackageGenerator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("new-package", {
     actions: (rawAnswers) => {
-      const providedAnswers = requireAnswers(rawAnswers)
-      const answers: NewPackageAnswers = Object.assign(providedAnswers, {
-        name: getAnswerString(providedAnswers, "name"),
-      })
+      const answers: NewPackageAnswers = Object.assign(
+        rawAnswers ?? {},
+        AnswersSchema.parse(rawAnswers)
+      )
       const name = plop.renderString("{{kebabCase value}}", { value: answers.name })
       const packagePath = `packages/${name}`
 

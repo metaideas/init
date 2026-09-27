@@ -1,14 +1,17 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
-import { getAnswerString, readPackageJson, requireAnswers } from "../boundaries"
+import * as z from "zod"
 
-type FilesClientAnswers = PlopTypes.Answers & {
-  app: string
-  dependencyRequired?: boolean
-  endpoint: string
-  isInstalled?: boolean
-}
+import { readPackageJson } from "../schemas"
+
+const AnswersSchema = z.object({
+  app: z.string().min(1),
+  endpoint: z.url(),
+})
+
+type FilesClientAnswers = PlopTypes.Answers
+  & z.infer<typeof AnswersSchema> & { dependencyRequired?: boolean; isInstalled?: boolean }
 
 async function getMissingPaths(paths: readonly string[]): Promise<string[]> {
   const checks = await Promise.all(
@@ -29,11 +32,10 @@ export function registerFilesClientGenerator(plop: PlopTypes.NodePlopAPI): void 
 
   plop.setGenerator("files-client", {
     actions: (rawAnswers) => {
-      const providedAnswers = requireAnswers(rawAnswers)
-      const answers: FilesClientAnswers = Object.assign(providedAnswers, {
-        app: getAnswerString(providedAnswers, "app"),
-        endpoint: getAnswerString(providedAnswers, "endpoint"),
-      })
+      const answers: FilesClientAnswers = Object.assign(
+        rawAnswers ?? {},
+        AnswersSchema.parse(rawAnswers)
+      )
       const appPath = `apps/${answers.app}`
       const clientPath = `${appPath}/src/shared/files.ts`
       const actions: PlopTypes.Actions = [
