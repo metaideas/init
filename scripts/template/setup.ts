@@ -123,11 +123,14 @@ async function pruneWorkspaces(rootDir: string, workspaces: Workspace[], selecte
   )
 }
 
-async function cleanupTemplateFiles(rootDir: string) {
+type TemplateInit = z.infer<typeof TemplateInitSchema>
+
+async function cleanupTemplateFiles(
+  rootDir: string,
+  { cleanupPaths, cleanupSections }: TemplateInit
+) {
   const packageJsonPath = join(rootDir, "package.json")
   const packageJson = await readPackageJson(packageJsonPath)
-  const init = TemplateInitSchema.safeParse(packageJson.init)
-  const { cleanupPaths, cleanupSections } = init.data ?? { cleanupPaths: [], cleanupSections: [] }
 
   await Promise.all(cleanupPaths.map((path) => removePath(rootDir, path)))
   await Promise.all(
@@ -204,6 +207,16 @@ export default defineCommand({
     const packages = await getWorkspaces(rootDir, "package")
     const rootPackage = await readPackageJson(join(rootDir, "package.json"))
     const defaultName = rootPackage.name ?? "project"
+    const init = TemplateInitSchema.safeParse(
+      rootPackage.init ?? { cleanupPaths: [], cleanupSections: [] }
+    )
+    if (!init.success) {
+      consola.error(
+        "The init field in package.json needs cleanupPaths and cleanupSections arrays. Fix it before setup changes the project."
+      )
+      process.exitCode = 1
+      return
+    }
     const sourceScope = await getProjectScope(rootDir).catch(() => TEMPLATE_SCOPE)
     const selectedApps = args["keep-apps"]?.split(",").filter(Boolean)
     const selectedPackages = args["keep-packages"]?.split(",").filter(Boolean)
@@ -281,7 +294,7 @@ export default defineCommand({
     await pruneWorkspaces(rootDir, packages, selection.keepPackages)
     await renameProject({ projectName, rootDir, scope: projectName, sourceScope })
     await stampProject(rootDir)
-    await cleanupTemplateFiles(rootDir)
+    await cleanupTemplateFiles(rootDir, init.data)
 
     if (shouldInitializeGit && !(await Bun.file(join(rootDir, ".git")).exists()))
       await runCommand(["git", "init"], rootDir)
