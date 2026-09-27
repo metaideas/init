@@ -28,6 +28,7 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@init/utils": "workspace:*",
+    "@tanstack/react-form-start": "1.33.5",
     "@tanstack/react-query": "^5.90.20",
     "@tanstack/react-router": "1.170.18",
     "@tanstack/react-router-ssr-query": "1.167.1",

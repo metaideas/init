@@ -30,7 +30,7 @@ export const t = initTRPC.context<TRPCContext>().create({
       ...formattedError,
       data: {
         ...formattedError.data,
-        zodError: error.cause instanceof z.ZodError ? error.cause.flatten() : null,
+        zodError: error.cause instanceof z.ZodError ? z.flattenError(error.cause) : null,
       },
     }
   },

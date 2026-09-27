@@ -1,4 +1,4 @@
-import { z } from "@init/utils/schema"
+import * as z from "@init/utils/schema"
 import { createRouter, publicProcedure } from "#shared/trpc.ts"
 
 export default createRouter({

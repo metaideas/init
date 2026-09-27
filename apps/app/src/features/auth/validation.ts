@@ -1,4 +1,4 @@
-import * as z from "@init/utils/schema"
+import * as z from "@init/utils/schema/mini"
 
 export const EmailSchema = z.email({
   error: (issue) => (issue.input === undefined ? "Email is required" : "Invalid email address"),
@@ -6,11 +6,15 @@ export const EmailSchema = z.email({
 
 export const PasswordSchema = z
   .string({ error: "Password is required" })
-  .min(1, { error: "Password is required" })
-  .min(8, { error: "Password must be more than 8 characters" })
-  .max(32, { error: "Password must be less than 32 characters" })
+  .check(
+    z.minLength(1, { error: "Password is required" }),
+    z.minLength(8, { error: "Password must be more than 8 characters" }),
+    z.maxLength(32, { error: "Password must be less than 32 characters" })
+  )
 
-export const NameSchema = z.string().min(1, { error: "Name is required" })
+export const NameSchema = z
+  .string({ error: "Name is required" })
+  .check(z.minLength(1, { error: "Name is required" }))
 
 export const SignUpFormSchema = z.object({
   confirmPassword: PasswordSchema,
@@ -32,7 +36,9 @@ export const ResetPasswordFormSchema = z
     confirmPassword: PasswordSchema,
     password: PasswordSchema,
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: "Passwords don't match",
-    path: ["confirmPassword"],
-  })
+  .check(
+    z.refine((data) => data.password === data.confirmPassword, {
+      error: "Passwords don't match",
+      path: ["confirmPassword"],
+    })
+  )

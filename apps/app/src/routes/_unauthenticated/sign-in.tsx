@@ -6,12 +6,16 @@ import {
   SignInWithGitHubButton,
   SignInWithGoogleButton,
 } from "#features/auth/components/sign-in-with-social-buttons.tsx"
+import { getSignInFormState } from "#features/auth/server/functions.ts"
 
 export const Route = createFileRoute("/_unauthenticated/sign-in")({
   component: RouteComponent,
+  loader: () => getSignInFormState(),
 })
 
 function RouteComponent() {
+  const formState = Route.useLoaderData()
+
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-8">
       <Card className="w-full sm:mx-auto sm:max-w-[500px]">
@@ -30,7 +34,7 @@ function RouteComponent() {
             </div>
           </div>
 
-          <SignInWithPasswordForm />
+          <SignInWithPasswordForm state={formState} />
 
           <div className="relative my-6">
             <div aria-hidden="true" className="absolute inset-0 flex items-center">

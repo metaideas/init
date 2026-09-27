@@ -1,6 +1,7 @@
 import * as z from "zod"
 
-// Create custom zod types here and import them to other packages under the `z` namespace.
+// Create custom zod types here and import them to other packages under the `z` namespace. Keep
+// the Mini versions in `mini.ts` in sync.
 const PROTOCOL_REGEX = /^https?$/
 
 /**
@@ -28,6 +29,5 @@ export function ip() {
   return z.union([z.ipv4(), z.ipv6()])
 }
 
-export * from "zod"
 // oxlint-disable-next-line no-barrel-file
-export * as form from "zod-form-data"
+export * from "zod"
