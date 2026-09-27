@@ -27,6 +27,8 @@ jobs:
             command: bun run check
           - name: analyze
             command: bun run analyze
+          - name: boundaries
+            command: bun run boundaries
 
     steps:
       - name: Checkout

@@ -36,7 +36,7 @@ These commands match the scripts in the root `package.json`.
 | `bun run db:migrate`   | Run the Drizzle migrations.                                          |
 | `bun run docker:up`    | Start the local services.                                            |
 | `bun run docker:down`  | Stop the local services.                                             |
-| `bun run boundaries`   | Check Turborepo package boundaries.                                  |
+| `bun run boundaries`   | Check Turborepo workspace boundaries and tags.                       |
 | `bun run generate`     | Run a template recipe with Turbo generators.                         |
 | `bun template`         | Run a template command (`setup`, `doctor`, `add`, `remove`, `diff`). |
 | `bun run scripts`      | Run the project script entry point.                                  |
