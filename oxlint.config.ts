@@ -11,16 +11,20 @@ const LAYER_MESSAGE =
 const RELATIVE_MODULE_IMPORTS = ["./**", "!./**/*.{avif,css,gif,jpeg,jpg,png,svg,webp}"] as const
 
 const RESTRICTED_IMPORTS = [
-  { files: "apps/app/src/routes/**", group: ["#routes/**", ...RELATIVE_MODULE_IMPORTS] },
-  { files: "apps/desktop/src/renderer/**", group: ["#shell/**"] },
+  { files: "apps/app/src/routes/**", group: [...subpath("#routes"), ...RELATIVE_MODULE_IMPORTS] },
+  { files: "apps/desktop/src/renderer/**", group: subpath("#shell") },
   {
     files: "apps/desktop/src/renderer/routes/**",
-    group: ["#renderer/routes/**", "#shell/**", ...RELATIVE_MODULE_IMPORTS],
+    group: [...subpath("#renderer/routes"), ...subpath("#shell"), ...RELATIVE_MODULE_IMPORTS],
   },
-  { files: "apps/docs/src/pages/**", group: ["#pages/**", ...RELATIVE_MODULE_IMPORTS] },
-  { files: "apps/mobile/src/app/**", group: ["#app/**", ...RELATIVE_MODULE_IMPORTS] },
-  { files: "apps/web/src/pages/**", group: ["#pages/**", ...RELATIVE_MODULE_IMPORTS] },
-] as const
+  { files: "apps/docs/src/pages/**", group: [...subpath("#pages"), ...RELATIVE_MODULE_IMPORTS] },
+  { files: "apps/mobile/src/app/**", group: [...subpath("#app"), ...RELATIVE_MODULE_IMPORTS] },
+  { files: "apps/web/src/pages/**", group: [...subpath("#pages"), ...RELATIVE_MODULE_IMPORTS] },
+]
+
+function subpath(root: string) {
+  return [root, `${root}/**`]
+}
 
 function allowOnlySubpathImports(files: string, allowed: readonly string[]): OxlintOverride {
   return {
@@ -53,20 +57,20 @@ function restrictImports(files: string, group: readonly string[]): OxlintOverrid
   }
 }
 
-function listFeatures(app: string) {
-  const featuresDirectory = path.join(import.meta.dirname, "apps", app, "src", "features")
+function listDirectories(...segments: string[]) {
+  const directory = path.join(import.meta.dirname, ...segments)
 
-  if (!existsSync(featuresDirectory)) {
+  if (!existsSync(directory)) {
     return []
   }
 
-  return readdirSync(featuresDirectory, { withFileTypes: true })
+  return readdirSync(directory, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
 }
 
-const featureOverrides = readdirSync(path.join(import.meta.dirname, "apps")).flatMap((app) =>
-  listFeatures(app).map((feature) =>
+const featureOverrides = listDirectories("apps").flatMap((app) =>
+  listDirectories("apps", app, "src", "features").map((feature) =>
     allowOnlySubpathImports(`apps/${app}/src/features/${feature}/**`, [
       "#shared",
       `#features/${feature}`,
