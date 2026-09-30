@@ -18,6 +18,7 @@
         "turbo": "2.10.7",
         "typescript": "7.0.2",
         "varlock": "1.16.0",
+        "zod": "4.3.5",
       },
     },
     "apps/api": {

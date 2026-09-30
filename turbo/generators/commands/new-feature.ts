@@ -1,13 +1,13 @@
 import type { PlopTypes } from "@turbo/gen"
 import Bun from "bun"
 
-import { getAnswerString, getAnswerStrings, requireAnswers } from "../boundaries"
+import * as z from "zod"
 
-type NewFeatureAnswers = PlopTypes.Answers & {
-  app: string
-  files: string[] | string
-  name: string
-}
+const AnswersSchema = z.object({
+  app: z.string().min(1),
+  files: z.array(z.string()),
+  name: z.string().min(1),
+})
 
 export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
   const apps = [
@@ -21,15 +21,10 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
 
   plop.setGenerator("new-feature", {
     actions: (rawAnswers) => {
-      const providedAnswers = requireAnswers(rawAnswers)
-      const answers: NewFeatureAnswers = Object.assign(providedAnswers, {
-        app: getAnswerString(providedAnswers, "app"),
-        files: getAnswerStrings(providedAnswers, "files"),
-        name: getAnswerString(providedAnswers, "name"),
-      })
-      const selectedFiles = Array.isArray(answers.files)
-        ? answers.files
-        : answers.files.split(",").map((file) => file.trim())
+      const { files: selectedFiles } = Object.assign(
+        rawAnswers ?? {},
+        AnswersSchema.parse(rawAnswers)
+      )
       const generatedFiles = selectedFiles.filter(
         (file) => file !== "assets" && file !== "components"
       )

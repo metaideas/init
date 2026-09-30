@@ -1,6 +1,9 @@
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path"
+import * as z from "zod"
 
 export const TEMPLATE_SCOPE = "init"
+export const TEMPLATE_REPO = "metaideas/init"
+export const TEMPLATE_STAMP_FILE = ".template.json"
 
 const ignoredDirectories = new Set([".cache", ".git", ".turbo", "build", "dist", "node_modules"])
 
@@ -11,46 +14,45 @@ export type Workspace = {
   name: string
 }
 
-export type JsonValue = boolean | null | number | string | JsonObject | JsonValue[]
-
-export type JsonObject = {
-  [key: string]: JsonValue | undefined
+export type WorkspaceNode = Workspace & {
+  dependencies: string[]
+  kind: WorkspaceKind
+  packageName: string
 }
 
-export async function readJson(path: string): Promise<JsonObject> {
-  const value: unknown = JSON.parse(await Bun.file(path).text())
-  if (value === null || !(value instanceof Object) || Array.isArray(value))
-    throw new Error(`Expected ${path} to contain a JSON object.`)
+const DependenciesSchema = z.record(z.string(), z.string()).optional()
 
-  // SAFETY: JSON.parse returned a non-null, non-array object, and JSON values have the JsonValue contract.
-  return value as JsonObject
+const PackageJsonSchema = z.looseObject({
+  dependencies: DependenciesSchema,
+  devDependencies: DependenciesSchema,
+  name: z.string().optional(),
+  peerDependencies: DependenciesSchema,
+})
+
+export const TemplateInitSchema = z.object({
+  cleanupPaths: z.array(z.string()),
+  cleanupSections: z.array(z.string()),
+})
+
+const TemplateStampSchema = z.object({
+  commit: z.string().optional(),
+  createdAt: z.string(),
+  template: z.string(),
+})
+
+export type PackageJson = z.infer<typeof PackageJsonSchema>
+export type TemplateStamp = z.infer<typeof TemplateStampSchema>
+
+export async function readPackageJson(path: string) {
+  const value: unknown = await Bun.file(path).json()
+  PackageJsonSchema.parse(value)
+
+  // SAFETY: the schema accepted the value. Returning the original keeps the key order of manifests that are written back.
+  return value as PackageJson
 }
 
-export async function writeJson(path: string, value: JsonValue) {
+export async function writeJson(path: string, value: unknown) {
   await Bun.write(path, `${JSON.stringify(value, null, 2)}\n`)
-}
-
-export function isJsonObject(value: JsonValue | undefined): value is JsonObject {
-  return (
-    value !== null && value !== undefined && !Array.isArray(value) && value.constructor === Object
-  )
-}
-
-export function getJsonString(object: JsonObject, key: string) {
-  const value = object[key]
-  return value?.constructor === String ? String(value) : undefined
-}
-
-export function getJsonObject(object: JsonObject, key: string) {
-  const value = object[key]
-  return isJsonObject(value) ? value : undefined
-}
-
-export function getJsonStringArray(object: JsonObject, key: string) {
-  const value = object[key]
-  if (!Array.isArray(value) || !value.every((entry) => entry?.constructor === String)) return
-
-  return value.map(String)
 }
 
 export function normalizeScope(scope: string) {
@@ -69,10 +71,12 @@ export function getScopePrefix(scope: string) {
   return `@${scope}/`
 }
 
-export function getDependencyNames(packageJson: JsonObject) {
-  return ["dependencies", "devDependencies", "peerDependencies"].flatMap((field) =>
-    Object.keys(getJsonObject(packageJson, field) ?? {})
-  )
+export function getDependencyNames(packageJson: PackageJson) {
+  return [
+    packageJson.dependencies,
+    packageJson.devDependencies,
+    packageJson.peerDependencies,
+  ].flatMap((dependencies) => Object.keys(dependencies ?? {}))
 }
 
 export async function getWorkspaces(rootDir: string, kind: WorkspaceKind) {
@@ -89,6 +93,61 @@ export async function getWorkspaces(rootDir: string, kind: WorkspaceKind) {
   }
 
   return workspaces.toSorted((left, right) => left.name.localeCompare(right.name))
+}
+
+export async function getWorkspaceGraph(rootDir: string): Promise<WorkspaceNode[]> {
+  const kinds: WorkspaceKind[] = ["app", "package"]
+  const nodes = await Promise.all(
+    kinds.map(async (kind) => {
+      const workspaces = await getWorkspaces(rootDir, kind)
+
+      return Promise.all(
+        workspaces.map(async ({ directory, name }): Promise<WorkspaceNode> => {
+          const packageJson = await readPackageJson(join(directory, "package.json"))
+
+          return {
+            dependencies: getDependencyNames(packageJson),
+            directory,
+            kind,
+            name,
+            packageName: packageJson.name ?? "",
+          }
+        })
+      )
+    })
+  )
+
+  return nodes.flat()
+}
+
+export function getWorkspacePath(workspace: Pick<WorkspaceNode, "kind" | "name">) {
+  return `${workspace.kind}s/${workspace.name}`
+}
+
+export async function readTemplateStamp(rootDir: string): Promise<TemplateStamp | undefined> {
+  const path = join(rootDir, TEMPLATE_STAMP_FILE)
+  if (!(await Bun.file(path).exists())) return
+
+  return TemplateStampSchema.parse(await Bun.file(path).json())
+}
+
+export async function writeTemplateStamp(rootDir: string, stamp: TemplateStamp) {
+  await writeJson(join(rootDir, TEMPLATE_STAMP_FILE), stamp)
+}
+
+export const TEMPLATE_REMOTE = "template"
+
+export async function fetchTemplate(rootDir: string) {
+  const remote = await Bun.$`git remote get-url ${TEMPLATE_REMOTE}`.cwd(rootDir).quiet().nothrow()
+  if (remote.exitCode !== 0) {
+    await Bun.$`git remote add ${TEMPLATE_REMOTE} https://github.com/${TEMPLATE_REPO}.git`
+      .cwd(rootDir)
+      .quiet()
+  }
+  await Bun.$`git fetch --quiet ${TEMPLATE_REMOTE} main`.cwd(rootDir).quiet()
+
+  const head = await Bun.$`git rev-parse ${TEMPLATE_REMOTE}/main`.cwd(rootDir).text()
+  return head.trim()
 }
 
 export async function getTextFiles(rootDir: string) {
@@ -150,8 +209,8 @@ export async function getProjectScope(rootDir: string) {
 
   const packageNames = await Promise.all(
     workspaces.flat().map(async (workspace) => {
-      const packageJson = await readJson(join(workspace.directory, "package.json"))
-      return getJsonString(packageJson, "name")
+      const packageJson = await readPackageJson(join(workspace.directory, "package.json"))
+      return packageJson.name
     })
   )
   const packageName = packageNames.find((name) => name !== undefined && /^@[^/]+\//.test(name))
@@ -188,7 +247,7 @@ export async function removePath(rootDir: string, relativePath: string) {
   await Bun.$`rm -rf ${resolvePathWithinRoot(rootDir, relativePath)}`.quiet()
 }
 
-const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
+export const TEMPLATE_SECTION_START = "<!-- TEMPLATE:START -->"
 const TEMPLATE_SECTION_END = "<!-- TEMPLATE:END -->"
 
 export function removeTemplateSections(contents: string) {

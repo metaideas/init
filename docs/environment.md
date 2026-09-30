@@ -94,4 +94,4 @@ Do not synchronize Varlock-resolved values into Convex. Expo and other clients o
 
 ## Template commands
 
-`bun run generate connect-backend` adds only schema keys and development values for the selected connection. Its edits use exact keys and are idempotent. Removing a backend-specific key does not remove a similarly named application key. After you change workspace selection, run codegen. This prevents deleted packages from leaving dangling imports.
+The `connect-backend` skill adds only schema keys and development values for the selected connection. Removing a backend-specific key does not remove a similarly named application key. After you change workspace selection, run `bun template doctor`. It reports environment imports that point at deleted packages.

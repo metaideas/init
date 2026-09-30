@@ -1,0 +1,10 @@
+import type { PropsWithChildren } from "react"
+import type { ConvexReactClient } from "{{backendPackage}}/client"
+import { ConvexProvider as ConvexClientProvider } from "{{backendPackage}}/client"
+
+export default function ConvexProvider({
+  children,
+  client,
+}: PropsWithChildren<{ client: ConvexReactClient }>) {
+  return <ConvexClientProvider client={client}>{children}</ConvexClientProvider>
+}

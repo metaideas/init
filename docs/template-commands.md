@@ -1,9 +1,9 @@
 ---
 title: Template Commands
-description: Configure, rename, and extend scaffolded projects from init with local template commands.
+description: Configure, verify, extend, and update scaffolded projects from init with local template commands.
 ---
 
-Use these template commands to configure and extend projects created with `bun create metaideas/init <name>`.
+Use these template commands to configure and extend projects created with `bun create metaideas/init <name>`. Each command does one mechanical job. The skills in `.agents/skills/` drive them and finish with `bun template doctor`.
 
 ## Commands
 
@@ -11,50 +11,73 @@ Use these template commands to configure and extend projects created with `bun c
 
 Configure a newly created project. This command does the following:
 
-- It prompts you to select the application and package workspaces to keep.
-- It sets the project name, which is also the package scope.
-- It rewrites `@init/` references with the project name.
+- It prompts you to select the application and package workspaces to keep, and keeps the packages they depend on.
+- It sets the project name, which is also the package scope, and rewrites `@init/` references.
 - It records the source template, commit, and creation time in `.template.json`.
 - It removes content that only template maintainers use, including the marked template sections of `AGENTS.md`.
 
 ```bash
 bun template setup
+bun template setup --yes --name <name> --keep-apps app,api --keep-packages auth,db
 ```
 
-### `bun template rename`
+### `bun template doctor`
 
-Rename the project. Rewrite its package scope references.
+Verify the project. The doctor checks the template invariants, then runs the existing tools:
+
+- No `@init/` references remain after the rename.
+- Every scoped dependency resolves to a workspace, and no package workspace depends on an application workspace.
+- Every `@import` in an environment contract points at an existing fragment, and every `@generateTsTypes` output exists.
+- Every pattern in the `build` task `env` list of `turbo.json` matches a declared key.
+- Template-only content matches the project state: markers and `init` fields are gone from a scaffolded project, and present in the template.
+- Every backend client file in an app has its backend workspace and dependency.
+- `bun run check`, `bun run boundaries`, `bun run analyze`, `bun run env:check`, and `bun run build` pass.
 
 ```bash
-bun template rename --name <name> [--scope <scope>]
+bun template doctor
+bun template doctor --fast # skip the build
 ```
 
-### `bun template add app <name>`
+### `bun template add <kind> <name>`
 
-Copy an application workspace from the template with Turbo generators. Apply the package scope of the project.
+Copy an application or package workspace from the template at the commit recorded in `.template.json`, apply the package scope, and copy template packages it depends on. The command fetches the template into a `template` git remote, so the project must be a git repository.
 
 ```bash
 bun template add app web
-```
-
-### `bun template add package <name>`
-
-Copy a package workspace from the template with Turbo generators. Apply the package scope of the project.
-
-```bash
 bun template add package auth
 ```
+
+### `bun template remove <kind> <name>`
+
+Delete a workspace and list the workspaces and files that still reference it.
+
+```bash
+bun template remove app docs
+bun template remove package payments
+```
+
+### `bun template diff`
+
+Fetch the upstream template and print the changes since the recorded commit, with `@init/` rewritten to the project scope so hunks apply locally.
+
+```bash
+bun template diff --name-only
+bun template diff
+bun template diff --update-stamp
+```
+
+`--update-stamp` records the fetched commit in `.template.json` after you apply the changes you want.
 
 ## Project scripts
 
 `bun run scripts` is the extensible entry point for scripts that the project owns.
 
-## Updating Your Project
+## Updating your project
 
-`bun template setup` creates `.template.json`. The file contains the template repository, the commit used to create the project, and the creation time:
+`bun template setup` creates `.template.json`:
 
 ```json
 { "template": "metaideas/init", "commit": "<sha>", "createdAt": "<ISO date>" }
 ```
 
-There is no automated template `update` or `check` command. To add template improvements, ask the coding agent to compare [metaideas/init](https://github.com/metaideas/init) from the recorded commit to `HEAD`. Ask it to apply changes that are relevant to the project. Before it compares the code, tell it to propagate upstream deletions. Tell it to normalize the renamed scope. Local `@<scope>/` references correspond to upstream `@init/` references.
+There is no automated merge. Run `bun template diff`, apply the relevant hunks, including upstream deletions, then record the new baseline with `--update-stamp` and run `bun template doctor`. The `update-from-template` skill walks a coding agent through this.

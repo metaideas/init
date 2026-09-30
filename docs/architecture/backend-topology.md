@@ -17,8 +17,8 @@ require `apps/api`.
 clients from `apps/api/src/client.ts`. Application workspaces can import only this file
 from another application workspace. It also contains the authenticated Files SDK gateway.
 
-Run the local `connect-backend` template command to connect client application workspaces. The
-template command owns adapter seams and environment wiring. Application workspaces never import source
+Apply the `connect-backend` skill to connect client application workspaces. The
+skill owns adapter seams and environment wiring. Application workspaces never import source
 from `apps/api` outside the exported client contract.
 
 ## Convex
@@ -27,7 +27,7 @@ from `apps/api` outside the exported client contract.
 a React client. It exists in `packages/` because application workspaces consume it as a
 workspace library. It deploys independently to Convex.
 
-Run the local `connect-backend` template command to add the client provider and authentication
+Apply the `connect-backend` skill to add the client provider and authentication
 wiring to supported application workspaces. When you select Convex, you explicitly select
 a workspace and a hosted service.
 

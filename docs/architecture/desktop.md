@@ -15,7 +15,7 @@ through the typed `window.desktop` bridge that the preload script exposes. Rende
 imports only `#shared` and `#features`, never `#shell`. Do not use browser-only
 assumptions for this behavior.
 
-Run the local `connect-backend` template command to add optional Hono or tRPC connectivity.
+Apply the `connect-backend` skill to add optional Hono or tRPC connectivity.
 Desktop adapters use explicit public API URLs. They do not enable the cookie-based
 authentication flow that browser applications use. Treat remote connectivity as an
 addition to the local desktop capability, not a prerequisite to launch the application.

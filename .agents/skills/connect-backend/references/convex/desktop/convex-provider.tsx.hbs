@@ -1,0 +1,26 @@
+import type { PropsWithChildren } from "react"
+import {
+  ConvexProvider as ConvexClientProvider,
+  ConvexQueryClient,
+  ConvexReactClient,
+} from "{{backendPackage}}/client"
+import { ENV } from "#shared/env.generated.ts"
+import { queryClient } from "#shared/query-client.ts"
+
+const convex = new ConvexReactClient(ENV.PUBLIC_CONVEX_URL, { unsavedChangesWarning: false })
+const convexQueryClient = new ConvexQueryClient(convex)
+const defaultOptions = queryClient.getDefaultOptions()
+
+queryClient.setDefaultOptions({
+  ...defaultOptions,
+  queries: {
+    ...defaultOptions.queries,
+    queryFn: convexQueryClient.queryFn(),
+    queryKeyHashFn: convexQueryClient.hashFn(defaultOptions.queries?.queryKeyHashFn),
+  },
+})
+convexQueryClient.connect(queryClient)
+
+export default function ConvexProvider({ children }: PropsWithChildren) {
+  return <ConvexClientProvider client={convex}>{children}</ConvexClientProvider>
+}

@@ -1,0 +1,21 @@
+import type { QueryClient } from "@tanstack/react-query"
+import { ConvexQueryClient, ConvexReactClient } from "{{backendPackage}}/client"
+import { ENV } from "#shared/env.generated.ts"
+
+export function createConvexClient(queryClient: QueryClient) {
+  const convex = new ConvexReactClient(ENV.PUBLIC_CONVEX_URL, { unsavedChangesWarning: false })
+  const convexQueryClient = new ConvexQueryClient(convex)
+  const defaultOptions = queryClient.getDefaultOptions()
+
+  queryClient.setDefaultOptions({
+    ...defaultOptions,
+    queries: {
+      ...defaultOptions.queries,
+      queryFn: convexQueryClient.queryFn(),
+      queryKeyHashFn: convexQueryClient.hashFn(defaultOptions.queries?.queryKeyHashFn),
+    },
+  })
+  convexQueryClient.connect(queryClient)
+
+  return convex
+}
