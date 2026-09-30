@@ -26,11 +26,10 @@ describe("createUrlBuilder", () => {
   })
 
   test("omits undefined query parameters", () => {
-    const url = new URL(
+    expect(
       createUrlBuilder("example.com")("/test", {
         query: { active: false, filter: undefined, page: 1 },
       })
-    )
-    expect(Object.fromEntries(url.searchParams)).toEqual({ active: "false", page: "1" })
+    ).toBe("https://example.com/test?active=false&page=1")
   })
 })
