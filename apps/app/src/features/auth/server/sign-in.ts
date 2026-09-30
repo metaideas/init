@@ -53,7 +53,8 @@ export async function signInWithPasswordForm(
 
   let setCookies: string[] = []
   // Goes through the auth client, like `validateSession`, so the session belongs to whichever auth
-  // server `PUBLIC_API_URL` selects.
+  // server `PUBLIC_API_URL` selects. On a separate hostname, that server must scope its cookies to a
+  // parent domain shared with this app (`AUTH_COOKIE_DOMAIN` in `apps/api`).
   const { error } = await authClient.signIn.email({
     ...result.data,
     fetchOptions: {
