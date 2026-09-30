@@ -1,5 +1,25 @@
 {
   "$schema": "https://v2-10-7.turborepo.dev/schema.json",
+  "boundaries": {
+    "tags": {
+      "api-application": {
+        "dependencies": {
+          "deny": ["application"]
+        },
+        "dependents": {
+          "allow": ["application"]
+        }
+      },
+      "application": {
+        "dependencies": {
+          "deny": ["application"]
+        },
+        "dependents": {
+          "allow": []
+        }
+      }
+    }
+  },
   "globalPassThroughEnv": ["CI", "VARLOCK_ENV", "_VARLOCK_ENV_KEY"],
   "concurrency": "15",
   "tasks": {
