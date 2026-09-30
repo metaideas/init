@@ -9,12 +9,15 @@ const LAYER_MESSAGE =
   "Application imports flow shared → features → routes and entrypoints. See AGENTS.md."
 
 const RESTRICTED_IMPORTS = [
-  { files: "apps/app/src/routes/**", group: ["#routes/**"] },
+  { files: "apps/app/src/routes/**", group: ["#routes/**", "./**"] },
   { files: "apps/desktop/src/renderer/**", group: ["#shell/**"] },
-  { files: "apps/desktop/src/renderer/routes/**", group: ["#renderer/routes/**", "#shell/**"] },
-  { files: "apps/docs/src/pages/**", group: ["#pages/**"] },
-  { files: "apps/mobile/src/app/**", group: ["#app/**"] },
-  { files: "apps/web/src/pages/**", group: ["#pages/**"] },
+  {
+    files: "apps/desktop/src/renderer/routes/**",
+    group: ["#renderer/routes/**", "#shell/**", "./**"],
+  },
+  { files: "apps/docs/src/pages/**", group: ["#pages/**", "./**"] },
+  { files: "apps/mobile/src/app/**", group: ["#app/**", "./**"] },
+  { files: "apps/web/src/pages/**", group: ["#pages/**", "./**"] },
 ] as const
 
 function allowOnlySubpathImports(files: string, allowed: readonly string[]): OxlintOverride {
