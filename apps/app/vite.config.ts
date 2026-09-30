@@ -34,4 +34,9 @@ export default defineConfig({
   server: {
     port: ENV.PORT,
   },
+  ssr: {
+    // Bundle every dependency so CommonJS shims such as `use-sync-external-store` require the same
+    // React copy as the rest of the server bundle.
+    noExternal: true,
+  },
 })
