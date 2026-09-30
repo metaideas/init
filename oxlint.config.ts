@@ -8,16 +8,18 @@ import { defineConfig, type OxlintOverride } from "oxlint"
 const LAYER_MESSAGE =
   "Application imports flow shared → features → routes and entrypoints. See AGENTS.md."
 
+const RELATIVE_MODULE_IMPORTS = ["./**", "!./**/*.{avif,css,gif,jpeg,jpg,png,svg,webp}"] as const
+
 const RESTRICTED_IMPORTS = [
-  { files: "apps/app/src/routes/**", group: ["#routes/**", "./**"] },
+  { files: "apps/app/src/routes/**", group: ["#routes/**", ...RELATIVE_MODULE_IMPORTS] },
   { files: "apps/desktop/src/renderer/**", group: ["#shell/**"] },
   {
     files: "apps/desktop/src/renderer/routes/**",
-    group: ["#renderer/routes/**", "#shell/**", "./**"],
+    group: ["#renderer/routes/**", "#shell/**", ...RELATIVE_MODULE_IMPORTS],
   },
-  { files: "apps/docs/src/pages/**", group: ["#pages/**", "./**"] },
-  { files: "apps/mobile/src/app/**", group: ["#app/**", "./**"] },
-  { files: "apps/web/src/pages/**", group: ["#pages/**", "./**"] },
+  { files: "apps/docs/src/pages/**", group: ["#pages/**", ...RELATIVE_MODULE_IMPORTS] },
+  { files: "apps/mobile/src/app/**", group: ["#app/**", ...RELATIVE_MODULE_IMPORTS] },
+  { files: "apps/web/src/pages/**", group: ["#pages/**", ...RELATIVE_MODULE_IMPORTS] },
 ] as const
 
 function allowOnlySubpathImports(files: string, allowed: readonly string[]): OxlintOverride {
