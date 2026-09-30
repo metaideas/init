@@ -16,8 +16,10 @@ require `apps/api`.
 `apps/api` is an optional Hono service. It runs on Bun and exposes Hono RPC and tRPC
 clients from `apps/api/src/client.ts`. Application workspaces can import only this file
 from another application workspace. It also contains the authenticated Files SDK gateway.
-`bun run boundaries` enforces the import rule through Turborepo tags: `apps/api` has the
-`api-application` tag, and every other application workspace has the `application` tag.
+Two mechanisms enforce this rule. The `exports` map in `apps/api/package.json` exposes only
+`./client`. `bun run boundaries` checks which workspaces can depend on `apps/api` through
+Turborepo tags: `apps/api` has the `api-application` tag, every other application workspace has
+the `application` tag, and only `application` workspaces can depend on `api-application`.
 
 Apply the `connect-backend` skill to connect client application workspaces. The
 skill owns adapter seams and environment wiring. Application workspaces never import source
