@@ -33,6 +33,7 @@ const router = createRouter({
 })
 
 declare module "@tanstack/react-router" {
+  // oxlint-disable-next-line typescript/consistent-type-definitions -- Module augmentation must merge into the router's `Register` interface.
   interface Register {
     router: typeof router
   }
