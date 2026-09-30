@@ -86,4 +86,4 @@ bun run generate ai-chat-demo
 
 The template command requires `apps/app` and `packages/ai`. It adds the `packages/ai` dependency to `apps/app`, then creates `src/features/demo/chat.ts` and `src/features/demo/components/chat-playground.tsx`. Render the default export of `chat-playground.tsx` in a route, such as `src/routes/_authenticated/index.tsx`. To use a real model, keep the `useChat` interface and replace the scripted transport with an HTTP chat transport backed by a server route that uses `@init/ai/registry`.
 
-A repeat run reports skips without replacing generated application code.
+The demo uses full Zod in the browser through the AI SDK. Zod Mini and full Zod share their core modules, so after you add it, every route that loads a Mini schema also loads the Zod core that full Zod needs. A repeat run reports skips without replacing generated application code.
