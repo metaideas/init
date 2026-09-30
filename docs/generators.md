@@ -1,11 +1,11 @@
 ---
 title: Project Generators
-description: Use local template recipes to add features, package workspaces, snippets, and Files SDK clients.
+description: Use local template recipes to add features, package workspaces, snippets, Files SDK clients, and the AI chat demo.
 ---
 
 Run `bun run generate` to open the Turbo generator menu. Template commands use local template recipes from the exact template snapshot in the project. They do not download a catalog. They do not update previously generated files. They do not track template drift.
 
-`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, code snippets, and the Files SDK client integration. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
+`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, code snippets, the Files SDK client integration, and the AI chat demo. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
 
 ## Add code snippets
 
@@ -75,3 +75,15 @@ function FilesExample() {
 ```
 
 Use `files.download(key)` when code requires the bytes. Use `files.url(key)` for an `img`, anchor, or video source when the selected adapter supports signed URLs. The hook also exposes `files.error`, `files.abort()`, `files.reset()`, and capability checks. A repeat run reports skips without replacing generated application code.
+
+## Add the AI chat demo
+
+`ai-chat-demo` adds a scripted AI SDK chat to `apps/app`. It needs no model, API key, or network:
+
+```bash
+bun run generate ai-chat-demo
+```
+
+The template command requires `apps/app` and `packages/ai`. It adds the `packages/ai` dependency to `apps/app`, then creates `src/features/demo/chat.ts` and `src/features/demo/components/chat-playground.tsx`. Render the default export of `chat-playground.tsx` in a route, such as `src/routes/_authenticated/index.tsx`. To use a real model, keep the `useChat` interface and replace the scripted transport with an HTTP chat transport backed by a server route that uses `@init/ai/registry`.
+
+A repeat run reports skips without replacing generated application code.

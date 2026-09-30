@@ -1,8 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@init/ui/components/empty"
+import { Icon } from "@init/ui/components/icon"
 import { ThemeToggle } from "@init/ui/components/theme"
 import { createFileRoute } from "@tanstack/react-router"
 import SignOutButton from "#features/auth/components/sign-out-button.tsx"
-import ChatPlayground from "#features/demo/components/chat-playground.tsx"
 import { LocaleToggle } from "#shared/components/locale-toggle.tsx"
 
 export const Route = createFileRoute("/_authenticated/")({
@@ -37,7 +44,18 @@ function RouteComponent() {
         </div>
       </header>
       <main className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 justify-center p-4 sm:p-6">
-        <ChatPlayground />
+        <Empty className="border border-dashed bg-background">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Icon.Home />
+            </EmptyMedia>
+            <EmptyTitle>Welcome, {user.name}</EmptyTitle>
+            <EmptyDescription>
+              You are signed in. Build your product here, starting in{" "}
+              <code>src/routes/_authenticated/index.tsx</code>.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       </main>
     </div>
   )

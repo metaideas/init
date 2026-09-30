@@ -55,7 +55,6 @@
     "apps/app": {
       "name": "app",
       "dependencies": {
-        "@init/ai": "workspace:*",
         "@init/auth": "workspace:*",
         "@init/core": "workspace:*",
         "@init/db": "workspace:*",
