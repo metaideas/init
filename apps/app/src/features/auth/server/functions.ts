@@ -1,7 +1,8 @@
 import { PasswordResetRequestError } from "@init/core/errors"
-import * as z from "@init/utils/schema"
+import * as z from "@init/utils/schema/mini"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
+import { EmailSchema } from "#features/auth/validation.ts"
 import { authClient } from "#shared/auth.ts"
 import { publicFunction } from "#shared/server/functions.ts"
 import { buildUrl } from "#shared/utils.ts"
@@ -19,7 +20,7 @@ export const validateSession = createIsomorphicFn()
   })
 
 export const checkEmailAvailability = publicFunction
-  .validator(z.object({ email: z.email() }))
+  .validator(z.object({ email: EmailSchema }))
   .handler(async ({ context, data }) => {
     const user = await context.database.query.users.findFirst({
       where: (table, { eq }) => eq(table.email, data.email),
@@ -29,7 +30,7 @@ export const checkEmailAvailability = publicFunction
   })
 
 export const forgotPassword = publicFunction
-  .validator(z.object({ email: z.email() }))
+  .validator(z.object({ email: EmailSchema }))
   .handler(async ({ data }) => {
     const { error } = await authClient.requestPasswordReset({
       email: data.email,

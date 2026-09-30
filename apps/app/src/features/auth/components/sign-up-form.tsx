@@ -1,5 +1,6 @@
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
+import * as z from "@init/utils/schema/mini"
 import { useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { checkEmailAvailability } from "#features/auth/server/functions.ts"
@@ -90,9 +91,11 @@ export default function SignUpForm() {
           <form.AppField
             name="confirmPassword"
             validators={{
-              onBlur: PasswordSchema.refine((v) => v === form.getFieldValue("password"), {
-                message: "Passwords don't match",
-              }),
+              onBlur: PasswordSchema.check(
+                z.refine((v) => v === form.getFieldValue("password"), {
+                  error: "Passwords don't match",
+                })
+              ),
               onBlurListenTo: ["password"],
               onChangeListenTo: ["password"],
             }}

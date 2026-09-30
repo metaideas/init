@@ -57,4 +57,4 @@ Supported connections. Anything else is unsupported; say so instead of improvisi
 
 Convex in `app` and `desktop` reaches public functions only. `apps/app` keeps its own Better Auth sessions; moving them to Convex means migrating the `/api/auth` handler, server-side token handoff, and the sign-up, reset, and social flows together, which is outside this skill.
 
-For `apps/app`, keeping `PUBLIC_API_URL` set selects the remote Hono deployment and clearing it restores the local `/api` handler. When both run, keep the Better Auth cookie, secret, plugins, and trusted origins compatible.
+For `apps/app`, keeping `PUBLIC_API_URL` set selects the remote Hono deployment and clearing it restores the local `/api` handler. When both run, keep the Better Auth cookie, secret, plugins, and trusted origins compatible. When the app and the API use different hostnames, set `AUTH_COOKIE_DOMAIN` in `apps/api` to their shared parent domain, such as `example.com`. Without it, the API's session cookie is host-only, so either the app's server or the browser's direct API calls miss the session.

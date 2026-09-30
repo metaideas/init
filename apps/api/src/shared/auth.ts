@@ -15,7 +15,14 @@ import { ENV } from "#shared/env.generated.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({
-  advanced: { ...AUTH_ADVANCED_OPTIONS, cookiePrefix: AUTH_API_COOKIE_PREFIX },
+  advanced: {
+    ...AUTH_ADVANCED_OPTIONS,
+    cookiePrefix: AUTH_API_COOKIE_PREFIX,
+    crossSubDomainCookies: {
+      domain: ENV.AUTH_COOKIE_DOMAIN,
+      enabled: ENV.AUTH_COOKIE_DOMAIN !== undefined,
+    },
+  },
   appName: AUTH_APP_NAME,
   basePath: "/auth",
   baseURL: baseUrl,

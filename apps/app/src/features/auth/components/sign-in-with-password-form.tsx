@@ -2,7 +2,9 @@ import { Button } from "@init/ui/components/button"
 import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
+import { mergeForm, useTransform } from "@tanstack/react-form-start"
 import { Link, useNavigate } from "@tanstack/react-router"
+import type { SignInFormState } from "#features/auth/server/sign-in.ts"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import {
   EmailSchema,
@@ -11,7 +13,11 @@ import {
 } from "#features/auth/validation.ts"
 import { signIn } from "#shared/auth.ts"
 
-export default function SignInWithPasswordForm() {
+/**
+ * Posts natively to the sign-in route until hydration. After that, it validates and signs in on the
+ * client. `state` holds the errors from a rejected native submission.
+ */
+export default function SignInWithPasswordForm({ state }: { state: SignInFormState | null }) {
   const navigate = useNavigate()
   const form = useForm({
     defaultValues: { email: "", password: "" },
@@ -28,11 +34,13 @@ export default function SignInWithPasswordForm() {
         }
       )
     },
+    transform: useTransform((baseForm) => (state ? mergeForm(baseForm, state) : baseForm), [state]),
     validators: { onSubmit: SignInWithPasswordFormSchema },
   })
 
   return (
     <form
+      method="post"
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()

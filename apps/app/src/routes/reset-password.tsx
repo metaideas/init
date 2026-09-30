@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
-import * as z from "@init/utils/schema"
+import * as z from "@init/utils/schema/mini"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import ResetPasswordForm from "#features/auth/components/reset-password-form.tsx"
 
 const SearchSchema = z.object({
-  token: z.string().optional(),
+  token: z.optional(z.string()),
 })
 
 export const Route = createFileRoute("/reset-password")({
