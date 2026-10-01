@@ -8,7 +8,7 @@ export function useHideSplashScreen(loaded: boolean) {
       return
     }
 
-    const hideSplash = async () => {
+    async function hideSplash() {
       try {
         await SplashScreen.hideAsync()
       } catch (error) {

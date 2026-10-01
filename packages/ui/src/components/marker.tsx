@@ -10,10 +10,10 @@ const markerVariants = cva(
   {
     variants: {
       variant: {
+        border: "border-b border-border pb-2",
         default: "",
         separator:
           "before:mr-1 before:h-px before:min-w-0 before:flex-1 before:bg-border after:ml-1 after:h-px after:min-w-0 after:flex-1 after:bg-border",
-        border: "border-b border-border pb-2",
       },
     },
   }
@@ -29,7 +29,7 @@ function Marker({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: cn(markerVariants({ variant, className })),
+        className: cn(markerVariants({ className, variant })),
       },
       props
     ),

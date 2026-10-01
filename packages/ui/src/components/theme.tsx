@@ -1,4 +1,4 @@
-import { createContext, use, useEffect, useState } from "react"
+import { createContext, use, useEffect, useMemo, useState } from "react"
 import { Button } from "#components/button.tsx"
 import {
   DropdownMenu,
@@ -44,7 +44,7 @@ export function ThemeProvider({
       return theme
     }
 
-    if (storageKey && typeof window !== "undefined") {
+    if (storageKey && typeof localStorage !== "undefined") {
       const stored = localStorage.getItem(storageKey)
       if (stored && THEMES.includes(stored as Theme)) {
         return stored as Theme
@@ -56,7 +56,7 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = document.documentElement
-    const mediaQuery = globalThis.matchMedia?.("(prefers-color-scheme: dark)")
+    const mediaQuery = globalThis.matchMedia("(prefers-color-scheme: dark)")
 
     function updateTheme() {
       root.classList.remove("light", "dark", "system")
@@ -77,21 +77,24 @@ export function ThemeProvider({
     }
   }, [userTheme])
 
-  const value = {
-    setTheme(newTheme: Theme) {
-      setUserTheme(newTheme)
+  const value = useMemo(
+    () => ({
+      setTheme(newTheme: Theme) {
+        setUserTheme(newTheme)
 
-      if (setTheme) {
-        setTheme(newTheme)
-        return
-      }
+        if (setTheme) {
+          setTheme(newTheme)
+          return
+        }
 
-      if (storageKey) {
-        localStorage.setItem(storageKey, newTheme)
-      }
-    },
-    theme: userTheme,
-  }
+        if (storageKey) {
+          localStorage.setItem(storageKey, newTheme)
+        }
+      },
+      theme: userTheme,
+    }),
+    [setTheme, storageKey, userTheme]
+  )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

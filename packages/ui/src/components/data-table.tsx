@@ -1,7 +1,14 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { type ColumnDef, type RowData, tableFeatures, useTable } from "@tanstack/react-table"
+import {
+  type ColumnDef,
+  columnVisibilityFeature,
+  type RowData,
+  rowSelectionFeature,
+  tableFeatures,
+  useTable,
+} from "@tanstack/react-table"
 
 import { cn } from "cn"
 import {
@@ -13,13 +20,13 @@ import {
   TableRow,
 } from "#components/table.tsx"
 
-const dataTableFeatures = tableFeatures({})
+const dataTableFeatures = tableFeatures({ columnVisibilityFeature, rowSelectionFeature })
 
 type DataTableFeatures = typeof dataTableFeatures
 
 type DataTableProps<TData extends RowData> = {
   className?: string
-  columns: ColumnDef<DataTableFeatures, TData>[]
+  columns: Array<ColumnDef<DataTableFeatures, TData>>
   data: TData[]
   emptyMessage?: ReactNode
 }
@@ -31,9 +38,9 @@ function DataTable<TData extends RowData>({
   emptyMessage = "No results.",
 }: DataTableProps<TData>) {
   const table = useTable({
-    features: dataTableFeatures,
     columns,
     data,
+    features: dataTableFeatures,
   })
 
   return (
@@ -51,7 +58,7 @@ function DataTable<TData extends RowData>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows.length ? (
+          {table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (

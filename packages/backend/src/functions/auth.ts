@@ -8,8 +8,8 @@ export { authComponent } from "#functions/shared/auth.ts"
 
 export const { onCreate, onDelete, onUpdate } = authComponent.triggersApi()
 
-export const convexAuth = (ctx: GenericCtx<DataModel>) =>
-  createAuth({
+export function convexAuth(ctx: GenericCtx<DataModel>) {
+  return createAuth({
     ...createAuthOptions(ctx),
     baseURL: env.CONVEX_SITE_URL,
     secret: env.AUTH_SECRET,
@@ -17,3 +17,4 @@ export const convexAuth = (ctx: GenericCtx<DataModel>) =>
       .map((origin) => origin.trim())
       .filter(Boolean),
   })
+}

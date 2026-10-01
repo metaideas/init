@@ -2,6 +2,7 @@
   "extends": "adamantite/typescript",
   "compilerOptions": {
     "target": "esnext",
+    "erasableSyntaxOnly": true,
     "moduleResolution": "bundler",
     "types": ["bun"]
   },
