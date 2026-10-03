@@ -14,11 +14,9 @@ async function main() {
     )
   }
 
-  const db = database()
-
   console.log("   Resetting database...\n")
 
-  await reset(db, schema)
+  await reset(database, schema)
 
   console.log("✅ All data removed successfully. Database reset complete!\n")
 }

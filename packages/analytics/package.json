@@ -8,15 +8,16 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./product/*": "./src/product/*.ts",
-    "./web": "./src/web.ts"
+    "./product/expo": "./src/product/expo/index.ts",
+    "./product/react": "./src/product/react/index.ts",
+    "./product/server": "./src/product/server/index.ts",
+    "./web": "./src/web/index.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
-    "@init/utils": "workspace:*",
     "@plausible-analytics/tracker": "0.4.4",
     "posthog-js": "1.318.1",
     "posthog-node": "5.20.0",

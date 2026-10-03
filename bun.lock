@@ -293,7 +293,6 @@
     "packages/analytics": {
       "name": "@init/analytics",
       "dependencies": {
-        "@init/utils": "workspace:*",
         "@plausible-analytics/tracker": "0.4.4",
         "posthog-js": "1.318.1",
         "posthog-node": "5.20.0",
@@ -373,7 +372,6 @@
       "dependencies": {
         "@init/core": "workspace:*",
         "@init/observability": "workspace:*",
-        "@init/utils": "workspace:*",
         "@react-email/components": "1.0.12",
         "@react-email/render": "2.1.0",
         "date-fns": "4.1.0",
@@ -393,7 +391,6 @@
     "packages/kv": {
       "name": "@init/kv",
       "dependencies": {
-        "@init/utils": "workspace:*",
         "ioredis": "5.11.1",
         "unstorage": "1.17.5",
         "varlock": "1.16.0",

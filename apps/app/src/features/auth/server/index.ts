@@ -19,7 +19,7 @@ export const auth = createAuth({
   appName: AUTH_APP_NAME,
   basePath: "/api/auth",
   baseURL: ENV.PUBLIC_BASE_URL,
-  database: databaseAdapter(database()),
+  database: databaseAdapter(database),
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {

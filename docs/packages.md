@@ -28,7 +28,7 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 
 `packages/kv` provides key-value storage through [unstorage](https://unstorage.unjs.io/). By default, it uses the Redis driver of unstorage.
 
-`kv()` returns the shared unstorage `Storage` instance when code first requests it. `normalizeKey(...parts)` joins key parts with `:`. `namespaceKey(namespace)` returns a key helper with the namespace prefix.
+`kv` exports a shared unstorage `Storage` instance. `normalizeKey(...parts)` joins key parts with `:`. `namespaceKey(namespace)` returns a key helper with the namespace prefix.
 
 Values must be JSON-serializable. The storage returns dates as strings.
 

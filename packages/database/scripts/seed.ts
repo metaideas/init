@@ -14,17 +14,15 @@ async function main() {
     )
   }
 
-  const db = database()
-
   console.log("   Removing existing data...\n")
-  await reset(db, schema)
+  await reset(database, schema)
   console.log("✅ Existing data removed\n")
 
   console.log("   Seeding database...\n")
 
   const start = performance.now()
 
-  await seed(db, schema).refine((f) => ({
+  await seed(database, schema).refine((f) => ({
     organizations: {
       columns: {
         name: f.companyName(),

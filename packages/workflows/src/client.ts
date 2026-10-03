@@ -1,5 +1,4 @@
 import { log } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
 import { dependencyInjectionMiddleware, Inngest } from "inngest"
 import { extendedTracesMiddleware } from "inngest/experimental"
 
@@ -31,17 +30,13 @@ const workflowLogger = {
   },
 }
 
-export const inngest = singleton(
-  "inngest",
-  () =>
-    new Inngest({
-      id: "init",
-      logger: workflowLogger,
-      middleware: [
-        dependencyInjectionMiddleware({
-          // Add any dependencies here
-        }),
-        extendedTracesMiddleware({ behaviour: "auto" }),
-      ],
-    })
-)
+export const inngest = new Inngest({
+  id: "init",
+  logger: workflowLogger,
+  middleware: [
+    dependencyInjectionMiddleware({
+      // Add any dependencies here
+    }),
+    extendedTracesMiddleware({ behaviour: "auto" }),
+  ],
+})
