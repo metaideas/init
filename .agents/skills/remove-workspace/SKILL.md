@@ -1,6 +1,6 @@
 ---
 name: remove-workspace
-description: Delete an application or package workspace from a scaffolded project and clean up everything that referenced it. Use when the user drops a surface or dependency such as mobile, docs, payments, or kv.
+description: Delete an application or package workspace from a scaffolded project and clean up everything that referenced it. Use when the user drops a surface or dependency such as mobile, docs, payments, or email.
 ---
 
 `bun template remove` deletes the directory and lists what still points at it. You finish the removal.

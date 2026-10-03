@@ -8,26 +8,25 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./client": "./src/client.ts",
-    "./helpers": "./src/helpers.ts",
-    "./browser": "./src/browser.ts"
+    "./browser": "./src/browser.ts",
+    "./client": "./src/client.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "codegen": "varlock codegen",
-    "env:check": "varlock load"
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
-    "@init/kv": "workspace:*",
+    "@init/core": "workspace:*",
     "@init/utils": "workspace:*",
     "@stripe/react-stripe-js": "5.4.1",
     "@stripe/stripe-js": "8.6.1",
     "stripe": "20.1.2",
-    "varlock": "1.16.0"
+    "tryharder": "0.4.0",
+    "unstorage": "1.17.5"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/bun": "1.4.2",
     "typescript": "7.0.2"
   }
 }

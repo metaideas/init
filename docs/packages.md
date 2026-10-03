@@ -44,13 +44,25 @@ Each template registers its subject in `src/registry.ts`, so `send` type-checks 
 
 `send` retries temporary failures, such as a dropped connection or a rate limit, with exponential backoff under one deadline. It reuses one idempotency key across the retries of a send, so Resend never delivers the same message twice. A failure that a retry cannot fix, such as an invalid sender, fails on the first attempt. `send` returns a failed delivery as a `SendEmailError` value instead of throwing, with the transport error as its `cause`. Pass `attempts` and `timeoutMs` to `createMailer` to change the policy.
 
+## Database
+
+`packages/database` owns the Drizzle schema, migrations, and helpers. An application workspace creates one client in its composition root and passes its logger to log queries at debug level:
+
+```ts
+import { createDatabase } from "@init/database/client"
+
+export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
+```
+
+`withTransaction(database, operation)` from `@init/database/helpers/transaction` runs an operation in a transaction, and nested calls reuse the active one.
+
+## Payments
+
+`packages/payments` wraps Stripe with a subscription cache. `createPayments({ secretKey, webhookSecret, storage })` takes any [unstorage](https://unstorage.unjs.io/) instance for the cache, such as the Redis instance that `apps/api` creates in its composition root. `parseWebhook` verifies a webhook request and returns its event, or an `InvalidWebhookError` value. `syncSubscription` caches the latest subscription from Stripe, and `getSubscription` reads the cache and falls back to Stripe on a miss.
+
 ## Key-Value Storage
 
-`packages/kv` provides key-value storage through [unstorage](https://unstorage.unjs.io/). By default, it uses the Redis driver of unstorage.
-
-Build keys with the package's key helpers rather than concatenating strings, and give each feature its own namespace. Values must be JSON-serializable; dates come back as strings.
-
-To use another backend, change the unstorage driver in the package's client module. Callers do not change.
+There is no key-value package workspace. An application workspace that needs one creates an [unstorage](https://unstorage.unjs.io/) instance in its composition root. `apps/api` uses the Redis driver against Redis from Docker Compose and passes the instance to handlers as `c.var.kv`. Namespace keys per feature with unstorage's `prefixStorage`. Values must be JSON-serializable; dates come back as strings.
 
 ## Workflows
 

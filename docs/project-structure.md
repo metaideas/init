@@ -33,7 +33,6 @@ root
   │   ├── core                  # Shared business logic and errors, organized by domain
   │   ├── database              # Database client and ORM using Drizzle
   │   ├── email                 # Email templates and delivery through Resend or SMTP
-  │   ├── kv                    # Key-value storage using unstorage with the Redis driver
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   ├── utils                 # Shared helpers and constants for packages and apps

@@ -1,11 +1,10 @@
 import crypto from "node:crypto"
-import { database } from "@init/database/client"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
 import { getRequest, getResponse, getResponseStatus } from "@tanstack/react-start/server"
 import { createRequestLogger } from "evlog"
 import "#shared/logger.ts"
-import { auth } from "#shared/server/services.ts"
+import { auth, database } from "#shared/server/services.ts"
 
 export const withCsrf = createCsrfMiddleware({
   filter: (context) => context.handlerType === "serverFn",
