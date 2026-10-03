@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>desktop</code></h1>
-</div>
+# `desktop`
 
 Desktop application built with [Electron Forge](https://www.electronforge.io/) and [TanStack Router](https://tanstack.com/router).

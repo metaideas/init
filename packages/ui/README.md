@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>@init/ui</code></h1>
-</div>
+# `@init/ui`
 
-UI components library built with [shadcn/ui](https://ui.shadcn.com/).
+UI components built with [shadcn/ui](https://ui.shadcn.com/).

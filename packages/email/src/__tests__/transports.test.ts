@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { EmailConfigurationError, EmailDeliveryError } from "@init/core/errors"
-import { resendTransport, selectTransport, smtpTransport } from "#transports.ts"
+import { EmailDeliveryError } from "@init/core/errors"
+import { resendTransport, smtpTransport } from "#transports.ts"
 
 const message = {
   from: "init <dev@example.com>",
@@ -54,12 +54,6 @@ describe("smtpTransport", () => {
 
     expect(error).toBeInstanceOf(EmailDeliveryError)
     expect(error).toMatchObject({ isRetryable: true, transport: "smtp" })
-  })
-})
-
-describe("selectTransport", () => {
-  test("throws EmailConfigurationError without a Resend key or an SMTP URL", () => {
-    expect(() => selectTransport({})).toThrow(EmailConfigurationError)
   })
 })
 

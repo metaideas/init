@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>mobile</code></h1>
-</div>
+# `mobile`
 
-Mobile application built with [Expo](https://expo.dev/) and styled with [Uniwind](https://uniwind.dev/).
+Mobile application built with [Expo](https://expo.dev/).

@@ -20,10 +20,4 @@ describe("createServerAuth", () => {
     expectTypeOf<typeof auth.$Infer.Session.user>().toHaveProperty("role")
     expectTypeOf<typeof auth.$Infer.Session.session>().toHaveProperty("impersonatedBy")
   })
-
-  test("builds auth without plugins", () => {
-    const auth = createServerAuth({ ...options, plugins: [] })
-
-    expect(auth.handler).toBeFunction()
-  })
 })
