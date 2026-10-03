@@ -4,6 +4,7 @@ import { log } from "@init/observability/logger"
 export class Workflows<Queue extends string = never> {
   static #isCreated = false
 
+  readonly #dbos = DBOS
   readonly #queues: Record<string, QueueOptions>
   #isLaunched = false
 
@@ -15,7 +16,7 @@ export class Workflows<Queue extends string = never> {
     Workflows.#isCreated = true
     this.#queues = options.queues ?? {}
 
-    DBOS.setConfig({
+    this.#dbos.setConfig({
       logger: workflowLogger,
       name: options.name ?? "init",
       ...("pool" in options
@@ -29,10 +30,9 @@ export class Workflows<Queue extends string = never> {
       throw new Error(`Workflow "${name}" must be defined before workflows launch`)
     }
 
-    return DBOS.registerWorkflow(handler, { name })
+    return this.#dbos.registerWorkflow(handler, { name })
   }
 
-  // oxlint-disable-next-line class-methods-use-this -- DBOS resolves the running workflow from async context.
   step<Result>(
     name: string,
     operation: () => Result | Promise<Result>,
@@ -40,7 +40,7 @@ export class Workflows<Queue extends string = never> {
   ): Promise<Result> {
     const { attempts = 1, backoff, delaySeconds, timeoutMs } = options
 
-    return DBOS.runStep(async () => operation(), {
+    return this.#dbos.runStep(async () => operation(), {
       backoffRate: backoff,
       intervalSeconds: delaySeconds,
       maxAttempts: attempts,
@@ -50,9 +50,8 @@ export class Workflows<Queue extends string = never> {
     })
   }
 
-  // oxlint-disable-next-line class-methods-use-this -- DBOS resolves the running workflow from async context.
   sleep(milliseconds: number) {
-    return DBOS.sleep(milliseconds)
+    return this.#dbos.sleep(milliseconds)
   }
 
   async run<Input, Result>(
@@ -64,16 +63,18 @@ export class Workflows<Queue extends string = never> {
       throw new Error("Workflows must launch before a workflow can run")
     }
 
-    const handle = await DBOS.startWorkflow(workflow, { queueName: queue, workflowID: id })(input)
+    const handle = await this.#dbos.startWorkflow(workflow, { queueName: queue, workflowID: id })(
+      input
+    )
 
     return { id: handle.workflowID, result: () => handle.getResult() }
   }
 
   async launch() {
-    await DBOS.launch()
+    await this.#dbos.launch()
     await Promise.all(
       Object.entries(this.#queues).map(([name, { concurrency }]) =>
-        DBOS.registerQueue(name, { globalConcurrency: concurrency })
+        this.#dbos.registerQueue(name, { globalConcurrency: concurrency })
       )
     )
     this.#isLaunched = true
@@ -84,7 +85,7 @@ export class Workflows<Queue extends string = never> {
       return
     }
 
-    await DBOS.shutdown()
+    await this.#dbos.shutdown()
     this.#isLaunched = false
   }
 }
