@@ -6,6 +6,7 @@ import {
   type DLogger,
   type StackTrace,
 } from "@dbos-inc/dbos-sdk"
+import { WorkflowsFault } from "@init/core/errors"
 
 export class Workflows<Queue extends string = never> {
   static #isCreated = false
@@ -16,7 +17,9 @@ export class Workflows<Queue extends string = never> {
 
   constructor(options: WorkflowsOptions<Queue>) {
     if (Workflows.#isCreated) {
-      throw new Error("Workflows can only be created once per process")
+      throw WorkflowsFault.create("WorkflowsAlreadyCreatedError").withMessage(
+        "Workflows can only be created once per process"
+      )
     }
 
     Workflows.#isCreated = true
@@ -33,7 +36,9 @@ export class Workflows<Queue extends string = never> {
 
   define<Input, Result>(name: string, handler: (input: Input) => Promise<Result>) {
     if (this.#isLaunched) {
-      throw new Error(`Workflow "${name}" must be defined before workflows launch`)
+      throw WorkflowsFault.create("WorkflowDefinedAfterLaunchError", {
+        workflow: name,
+      }).withMessage(`Workflow "${name}" must be defined before workflows launch`)
     }
 
     return this.#dbos.registerWorkflow(handler, { name })
@@ -66,7 +71,9 @@ export class Workflows<Queue extends string = never> {
     { id, queue }: RunOptions<Queue> = {}
   ): Promise<WorkflowRun<Result>> {
     if (!this.#isLaunched) {
-      throw new Error("Workflows must launch before a workflow can run")
+      throw WorkflowsFault.create("WorkflowsNotLaunchedError").withMessage(
+        "Workflows must launch before a workflow can run"
+      )
     }
 
     const handle = await this.#dbos.startWorkflow(workflow, { queueName: queue, workflowID: id })(

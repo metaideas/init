@@ -1,7 +1,8 @@
 import type { ErrorResponse } from "resend"
-import { EmailFault } from "@init/core/errors"
+import { EmailDeliveryError, EmailFault } from "@init/core/errors"
 import { createTransport } from "nodemailer"
 import { Resend } from "resend"
+import * as try$ from "tryharder"
 
 /**
  * Resend 4xx errors that can clear on their own. Server errors and network failures are temporary
@@ -45,16 +46,20 @@ export function smtpTransport(url: string): EmailTransport {
 
   return {
     async send(message) {
-      try {
-        const { messageId } = await smtp.sendMail(message)
+      const result = await try$.run({
+        catch: (error) =>
+          EmailFault.wrap(error).as("EmailDeliveryError", {
+            isRetryable: !isPermanentSmtpFailure(error),
+            transport: "smtp",
+          }),
+        try: () => smtp.sendMail(message),
+      })
 
-        return { id: messageId }
-      } catch (error) {
-        throw EmailFault.wrap(error).as("EmailDeliveryError", {
-          isRetryable: !isPermanentSmtpFailure(error),
-          transport: "smtp",
-        })
+      if (result instanceof EmailDeliveryError) {
+        throw result
       }
+
+      return { id: result.messageId }
     },
   }
 }

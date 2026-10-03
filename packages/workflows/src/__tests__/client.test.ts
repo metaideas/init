@@ -1,4 +1,5 @@
 import { describe, expect, mock, test } from "bun:test"
+import { WorkflowsNotLaunchedError } from "@init/core/errors"
 
 const queueRegistration = Promise.withResolvers<undefined>()
 
@@ -27,7 +28,7 @@ const child = workflows.define("child", (input: number) => Promise.resolve(input
 describe("Workflows.run", () => {
   test("starts workflows once the engine launches, before queues finish registering", async () => {
     const earlyError = await workflows.run(child, 1).catch((error: unknown) => error)
-    expect(earlyError).toBeInstanceOf(Error)
+    expect(earlyError).toBeInstanceOf(WorkflowsNotLaunchedError)
 
     const launching = workflows.launch()
     await Promise.resolve()
