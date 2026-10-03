@@ -70,7 +70,10 @@ export const files = createFiles({
       })
 
       if (result instanceof FileActionError) {
-        log.error({ error: result, message: "Failed to process successful file action" })
+        log.error({
+          error: result.toSerializable(),
+          message: "Failed to process successful file action",
+        })
       }
     },
   },
@@ -162,6 +165,6 @@ async function recordAssets(
   })
 
   if (result instanceof AssetRecordError) {
-    log.error({ error: result, message: "Failed to record asset changes" })
+    log.error({ error: result.toSerializable(), message: "Failed to record asset changes" })
   }
 }
