@@ -68,7 +68,9 @@ export const greetUser = workflows.define("greetUser", async ({ userId }: { user
 await workflows.run(greetUser, { userId }, { id: `greet-${userId}`, queue: "default" })
 ```
 
-Runs with the same `id` execute once. `queue` limits concurrency across every process. Call `workflows.shutdown()` before the process exits.
+Runs with the same `id` execute once. `queue` limits how many runs of that queue execute at once. Call `workflows.shutdown()` before the process exits.
+
+Run workflows in a single process per application version. Every process uses the same DBOS executor ID, and on startup a process resumes every unfinished run of its version, including runs that another process is still executing. A second API instance, or a restart or deploy that starts the new process before the old one stops, can therefore execute the same steps twice. Stop the old process before the new one starts. Running several instances needs a distinct executor ID per process and a plan to recover the runs of a process that stops for good, such as [DBOS Conductor](https://docs.dbos.dev/production/conductor).
 
 DBOS tags each run with an application version, which defaults to a hash of the workflow code, and recovers only runs that match the current version. After a deploy that changes workflow code, runs that the previous version left unfinished do not resume on their own. Keep a process on the previous version until they drain, or move them to the new version. See [Upgrading Workflow Code](https://docs.dbos.dev/typescript/tutorials/upgrading-workflows).
 

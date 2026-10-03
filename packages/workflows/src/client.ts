@@ -72,12 +72,13 @@ export class Workflows<Queue extends string = never> {
 
   async launch() {
     await this.#dbos.launch()
+    this.#isLaunched = true
+
     await Promise.all(
       Object.entries(this.#queues).map(([name, { concurrency }]) =>
         this.#dbos.registerQueue(name, { globalConcurrency: concurrency })
       )
     )
-    this.#isLaunched = true
   }
 
   async shutdown() {
