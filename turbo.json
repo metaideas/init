@@ -36,7 +36,6 @@
         "FILES_API_SECRET",
         "GITHUB_*",
         "GOOGLE_*",
-        "INNGEST_*",
         "MOCK_RESEND",
         "PORT",
         "POSTHOG_*",

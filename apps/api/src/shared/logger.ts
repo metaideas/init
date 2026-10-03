@@ -7,12 +7,8 @@ const drain = buildDrain()
 // Debug events (per-query SQL among them) stay out of the drain in production.
 initLogger({ drain, env: { service: "api" }, minLevel: isDevelopment ? "debug" : "info" })
 
-if (drain) {
-  for (const signal of ["SIGINT", "SIGTERM"] as const) {
-    process.once(signal, () => {
-      void drain.flush().finally(() => process.exit(0))
-    })
-  }
+export async function flushLogs() {
+  await drain?.flush()
 }
 
 export { log } from "@init/observability/logger"

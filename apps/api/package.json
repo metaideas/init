@@ -15,7 +15,7 @@
     "codegen": "bun run --parallel \"codegen:*\"",
     "codegen:env": "varlock codegen",
     "codegen:i18n": "paraglide-js compile --project ../../tooling/internationalization/project.inlang --outdir ./src/shared/internationalization",
-    "dev": "varlock run -- bun --no-env-file --hot src/index.ts",
+    "dev": "varlock run -- bun --no-env-file --watch src/index.ts",
     "env:check": "varlock load",
     "start": "varlock run -- bun --no-env-file --bun src/index.ts"
   },

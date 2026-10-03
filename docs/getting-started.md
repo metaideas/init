@@ -90,7 +90,6 @@ Each workspace serves on a fixed local port. Application workspaces declare the 
 - Web: `http://localhost:3006`
 - Drizzle Studio: `https://local.drizzle.studio?port=4000` (local server on `4000`)
 - Email preview: `http://localhost:4001`
-- Inngest: `http://localhost:4002`
 
 At the repository root, `bun run dev` runs all workspaces through Turbo. Inside a workspace, the same command starts that workspace alone.
 

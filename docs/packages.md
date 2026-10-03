@@ -1,6 +1,6 @@
 ---
 title: Package Guidance
-description: Understand the shared package workspaces, hosted backend package, and key-value storage conventions in init.
+description: Understand the shared package workspaces, hosted backend package, key-value storage, and workflow conventions in init.
 ---
 
 Shared libraries and hosted backends are in `packages/`. Application workspaces consume them through workspace dependencies. Package names use the configured scope of the project.
@@ -33,6 +33,39 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 Values must be JSON-serializable. The storage returns dates as strings.
 
 To use another backend, change the driver passed to `createStorage` in `packages/kv/src/client.ts`.
+
+## Workflows
+
+`packages/workflows` runs durable background workflows through [DBOS](https://docs.dbos.dev/). DBOS stores workflow inputs, step outputs, and queues in a `dbos` schema in Postgres, so workflows need a Postgres database. It runs inside the application process: there is no separate workflow server, signing key, or hosted account.
+
+An application workspace creates one `Workflows` instance per process. Pass a `pg` pool to share connections with the database, or a `url` to let workflows open their own pool:
+
+```ts
+import { pool } from "@init/database/client"
+import { Workflows } from "@init/workflows/client"
+
+export const workflows = new Workflows({ pool, queues: { default: { concurrency: 10 } } })
+```
+
+Define every workflow before `workflows.launch()`. Each `step` result is saved, so after a crash the workflow resumes from the first step that did not finish. A step can run more than once, so keep its side effects idempotent. `sleep` is durable across restarts.
+
+```ts
+export const greetUser = workflows.define("greetUser", async ({ userId }: { userId: string }) => {
+  const greeting = await workflows.step("composeGreeting", () => `Hello, ${userId}`, {
+    attempts: 3,
+  })
+
+  await workflows.sleep(1000)
+
+  return { greeting }
+})
+
+await workflows.run(greetUser, { userId }, { id: `greet-${userId}`, queue: "default" })
+```
+
+Runs with the same `id` execute once. `queue` limits concurrency across every process. Call `workflows.shutdown()` before the process exits.
+
+DBOS tags each run with an application version, which defaults to a hash of the workflow code, and recovers only runs that match the current version. After a deploy that changes workflow code, runs that the previous version left unfinished do not resume on their own. Keep a process on the previous version until they drain, or move them to the new version. See [Upgrading Workflow Code](https://docs.dbos.dev/typescript/tutorials/upgrading-workflows).
 
 ## Native UI
 

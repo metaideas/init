@@ -29,10 +29,12 @@
     "@init/utils": "workspace:*",
     "drizzle-orm": "0.45.2",
     "drizzle-zod": "0.8.3",
+    "pg": "8.23.1",
     "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
+    "@types/pg": "8.23.1",
     "drizzle-kit": "0.31.10",
     "drizzle-seed": "0.3.1",
     "postgres": "3.4.9",
