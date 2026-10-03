@@ -5,6 +5,7 @@ import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import varlock from "@varlock/astro-integration"
 import { defineConfig } from "astro/config"
+import { SITE_URL } from "./src/shared/constants.ts"
 import { ENV } from "./src/shared/env.generated.ts"
 
 export default defineConfig({
@@ -12,7 +13,7 @@ export default defineConfig({
   server: {
     port: ENV.PORT,
   },
-  site: ENV.PUBLIC_SITE_URL ?? "https://init.now",
+  site: ENV.PUBLIC_SITE_URL ?? SITE_URL,
 
   i18n: {
     defaultLocale: "en",

@@ -1,26 +1,37 @@
 ---
+import { getPostSlug } from "#features/blog/data.ts"
 import Layout from "#shared/components/layout.astro"
+import { m } from "#shared/internationalization/messages.js"
 import { getCollection, render } from "astro:content"
 
 export async function getStaticPaths() {
-  const collection = await getCollection("blog")
+  const posts = await getCollection("blog")
 
-  const paths = collection.map((page) => {
-    const [lang, ...slug] = page.id.split("/")
-    return {
-      params: { lang, slug: slug.join("/") || undefined },
-      props: { post: page },
-    }
-  })
-
-  return paths
+  return posts.map((post) => ({
+    params: { lang: post.id.split("/")[0], slug: getPostSlug(post.id) },
+    props: { post },
+  }))
 }
 
+const { lang } = Astro.params
 const { post } = Astro.props
-
 const { Content } = await render(post)
 ---
 
-<Layout>
-  <Content />
+<Layout description={post.data.description} title={post.data.title}>
+  <main class="mx-auto w-full max-w-2xl space-y-8 px-6 py-16">
+    <a class="text-sm text-muted-foreground hover:text-foreground" href={`/${lang}/blog/`}>
+      ← {m.web_blog_back()}
+    </a>
+    <header class="space-y-2">
+      <time class="text-sm text-muted-foreground" datetime={post.data.date.toISOString()}>
+        {post.data.date.toLocaleDateString(lang, { dateStyle: "long", timeZone: "UTC" })}
+      </time>
+      <h1 class="text-4xl font-bold tracking-tight">{post.data.title}</h1>
+      <p class="text-lg text-muted-foreground">{post.data.description}</p>
+    </header>
+    <article class="space-y-4 leading-7 [&_a]:underline [&_code]:font-mono [&_code]:text-sm [&_h2]:pt-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:ml-6 [&_ol]:list-decimal [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_blockquote]:text-muted-foreground [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:p-4 [&_ul]:list-disc">
+      <Content />
+    </article>
+  </main>
 </Layout>

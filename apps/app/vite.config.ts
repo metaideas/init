@@ -32,6 +32,13 @@ export default defineConfig({
       preset: "bun",
     }),
   ],
+  resolve: {
+    alias: [
+      // tslib's Node ESM wrapper reads a default export that the bundled CommonJS interop drops,
+      // which breaks server rendering of components that depend on it, such as cmdk.
+      { find: /^tslib$/u, replacement: "tslib/tslib.es6.mjs" },
+    ],
+  },
   server: {
     port: ENV.PORT,
   },

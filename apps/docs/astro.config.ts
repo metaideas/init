@@ -1,17 +1,12 @@
 import { resolve } from "node:path"
-import { unified } from "@astrojs/markdown-remark"
 import starlight from "@astrojs/starlight"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import varlock from "@varlock/astro-integration"
 import { defineConfig } from "astro/config"
 
-import { DOCS_DESCRIPTION, DOCS_URL, GITHUB_URL, SITE_NAME } from "./src/shared/constants.ts"
+import { DOCS_DESCRIPTION, DOCS_URL, SITE_NAME } from "./src/shared/constants.ts"
 import { ENV } from "./src/shared/env.generated.ts"
-import { rewriteDocsLinks } from "./src/shared/markdown-links.ts"
-
-const { marketingUrl } = await import("./src/shared/utils.ts")
-const site = ENV.PUBLIC_SITE_URL ?? DOCS_URL
 
 export default defineConfig({
   integrations: [
@@ -19,51 +14,11 @@ export default defineConfig({
     starlight({
       components: {
         Head: "./src/shared/components/head.astro",
-        LastUpdated: "./src/shared/components/last-updated.astro",
-        SiteTitle: "./src/shared/components/site-title.astro",
       },
       customCss: ["./src/shared/styles/globals.css"],
       defaultLocale: "root",
       description: DOCS_DESCRIPTION,
       disable404Route: true,
-      editLink: {
-        baseUrl: `${GITHUB_URL}/edit/main/apps/docs/`,
-      },
-      favicon: "/favicon.svg",
-      head: [
-        {
-          attrs: {
-            content: "#fafafa",
-            media: "(prefers-color-scheme: light)",
-            name: "theme-color",
-          },
-          tag: "meta",
-        },
-        {
-          attrs: { content: "#080a0d", media: "(prefers-color-scheme: dark)", name: "theme-color" },
-          tag: "meta",
-        },
-        {
-          attrs: { content: new URL("/social-preview.svg", site).href, property: "og:image" },
-          tag: "meta",
-        },
-        {
-          attrs: { content: "1200", property: "og:image:width" },
-          tag: "meta",
-        },
-        {
-          attrs: { content: "630", property: "og:image:height" },
-          tag: "meta",
-        },
-        {
-          attrs: { content: "init documentation", property: "og:image:alt" },
-          tag: "meta",
-        },
-        {
-          attrs: { content: new URL("/social-preview.svg", site).href, name: "twitter:image" },
-          tag: "meta",
-        },
-      ],
       lastUpdated: true,
       locales: {
         es: {
@@ -78,49 +33,35 @@ export default defineConfig({
       sidebar: [
         {
           items: [
-            { label: "Overview", slug: "", translations: { es: "Descripción general" } },
-            { label: "Getting Started", slug: "getting-started" },
-            { label: "Development", slug: "development" },
-            { label: "Project Structure", slug: "project-structure" },
+            { label: "Introduction", slug: "", translations: { es: "Introducción" } },
+            {
+              label: "Getting Started",
+              slug: "getting-started",
+              translations: { es: "Primeros pasos" },
+            },
           ],
           label: "Start Here",
+          translations: { es: "Empieza aquí" },
         },
         {
-          items: [
-            { label: "Environment Configuration", slug: "environment" },
-            { label: "Project Generators", slug: "generators" },
-            { label: "Package Guidance", slug: "packages" },
-            { label: "Internationalization", slug: "internationalization" },
-            { label: "Template Commands", slug: "template-commands" },
-          ],
-          label: "Build",
+          items: [{ autogenerate: { directory: "guides" } }],
+          label: "Guides",
+          translations: { es: "Guías" },
         },
         {
-          items: [
-            { label: "Project home", link: marketingUrl },
-            { label: "GitHub", link: GITHUB_URL },
-          ],
-          label: "Elsewhere",
-        },
-      ],
-      social: [
-        {
-          href: GITHUB_URL,
-          icon: "github",
-          label: "GitHub",
+          items: [{ autogenerate: { directory: "reference" } }],
+          label: "Reference",
+          translations: { es: "Referencia" },
         },
       ],
       title: SITE_NAME,
     }),
   ],
-  markdown: {
-    processor: unified({ remarkPlugins: [rewriteDocsLinks] }),
-  },
   output: "static",
   server: {
     port: ENV.PORT,
   },
-  site,
+  site: ENV.PUBLIC_SITE_URL ?? DOCS_URL,
   vite: {
     plugins: [
       tailwindcss(),

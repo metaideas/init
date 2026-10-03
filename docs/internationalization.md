@@ -19,7 +19,7 @@ Not every key needs all four segments. Use only the segments needed to make the 
 api_hello_greeting
 desktop_local_files_empty_state
 shared_locale_switch
-web_landing_hero_headline_first
+web_home_title
 ```
 
 - Start with the application workspace or `shared` for messages used across multiple surfaces.

@@ -7,5 +7,5 @@ import DefaultHead from "@astrojs/starlight/components/Head.astro"
 <script>
   import { init } from "@plausible-analytics/tracker"
 
-  init({ domain: "docs.init.now" })
+  init({ domain: location.hostname })
 </script>

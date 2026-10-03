@@ -1,8 +1,16 @@
 ---
-import Landing from "#features/landing/components/landing.astro"
+import PostList from "#features/blog/components/post-list.astro"
+import { getPosts } from "#features/blog/data.ts"
+import Home from "#features/home/components/home.astro"
 import Layout from "#shared/components/layout.astro"
+import { getLocale } from "#shared/internationalization/runtime.js"
+
+const posts = await getPosts(getLocale())
+const recentPosts = posts.slice(0, 3)
 ---
 
 <Layout>
-  <Landing />
+  <Home>
+    <PostList posts={recentPosts} />
+  </Home>
 </Layout>
