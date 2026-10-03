@@ -1,3 +1,5 @@
+@import "tailwindcss";
+@import "uniwind";
 @import "@init/native-ui/globals.css";
 
 @source "../../**/*.{ts,tsx}";

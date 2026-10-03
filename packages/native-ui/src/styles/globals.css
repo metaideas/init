@@ -1,6 +1,3 @@
-@import "tailwindcss";
-@import "uniwind";
-
 @source "../components/**/*.{ts,tsx}";
 
 @layer theme {
