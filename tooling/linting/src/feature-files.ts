@@ -3,23 +3,7 @@ const ROLES = ["constants", "data", "errors", "handlers", "hooks", "schemas"] as
 const OPEN_FOLDERS = new Set(["assets", "components"])
 const TEST_FOLDER = "__tests__"
 
-const MESSAGE = `Feature folders hold only assets/, components/, and ${ROLES.map((role) => `${role}.ts`).join(", ")}. A role file that grows becomes a folder of the same name. See docs/project-structure.md.`
-
-export default {
-  create(context: {
-    filename: string
-    report: (report: { message: string; node: unknown }) => void
-  }) {
-    return {
-      Program(node: unknown) {
-        if (!isAllowedFeatureFile(context.filename)) {
-          context.report({ message: MESSAGE, node })
-        }
-      },
-    }
-  },
-  meta: { type: "problem" },
-} as const
+export const FEATURE_ROLE_FILES = ROLES.map((role) => `${role}.ts`).join(", ")
 
 export function isAllowedFeatureFile(filename: string) {
   const entry = FEATURE_PATH.exec(filename.replaceAll("\\", "/"))?.groups?.entry

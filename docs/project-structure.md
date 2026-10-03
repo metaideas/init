@@ -64,7 +64,7 @@ Application workspaces usually use three folders:
 
 These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The router folder can import from the `features` or `shared` folder. Neither folder can import from the router folder. This flow organizes the code and makes it easier to understand.
 
-`bun run check` enforces these flows, and covers a new feature folder without a configuration change. Routes use relative imports only for style and image assets; they reach every other module through a `#` subpath.
+The `layout/layers` lint rule in `tooling/linting` enforces these flows for both `#` and relative imports, and covers a new feature folder without a configuration change. A route can import style and image assets, but not another route. The rule's options in `oxlint.config.ts` name each application workspace's route folder and entrypoint tiers.
 
 When an application workspace has more than one entrypoint tier, such as a desktop main process and a renderer, the tiers never import each other. They communicate through a typed contract in `shared`.
 
