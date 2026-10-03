@@ -1,3 +1,7 @@
 {
-  "extends": "@tooling/tsconfig/dom-package.json"
+  "extends": "@tooling/tsconfig/dom-package.json",
+  "compilerOptions": {
+    "types": ["bun"]
+  },
+  "include": ["src", "scripts", "reset.d.ts"]
 }

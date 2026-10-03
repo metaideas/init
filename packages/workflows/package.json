@@ -1,30 +1,30 @@
 {
   "name": "@init/workflows",
   "private": true,
-  "description": "Background tasks and workflows using Inngest",
+  "description": "Durable background workflows using DBOS",
   "license": "MIT",
   "type": "module",
   "imports": {
     "#*": "./src/*"
   },
   "exports": {
-    "./serve": "./src/serve.ts",
-    "./client": "./src/client.ts",
-    "./schema": "./src/schema.ts"
+    "./client": "./src/client.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "inngest dev --no-discovery --port ${PORT:-4002} -u http://localhost:3000/workflows"
+    "codegen": "varlock codegen",
+    "env:check": "varlock load",
+    "reset": "varlock run -- bun --bun run ./scripts/reset.ts"
   },
   "dependencies": {
+    "@dbos-inc/dbos-sdk": "5.2.11",
     "@init/observability": "workspace:*",
-    "@init/utils": "workspace:*",
-    "inngest": "4.14.0"
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",
-    "inngest-cli": "1.40.0",
+    "@types/bun": "1.4.2",
     "typescript": "7.0.2"
   }
 }

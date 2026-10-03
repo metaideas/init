@@ -64,9 +64,8 @@ Each HTTP-serving workspace runs its framework command directly as its `dev` scr
 | Web              | `http://localhost:3006`                  |
 | Drizzle Studio   | `https://local.drizzle.studio?port=4000` |
 | Email preview    | `http://localhost:4001`                  |
-| Inngest          | `http://localhost:4002`                  |
 
-Package development servers use the 4000 block in alphabetical order: `database` on `4000`, `email` on `4001`, and `workflows` on `4002`. The Inngest development server polls the API workflows endpoint at `http://localhost:3000/workflows`. Drizzle Studio's local server listens on `http://localhost:4000`; open the interface at `https://local.drizzle.studio?port=4000`, since the bare hosted URL connects to Drizzle's default port instead.
+Package development servers use the 4000 block in alphabetical order: `database` on `4000` and `email` on `4001`. Drizzle Studio's local server listens on `http://localhost:4000`; open the interface at `https://local.drizzle.studio?port=4000`, since the bare hosted URL connects to Drizzle's default port instead.
 
 ## Managing Dependencies
 

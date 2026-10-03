@@ -40,7 +40,7 @@ root
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   ├── utils                 # Shared helpers and constants for packages and apps
-  │   └── workflows             # Background tasks and workflows using Inngest
+  │   └── workflows             # Durable background workflows using DBOS
   │
   ├── scripts             # Template commands (bun template setup, rename, add)
   │
@@ -86,7 +86,6 @@ apps/api
       │   ├── files.ts            # Files SDK gateway
       │   ├── health.ts           # Health check
       │   ├── trpc.ts             # tRPC adapter
-      │   ├── workflows.ts        # Inngest endpoint
       │   └── v1/                 # Versioned REST routes
       │
       ├── shared/               # Shared utilities and helpers
@@ -96,12 +95,13 @@ apps/api
       │   ├── middleware.ts       # Reusable middleware
       │   ├── trpc.ts             # tRPC context and procedures
       │   ├── types.ts            # Shared types
-      │   └── utils.ts            # General utility functions
+      │   ├── utils.ts            # General utility functions
+      │   └── workflows.ts        # Workflows instance and queues
       │
       └── features/             # Feature folders
           └── [feature]/          # Specific feature (e.g. auth, demo)
               ├── procedures.ts     # Feature-specific tRPC procedures
-              └── functions.ts      # Feature-specific workflow functions
+              └── workflows.ts      # Feature-specific workflows
 ```
 
 ### App
