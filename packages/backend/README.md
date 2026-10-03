@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>@init/backend</code></h1>
-</div>
+# `@init/backend`
 
-Hosted backend built with [Convex](https://convex.dev/) and authenticated with [Better Auth](https://www.better-auth.com/).
+Hosted backend built with [Convex](https://convex.dev/).

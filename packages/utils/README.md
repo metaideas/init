@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>@init/utils</code></h1>
-</div>
+# `@init/utils`
 
-Shared utilities and helper functions package.
+Shared utilities and helper functions.

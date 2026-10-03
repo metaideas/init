@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>@init/database</code></h1>
-</div>
+# `@init/database`
 
-Database package built with [Drizzle ORM](https://orm.drizzle.team/) and [PostgreSQL](https://www.postgresql.org/).
+Database built with [Drizzle ORM](https://orm.drizzle.team/) and [PostgreSQL](https://www.postgresql.org/).

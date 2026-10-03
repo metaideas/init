@@ -98,6 +98,10 @@ Before you explore or change code, read `docs/project-structure.md`. Use the sam
 - Do not add comments that repeat the code, describe an obvious operation, or describe a change from an earlier implementation.
 - Delete all commented-out code.
 
+### READMEs
+
+- A workspace README is a heading and a one-line description. Do not add usage, setup, or structure notes. Put documentation in root `docs/` instead.
+
 ### Commits
 
 - Use a conventional commit message (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).

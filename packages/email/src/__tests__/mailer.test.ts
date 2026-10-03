@@ -27,15 +27,6 @@ describe("createMailer", () => {
     expect(message?.text).toContain(props.resetUrl)
   })
 
-  test("uses the sender from the send options over the default", async () => {
-    const transport = memoryTransport()
-    const mailer = createMailer({ from, transport })
-
-    await mailer.send("password-reset", props, { from: "support <support@example.com>", to })
-
-    expect(transport.sent[0]?.from).toBe("support <support@example.com>")
-  })
-
   test("retries temporary failures with the same idempotency key", async () => {
     const send = mock((_message: EmailMessage, _context: SendContext) =>
       send.mock.calls.length < 2

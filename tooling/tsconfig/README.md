@@ -1,5 +1,3 @@
-<div align="center">
-  <h1 align="center"><code>@tooling/tsconfig</code></h1>
-</div>
+# `@tooling/tsconfig`
 
-Shared TypeScript configurations for all packages in the monorepo.
+Shared TypeScript configurations.
