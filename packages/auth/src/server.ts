@@ -14,3 +14,4 @@ export {
   betterAuth as createAuth,
 } from "better-auth/minimal"
 export { admin, anonymous, organization } from "better-auth/plugins"
+export { expo } from "@better-auth/expo"

@@ -9,7 +9,7 @@
   "exports": {
     "./client": "./src/client.ts",
     "./constants": "./src/constants.ts",
-    "./expo/*": "./src/expo/*.ts",
+    "./expo": "./src/expo.ts",
     "./server": "./src/server.ts",
     "./start": "./src/start.ts"
   },
