@@ -3,8 +3,8 @@ import * as SplashScreen from "expo-splash-screen"
 import { useEffect, useState } from "react"
 import {
   getLocale,
+  isLocale,
   type Locale,
-  locales,
   setLocale as setParaglideLocale,
 } from "#shared/internationalization/runtime.js"
 import { log } from "#shared/logger.ts"
@@ -41,7 +41,7 @@ export function usePersistedLocale() {
   useEffect(() => {
     async function hydrateLocale() {
       const storedLocale = await AsyncStorage.getItem(LOCALE_STORAGE_KEY)
-      if (!storedLocale || !checkIsLocale(storedLocale)) return
+      if (!isLocale(storedLocale)) return
 
       void setParaglideLocale(storedLocale, { reload: false })
       setLocale(storedLocale)
@@ -81,8 +81,4 @@ export function useSearchBarState() {
       },
     },
   }
-}
-
-function checkIsLocale(value: string): value is Locale {
-  return locales.some((locale) => locale === value)
 }
