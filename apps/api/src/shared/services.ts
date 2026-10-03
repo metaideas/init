@@ -20,6 +20,7 @@ export const auth = createServerAuth({
   cookiePrefix: AUTH_API_COOKIE_PREFIX,
   database,
   logger: log,
+  plugins: [],
   secret: ENV.AUTH_SECRET,
   // The mailer logs a failed send. The reset response stays the same either way, so it does not
   // reveal whether the email went out.

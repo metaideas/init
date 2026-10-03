@@ -87,7 +87,11 @@ type ServerAuthOptions<Plugins extends BetterAuthPlugin[]> = {
   cookiePrefix?: string
   database: DB
   logger?: Logger
-  plugins?: Plugins
+  /**
+   * Better Auth plugins. Pass `[]` for none, so the returned type keeps each plugin's endpoints and
+   * session fields.
+   */
+  plugins: Plugins
   secret: string
   /**
    * Delivers a password reset link. Without it, password reset is unavailable.
