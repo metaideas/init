@@ -1,8 +1,9 @@
 import { auditRedactPreset, initLogger } from "evlog"
 
-// The preset masks exact field names such as `secret` and `apiKey`. These globs also mask
-// credentials inside longer names, such as `clientSecret`, `AUTH_SECRET`, and `api_key`, in each
-// casing, because evlog's globs are case-sensitive.
+// The preset masks exact field names such as `secret` and `apiKey`. A bare word also masks the
+// whole field name in any casing, such as `passPhrase`. The globs mask credentials inside longer
+// names, such as `clientSecret`, `AUTH_SECRET`, and `api_key`, in each casing, because evlog's globs
+// are case-sensitive.
 const CREDENTIAL_WORDS = [
   "secret",
   "token",
@@ -17,6 +18,7 @@ const CREDENTIAL_WORDS = [
 const CREDENTIAL_PATHS = [
   ...new Set(
     CREDENTIAL_WORDS.flatMap((word) => [
+      word,
       `*${word}*`,
       `*${word.charAt(0).toUpperCase()}${word.slice(1)}*`,
       `*${word.toUpperCase()}*`,
