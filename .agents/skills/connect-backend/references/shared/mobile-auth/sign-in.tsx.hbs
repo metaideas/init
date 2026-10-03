@@ -1,6 +1,5 @@
-import { Button } from "{{nativeUiPackage}}/components/button"
-import { Text } from "{{nativeUiPackage}}/components/text"
-import { TextInput, View } from "react-native"
+import { Button, Host } from "@expo/ui"
+import { Text, TextInput, View } from "react-native"
 import { useEmailSignIn } from "#shared/use-email-sign-in.ts"
 
 export default function SignInScreen() {
@@ -8,7 +7,7 @@ export default function SignInScreen() {
 
   return (
     <View className="flex-1 justify-center gap-4 bg-background px-6">
-      <Text className="text-2xl font-semibold">Sign in</Text>
+      <Text className="text-2xl font-semibold text-foreground">Sign in</Text>
       <TextInput
         autoCapitalize="none"
         autoComplete="email"
@@ -31,9 +30,9 @@ export default function SignInScreen() {
           {form.error}
         </Text>
       ) : null}
-      <Button onPress={() => void form.signIn()}>
-        <Text>Sign in</Text>
-      </Button>
+      <Host matchContents>
+        <Button label="Sign in" onPress={() => void form.signIn()} />
+      </Host>
     </View>
   )
 }

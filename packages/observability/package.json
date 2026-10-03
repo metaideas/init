@@ -22,12 +22,12 @@
   },
   "dependencies": {
     "@init/utils": "workspace:*",
-    "@openstatus/react": "^0.0.3",
+    "@openstatus/react": "0.0.3",
     "@sentry/browser": "10.32.1",
     "@sentry/core": "10.32.1",
     "@sentry/node": "10.32.1",
-    "@sentry/react-native": "~7.11.0",
-    "evlog": "^2.26.0",
+    "@sentry/react-native": "7.11.0",
+    "evlog": "2.29.0",
     "varlock": "1.16.0"
   },
   "devDependencies": {

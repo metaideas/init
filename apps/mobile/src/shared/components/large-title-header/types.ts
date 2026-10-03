@@ -48,7 +48,7 @@ type HeaderOptions = Omit<NativeStackNavigationOptions, keyof ScreenOptions>
 
 type NativeStackNavigationSearchBarOptions = NonNullable<HeaderOptions["headerSearchBarOptions"]>
 
-type LargeTitleSearchBarRef = Omit<SearchBarCommands, "blur" | "toggleCancelButton">
+type LargeTitleSearchBarMethods = Omit<SearchBarCommands, "blur" | "toggleCancelButton">
 
 type LargeTitleHeaderProps = {
   iosBackButtonMenuEnabled?: boolean
@@ -57,7 +57,7 @@ type LargeTitleHeaderProps = {
   /**
    * Default is 'systemMaterial'
    */
-  iosBlurEffect?: "none" | "systemMaterial"
+  iosBlurEffect?: HeaderOptions["headerBlurEffect"] | "none"
   materialPreset?: "stack" | "inline"
   materialTitleClassName?: string
   backVisible?: boolean
@@ -88,7 +88,7 @@ type LargeTitleHeaderProps = {
     onFocus?: () => void
     onSearchButtonPress?: () => void
     placeholder?: string
-    ref?: React.MutableRefObject<LargeTitleSearchBarRef | null>
+    ref?: React.Ref<LargeTitleSearchBarMethods>
     textColor?: string
     content?: React.ReactNode
   }
@@ -96,7 +96,7 @@ type LargeTitleHeaderProps = {
 
 export type {
   LargeTitleHeaderProps,
-  LargeTitleSearchBarRef,
+  LargeTitleSearchBarMethods,
   NativeStackNavigationOptions,
   NativeStackNavigationSearchBarOptions,
 }

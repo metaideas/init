@@ -1,3 +1,52 @@
-@import "@init/native-ui/globals.css";
+@import "tailwindcss";
+@import "uniwind";
 
 @source "../../**/*.{ts,tsx}";
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: hsl(0 0% 100%);
+      --color-foreground: hsl(0 0% 3.9%);
+      --color-card: hsl(0 0% 100%);
+      --color-card-foreground: hsl(0 0% 3.9%);
+      --color-popover: hsl(0 0% 100%);
+      --color-popover-foreground: hsl(0 0% 3.9%);
+      --color-root: hsl(0 0% 100%);
+      --color-primary: hsl(0 0% 9%);
+      --color-primary-foreground: hsl(0 0% 98%);
+      --color-secondary: hsl(0 0% 96.1%);
+      --color-secondary-foreground: hsl(0 0% 9%);
+      --color-muted: hsl(0 0% 96.1%);
+      --color-muted-foreground: hsl(0 0% 45.1%);
+      --color-accent: hsl(0 0% 96.1%);
+      --color-accent-foreground: hsl(0 0% 9%);
+      --color-destructive: hsl(0 84.2% 60.2%);
+      --color-border: hsl(0 0% 89.8%);
+      --color-input: hsl(0 0% 89.8%);
+      --color-ring: hsl(0 0% 63%);
+    }
+
+    @variant dark {
+      --color-background: hsl(0 0% 3.9%);
+      --color-foreground: hsl(0 0% 98%);
+      --color-card: hsl(0 0% 3.9%);
+      --color-card-foreground: hsl(0 0% 98%);
+      --color-popover: hsl(0 0% 3.9%);
+      --color-popover-foreground: hsl(0 0% 98%);
+      --color-root: hsl(0 0% 3.9%);
+      --color-primary: hsl(0 0% 98%);
+      --color-primary-foreground: hsl(0 0% 9%);
+      --color-secondary: hsl(0 0% 14.9%);
+      --color-secondary-foreground: hsl(0 0% 98%);
+      --color-muted: hsl(0 0% 14.9%);
+      --color-muted-foreground: hsl(0 0% 63.9%);
+      --color-accent: hsl(0 0% 14.9%);
+      --color-accent-foreground: hsl(0 0% 98%);
+      --color-destructive: hsl(0 70.9% 59.4%);
+      --color-border: hsl(0 0% 14.9%);
+      --color-input: hsl(0 0% 14.9%);
+      --color-ring: hsl(300 0% 45%);
+    }
+  }
+}

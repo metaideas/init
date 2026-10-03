@@ -25,7 +25,7 @@
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
     "@tanstack/react-devtools": "0.10.9",
-    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query": "5.101.4",
     "@tanstack/react-query-devtools": "5.91.2",
     "@tanstack/react-router": "1.170.41",
     "@tanstack/react-router-devtools": "1.167.0",

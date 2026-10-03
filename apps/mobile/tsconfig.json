@@ -7,8 +7,8 @@
     "src",
     "app.config.ts",
     "reset.d.ts",
-    "expo-env.d.ts",
     "src/uniwind-types.d.ts",
-    ".expo/types/**/*.ts"
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ]
 }

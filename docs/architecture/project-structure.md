@@ -35,7 +35,6 @@ root
   │   ├── database              # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── kv                    # Key-value storage using unstorage with the Redis driver
-  │   ├── native-ui             # Reusable React Native UI components
   │   ├── observability         # Wide-event logging with evlog, error tracking and monitoring with Sentry
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
@@ -160,7 +159,8 @@ apps/mobile
   │   │   ├── styles/             # Global styles
   │   │   ├── hooks.ts            # Custom React hooks
   │   │   ├── logger.ts           # Logger instance
-  │   │   └── query-client.ts     # TanStack Query client
+  │   │   ├── query-client.ts     # TanStack Query client
+  │   │   └── utils.ts            # Platform capability helpers
   │   │
   │   ├── features/             # Feature folders, created with bun run generate new-feature
   │   ├── index.ts              # Expo Router entry
@@ -190,7 +190,8 @@ apps/desktop
   │   │   ├── components/         # Shared components, providers, and error view
   │   │   ├── desktop-bridge.ts   # Typed bridge contract between shell and renderer
   │   │   ├── logger.ts           # Logger instance
-  │   │   └── query-client.ts     # TanStack Query client
+  │   │   ├── query-client.ts     # TanStack Query client
+  │   │   └── utils.ts            # Platform capability helpers
   │   │
   │   └── features/             # Feature folders
   │       └── [feature]/          # Specific feature (e.g. local-files)

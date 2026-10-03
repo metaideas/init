@@ -29,7 +29,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "varlock": "1.16.0",
-    "wouter": "^3.7.1"
+    "wouter": "3.10.0"
   },
   "devDependencies": {
     "@inlang/paraglide-js": "2.23.0",

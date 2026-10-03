@@ -72,9 +72,6 @@ export default {
       },
       entry: ["scripts/*.ts"],
     },
-    "packages/native-ui": {
-      project: "src/**/*.{css,js,jsx,ts,tsx}",
-    },
     "packages/ui": {
       project: "src/**/*.{css,js,jsx,ts,tsx}",
     },

@@ -17,6 +17,7 @@ export default defineConfig({
     "**/generated/**",
     "**/.generated/**",
     "**/src/shared/internationalization/**",
+    "**/uniwind-types.d.ts",
   ],
   insertFinalNewline: true,
   jsxSingleQuote: false,

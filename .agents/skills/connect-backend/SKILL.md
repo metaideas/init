@@ -3,7 +3,7 @@ name: connect-backend
 description: Connect an application workspace to a backend workspace. Use when the user wants apps/app, apps/desktop, or apps/mobile to talk to the Hono API (apps/api) through Hono RPC or tRPC, or to Convex (packages/backend).
 ---
 
-Wire a client into the app by hand from the reference files in `references/`. Copy each file to its target path, then replace the placeholders with the `name` field of the matching manifest: `{{apiPackage}}` from `apps/api`, `{{backendPackage}}` from `packages/backend`, `{{authPackage}}` from `packages/auth`, `{{nativeUiPackage}}` from `packages/native-ui`, `{{utilsPackage}}` from `packages/utils`.
+Wire a client into the app by hand from the reference files in `references/`. Copy each file to its target path, then replace the placeholders with the `name` field of the matching manifest: `{{apiPackage}}` from `apps/api`, `{{backendPackage}}` from `packages/backend`, `{{authPackage}}` from `packages/auth`, `{{utilsPackage}}` from `packages/utils`.
 
 Supported connections. Anything else is unsupported; say so instead of improvising.
 

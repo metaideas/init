@@ -2,26 +2,21 @@ import type { SearchBarCommands } from "react-native-screens"
 import { Stack } from "expo-router"
 import * as React from "react"
 import { StyleSheet, View } from "react-native"
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
-import { useCSSVariable } from "uniwind"
-import { useLargeTitleSearch } from "#hooks/use-large-title-search.ts"
-import { checkIsLiquidGlassSupported } from "#utils.ts"
-import type { LargeTitleHeaderProps, NativeStackNavigationOptions } from "./types"
+import Animated, { FadeIn } from "react-native-reanimated"
+import { useCSSVariable, useUniwind } from "uniwind"
+import type {
+  LargeTitleHeaderProps,
+  NativeStackNavigationOptions,
+} from "#shared/components/large-title-header/types.ts"
+import { useLargeTitleSearch } from "#shared/components/large-title-header/use-large-title-search.ts"
+import { isLiquidGlassSupported } from "#shared/utils.ts"
 
-const isLiquidGlassSupported = checkIsLiquidGlassSupported()
-
-function LargeTitleHeader(props: LargeTitleHeaderProps) {
+export function LargeTitleHeader(props: LargeTitleHeaderProps) {
+  const { theme } = useUniwind()
+  const [background, card] = useCSSVariable(["--color-background", "--color-card"])
   const search = useLargeTitleSearch(props.searchBar)
   const nativeSearchBarRef = React.useRef<SearchBarCommands>(null)
-  const backgroundValue = useCSSVariable("--color-background")
-  const cardValue = useCSSVariable("--color-card")
-  const foregroundValue = useCSSVariable("--color-foreground")
-  const mutedValue = useCSSVariable("--color-muted-foreground")
-
-  const background = colorVariableToString(backgroundValue)
-  const card = colorVariableToString(cardValue) ?? background
-  const foreground = colorVariableToString(foregroundValue)
-  const mutedForeground = colorVariableToString(mutedValue) ?? foreground
+  const headerBackground = theme === "dark" ? background : card
 
   React.useImperativeHandle(props.searchBar?.ref, () => ({
     cancelSearch: () => nativeSearchBarRef.current?.cancelSearch(),
@@ -30,7 +25,11 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
     setText: (text) => nativeSearchBarRef.current?.setText(text),
   }))
 
-  const screenOptions = propsToScreenOptions(props, card, foreground, mutedForeground, search)
+  const screenOptions = propsToScreenOptions(
+    props,
+    typeof headerBackground === "string" ? headerBackground : undefined,
+    search
+  )
 
   return (
     <>
@@ -45,13 +44,11 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
       />
       {props.searchBar && search.isOverlayShown ? (
         <Animated.View
-          entering={FadeIn.delay(100).duration(200)}
-          exiting={FadeOut}
-          style={[StyleSheet.absoluteFill, { zIndex: 99_999 }]}
+          className="z-[99999]"
+          entering={FadeIn.duration(500)}
+          style={StyleSheet.absoluteFill}
         >
-          <Animated.View entering={FadeIn.delay(200).duration(400)} style={StyleSheet.absoluteFill}>
-            {props.searchBar.content}
-          </Animated.View>
+          <View style={StyleSheet.absoluteFill}>{props.searchBar.content}</View>
         </Animated.View>
       ) : null}
     </>
@@ -61,8 +58,6 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
 function propsToScreenOptions(
   props: LargeTitleHeaderProps,
   backgroundColor: string | undefined,
-  foregroundColor: string | undefined,
-  mutedForegroundColor: string | undefined,
   search: ReturnType<typeof useLargeTitleSearch>
 ): NativeStackNavigationOptions {
   return {
@@ -79,17 +74,8 @@ function propsToScreenOptions(
       : { backgroundColor: props.backgroundColor ?? backgroundColor },
     headerLargeTitle: true,
     headerLargeTitleShadowVisible: props.shadowVisible,
-    headerLargeTitleStyle: foregroundColor ? { color: foregroundColor } : undefined,
-    headerLeft: props.leftView
-      ? (headerProps) => (
-          <View className="flex-row justify-center gap-4">{props.leftView?.(headerProps)}</View>
-        )
-      : undefined,
-    headerRight: props.rightView
-      ? (headerProps) => (
-          <View className="flex-row justify-center gap-4">{props.rightView?.(headerProps)}</View>
-        )
-      : undefined,
+    headerLeft: props.leftView,
+    headerRight: props.rightView,
     headerSearchBarOptions: props.searchBar
       ? {
           autoCapitalize: props.searchBar.autoCapitalize,
@@ -104,8 +90,8 @@ function propsToScreenOptions(
           onFocus: search.focus,
           onSearchButtonPress: props.searchBar.onSearchButtonPress,
           placeholder: props.searchBar.placeholder ?? "Search...",
-          textColor: props.searchBar.textColor ?? foregroundColor,
-          tintColor: props.searchBar.iosTintColor ?? mutedForegroundColor,
+          textColor: props.searchBar.textColor,
+          tintColor: props.searchBar.iosTintColor,
         }
       : undefined,
     headerShadowVisible: props.shadowVisible,
@@ -114,16 +100,8 @@ function propsToScreenOptions(
       props.iosBlurEffect === "none"
         ? { backgroundColor: props.backgroundColor ?? backgroundColor }
         : undefined,
-    headerTintColor: foregroundColor,
     headerTitle: props.title,
-    headerTitleStyle: foregroundColor ? { color: foregroundColor } : undefined,
-    headerTransparent: isLiquidGlassSupported ? true : props.iosBlurEffect !== "none",
+    headerTransparent: isLiquidGlassSupported || props.iosBlurEffect !== "none",
     ...props.screen,
   }
 }
-
-function colorVariableToString(value: string | number | undefined): string | undefined {
-  return typeof value === "string" ? value : undefined
-}
-
-export { LargeTitleHeader }
