@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import * as TabsPrimitive from "@rn-primitives/tabs"
 import { cn } from "cn"
 import { Platform } from "react-native"

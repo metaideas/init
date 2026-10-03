@@ -7,13 +7,10 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@init/ui/components/empty"
-import { useEffect } from "react"
-import { log } from "#shared/logger.ts"
+import { useLogRenderError } from "#shared/hooks.ts"
 
 export default function ErrorFallback({ error, reset }: ErrorComponentProps) {
-  useEffect(() => {
-    log.error({ error, message: "Route rendering failed" })
-  }, [error])
+  useLogRenderError(error)
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">

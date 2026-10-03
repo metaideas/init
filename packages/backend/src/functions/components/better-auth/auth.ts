@@ -1,11 +1,29 @@
-import type { GenericCtx } from "@convex-dev/better-auth"
+import type { GenericQueryCtx } from "convex/server"
 import { createAuth } from "@init/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { createAuthOptions } from "#functions/shared/auth.ts"
 
+function unavailable(): never {
+  throw new Error("Better Auth schema generation does not run database operations.")
+}
+
 // Static instance for Better Auth schema generation only
-// SAFETY: Better Auth reads this context only when a database operation runs; schema generation does not run database operations.
-const schemaGenerationContext = {} as GenericCtx<DataModel>
+const schemaGenerationContext: GenericQueryCtx<DataModel> = {
+  auth: { getUserIdentity: unavailable },
+  db: {
+    get: unavailable,
+    normalizeId: unavailable,
+    query: unavailable,
+    system: { get: unavailable, normalizeId: unavailable, query: unavailable },
+  },
+  meta: {
+    getDeploymentMetadata: unavailable,
+    getFunctionMetadata: unavailable,
+    getTransactionMetrics: unavailable,
+  },
+  runQuery: unavailable,
+  storage: { getMetadata: unavailable, getUrl: unavailable },
+}
 
 export const auth = createAuth({
   ...createAuthOptions(schemaGenerationContext),

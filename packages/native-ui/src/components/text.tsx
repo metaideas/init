@@ -46,11 +46,6 @@ type TextVariantProps = VariantProps<typeof textVariants>
 
 type TextVariant = NonNullable<TextVariantProps["variant"]>
 
-// SAFETY: React Native for Web supports the blockquote role although the native Role type omits it.
-const WEB_BLOCKQUOTE_ROLE = "blockquote" as Role
-// SAFETY: React Native for Web supports the code role although the native Role type omits it.
-const WEB_CODE_ROLE = "code" as Role
-
 const TextClassContext = React.createContext<string | undefined>(undefined)
 
 function Text({
@@ -70,6 +65,7 @@ function Text({
       className={cn(textVariants({ variant }), textClass, className)}
       role={roleForVariant(variant)}
       aria-level={ariaLevelForVariant(variant)}
+      {...webOnlyRolePropsForVariant(variant)}
       {...props}
     />
   )
@@ -77,10 +73,6 @@ function Text({
 
 function roleForVariant(variant: TextVariant | null | undefined): Role | undefined {
   switch (variant) {
-    case "blockquote":
-      return Platform.OS === "web" ? WEB_BLOCKQUOTE_ROLE : undefined
-    case "code":
-      return Platform.OS === "web" ? WEB_CODE_ROLE : undefined
     case "h1":
     case "h2":
     case "h3":
@@ -88,6 +80,20 @@ function roleForVariant(variant: TextVariant | null | undefined): Role | undefin
       return "heading"
     default:
       return undefined
+  }
+}
+
+// React Native for Web supports the blockquote and code roles, which the native Role type omits.
+function webOnlyRolePropsForVariant(
+  variant: TextVariant | null | undefined
+): Readonly<Record<string, string>> {
+  if (Platform.OS !== "web") return {}
+  switch (variant) {
+    case "blockquote":
+    case "code":
+      return { role: variant }
+    default:
+      return {}
   }
 }
 

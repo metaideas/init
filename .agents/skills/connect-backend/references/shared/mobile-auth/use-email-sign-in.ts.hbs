@@ -1,0 +1,16 @@
+import { useState } from "react"
+import { auth } from "#shared/auth.ts"
+
+export function useEmailSignIn() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState<string>()
+
+  async function signIn() {
+    setError(undefined)
+    const result = await auth.signIn.email({ email, password })
+    if (result.error) setError(result.error.message)
+  }
+
+  return { email, error, password, setEmail, setPassword, signIn }
+}

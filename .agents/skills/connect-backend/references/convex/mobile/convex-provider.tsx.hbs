@@ -23,6 +23,7 @@ queryClient.setDefaultOptions({
 })
 convexQueryClient.connect(queryClient)
 
+// oxlint-disable-next-line typescript/consistent-type-assertions -- Convex types `AuthClient` for a client with only its own plugins, so the Expo and additional-fields plugins make the shared client unassignable.
 const convexAuth = auth as unknown as AuthClient
 
 export default function ConvexProvider({ children }: PropsWithChildren) {

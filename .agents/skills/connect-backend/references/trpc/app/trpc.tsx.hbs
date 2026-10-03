@@ -1,19 +1,12 @@
 import type { TRPCRouter } from "{{apiPackage}}/client"
 import { createIsomorphicFn } from "@tanstack/react-start"
 import { getRequestHeaders } from "@tanstack/react-start/server"
-import { useQueryClient } from "@tanstack/react-query"
 import { createTRPCClient, httpBatchStreamLink, loggerLink } from "@trpc/client"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
-import type { PropsWithChildren } from "react"
-import { useMemo } from "react"
 import superjson from "superjson"
 import { buildApiUrl } from "#shared/utils.ts"
 
-export const {
-  useTRPC,
-  useTRPCClient,
-  TRPCProvider: TRPCProviderBase,
-} = createTRPCContext<TRPCRouter>()
+export const { useTRPC, useTRPCClient, TRPCProvider } = createTRPCContext<TRPCRouter>()
 
 const url = buildApiUrl("/trpc")
 
@@ -48,14 +41,3 @@ export const makeTRPCClient = createIsomorphicFn()
       ],
     })
   )
-
-export function TRPCProvider({ children }: PropsWithChildren) {
-  const queryClient = useQueryClient()
-  const trpcClient = useMemo(() => makeTRPCClient(), [])
-
-  return (
-    <TRPCProviderBase queryClient={queryClient} trpcClient={trpcClient}>
-      {children}
-    </TRPCProviderBase>
-  )
-}

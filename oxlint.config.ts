@@ -3,6 +3,8 @@ import path from "node:path"
 import core from "adamantite/lint"
 import node from "adamantite/lint/node"
 import react from "adamantite/lint/react"
+import reactStrict from "adamantite/lint/react-strict"
+import strict from "adamantite/lint/strict"
 import { defineConfig, type OxlintOverride } from "oxlint"
 
 const LAYER_MESSAGE =
@@ -79,7 +81,7 @@ const featureOverrides = listDirectories("apps").flatMap((app) =>
 )
 
 export default defineConfig({
-  extends: [core, react, node],
+  extends: [core, strict, react, reactStrict, node],
   ignorePatterns: [
     "**/*.hbs",
     "**/src/**/_generated",
@@ -127,6 +129,11 @@ export default defineConfig({
     },
   ],
   rules: {
+    "adamantite/no-react-state-hooks": [
+      "error",
+      { allow: ["**/use[A-Z]*.{ts,tsx}", "**/use-*.{ts,tsx}", "**/hooks/**", "**/hooks.{ts,tsx}"] },
+    ],
+    "react/jsx-no-constructed-context-values": "off",
     "typescript/consistent-type-definitions": ["error", "type"],
   },
 })

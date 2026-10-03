@@ -3,20 +3,16 @@ import { Text } from "@init/native-ui/components/text"
 import { monitoringWrap } from "@init/observability/monitoring/expo"
 import { type ErrorBoundaryProps, Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
-import { useEffect } from "react"
 import { View } from "react-native"
 import Providers from "#shared/components/providers.tsx"
-import { useHideSplashScreen } from "#shared/hooks.ts"
-import { log } from "#shared/logger.ts"
+import { useHideSplashScreen, useLogRenderError } from "#shared/hooks.ts"
 
 import "#shared/styles/globals.css"
 
 void SplashScreen.preventAutoHideAsync()
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
-  useEffect(() => {
-    log.error({ error, message: "Route rendering failed" })
-  }, [error])
+  useLogRenderError(error)
 
   return (
     <View className="flex-1 items-center justify-center gap-6 bg-background px-6">

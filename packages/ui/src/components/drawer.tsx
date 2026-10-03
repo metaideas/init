@@ -32,10 +32,7 @@ function Drawer({
   showSwipeHandle?: boolean
 }) {
   const hasSnapPoints = (snapPoints?.length ?? 0) > 0
-  const contextValue = React.useMemo(
-    () => ({ hasSnapPoints, modal, showSwipeHandle, swipeDirection }),
-    [hasSnapPoints, modal, showSwipeHandle, swipeDirection]
-  )
+  const contextValue = { hasSnapPoints, modal, showSwipeHandle, swipeDirection }
 
   return (
     <DrawerContext.Provider value={contextValue}>

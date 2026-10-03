@@ -1,4 +1,3 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { database } from "@init/database/client"
 import { kv } from "@init/kv/client"
 import { isStructuredError, parseError } from "@init/observability/logger"
@@ -18,7 +17,7 @@ import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import { files } from "#shared/files.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
-import { allowedOrigins, factory } from "#shared/utils.ts"
+import { allowedOrigins, factory, toContentfulStatusCode } from "#shared/utils.ts"
 
 const app = factory.createApp()
 
@@ -65,7 +64,7 @@ app.onError((error, c) => {
 
   return c.json(
     { fix: parsed.fix, message: parsed.message, why: parsed.why },
-    parsed.status as ContentfulStatusCode
+    toContentfulStatusCode(parsed.status)
   )
 })
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import type { LucideIcon } from "lucide-react-native"
 import { cn } from "cn"
 import * as React from "react"

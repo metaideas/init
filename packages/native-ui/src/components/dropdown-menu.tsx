@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import * as DropdownMenuPrimitive from "@rn-primitives/dropdown-menu"
 import { cn } from "cn"
 import { Check, ChevronDown, ChevronRight, ChevronUp } from "lucide-react-native"

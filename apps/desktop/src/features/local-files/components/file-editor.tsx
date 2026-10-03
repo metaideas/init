@@ -1,38 +1,12 @@
 import { Button } from "@init/ui/components/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
 import { Textarea } from "@init/ui/components/textarea"
-import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
-import { openTextFileOptions, saveTextFileOptions } from "#features/local-files/mutations.ts"
+import { useTextFileEditor } from "#features/local-files/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
 
 export default function FileEditor() {
-  const [contents, setContents] = useState("")
-  const [path, setPath] = useState<string>()
-  const [savedBuffer, setSavedBuffer] = useState<{ contents: string; path: string }>()
-  const saveFile = useMutation({
-    ...saveTextFileOptions,
-    onSuccess: (_, variables) => {
-      setSavedBuffer(variables)
-    },
-  })
-  const openFile = useMutation({
-    ...openTextFileOptions,
-    onSuccess: (file) => {
-      if (!file) return
-      saveFile.reset()
-      setSavedBuffer(undefined)
-      setContents(file.contents)
-      setPath(file.path)
-    },
-  })
-  const isSaved =
-    saveFile.isSuccess && savedBuffer?.contents === contents && savedBuffer.path === path
-
-  function save() {
-    if (!path) return
-    saveFile.mutate({ contents, path })
-  }
+  const editor = useTextFileEditor()
+  const { openFile, path, saveFile } = editor
 
   return (
     <Card className="w-full max-w-3xl">
@@ -62,17 +36,16 @@ export default function FileEditor() {
               aria-label={m.desktop_local_files_title()}
               className="min-h-80 resize-y font-mono text-base"
               onChange={(event) => {
-                saveFile.reset()
-                setContents(event.currentTarget.value)
+                editor.editContents(event.currentTarget.value)
               }}
-              value={contents}
+              value={editor.contents}
             />
             <div className="flex items-center gap-3">
-              <Button disabled={saveFile.isPending} onClick={save} type="button">
+              <Button disabled={saveFile.isPending} onClick={editor.save} type="button">
                 {m.desktop_local_files_save()}
               </Button>
               <p aria-live="polite" className="text-sm text-muted-foreground">
-                {isSaved ? m.desktop_local_files_saved_status() : null}
+                {editor.isSaved ? m.desktop_local_files_saved_status() : null}
               </p>
             </div>
           </>

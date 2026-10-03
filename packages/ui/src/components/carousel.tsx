@@ -1,9 +1,11 @@
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
+import type useEmblaCarousel from "embla-carousel-react"
+import type { UseEmblaCarouselType } from "embla-carousel-react"
 import * as React from "react"
 
 import { cn } from "cn"
 import { Button } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
+import { useCarouselState } from "#hooks/use-carousel-state.ts"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -43,78 +45,25 @@ function Carousel({
   opts,
   setApi,
   plugins,
-  className,
-  children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
-  const [carouselRef, api] = useEmblaCarousel(
-    {
-      ...opts,
-      axis: orientation === "horizontal" ? "x" : "y",
-    },
-    plugins
-  )
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false)
-  const [canScrollNext, setCanScrollNext] = React.useState(false)
+  const { className, children, ...divProps } = props
+  const contextValue: CarouselContextProps = useCarouselState({
+    opts,
+    orientation,
+    plugins,
+    setApi,
+  })
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
-  }, [])
-
-  const scrollPrev = React.useCallback(() => {
-    api?.scrollPrev()
-  }, [api])
-
-  const scrollNext = React.useCallback(() => {
-    api?.scrollNext()
-  }, [api])
-
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault()
-        scrollPrev()
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault()
-        scrollNext()
-      }
-    },
-    [scrollPrev, scrollNext]
-  )
-
-  React.useEffect(() => {
-    if (!api || !setApi) return
-    setApi(api)
-  }, [api, setApi])
-
-  React.useEffect(() => {
-    if (!api) return
-    // oxlint-disable-next-line react/set-state-in-effect -- Embla exposes scroll state only through its API, so read it once the API exists.
-    onSelect(api)
-    api.on("reInit", onSelect)
-    api.on("select", onSelect)
-
-    return () => {
-      api.off("reInit", onSelect)
-      api.off("select", onSelect)
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault()
+      contextValue.scrollPrev()
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault()
+      contextValue.scrollNext()
     }
-  }, [api, onSelect])
-
-  const contextValue = React.useMemo(
-    () => ({
-      api,
-      canScrollNext,
-      canScrollPrev,
-      carouselRef,
-      opts,
-      orientation,
-      scrollNext,
-      scrollPrev,
-    }),
-    [api, canScrollNext, canScrollPrev, carouselRef, opts, orientation, scrollNext, scrollPrev]
-  )
+  }
 
   return (
     <CarouselContext.Provider value={contextValue}>
@@ -124,7 +73,7 @@ function Carousel({
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
-        {...props}
+        {...divProps}
       >
         {children}
       </div>
