@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks"
-import { database, type Database } from "#client.ts"
+import type { Database } from "#client.ts"
 
 export type DatabaseTransaction = Parameters<Parameters<Database["transaction"]>[0]>[0]
 
@@ -10,6 +10,7 @@ const storage = new AsyncLocalStorage<DatabaseTransaction>()
  * domain operations commit or roll back together.
  */
 export async function withTransaction<T>(
+  database: Database,
   operation: (transaction: DatabaseTransaction) => Promise<T>
 ): Promise<T> {
   const current = storage.getStore()

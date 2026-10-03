@@ -1,9 +1,11 @@
 // oxlint-disable no-console - We use console.log for logging in scripts
 
-import { checkIsLocalDatabase, database } from "@init/database/client"
+import { checkIsLocalDatabase, createDatabase } from "@init/database/client"
 import * as schema from "@init/database/schema"
 import { reset } from "drizzle-seed"
 import { ENV } from "#env.generated.ts"
+
+const database = createDatabase({ url: ENV.DATABASE_URL })
 
 async function main() {
   console.log("\n🔄 Database Reset\n")

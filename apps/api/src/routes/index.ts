@@ -1,5 +1,3 @@
-import { database } from "@init/database/client"
-import { kv } from "@init/kv/client"
 import { Scalar } from "@scalar/hono-api-reference"
 import { EvlogError, parseError } from "evlog"
 import { evlog as requestLogger } from "evlog/hono"
@@ -14,7 +12,7 @@ import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
 import { files } from "#shared/files.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
-import { auth } from "#shared/services.ts"
+import { auth, database, kv } from "#shared/services.ts"
 import { allowedOrigins, factory, toContentfulStatusCode } from "#shared/utils.ts"
 
 const app = factory.createApp()

@@ -1,11 +1,13 @@
 import { AUTH_APP_NAME } from "@init/auth/constants"
 import { createServerAuth } from "@init/auth/server"
 import { tanstackStartCookies } from "@init/auth/start"
-import { database } from "@init/database/client"
+import { createDatabase } from "@init/database/client"
 import { createMailer } from "@init/email/mailer"
 import { selectTransport } from "@init/email/transports"
 import { ENV } from "#shared/env.generated.ts"
 import { log } from "#shared/logger.ts"
+
+export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
 
 export const mailer = createMailer({
   from: ENV.EMAIL_FROM,

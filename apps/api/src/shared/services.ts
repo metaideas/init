@@ -1,11 +1,17 @@
 import { AUTH_API_COOKIE_PREFIX, AUTH_APP_NAME } from "@init/auth/constants"
 import { createServerAuth } from "@init/auth/server"
-import { database } from "@init/database/client"
+import { createDatabase } from "@init/database/client"
 import { createMailer } from "@init/email/mailer"
 import { selectTransport } from "@init/email/transports"
+import { createStorage } from "unstorage"
+import redisDriver from "unstorage/drivers/redis"
 import { ENV } from "#shared/env.generated.ts"
 import { log } from "#shared/logger.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
+
+export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
+
+export const kv = createStorage({ driver: redisDriver({ url: ENV.REDIS_URL }) })
 
 export const mailer = createMailer({
   from: ENV.EMAIL_FROM,
