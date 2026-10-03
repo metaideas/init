@@ -1,26 +1,11 @@
 ---
 title: Project Generators
-description: Use local template recipes to add features, package workspaces, snippets, Files SDK clients, and the AI chat demo.
+description: Use local template recipes to add features, package workspaces, Files SDK clients, and the AI chat demo.
 ---
 
 Run `bun run generate` to open the Turbo generator menu. Template commands use local template recipes from the exact template snapshot in the project. They do not download a catalog. They do not update previously generated files. They do not track template drift.
 
-`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, code snippets, the Files SDK client integration, and the AI chat demo. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
-
-## Add code snippets
-
-The `code-snippets` template command adds optional source code to an existing workspace:
-
-```bash
-bun run generate code-snippets
-```
-
-| Category  | Selection | Target                         | Requirements             |
-| --------- | --------- | ------------------------------ | ------------------------ |
-| Utilities | `codec`   | `packages/utils/src/codec.ts`  | `packages/utils`         |
-| Utilities | `assert`  | `packages/utils/src/assert.ts` | `packages/utils`, `core` |
-
-Select one or more utility snippets. The selection requires its required workspaces to exist. A repeat run skips existing targets. Workspace schemas and backend commands own environment contracts. Code-snippet presets do not own environment contracts.
+`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, the Files SDK client integration, and the AI chat demo. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
 
 ## Create project scaffolds
 

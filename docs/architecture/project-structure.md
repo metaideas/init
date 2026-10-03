@@ -296,6 +296,5 @@ Run the following command to create a new package workspace:
 bun run generate new-package
 ```
 
-The `bun run generate code-snippets` command provides optional copy-once package code.
 Apply the `connect-backend` skill to connect an application workspace to an existing backend
 workspace. See [Project generators](../generators.md) for the generator workflows.
