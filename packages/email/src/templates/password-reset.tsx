@@ -11,16 +11,22 @@ import {
   Text,
 } from "@react-email/components"
 
-export default function PasswordReset({ resetUrl }: { resetUrl: string }) {
+export default function PasswordReset({
+  appName,
+  resetUrl,
+}: {
+  appName: string
+  resetUrl: string
+}) {
   return (
     <Html>
       <Head />
-      <Preview>Reset your password</Preview>
+      <Preview>Reset your {appName} password</Preview>
       <Tailwind>
         <Body className="bg-gray-50 font-sans">
           <Container className="mx-auto my-10 max-w-xl rounded-lg bg-white p-8 shadow-sm">
             <Heading className="mb-4 text-center text-2xl font-bold text-gray-900">
-              Reset your password
+              Reset your {appName} password
             </Heading>
             <Text className="mb-6 text-center text-base text-gray-600">
               Use the button below to choose a new password. If you did not request this, you can

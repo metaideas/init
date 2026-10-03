@@ -35,13 +35,13 @@
         "FILES_API_SECRET",
         "GITHUB_*",
         "GOOGLE_*",
-        "MOCK_RESEND",
         "PORT",
         "PUBLIC_*",
         "REDIS_URL",
         "RESEND_API_KEY",
         "RUN_PRODUCTION_MIGRATIONS",
         "S3_*",
+        "SMTP_URL",
         "STRIPE_*"
       ]
     },

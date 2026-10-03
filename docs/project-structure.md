@@ -32,7 +32,7 @@ root
   │   ├── backend               # Convex backend, generated API types, and React client
   │   ├── core                  # Shared business logic and errors, organized by domain
   │   ├── database              # Database client and ORM using Drizzle
-  │   ├── email                 # Email templating and sending service using Resend
+  │   ├── email                 # Email templates and delivery through Resend or SMTP
   │   ├── kv                    # Key-value storage using unstorage with the Redis driver
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI

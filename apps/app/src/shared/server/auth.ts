@@ -7,9 +7,8 @@ import {
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { tanstackStartCookies as cookies } from "@init/auth/start"
 import { database } from "@init/database/client"
-import { sendEmail } from "@init/email/client"
-import PasswordReset from "@init/email/templates/password-reset"
 import { ENV } from "#shared/env.generated.ts"
+import { mailer } from "#shared/server/services.ts"
 
 const trustedOrigins = ENV.AUTH_TRUSTED_ORIGINS
 
@@ -22,10 +21,11 @@ export const auth = createAuth({
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {
-      await sendEmail(PasswordReset({ resetUrl: url }), {
-        emails: [user.email],
-        subject: `Reset your ${AUTH_APP_NAME} password`,
-      })
+      await mailer.send(
+        "password-reset",
+        { appName: AUTH_APP_NAME, resetUrl: url },
+        { to: [user.email] }
+      )
     },
   },
   plugins: [cookies()],

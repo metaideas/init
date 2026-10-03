@@ -355,17 +355,16 @@
         "@init/core": "workspace:*",
         "@react-email/components": "1.0.12",
         "@react-email/render": "2.1.0",
-        "date-fns": "4.1.0",
-        "humanspan": "0.2.0",
+        "nodemailer": "10.0.14",
+        "react": "19.2.3",
+        "react-dom": "19.2.3",
         "resend": "6.7.0",
-        "varlock": "1.16.0",
       },
       "devDependencies": {
         "@react-email/ui": "6.9.1",
         "@tooling/tsconfig": "workspace:*",
         "@types/bun": "1.4.2",
         "@types/react": "19.2.4",
-        "react": "19.2.3",
         "react-email": "6.9.1",
         "typescript": "7.0.2",
       },
@@ -3588,6 +3587,8 @@
     "node-mock-http": ["node-mock-http@1.0.5", "", {}, "sha512-KQyt/wLjG3TAc7DOUhpqWzgd4ERxR80JOlTK5VE5R1S12IaPVN5qkj4klBce9HPG1Njuup4Sb5bljaT34lIyjw=="],
 
     "node-releases": ["node-releases@2.0.51", "", {}, "sha512-wRNIrw4DmVLKQlbgOMdkMx27Wrpzes2hh5Jtbi2bjPd+4wJstWIqP5A+lscnqbm0xxmT5Bpg8Lec5ItEBwx6BQ=="],
+
+    "nodemailer": ["nodemailer@10.0.14", "", {}, "sha512-eJoLFKg55fesSlzUekmfOv/SBXh4KUYT8oiQc2RLP0tfG0rbNMJBK7wgHJwXTJwqyKlSJMz9UzDZ4v+aHEvo8g=="],
 
     "nopt": ["nopt@6.0.0", "", { "dependencies": { "abbrev": "^1.0.0" }, "bin": { "nopt": "bin/nopt.js" } }, "sha512-ZwLpbTgdhuZUnZzjd7nb1ZV+4DoiC6/sfiVKok72ym/4Tlf+DFdlHYmT2JPmcNNWV6Pi3SDf1kT+A4r9RTuT9g=="],
 
