@@ -48,6 +48,10 @@ const FOUNDATION_PACKAGES = new Set(["core", "ui", "utils"])
 // `packages/backend` deploys on its own and composes packages the way an application does.
 const COMPOSING_PACKAGES = new Set(["backend"])
 
+// A value import of the generated `ENV`. Type-only imports are erased, so they are allowed.
+const ENV_VALUE_IMPORT =
+  /^(?:import|export)\s+(?!type\b)(?:\{[^}]*\}|[^"'\n{]*)\s*from\s*["'][^"']*env\.generated(?:\.ts)?["']/m
+
 const TurboJsonSchema = z.object({
   tasks: z.record(z.string(), z.looseObject({ env: z.array(z.string()).optional() })),
 })
@@ -176,7 +180,7 @@ const checks: Check[] = [
           const readers = await Promise.all(
             files.map(async (file) => {
               const contents = await Bun.file(join(workspace.directory, file)).text()
-              return /from ["'][^"']*env\.generated(\.ts)?["']/.test(contents) ? [file] : []
+              return ENV_VALUE_IMPORT.test(contents) ? [file] : []
             })
           )
 
