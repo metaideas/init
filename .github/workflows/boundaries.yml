@@ -1,4 +1,4 @@
-name: adamantite
+name: boundaries
 
 on:
   push:
@@ -15,18 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify:
-    name: ${{ matrix.name }}
+  boundaries:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: check
-            command: bun run check
-          - name: analyze
-            command: bun run analyze
 
     steps:
       - name: Checkout
@@ -56,5 +47,5 @@ jobs:
       - name: Generate source files and types
         run: bun run codegen
 
-      - name: Run ${{ matrix.name }}
-        run: ${{ matrix.command }}
+      - name: Run boundaries
+        run: bun run boundaries
