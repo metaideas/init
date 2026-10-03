@@ -19,7 +19,6 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 
 - `src/client/` — React client and auth adapters
 - `src/functions/public/` — public queries and mutations
-- `src/functions/private/` — admin-only functions
 - `src/functions/system/` — operational functions such as health checks
 - `src/functions/shared/` — middleware, auth, logging, and environment configuration
 - `src/functions/_generated/` — generated API and data-model types

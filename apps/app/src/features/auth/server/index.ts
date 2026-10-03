@@ -4,7 +4,7 @@ import {
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
-import { admin, createAuth, databaseAdapter, organization } from "@init/auth/server"
+import { createAuth, databaseAdapter } from "@init/auth/server"
 import { tanstackStartCookies as cookies } from "@init/auth/start"
 import { database } from "@init/database/client"
 import { sendEmail } from "@init/email/client"
@@ -28,7 +28,7 @@ export const auth = createAuth({
       })
     },
   },
-  plugins: [admin(), organization(), cookies()],
+  plugins: [cookies()],
   secret: ENV.AUTH_SECRET,
   session: AUTH_SESSION_OPTIONS,
   socialProviders: {

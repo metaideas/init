@@ -12,7 +12,6 @@ import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
 import type * as http from "../http.js";
 import type * as models_documents from "../models/documents.js";
-import type * as private_users from "../private/users.js";
 import type * as public_auth from "../public/auth.js";
 import type * as public_documents from "../public/documents.js";
 import type * as public_messages from "../public/messages.js";
@@ -31,7 +30,6 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   http: typeof http;
   "models/documents": typeof models_documents;
-  "private/users": typeof private_users;
   "public/auth": typeof public_auth;
   "public/documents": typeof public_documents;
   "public/messages": typeof public_messages;

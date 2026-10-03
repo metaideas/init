@@ -42,10 +42,27 @@ export const documents = createTable("documents", {
   name: pg.text().notNull(),
 })
 
+export const profiles = createTable("profiles", {
+  ...id(z.branded("ProfileId"), "prof"),
+  ...timestamps,
+
+  userId: pg
+    .text()
+    .notNull()
+    .unique()
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
+    .$type<UserId>(),
+})
+export type Profile = typeof profiles.$inferSelect
+export type NewProfile = typeof profiles.$inferInsert
+export type ProfileId = Profile["id"]
+
 // ==========================AUTH==========================
 export const authSchema = pg.pgSchema("auth")
 
-export const userRole = authSchema.enum("user_role", ["user", "admin"])
 export const UserIdSchema = z.branded("UserId")
 
 export const users = authSchema.table(
@@ -53,10 +70,6 @@ export const users = authSchema.table(
   {
     ...id(UserIdSchema, "user"),
     ...timestamps,
-
-    banExpiresAt: pg.timestamp({ withTimezone: true }),
-    banReason: pg.text(),
-    banned: pg.boolean().notNull().default(false),
 
     email: pg.text().notNull().unique(),
     emailVerified: pg.boolean().notNull().default(false),
@@ -66,19 +79,12 @@ export const users = authSchema.table(
     metadata: pg.jsonb(),
 
     name: pg.text().notNull(),
-
-    role: userRole().notNull().default("user"),
   },
-  (table) => [
-    pg.index("users_email_idx").on(table.email),
-    pg.index("users_role_idx").on(table.role),
-    pg.index("auth_users_banned_idx").on(table.banned),
-  ]
+  (table) => [pg.index("users_email_idx").on(table.email)]
 )
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type UserId = User["id"]
-export type UserRole = User["role"]
 
 export const accounts = authSchema.table(
   "accounts",
@@ -151,14 +157,6 @@ export const sessions = authSchema.table(
 
     expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
 
-    impersonatedBy: pg
-      .text()
-      .references(() => users.id, {
-        onDelete: "set null",
-        onUpdate: "cascade",
-      })
-      .$type<UserId>(),
-
     token: pg.text().notNull().unique(),
 
     userId: pg
@@ -172,203 +170,16 @@ export const sessions = authSchema.table(
 
     ipAddress: pg.text(),
     userAgent: pg.text(),
-
-    activeOrganizationId: pg
-      .text()
-      .references(() => organizations.id, {
-        onDelete: "set null",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
   },
   (table) => [
     pg.index("auth_sessions_user_id_idx").on(table.userId),
     pg.index("auth_sessions_token_idx").on(table.token),
     pg.index("auth_sessions_expires_at_idx").on(table.expiresAt),
     pg.index("auth_sessions_ip_address_idx").on(table.ipAddress),
-    pg.index("auth_sessions_active_organization_id_idx").on(table.activeOrganizationId),
   ]
 )
 export type Session = typeof sessions.$inferSelect
 export type NewSession = typeof sessions.$inferInsert
-
-// ==========================ORGANIZATION==========================
-export const organizationSchema = pg.pgSchema("organization")
-
-export const organizations = organizationSchema.table(
-  "organizations",
-  {
-    ...id(z.branded("OrganizationId"), "org"),
-    ...timestamps,
-
-    name: pg.text().notNull(),
-    slug: pg.text().notNull().unique(),
-
-    logo: pg.text(),
-    metadata: pg.jsonb(),
-  },
-  (table) => [pg.index("organizations_slug_idx").on(table.slug)]
-)
-export type Organization = typeof organizations.$inferSelect
-export type NewOrganization = typeof organizations.$inferInsert
-export type OrganizationId = Organization["id"]
-
-export const memberRole = organizationSchema.enum("member_role", ["member", "admin", "owner"])
-
-export const members = organizationSchema.table(
-  "members",
-  {
-    ...id(z.branded("MemberId"), "memb"),
-    ...timestamps,
-
-    userId: pg
-      .text()
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" })
-      .$type<UserId>(),
-
-    organizationId: pg
-      .text()
-      .notNull()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
-
-    role: memberRole().notNull().default("member"),
-  },
-  (table) => [
-    pg
-      .uniqueIndex("organization_members_user_organization_unique_idx")
-      .on(table.userId, table.organizationId),
-    pg.index("organization_members_user_id_idx").on(table.userId),
-    pg.index("organization_members_organization_id_idx").on(table.organizationId),
-  ]
-)
-export type Member = typeof members.$inferSelect
-export type NewMember = typeof members.$inferInsert
-export type MemberId = Member["id"]
-export type MemberRole = Member["role"]
-
-export const invitationStatus = organizationSchema.enum("invitation_status", [
-  "pending",
-  "accepted",
-  "rejected",
-  "canceled",
-])
-
-export const invitations = organizationSchema.table(
-  "invitations",
-  {
-    ...id(z.branded("InvitationId"), "invt"),
-    ...timestamps,
-
-    email: pg.text().notNull(),
-
-    expiresAt: pg.timestamp({ withTimezone: true }).notNull(),
-
-    inviterId: pg
-      .text()
-      .references(() => members.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<MemberId>(),
-
-    organizationId: pg
-      .text()
-      .notNull()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
-
-    role: memberRole().notNull().default("member"),
-
-    status: invitationStatus().notNull().default("pending"),
-  },
-  (table) => [
-    pg
-      .uniqueIndex("organization_invitations_organization_email_unique_idx")
-      .on(table.organizationId, table.email),
-    pg.index("organization_invitations_organization_id_idx").on(table.organizationId),
-    pg.index("organization_invitations_email_idx").on(table.email),
-  ]
-)
-
-export type Invitation = typeof invitations.$inferSelect
-export type NewInvitation = typeof invitations.$inferInsert
-export type InvitationId = Invitation["id"]
-export type InvitationStatus = Invitation["status"]
-
-export const activityLogs = organizationSchema.table(
-  "activity_logs",
-  {
-    ...id(z.branded("ActivityLogId"), "alog"),
-
-    createdAt: pg.timestamp({ withTimezone: true }).notNull().defaultNow(),
-
-    ipAddress: pg.text(),
-
-    memberId: pg
-      .text()
-      .references(() => members.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<MemberId>(),
-
-    organizationId: pg
-      .text()
-      .references(() => organizations.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      })
-      .$type<OrganizationId>(),
-
-    type: pg
-      .text({
-        enum: [
-          "accepted_invitation",
-          "created_asset",
-          "created_organization",
-          "declined_invitation",
-          "deleted_account",
-          "invited_member",
-          "marked_asset_as_uploaded",
-          "marked_email_as_verified",
-          "removed_member",
-          "requested_email_verification",
-          "requested_password_reset",
-          "requested_sign_in_code",
-          "reset_password",
-          "signed_in_with_code",
-          "signed_in_with_github",
-          "signed_in_with_google",
-          "signed_in_with_password",
-          "signed_out",
-          "signed_up_with_code",
-          "signed_up_with_github",
-          "signed_up_with_google",
-          "signed_up_with_password",
-        ],
-      })
-      .notNull(),
-
-    userAgent: pg.text(),
-  },
-  (table) => [
-    pg.index("organization_activity_logs_organization_id_idx").on(table.organizationId),
-    pg.index("organization_activity_logs_member_id_idx").on(table.memberId),
-    pg.index("organization_activity_logs_type_idx").on(table.type),
-  ]
-)
-export type ActivityLog = typeof activityLogs.$inferSelect
-export type NewActivityLog = typeof activityLogs.$inferInsert
-export type ActivityLogId = ActivityLog["id"]
-export type ActivityLogType = ActivityLog["type"]
 
 // ==========================STORAGE==========================
 export const storageSchema = pg.pgSchema("storage")
@@ -423,14 +234,18 @@ export type AssetId = Asset["id"]
 
 // Relations
 
-export const userRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-  impersonationSessions: many(sessions, {
-    relationName: "impersonator",
+export const profileRelations = relations(profiles, ({ one }) => ({
+  user: one(users, {
+    fields: [profiles.userId],
+    references: [users.id],
   }),
-  members: many(members),
+}))
+
+export const userRelations = relations(users, ({ one, many }) => ({
+  accounts: many(accounts),
   ownedAssets: many(assets, { relationName: "assetOwner" }),
-  sessions: many(sessions, { relationName: "user" }),
+  profile: one(profiles),
+  sessions: many(sessions),
   uploadedAssets: many(assets, { relationName: "assetUploader" }),
 }))
 
@@ -442,61 +257,9 @@ export const accountRelations = relations(accounts, ({ one }) => ({
 }))
 
 export const sessionRelations = relations(sessions, ({ one }) => ({
-  activeOrganization: one(organizations, {
-    fields: [sessions.activeOrganizationId],
-    references: [organizations.id],
-  }),
-  impersonatedBy: one(users, {
-    fields: [sessions.impersonatedBy],
-    references: [users.id],
-    relationName: "impersonator",
-  }),
   user: one(users, {
     fields: [sessions.userId],
     references: [users.id],
-    relationName: "user",
-  }),
-}))
-
-export const memberRelations = relations(members, ({ one, many }) => ({
-  organization: one(organizations, {
-    fields: [members.organizationId],
-    references: [organizations.id],
-  }),
-  user: one(users, {
-    fields: [members.userId],
-    references: [users.id],
-  }),
-
-  activityLogs: many(activityLogs),
-  invitations: many(invitations),
-}))
-
-export const organizationRelations = relations(organizations, ({ many }) => ({
-  activityLogs: many(activityLogs),
-  invitations: many(invitations),
-  members: many(members),
-}))
-
-export const invitationRelations = relations(invitations, ({ one }) => ({
-  inviter: one(members, {
-    fields: [invitations.inviterId],
-    references: [members.id],
-  }),
-  organization: one(organizations, {
-    fields: [invitations.organizationId],
-    references: [organizations.id],
-  }),
-}))
-
-export const activityLogRelations = relations(activityLogs, ({ one }) => ({
-  member: one(members, {
-    fields: [activityLogs.memberId],
-    references: [members.id],
-  }),
-  organization: one(organizations, {
-    fields: [activityLogs.organizationId],
-    references: [organizations.id],
   }),
 }))
 

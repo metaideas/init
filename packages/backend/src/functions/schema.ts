@@ -10,4 +10,7 @@ export default defineSchema({
     content: v.string(),
     documentId: v.id("documents"),
   }).index("by_document_id", ["documentId"]),
+  profiles: defineTable({
+    userId: v.string(),
+  }).index("by_user_id", ["userId"]),
 })
