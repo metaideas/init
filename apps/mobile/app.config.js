@@ -7,9 +7,10 @@ const VERSION = "1.0.0"
 const expoConfig = {
   android: {
     adaptiveIcon: {
-      backgroundColor: "#f1f3f5",
-      foregroundImage: "./src/shared/assets/images/adaptive-icon.png",
-      monochromeImage: "./src/shared/assets/images/adaptive-icon.png",
+      backgroundColor: "#e6f4fe",
+      backgroundImage: "./src/shared/assets/images/android-icon-background.png",
+      foregroundImage: "./src/shared/assets/images/android-icon-foreground.png",
+      monochromeImage: "./src/shared/assets/images/android-icon-monochrome.png",
     },
     package: APP_BUNDLE_IDENTIFIER,
     predictiveBackGestureEnabled: false,
@@ -21,10 +22,6 @@ const expoConfig = {
   icon: "./src/shared/assets/images/icon.png",
   ios: {
     bundleIdentifier: APP_BUNDLE_IDENTIFIER,
-    icon: {
-      dark: "./src/shared/assets/images/icon-dark.png",
-      light: "./src/shared/assets/images/icon-light.png",
-    },
     supportsTablet: true,
   },
   name: APP_NAME,
@@ -39,10 +36,9 @@ const expoConfig = {
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#f1f3f5",
+        backgroundColor: "#ffffff",
         dark: {
-          backgroundColor: "#080a0d",
-          image: "./src/shared/assets/images/splash-icon-dark.png",
+          backgroundColor: "#000000",
         },
         image: "./src/shared/assets/images/splash-icon.png",
         imageWidth: 200,

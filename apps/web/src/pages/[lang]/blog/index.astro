@@ -1,0 +1,30 @@
+---
+import PostList from "#features/blog/components/post-list.astro"
+import { getPosts } from "#features/blog/data.ts"
+import Layout from "#shared/components/layout.astro"
+import { m } from "#shared/internationalization/messages.js"
+import { getLocale, locales } from "#shared/internationalization/runtime.js"
+import type { GetStaticPathsResult } from "astro"
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({
+    params: { lang: locale },
+  })) satisfies GetStaticPathsResult
+}
+
+const locale = getLocale()
+const posts = await getPosts(locale)
+---
+
+<Layout description={m.web_blog_description()} title={m.web_blog_title()}>
+  <main class="mx-auto w-full max-w-2xl flex flex-col gap-8 px-6 py-16">
+    <a class="self-start text-sm text-muted-foreground hover:text-foreground" href={`/${locale}/`}>
+      ← {m.web_home_title()}
+    </a>
+    <header class="flex flex-col gap-2">
+      <h1 class="text-4xl font-bold tracking-tight">{m.web_blog_title()}</h1>
+      <p class="text-muted-foreground">{m.web_blog_description()}</p>
+    </header>
+    <PostList posts={posts} />
+  </main>
+</Layout>

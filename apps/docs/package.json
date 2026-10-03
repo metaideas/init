@@ -22,11 +22,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "7.2.4",
     "@astrojs/starlight": "0.41.4",
     "@astrojs/starlight-tailwind": "5.0.0",
-    "@fontsource-variable/geist-mono": "5.3.0",
-    "@init/utils": "workspace:*",
     "@plausible-analytics/tracker": "0.4.4",
     "astro": "7.2.6",
     "sharp": "0.35.3",

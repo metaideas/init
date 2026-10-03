@@ -1,3 +1,3 @@
 # `web`
 
-Marketing site built with [Astro](https://astro.build/).
+Marketing site and blog example built with [Astro](https://astro.build/).

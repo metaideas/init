@@ -164,13 +164,13 @@ apps/extension/src
 
 ### Docs
 
-An Astro Starlight site. It reads the root `docs/` folder directly and owns only presentation.
+A standalone Astro Starlight documentation site with sample pages.
 
 ```sh
 apps/docs/src
+  ├── content/docs/       # Documentation pages by locale
   ├── pages/              # Custom pages
-  ├── shared/             # Component overrides, styles, and utilities
-  └── content.config.ts   # Content collection that loads root docs/
+  └── shared/             # Component overrides, styles, and constants
 ```
 
 ### Web

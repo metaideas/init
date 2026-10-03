@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { getPostSlug } from "#features/blog/data.ts"
+import { getLocale } from "#shared/internationalization/runtime.js"
+
+type Props = {
+  posts: Array<CollectionEntry<"blog">>
+}
+
+const { posts } = Astro.props
+const locale = getLocale()
+---
+
+<ul class="divide-y divide-border rounded-xl border border-border bg-card">
+  {
+    posts.map((post) => (
+      <li>
+        <a
+          class="flex flex-col gap-1 p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          href={`/${locale}/blog/${getPostSlug(post.id)}/`}
+        >
+          <time class="text-sm text-muted-foreground" datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString(locale, { dateStyle: "long", timeZone: "UTC" })}
+          </time>
+          <h3 class="font-semibold text-card-foreground">{post.data.title}</h3>
+          <p class="text-sm leading-6 text-muted-foreground">{post.data.description}</p>
+        </a>
+      </li>
+    ))
+  }
+</ul>

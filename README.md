@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./.github/assets/init-logo.png" alt="init" width="600">
+  <h1 align="center">▶️ <code>init</code></h1>
 
   <p align="center">
     <em><strong>Start once. Ship everywhere.</strong></em>
@@ -16,7 +16,7 @@ A modern monorepo template for the next product you build.
 
 - A full-stack application that uses [TanStack Start](https://tanstack.com/start)
 - A marketing site and blog that use [Astro](https://astro.build/)
-- A documentation site that uses [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
+- A documentation site example that uses [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/)
 - A mobile application that uses [Expo](https://expo.dev/)
 - An API that uses [Hono](https://hono.dev/) and [TRPC](https://trpc.io/)
 - A desktop application that uses [Electron Forge](https://www.electronforge.io/)
@@ -24,7 +24,6 @@ A modern monorepo template for the next product you build.
 
 ## Documentation
 
-- [init documentation](https://docs.init.now)
 - [Getting Started](./docs/getting-started.md)
 - [Development](./docs/development.md)
 - [Internationalization](./docs/internationalization.md)

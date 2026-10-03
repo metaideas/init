@@ -111,7 +111,7 @@ Before you explore or change code, read `docs/project-structure.md`. Use the sam
 
 - `apps/api`: use Hono middleware for authentication and logging, modular route handlers, `app.onError` for global errors, and Hono response helpers. Routes can import other routes to compose the router.
 - `apps/mobile`: use functional React components, Expo APIs, Expo Router for navigation, Expo for assets, and Reanimated for performance-sensitive animation.
-- `apps/docs`: never duplicate the root `docs/` content tree or add a sync command. Add a page under a published root `docs/` path with `title` and `description` frontmatter, then add it to the sidebar in `astro.config.ts`.
+- `apps/docs`: a standalone Starlight example. Put pages in `src/content/docs/` with `title` and `description` frontmatter. It does not publish the root `docs/` folder, which documents the template.
 - `packages/core`: put business rules in `src/domains/<domain>/` and contracts for external capabilities, such as email delivery, in `src/services/<service>/`. Code that both use goes in `src/shared/`. Do not organize it by product feature.
 - `packages/database`: use Drizzle, the shared prefixed-ID helper, and timestamps where appropriate.
 - `packages/backend`: keep Convex functions in `public/`, `system/`, and `shared/`. Do not edit `_generated/`.

@@ -1,0 +1,25 @@
+---
+import { m } from "#shared/internationalization/messages.js"
+import { getLocale } from "#shared/internationalization/runtime.js"
+
+const locale = getLocale()
+const options = [
+  { label: m.shared_locale_english(), value: "en" },
+  { label: m.shared_locale_spanish(), value: "es" },
+] as const
+---
+
+<nav aria-label={m.shared_locale_switch()} class="flex items-center gap-4 text-sm">
+  {
+    options.map((option) => (
+      <a
+        aria-current={option.value === locale ? "page" : undefined}
+        class="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+        href={`/${option.value}/`}
+        hreflang={option.value}
+      >
+        {option.label}
+      </a>
+    ))
+  }
+</nav>
