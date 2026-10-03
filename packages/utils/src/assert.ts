@@ -1,4 +1,4 @@
-import { AssertConditionFailedError, AssertUnreachableError } from "{{corePackage}}/errors"
+import { AssertConditionFailedError, AssertUnreachableError } from "@init/core/errors"
 
 /**
  * Asserts that a value is never, and throws an error if it is. Use this to make sure that all cases

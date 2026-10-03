@@ -17,6 +17,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
+    "@init/core": "workspace:*",
     "nanoid": "5.1.16",
     "std-env": "4.2.0",
     "ufo": "1.5.4",
