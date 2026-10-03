@@ -38,7 +38,9 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
 
   const [searchValue, setSearchValue] = React.useState("")
   const [showSearchBar, setShowSearchBar] = React.useState(false)
-  const searchInputRef = React.useRef<TextInput>(null)
+  const focusSearchInput = React.useCallback((input: TextInput | null) => {
+    input?.focus()
+  }, [])
   const onChangeTextProp = props.searchBar?.onChangeText
 
   React.useImperativeHandle(
@@ -63,10 +65,6 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
     }),
     [onChangeTextProp]
   )
-
-  React.useEffect(() => {
-    if (showSearchBar) searchInputRef.current?.focus()
-  }, [showSearchBar])
 
   React.useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -222,7 +220,7 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
                       onSubmitEditing={props.searchBar.materialOnSubmitEditing}
                       placeholder={props.searchBar.placeholder ?? "Search..."}
                       placeholderTextColorClassName="accent-muted-foreground"
-                      ref={searchInputRef}
+                      ref={focusSearchInput}
                       returnKeyType="search"
                       style={
                         props.searchBar.textColor ? { color: props.searchBar.textColor } : undefined

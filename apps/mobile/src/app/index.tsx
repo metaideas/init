@@ -1,4 +1,4 @@
-import { Button, Column, Host, Row, Text as UniversalText } from "@expo/ui"
+import { Column, Host, Picker, Text as UniversalText } from "@expo/ui"
 import { Text, View } from "react-native"
 import { LargeTitleHeader } from "#shared/components/large-title-header.ts"
 import { usePersistedLocale } from "#shared/hooks.ts"
@@ -18,22 +18,15 @@ export default function Screen() {
         <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
           <Column alignment="center" spacing={12}>
             <UniversalText>{m.shared_locale_switch({}, { locale })}</UniversalText>
-            <Row spacing={8}>
-              <Button
-                label={m.shared_locale_english({}, { locale })}
-                onPress={() => {
-                  void selectLocale("en")
-                }}
-                variant={locale === "en" ? "filled" : "outlined"}
-              />
-              <Button
-                label={m.shared_locale_spanish({}, { locale })}
-                onPress={() => {
-                  void selectLocale("es")
-                }}
-                variant={locale === "es" ? "filled" : "outlined"}
-              />
-            </Row>
+            <Picker
+              onValueChange={(nextLocale) => {
+                void selectLocale(nextLocale)
+              }}
+              selectedValue={locale}
+            >
+              <Picker.Item label={m.shared_locale_english({}, { locale })} value="en" />
+              <Picker.Item label={m.shared_locale_spanish({}, { locale })} value="es" />
+            </Picker>
           </Column>
         </Host>
       </View>
