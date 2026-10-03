@@ -46,6 +46,7 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+expo-env.d.ts
 
 # Wrangler
 .wrangler
