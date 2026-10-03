@@ -18,7 +18,7 @@ Configure a newly created project. This command does the following:
 
 ```bash
 bun template setup
-bun template setup --yes --name <name> --keep-apps app,api --keep-packages auth,db
+bun template setup --yes --name <name> --keep-apps app,api --keep-packages auth,database
 ```
 
 ### `bun template doctor`

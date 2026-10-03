@@ -1,5 +1,5 @@
 {
-  "name": "@init/db",
+  "name": "@init/database",
   "private": true,
   "description": "Database client and ORM using Drizzle",
   "license": "MIT",

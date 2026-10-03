@@ -7,7 +7,7 @@ import {
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
 import { tanstackStartCookies as cookies } from "@init/auth/start"
-import { database } from "@init/db/client"
+import { database } from "@init/database/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
 import { ENV } from "#shared/env.generated.ts"

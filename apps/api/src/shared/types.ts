@@ -1,4 +1,4 @@
-import type { Database } from "@init/db/client"
+import type { Database } from "@init/database/client"
 import type { KeyValue } from "@init/kv/client"
 import type { LoggerVariables } from "@init/observability/logger/hono"
 import type { DeepMerge } from "@init/utils/type"

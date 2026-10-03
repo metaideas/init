@@ -32,7 +32,7 @@ root
   │   ├── auth                  # Authentication utilities using Better Auth
   │   ├── backend               # Convex backend, generated API types, and React client
   │   ├── core                  # Shared core logic and business rules
-  │   ├── db                    # Database client and ORM using Drizzle
+  │   ├── database              # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── kv                    # Key-value storage using unstorage with the Redis driver
   │   ├── native-ui             # Reusable React Native UI components

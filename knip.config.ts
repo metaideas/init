@@ -65,7 +65,7 @@ export default {
     "packages/*": {
       project: "src/**/*.{js,jsx,ts,tsx}",
     },
-    "packages/db": {
+    "packages/database": {
       drizzle: {
         config: [],
         entry: ["drizzle.config.ts", "src/schema.ts"],

@@ -1,5 +1,5 @@
 import type { ContentfulStatusCode } from "hono/utils/http-status"
-import { database } from "@init/db/client"
+import { database } from "@init/database/client"
 import { kv } from "@init/kv/client"
 import { isStructuredError, parseError } from "@init/observability/logger"
 import { requestLogger } from "@init/observability/logger/hono"

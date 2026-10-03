@@ -1,5 +1,5 @@
-import { operators } from "@init/db/helpers/sql"
-import { assets, type UserId, UserIdSchema } from "@init/db/schema"
+import { operators } from "@init/database/helpers/sql"
+import { assets, type UserId, UserIdSchema } from "@init/database/schema"
 import * as z from "@init/utils/schema"
 import { createFiles } from "files-sdk"
 import { bunS3 } from "files-sdk/bun-s3"

@@ -28,7 +28,7 @@
         "@hono/standard-validator": "^0.2.3",
         "@hono/trpc-server": "0.4.2",
         "@init/auth": "workspace:*",
-        "@init/db": "workspace:*",
+        "@init/database": "workspace:*",
         "@init/email": "workspace:*",
         "@init/kv": "workspace:*",
         "@init/observability": "workspace:*",
@@ -57,7 +57,7 @@
       "dependencies": {
         "@init/auth": "workspace:*",
         "@init/core": "workspace:*",
-        "@init/db": "workspace:*",
+        "@init/database": "workspace:*",
         "@init/email": "workspace:*",
         "@init/observability": "workspace:*",
         "@init/ui": "workspace:*",
@@ -351,8 +351,8 @@
         "typescript": "7.0.2",
       },
     },
-    "packages/db": {
-      "name": "@init/db",
+    "packages/database": {
+      "name": "@init/database",
       "dependencies": {
         "@init/observability": "workspace:*",
         "@init/utils": "workspace:*",
@@ -1195,7 +1195,7 @@
 
     "@init/core": ["@init/core@workspace:packages/core"],
 
-    "@init/db": ["@init/db@workspace:packages/db"],
+    "@init/database": ["@init/database@workspace:packages/database"],
 
     "@init/email": ["@init/email@workspace:packages/email"],
 

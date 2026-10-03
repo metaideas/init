@@ -1,5 +1,5 @@
 import crypto from "node:crypto"
-import { database } from "@init/db/client"
+import { database } from "@init/database/client"
 import { createRequestLogger } from "@init/observability/logger"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"

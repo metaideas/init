@@ -23,7 +23,7 @@
   "dependencies": {
     "@init/auth": "workspace:*",
     "@init/core": "workspace:*",
-    "@init/db": "workspace:*",
+    "@init/database": "workspace:*",
     "@init/email": "workspace:*",
     "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
