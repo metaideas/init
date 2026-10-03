@@ -73,14 +73,6 @@ export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
 
 `withTransaction(database, operation)` from `@init/database/helpers/transaction` runs an operation in a transaction, and nested calls reuse the active one.
 
-For tests that touch the database, `createTestDatabase({ url })` from `@init/database/helpers/testing` creates a fresh database on the server at `url`, applies the migrations, and drops it on dispose:
-
-```ts
-await using testDatabase = await createTestDatabase({ url: Bun.env.DATABASE_URL })
-
-await testDatabase.database.insert(users).values(user)
-```
-
 ## Payments
 
 `packages/payments` wraps Stripe with a subscription cache. `createPayments({ secretKey, webhookSecret, storage })` takes any [unstorage](https://unstorage.unjs.io/) instance for the cache, such as the Redis instance that `apps/api` creates in its composition root. `parseWebhook` verifies a webhook request and returns its event, or an `InvalidWebhookError` value. `syncSubscription` caches the latest subscription from Stripe, and `getSubscription` reads the cache and falls back to Stripe on a miss.
