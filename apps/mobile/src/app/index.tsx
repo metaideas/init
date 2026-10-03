@@ -1,8 +1,11 @@
-import { Column, Host, Picker, Text as UniversalText } from "@expo/ui"
-import { Text, View } from "react-native"
+import { Host, Picker } from "@expo/ui"
+import { Platform, type Role, Text, View } from "react-native"
 import { LargeTitleHeader } from "#shared/components/large-title-header.ts"
 import { usePersistedLocale } from "#shared/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
+
+// SAFETY: React Native Web renders the "label" role as a <label>, which names the picker's <select>.
+const LABEL_ROLE = Platform.OS === "web" ? ("label" as Role) : undefined
 
 export default function Screen() {
   const { locale, selectLocale } = usePersistedLocale()
@@ -15,9 +18,11 @@ export default function Screen() {
           description={m.mobile_home_description({}, { locale })}
           title={m.mobile_home_title({}, { locale })}
         />
-        <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
-          <Column alignment="center" spacing={12}>
-            <UniversalText>{m.shared_locale_switch({}, { locale })}</UniversalText>
+        <View className="items-center gap-3" role={LABEL_ROLE}>
+          <Text className="text-base text-foreground">
+            {m.shared_locale_switch({}, { locale })}
+          </Text>
+          <Host matchContents>
             <Picker
               onValueChange={(nextLocale) => {
                 void selectLocale(nextLocale)
@@ -27,8 +32,8 @@ export default function Screen() {
               <Picker.Item label={m.shared_locale_english({}, { locale })} value="en" />
               <Picker.Item label={m.shared_locale_spanish({}, { locale })} value="es" />
             </Picker>
-          </Column>
-        </Host>
+          </Host>
+        </View>
       </View>
     </>
   )
