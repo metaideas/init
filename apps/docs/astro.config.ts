@@ -81,6 +81,7 @@ export default defineConfig({
             { label: "Overview", slug: "", translations: { es: "Descripción general" } },
             { label: "Getting Started", slug: "getting-started" },
             { label: "Development", slug: "development" },
+            { label: "Project Structure", slug: "project-structure" },
           ],
           label: "Start Here",
         },
@@ -93,15 +94,6 @@ export default defineConfig({
             { label: "Template Commands", slug: "template-commands" },
           ],
           label: "Build",
-        },
-        {
-          items: [
-            { label: "Project Structure", slug: "architecture/project-structure" },
-            { label: "Backend Topology", slug: "architecture/backend-topology" },
-            { label: "File Service", slug: "architecture/file-service" },
-            { label: "Desktop Behavior", slug: "architecture/desktop" },
-          ],
-          label: "Architecture",
         },
         {
           items: [

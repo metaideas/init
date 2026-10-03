@@ -4,13 +4,13 @@ import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { mergeForm, useTransform } from "@tanstack/react-form-start"
 import { Link, useNavigate } from "@tanstack/react-router"
-import type { SignInFormState } from "#features/auth/server/sign-in.ts"
+import type { SignInFormState } from "#features/auth/handlers.ts"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import {
   EmailSchema,
   PasswordSchema,
   SignInWithPasswordFormSchema,
-} from "#features/auth/validation.ts"
+} from "#features/auth/schemas.ts"
 import { signIn } from "#shared/auth.ts"
 
 /**

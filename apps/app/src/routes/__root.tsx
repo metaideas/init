@@ -7,7 +7,7 @@ import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanst
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type { RouterContext } from "#router.tsx"
 import { ThemeScript } from "#features/theme/components/theme-script.tsx"
-import { getTheme, setTheme } from "#features/theme/server/functions.ts"
+import { getTheme, setTheme } from "#features/theme/handlers.ts"
 import Providers from "#shared/components/providers.tsx"
 import { baseLocale } from "#shared/internationalization/runtime.js"
 

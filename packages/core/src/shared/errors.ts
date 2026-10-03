@@ -8,16 +8,9 @@ export class AssertConditionFailedError extends Faultier.Tagged("AssertCondition
   condition: string
 }>() {}
 
-export type AssertError = AssertUnreachableError | AssertConditionFailedError
-
-export class InvalidBaseUrlError extends Faultier.Tagged("InvalidBaseUrlError")<{
-  value: string
-}>() {}
-
 export const UtilityFault = Faultier.registry({
   AssertConditionFailedError,
   AssertUnreachableError,
-  InvalidBaseUrlError,
 })
 
-export type UtilityError = AssertError | InvalidBaseUrlError
+export type UtilityError = AssertUnreachableError | AssertConditionFailedError

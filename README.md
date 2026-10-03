@@ -28,7 +28,7 @@ A modern monorepo template for the next product you build.
 - [Getting Started](./docs/getting-started.md)
 - [Development](./docs/development.md)
 - [Internationalization](./docs/internationalization.md)
-- [Project Structure](./docs/architecture/project-structure.md)
+- [Project Structure](./docs/project-structure.md)
 - [Package Guidance](./docs/packages.md)
 - [Template Commands](./docs/template-commands.md)
 - [Project Generators](./docs/generators.md)

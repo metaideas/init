@@ -2,7 +2,7 @@ import { FieldGroup } from "@init/ui/components/field"
 import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { useNavigate } from "@tanstack/react-router"
-import { PasswordSchema, ResetPasswordFormSchema } from "#features/auth/validation.ts"
+import { PasswordSchema, ResetPasswordFormSchema } from "#features/auth/schemas.ts"
 import { authClient } from "#shared/auth.ts"
 
 export default function ResetPasswordForm({ token }: { token: string }) {

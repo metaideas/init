@@ -9,6 +9,53 @@ const AnswersSchema = z.object({
   name: z.string().min(1),
 })
 
+const FRONTEND_APPS: readonly string[] = ["app", "desktop", "extension", "mobile", "web"]
+const REACT_APPS: readonly string[] = ["app", "desktop", "extension", "mobile"]
+const SERVER_APPS: readonly string[] = ["api", "app"]
+const APPS_WITHOUT_FEATURES = new Set(["docs"])
+const KNOWN_APPS = new Set([...APPS_WITHOUT_FEATURES, ...FRONTEND_APPS, ...SERVER_APPS])
+const DIRECTORY_ROLES = new Set(["assets", "components"])
+
+const FEATURE_ROLES: ReadonlyArray<{
+  apps?: readonly string[]
+  isChecked?: boolean
+  name: string
+  value: string
+}> = [
+  { apps: FRONTEND_APPS, name: "assets/ - Static files the components import", value: "assets" },
+  {
+    apps: FRONTEND_APPS,
+    isChecked: true,
+    name: "components/ - UI components",
+    value: "components",
+  },
+  { name: "constants.ts - Static values and content", value: "constants" },
+  { apps: REACT_APPS, name: "data.ts - Query and mutation options", value: "data" },
+  { name: "errors.ts - Errors that stay inside the app", value: "errors" },
+  { apps: SERVER_APPS, name: "handlers.ts - Server entry points", value: "handlers" },
+  { apps: REACT_APPS, name: "hooks.ts - React hooks for local and derived state", value: "hooks" },
+  { isChecked: true, name: "schemas.ts - Schemas for forms and local models", value: "schemas" },
+]
+
+function listRoles(app: string) {
+  const isKnownApp = KNOWN_APPS.has(app)
+
+  return FEATURE_ROLES.filter(
+    (role) =>
+      role.apps === undefined
+      || role.apps.includes(app)
+      || (!isKnownApp && role.apps !== SERVER_APPS)
+  ).map((role) => ({ checked: role.isChecked ?? false, name: role.name, value: role.value }))
+}
+
+function templateFor(app: string, file: string) {
+  if (file === "handlers") {
+    return `handlers/${app === "api" ? "api" : "app"}.ts.hbs`
+  }
+
+  return `${file}.ts.hbs`
+}
+
 export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
   const apps = [
     ...new Bun.Glob("*/package.json").scanSync({
@@ -16,47 +63,33 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
     }),
   ]
     .map((entry) => entry.split("/")[0])
-    .filter((app): app is string => app !== undefined)
+    .filter((app): app is string => app !== undefined && !APPS_WITHOUT_FEATURES.has(app))
     .toSorted()
 
   plop.setGenerator("new-feature", {
     actions: (rawAnswers) => {
-      const { files: selectedFiles } = Object.assign(
+      const { app, files: selectedFiles } = Object.assign(
         rawAnswers ?? {},
         AnswersSchema.parse(rawAnswers)
       )
-      const generatedFiles = selectedFiles.filter(
-        (file) => file !== "assets" && file !== "components"
-      )
+      const featurePath = "apps/{{kebabCase app}}/src/features/{{kebabCase name}}"
       const actions: PlopTypes.Actions = []
 
-      if (generatedFiles.length > 0) {
-        actions.push({
-          base: "templates/scaffolds/new-feature/",
-          destination: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/",
-          globOptions: {},
-          skipIfExists: true,
-          templateFiles: generatedFiles.map(
-            (file) => `templates/scaffolds/new-feature/${file}.ts.hbs`
-          ),
-          type: "addMany",
-        })
-      }
+      for (const file of selectedFiles) {
+        if (DIRECTORY_ROLES.has(file)) {
+          actions.push({
+            path: `${featurePath}/${file}/.gitkeep`,
+            skipIfExists: true,
+            templateFile: `templates/scaffolds/new-feature/${file}/.gitkeep`,
+            type: "add",
+          })
+          continue
+        }
 
-      if (selectedFiles.includes("assets")) {
         actions.push({
-          path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/assets/.gitkeep",
+          path: `${featurePath}/${file}.ts`,
           skipIfExists: true,
-          templateFile: "templates/scaffolds/new-feature/assets/.gitkeep",
-          type: "add",
-        })
-      }
-
-      if (selectedFiles.includes("components")) {
-        actions.push({
-          path: "apps/{{kebabCase app}}/src/features/{{kebabCase name}}/components/.gitkeep",
-          skipIfExists: true,
-          templateFile: "templates/scaffolds/new-feature/components/.gitkeep",
+          templateFile: `templates/scaffolds/new-feature/${templateFor(app, file)}`,
           type: "add",
         })
       }
@@ -80,41 +113,7 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
         type: "input",
       },
       {
-        choices: [
-          { checked: true, name: "types.ts - Type definitions", value: "types" },
-          { checked: true, name: "utils.ts - Utility functions", value: "utils" },
-          {
-            checked: true,
-            name: "validation.ts - Validation schemas",
-            value: "validation",
-          },
-          { checked: true, name: "hooks.ts - Custom hooks", value: "hooks" },
-          { checked: true, name: "stores.ts - State management", value: "stores" },
-          {
-            checked: false,
-            name: "server/functions.ts - Server functions (web apps)",
-            value: "server/functions",
-          },
-          { checked: false, name: "queries.ts - Query hooks", value: "queries" },
-          { checked: false, name: "mutations.ts - Mutation hooks", value: "mutations" },
-          {
-            checked: false,
-            name: "services.ts - Service functions (browser extensions)",
-            value: "services",
-          },
-          { checked: false, name: "router.ts - API router (API apps)", value: "router" },
-          {
-            checked: false,
-            name: "procedures.ts - tRPC procedures (API apps)",
-            value: "procedures",
-          },
-          { checked: true, name: "assets/ - Assets directory", value: "assets" },
-          {
-            checked: true,
-            name: "components/ - Components directory",
-            value: "components",
-          },
-        ],
+        choices: (answers: { app: string }) => listRoles(answers.app),
         message: "Which files would you like to include?",
         name: "files",
         type: "checkbox",

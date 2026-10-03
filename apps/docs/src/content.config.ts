@@ -6,7 +6,7 @@ export const collections = {
   docs: defineCollection({
     loader: glob({
       base: "../../docs",
-      pattern: ["*.{md,mdx}", "architecture/**/*.{md,mdx}", "es/**/*.{md,mdx}"],
+      pattern: ["*.{md,mdx}", "es/**/*.{md,mdx}"],
     }),
     schema: docsSchema(),
   }),

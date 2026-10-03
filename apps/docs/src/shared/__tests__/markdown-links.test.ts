@@ -5,9 +5,7 @@ import { rewriteDocsHref } from "#shared/markdown-links.ts"
 describe("rewriteDocsHref", () => {
   test("converts Markdown files to generated routes", () => {
     expect(rewriteDocsHref("./generators.md")).toBe("/generators/")
-    expect(rewriteDocsHref("./architecture/project-structure.md")).toBe(
-      "/architecture/project-structure/"
-    )
+    expect(rewriteDocsHref("./es/index.mdx")).toBe("/es/")
   })
 
   test("preserves heading fragments", () => {
@@ -17,9 +15,7 @@ describe("rewriteDocsHref", () => {
   })
 
   test("resolves links from nested source documents", () => {
-    expect(rewriteDocsHref("../packages.md", "architecture/project-structure.md")).toBe(
-      "/packages/"
-    )
+    expect(rewriteDocsHref("../packages.md", "es/index.mdx")).toBe("/packages/")
   })
 
   test("maps index documents to their directory", () => {

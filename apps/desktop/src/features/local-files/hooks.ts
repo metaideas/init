@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
-import { openTextFileOptions, saveTextFileOptions } from "#features/local-files/mutations.ts"
+import { openTextFileOptions, saveTextFileOptions } from "#features/local-files/data.ts"
 
 export function useTextFileEditor() {
   const [contents, setContents] = useState("")

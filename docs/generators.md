@@ -1,15 +1,15 @@
 ---
 title: Project Generators
-description: Use local template recipes to add features, package workspaces, Files SDK clients, and the AI chat demo.
+description: Use local template recipes to add features, package workspaces, and optional integrations.
 ---
 
 Run `bun run generate` to open the Turbo generator menu. Template commands use local template recipes from the exact template snapshot in the project. They do not download a catalog. They do not update previously generated files. They do not track template drift.
 
-`turbo/generators/config.ts` registers implementations from `turbo/generators/commands`. These implementations include project scaffolds, the Files SDK client integration, and the AI chat demo. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
+`turbo/generators/config.ts` registers each implementation in `turbo/generators/commands`. Put generated source in Handlebars files under `templates/`. Keep each template command direct and self-contained. Do not add shared recipe, adapter, or utility layers.
 
 ## Create project scaffolds
 
-`new-feature` creates selected files under the `src/features` directory of an application workspace:
+`new-feature` creates a feature folder under `src/features` with the roles you select. It offers only the roles the application workspace supports. See [Features](./project-structure.md#features).
 
 ```bash
 bun run generate new-feature
@@ -25,50 +25,28 @@ Both scaffold template commands preserve existing files on a repeat run.
 
 ## Connect a backend
 
-Backend connections are not a generator. The `connect-backend` skill in `.agents/skills/connect-backend/` carries the supported matrix, the environment keys, the provider seam, and reference sources for the Hono, tRPC, and Convex clients across `apps/app`, `apps/desktop`, and `apps/mobile`. A coding agent applies it and verifies the result with `bun template doctor`.
+Backend connections are not a generator. The `connect-backend` skill in `.agents/skills/connect-backend/` carries the supported connections, their environment keys, and reference sources. A coding agent applies it and verifies the result with `bun template doctor`.
 
 ## Add a Files SDK client
 
-`apps/api` always includes the authenticated Files SDK gateway at `/files`, with the built-in tRPC and Hono routes. Its `src/shared/files.ts` composition uses the native S3 adapter of Bun with local MinIO defaults. Every operation requires the existing init session. Each operation has the scope `users/<user-id>/`. Uploads have a 10 MiB limit. By default, they accept images and PDF files.
+`apps/api` includes an authenticated Files SDK gateway. Its access policy (authentication, key scoping, accepted content types, and upload size) lives in the gateway composition in `apps/api/src/shared/`. Treat a change to that policy as a security change and review it as one.
 
 Generate the optional client in an application workspace that consumes the API:
 
 ```bash
 bun run generate files-client
-bun run generate files-client --args app http://localhost:3000/files
-bun run generate files-client --args web http://localhost:3000/files
 ```
 
-The template command can target any workspace under `apps/`. It creates `src/shared/files.ts`. It exports the application-local `useFiles` hook, `useFile`, `useList`, and `useSearch`. It authenticates JSON and XHR upload traffic. Astro consumers use the same React integration through the Astro React renderer.
-
-```tsx
-import { useFiles, useList } from "#shared/files.ts"
-
-function FilesExample() {
-  const files = useFiles()
-  const listing = useList({ prefix: "documents/" })
-
-  async function upload(file: File) {
-    await files.upload(file, {
-      onProgress: ({ fraction }) => console.log(fraction),
-    })
-    await listing.refetch()
-  }
-
-  return null
-}
-```
-
-Use `files.download(key)` when code requires the bytes. Use `files.url(key)` for an `img`, anchor, or video source when the selected adapter supports signed URLs. The hook also exposes `files.error`, `files.abort()`, `files.reset()`, and capability checks. A repeat run reports skips without replacing generated application code.
+The template command can target any workspace under `apps/` and asks for the Files SDK endpoint. It creates an application-local module in `src/shared/` that exports authenticated React hooks for uploads, downloads, listings, and searches. A repeat run reports skips without replacing generated application code.
 
 ## Add the AI chat demo
 
-`ai-chat-demo` adds a scripted AI SDK chat to `apps/app`. It needs no model, API key, or network:
+`ai-chat-demo` adds a scripted AI SDK chat that needs no model, API key, or network:
 
 ```bash
 bun run generate ai-chat-demo
 ```
 
-The template command requires `apps/app` and `packages/ai`. It adds the `packages/ai` dependency to `apps/app`, then creates `src/features/demo/chat.ts` and `src/features/demo/components/chat-playground.tsx`. Render the default export of `chat-playground.tsx` in a route, such as `src/routes/_authenticated/index.tsx`. To use a real model, keep the `useChat` interface and replace the scripted transport with an HTTP chat transport backed by a server route that uses `@init/ai/registry`.
+The template command adds a demo feature to an application workspace and the dependency on the AI package workspace. Render the generated component in a route. To use a real model, keep the chat interface and replace the scripted transport with one backed by a server route that uses the AI package's model registry.
 
-The demo uses full Zod in the browser through the AI SDK. Zod Mini and full Zod share their core modules, so after you add it, every route that loads a Mini schema also loads the Zod core that full Zod needs. A repeat run reports skips without replacing generated application code.
+The demo uses full Zod in the browser. Adding it gives up the bundle savings of Zod Mini on every route, because the two share Zod's core modules. A repeat run reports skips without replacing generated application code.

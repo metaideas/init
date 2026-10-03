@@ -1,5 +1,5 @@
 import { trpcServer } from "@hono/trpc-server"
-import authProcedures from "#features/auth/procedures.ts"
+import authProcedures from "#features/auth/handlers.ts"
 import { createRouter, createTRPCContext, protectedProcedure } from "#shared/trpc.ts"
 import { factory } from "#shared/utils.ts"
 
