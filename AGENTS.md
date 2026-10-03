@@ -10,11 +10,11 @@ When working with `init`, you should always keep the following in mind:
 
 1. This is a template, not a finished product. There will be gaps in the implementation that scaffolded projects will need to fill in. This is fine, as long as we don't ship anything in a broken state.
 2. Consistency is paramount. We reduce cognitive overhead by making sure that all application workspaces are structured similarly, and all package workspaces are structured similarly.
-3. Every workspace is selectable. After you remove one, the rest must still build, with no leftover imports or required environment variables. Application workspaces can depend on package workspaces. Package workspaces never depend on application workspaces.
-4. Package workspaces own their domain. Constants, types, and environment variables live in the package workspace that uses them.
+3. Every workspace is selectable. After you remove one, the rest must still build, with no leftover imports or required environment variables. Application workspaces can depend on package workspaces. Package workspaces never depend on application workspaces or on each other, apart from `@init/core`, `@init/utils`, and `@init/ui`, so removing a package workspace means deleting its lines from each composition root.
+4. Package workspaces own their domain. Constants, types, and environment fragments live in the package workspace that uses them.
 5. `@init/utils` is not a junk drawer. Add a helper there only when several workspaces use it and no single package workspace owns it.
 6. Prefer a small, focused dependency over custom code. Delete code that nothing uses.
-7. Tooling will change. Keep each third-party dependency behind the package workspace that owns it, so replacing it is a change to one workspace.
+7. A package workspace owns a contract that is not its vendor's API, such as templates, a schema, a state machine, or a configuration policy. If replacing the vendor would change the package's public API one for one, delete the package and let applications use the vendor directly. Instrumentation, such as logging, error monitoring, and product analytics, belongs to application workspaces, and template recipes add the optional vendors.
 8. Local development works with only the repository and its Docker Compose services. Cloud services and external accounts are opt-in.
 9. Keep the scaffold small. Ship optional code as a template recipe in `turbo/generators/` that a scaffolded project adds when it needs it. Add code to a workspace only when every scaffolded project that selects the workspace uses it.
 10. Content that only maintainers use is an internal cleanup path, and `bun template setup` removes it. List a whole file or folder in `init.cleanupPaths` in the root `package.json`. For part of a file that ships, wrap it in `TEMPLATE:START` and `TEMPLATE:END` comments and list the file in `init.cleanupSections`.
@@ -62,6 +62,16 @@ Before you explore or change code, read `docs/project-structure.md`. Use the sam
 - Favor default exports for components.
 - Do not use a default export when a module exports multiple functions.
 - Put exported components first. Then put subcomponents, helpers, static content, and types.
+
+### Services
+
+- A package workspace exports `create*` factories. It never creates a client, reads `ENV`, or configures process-wide state when it is imported.
+- A factory takes configuration and other services as options. A package workspace exports Varlock fragments under `env/` (`.env.server`, `.env.client`, `.env.build`, `.env.shared`). Application workspaces own the `.env.schema` that composes those fragments with their own keys, read `ENV`, and pass the values to factories.
+- A package workspace does not import another capability package. It declares the smallest interface it needs, such as a callback, and the application passes an implementation. A contract that several packages share lives in `@init/core/services/<service>/`.
+- A package accepts an optional `logger` that satisfies `@init/core/services/logging`. The application decides where logs go.
+- Each application builds its services once in its composition root: `#shared/services.ts`, or `#shared/server/services.ts` for server-only services in a full-stack application. Code deeper in the application receives those instances and never calls a factory itself.
+- Pass services through the framework context: `c.var` in Hono, request middleware context in TanStack Start, and `ctx` in Convex. Import the composition root directly only where no framework context exists, such as a workflow definition or a script.
+- A service that does I/O ships a test implementation next to the real one, such as an in-memory transport. A service that holds connections exposes a way to close them, and the application closes it on shutdown.
 
 ### Imports and boundaries
 

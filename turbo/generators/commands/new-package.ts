@@ -5,7 +5,9 @@ import * as z from "zod"
 
 import { readPackageJson, readPackageName } from "../schemas"
 
-const AnswersSchema = z.object({ name: z.string().min(1) })
+const AnswersSchema = z.object({
+  name: z.string().regex(/^[a-z]/i, "Start the package name with a letter"),
+})
 
 type NewPackageAnswers = PlopTypes.Answers
   & z.infer<typeof AnswersSchema> & {
