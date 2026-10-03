@@ -1,0 +1,9 @@
+import { PostHog } from "posthog-node"
+import { ENV } from "#shared/env.generated.ts"
+
+/**
+ * Server-side product analytics. It is undefined when no PostHog key is configured.
+ */
+export const analytics = ENV.POSTHOG_API_KEY
+  ? new PostHog(ENV.POSTHOG_API_KEY, { host: ENV.POSTHOG_HOST })
+  : undefined
