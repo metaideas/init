@@ -7,6 +7,23 @@ Shared libraries and hosted backends are in `packages/`. Application workspaces 
 
 Use `bun template add package <name>` to restore an available package workspace that setup removed. See [Project structure](./project-structure.md) for the full package catalog.
 
+## Services
+
+A package workspace is a service that applications compose. It exports `create*` factories and never creates clients, reads `ENV`, or configures process-wide state when imported. Each application builds its services once in its composition root (`#shared/services.ts`, or `#shared/server/services.ts` in a full-stack application), passes configuration from its own `ENV`, and hands the instances to handlers through the framework context:
+
+```ts
+export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
+
+export const auth = createServerAuth({
+  database,
+  sendPasswordReset: ({ email, url }) =>
+    mailer.send("password-reset", { appName, resetUrl: url }, { to: [email] }),
+  // ...
+})
+```
+
+Packages do not import each other, apart from `@init/core`, `@init/utils`, and `@init/ui`. When a package needs another capability, it declares the smallest interface it needs, such as `sendPasswordReset` above, and the application connects the two. `bun template doctor` reports a package that depends on another capability package or reads `ENV` in its source.
+
 ## Convex Backend
 
 `packages/backend` is a hosted backend built with Convex and Better Auth. Application workspaces consume its generated API types and React client as a package workspace. Convex deploys the functions independently.
@@ -55,6 +72,14 @@ export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
 ```
 
 `withTransaction(database, operation)` from `@init/database/helpers/transaction` runs an operation in a transaction, and nested calls reuse the active one.
+
+For tests that touch the database, `createTestDatabase({ url })` from `@init/database/helpers/testing` creates a fresh database on the server at `url`, applies the migrations, and drops it on dispose:
+
+```ts
+await using testDatabase = await createTestDatabase({ url: Bun.env.DATABASE_URL })
+
+await testDatabase.database.insert(users).values(user)
+```
 
 ## Payments
 

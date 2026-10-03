@@ -16,7 +16,7 @@ Use these names for package fragments only when necessary:
 - `.env.server`: server-runtime values, including secrets.
 - `.env.build`: build, upload, and deployment-tool values that must not enter a client bundle.
 
-A package root schema combines its fragments for package-local commands. An application schema imports fragments for its selected package workspaces. It declares application-owned keys. Do not add a central preset. Do not import a package contract into an application workspace that does not consume it.
+A package workspace does not read `ENV`. It exports fragments, and applications pass the values to its factories. A package keeps a root schema only when its own scripts, such as database migrations, need environment values. An application schema imports fragments for its selected package workspaces. It declares application-owned keys. Do not add a central preset. Do not import a package contract into an application workspace that does not consume it.
 
 `.env.schema` owns key names, types, requirements, sensitivity, descriptions, and safe defaults. Commit `.env.development` only when its values are safe for every clone. Use an ignored `.env.local` for personal overrides. CI, preview, and production values come from the deployment environment or an explicit secret store.
 
