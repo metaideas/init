@@ -3,7 +3,7 @@ import { cn } from "cn"
 import { Stack, useNavigation, useRoute } from "expo-router"
 import { SymbolView, type SymbolViewProps } from "expo-symbols"
 import * as React from "react"
-import { BackHandler, Pressable, Text, TextInput, View } from "react-native"
+import { BackHandler, Platform, Pressable, Text, TextInput, View } from "react-native"
 import Animated, {
   FadeIn,
   FadeInRight,
@@ -67,6 +67,8 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
   )
 
   React.useEffect(() => {
+    if (Platform.OS !== "android") return
+
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       if (!showSearchBar) return false
 
