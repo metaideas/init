@@ -11,13 +11,13 @@
     "./templates/*": "./src/templates/*.tsx"
   },
   "scripts": {
-    "build": "email build --dir src/templates",
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "codegen": "varlock codegen",
     "dev": "email dev --dir src/templates --port ${PORT:-4001}",
     "env:check": "varlock load",
-    "export": "email export --dir src/templates"
+    "export": "email export --dir src/templates",
+    "preview:build": "email build --dir src/templates"
   },
   "dependencies": {
     "@init/core": "workspace:*",

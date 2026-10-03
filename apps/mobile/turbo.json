@@ -1,5 +1,14 @@
 {
   "$schema": "https://v2-10-7.turborepo.dev/schema.json",
   "extends": ["//"],
-  "tags": ["application"]
+  "tags": ["application"],
+  "tasks": {
+    "env:scan": {
+      "dependsOn": ["env:scan:build"]
+    },
+    "env:scan:build": {
+      "cache": false,
+      "dependsOn": ["codegen"]
+    }
+  }
 }

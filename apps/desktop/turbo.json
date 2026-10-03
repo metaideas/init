@@ -6,6 +6,13 @@
     "build": {
       "env": [],
       "outputs": [".vite/**", "out/**"]
+    },
+    "env:scan": {
+      "dependsOn": ["env:scan:build"]
+    },
+    "env:scan:build": {
+      "cache": false,
+      "dependsOn": ["codegen"]
     }
   }
 }
