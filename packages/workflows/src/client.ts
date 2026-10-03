@@ -21,7 +21,7 @@ export class Workflows<Queue extends string = never> {
       name: options.name ?? "init",
       ...("pool" in options
         ? { systemDatabasePool: options.pool }
-        : { systemDatabaseUrl: options.url }),
+        : { systemDatabasePoolSize: options.poolSize, systemDatabaseUrl: options.url }),
     })
   }
 
@@ -120,7 +120,10 @@ const workflowLogger: DLogger = {
 
 type Pool = NonNullable<DBOSConfig["systemDatabasePool"]>
 
-type WorkflowsOptions<Queue extends string> = ({ pool: Pool } | { url: string }) & {
+type WorkflowsOptions<Queue extends string> = (
+  | { pool: Pool }
+  | { url: string; poolSize?: number }
+) & {
   name?: string
   queues?: Record<Queue, QueueOptions>
 }

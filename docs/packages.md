@@ -38,14 +38,19 @@ To use another backend, change the driver passed to `createStorage` in `packages
 
 `packages/workflows` runs durable background workflows through [DBOS](https://docs.dbos.dev/). DBOS stores workflow inputs, step outputs, and queues in a `dbos` schema in Postgres, so workflows need a Postgres database. It runs inside the application process: there is no separate workflow server, signing key, or hosted account.
 
-An application workspace creates one `Workflows` instance per process. Pass a `pg` pool to share connections with the database, or a `url` to let workflows open their own pool:
+An application workspace creates one `Workflows` instance per process. Pass a `url`, and workflows open their own small connection pool:
 
 ```ts
-import { pool } from "@init/database/client"
 import { Workflows } from "@init/workflows/client"
 
-export const workflows = new Workflows({ pool, queues: { default: { concurrency: 10 } } })
+export const workflows = new Workflows({
+  poolSize: 5,
+  queues: { default: { concurrency: 10 } },
+  url: ENV.DATABASE_URL,
+})
 ```
+
+The separate pool keeps workflow traffic and request traffic from waiting on each other's connections. It adds `poolSize` connections to each process, and DBOS holds one of them open to listen for notifications. When a Postgres connection limit is tight, pass a `pg` `Pool` as `pool` instead, and workflows share it.
 
 Define every workflow before `workflows.launch()`. Each `step` result is saved, so after a crash the workflow resumes from the first step that did not finish. A step can run more than once, so keep its side effects idempotent. `sleep` is durable across restarts.
 
