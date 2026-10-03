@@ -540,6 +540,7 @@
       "dependencies": {
         "@dbos-inc/dbos-sdk": "5.2.11",
         "@init/observability": "workspace:*",
+        "varlock": "1.16.0",
       },
       "devDependencies": {
         "@tooling/tsconfig": "workspace:*",

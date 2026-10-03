@@ -74,6 +74,8 @@ Run workflows in a single process per application version. Every process uses th
 
 DBOS tags each run with an application version, which defaults to a hash of the workflow code, and recovers only runs that match the current version. After a deploy that changes workflow code, runs that the previous version left unfinished do not resume on their own. Keep a process on the previous version until they drain, or move them to the new version. See [Upgrading Workflow Code](https://docs.dbos.dev/typescript/tutorials/upgrading-workflows).
 
+`bun run --filter @init/workflows reset` drops the local `dbos` schema, which removes workflow runs, queues, and history. Resetting the database clears only the application tables, so reset workflows with it. Otherwise unfinished runs resume against the new data. Stop the API first. It recreates the schema the next time it launches.
+
 ## Native UI
 
 `packages/native-ui` provides the React Native component library for `apps/mobile`, built with [React Native Reusables](https://reactnativereusables.com) (Uniwind variant) and [RN Primitives](https://rnprimitives.com). Components are copy-owned source vendored from the React Native Reusables Uniwind registry and adapted to repository conventions; upstream is a reference, not a dependency.

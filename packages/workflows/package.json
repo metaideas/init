@@ -12,11 +12,15 @@
   },
   "scripts": {
     "bump:deps": "bun update --interactive",
-    "clean": "git clean -xdf .cache .turbo dist node_modules"
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "codegen": "varlock codegen",
+    "env:check": "varlock load",
+    "reset": "varlock run -- bun --bun run ./scripts/reset.ts"
   },
   "dependencies": {
     "@dbos-inc/dbos-sdk": "5.2.11",
-    "@init/observability": "workspace:*"
+    "@init/observability": "workspace:*",
+    "varlock": "1.16.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

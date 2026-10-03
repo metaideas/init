@@ -1,4 +1,10 @@
-import { DBOS, type DBOSConfig, type DLogger } from "@dbos-inc/dbos-sdk"
+import {
+  type ContextualMetadata,
+  DBOS,
+  type DBOSConfig,
+  type DLogger,
+  type StackTrace,
+} from "@dbos-inc/dbos-sdk"
 import { log } from "@init/observability/logger"
 
 export class Workflows<Queue extends string = never> {
@@ -91,33 +97,40 @@ export class Workflows<Queue extends string = never> {
   }
 }
 
-// DBOS logs entries as strings or objects; fold both into one structured event.
-function toEvent(entry: unknown): Record<string, unknown> {
-  if (typeof entry === "string") {
-    return { message: entry }
+// DBOS passes errors and stacks in metadata, and the running workflow as a span.
+function toEvent(entry: unknown, metadata?: LogMetadata): Record<string, unknown> {
+  const event: Record<string, unknown> =
+    typeof entry === "string" ? { message: entry } : { details: entry }
+
+  if (metadata?.error) {
+    event.error = metadata.error
+  } else if (metadata?.stack) {
+    event.stack = metadata.stack
   }
 
-  if (entry instanceof Error) {
-    return { error: entry }
+  if (metadata?.span) {
+    event.workflow = metadata.span.attributes
   }
 
-  return { details: entry }
+  return { scope: "workflows", ...event }
 }
 
 const workflowLogger: DLogger = {
-  debug: (entry) => {
-    log.debug({ scope: "workflows", ...toEvent(entry) })
+  debug: (entry, metadata) => {
+    log.debug(toEvent(entry, metadata))
   },
-  error: (entry) => {
-    log.error({ scope: "workflows", ...toEvent(entry) })
+  error: (entry, metadata) => {
+    log.error(toEvent(entry, metadata))
   },
-  info: (entry) => {
-    log.info({ scope: "workflows", ...toEvent(entry) })
+  info: (entry, metadata) => {
+    log.info(toEvent(entry, metadata))
   },
-  warn: (entry) => {
-    log.warn({ scope: "workflows", ...toEvent(entry) })
+  warn: (entry, metadata) => {
+    log.warn(toEvent(entry, metadata))
   },
 }
+
+type LogMetadata = ContextualMetadata & StackTrace
 
 type Pool = NonNullable<DBOSConfig["systemDatabasePool"]>
 
