@@ -1,7 +1,6 @@
 import type { ReactNode } from "react"
 import { SendEmailError, BatchSendEmailError } from "@init/core/errors"
 import { log } from "@init/observability/logger"
-import { singleton } from "@init/utils/singleton"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
 import { type TimeExpression, ms } from "humanspan"
@@ -15,7 +14,7 @@ type EmailSendParams = {
   from?: string
 }
 
-export const email = singleton("email", () => new Resend(ENV.RESEND_API_KEY))
+export const email = new Resend(ENV.RESEND_API_KEY)
 
 export async function sendEmail(body: ReactNode, params: EmailSendParams) {
   const { emails, subject, sendAt, from = ENV.EMAIL_FROM } = params

@@ -55,7 +55,6 @@ export const ALLOWED_EVENTS = [
 type AllowedEvent = (typeof ALLOWED_EVENTS)[number]
 
 export async function syncSubscription(customerId: string): Promise<SubscriptionCache> {
-  const cache = kv()
   const cacheKey = paymentsKey("customer", customerId)
 
   let data: SubscriptionCache
@@ -72,7 +71,7 @@ export async function syncSubscription(customerId: string): Promise<Subscription
 
   if (!subscription?.items.data[0]) {
     data = { status: "none" }
-    await cache.setItem(cacheKey, data)
+    await kv.setItem(cacheKey, data)
     return data
   }
 
@@ -97,7 +96,7 @@ export async function syncSubscription(customerId: string): Promise<Subscription
   }
 
   // Store the data in your KV
-  await cache.setItem(cacheKey, data)
+  await kv.setItem(cacheKey, data)
 
   return data
 }

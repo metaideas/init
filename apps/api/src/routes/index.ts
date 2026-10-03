@@ -43,9 +43,9 @@ app.use(
 
 app.use(async (c, next) => {
   c.set("auth", auth)
-  c.set("db", database())
+  c.set("db", database)
   c.set("files", files)
-  c.set("kv", kv())
+  c.set("kv", kv)
   await next()
 })
 

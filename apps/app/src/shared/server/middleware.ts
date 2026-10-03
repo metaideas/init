@@ -57,6 +57,4 @@ export const withLogger = createMiddleware({ type: "function" }).server(
   }
 )
 
-export const withDatabase = createMiddleware().server(({ next }) =>
-  next({ context: { database: database() } })
-)
+export const withDatabase = createMiddleware().server(({ next }) => next({ context: { database } }))

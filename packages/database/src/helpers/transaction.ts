@@ -18,7 +18,7 @@ export async function withTransaction<T>(
     return operation(current)
   }
 
-  return database().transaction((transaction) =>
+  return database.transaction((transaction) =>
     storage.run(transaction, () => operation(transaction))
   )
 }

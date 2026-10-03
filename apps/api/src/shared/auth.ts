@@ -26,7 +26,7 @@ export const auth = createAuth({
   appName: AUTH_APP_NAME,
   basePath: "/auth",
   baseURL: baseUrl,
-  database: databaseAdapter(database()),
+  database: databaseAdapter(database),
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {
