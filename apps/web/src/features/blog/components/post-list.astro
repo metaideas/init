@@ -16,7 +16,7 @@ const locale = getLocale()
     posts.map((post) => (
       <li>
         <a
-          class="block space-y-1 p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          class="flex flex-col gap-1 p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           href={`/${locale}/blog/${getPostSlug(post.id)}/`}
         >
           <time class="text-sm text-muted-foreground" datetime={post.data.date.toISOString()}>

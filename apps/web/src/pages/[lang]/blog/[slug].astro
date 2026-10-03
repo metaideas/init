@@ -19,11 +19,11 @@ const { Content } = await render(post)
 ---
 
 <Layout description={post.data.description} title={post.data.title}>
-  <main class="mx-auto w-full max-w-2xl space-y-8 px-6 py-16">
-    <a class="text-sm text-muted-foreground hover:text-foreground" href={`/${lang}/blog/`}>
+  <main class="mx-auto w-full max-w-2xl flex flex-col gap-8 px-6 py-16">
+    <a class="self-start text-sm text-muted-foreground hover:text-foreground" href={`/${lang}/blog/`}>
       ← {m.web_blog_back()}
     </a>
-    <header class="space-y-2">
+    <header class="flex flex-col gap-2">
       <time class="text-sm text-muted-foreground" datetime={post.data.date.toISOString()}>
         {post.data.date.toLocaleDateString(lang, { dateStyle: "long", timeZone: "UTC" })}
       </time>

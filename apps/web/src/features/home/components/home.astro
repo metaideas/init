@@ -9,17 +9,17 @@ const locale = getLocale()
 <main class="mx-auto flex min-h-svh w-full max-w-2xl flex-col justify-center gap-8 px-6 py-16">
   <h1 class="text-4xl font-bold tracking-tight">{m.web_home_title()}</h1>
 
-  <section class="space-y-4 rounded-xl border border-border bg-card p-6">
+  <section class="flex flex-col gap-4 rounded-xl border border-border bg-card p-6">
     <p class="leading-7 text-muted-foreground">{m.web_home_description()}</p>
     <a
-      class="inline-flex min-h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      class="inline-flex min-h-10 self-start items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       href={`/${locale}/blog/`}
     >
       {m.web_home_blog_link()}
     </a>
   </section>
 
-  <section class="space-y-3">
+  <section class="flex flex-col gap-3">
     <h2 class="text-lg font-semibold">{m.web_home_recent_posts()}</h2>
     <slot />
   </section>
