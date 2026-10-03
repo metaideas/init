@@ -41,6 +41,13 @@ const BACKEND_MARKERS = [
   },
 ] as const
 
+// Package workspaces that any package can build on. Every other package workspace is a capability
+// that an application composes, so packages never depend on each other.
+const FOUNDATION_PACKAGES = new Set(["core", "ui", "utils"])
+
+// `packages/backend` deploys on its own and composes packages the way an application does.
+const COMPOSING_PACKAGES = new Set(["backend"])
+
 const TurboJsonSchema = z.object({
   tasks: z.record(z.string(), z.looseObject({ env: z.array(z.string()).optional() })),
 })
@@ -127,6 +134,62 @@ const checks: Check[] = [
       )
 
       return Promise.resolve(failures)
+    },
+  },
+  {
+    name: "Package workspaces depend only on foundation packages",
+    run: ({ workspaces }) => {
+      const packages = new Map(
+        workspaces
+          .filter((workspace) => workspace.kind === "package")
+          .map((workspace) => [workspace.packageName, workspace])
+      )
+
+      const failures = [...packages.values()]
+        .filter((workspace) => !COMPOSING_PACKAGES.has(workspace.name))
+        .flatMap((workspace) =>
+          workspace.dependencies.flatMap((dependency) => {
+            const target = packages.get(dependency)
+
+            if (!target || FOUNDATION_PACKAGES.has(target.name)) return []
+
+            return [
+              `${getWorkspacePath(workspace)} depends on ${getWorkspacePath(target)}. Declare the interface it needs and let the application pass an implementation.`,
+            ]
+          })
+        )
+
+      return Promise.resolve(failures)
+    },
+  },
+  {
+    name: "Package source takes configuration as arguments",
+    run: async ({ rootDir, workspaces }) => {
+      const sourceFiles = new Bun.Glob("src/**/*.{ts,tsx}")
+      const packages = workspaces.filter((workspace) => workspace.kind === "package")
+
+      const failures = await Promise.all(
+        packages.map(async (workspace) => {
+          const files = [...sourceFiles.scanSync({ cwd: workspace.directory })].filter(
+            (file) => !file.endsWith("env.generated.ts")
+          )
+          const readers = await Promise.all(
+            files.map(async (file) => {
+              const contents = await Bun.file(join(workspace.directory, file)).text()
+              return /from ["'][^"']*env\.generated(\.ts)?["']/.test(contents) ? [file] : []
+            })
+          )
+
+          return readers
+            .flat()
+            .map(
+              (file) =>
+                `${relative(rootDir, join(workspace.directory, file))} reads ENV. Take configuration as factory arguments and let the application pass values from its ENV.`
+            )
+        })
+      )
+
+      return failures.flat()
     },
   },
   {
