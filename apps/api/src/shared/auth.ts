@@ -7,7 +7,7 @@ import {
 } from "@init/auth/constants"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { admin, organization } from "@init/auth/server/plugins"
-import { database } from "@init/db/client"
+import { database } from "@init/database/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
 import { log } from "@init/observability/logger"
