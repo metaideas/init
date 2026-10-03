@@ -127,7 +127,6 @@ export default defineConfig({
     },
   ],
   rules: {
-    "func-style": ["error", "declaration", { allowTypeAnnotation: true }],
     "typescript/consistent-type-definitions": ["error", "type"],
   },
 })
