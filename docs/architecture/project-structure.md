@@ -86,7 +86,6 @@ apps/api
       │   ├── files.ts            # Files SDK gateway
       │   ├── health.ts           # Health check
       │   ├── trpc.ts             # tRPC adapter
-      │   ├── workflows.ts        # Demo workflow trigger
       │   └── v1/                 # Versioned REST routes
       │
       ├── shared/               # Shared utilities and helpers

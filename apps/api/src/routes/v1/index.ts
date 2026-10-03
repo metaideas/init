@@ -1,5 +1,6 @@
 import * as z from "@init/utils/schema"
 import { describeRoute, resolver, validator } from "hono-openapi"
+import demoRoutes from "#routes/v1/demo.ts"
 import { m } from "#shared/internationalization/messages.js"
 import { requireSession } from "#shared/middleware.ts"
 import { factory } from "#shared/utils.ts"
@@ -30,3 +31,4 @@ export default factory
     }
   )
   .get("/me", requireSession, (c) => c.json(c.var.session.user))
+  .route("/demo", demoRoutes)

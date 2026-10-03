@@ -14,7 +14,6 @@ import filesRoutes from "#routes/files.ts"
 import healthRoutes from "#routes/health.ts"
 import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
-import workflowRoutes from "#routes/workflows.ts"
 import { auth } from "#shared/auth.ts"
 import { files } from "#shared/files.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
@@ -94,7 +93,6 @@ export const router = app
   )
   .route("/health", healthRoutes)
   .route("/files", filesRoutes)
-  .route("/workflows", workflowRoutes)
   .route("/trpc", trpcRoutes)
   .route("/v1", v1Routes)
 
