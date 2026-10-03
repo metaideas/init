@@ -6,8 +6,10 @@ import { bunS3 } from "files-sdk/bun-s3"
 import { contentType } from "files-sdk/content-type"
 import { signedUrlPolicy } from "files-sdk/signed-url-policy"
 import { validation } from "files-sdk/validation"
+import * as try$ from "tryharder"
 import type { AuthenticatedAppContext } from "#shared/types.ts"
 import { ENV } from "#shared/env.generated.ts"
+import { AssetRecordError, FileActionError, FilesFault } from "#shared/errors.ts"
 import { log } from "#shared/logger.ts"
 import { context } from "#shared/utils.ts"
 
@@ -43,31 +45,32 @@ export const files = createFiles({
     onAction(event) {
       if (event.status !== "success") return
 
-      try {
-        switch (event.type) {
-          case "upload":
-            if (event.key) handleUpload(event.key, UploadResultSchema.parse(event.result))
-            break
-          case "head":
-            if (event.key) handleUpload(event.key, StoredFileSchema.parse(event.result))
-            break
-          case "delete": {
-            const keys = event.key
-              ? [event.key]
-              : DeleteManyResultSchema.parse(event.result).deleted
+      const result = try$.runSync({
+        catch: (error) => FilesFault.wrap(error).as("FileActionError", { action: event.type }),
+        try: () => {
+          switch (event.type) {
+            case "upload":
+              if (event.key) handleUpload(event.key, UploadResultSchema.parse(event.result))
+              break
+            case "head":
+              if (event.key) handleUpload(event.key, StoredFileSchema.parse(event.result))
+              break
+            case "delete": {
+              const keys = event.key
+                ? [event.key]
+                : DeleteManyResultSchema.parse(event.result).deleted
 
-            handleDelete(keys)
-            break
+              handleDelete(keys)
+              break
+            }
+            default:
+              break
           }
-          default:
-            break
-        }
-      } catch (error) {
-        log.error({
-          action: event.type,
-          error,
-          message: "Failed to process successful file action",
-        })
+        },
+      })
+
+      if (result instanceof FileActionError) {
+        log.error({ error: result, message: "Failed to process successful file action" })
       }
     },
   },
@@ -103,36 +106,34 @@ function handleUpload(key: string, file: ParsedUploadResult | ParsedStoredFile) 
   const metadata = isUploadResult ? undefined : file.metadata
   const name = isUploadResult ? (key.split("/").at(-1) ?? key) : file.name
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  function logFailure(error: unknown) {
-    log.error({ error, key, message: "Failed to record asset" })
-  }
 
-  void ctx.var.db
-    .insert(assets)
-    .values({
-      etag: file.etag,
-      key,
-      lastModified: file.lastModified,
-      metadata,
-      name,
-      ownerId: userId,
-      size: file.size,
-      type: mimeType,
-      uploaderId: userId,
-    })
-    .onConflictDoUpdate({
-      set: {
+  void recordAssets("upsert", [key], () =>
+    ctx.var.db
+      .insert(assets)
+      .values({
         etag: file.etag,
+        key,
         lastModified: file.lastModified,
         metadata,
         name,
+        ownerId: userId,
         size: file.size,
         type: mimeType,
-        updatedAt: new Date(),
-      },
-      target: assets.key,
-    })
-    .catch(logFailure)
+        uploaderId: userId,
+      })
+      .onConflictDoUpdate({
+        set: {
+          etag: file.etag,
+          lastModified: file.lastModified,
+          metadata,
+          name,
+          size: file.size,
+          type: mimeType,
+          updatedAt: new Date(),
+        },
+        target: assets.key,
+      })
+  )
 }
 
 function handleDelete(keys: string[]) {
@@ -140,12 +141,27 @@ function handleDelete(keys: string[]) {
 
   const ctx = context<AuthenticatedAppContext>()
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  function logFailure(error: unknown) {
-    log.error({ error, keys, message: "Failed to delete asset records" })
-  }
 
-  void ctx.var.db
-    .delete(assets)
-    .where(operators.and(operators.inArray(assets.key, keys), operators.eq(assets.ownerId, userId)))
-    .catch(logFailure)
+  void recordAssets("delete", keys, () =>
+    ctx.var.db
+      .delete(assets)
+      .where(
+        operators.and(operators.inArray(assets.key, keys), operators.eq(assets.ownerId, userId))
+      )
+  )
+}
+
+async function recordAssets(
+  operation: AssetRecordError["operation"],
+  keys: string[],
+  write: () => Promise<unknown>
+) {
+  const result = await try$.run({
+    catch: (error) => FilesFault.wrap(error).as("AssetRecordError", { keys, operation }),
+    try: write,
+  })
+
+  if (result instanceof AssetRecordError) {
+    log.error({ error: result, message: "Failed to record asset changes" })
+  }
 }

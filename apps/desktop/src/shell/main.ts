@@ -3,6 +3,7 @@ import path from "node:path"
 import { app, BrowserWindow, dialog, ipcMain } from "electron"
 import started from "electron-squirrel-startup"
 import { IPC_CHANNELS, type LocalTextFile } from "#shared/desktop-bridge.ts"
+import { LocalFilesFault } from "#shared/errors.ts"
 
 if (started) {
   app.quit()
@@ -37,7 +38,9 @@ function registerLocalFileHandlers() {
 
   ipcMain.handle(IPC_CHANNELS.saveTextFile, async (_event, file: LocalTextFile) => {
     if (!openedPaths.has(file.path)) {
-      throw new Error("Cannot save to a path that the open dialog did not select")
+      throw LocalFilesFault.create("UnselectedPathError", { path: file.path }).withMessage(
+        "Cannot save to a path that the open dialog did not select"
+      )
     }
 
     await writeFile(file.path, file.contents, "utf8")
