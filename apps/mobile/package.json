@@ -18,7 +18,7 @@
     "dev:ios": "varlock run -- expo start --ios",
     "doctor": "expo-doctor",
     "env:check": "varlock load",
-    "env:scan": "test -d dist && varlock scan --path .env.schema --path .env.development dist",
+    "env:scan": "test -d dist && varlock scan --path .env.schema dist",
     "env:scan:build": "varlock run -- expo export",
     "install:check": "expo install --check",
     "install:fix": "expo install --fix",

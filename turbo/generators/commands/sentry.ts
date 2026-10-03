@@ -27,6 +27,7 @@ type Edit = {
 }
 
 type SentrySetup = {
+  sdk: string
   install: (appPath: string) => Promise<unknown>
   file: { path: string; templateFile: string }
   environment: string
@@ -76,6 +77,7 @@ SENTRY_DEBUG=false
     },
     install: (appPath) => Bun.$`cd ${appPath} && bun add --exact @sentry/node`,
     nextSteps: [],
+    sdk: "@sentry/node",
   },
   app: {
     edits: [
@@ -108,6 +110,7 @@ PUBLIC_SENTRY_DEBUG=false
     },
     install: (appPath) => Bun.$`cd ${appPath} && bun add --exact @sentry/browser`,
     nextSteps: [],
+    sdk: "@sentry/browser",
   },
   mobile: {
     edits: [
@@ -147,7 +150,7 @@ PUBLIC_SENTRY_DEBUG=false
         replacements: [
           [
             '    ["expo-dev-client", { launchMode: "most-recent" }],\n',
-            '    ["expo-dev-client", { launchMode: "most-recent" }],\n    [\n      "@sentry/react-native/expo",\n      { organization: process.env.SENTRY_ORG, project: process.env.SENTRY_PROJECT },\n    ],\n',
+            '    ["expo-dev-client", { launchMode: "most-recent" }],\n    // Native source map and debug symbol uploads need a Sentry organization and project.\n    ...(process.env.SENTRY_ORG && process.env.SENTRY_PROJECT\n      ? [\n          [\n            "@sentry/react-native/expo",\n            { organization: process.env.SENTRY_ORG, project: process.env.SENTRY_PROJECT },\n          ],\n        ]\n      : []),\n',
           ],
         ],
       },
@@ -173,11 +176,17 @@ SENTRY_AUTH_TOKEN=
     install: async (appPath) => {
       await trustSentryCli()
       const version = await getExpoCompatibleVersion(appPath, "@sentry/react-native")
-      return Bun.$`cd ${appPath} && bun add --exact @sentry/react-native@${version}`
+      await Bun.$`cd ${appPath} && bun add --exact @sentry/react-native@${version}`
+
+      // Bun's isolated linker does not expose the SDK's own @sentry/cli to the workspace, and the
+      // native build hooks resolve the CLI from the workspace.
+      const cliVersion = await getDependencyVersion(appPath, "@sentry/react-native", "@sentry/cli")
+      return Bun.$`cd ${appPath} && bun add --dev --exact @sentry/cli@${cliVersion}`
     },
     nextSteps: [
-      "Run `bun run --filter mobile prebuild` to add Sentry to the native iOS and Android projects.",
+      "Run `bun run --filter mobile prebuild` to add Sentry to the native iOS and Android projects. Set SENTRY_ORG, SENTRY_PROJECT, and SENTRY_AUTH_TOKEN before prebuild to upload source maps and debug symbols from release builds.",
     ],
+    sdk: "@sentry/react-native",
   },
 }
 
@@ -200,13 +209,9 @@ export function registerSentryGenerator(plop: PlopTypes.NodePlopAPI): void {
       return [
         async () => {
           const packageJson = await readPackageJson(`${appPath}/package.json`)
-          const sentryPackages = Object.keys({
-            ...packageJson.dependencies,
-            ...packageJson.devDependencies,
-          }).filter((name) => name.startsWith("@sentry/"))
 
-          if (sentryPackages.length > 0) {
-            return `[SKIPPED] ${appPath} already contains ${sentryPackages.join(", ")}`
+          if (setup.sdk in { ...packageJson.dependencies, ...packageJson.devDependencies }) {
+            return `[SKIPPED] ${appPath} already contains ${setup.sdk}`
           }
 
           await setup.install(appPath)
@@ -221,12 +226,19 @@ export function registerSentryGenerator(plop: PlopTypes.NodePlopAPI): void {
         async () => {
           const schemaPath = `${appPath}/.env.schema`
           const schema = await Bun.file(schemaPath).text()
+          const missing = setup.environment
+            .trim()
+            .split("\n\n")
+            .filter((declaration) => {
+              const key = /^([A-Z0-9_]+)=/m.exec(declaration)?.[1]
+              return key !== undefined && !new RegExp(`^${key}=`, "m").test(schema)
+            })
 
-          if (schema.includes("SENTRY_DSN=")) {
-            return `[SKIPPED] ${schemaPath} already declares Sentry variables`
+          if (missing.length === 0) {
+            return `[SKIPPED] ${schemaPath} already declares the Sentry variables`
           }
 
-          await Bun.write(schemaPath, `${schema.trimEnd()}\n${setup.environment}`)
+          await Bun.write(schemaPath, `${schema.trimEnd()}\n\n${missing.join("\n\n")}\n`)
           return `${schemaPath}: added the optional Sentry variables`
         },
         ...setup.edits.map((edit) => () => applyEdit(`${appPath}/${edit.path}`, edit)),
@@ -302,6 +314,18 @@ async function getExpoCompatibleVersion(appPath: string, name: string) {
   }
 
   return range.replace(/^[~^]/, "")
+}
+
+async function getDependencyVersion(appPath: string, packageName: string, dependency: string) {
+  const path = Bun.resolveSync(`${packageName}/package.json`, `${process.cwd()}/${appPath}`)
+  const manifest = await readPackageJson(path)
+  const version = manifest.dependencies?.[dependency]
+
+  if (!version) {
+    throw new Error(`${packageName} does not declare a version of ${dependency}.`)
+  }
+
+  return version.replace(/^[~^]/, "")
 }
 
 async function trustSentryCli() {
