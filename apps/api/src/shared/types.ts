@@ -1,13 +1,13 @@
 import type { Database } from "@init/database/client"
 import type { KeyValue } from "@init/kv/client"
-import type { LoggerVariables } from "@init/observability/logger/hono"
 import type { DeepMerge } from "@init/utils/type"
+import type { EvlogVariables } from "evlog/hono"
 import type { Files } from "files-sdk"
 import type { Auth, Session } from "#shared/auth.ts"
 import type { Locale } from "#shared/internationalization/runtime.js"
 
 export type AppContext = DeepMerge<
-  LoggerVariables,
+  EvlogVariables,
   {
     Variables: {
       auth: Auth

@@ -1,14 +1,39 @@
-import { initLogger } from "@init/observability/logger"
-import { buildDrain } from "@init/observability/logger/drains"
 import { isDevelopment } from "@init/utils/env"
+import { auditRedactPreset, initLogger } from "evlog"
 
-const drain = buildDrain()
+// The preset masks exact field names such as `secret` and `apiKey`. A bare word also masks the
+// whole field name in any casing, such as `passPhrase`. The globs mask credentials inside longer
+// names, such as `clientSecret`, `AUTH_SECRET`, and `api_key`, in each casing, because evlog's globs
+// are case-sensitive.
+const CREDENTIAL_WORDS = [
+  "secret",
+  "token",
+  "password",
+  "passphrase",
+  "passcode",
+  "apikey",
+  "apiKey",
+  "api_key",
+  "api-key",
+]
+const CREDENTIAL_PATHS = [
+  ...new Set(
+    CREDENTIAL_WORDS.flatMap((word) => [
+      word,
+      `*${word}*`,
+      `*${word.charAt(0).toUpperCase()}${word.slice(1)}*`,
+      `*${word.toUpperCase()}*`,
+    ])
+  ),
+]
 
-// Debug events (per-query SQL among them) stay out of the drain in production.
-initLogger({ drain, env: { service: "api" }, minLevel: isDevelopment ? "debug" : "info" })
+initLogger({
+  env: { service: "api" },
+  minLevel: isDevelopment ? "debug" : "info",
+  redact: {
+    ...auditRedactPreset,
+    paths: [...(auditRedactPreset.paths ?? []), ...CREDENTIAL_PATHS],
+  },
+})
 
-export async function flushLogs() {
-  await drain?.flush()
-}
-
-export { log } from "@init/observability/logger"
+export { log } from "evlog"

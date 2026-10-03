@@ -9,8 +9,8 @@ import { createAuth, databaseAdapter } from "@init/auth/server"
 import { database } from "@init/database/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
-import { log } from "@init/observability/logger"
 import { ENV } from "#shared/env.generated.ts"
+import { log } from "#shared/logger.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({

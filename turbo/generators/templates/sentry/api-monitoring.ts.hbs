@@ -1,0 +1,27 @@
+import { isProduction, isTest } from "@init/utils/env"
+import * as Sentry from "@sentry/node"
+import type { DrainContext } from "evlog"
+import { createDrainPipeline } from "evlog/pipeline"
+import { createSentryDrain } from "evlog/sentry"
+import { ENV } from "#shared/env.generated.ts"
+
+if (ENV.SENTRY_DSN) {
+  Sentry.init({
+    debug: ENV.SENTRY_DEBUG,
+    dsn: ENV.SENTRY_DSN,
+    environment: isProduction ? "production" : isTest ? "test" : "development",
+    tracesSampleRate: isProduction ? 0.1 : 1,
+  })
+}
+
+/**
+ * Ships wide events to Sentry in batches, with retries. It is undefined when no DSN is configured.
+ */
+export const drain = ENV.SENTRY_DSN
+  ? createDrainPipeline<DrainContext>({
+      batch: { intervalMs: 5000, size: 50 },
+      retry: { maxAttempts: 3 },
+    })(createSentryDrain({ dsn: ENV.SENTRY_DSN }))
+  : undefined
+
+export { captureException } from "@sentry/node"

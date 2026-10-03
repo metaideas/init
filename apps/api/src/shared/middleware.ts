@@ -1,5 +1,5 @@
 import { findIp } from "@arcjet/ip"
-import { identifyUser } from "@init/observability/logger/auth"
+import { identifyUser } from "evlog/better-auth"
 import { rateLimiter } from "hono-rate-limiter"
 import { createMiddleware } from "hono/factory"
 import { HTTPException } from "hono/http-exception"

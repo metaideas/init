@@ -1,9 +1,9 @@
 import crypto from "node:crypto"
 import { database } from "@init/database/client"
-import { createRequestLogger } from "@init/observability/logger"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
 import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
 import { getRequest, getResponse, getResponseStatus } from "@tanstack/react-start/server"
+import { createRequestLogger } from "evlog"
 import "#shared/logger.ts"
 
 export const withCsrf = createCsrfMiddleware({

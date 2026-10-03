@@ -50,3 +50,15 @@ bun run generate ai-chat-demo
 The template command adds a demo feature to an application workspace and the dependency on the AI package workspace. Render the generated component in a route. To use a real model, keep the chat interface and replace the scripted transport with one backed by a server route that uses the AI package's model registry.
 
 The demo uses full Zod in the browser. Adding it gives up the bundle savings of Zod Mini on every route, because the two share Zod's core modules. A repeat run reports skips without replacing generated application code.
+
+## Add Sentry
+
+Application workspaces log with evlog and need no external account. Error monitoring is opt-in. `sentry` adds the Sentry SDK to `apps/api`, `apps/app`, or `apps/mobile`:
+
+```bash
+bun run generate sentry
+```
+
+The template command installs the SDK for the runtime of the workspace, adds a module that initializes it, and declares the Sentry variables in the workspace's `.env.schema` as optional. Without a DSN, Sentry stays off. In `apps/api` it also ships evlog events to Sentry through a drain, flushes the drain on shutdown, and reports unhandled errors from `app.onError`. In `apps/mobile` it adds the Expo config plugin and the Metro configuration. Run `bun run --filter mobile prebuild` afterward to update the native projects.
+
+The template command connects the module where the generated application still matches the template. Where an edit does not apply, it prints the step to finish by hand. A repeat run reports skips without replacing generated application code.

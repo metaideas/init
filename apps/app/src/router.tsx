@@ -1,4 +1,3 @@
-import { initializeErrorMonitoring } from "@init/observability/monitoring/client"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
@@ -32,10 +31,6 @@ export function getRouter() {
     routeTree,
     scrollRestoration: true,
   })
-
-  if (!router.isServer) {
-    initializeErrorMonitoring()
-  }
 
   setupRouterSsrQueryIntegration({
     handleRedirects: true,

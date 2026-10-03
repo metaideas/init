@@ -24,8 +24,8 @@
     "zip:firefox": "wxt zip -b firefox"
   },
   "dependencies": {
-    "@init/observability": "workspace:*",
     "@init/ui": "workspace:*",
+    "evlog": "2.29.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "varlock": "1.16.0",

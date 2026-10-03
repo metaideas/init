@@ -35,12 +35,13 @@ To use another backend, change the unstorage driver in the package's client modu
 
 `packages/workflows` runs durable background workflows through [DBOS](https://docs.dbos.dev/). DBOS stores workflow inputs, step outputs, and queues in a `dbos` schema in Postgres, so workflows need a Postgres database. It runs inside the application process: there is no separate workflow server, signing key, or hosted account.
 
-An application workspace creates one `Workflows` instance per process. Pass a `url`, and workflows open their own small connection pool:
+An application workspace creates one `Workflows` instance per process. Pass a `url`, and workflows open their own small connection pool. Pass the application's logger as `logger` to receive workflow events; without it, DBOS logs to the console:
 
 ```ts
 import { Workflows } from "@init/workflows/client"
 
 export const workflows = new Workflows({
+  logger: log,
   poolSize: 5,
   queues: { default: { concurrency: 10 } },
   url: ENV.DATABASE_URL,

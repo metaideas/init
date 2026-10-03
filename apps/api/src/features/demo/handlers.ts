@@ -1,4 +1,4 @@
-import { log } from "@init/observability/logger"
+import { log } from "#shared/logger.ts"
 import { workflows } from "#shared/workflows.ts"
 
 export const greetUser = workflows.define("greetUser", async ({ userId }: { userId: string }) => {

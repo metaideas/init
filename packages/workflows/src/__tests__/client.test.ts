@@ -5,7 +5,6 @@ const queueRegistration = Promise.withResolvers<undefined>()
 const setConfig = mock<(config: DBOSConfig) => void>()
 const log = { debug: mock(), error: mock(), info: mock(), warn: mock() }
 
-await mock.module("@init/observability/logger", () => ({ log }))
 await mock.module("@dbos-inc/dbos-sdk", () => ({
   DBOS: {
     launch: () => Promise.resolve(),
@@ -23,6 +22,7 @@ await mock.module("@dbos-inc/dbos-sdk", () => ({
 const { Workflows } = await import("#client.ts")
 
 const workflows = new Workflows({
+  logger: log,
   queues: { default: { concurrency: 1 } },
   url: "postgresql://localhost/test",
 })

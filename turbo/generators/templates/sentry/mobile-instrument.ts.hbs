@@ -1,0 +1,17 @@
+import * as Sentry from "@sentry/react-native"
+import { ENV } from "#shared/env.generated.ts"
+
+if (ENV.EXPO_PUBLIC_SENTRY_DSN) {
+  const sampleRate = __DEV__ ? 1 : 0.1
+
+  Sentry.init({
+    dsn: ENV.EXPO_PUBLIC_SENTRY_DSN,
+    integrations: [Sentry.mobileReplayIntegration()],
+    replaysOnErrorSampleRate: 1,
+    replaysSessionSampleRate: sampleRate,
+    // Adds request, user, and device data to events. See
+    // https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+    sendDefaultPii: true,
+    tracesSampleRate: sampleRate,
+  })
+}

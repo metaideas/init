@@ -1,5 +1,4 @@
 import { Button, Host } from "@expo/ui"
-import { monitoringWrap } from "@init/observability/monitoring/expo"
 import { type ErrorBoundaryProps, Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
 import { Text, View } from "react-native"
@@ -35,7 +34,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   )
 }
 
-function RootLayout() {
+export default function RootLayout() {
   useHideSplashScreen(true)
 
   return (
@@ -44,5 +43,3 @@ function RootLayout() {
     </Providers>
   )
 }
-
-export default monitoringWrap(RootLayout)

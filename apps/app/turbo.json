@@ -4,8 +4,7 @@
   "tags": ["application"],
   "tasks": {
     "build": {
-      "outputs": [".output/**"],
-      "env": ["PUBLIC_SENTRY_DEBUG", "PUBLIC_SENTRY_DSN"]
+      "outputs": [".output/**"]
     }
   }
 }
