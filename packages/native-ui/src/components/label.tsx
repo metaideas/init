@@ -8,9 +8,9 @@ function Label({
   onLongPress,
   onPressIn,
   onPressOut,
-  disabled,
-  ...props
+  ...textProps
 }: React.ComponentProps<typeof LabelPrimitive.Text>) {
+  const { disabled, ...props } = textProps
   return (
     <LabelPrimitive.Root
       className={cn(

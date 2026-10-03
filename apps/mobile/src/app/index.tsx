@@ -4,71 +4,24 @@ import {
   type LargeTitleSearchBarRef,
 } from "@init/native-ui/components/large-title-header"
 import { Text } from "@init/native-ui/components/text"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { View } from "react-native"
 import { useCSSVariable } from "uniwind"
+import { usePersistedLocale, useSearchBarState } from "#shared/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
-import {
-  getLocale,
-  type Locale,
-  locales,
-  setLocale as setParaglideLocale,
-} from "#shared/internationalization/runtime.js"
-
-const LOCALE_STORAGE_KEY = "init-locale"
-
-function checkIsLocale(value: string): value is Locale {
-  return locales.some((locale) => locale === value)
-}
 
 export default function Screen() {
   const backgroundValue = useCSSVariable("--color-background")
   const background = typeof backgroundValue === "string" ? backgroundValue : undefined
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [locale, setLocale] = useState<Locale>(() => getLocale())
-  const [searchQuery, setSearchQuery] = useState("")
+  const { locale, selectLocale } = usePersistedLocale()
+  const { isSearching, searchBarHandlers } = useSearchBarState()
   const searchBarRef = useRef<LargeTitleSearchBarRef>(null)
-  const isSearching = isSearchFocused || searchQuery.length > 0
-
-  useEffect(() => {
-    async function hydrateLocale() {
-      const storedLocale = await AsyncStorage.getItem(LOCALE_STORAGE_KEY)
-      if (!storedLocale || !checkIsLocale(storedLocale)) return
-
-      void setParaglideLocale(storedLocale, { reload: false })
-      setLocale(storedLocale)
-    }
-
-    void hydrateLocale()
-  }, [])
-
-  async function selectLocale(nextLocale: Locale) {
-    await AsyncStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)
-    void setParaglideLocale(nextLocale, { reload: false })
-    setLocale(nextLocale)
-  }
 
   return (
     <>
       <LargeTitleHeader
         backgroundColor={background}
-        searchBar={{
-          onBlur: () => {
-            setIsSearchFocused(false)
-          },
-          onCancelButtonPress: () => {
-            setIsSearchFocused(false)
-            setSearchQuery("")
-          },
-          onChangeText: (text) => {
-            setSearchQuery(text)
-          },
-          onFocus: () => {
-            setIsSearchFocused(true)
-          },
-          ref: searchBarRef,
-        }}
+        searchBar={{ ...searchBarHandlers, ref: searchBarRef }}
         title={m.mobile_home_title({}, { locale })}
       />
       {isSearching ? null : (

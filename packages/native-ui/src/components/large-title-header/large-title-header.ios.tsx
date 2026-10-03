@@ -1,20 +1,18 @@
+import type { SearchBarCommands } from "react-native-screens"
 import { Stack } from "expo-router"
 import * as React from "react"
 import { StyleSheet, View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
+import { useLargeTitleSearch } from "#hooks/use-large-title-search.ts"
 import { checkIsLiquidGlassSupported } from "#utils.ts"
-import type {
-  LargeTitleHeaderProps,
-  NativeStackNavigationOptions,
-  NativeStackNavigationSearchBarOptions,
-} from "./types"
+import type { LargeTitleHeaderProps, NativeStackNavigationOptions } from "./types"
 
 const isLiquidGlassSupported = checkIsLiquidGlassSupported()
 
 function LargeTitleHeader(props: LargeTitleHeaderProps) {
-  const [searchValue, setSearchValue] = React.useState("")
-  const [isFocused, setIsFocused] = React.useState(false)
+  const search = useLargeTitleSearch(props.searchBar)
+  const nativeSearchBarRef = React.useRef<SearchBarCommands>(null)
   const backgroundValue = useCSSVariable("--color-background")
   const cardValue = useCSSVariable("--color-card")
   const foregroundValue = useCSSVariable("--color-foreground")
@@ -25,19 +23,27 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const foreground = colorVariableToString(foregroundValue)
   const mutedForeground = colorVariableToString(mutedValue) ?? foreground
 
+  React.useImperativeHandle(props.searchBar?.ref, () => ({
+    cancelSearch: () => nativeSearchBarRef.current?.cancelSearch(),
+    clearText: () => nativeSearchBarRef.current?.clearText(),
+    focus: () => nativeSearchBarRef.current?.focus(),
+    setText: (text) => nativeSearchBarRef.current?.setText(text),
+  }))
+
+  const screenOptions = propsToScreenOptions(props, card, foreground, mutedForeground, search)
+
   return (
     <>
       <Stack.Screen
-        options={propsToScreenOptions(
-          props,
-          card,
-          foreground,
-          mutedForeground,
-          setIsFocused,
-          setSearchValue
-        )}
+        options={{
+          ...screenOptions,
+          headerSearchBarOptions: screenOptions.headerSearchBarOptions && {
+            ...screenOptions.headerSearchBarOptions,
+            ref: nativeSearchBarRef,
+          },
+        }}
       />
-      {props.searchBar?.content && (isFocused || searchValue.length > 0) ? (
+      {props.searchBar && search.isOverlayShown ? (
         <Animated.View
           entering={FadeIn.delay(100).duration(200)}
           exiting={FadeOut}
@@ -57,8 +63,7 @@ function propsToScreenOptions(
   backgroundColor: string | undefined,
   foregroundColor: string | undefined,
   mutedForegroundColor: string | undefined,
-  setIsFocused: React.Dispatch<React.SetStateAction<boolean>>,
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>
+  search: ReturnType<typeof useLargeTitleSearch>
 ): NativeStackNavigationOptions {
   return {
     headerBackButtonMenuEnabled: props.iosBackButtonMenuEnabled,
@@ -91,24 +96,14 @@ function propsToScreenOptions(
           cancelButtonText: props.searchBar.iosCancelButtonText,
           hideWhenScrolling: props.searchBar.iosHideWhenScrolling ?? false,
           inputType: props.searchBar.inputType,
-          onBlur: () => {
-            setIsFocused(false)
-            props.searchBar?.onBlur?.()
-          },
+          onBlur: search.blur,
           onCancelButtonPress: props.searchBar.onCancelButtonPress,
           onChangeText: (event) => {
-            const text = event.nativeEvent.text
-            setSearchValue(text)
-            props.searchBar?.onChangeText?.(text)
+            search.changeText(event.nativeEvent.text)
           },
-          onFocus: () => {
-            setIsFocused(true)
-            props.searchBar?.onFocus?.()
-          },
+          onFocus: search.focus,
           onSearchButtonPress: props.searchBar.onSearchButtonPress,
           placeholder: props.searchBar.placeholder ?? "Search...",
-          // SAFETY: The native search bar writes the full command set to a ref that exposes a safe subset.
-          ref: props.searchBar.ref as NativeStackNavigationSearchBarOptions["ref"],
           textColor: props.searchBar.textColor ?? foregroundColor,
           tintColor: props.searchBar.iosTintColor ?? mutedForegroundColor,
         }
@@ -128,10 +123,7 @@ function propsToScreenOptions(
 }
 
 function colorVariableToString(value: string | number | undefined): string | undefined {
-  if (value?.constructor === Number) return undefined
-
-  // SAFETY: Uniwind returns only strings, numbers, or undefined, and the numeric case exits above.
-  return value as string | undefined
+  return typeof value === "string" ? value : undefined
 }
 
 export { LargeTitleHeader }

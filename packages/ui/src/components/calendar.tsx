@@ -5,32 +5,31 @@ import {
   getDefaultClassNames,
   type DayButton,
   type Locale,
+  useDayPicker,
 } from "react-day-picker"
 
 import { cn } from "cn"
 import { Button, buttonVariants } from "#components/button.tsx"
 import { Icon } from "#components/icon.tsx"
+import { useFocusWhen } from "#hooks/use-focus-when.ts"
 
 function Calendar({
   className,
   classNames,
-  showOutsideDays = true,
-  captionLayout = "label",
-  buttonVariant = "ghost",
-  locale,
   formatters,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
 }) {
+  const {
+    showOutsideDays = true,
+    captionLayout = "label",
+    buttonVariant = "ghost",
+    locale,
+    ...dayPickerProps
+  } = props
   const defaultClassNames = getDefaultClassNames()
-  const DayButtonWithLocale = React.useCallback(
-    (dayButtonProps: React.ComponentProps<typeof DayButton>) => (
-      <CalendarDayButton locale={locale} {...dayButtonProps} />
-    ),
-    [locale]
-  )
 
   return (
     <DayPicker
@@ -67,7 +66,7 @@ function Calendar({
         ),
         day: cn(
           "group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)",
-          props.showWeekNumber
+          dayPickerProps.showWeekNumber
             ? "[&:nth-child(2)[data-selected=true]_button]:rounded-l-(--cell-radius)"
             : "[&:first-child[data-selected=true]_button]:rounded-l-(--cell-radius)",
           defaultClassNames.day
@@ -124,12 +123,12 @@ function Calendar({
       }}
       components={{
         Chevron: CalendarChevron,
-        DayButton: DayButtonWithLocale,
+        DayButton: CalendarDayButton,
         Root: CalendarRoot,
         WeekNumber: CalendarWeekNumber,
         ...components,
       }}
-      {...props}
+      {...dayPickerProps}
     />
   )
 }
@@ -141,18 +140,18 @@ function CalendarDayButton({
   locale,
   ...props
 }: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
+  const { dayPickerProps } = useDayPicker()
+  const dayLocale = locale ?? dayPickerProps.locale
   const defaultClassNames = getDefaultClassNames()
 
-  const ref = React.useRef<HTMLButtonElement>(null)
-  React.useEffect(() => {
-    if (modifiers.focused) ref.current?.focus()
-  }, [modifiers.focused])
+  const ref = useFocusWhen<HTMLButtonElement>(modifiers.focused)
 
   return (
     <Button
+      ref={ref}
       variant="ghost"
       size="icon"
-      data-day={day.date.toLocaleDateString(locale?.code)}
+      data-day={day.date.toLocaleDateString(dayLocale?.code)}
       data-selected-single={
         modifiers.selected
         && !modifiers.range_start

@@ -1,4 +1,5 @@
-import { createContext, use, useEffect, useMemo, useState } from "react"
+import { createContext, use } from "react"
+import type { Theme } from "#constants.ts"
 import { Button } from "#components/button.tsx"
 import {
   DropdownMenu,
@@ -7,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "#components/dropdown-menu.tsx"
 import { Icon } from "#components/icon.tsx"
-import { THEMES, type Theme } from "#constants.ts"
+import { useThemeState } from "#hooks/use-theme-state.ts"
 
 type ThemeContextState = {
   theme: Theme
@@ -39,62 +40,7 @@ export function ThemeProvider({
   defaultTheme = "system",
   storageKey,
 }: ThemeProviderProps) {
-  const [userTheme, setUserTheme] = useState<Theme>(() => {
-    if (theme !== undefined) {
-      return theme
-    }
-
-    if (storageKey && typeof localStorage !== "undefined") {
-      const stored = localStorage.getItem(storageKey)
-      if (stored && THEMES.includes(stored as Theme)) {
-        return stored as Theme
-      }
-    }
-
-    return defaultTheme
-  })
-
-  useEffect(() => {
-    const root = document.documentElement
-    const mediaQuery = globalThis.matchMedia("(prefers-color-scheme: dark)")
-
-    function updateTheme() {
-      root.classList.remove("light", "dark", "system")
-
-      if (userTheme === "system") {
-        const systemTheme = mediaQuery.matches ? "dark" : "light"
-        root.classList.add(systemTheme)
-      } else {
-        root.classList.add(userTheme)
-      }
-    }
-
-    mediaQuery.addEventListener("change", updateTheme)
-    updateTheme()
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateTheme)
-    }
-  }, [userTheme])
-
-  const value = useMemo(
-    () => ({
-      setTheme(newTheme: Theme) {
-        setUserTheme(newTheme)
-
-        if (setTheme) {
-          setTheme(newTheme)
-          return
-        }
-
-        if (storageKey) {
-          localStorage.setItem(storageKey, newTheme)
-        }
-      },
-      theme: userTheme,
-    }),
-    [setTheme, storageKey, userTheme]
-  )
+  const value = useThemeState({ defaultTheme, setTheme, storageKey, theme })
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

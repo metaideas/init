@@ -1,35 +1,22 @@
 import { Button } from "@init/ui/components/button"
 import { Icon } from "@init/ui/components/icon"
-import { toast } from "@init/ui/components/toast"
 import { cn } from "cn"
-import { useState } from "react"
-import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { signIn } from "#shared/auth.ts"
+import { useSocialSignIn } from "#features/auth/hooks.ts"
 
 export function SignInWithGoogleButton({ className }: { className?: string }) {
-  const [loading, setLoading] = useState(false)
+  const { isSigningIn, signInWithProvider } = useSocialSignIn(
+    "google",
+    "Failed to sign in with Google"
+  )
 
   return (
     <Button
       className={cn("flex gap-3", className)}
-      disabled={loading}
-      onClick={() => {
-        setLoading(true)
-
-        void signIn.social({
-          callbackURL: AUTHENTICATED_PATHNAME,
-          fetchOptions: {
-            onError() {
-              setLoading(false)
-              toast.add({ title: "Failed to sign in with Google", type: "error" })
-            },
-          },
-          provider: "google",
-        })
-      }}
+      disabled={isSigningIn}
+      onClick={signInWithProvider}
       variant="outline"
     >
-      {loading ? (
+      {isSigningIn ? (
         <>
           <Icon.Loader className="mr-2 h-4 w-4 animate-spin" />
           Signing in...
@@ -45,29 +32,19 @@ export function SignInWithGoogleButton({ className }: { className?: string }) {
 }
 
 export function SignInWithGitHubButton({ className }: { className?: string }) {
-  const [loading, setLoading] = useState(false)
+  const { isSigningIn, signInWithProvider } = useSocialSignIn(
+    "github",
+    "Failed to sign in with GitHub"
+  )
 
   return (
     <Button
       className={cn("flex gap-3", className)}
-      disabled={loading}
-      onClick={() => {
-        setLoading(true)
-
-        void signIn.social({
-          callbackURL: AUTHENTICATED_PATHNAME,
-          fetchOptions: {
-            onError() {
-              setLoading(false)
-              toast.add({ title: "Failed to sign in with GitHub", type: "error" })
-            },
-          },
-          provider: "github",
-        })
-      }}
+      disabled={isSigningIn}
+      onClick={signInWithProvider}
       variant="outline"
     >
-      {loading ? (
+      {isSigningIn ? (
         <>
           <Icon.Loader className="mr-2 h-4 w-4 animate-spin" />
           Signing in...

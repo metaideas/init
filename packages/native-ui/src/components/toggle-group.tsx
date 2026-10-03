@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import type { VariantProps } from "class-variance-authority"
 import * as ToggleGroupPrimitive from "@rn-primitives/toggle-group"
 import { cn } from "cn"
@@ -17,7 +16,6 @@ function ToggleGroup({
   children,
   ...props
 }: React.ComponentProps<typeof ToggleGroupPrimitive.Root> & VariantProps<typeof toggleVariants>) {
-  const contextValue = React.useMemo(() => ({ size, variant }), [size, variant])
   return (
     <ToggleGroupPrimitive.Root
       className={cn(
@@ -28,7 +26,9 @@ function ToggleGroup({
       )}
       {...props}
     >
-      <ToggleGroupContext.Provider value={contextValue}>{children}</ToggleGroupContext.Provider>
+      <ToggleGroupContext.Provider value={{ size, variant }}>
+        {children}
+      </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
   )
 }
@@ -46,16 +46,15 @@ function useToggleGroupContext() {
 function ToggleGroupItem({
   className,
   children,
-  variant,
-  size,
   isFirst,
   isLast,
-  ...props
+  ...itemProps
 }: React.ComponentProps<typeof ToggleGroupPrimitive.Item>
   & VariantProps<typeof toggleVariants> & {
     isFirst?: boolean
     isLast?: boolean
   }) {
+  const { size, variant, ...props } = itemProps
   const context = useToggleGroupContext()
   const { value } = ToggleGroupPrimitive.useRootContext()
   return (

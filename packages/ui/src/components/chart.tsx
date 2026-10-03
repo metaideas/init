@@ -5,7 +5,10 @@ import * as RechartsPrimitive from "recharts"
 import { cn } from "cn"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { dark: ".dark", light: "" } as const
+const THEMES = [
+  ["dark", ".dark"],
+  ["light", ""],
+] as const
 
 const INITIAL_DIMENSION = { height: 200, width: 320 } as const
 type TooltipNameType = number | string
@@ -17,24 +20,20 @@ export type ChartConfig = Record<
     icon?: React.ComponentType
   } & (
     | { color?: string; theme?: never }
-    | { color?: never; theme: Record<keyof typeof THEMES, string> }
+    | { color?: never; theme: Record<(typeof THEMES)[number][0], string> }
   )
 >
 
-type ChartContextProps = {
-  config: ChartConfig
-}
-
-const ChartContext = React.createContext<ChartContextProps | null>(null)
+const ChartContext = React.createContext<ChartConfig | null>(null)
 
 function useChart() {
-  const context = React.useContext(ChartContext)
+  const config = React.useContext(ChartContext)
 
-  if (!context) {
+  if (!config) {
     throw new Error("useChart must be used within a <ChartContainer />")
   }
 
-  return context
+  return { config }
 }
 
 function ChartContainer({
@@ -54,10 +53,9 @@ function ChartContainer({
 }) {
   const uniqueId = React.useId()
   const chartId = `chart-${id ?? uniqueId.replaceAll(":", "")}`
-  const contextValue = React.useMemo(() => ({ config }), [config])
 
   return (
-    <ChartContext.Provider value={contextValue}>
+    <ChartContext.Provider value={config}>
       <div
         data-slot="chart"
         data-chart={chartId}
@@ -87,20 +85,18 @@ function ChartStyle({ id, config }: { id: string; config: ChartConfig }) {
     <style
       // oxlint-disable-next-line react/no-danger -- The chart's color config is rendered as scoped CSS custom properties.
       dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
+        __html: THEMES.map(
+          ([theme, prefix]) => `
 ${prefix} [data-chart=${id}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
-    const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ?? itemConfig.color
+    const color = itemConfig.theme?.[theme] ?? itemConfig.color
     return color ? `  --color-${key}: ${color};` : null
   })
   .join("\n")}
 }
 `
-          )
-          .join("\n"),
+        ).join("\n"),
       }}
     />
   )
@@ -109,19 +105,10 @@ ${colorConfig
 const ChartTooltip = RechartsPrimitive.Tooltip
 
 function ChartTooltipContent({
-  active,
-  payload,
-  className,
   indicator = "dot",
   hideLabel = false,
   hideIndicator = false,
-  label,
-  labelFormatter,
-  labelClassName,
-  formatter,
-  color,
-  nameKey,
-  labelKey,
+  ...props
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip>
   & React.ComponentProps<"div"> & {
     hideLabel?: boolean
@@ -134,8 +121,10 @@ function ChartTooltipContent({
     "accessibilityLayer"
   >) {
   const { config } = useChart()
+  const { active, payload, className, color, nameKey } = props
+  const { label, labelClassName, labelFormatter, labelKey } = props
 
-  const tooltipLabel = React.useMemo(() => {
+  function renderTooltipLabel() {
     if (hideLabel || !payload?.length) {
       return null
     }
@@ -157,7 +146,9 @@ function ChartTooltipContent({
     }
 
     return <div className={cn("font-medium", labelClassName)}>{value}</div>
-  }, [label, labelFormatter, payload, hideLabel, labelClassName, config, labelKey])
+  }
+
+  const tooltipLabel = renderTooltipLabel()
 
   if (!active || !payload?.length) {
     return null
@@ -180,6 +171,11 @@ function ChartTooltipContent({
             const key = String(nameKey ?? item.name ?? item.dataKey ?? "value")
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
             const indicatorColor = color ?? item.payload?.fill ?? item.color
+            const indicatorStyle: React.CSSProperties
+              & Record<"--color-bg" | "--color-border", typeof indicatorColor> = {
+              "--color-bg": indicatorColor,
+              "--color-border": indicatorColor,
+            }
 
             return (
               <div
@@ -190,8 +186,8 @@ function ChartTooltipContent({
                   indicator === "dot" && "items-center"
                 )}
               >
-                {formatter && item.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, payload)
+                {props.formatter && item.value !== undefined && item.name ? (
+                  props.formatter(item.value, item.name, item, index, payload)
                 ) : (
                   <>
                     {itemConfig?.icon ? (
@@ -209,12 +205,7 @@ function ChartTooltipContent({
                               "w-1": indicator === "line",
                             }
                           )}
-                          style={
-                            {
-                              "--color-bg": indicatorColor,
-                              "--color-border": indicatorColor,
-                            } as React.CSSProperties
-                          }
+                          style={indicatorStyle}
                         />
                       )
                     )}
@@ -317,19 +308,18 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
       ? payload.payload
       : undefined
 
-  let configLabelKey: string = key
-
-  if (key in payload && typeof payload[key as keyof typeof payload] === "string") {
-    configLabelKey = payload[key as keyof typeof payload]
-  } else if (
-    payloadPayload
-    && key in payloadPayload
-    && typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
-  ) {
-    configLabelKey = payloadPayload[key as keyof typeof payloadPayload]
-  }
+  const configLabelKey =
+    getStringProperty(payload, key)
+    ?? (payloadPayload ? getStringProperty(payloadPayload, key) : undefined)
+    ?? key
 
   return configLabelKey in config ? config[configLabelKey] : config[key]
+}
+
+function getStringProperty(value: object, key: string) {
+  const property: unknown = Reflect.get(value, key)
+
+  return typeof property === "string" ? property : undefined
 }
 
 export {

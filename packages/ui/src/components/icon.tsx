@@ -48,17 +48,14 @@ export function SVGIcon({
   stroke = "currentColor",
   fill = "currentColor",
   strokeWidth = 0.25,
-  className,
-  children,
-  viewBox,
-  title,
+  ...props
 }: SVGIconProps) {
   const intrinsicContentDimension = 20
   const defaultViewBox = `0 0 ${intrinsicContentDimension} ${intrinsicContentDimension}`
 
   return (
     <svg
-      className={className}
+      className={props.className}
       fill={fill}
       height={size}
       role="presentation"
@@ -66,12 +63,12 @@ export function SVGIcon({
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={strokeWidth}
-      viewBox={viewBox ?? defaultViewBox}
+      viewBox={props.viewBox ?? defaultViewBox}
       width={size}
       xmlns="http://www.w3.org/2000/svg"
     >
-      {title && <title>{title}</title>}
-      {children}
+      {props.title && <title>{props.title}</title>}
+      {props.children}
     </svg>
   )
 }

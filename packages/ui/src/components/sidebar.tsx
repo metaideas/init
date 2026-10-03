@@ -17,14 +17,12 @@ import {
 } from "#components/sheet.tsx"
 import { Skeleton } from "#components/skeleton.tsx"
 import { Tooltip, TooltipContent, TooltipTrigger } from "#components/tooltip.tsx"
-import { useIsMobile } from "#hooks/use-mobile.ts"
+import { useSidebarState } from "#hooks/use-sidebar-state.ts"
+import { useSkeletonWidth } from "#hooks/use-skeleton-width.ts"
 
-const SIDEBAR_COOKIE_NAME = "sidebar_state"
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
-const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {
   state: "expanded" | "collapsed"
@@ -49,92 +47,29 @@ function useSidebar() {
 
 function SidebarProvider({
   defaultOpen = true,
-  open: openProp,
-  onOpenChange: setOpenProp,
-  className,
+  open,
+  onOpenChange,
   style,
-  children,
-  ...props
+  ...rest
 }: React.ComponentProps<"div"> & {
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
-  const isMobile = useIsMobile()
-  const [openMobile, setOpenMobile] = React.useState(false)
-
-  // This is the internal state of the sidebar.
-  // We use openProp and setOpenProp for control from outside the component.
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
-  const open = openProp ?? uncontrolledOpen
-  const setOpen = React.useCallback(
-    (value: boolean | ((value: boolean) => boolean)) => {
-      const openState = typeof value === "function" ? value(open) : value
-      if (setOpenProp) {
-        setOpenProp(openState)
-      } else {
-        setUncontrolledOpen(openState)
-      }
-
-      // This sets the cookie to keep the sidebar state.
-      // oxlint-disable-next-line unicorn/no-document-cookie -- The Cookie Store API is asynchronous and not available in every supported browser.
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
-    },
-    [setOpenProp, open]
-  )
-
-  // Helper to toggle the sidebar.
-  const toggleSidebar = React.useCallback(() => {
-    if (isMobile) {
-      setOpenMobile((open) => !open)
-    } else {
-      setOpen((open) => !open)
-    }
-  }, [isMobile, setOpen, setOpenMobile])
-
-  // Adds a keyboard shortcut to toggle the sidebar.
-  React.useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault()
-        toggleSidebar()
-      }
-    }
-
-    globalThis.addEventListener("keydown", handleKeyDown)
-    return () => {
-      globalThis.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [toggleSidebar])
-
-  // We add a state so that we can do data-state="expanded" or "collapsed".
-  // This makes it easier to style the sidebar with Tailwind classes.
-  const state = open ? "expanded" : "collapsed"
-
-  const contextValue = React.useMemo<SidebarContextProps>(
-    () => ({
-      isMobile,
-      open,
-      openMobile,
-      setOpen,
-      setOpenMobile,
-      state,
-      toggleSidebar,
-    }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
-  )
+  const { className, children, ...props } = rest
+  const contextValue: SidebarContextProps = useSidebarState({ defaultOpen, onOpenChange, open })
+  const wrapperStyle: React.CSSProperties
+    & Record<"--sidebar-width" | "--sidebar-width-icon", string> = {
+    "--sidebar-width": SIDEBAR_WIDTH,
+    "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
+    ...style,
+  }
 
   return (
     <SidebarContext.Provider value={contextValue}>
       <div
         data-slot="sidebar-wrapper"
-        style={
-          {
-            "--sidebar-width": SIDEBAR_WIDTH,
-            "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
-            ...style,
-          } as React.CSSProperties
-        }
+        style={wrapperStyle}
         className={cn(
           "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
           className
@@ -151,15 +86,14 @@ function Sidebar({
   side = "left",
   variant = "sidebar",
   collapsible = "offcanvas",
-  className,
-  children,
   dir,
-  ...props
+  ...rest
 }: React.ComponentProps<"div"> & {
   side?: "left" | "right"
   variant?: "sidebar" | "floating" | "inset"
   collapsible?: "offcanvas" | "icon" | "none"
 }) {
+  const { className, children, ...props } = rest
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
   if (collapsible === "none") {
@@ -178,6 +112,10 @@ function Sidebar({
   }
 
   if (isMobile) {
+    const mobileStyle: React.CSSProperties & Record<"--sidebar-width", string> = {
+      "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+    }
+
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
@@ -186,11 +124,7 @@ function Sidebar({
           data-slot="sidebar"
           data-mobile="true"
           className="w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
-          style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-            } as React.CSSProperties
-          }
+          style={mobileStyle}
           side={side}
         >
           <SheetHeader className="sr-only">
@@ -485,16 +419,14 @@ const sidebarMenuButtonVariants = cva(
 function SidebarMenuButton({
   render,
   isActive = false,
-  variant = "default",
-  size = "default",
   tooltip,
-  className,
-  ...props
+  ...rest
 }: useRender.ComponentProps<"button">
   & React.ComponentProps<"button"> & {
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
   } & VariantProps<typeof sidebarMenuButtonVariants>) {
+  const { variant = "default", size = "default", className, ...props } = rest
   const { isMobile, state } = useSidebar()
   const comp = useRender({
     defaultTagName: "button",
@@ -583,9 +515,10 @@ function SidebarMenuSkeleton({
 }: React.ComponentProps<"div"> & {
   showIcon?: boolean
 }) {
-  // Random width between 50 to 90%.
-  // oxlint-disable-next-line react/hook-use-state -- The width is chosen once per mount and never updated.
-  const [width] = React.useState(() => `${Math.floor(Math.random() * 40) + 50}%`)
+  const width = useSkeletonWidth()
+  const skeletonStyle: React.CSSProperties & Record<"--skeleton-width", string> = {
+    "--skeleton-width": width,
+  }
 
   return (
     <div
@@ -598,11 +531,7 @@ function SidebarMenuSkeleton({
       <Skeleton
         className="h-4 max-w-(--skeleton-width) flex-1"
         data-sidebar="menu-skeleton-text"
-        style={
-          {
-            "--skeleton-width": width,
-          } as React.CSSProperties
-        }
+        style={skeletonStyle}
       />
     </div>
   )

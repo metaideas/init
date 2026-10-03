@@ -9,10 +9,14 @@ const PackageJsonSchema = z.looseObject({
 
 export async function readPackageJson(path: string) {
   const value: unknown = await Bun.file(path).json()
-  PackageJsonSchema.parse(value)
+  assertPackageJson(value)
 
-  // SAFETY: the schema accepted the value. Returning the original keeps the key order of manifests that are written back.
-  return value as z.infer<typeof PackageJsonSchema>
+  return value
+}
+
+// Narrowing the original value instead of returning the parsed copy keeps the key order of manifests that are written back.
+function assertPackageJson(value: unknown): asserts value is z.infer<typeof PackageJsonSchema> {
+  PackageJsonSchema.parse(value)
 }
 
 export async function readPackageName(path: string) {

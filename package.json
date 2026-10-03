@@ -37,7 +37,7 @@
   "devDependencies": {
     "@turbo/gen": "2.10.7",
     "@types/bun": "1.4.2",
-    "adamantite": "0.41.0",
+    "adamantite": "0.42.0",
     "citty": "0.2.2",
     "consola": "3.4.2",
     "knip": "6.32.2",

@@ -45,10 +45,14 @@ export type TemplateStamp = z.infer<typeof TemplateStampSchema>
 
 export async function readPackageJson(path: string) {
   const value: unknown = await Bun.file(path).json()
-  PackageJsonSchema.parse(value)
+  assertPackageJson(value)
 
-  // SAFETY: the schema accepted the value. Returning the original keeps the key order of manifests that are written back.
-  return value as PackageJson
+  return value
+}
+
+// Narrowing the original value instead of returning the parsed copy keeps the key order of manifests that are written back.
+function assertPackageJson(value: unknown): asserts value is PackageJson {
+  PackageJsonSchema.parse(value)
 }
 
 export async function writeJson(path: string, value: unknown) {

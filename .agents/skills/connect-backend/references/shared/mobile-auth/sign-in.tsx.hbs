@@ -1,19 +1,10 @@
 import { Button } from "{{nativeUiPackage}}/components/button"
 import { Text } from "{{nativeUiPackage}}/components/text"
-import { useState } from "react"
 import { TextInput, View } from "react-native"
-import { auth } from "#shared/auth.ts"
+import { useEmailSignIn } from "#shared/use-email-sign-in.ts"
 
 export default function SignInScreen() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState<string>()
-
-  async function signIn() {
-    setError(undefined)
-    const result = await auth.signIn.email({ email, password })
-    if (result.error) setError(result.error.message)
-  }
+  const form = useEmailSignIn()
 
   return (
     <View className="flex-1 justify-center gap-4 bg-background px-6">
@@ -23,24 +14,24 @@ export default function SignInScreen() {
         autoComplete="email"
         className="rounded-md border border-input px-4 py-3 text-foreground"
         keyboardType="email-address"
-        onChangeText={setEmail}
+        onChangeText={form.setEmail}
         placeholder="Email"
-        value={email}
+        value={form.email}
       />
       <TextInput
         autoComplete="current-password"
         className="rounded-md border border-input px-4 py-3 text-foreground"
-        onChangeText={setPassword}
+        onChangeText={form.setPassword}
         placeholder="Password"
         secureTextEntry
-        value={password}
+        value={form.password}
       />
-      {error ? (
+      {form.error ? (
         <Text className="text-destructive" role="alert">
-          {error}
+          {form.error}
         </Text>
       ) : null}
-      <Button onPress={() => void signIn()}>
+      <Button onPress={() => void form.signIn()}>
         <Text>Sign in</Text>
       </Button>
     </View>

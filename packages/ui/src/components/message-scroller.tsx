@@ -77,15 +77,15 @@ function MessageScrollerItem({
 }
 
 function MessageScrollerButton({
-  direction = "end",
   className,
-  children,
   render,
   variant = "secondary",
   size = "icon-sm",
   ...props
 }: React.ComponentProps<typeof MessageScrollerPrimitive.Button>
   & Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
+  const { direction = "end", children, ...buttonProps } = props
+
   return (
     <MessageScrollerPrimitive.Button
       data-slot="message-scroller-button"
@@ -98,7 +98,7 @@ function MessageScrollerButton({
         className
       )}
       render={render ?? <Button variant={variant} size={size} />}
-      {...props}
+      {...buttonProps}
     >
       {children ?? (
         <>

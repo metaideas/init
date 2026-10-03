@@ -17,14 +17,19 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
  */
 function NativeOnlyAnimatedView(
   props:
-    | (React.ComponentProps<typeof Animated.View>
-        & React.RefAttributes<typeof Animated.View> & { as?: "View" })
-    | (React.ComponentProps<typeof AnimatedPressable>
-        & React.RefAttributes<typeof AnimatedPressable> & { as: "Pressable" })
+    | (Omit<React.ComponentProps<typeof Animated.View>, "children">
+        & React.RefAttributes<typeof Animated.View> & {
+          as?: "View"
+          children?: React.ReactNode
+        })
+    | (Omit<React.ComponentProps<typeof AnimatedPressable>, "children">
+        & React.RefAttributes<typeof AnimatedPressable> & {
+          as: "Pressable"
+          children?: React.ReactNode
+        })
 ) {
   if (Platform.OS === "web") {
-    // SAFETY: React component children satisfy ReactNode even when Reanimated widens its children prop.
-    return props.children as React.ReactNode
+    return props.children
   }
   if (props.as === "Pressable") {
     return <AnimatedPressable {...props} />

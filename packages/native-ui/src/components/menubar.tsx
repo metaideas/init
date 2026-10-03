@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values -- TextClassContext values are strings; string equality prevents consumer re-renders */
 import * as MenubarPrimitive from "@rn-primitives/menubar"
 import { Portal } from "@rn-primitives/portal"
 import { cn } from "cn"
@@ -10,6 +9,7 @@ import { FullWindowOverlay as RNFullWindowOverlay } from "react-native-screens"
 import { Icon } from "#components/icon.tsx"
 import { NativeOnlyAnimatedView } from "#components/native-only-animated-view.tsx"
 import { TextClassContext } from "#components/text.tsx"
+import { useMenubarValue } from "#hooks/use-menubar-value.ts"
 
 const MenubarMenu = MenubarPrimitive.Menu
 
@@ -33,21 +33,13 @@ function Menubar({
   onValueChange?: (value?: string) => void
 }) {
   const id = React.useId()
-  const [value, setValue] = React.useState<string | undefined>()
-
-  function closeMenu() {
-    if (onValueChangeProp) {
-      onValueChangeProp()
-      return
-    }
-    setValue(undefined)
-  }
+  const menubar = useMenubarValue(valueProp, onValueChangeProp)
 
   return (
     <>
-      {Platform.OS !== "web" && (value || valueProp) ? (
+      {Platform.OS !== "web" && menubar.isOpen ? (
         <Portal name={`menubar-overlay-${id}`}>
-          <Pressable onPress={closeMenu} style={StyleSheet.absoluteFill} />
+          <Pressable onPress={menubar.close} style={StyleSheet.absoluteFill} />
         </Portal>
       ) : null}
       <MenubarPrimitive.Root
@@ -55,8 +47,8 @@ function Menubar({
           "flex h-10 flex-row items-center gap-1 rounded-md border border-border bg-background p-1 shadow-sm shadow-black/5 sm:h-9",
           className
         )}
-        value={value ?? valueProp}
-        onValueChange={onValueChangeProp ?? setValue}
+        value={menubar.value}
+        onValueChange={menubar.onValueChange}
         {...props}
       />
     </>

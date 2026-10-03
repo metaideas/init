@@ -1,21 +1,11 @@
 import { Button } from "@init/ui/components/button"
 import { Typography } from "@init/ui/components/typography"
-import { useState } from "react"
 import { Link } from "wouter"
+import { useLocaleSelection } from "#features/demo/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
-import {
-  getLocale,
-  type Locale,
-  setLocale as setParaglideLocale,
-} from "#shared/internationalization/runtime.js"
 
 export default function PopupDemo() {
-  const [locale, setLocale] = useState<Locale>(() => getLocale())
-
-  function selectLocale(nextLocale: Locale) {
-    setLocale(nextLocale)
-    void setParaglideLocale(nextLocale)
-  }
+  const { locale, selectLocale } = useLocaleSelection()
 
   return (
     <div className="flex h-[420px] w-[420px] flex-col items-center justify-center gap-6 p-8">

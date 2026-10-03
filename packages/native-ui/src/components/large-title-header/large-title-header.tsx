@@ -3,12 +3,11 @@ import * as React from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
+import { useLargeTitleSearch } from "#hooks/use-large-title-search.ts"
 import type { LargeTitleHeaderProps, NativeStackNavigationSearchBarOptions } from "./types"
 
 function LargeTitleHeader(props: LargeTitleHeaderProps) {
-  const [searchValue, setSearchValue] = React.useState("")
-  const [isFocused, setIsFocused] = React.useState(false)
-  const [showSearchBar, setShowSearchBar] = React.useState(false)
+  const search = useLargeTitleSearch(props.searchBar)
 
   const backgroundValue = useCSSVariable("--color-background")
   const cardValue = useCSSVariable("--color-card")
@@ -26,34 +25,18 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const primary = colorVariableToString(primaryValue) ?? foreground
   const muted = colorVariableToString(mutedValue)
 
-  const canShowOverlay = Boolean(props.searchBar?.content) && (isFocused || searchValue.length > 0)
   const isInline = props.materialPreset === "inline"
   const searchBarRef = props.searchBar?.ref
   const handleSubmitEditing = props.searchBar?.materialOnSubmitEditing
-  const onChangeText = props.searchBar?.onChangeText
 
-  React.useImperativeHandle(
-    searchBarRef,
-    () => ({
-      cancelSearch: () => {
-        setShowSearchBar(false)
-        setSearchValue("")
-        onChangeText?.("")
-      },
-      clearText: () => {
-        setSearchValue("")
-        onChangeText?.("")
-      },
-      focus: () => {
-        setShowSearchBar(true)
-      },
-      setText: (text) => {
-        setSearchValue(text)
-        onChangeText?.(text)
-      },
-    }),
-    [onChangeText]
-  )
+  React.useImperativeHandle(searchBarRef, () => ({
+    cancelSearch: search.cancel,
+    clearText: () => {
+      search.changeText("")
+    },
+    focus: search.showSearchBar,
+    setText: search.changeText,
+  }))
 
   return (
     <>
@@ -91,7 +74,7 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
                 className="text-base font-medium"
                 style={{ color: primary }}
                 onPress={() => {
-                  setShowSearchBar(true)
+                  search.showSearchBar()
                   props.searchBar?.onSearchButtonPress?.()
                 }}
               >
@@ -112,7 +95,7 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
           </View>
         )}
       </View>
-      {props.searchBar && showSearchBar ? (
+      {props.searchBar && search.isSearchBarShown ? (
         <Animated.View entering={FadeIn} exiting={FadeOut} className="absolute inset-0 z-[99999]">
           <View
             className="px-4 pt-6 pb-3"
@@ -135,33 +118,22 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
                 blurOnSubmit={props.searchBar.materialBlurOnSubmit}
                 className="flex-1 text-base text-foreground"
                 keyboardType={searchBarInputTypeToKeyboardType(props.searchBar.inputType)}
-                onBlur={() => {
-                  setIsFocused(false)
-                  if (searchValue.length === 0) setShowSearchBar(false)
-                  props.searchBar?.onBlur?.()
-                }}
-                onChangeText={(text) => {
-                  setSearchValue(text)
-                  props.searchBar?.onChangeText?.(text)
-                }}
-                onFocus={() => {
-                  setIsFocused(true)
-                  props.searchBar?.onFocus?.()
-                }}
+                onBlur={search.blur}
+                onChangeText={search.changeText}
+                onFocus={search.focus}
                 onSubmitEditing={handleSubmitEditing}
                 placeholder={props.searchBar.placeholder ?? "Search..."}
                 placeholderTextColor={muted}
                 returnKeyType="search"
                 style={{ color: props.searchBar.textColor ?? foreground }}
-                value={searchValue}
+                value={search.searchValue}
               />
-              {searchValue.length > 0 ? (
+              {search.searchValue.length > 0 ? (
                 <Text
                   className="pl-3 text-sm font-medium"
                   style={{ color: primary }}
                   onPress={() => {
-                    setSearchValue("")
-                    props.searchBar?.onChangeText?.("")
+                    search.changeText("")
                     props.searchBar?.onCancelButtonPress?.()
                   }}
                 >
@@ -173,7 +145,7 @@ function LargeTitleHeader(props: LargeTitleHeaderProps) {
           <View className="flex-1">{props.searchBar.content}</View>
         </Animated.View>
       ) : null}
-      {canShowOverlay ? (
+      {search.isOverlayShown ? (
         <Animated.View
           entering={FadeIn.delay(100).duration(200)}
           exiting={FadeOut}
@@ -196,10 +168,7 @@ function renderHeaderView(
 }
 
 function colorVariableToString(value: string | number | undefined): string | undefined {
-  if (value?.constructor === Number) return undefined
-
-  // SAFETY: Uniwind returns only strings, numbers, or undefined, and the numeric case exits above.
-  return value as string | undefined
+  return typeof value === "string" ? value : undefined
 }
 
 function searchBarInputTypeToKeyboardType(
