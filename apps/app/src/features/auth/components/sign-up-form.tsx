@@ -3,13 +3,13 @@ import { useForm } from "@init/ui/components/form"
 import * as z from "@init/utils/schema/mini"
 import { useNavigate } from "@tanstack/react-router"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
+import { checkEmailAvailability } from "#features/auth/handlers.ts"
 import {
   EmailSchema,
   NameSchema,
   PasswordSchema,
   SignUpFormSchema,
 } from "#features/auth/schemas.ts"
-import { checkEmailAvailability } from "#features/auth/server/functions.ts"
 import { signUp } from "#shared/auth.ts"
 
 export default function SignUpForm() {

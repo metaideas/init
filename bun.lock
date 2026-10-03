@@ -505,6 +505,13 @@
         "@tooling/tsconfig": "workspace:*",
       },
     },
+    "tooling/linting": {
+      "name": "@tooling/linting",
+      "devDependencies": {
+        "@tooling/tsconfig": "workspace:*",
+        "@types/bun": "1.4.2",
+      },
+    },
     "tooling/tsconfig": {
       "name": "@tooling/tsconfig",
       "devDependencies": {
@@ -1986,6 +1993,8 @@
     "@tanstack/virtual-file-routes": ["@tanstack/virtual-file-routes@1.162.0", "", {}, "sha512-uhOeFyxLcU41HzvrxsGpiWdcMbScY1EDgbZ5K7DVRMYInbLYWAC0EA/kx9wXAoSM8q82bUG2hRl8+EAjE6XAbA=="],
 
     "@tooling/internationalization": ["@tooling/internationalization@workspace:tooling/internationalization"],
+
+    "@tooling/linting": ["@tooling/linting@workspace:tooling/linting"],
 
     "@tooling/tsconfig": ["@tooling/tsconfig@workspace:tooling/tsconfig"],
 

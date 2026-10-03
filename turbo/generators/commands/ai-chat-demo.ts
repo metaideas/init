@@ -47,9 +47,9 @@ export function registerAiChatDemoGenerator(plop: PlopTypes.NodePlopAPI): void {
         return `${appPackageJsonPath}: added ${aiPackageName}`
       },
       {
-        path: `${APP_PATH}/src/features/demo/chat.ts`,
+        path: `${APP_PATH}/src/features/demo/data.ts`,
         skipIfExists: true,
-        templateFile: "templates/ai-chat-demo/chat.ts.hbs",
+        templateFile: "templates/ai-chat-demo/data.ts.hbs",
         type: "add",
       },
       {

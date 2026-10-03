@@ -89,6 +89,7 @@ export default defineConfig({
     "**/*.gen.ts",
     "**/*.generated.ts",
   ],
+  jsPlugins: ["./tooling/linting/src/index.ts"],
   options: {
     respectEslintDisableDirectives: true,
     typeAware: true,
@@ -126,6 +127,7 @@ export default defineConfig({
       "error",
       { allow: ["**/use[A-Z]*.{ts,tsx}", "**/use-*.{ts,tsx}", "**/hooks/**", "**/hooks.{ts,tsx}"] },
     ],
+    "layout/feature-files": "error",
     "react/jsx-no-constructed-context-values": "off",
     "typescript/consistent-type-definitions": ["error", "type"],
   },

@@ -1,4 +1,4 @@
-import { greetUser } from "#features/demo/workflows.ts"
+import { greetUser } from "#features/demo/handlers.ts"
 import { requireSession } from "#shared/middleware.ts"
 import { factory } from "#shared/utils.ts"
 import { workflows } from "#shared/workflows.ts"

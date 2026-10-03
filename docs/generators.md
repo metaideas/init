@@ -9,7 +9,7 @@ Run `bun run generate` to open the Turbo generator menu. Template commands use l
 
 ## Create project scaffolds
 
-`new-feature` creates selected files under the `src/features` directory of an application workspace:
+`new-feature` creates a feature folder under `src/features` with the roles you select. It offers only the roles the application workspace supports. See [Features](./project-structure.md#features).
 
 ```bash
 bun run generate new-feature

@@ -45,6 +45,7 @@ root
   │
   ├── tooling             # Shared development and build tools
   │   ├── internationalization  # Inlang project configuration and translations
+  │   ├── linting               # Repository lint rules for oxlint
   │   └── tsconfig              # TypeScript configuration
   │
   └── turbo               # Turborepo configuration for monorepo management
@@ -63,19 +64,51 @@ Application workspaces usually use three folders:
 
 These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The router folder can import from the `features` or `shared` folder. Neither folder can import from the router folder. This flow organizes the code and makes it easier to understand.
 
-Feature folders are vertical slices in an application workspace. A feature folder does not depend on another feature folder. Before you import an item from another feature, determine if the `shared` folder can contain it.
-
 `bun run check` enforces these flows, and covers a new feature folder without a configuration change. Routes use relative imports only for style and image assets; they reach every other module through a `#` subpath.
 
 When an application workspace has more than one entrypoint tier, such as a desktop main process and a renderer, the tiers never import each other. They communicate through a typed contract in `shared`.
 
 Every application workspace also owns an `.env.schema` contract and a generated `src/shared/env.generated.ts` binding. See [Environment configuration](./environment.md).
 
-Each application workspace below follows this layout. The trees show the folders that differ between frameworks; look inside a workspace for its current files.
+### Features
+
+A feature is a vertical slice of an application workspace. It does not import another feature. Before you import an item from another feature, move it to `shared/`.
+
+A feature is a flat folder of files named by role. Every application workspace uses the same role names, and a feature adds a file only when it needs it, so a feature can be as small as one component.
+
+```sh
+features/<feature>/
+  ├── assets/         # Static files the feature's components import
+  ├── components/     # UI components, one file per exported component
+  ├── constants.ts    # Static values and content, such as paths and lists
+  ├── data.ts         # Client data layer: query and mutation options, Convex hooks
+  ├── errors.ts       # Errors that stay inside the app
+  ├── handlers.ts     # Server entry points: tRPC procedures, server functions, form actions, durable workflows
+  ├── hooks.ts        # React hooks for local and derived state
+  └── schemas.ts      # Schemas for forms, search params, and local models
+```
+
+| Role                                      | API | App | Desktop | Extension | Mobile | Web |
+| ----------------------------------------- | --- | --- | ------- | --------- | ------ | --- |
+| `assets/`, `components/`                  |     | ✓   | ✓       | ✓         | ✓      | ✓   |
+| `constants.ts`, `errors.ts`, `schemas.ts` | ✓   | ✓   | ✓       | ✓         | ✓      | ✓   |
+| `data.ts`, `hooks.ts`                     |     | ✓   | ✓       | ✓         | ✓      |     |
+| `handlers.ts`                             | ✓   | ✓   |         |           |        |     |
+
+- A role file that grows becomes a folder of the same name with one file per item, such as `handlers/sign-in.ts`. No other folder names exist inside a feature.
+- `handlers.ts` implements what the app exposes. It defines no contracts of its own. Payloads and errors that cross applications belong in `@init/core` or the package workspace that owns them.
+- Components reach the server through `data.ts` or `hooks.ts`. TanStack Start server functions are the exception: components and routes call them from `handlers.ts` directly, because a server function is already its own client entry point.
+- `schemas.ts` and `errors.ts` hold only what the app owns. Types derive from schemas with `z.infer`, so features have no `types.ts`.
+- A helper lives in the file that uses it until another feature needs it. Then it moves to `shared/`.
+- Desktop features run in the renderer. Main-process code stays in `shell/`.
+
+The `layout/feature-files` lint rule in `tooling/linting` enforces these names. Run `bun run generate new-feature` to scaffold a feature with the roles its application workspace supports.
+
+Each application workspace below follows the layout above. The trees show the folders that differ between frameworks; look inside a workspace for its current files.
 
 ### API
 
-A Hono server on Bun. It serves tRPC, versioned REST routes, background workflow endpoints, and the Files SDK gateway. `src/client.ts` is the only module that other application workspaces can import.
+A Hono server on Bun. It serves tRPC, versioned REST routes, and the Files SDK gateway, and runs durable workflows in process. `src/client.ts` is the only module that other application workspaces can import.
 
 ```sh
 apps/api/src
@@ -93,8 +126,8 @@ A full-stack TanStack Start web application.
 ```sh
 apps/app/src
   ├── routes/       # File-based routes, grouped by authentication state
-  ├── shared/       # Components, server middleware, and app-wide utilities
-  ├── features/     # Feature folders with components/, server/, and schemas.ts
+  ├── shared/       # Components, auth server, server middleware, and app-wide utilities
+  ├── features/     # Feature folders
   └── router.tsx    # Router factory and context
 ```
 

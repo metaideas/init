@@ -4,7 +4,7 @@ import { useForm } from "@init/ui/components/form"
 import { toast } from "@init/ui/components/toast"
 import { mergeForm, useTransform } from "@tanstack/react-form-start"
 import { Link, useNavigate } from "@tanstack/react-router"
-import type { SignInFormState } from "#features/auth/server/sign-in.ts"
+import type { SignInFormState } from "#features/auth/handlers.ts"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import {
   EmailSchema,
