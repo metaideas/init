@@ -9,8 +9,10 @@ export function createDatabase({ logger, url }: { url: string; logger?: Logger }
     client: new SQL(url),
     logger: logger
       ? {
-          logQuery(query, params) {
-            logger.debug({ params, query, scope: "drizzle" })
+          // Bound parameters carry values such as session tokens and password hashes, which
+          // field-name redaction cannot recognize, so only the parameterized query is logged.
+          logQuery(query) {
+            logger.debug({ query, scope: "drizzle" })
           },
         }
       : false,

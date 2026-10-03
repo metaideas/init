@@ -3,11 +3,12 @@ import type { Database } from "#client.ts"
 
 export type DatabaseTransaction = Parameters<Parameters<Database["transaction"]>[0]>[0]
 
-const storage = new AsyncLocalStorage<DatabaseTransaction>()
+const storage = new AsyncLocalStorage<{ database: Database; transaction: DatabaseTransaction }>()
 
 /**
- * Runs the operation inside a transaction. Nested calls reuse the active transaction, so composed
- * domain operations commit or roll back together.
+ * Runs the operation inside a transaction. Nested calls on the same database reuse the active
+ * transaction, so composed domain operations commit or roll back together. A call on another
+ * database opens its own transaction.
  */
 export async function withTransaction<T>(
   database: Database,
@@ -15,11 +16,11 @@ export async function withTransaction<T>(
 ): Promise<T> {
   const current = storage.getStore()
 
-  if (current) {
-    return operation(current)
+  if (current?.database === database) {
+    return operation(current.transaction)
   }
 
   return database.transaction((transaction) =>
-    storage.run(transaction, () => operation(transaction))
+    storage.run({ database, transaction }, () => operation(transaction))
   )
 }
