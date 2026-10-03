@@ -12,9 +12,9 @@ import filesRoutes from "#routes/files.ts"
 import healthRoutes from "#routes/health.ts"
 import trpcRoutes from "#routes/trpc.ts"
 import v1Routes from "#routes/v1/index.ts"
-import { auth } from "#shared/auth.ts"
 import { files } from "#shared/files.ts"
 import { withLanguageDetection } from "#shared/middleware.ts"
+import { auth } from "#shared/services.ts"
 import { allowedOrigins, factory, toContentfulStatusCode } from "#shared/utils.ts"
 
 const app = factory.createApp()
