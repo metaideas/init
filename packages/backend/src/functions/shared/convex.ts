@@ -1,4 +1,4 @@
-import { UnauthenticatedError, UnauthorizedError } from "@init/core/errors"
+import { UnauthenticatedError } from "@init/core/errors"
 import { log } from "@init/observability/logger"
 import { createBuilder } from "fluent-convex"
 import type { DataModel } from "#functions/_generated/dataModel.js"
@@ -25,22 +25,6 @@ export const withAuthentication = convex
     return next({ ...ctx, authUser, identity })
   })
 
-export const withAdmin = convex.$context<GenericCtx>().createMiddleware(async (ctx, next) => {
-  const identity = await ctx.auth.getUserIdentity()
-
-  if (!identity) {
-    throw new UnauthenticatedError()
-  }
-
-  const authUser = await authComponent.getAuthUser(ctx)
-
-  if (authUser.role !== "admin") {
-    throw new UnauthorizedError({ userId: identity.subject })
-  }
-
-  return next({ ...ctx, authUser, identity })
-})
-
 export const publicQuery = convex.query().use(withLogger)
 export const publicMutation = convex.mutation().use(withLogger)
 export const publicAction = convex.action().use(withLogger)
@@ -48,10 +32,6 @@ export const publicAction = convex.action().use(withLogger)
 export const protectedQuery = convex.query().use(withLogger).use(withAuthentication)
 export const protectedMutation = convex.mutation().use(withLogger).use(withAuthentication)
 export const protectedAction = convex.action().use(withLogger).use(withAuthentication)
-
-export const privateQuery = convex.query().use(withLogger).use(withAdmin)
-export const privateMutation = convex.mutation().use(withLogger).use(withAdmin)
-export const privateAction = convex.action().use(withLogger).use(withAdmin)
 
 export const internalQuery = convex.query().use(withLogger)
 export const internalMutation = convex.mutation().use(withLogger)

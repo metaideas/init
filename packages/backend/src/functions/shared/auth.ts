@@ -8,7 +8,6 @@ import {
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
-import { admin, anonymous, organization } from "@init/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { components, internal } from "#functions/_generated/api.js"
 import authConfig from "#functions/auth.config.ts"
@@ -27,7 +26,7 @@ export function createAuthOptions(ctx: GenericCtx<DataModel>) {
     appName: AUTH_APP_NAME,
     database: authComponent.adapter(ctx),
     emailAndPassword: AUTH_EMAIL_AND_PASSWORD_OPTIONS,
-    plugins: [anonymous(), admin(), organization(), convex({ authConfig })],
+    plugins: [convex({ authConfig })],
     session: AUTH_SESSION_OPTIONS,
   } satisfies AuthOptions
 }

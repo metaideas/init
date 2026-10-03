@@ -5,7 +5,7 @@ import {
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
-import { admin, createAuth, databaseAdapter, organization } from "@init/auth/server"
+import { createAuth, databaseAdapter } from "@init/auth/server"
 import { database } from "@init/database/client"
 import { sendEmail } from "@init/email/client"
 import PasswordReset from "@init/email/templates/password-reset"
@@ -41,7 +41,6 @@ export const auth = createAuth({
       log[level]({ message, scope: "auth", ...(details.length > 0 ? { details } : {}) })
     },
   },
-  plugins: [admin(), organization()],
   secret: ENV.AUTH_SECRET,
   session: AUTH_SESSION_OPTIONS,
   socialProviders: {

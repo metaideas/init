@@ -129,7 +129,7 @@ Domain terms:
 - `apps/mobile`: use functional React components, Expo APIs, Expo Router for navigation, Expo for assets, and Reanimated for performance-sensitive animation.
 - `apps/docs`: never duplicate the root `docs/` content tree or add a sync command. Add a page under a published root `docs/` path with `title` and `description` frontmatter, then add it to the sidebar in `astro.config.ts`.
 - `packages/database`: use Drizzle, the shared prefixed-ID helper, and timestamps where appropriate.
-- `packages/backend`: keep Convex functions in `public/`, `private/`, `system/`, and `shared/`. Do not edit `_generated/`.
+- `packages/backend`: keep Convex functions in `public/`, `system/`, and `shared/`. Do not edit `_generated/`.
 - `packages/ui`: components are copy-owned source from the shadcn registry, and oxlint checks them like any other code. After `components:add`, run `bun run fix` and resolve what `bun run check` still reports.
 - `packages/native-ui`: components are copy-owned source from the React Native Reusables Uniwind registry. After `components:add`, move files from `src/components/ui/` to `src/components/` and re-apply the repository conventions.
 

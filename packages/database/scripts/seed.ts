@@ -23,24 +23,15 @@ async function main() {
   const start = performance.now()
 
   await seed(database, schema).refine((f) => ({
-    organizations: {
-      columns: {
-        name: f.companyName(),
-      },
-      count: 10,
-    },
     users: {
       columns: {
         name: f.fullName(),
-        role: f.valuesFromArray({
-          values: ["admin", "user"],
-        }),
       },
 
       count: 10,
       with: {
         accounts: 1,
-        members: 1,
+        profiles: 1,
       },
     },
     verifications: {

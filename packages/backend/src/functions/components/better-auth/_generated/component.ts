@@ -31,16 +31,11 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           input:
             | {
                 data: {
-                  banExpires?: null | number;
-                  banReason?: null | string;
-                  banned?: null | boolean;
                   createdAt: number;
                   email: string;
                   emailVerified: boolean;
                   image?: null | string;
-                  isAnonymous?: null | boolean;
                   name: string;
-                  role?: null | string;
                   updatedAt: number;
                   userId?: null | string;
                 };
@@ -48,10 +43,8 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
               }
             | {
                 data: {
-                  activeOrganizationId?: null | string;
                   createdAt: number;
                   expiresAt: number;
-                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token: string;
                   updatedAt: number;
@@ -90,37 +83,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 data: {
                   createdAt: number;
-                  logo?: null | string;
-                  metadata?: null | string;
-                  name: string;
-                  slug: string;
-                };
-                model: "organization";
-              }
-            | {
-                data: {
-                  createdAt: number;
-                  organizationId: string;
-                  role: string;
-                  userId: string;
-                };
-                model: "member";
-              }
-            | {
-                data: {
-                  createdAt: number;
-                  email: string;
-                  expiresAt: number;
-                  inviterId: string;
-                  organizationId: string;
-                  role?: null | string;
-                  status: string;
-                };
-                model: "invitation";
-              }
-            | {
-                data: {
-                  createdAt: number;
                   expiresAt?: null | number;
                   privateKey: string;
                   publicKey: string;
@@ -149,11 +111,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "image"
                     | "createdAt"
                     | "updatedAt"
-                    | "isAnonymous"
-                    | "role"
-                    | "banned"
-                    | "banReason"
-                    | "banExpires"
                     | "userId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
@@ -190,8 +147,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "ipAddress"
                     | "userAgent"
                     | "userId"
-                    | "impersonatedBy"
-                    | "activeOrganizationId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -265,106 +220,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "expiresAt"
                     | "createdAt"
                     | "updatedAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "organization";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "name"
-                    | "slug"
-                    | "logo"
-                    | "createdAt"
-                    | "metadata"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "member";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "userId"
-                    | "role"
-                    | "createdAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "invitation";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "email"
-                    | "role"
-                    | "status"
-                    | "expiresAt"
-                    | "createdAt"
-                    | "inviterId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -449,11 +304,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "image"
                     | "createdAt"
                     | "updatedAt"
-                    | "isAnonymous"
-                    | "role"
-                    | "banned"
-                    | "banReason"
-                    | "banExpires"
                     | "userId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
@@ -490,8 +340,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "ipAddress"
                     | "userAgent"
                     | "userId"
-                    | "impersonatedBy"
-                    | "activeOrganizationId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -589,106 +437,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 }>;
               }
             | {
-                model: "organization";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "name"
-                    | "slug"
-                    | "logo"
-                    | "createdAt"
-                    | "metadata"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "member";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "userId"
-                    | "role"
-                    | "createdAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "invitation";
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "email"
-                    | "role"
-                    | "status"
-                    | "expiresAt"
-                    | "createdAt"
-                    | "inviterId"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
                 model: "jwks";
                 where?: Array<{
                   connector?: "AND" | "OR";
@@ -731,15 +479,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         {
           join?: any;
           limit?: number;
-          model:
-            | "user"
-            | "session"
-            | "account"
-            | "verification"
-            | "organization"
-            | "member"
-            | "invitation"
-            | "jwks";
+          model: "user" | "session" | "account" | "verification" | "jwks";
           offset?: number;
           paginationOpts: {
             cursor: string | null;
@@ -768,12 +508,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
               | "starts_with"
               | "ends_with";
             value:
-              | string
-              | number
-              | boolean
-              | Array<string>
-              | Array<number>
-              | null;
+              string | number | boolean | Array<string> | Array<number> | null;
           }>;
         },
         any,
@@ -784,15 +519,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         "internal",
         {
           join?: any;
-          model:
-            | "user"
-            | "session"
-            | "account"
-            | "verification"
-            | "organization"
-            | "member"
-            | "invitation"
-            | "jwks";
+          model: "user" | "session" | "account" | "verification" | "jwks";
           select?: Array<string>;
           where?: Array<{
             connector?: "AND" | "OR";
@@ -811,12 +538,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
               | "starts_with"
               | "ends_with";
             value:
-              | string
-              | number
-              | boolean
-              | Array<string>
-              | Array<number>
-              | null;
+              string | number | boolean | Array<string> | Array<number> | null;
           }>;
         },
         any,
@@ -830,16 +552,11 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "user";
                 update: {
-                  banExpires?: null | number;
-                  banReason?: null | string;
-                  banned?: null | boolean;
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
                   image?: null | string;
-                  isAnonymous?: null | boolean;
                   name?: string;
-                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -852,11 +569,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "image"
                     | "createdAt"
                     | "updatedAt"
-                    | "isAnonymous"
-                    | "role"
-                    | "banned"
-                    | "banReason"
-                    | "banExpires"
                     | "userId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
@@ -884,10 +596,8 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "session";
                 update: {
-                  activeOrganizationId?: null | string;
                   createdAt?: number;
                   expiresAt?: number;
-                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token?: string;
                   updatedAt?: number;
@@ -904,8 +614,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "ipAddress"
                     | "userAgent"
                     | "userId"
-                    | "impersonatedBy"
-                    | "activeOrganizationId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1000,128 +708,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "expiresAt"
                     | "createdAt"
                     | "updatedAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "organization";
-                update: {
-                  createdAt?: number;
-                  logo?: null | string;
-                  metadata?: null | string;
-                  name?: string;
-                  slug?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "name"
-                    | "slug"
-                    | "logo"
-                    | "createdAt"
-                    | "metadata"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "member";
-                update: {
-                  createdAt?: number;
-                  organizationId?: string;
-                  role?: string;
-                  userId?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "userId"
-                    | "role"
-                    | "createdAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "invitation";
-                update: {
-                  createdAt?: number;
-                  email?: string;
-                  expiresAt?: number;
-                  inviterId?: string;
-                  organizationId?: string;
-                  role?: null | string;
-                  status?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "email"
-                    | "role"
-                    | "status"
-                    | "expiresAt"
-                    | "createdAt"
-                    | "inviterId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1204,16 +790,11 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "user";
                 update: {
-                  banExpires?: null | number;
-                  banReason?: null | string;
-                  banned?: null | boolean;
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
                   image?: null | string;
-                  isAnonymous?: null | boolean;
                   name?: string;
-                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -1226,11 +807,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "image"
                     | "createdAt"
                     | "updatedAt"
-                    | "isAnonymous"
-                    | "role"
-                    | "banned"
-                    | "banReason"
-                    | "banExpires"
                     | "userId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
@@ -1258,10 +834,8 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "session";
                 update: {
-                  activeOrganizationId?: null | string;
                   createdAt?: number;
                   expiresAt?: number;
-                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token?: string;
                   updatedAt?: number;
@@ -1278,8 +852,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "ipAddress"
                     | "userAgent"
                     | "userId"
-                    | "impersonatedBy"
-                    | "activeOrganizationId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1374,128 +946,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "expiresAt"
                     | "createdAt"
                     | "updatedAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "organization";
-                update: {
-                  createdAt?: number;
-                  logo?: null | string;
-                  metadata?: null | string;
-                  name?: string;
-                  slug?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "name"
-                    | "slug"
-                    | "logo"
-                    | "createdAt"
-                    | "metadata"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "member";
-                update: {
-                  createdAt?: number;
-                  organizationId?: string;
-                  role?: string;
-                  userId?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "userId"
-                    | "role"
-                    | "createdAt"
-                    | "_id";
-                  mode?: "sensitive" | "insensitive";
-                  operator?:
-                    | "lt"
-                    | "lte"
-                    | "gt"
-                    | "gte"
-                    | "eq"
-                    | "in"
-                    | "not_in"
-                    | "ne"
-                    | "contains"
-                    | "starts_with"
-                    | "ends_with";
-                  value:
-                    | string
-                    | number
-                    | boolean
-                    | Array<string>
-                    | Array<number>
-                    | null;
-                }>;
-              }
-            | {
-                model: "invitation";
-                update: {
-                  createdAt?: number;
-                  email?: string;
-                  expiresAt?: number;
-                  inviterId?: string;
-                  organizationId?: string;
-                  role?: null | string;
-                  status?: string;
-                };
-                where?: Array<{
-                  connector?: "AND" | "OR";
-                  field:
-                    | "organizationId"
-                    | "email"
-                    | "role"
-                    | "status"
-                    | "expiresAt"
-                    | "createdAt"
-                    | "inviterId"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
