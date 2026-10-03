@@ -1,20 +1,10 @@
 import crypto from "node:crypto"
 import { isNotFound, isRedirect } from "@tanstack/react-router"
-import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
+import { createMiddleware } from "@tanstack/react-start"
 import { getRequest, getResponse, getResponseStatus } from "@tanstack/react-start/server"
 import { createRequestLogger } from "evlog"
 import "#shared/logger.ts"
 import { auth, database } from "#shared/server/services.ts"
-
-export const withCsrf = createCsrfMiddleware({
-  filter: (context) => context.handlerType === "serverFn",
-})
-
-/**
- * CSRF check for route handlers that accept native form submissions. The global `withCsrf` only
- * covers server functions.
- */
-export const withFormCsrf = createCsrfMiddleware()
 
 /**
  * Opens one wide event per server function call and emits it, with the response status, when the

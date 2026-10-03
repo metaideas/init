@@ -10,7 +10,7 @@ import { nitro } from "nitro/vite"
 import { defineConfig } from "vite"
 import { ENV } from "#shared/env.generated.ts"
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   optimizeDeps: {
     exclude: ["bun"],
   },
@@ -32,19 +32,13 @@ export default defineConfig({
       preset: "bun",
     }),
   ],
-  resolve: {
-    alias: [
-      // tslib's Node ESM wrapper reads a default export that the bundled CommonJS interop drops,
-      // which breaks server rendering of components that depend on it, such as cmdk.
-      { find: /^tslib$/u, replacement: "tslib/tslib.es6.mjs" },
-    ],
-  },
   server: {
     port: ENV.PORT,
   },
   ssr: {
-    // Bundle every dependency so CommonJS shims such as `use-sync-external-store` require the same
-    // React copy as the rest of the server bundle.
-    noExternal: true,
+    // Bundle every dependency in the production server so CommonJS shims such as
+    // `use-sync-external-store` require the same React copy as the rest of the bundle. The dev
+    // module runner cannot evaluate CommonJS, so dev keeps Vite's default externals.
+    noExternal: command === "build" ? true : undefined,
   },
-})
+}))

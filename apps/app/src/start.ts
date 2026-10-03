@@ -1,5 +1,5 @@
 import { createStart } from "@tanstack/react-start"
-import { withCsrf } from "#shared/server/middleware.ts"
+import { withCsrf } from "#shared/server/csrf.ts"
 import { faultSerializer } from "#shared/server/serialization.ts"
 
 export const startInstance = createStart(() => ({

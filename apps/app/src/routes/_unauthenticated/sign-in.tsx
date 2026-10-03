@@ -7,7 +7,7 @@ import {
   SignInWithGoogleButton,
 } from "#features/auth/components/sign-in-with-social-buttons.tsx"
 import { signInWithPasswordForm } from "#features/auth/handlers.ts"
-import { withFormCsrf } from "#shared/server/middleware.ts"
+import { withFormCsrf } from "#shared/server/csrf.ts"
 
 // oxlint-disable-next-line sort-keys -- TanStack infers the loader's `serverContext` type from `server`, so `server` must come first.
 export const Route = createFileRoute("/_unauthenticated/sign-in")({
