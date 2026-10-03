@@ -58,27 +58,3 @@ export function usePersistedLocale() {
 
   return { locale, selectLocale }
 }
-
-export function useSearchBarState() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-
-  return {
-    isSearching: isSearchFocused || searchQuery.length > 0,
-    searchBarHandlers: {
-      onBlur: () => {
-        setIsSearchFocused(false)
-      },
-      onCancelButtonPress: () => {
-        setIsSearchFocused(false)
-        setSearchQuery("")
-      },
-      onChangeText: (text: string) => {
-        setSearchQuery(text)
-      },
-      onFocus: () => {
-        setIsSearchFocused(true)
-      },
-    },
-  }
-}

@@ -1,8 +1,7 @@
 import { api } from "{{backendPackage}}/api"
 import { convexQuery } from "{{backendPackage}}/client"
-import { Text } from "{{nativeUiPackage}}/components/text"
 import { useQuery } from "@tanstack/react-query"
-import { View } from "react-native"
+import { Text, View } from "react-native"
 
 export default function ConvexExampleScreen() {
   const { data: documents, isError, isPending } = useQuery(
@@ -11,13 +10,13 @@ export default function ConvexExampleScreen() {
 
   return (
     <View className="flex-1 gap-3 bg-background px-6 py-12">
-      <Text className="text-2xl font-semibold">Recent documents</Text>
-      {isPending && <Text>Loading…</Text>}
-      {isError && <Text>Could not load documents.</Text>}
+      <Text className="text-2xl font-semibold text-foreground">Recent documents</Text>
+      {isPending && <Text className="text-foreground">Loading…</Text>}
+      {isError && <Text className="text-foreground">Could not load documents.</Text>}
       {documents?.map((document) => (
         <View className="gap-1 rounded-md border border-border p-4" key={document._id}>
-          <Text className="font-semibold">{document.name}</Text>
-          <Text>{document.content}</Text>
+          <Text className="font-semibold text-foreground">{document.name}</Text>
+          <Text className="text-foreground">{document.content}</Text>
         </View>
       ))}
     </View>

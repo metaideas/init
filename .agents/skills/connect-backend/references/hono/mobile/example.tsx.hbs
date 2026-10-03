@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { Text } from "{{nativeUiPackage}}/components/text"
-import { View } from "react-native"
+import { Text, View } from "react-native"
 import { api } from "#shared/api.ts"
 
 export default function BackendExampleScreen() {
@@ -15,7 +14,7 @@ export default function BackendExampleScreen() {
 
   return (
     <View className="flex-1 items-center justify-center bg-background px-6">
-      <Text>{greeting.data ?? (greeting.isPending ? "Loading…" : greeting.error.message)}</Text>
+      <Text className="text-foreground">{greeting.data ?? (greeting.isPending ? "Loading…" : greeting.error.message)}</Text>
     </View>
   )
 }

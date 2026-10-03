@@ -112,13 +112,6 @@ export default defineConfig({
       },
     },
     {
-      files: ["packages/native-ui/**"],
-      rules: {
-        // oxlint cannot resolve the `export *` re-exports in the @rn-primitives dist bundles.
-        "import/namespace": "off",
-      },
-    },
-    {
       files: ["apps/mobile/babel.config.js", "apps/mobile/metro.config.js"],
       rules: {
         "import/unambiguous": "off",

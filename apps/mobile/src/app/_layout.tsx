@@ -1,9 +1,8 @@
-import { Button } from "@init/native-ui/components/button"
-import { Text } from "@init/native-ui/components/text"
+import { Button, Host } from "@expo/ui"
 import { monitoringWrap } from "@init/observability/monitoring/expo"
 import { type ErrorBoundaryProps, Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
-import { View } from "react-native"
+import { Text, View } from "react-native"
 import Providers from "#shared/components/providers.tsx"
 import { useHideSplashScreen, useLogRenderError } from "#shared/hooks.ts"
 
@@ -17,21 +16,21 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   return (
     <View className="flex-1 items-center justify-center gap-6 bg-background px-6">
       <View className="items-center gap-2">
-        <Text className="text-center" variant="h3">
+        <Text className="text-center text-2xl font-semibold text-foreground">
           Something went wrong
         </Text>
-        <Text className="text-center" variant="muted">
+        <Text className="text-center text-base text-muted-foreground">
           The screen could not be loaded. Try rendering it again.
         </Text>
       </View>
-      <Button
-        accessibilityRole="button"
-        onPress={() => {
-          void retry()
-        }}
-      >
-        <Text>Try again</Text>
-      </Button>
+      <Host matchContents>
+        <Button
+          label="Try again"
+          onPress={() => {
+            void retry()
+          }}
+        />
+      </Host>
     </View>
   )
 }

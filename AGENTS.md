@@ -98,7 +98,8 @@ Domain terms:
 
 ### UI
 
-- Use `@init/ui` for the web UI and `@init/native-ui` for the mobile UI. Import one component per subpath, for example `@init/native-ui/components/button`.
+- Use `@init/ui` for the web UI. Import one component per subpath, for example `@init/ui/components/button`.
+- In `apps/mobile`, use the universal Expo UI components from `@expo/ui` for native controls and Uniwind `className` styles for React Native views.
 - Use `cn` from the `cn` package to compose class names.
 - Keep the web UI responsive, accessible, and compatible with dark mode.
 - Compose the web UI from the existing Radix and Tailwind foundations.
@@ -130,7 +131,6 @@ Domain terms:
 - `packages/database`: use Drizzle, the shared prefixed-ID helper, and timestamps where appropriate.
 - `packages/backend`: keep Convex functions in `public/`, `system/`, and `shared/`. Do not edit `_generated/`.
 - `packages/ui`: components are copy-owned source from the shadcn registry, and oxlint checks them like any other code. After `components:add`, run `bun run fix` and resolve what `bun run check` still reports.
-- `packages/native-ui`: components are copy-owned source from the React Native Reusables Uniwind registry. After `components:add`, move files from `src/components/ui/` to `src/components/` and re-apply the repository conventions.
 
 ## Generated files
 
