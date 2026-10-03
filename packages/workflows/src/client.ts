@@ -1,3 +1,4 @@
+import type { Logger } from "@init/core/services/logging"
 import {
   type ContextualMetadata,
   DBOS,
@@ -5,7 +6,6 @@ import {
   type DLogger,
   type StackTrace,
 } from "@dbos-inc/dbos-sdk"
-import { log } from "@init/observability/logger"
 
 export class Workflows<Queue extends string = never> {
   static #isCreated = false
@@ -23,7 +23,7 @@ export class Workflows<Queue extends string = never> {
     this.#queues = options.queues ?? {}
 
     this.#dbos.setConfig({
-      logger: workflowLogger,
+      ...(options.logger ? { logger: toWorkflowLogger(options.logger) } : {}),
       name: options.name ?? "init",
       ...("pool" in options
         ? { systemDatabasePool: options.pool }
@@ -115,19 +115,21 @@ function toEvent(entry: unknown, metadata?: LogMetadata): Record<string, unknown
   return { scope: "workflows", ...event }
 }
 
-const workflowLogger: DLogger = {
-  debug: (entry, metadata) => {
-    log.debug(toEvent(entry, metadata))
-  },
-  error: (entry, metadata) => {
-    log.error(toEvent(entry, metadata))
-  },
-  info: (entry, metadata) => {
-    log.info(toEvent(entry, metadata))
-  },
-  warn: (entry, metadata) => {
-    log.warn(toEvent(entry, metadata))
-  },
+function toWorkflowLogger(log: Logger): DLogger {
+  return {
+    debug: (entry, metadata) => {
+      log.debug(toEvent(entry, metadata))
+    },
+    error: (entry, metadata) => {
+      log.error(toEvent(entry, metadata))
+    },
+    info: (entry, metadata) => {
+      log.info(toEvent(entry, metadata))
+    },
+    warn: (entry, metadata) => {
+      log.warn(toEvent(entry, metadata))
+    },
+  }
 }
 
 type LogMetadata = ContextualMetadata & StackTrace
@@ -138,6 +140,7 @@ type WorkflowsOptions<Queue extends string> = (
   | { pool: Pool }
   | { url: string; poolSize?: number }
 ) & {
+  logger?: Logger
   name?: string
   queues?: Record<Queue, QueueOptions>
 }

@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { SendEmailError, BatchSendEmailError } from "@init/core/errors"
-import { log } from "@init/observability/logger"
 import { render } from "@react-email/render"
 import { addMilliseconds } from "date-fns"
 import { type TimeExpression, ms } from "humanspan"
@@ -92,11 +91,8 @@ export async function batchEmails(payload: Array<EmailSendParams & { body: React
 async function previewEmail(body: ReactNode, { emails, from, sendAt, subject }: EmailSendParams) {
   const text = await render(body, { plainText: true })
 
-  log.warn("email", "📪 MOCK_RESEND is enabled - emails will not be sent")
-  log.info({
+  console.info("📪 MOCK_RESEND is enabled, so this email was not sent:", {
     from,
-    message: "Email content preview",
-    scope: "email",
     sendAt,
     subject,
     text,

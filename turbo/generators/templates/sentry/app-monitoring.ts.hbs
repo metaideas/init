@@ -1,0 +1,22 @@
+import * as Sentry from "@sentry/browser"
+import { ENV } from "#shared/env.generated.ts"
+
+export function initializeMonitoring() {
+  if (!ENV.PUBLIC_SENTRY_DSN) {
+    return
+  }
+
+  const sampleRate = import.meta.env.PROD ? 0.1 : 1
+
+  Sentry.init({
+    debug: ENV.PUBLIC_SENTRY_DEBUG,
+    dsn: ENV.PUBLIC_SENTRY_DSN,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration({ blockAllMedia: true, maskAllText: true }),
+    ],
+    replaysOnErrorSampleRate: 1,
+    replaysSessionSampleRate: sampleRate,
+    tracesSampleRate: sampleRate,
+  })
+}

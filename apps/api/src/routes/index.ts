@@ -1,9 +1,8 @@
 import { database } from "@init/database/client"
 import { kv } from "@init/kv/client"
-import { isStructuredError, parseError } from "@init/observability/logger"
-import { requestLogger } from "@init/observability/logger/hono"
-import { captureException } from "@init/observability/monitoring"
 import { Scalar } from "@scalar/hono-api-reference"
+import { EvlogError, parseError } from "evlog"
+import { evlog as requestLogger } from "evlog/hono"
 import { openAPIRouteHandler } from "hono-openapi"
 import { contextStorage } from "hono/context-storage"
 import { cors } from "hono/cors"
@@ -53,9 +52,10 @@ app.onError((error, c) => {
   }
 
   c.var.log.error(error)
-  captureException(error)
 
-  if (!isStructuredError(error)) {
+  // Only errors raised through `createError` carry a message, `why`, and `fix` written for the
+  // caller. Anything else may hold internal detail.
+  if (!EvlogError.isEvlogError(error)) {
     return c.json({ message: "Internal Server Error" }, 500)
   }
 

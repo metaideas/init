@@ -1,14 +1,10 @@
-import { initLogger } from "@init/observability/logger"
-import { buildDrain } from "@init/observability/logger/drains"
 import { isDevelopment } from "@init/utils/env"
+import { auditRedactPreset, initLogger } from "evlog"
 
-const drain = buildDrain()
+initLogger({
+  env: { service: "api" },
+  minLevel: isDevelopment ? "debug" : "info",
+  redact: auditRedactPreset,
+})
 
-// Debug events (per-query SQL among them) stay out of the drain in production.
-initLogger({ drain, env: { service: "api" }, minLevel: isDevelopment ? "debug" : "info" })
-
-export async function flushLogs() {
-  await drain?.flush()
-}
-
-export { log } from "@init/observability/logger"
+export { log } from "evlog"

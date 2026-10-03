@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@init/core": "workspace:*",
-    "@init/observability": "workspace:*",
     "@react-email/components": "1.0.12",
     "@react-email/render": "2.1.0",
     "date-fns": "4.1.0",
@@ -32,6 +31,7 @@
   "devDependencies": {
     "@react-email/ui": "6.9.1",
     "@tooling/tsconfig": "workspace:*",
+    "@types/bun": "1.4.2",
     "@types/react": "19.2.4",
     "react": "19.2.3",
     "react-email": "6.9.1",

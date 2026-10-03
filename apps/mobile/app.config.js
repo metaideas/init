@@ -50,14 +50,6 @@ const expoConfig = {
       },
     ],
     ["expo-dev-client", { launchMode: "most-recent" }],
-    [
-      "@sentry/react-native/expo",
-      {
-        organization: process.env.EXPO_PUBLIC_SENTRY_ORG,
-        project: process.env.EXPO_PUBLIC_SENTRY_PROJECT,
-        url: process.env.EXPO_PUBLIC_SENTRY_URL,
-      },
-    ],
   ],
   scheme: APP_ID,
   slug: APP_ID,

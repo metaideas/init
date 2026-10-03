@@ -1,7 +1,7 @@
-import { logger } from "@init/observability/logger/vite"
 import { paraglideVitePlugin as paraglide } from "@inlang/paraglide-js"
 import tailwindcss from "@tailwindcss/vite"
 import { varlockVitePlugin as varlock } from "@varlock/vite-integration"
+import { createSourceLocationPlugin, createStripPlugin } from "evlog/vite"
 import { defineConfig } from "wxt"
 import { ENV } from "#shared/env.generated.ts"
 
@@ -24,7 +24,8 @@ export default defineConfig({
   vite: () => ({
     plugins: [
       varlock(),
-      logger(),
+      createStripPlugin(["debug"]),
+      createSourceLocationPlugin(),
       tailwindcss(),
       paraglide({
         outdir: "./src/shared/internationalization",

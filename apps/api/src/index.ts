@@ -1,6 +1,5 @@
-import "#instrument.ts"
+import "#shared/logger.ts"
 import type { Serve } from "bun"
-import { flushLogs } from "#shared/logger.ts"
 
 import app from "#routes/index.ts"
 import { ENV } from "#shared/env.generated.ts"
@@ -10,7 +9,6 @@ await workflows.launch()
 
 async function shutdown() {
   await workflows.shutdown()
-  await flushLogs()
   process.exit(0)
 }
 

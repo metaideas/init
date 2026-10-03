@@ -44,7 +44,6 @@
         "RESEND_API_KEY",
         "RUN_PRODUCTION_MIGRATIONS",
         "S3_*",
-        "SENTRY_*",
         "STRIPE_*"
       ]
     },

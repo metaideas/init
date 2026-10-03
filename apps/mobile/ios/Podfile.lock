@@ -2398,30 +2398,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNSentry (7.11.0):
-    - hermes-engine
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-Core-prebuilt
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - ReactNativeDependencies
-    - Sentry/HybridSDK (= 8.58.0)
-    - Yoga
   - RNWorklets (0.10.1):
     - hermes-engine
     - RCTRequired
@@ -2493,7 +2469,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - Sentry/HybridSDK (8.58.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2607,13 +2582,8 @@ DEPENDENCIES:
   - "RNGestureHandler (from `../../../node_modules/.bun/react-native-gesture-handler@2.32.0+1c65535ebb0d19a4/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../../node_modules/.bun/react-native-reanimated@4.5.1+bdb58fda33ca7593/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../../node_modules/.bun/react-native-screens@4.26.2+1c65535ebb0d19a4/node_modules/react-native-screens`)"
-  - "RNSentry (from `../../../node_modules/.bun/@sentry+react-native@7.11.0+fc589a74fff0c214/node_modules/@sentry/react-native`)"
   - "RNWorklets (from `../../../node_modules/.bun/react-native-worklets@0.10.1+80454c9543220304/node_modules/react-native-worklets`)"
   - "Yoga (from `../../../node_modules/.bun/react-native@0.86.3+1c65535ebb0d19a4/node_modules/react-native/ReactCommon/yoga`)"
-
-SPEC REPOS:
-  trunk:
-    - Sentry
 
 EXTERNAL SOURCES:
   EXConstants:
@@ -2835,8 +2805,6 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.bun/react-native-reanimated@4.5.1+bdb58fda33ca7593/node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/.bun/react-native-screens@4.26.2+1c65535ebb0d19a4/node_modules/react-native-screens"
-  RNSentry:
-    :path: "../../../node_modules/.bun/@sentry+react-native@7.11.0+fc589a74fff0c214/node_modules/@sentry/react-native"
   RNWorklets:
     :path: "../../../node_modules/.bun/react-native-worklets@0.10.1+80454c9543220304/node_modules/react-native-worklets"
   Yoga:
@@ -2859,7 +2827,7 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 72af0b3be3615e59bc819d26061ff4e06b155ee0
   ExpoLinking: 52819633a2225a0c2a3cd3de64056b021bb55202
   ExpoLogBox: 80957303325cd4439137765c90a87d7f22aaf2ff
-  ExpoModulesCore: aa7a604791a1dc90f8d5bf2c7a688e3afee0a9ef
+  ExpoModulesCore: f54f49a743b3a99d9d362d79be18ad4691689f62
   ExpoModulesJSI: 383849017851b1ebacbd78cfaa32b18b6152585e
   ExpoModulesWorklets: 40d29262efc034e4357f2713e6037a41a27218d6
   ExpoModulesWorkletsAdapter: 13610825eeb3d01f97845f0a2a48d537727e26d2
@@ -2952,9 +2920,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 92172e79df6e88e0e93b6341f9dcd8b5a02746ba
   RNReanimated: e6f0a9ab1ffac35bfb24a76a491c87e7ca880d15
   RNScreens: c1a06fd73d0581a2a28a160577be393f579662b9
-  RNSentry: c2b739c5dbdd77f439fbd197d1d45724b22a0437
   RNWorklets: 1ee3f726ce2d7efa31bb9660811e6c2c002478f8
-  Sentry: d587a8fe91ca13503ecd69a1905f3e8a0fcf61be
   Yoga: 18b74b3ade30bebc1904004dfaceae1dd02a330a
 
 PODFILE CHECKSUM: a01a01d55d0af0aa8b26a716c41ba593b72cad5f

@@ -35,7 +35,6 @@ root
   │   ├── database              # Database client and ORM using Drizzle
   │   ├── email                 # Email templating and sending service using Resend
   │   ├── kv                    # Key-value storage using unstorage with the Redis driver
-  │   ├── observability         # Wide-event logging with evlog, error tracking and monitoring with Sentry
   │   ├── payments              # Payment processing utilities using Stripe
   │   ├── ui                    # Reusable UI components and design system using Shadcn/UI
   │   ├── utils                 # Shared helpers and constants for packages and apps

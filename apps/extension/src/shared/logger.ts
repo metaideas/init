@@ -1,5 +1,9 @@
-import { initLogger } from "@init/observability/logger"
+import { auditRedactPreset, initLogger } from "evlog"
 
-initLogger({ env: { service: "extension" }, pretty: import.meta.env.DEV })
+initLogger({
+  env: { service: "extension" },
+  pretty: import.meta.env.DEV,
+  redact: auditRedactPreset,
+})
 
-export { log } from "@init/observability/logger"
+export { log } from "evlog"
