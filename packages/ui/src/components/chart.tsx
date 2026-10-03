@@ -230,7 +230,8 @@ function ChartTooltipContent({
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
-                      {item.value !== undefined && (
+                      {/* oxlint-disable-next-line typescript/no-unnecessary-condition -- Recharts can pass null with filterNull=false despite its payload types. */}
+                      {item.value !== undefined && item.value !== null && (
                         <span className="font-mono font-medium text-foreground tabular-nums">
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
