@@ -3,7 +3,7 @@ import { cn } from "cn"
 import { Stack, useNavigation, useRoute } from "expo-router"
 import { SymbolView, type SymbolViewProps } from "expo-symbols"
 import * as React from "react"
-import { BackHandler, Platform, Pressable, Text, TextInput, View } from "react-native"
+import { Pressable, Text, TextInput, View } from "react-native"
 import Animated, {
   FadeIn,
   FadeInRight,
@@ -19,6 +19,7 @@ import type {
   LargeTitleHeaderProps,
   NativeStackNavigationSearchBarOptions,
 } from "#shared/components/large-title-header/types.ts"
+import { useLargeTitleSearch } from "#shared/components/large-title-header/use-large-title-search.ts"
 
 const SCREEN_OPTIONS = {
   headerShown: false,
@@ -36,76 +37,16 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
   const foregroundColor = typeof foreground === "string" ? foreground : undefined
   const mutedForegroundColor = typeof mutedForeground === "string" ? mutedForeground : undefined
 
-  const [searchValue, setSearchValue] = React.useState("")
-  const [showSearchBar, setShowSearchBar] = React.useState(false)
-  const focusSearchInput = React.useCallback((input: TextInput | null) => {
-    input?.focus()
-  }, [])
-  const onChangeTextProp = props.searchBar?.onChangeText
+  const search = useLargeTitleSearch(props.searchBar)
 
-  React.useImperativeHandle(
-    props.searchBar?.ref,
-    () => ({
-      cancelSearch: () => {
-        setShowSearchBar(false)
-        setSearchValue("")
-        onChangeTextProp?.("")
-      },
-      clearText: () => {
-        setSearchValue("")
-        onChangeTextProp?.("")
-      },
-      focus: () => {
-        setShowSearchBar(true)
-      },
-      setText: (text) => {
-        setSearchValue(text)
-        onChangeTextProp?.(text)
-      },
-    }),
-    [onChangeTextProp]
-  )
-
-  React.useEffect(() => {
-    if (Platform.OS !== "android") return
-
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (!showSearchBar) return false
-
-      setShowSearchBar(false)
-      setSearchValue("")
-      onChangeTextProp?.("")
-      return true
-    })
-
-    return () => {
-      backHandler.remove()
-    }
-  }, [onChangeTextProp, showSearchBar])
-
-  function onBlur() {
-    if (searchValue.length === 0) {
-      setShowSearchBar(false)
-    }
-    props.searchBar?.onBlur?.()
-  }
-
-  function onChangeText(text: string) {
-    setSearchValue(text)
-    onChangeTextProp?.(text)
-  }
-
-  function onSearchBackPress() {
-    setShowSearchBar(false)
-    setSearchValue("")
-    onChangeTextProp?.("")
-  }
-
-  function onClearText() {
-    setSearchValue("")
-    onChangeTextProp?.("")
-    props.searchBar?.onCancelButtonPress?.()
-  }
+  React.useImperativeHandle(props.searchBar?.ref, () => ({
+    cancelSearch: search.closeSearchBar,
+    clearText: () => {
+      search.changeText("")
+    },
+    focus: search.showSearchBar,
+    setText: search.changeText,
+  }))
 
   const isInlined = props.materialPreset === "inline"
   const canGoBack = navigation.canGoBack()
@@ -163,7 +104,7 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
                 color={foregroundColor}
                 icon={{ android: "search", ios: "magnifyingglass", web: "search" }}
                 onPress={() => {
-                  setShowSearchBar(true)
+                  search.showSearchBar()
                   props.searchBar?.onSearchButtonPress?.()
                 }}
               />
@@ -182,7 +123,7 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
           </View>
         )}
       </View>
-      {props.searchBar && showSearchBar ? (
+      {props.searchBar && search.isSearchBarShown ? (
         <Portal name={`large-title:${id}`}>
           <Animated.View className="absolute inset-0 z-50" exiting={FadeOut}>
             <View
@@ -205,7 +146,7 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
                       accessibilityLabel="Close search"
                       color={mutedForegroundColor}
                       icon={{ android: "arrow_back", ios: "arrow.left", web: "arrow_back" }}
-                      onPress={onSearchBackPress}
+                      onPress={search.closeSearchBar}
                     />
                   </Animated.View>
                   <Animated.View className="flex-1" entering={FadeInRight} exiting={FadeOutRight}>
@@ -216,28 +157,28 @@ export function LargeTitleHeader(props: LargeTitleHeaderProps) {
                       blurOnSubmit={props.searchBar.materialBlurOnSubmit}
                       className="flex-1 rounded-r-full p-2 text-[17px] text-foreground"
                       keyboardType={searchBarInputTypeToKeyboardType(props.searchBar.inputType)}
-                      onBlur={onBlur}
-                      onChangeText={onChangeText}
+                      onBlur={search.blur}
+                      onChangeText={search.changeText}
                       onFocus={props.searchBar.onFocus}
                       onSubmitEditing={props.searchBar.materialOnSubmitEditing}
                       placeholder={props.searchBar.placeholder ?? "Search..."}
                       placeholderTextColorClassName="accent-muted-foreground"
-                      ref={focusSearchInput}
+                      ref={focusOnMount}
                       returnKeyType="search"
                       style={
                         props.searchBar.textColor ? { color: props.searchBar.textColor } : undefined
                       }
-                      value={searchValue}
+                      value={search.searchValue}
                     />
                   </Animated.View>
                   <View className="flex-row items-center gap-3 pr-0.5">
-                    {searchValue ? (
+                    {search.searchValue ? (
                       <Animated.View entering={FadeIn} exiting={FadeOut}>
                         <IconButton
                           accessibilityLabel="Clear search"
                           color={mutedForegroundColor}
                           icon={{ android: "close", ios: "multiply", web: "close" }}
-                          onPress={onClearText}
+                          onPress={search.clearText}
                         />
                       </Animated.View>
                     ) : null}
@@ -281,6 +222,10 @@ function IconButton({
       <SymbolView name={icon} size={24} tintColor={color} />
     </Pressable>
   )
+}
+
+function focusOnMount(input: TextInput | null) {
+  input?.focus()
 }
 
 function searchBarInputTypeToKeyboardType(

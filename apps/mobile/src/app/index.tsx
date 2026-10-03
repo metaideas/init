@@ -1,11 +1,12 @@
 import { Host, Picker } from "@expo/ui"
-import { Platform, type Role, Text, View } from "react-native"
+import { Platform, Text, View } from "react-native"
 import { LargeTitleHeader } from "#shared/components/large-title-header.ts"
 import { usePersistedLocale } from "#shared/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
 
-// SAFETY: React Native Web renders the "label" role as a <label>, which names the picker's <select>.
-const LABEL_ROLE = Platform.OS === "web" ? ("label" as Role) : undefined
+// React Native Web renders the "label" role as a <label>, which names the picker's <select>.
+// React Native's Role type omits "label", so these props stay untyped.
+const pickerLabelProps: Record<string, string> = Platform.OS === "web" ? { role: "label" } : {}
 
 export default function Screen() {
   const { locale, selectLocale } = usePersistedLocale()
@@ -18,7 +19,7 @@ export default function Screen() {
           description={m.mobile_home_description({}, { locale })}
           title={m.mobile_home_title({}, { locale })}
         />
-        <View className="items-center gap-3" role={LABEL_ROLE}>
+        <View className="items-center gap-3" {...pickerLabelProps}>
           <Text className="text-base text-foreground">
             {m.shared_locale_switch({}, { locale })}
           </Text>
