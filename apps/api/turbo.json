@@ -1,17 +1,5 @@
 {
   "$schema": "https://v2-10-7.turborepo.dev/schema.json",
   "extends": ["//"],
-  "tags": ["api-application"],
-  "tasks": {
-    "build": {
-      "env": [
-        "INNGEST_BASE_URL",
-        "INNGEST_DEV",
-        "INNGEST_EVENT_KEY",
-        "INNGEST_SIGNING_KEY",
-        "INNGEST_SIGNING_KEY_FALLBACK",
-        "REDIS_URL"
-      ]
-    }
-  }
+  "tags": ["api-application"]
 }

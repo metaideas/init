@@ -16,7 +16,6 @@
     "dev": "bun --bun vite dev",
     "env:check": "varlock load",
     "env:scan": "test -d .output/public && varlock scan --path .env.schema --path .env.development .output/public",
-    "env:scan:build": "bun --bun vite build",
     "preview": "bun --bun vite preview",
     "start": "varlock run -- node .output/server/index.mjs"
   },

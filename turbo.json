@@ -24,7 +24,7 @@
   "concurrency": "15",
   "tasks": {
     "build": {
-      "dependsOn": ["codegen", "^codegen"],
+      "dependsOn": ["codegen"],
       "env": [
         "ALLOWED_API_ORIGINS",
         "ARCJET_KEY",
@@ -88,18 +88,8 @@
     },
     "env:scan": {
       "cache": false,
-      "dependsOn": ["env:scan:build"]
-    },
-    "env:scan:build": {
-      "cache": false,
-      "dependsOn": ["codegen", "^codegen"]
-    },
-    "//#analyze": {},
-    "//#check": {},
-    "//#check:monorepo": {},
-    "//#fix": {},
-    "//#fix:monorepo": {},
-    "//#format": {}
+      "dependsOn": ["build"]
+    }
   },
   "ui": "tui"
 }
