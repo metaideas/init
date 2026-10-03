@@ -8,7 +8,7 @@ import {
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
 } from "@init/auth/constants"
-import { admin, anonymous, organization } from "@init/auth/server/plugins"
+import { admin, anonymous, organization } from "@init/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { components, internal } from "#functions/_generated/api.js"
 import authConfig from "#functions/auth.config.ts"
