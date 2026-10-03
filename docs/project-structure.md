@@ -28,7 +28,6 @@ root
   │
   ├── packages            # Shared internal packages for use across apps
   │   ├── ai                    # AI model provider registry using the AI SDK
-  │   ├── analytics             # Web and product analytics
   │   ├── auth                  # Authentication utilities using Better Auth
   │   ├── backend               # Convex backend, generated API types, and React client
   │   ├── core                  # Shared business logic and errors, organized by domain

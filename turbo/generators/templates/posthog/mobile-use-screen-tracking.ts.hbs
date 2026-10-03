@@ -1,0 +1,16 @@
+import { usePathname } from "expo-router"
+import { usePostHog } from "posthog-react-native"
+import { useEffect } from "react"
+
+/**
+ * Captures a screen view whenever the pathname changes. Expo Router has no navigation container
+ * that PostHog can observe.
+ */
+export function useScreenTracking() {
+  const pathname = usePathname()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    void posthog.screen(pathname)
+  }, [pathname, posthog])
+}

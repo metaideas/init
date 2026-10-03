@@ -1,0 +1,22 @@
+import type { ReactNode } from "react"
+import type { PostHogConfig } from "posthog-js"
+import { PostHogProvider } from "posthog-js/react"
+import { ENV } from "#shared/env.generated.ts"
+
+export default function AnalyticsProvider({ children }: Readonly<{ children: ReactNode }>) {
+  if (!ENV.PUBLIC_POSTHOG_API_KEY) {
+    return children
+  }
+
+  return (
+    <PostHogProvider apiKey={ENV.PUBLIC_POSTHOG_API_KEY} options={OPTIONS}>
+      {children}
+    </PostHogProvider>
+  )
+}
+
+const OPTIONS = {
+  api_host: ENV.PUBLIC_POSTHOG_HOST,
+  capture_pageview: "history_change",
+  person_profiles: "identified_only",
+} satisfies Partial<PostHogConfig>

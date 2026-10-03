@@ -1,0 +1,30 @@
+import type { PropsWithChildren } from "react"
+import { PostHogProvider } from "posthog-react-native"
+import { ENV } from "#shared/env.generated.ts"
+import { useScreenTracking } from "#shared/use-screen-tracking.ts"
+
+export default function AnalyticsProvider({ children }: PropsWithChildren) {
+  if (!ENV.EXPO_PUBLIC_POSTHOG_API_KEY) {
+    return children
+  }
+
+  return (
+    <PostHogProvider
+      apiKey={ENV.EXPO_PUBLIC_POSTHOG_API_KEY}
+      autocapture={AUTOCAPTURE}
+      options={OPTIONS}
+    >
+      <ScreenTracker />
+      {children}
+    </PostHogProvider>
+  )
+}
+
+function ScreenTracker() {
+  useScreenTracking()
+
+  return null
+}
+
+const AUTOCAPTURE = { captureScreens: false, captureTouches: true }
+const OPTIONS = { host: ENV.EXPO_PUBLIC_POSTHOG_HOST }
