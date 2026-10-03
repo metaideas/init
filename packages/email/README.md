@@ -18,3 +18,5 @@ await mailer.send("password-reset", { resetUrl }, { to: [user.email] })
 ```
 
 Add a template under `src/templates/` and register it with its subject in `src/registry.ts`. Run `bun run dev` to preview templates. Locally, email goes to Mailpit from Docker Compose; open http://localhost:8005 to read it. Tests can pass `memoryTransport()` and read what was sent from its `sent` array.
+
+`send` retries temporary failures with backoff and returns a failed delivery as a `SendEmailError` value instead of throwing.

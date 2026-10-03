@@ -28,6 +28,8 @@ export const auth = createAuth({
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {
+      // The mailer logs a failed send. The reset response stays the same either way, so it does
+      // not reveal whether the email went out.
       await mailer.send(
         "password-reset",
         { appName: AUTH_APP_NAME, resetUrl: url },

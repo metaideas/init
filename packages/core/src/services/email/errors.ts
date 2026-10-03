@@ -5,5 +5,20 @@ export class SendEmailError extends Faultier.Tagged("SendEmailError")<{
   to: string[]
 }>() {}
 
-export const EmailFault = Faultier.registry({ SendEmailError })
-export type EmailError = SendEmailError
+/**
+ * A transport could not deliver a message. `isRetryable` is false when the provider rejected the
+ * message itself, such as an invalid sender, so another attempt would fail the same way.
+ */
+export class EmailDeliveryError extends Faultier.Tagged("EmailDeliveryError")<{
+  transport: string
+  isRetryable: boolean
+}>() {}
+
+export class EmailConfigurationError extends Faultier.Tagged("EmailConfigurationError")() {}
+
+export const EmailFault = Faultier.registry({
+  EmailConfigurationError,
+  EmailDeliveryError,
+  SendEmailError,
+})
+export type EmailError = EmailConfigurationError | EmailDeliveryError | SendEmailError

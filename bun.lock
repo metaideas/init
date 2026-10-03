@@ -359,6 +359,7 @@
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "resend": "6.7.0",
+        "tryharder": "0.4.0",
       },
       "devDependencies": {
         "@react-email/ui": "6.9.1",
@@ -4367,6 +4368,8 @@
     "trim-repeated": ["trim-repeated@1.0.0", "", { "dependencies": { "escape-string-regexp": "^1.0.2" } }, "sha512-pkonvlKk8/ZuR0D5tLW8ljt5I8kmxp2XKymhepUeOdCEfKpZaktSArkLHZt76OB1ZvO9bssUsDty4SWhLvZpLg=="],
 
     "trough": ["trough@2.2.0", "", {}, "sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw=="],
+
+    "tryharder": ["tryharder@0.4.0", "", {}, "sha512-0Oi/IIGqTHyzY7XOu7H+B9QOxL7NtcLR/WahFyZ5LPwIflgQkUbANzBBKsZ+ZUh2eTAGLDny5LxfmJhzCv0idw=="],
 
     "ts-morph": ["ts-morph@26.0.0", "", { "dependencies": { "@ts-morph/common": "~0.27.0", "code-block-writer": "^13.0.3" } }, "sha512-ztMO++owQnz8c/gIENcM9XfCEzgoGphTv+nKpYNM1bgsdOVC/jRZuEBf6N+mLLDNg68Kl+GgUZfOySaRiG1/Ug=="],
 
