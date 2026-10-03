@@ -3,7 +3,8 @@ import type { Database } from "#client.ts"
 
 export type DatabaseTransaction = Parameters<Parameters<Database["transaction"]>[0]>[0]
 
-const storage = new AsyncLocalStorage<{ database: Database; transaction: DatabaseTransaction }>()
+// The active transaction of each database in the current async scope.
+const storage = new AsyncLocalStorage<ReadonlyMap<Database, DatabaseTransaction>>()
 
 /**
  * Runs the operation inside a transaction. Nested calls on the same database reuse the active
@@ -14,13 +15,14 @@ export async function withTransaction<T>(
   database: Database,
   operation: (transaction: DatabaseTransaction) => Promise<T>
 ): Promise<T> {
-  const current = storage.getStore()
+  const active = storage.getStore()
+  const current = active?.get(database)
 
-  if (current?.database === database) {
-    return operation(current.transaction)
+  if (current) {
+    return operation(current)
   }
 
   return database.transaction((transaction) =>
-    storage.run({ database, transaction }, () => operation(transaction))
+    storage.run(new Map(active).set(database, transaction), () => operation(transaction))
   )
 }
