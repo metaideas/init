@@ -66,6 +66,8 @@ describe("findViolation", () => {
 
     expect(check(file, "#routes/__root.tsx")).toBe("routeImportsRoute")
     expect(check(file, "./route.tsx")).toBe("routeImportsRoute")
+    expect(check(file, "./")).toBe("routeImportsRoute")
+    expect(check(file, "#routes")).toBe("routeImportsRoute")
   })
 
   test("lets a route import assets, features, shared, and its entrypoint", () => {

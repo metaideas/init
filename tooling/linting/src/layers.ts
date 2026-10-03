@@ -87,7 +87,10 @@ export function locate(
     return { layer: { kind: "feature", name } }
   }
 
-  if (boundaries.routes !== undefined && relative.startsWith(`${boundaries.routes}/`)) {
+  if (
+    boundaries.routes !== undefined
+    && (relative === boundaries.routes || relative.startsWith(`${boundaries.routes}/`))
+  ) {
     return { layer: { kind: "route" }, tier }
   }
 

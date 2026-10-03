@@ -12,7 +12,8 @@ const AnswersSchema = z.object({
 const FRONTEND_APPS: readonly string[] = ["app", "desktop", "extension", "mobile", "web"]
 const REACT_APPS: readonly string[] = ["app", "desktop", "extension", "mobile"]
 const SERVER_APPS: readonly string[] = ["api", "app"]
-const KNOWN_APPS = new Set([...FRONTEND_APPS, ...SERVER_APPS])
+const APPS_WITHOUT_FEATURES = new Set(["docs"])
+const KNOWN_APPS = new Set([...APPS_WITHOUT_FEATURES, ...FRONTEND_APPS, ...SERVER_APPS])
 const DIRECTORY_ROLES = new Set(["assets", "components"])
 
 const FEATURE_ROLES: ReadonlyArray<{
@@ -37,8 +38,13 @@ const FEATURE_ROLES: ReadonlyArray<{
 ]
 
 function listRoles(app: string) {
+  const isKnownApp = KNOWN_APPS.has(app)
+
   return FEATURE_ROLES.filter(
-    (role) => !KNOWN_APPS.has(app) || role.apps === undefined || role.apps.includes(app)
+    (role) =>
+      role.apps === undefined
+      || role.apps.includes(app)
+      || (!isKnownApp && role.apps !== SERVER_APPS)
   ).map((role) => ({ checked: role.isChecked ?? false, name: role.name, value: role.value }))
 }
 
@@ -57,7 +63,7 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
     }),
   ]
     .map((entry) => entry.split("/")[0])
-    .filter((app): app is string => app !== undefined)
+    .filter((app): app is string => app !== undefined && !APPS_WITHOUT_FEATURES.has(app))
     .toSorted()
 
   plop.setGenerator("new-feature", {
