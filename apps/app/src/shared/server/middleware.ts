@@ -5,6 +5,7 @@ import { createCsrfMiddleware, createMiddleware } from "@tanstack/react-start"
 import { getRequest, getResponse, getResponseStatus } from "@tanstack/react-start/server"
 import { createRequestLogger } from "evlog"
 import "#shared/logger.ts"
+import { auth } from "#shared/server/services.ts"
 
 export const withCsrf = createCsrfMiddleware({
   filter: (context) => context.handlerType === "serverFn",
@@ -56,5 +57,7 @@ export const withLogger = createMiddleware({ type: "function" }).server(
     }
   }
 )
+
+export const withAuth = createMiddleware().server(({ next }) => next({ context: { auth } }))
 
 export const withDatabase = createMiddleware().server(({ next }) => next({ context: { database } }))

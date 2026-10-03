@@ -21,6 +21,7 @@
   "dependencies": {
     "@better-auth/drizzle-adapter": "1.6.30",
     "@better-auth/expo": "1.6.30",
+    "@init/core": "workspace:*",
     "better-auth": "1.6.30",
     "drizzle-orm": "0.45.2",
     "humanspan": "0.2.0"
