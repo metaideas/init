@@ -150,7 +150,7 @@ PUBLIC_SENTRY_DEBUG=false
         replacements: [
           [
             '    ["expo-dev-client", { launchMode: "most-recent" }],\n',
-            '    ["expo-dev-client", { launchMode: "most-recent" }],\n    // Native source map and debug symbol uploads need a Sentry organization and project.\n    ...(process.env.SENTRY_ORG && process.env.SENTRY_PROJECT\n      ? [\n          [\n            "@sentry/react-native/expo",\n            { organization: process.env.SENTRY_ORG, project: process.env.SENTRY_PROJECT },\n          ],\n        ]\n      : []),\n',
+            '    ["expo-dev-client", { launchMode: "most-recent" }],\n    // Native source map and debug symbol uploads need a Sentry organization, project, and auth token.\n    ...(process.env.SENTRY_ORG && process.env.SENTRY_PROJECT && process.env.SENTRY_AUTH_TOKEN\n      ? [\n          [\n            "@sentry/react-native/expo",\n            { organization: process.env.SENTRY_ORG, project: process.env.SENTRY_PROJECT },\n          ],\n        ]\n      : []),\n',
           ],
         ],
       },
