@@ -127,7 +127,6 @@ export default defineConfig({
     },
   ],
   rules: {
-    "react/function-component-definition": "off",
     "typescript/consistent-type-definitions": ["error", "type"],
   },
 })
