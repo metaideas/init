@@ -7,10 +7,9 @@ import {
 } from "@init/auth/constants"
 import { createAuth, databaseAdapter } from "@init/auth/server"
 import { database } from "@init/database/client"
-import { sendEmail } from "@init/email/client"
-import PasswordReset from "@init/email/templates/password-reset"
 import { ENV } from "#shared/env.generated.ts"
 import { log } from "#shared/logger.ts"
+import { mailer } from "#shared/services.ts"
 import { allowedOrigins, baseUrl } from "#shared/utils.ts"
 
 export const auth = createAuth({
@@ -29,10 +28,13 @@ export const auth = createAuth({
   emailAndPassword: {
     ...AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     sendResetPassword: async ({ user, url }) => {
-      await sendEmail(PasswordReset({ resetUrl: url }), {
-        emails: [user.email],
-        subject: `Reset your ${AUTH_APP_NAME} password`,
-      })
+      // The mailer logs a failed send. The reset response stays the same either way, so it does
+      // not reveal whether the email went out.
+      await mailer.send(
+        "password-reset",
+        { appName: AUTH_APP_NAME, resetUrl: url },
+        { to: [user.email] }
+      )
     },
   },
   logger: {

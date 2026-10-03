@@ -9,7 +9,7 @@ sidebar:
 
 - Use [bun](https://bun.sh/) as the package manager.
 - Install Node.js. See the tooling requirements below.
-- Install Docker to run the database and Redis. Use [OrbStack](https://orbstack.dev/) to manage containers.
+- Install Docker to run the local services: Postgres, Redis, MinIO, and Mailpit. Use [OrbStack](https://orbstack.dev/) to manage containers.
 
 ## Tooling Expectations
 
