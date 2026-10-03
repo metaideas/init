@@ -12,7 +12,9 @@
     "./logger/*": "./src/logger/*.ts",
     "./monitoring": "./src/monitoring/index.ts",
     "./monitoring/*": "./src/monitoring/*.ts",
-    "./uptime": "./src/uptime.ts"
+    "./uptime": "./src/uptime.ts",
+    "./tracing": "./src/tracing/index.ts",
+    "./tracing/*": "./src/tracing/*.ts"
   },
   "scripts": {
     "bump:deps": "bun update --interactive",

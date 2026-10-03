@@ -4,6 +4,7 @@ import { kv } from "@init/kv/client"
 import { isStructuredError, parseError } from "@init/observability/logger"
 import { requestLogger } from "@init/observability/logger/hono"
 import { captureException } from "@init/observability/monitoring"
+import { traceRequest } from "@init/observability/tracing/hono"
 import { Scalar } from "@scalar/hono-api-reference"
 import { openAPIRouteHandler } from "hono-openapi"
 import { contextStorage } from "hono/context-storage"
@@ -23,6 +24,7 @@ import { allowedOrigins, factory } from "#shared/utils.ts"
 const app = factory.createApp()
 
 app.use(requestLogger())
+app.use(traceRequest())
 app.use(withLanguageDetection)
 app.use(contextStorage())
 app.use(
@@ -32,7 +34,7 @@ app.use(
 )
 app.use(
   cors({
-    allowHeaders: ["Content-Type", "Authorization", "trpc-accept"],
+    allowHeaders: ["Content-Type", "Authorization", "trpc-accept", "sentry-trace", "baggage"],
     allowMethods: ["POST", "GET", "PUT", "OPTIONS"],
     credentials: true,
     exposeHeaders: ["Content-Length"],

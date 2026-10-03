@@ -1,5 +1,6 @@
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
+import { traceProcedure } from "@init/observability/tracing/rpc"
 import * as z from "@init/utils/schema"
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
@@ -39,13 +40,17 @@ export const t = initTRPC.context<TRPCContext>().create({
 
 export const createRouter = t.router
 
-export const publicProcedure = t.procedure
-export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+export const publicProcedure = t.procedure.use(({ ctx, path, type, next }) =>
+  traceProcedure({ parentLog: ctx.log, path, type }, (log) => next({ ctx: { ...ctx, log } }))
+)
+export const protectedProcedure = publicProcedure.use(async ({ ctx, next }) => {
   const session = await ctx.auth.api.getSession({ headers: ctx.req.headers })
 
   if (!session) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
+
+  ctx.log.set({ user: { id: session.user.id } })
 
   return next({ ctx: { ...ctx, session } })
 })
