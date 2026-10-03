@@ -5,6 +5,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { KeyboardProvider } from "react-native-keyboard-controller"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { persister, queryClient } from "#shared/query-client.ts"
+import ThemeProvider from "#shared/theme/theme-provider.tsx"
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -19,8 +20,10 @@ export default function Providers({ children }: PropsWithChildren) {
       <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
         <ActionSheetProvider>
           <SafeAreaProvider>
-            {children}
-            <PortalHost />
+            <ThemeProvider>
+              {children}
+              <PortalHost />
+            </ThemeProvider>
           </SafeAreaProvider>
         </ActionSheetProvider>
       </KeyboardProvider>
