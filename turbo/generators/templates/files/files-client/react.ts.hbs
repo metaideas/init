@@ -33,8 +33,12 @@ const transport: Transport = (request) =>
   // oxlint-disable-next-line promise/avoid-new -- XMLHttpRequest is callback-based.
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
-    const abort = () => xhr.abort()
-    const cleanup = () => request.signal?.removeEventListener("abort", abort)
+    function abort() {
+      xhr.abort()
+    }
+    function cleanup() {
+      request.signal?.removeEventListener("abort", abort)
+    }
 
     xhr.open(request.method, request.url, true)
     xhr.withCredentials = checkIsGatewayRequest(request.url)

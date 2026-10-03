@@ -21,12 +21,13 @@ export const authComponent = createClient<DataModel, typeof authSchema>(componen
   local: { schema: authSchema },
 })
 
-export const createAuthOptions = (ctx: GenericCtx<DataModel>) =>
-  ({
+export function createAuthOptions(ctx: GenericCtx<DataModel>) {
+  return {
     advanced: AUTH_ADVANCED_OPTIONS,
     appName: AUTH_APP_NAME,
     database: authComponent.adapter(ctx),
     emailAndPassword: AUTH_EMAIL_AND_PASSWORD_OPTIONS,
     plugins: [anonymous(), admin(), organization(), convex({ authConfig })],
     session: AUTH_SESSION_OPTIONS,
-  }) satisfies AuthOptions
+  } satisfies AuthOptions
+}

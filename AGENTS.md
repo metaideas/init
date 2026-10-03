@@ -120,6 +120,8 @@ Domain terms:
 ### Commits
 
 - Use a conventional commit message (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
+- Give pull requests a conventional commit title. Squash merges use it as the commit message, and the `pr-title` workflow checks it. Keep its type list in sync with this list.
+- The `pr-title` workflow checks only pull request titles. Merge and rebase merges can bypass this policy. Full enforcement requires disabling those merge modes and setting the default squash commit title to the pull request title.
 
 ## Workspace notes
 
@@ -128,6 +130,7 @@ Domain terms:
 - `apps/docs`: never duplicate the root `docs/` content tree or add a sync command. Add a page under a published root `docs/` path with `title` and `description` frontmatter, then add it to the sidebar in `astro.config.ts`.
 - `packages/database`: use Drizzle, the shared prefixed-ID helper, and timestamps where appropriate.
 - `packages/backend`: keep Convex functions in `public/`, `private/`, `system/`, and `shared/`. Do not edit `_generated/`.
+- `packages/ui`: components are copy-owned source from the shadcn registry, and oxlint checks them like any other code. After `components:add`, run `bun run fix` and resolve what `bun run check` still reports.
 - `packages/native-ui`: components are copy-owned source from the React Native Reusables Uniwind registry. After `components:add`, move files from `src/components/ui/` to `src/components/` and re-apply the repository conventions.
 
 ## Generated files

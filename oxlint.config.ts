@@ -86,8 +86,6 @@ export default defineConfig({
     "**/*.d.ts",
     "**/*.gen.ts",
     "**/*.generated.ts",
-    // TODO: adelrodriguez -- Shadcn registry source is excluded until its generated code is reconciled with Adamantite.
-    "packages/ui/**",
   ],
   options: {
     respectEslintDisableDirectives: true,
@@ -104,6 +102,13 @@ export default defineConfig({
     allowOnlySubpathImports("apps/*/src/shared/**", ["#shared"]),
     ...featureOverrides,
     ...RESTRICTED_IMPORTS.map(({ files, group }) => restrictImports(files, group)),
+    {
+      files: ["packages/ui/**"],
+      rules: {
+        // shadcn components put ARIA roles on styled divs; native tags such as `fieldset` add their own styling and behavior.
+        "jsx-a11y/prefer-tag-over-role": "off",
+      },
+    },
     {
       files: ["packages/native-ui/**"],
       rules: {
@@ -122,6 +127,7 @@ export default defineConfig({
     },
   ],
   rules: {
+    "func-style": ["error", "declaration", { allowTypeAnnotation: true }],
     "typescript/consistent-type-definitions": ["error", "type"],
   },
 })

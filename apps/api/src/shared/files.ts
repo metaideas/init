@@ -103,7 +103,7 @@ function handleUpload(key: string, file: ParsedUploadResult | ParsedStoredFile) 
   const metadata = isUploadResult ? undefined : file.metadata
   const name = isUploadResult ? (key.split("/").at(-1) ?? key) : file.name
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  const logFailure = (error: unknown) => {
+  function logFailure(error: unknown) {
     log.error({ error, key, message: "Failed to record asset" })
   }
 
@@ -140,7 +140,7 @@ function handleDelete(keys: string[]) {
 
   const ctx = context<AuthenticatedAppContext>()
   const userId: UserId = UserIdSchema.parse(ctx.var.session.user.id)
-  const logFailure = (error: unknown) => {
+  function logFailure(error: unknown) {
     log.error({ error, keys, message: "Failed to delete asset records" })
   }
 

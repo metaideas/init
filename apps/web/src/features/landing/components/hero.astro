@@ -82,7 +82,7 @@ const tagline = `${m.web_landing_hero_headline_first()} ${m.web_landing_hero_hea
   const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]")
   let resetTimer: ReturnType<typeof setTimeout> | undefined
 
-  const copyCommand = async function () {
+  async function copyCommand() {
     if (!copyButton || !copyStatus) return
 
     await navigator.clipboard.writeText(SCAFFOLD_COMMAND)

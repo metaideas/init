@@ -91,28 +91,33 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
+    // oxlint-disable-next-line react/set-state-in-effect -- Embla exposes scroll state only through its API, so read it once the API exists.
     onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)
 
     return () => {
-      api?.off("select", onSelect)
+      api.off("reInit", onSelect)
+      api.off("select", onSelect)
     }
   }, [api, onSelect])
 
+  const contextValue = React.useMemo(
+    () => ({
+      api,
+      canScrollNext,
+      canScrollPrev,
+      carouselRef,
+      opts,
+      orientation,
+      scrollNext,
+      scrollPrev,
+    }),
+    [api, canScrollNext, canScrollPrev, carouselRef, opts, orientation, scrollNext, scrollPrev]
+  )
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}
-    >
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}

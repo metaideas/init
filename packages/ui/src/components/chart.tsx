@@ -5,9 +5,9 @@ import * as RechartsPrimitive from "recharts"
 import { cn } from "cn"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { light: "", dark: ".dark" } as const
+const THEMES = { dark: ".dark", light: "" } as const
 
-const INITIAL_DIMENSION = { width: 320, height: 200 } as const
+const INITIAL_DIMENSION = { height: 200, width: 320 } as const
 type TooltipNameType = number | string
 
 export type ChartConfig = Record<
@@ -53,10 +53,11 @@ function ChartContainer({
   }
 }) {
   const uniqueId = React.useId()
-  const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`
+  const chartId = `chart-${id ?? uniqueId.replaceAll(":", "")}`
+  const contextValue = React.useMemo(() => ({ config }), [config])
 
   return (
-    <ChartContext.Provider value={{ config }}>
+    <ChartContext.Provider value={contextValue}>
       <div
         data-slot="chart"
         data-chart={chartId}
@@ -75,15 +76,16 @@ function ChartContainer({
   )
 }
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+function ChartStyle({ id, config }: { id: string; config: ChartConfig }) {
   const colorConfig = Object.entries(config).filter(([, config]) => config.theme ?? config.color)
 
-  if (!colorConfig.length) {
+  if (colorConfig.length === 0) {
     return null
   }
 
   return (
     <style
+      // oxlint-disable-next-line react/no-danger -- The chart's color config is rendered as scoped CSS custom properties.
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(
@@ -139,7 +141,7 @@ function ChartTooltipContent({
     }
 
     const [item] = payload
-    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? "value"}`
+    const key = String(labelKey ?? item?.dataKey ?? item?.name ?? "value")
     const itemConfig = getPayloadConfigFromPayload(config, item, key)
     const value =
       !labelKey && typeof label === "string" ? (config[label]?.label ?? label) : itemConfig?.label
@@ -170,24 +172,25 @@ function ChartTooltipContent({
         className
       )}
     >
-      {!nestLabel ? tooltipLabel : null}
+      {nestLabel ? null : tooltipLabel}
       <div className="grid gap-1.5">
         {payload
           .filter((item) => item.type !== "none")
           .map((item, index) => {
-            const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`
+            const key = String(nameKey ?? item.name ?? item.dataKey ?? "value")
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
             const indicatorColor = color ?? item.payload?.fill ?? item.color
 
             return (
               <div
+                // oxlint-disable-next-line react/no-array-index-key -- Recharts payload items have no stable identity.
                 key={index}
                 className={cn(
                   "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
                   indicator === "dot" && "items-center"
                 )}
               >
-                {formatter && item?.value !== undefined && item.name ? (
+                {formatter && item.value !== undefined && item.name ? (
                   formatter(item.value, item.name, item, index, payload)
                 ) : (
                   <>
@@ -200,10 +203,10 @@ function ChartTooltipContent({
                             "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
                             {
                               "h-2.5 w-2.5": indicator === "dot",
-                              "w-1": indicator === "line",
+                              "my-0.5": nestLabel && indicator === "dashed",
                               "w-0 border-[1.5px] border-dashed bg-transparent":
                                 indicator === "dashed",
-                              "my-0.5": nestLabel && indicator === "dashed",
+                              "w-1": indicator === "line",
                             }
                           )}
                           style={
@@ -227,7 +230,8 @@ function ChartTooltipContent({
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
-                      {item.value != null && (
+                      {/* oxlint-disable-next-line typescript/no-unnecessary-condition -- Recharts can pass null with filterNull=false despite its payload types. */}
+                      {item.value !== undefined && item.value !== null && (
                         <span className="font-mono font-medium text-foreground tabular-nums">
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
@@ -274,11 +278,12 @@ function ChartLegendContent({
       {payload
         .filter((item) => item.type !== "none")
         .map((item, index) => {
-          const key = `${nameKey ?? item.dataKey ?? "value"}`
+          const key = String(nameKey ?? item.dataKey ?? "value")
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
           return (
             <div
+              // oxlint-disable-next-line react/no-array-index-key -- Recharts payload items have no stable identity.
               key={index}
               className={cn(
                 "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
@@ -304,7 +309,7 @@ function ChartLegendContent({
 
 function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key: string) {
   if (typeof payload !== "object" || payload === null) {
-    return undefined
+    return
   }
 
   const payloadPayload =
@@ -315,13 +320,13 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
   let configLabelKey: string = key
 
   if (key in payload && typeof payload[key as keyof typeof payload] === "string") {
-    configLabelKey = payload[key as keyof typeof payload] as string
+    configLabelKey = payload[key as keyof typeof payload]
   } else if (
     payloadPayload
     && key in payloadPayload
     && typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
   ) {
-    configLabelKey = payloadPayload[key as keyof typeof payloadPayload] as string
+    configLabelKey = payloadPayload[key as keyof typeof payloadPayload]
   }
 
   return configLabelKey in config ? config[configLabelKey] : config[key]
