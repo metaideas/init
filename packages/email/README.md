@@ -14,7 +14,7 @@ const mailer = createMailer({
   transport: selectTransport({ resendApiKey: ENV.RESEND_API_KEY, smtpUrl: ENV.SMTP_URL }),
 })
 
-await mailer.send("password-reset", { resetUrl }, { to: [user.email] })
+await mailer.send("password-reset", { appName, resetUrl }, { to: [user.email] })
 ```
 
 Add a template under `src/templates/` and register it with its subject in `src/registry.ts`. Run `bun run dev` to preview templates. Locally, email goes to Mailpit from Docker Compose; open http://localhost:8005 to read it. Tests can pass `memoryTransport()` and read what was sent from its `sent` array.

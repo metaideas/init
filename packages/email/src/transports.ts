@@ -4,13 +4,12 @@ import { createTransport } from "nodemailer"
 import { Resend } from "resend"
 
 /**
- * Resend errors that can clear on their own. Everything else, such as a validation error or an
- * exhausted quota, fails the same way on every attempt.
+ * Resend 4xx errors that can clear on their own. Server errors and network failures are temporary
+ * too. Everything else, such as a validation error or an exhausted quota, fails the same way on
+ * every attempt.
  */
 const RETRYABLE_RESEND_ERRORS = new Set<ErrorResponse["name"]>([
-  "application_error",
   "concurrent_idempotent_requests",
-  "internal_server_error",
   "rate_limit_exceeded",
 ])
 
@@ -24,7 +23,10 @@ export function resendTransport(apiKey: string): EmailTransport {
       if (error) {
         throw EmailFault.wrap(error)
           .as("EmailDeliveryError", {
-            isRetryable: error.statusCode === null || RETRYABLE_RESEND_ERRORS.has(error.name),
+            isRetryable:
+              error.statusCode === null
+              || error.statusCode >= 500
+              || RETRYABLE_RESEND_ERRORS.has(error.name),
             transport: "resend",
           })
           .withMessage(error.message)
