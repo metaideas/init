@@ -32,6 +32,7 @@ type Edit = {
 }
 
 type PostHogSetup = {
+  sdk: string
   install: (appPath: string) => Promise<unknown>
   files: ReadonlyArray<{ path: string; templateFile: string }>
   environment: string
@@ -64,6 +65,7 @@ POSTHOG_HOST=https://us.i.posthog.com
     ],
     install: (appPath) => Bun.$`cd ${appPath} && bun add --exact posthog-node`,
     nextSteps: ["Capture server events with `analytics?.capture()` from #shared/analytics.ts."],
+    sdk: "posthog-node",
   },
   app: {
     edits: [
@@ -101,6 +103,7 @@ PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
     nextSteps: [
       "Call `usePostHog().identify(user.id)` from posthog-js/react once a session loads.",
     ],
+    sdk: "posthog-js",
   },
   mobile: {
     edits: [
@@ -150,9 +153,10 @@ EXPO_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
       return Bun.$`cd ${appPath} && bun add --exact posthog-react-native ${modules}`
     },
     nextSteps: [
-      "Call `usePostHog().identify(user.id)` from posthog-react-native once a session loads.",
+      "Call `usePostHog()?.identify(user.id)` from posthog-react-native once a session loads. The hook returns undefined when no project key is set.",
       "Run `bun run --filter mobile prebuild` to add the Expo modules to the native iOS and Android projects.",
     ],
+    sdk: "posthog-react-native",
   },
 }
 
@@ -175,13 +179,9 @@ export function registerPostHogGenerator(plop: PlopTypes.NodePlopAPI): void {
       return [
         async () => {
           const packageJson = await readPackageJson(`${appPath}/package.json`)
-          const posthogPackages = Object.keys({
-            ...packageJson.dependencies,
-            ...packageJson.devDependencies,
-          }).filter((name) => name.startsWith("posthog-"))
 
-          if (posthogPackages.length > 0) {
-            return `[SKIPPED] ${appPath} already contains ${posthogPackages.join(", ")}`
+          if (setup.sdk in { ...packageJson.dependencies, ...packageJson.devDependencies }) {
+            return `[SKIPPED] ${appPath} already contains ${setup.sdk}`
           }
 
           await setup.install(appPath)
@@ -196,12 +196,19 @@ export function registerPostHogGenerator(plop: PlopTypes.NodePlopAPI): void {
         async () => {
           const schemaPath = `${appPath}/.env.schema`
           const schema = await Bun.file(schemaPath).text()
+          const missing = setup.environment
+            .trim()
+            .split("\n\n")
+            .filter((declaration) => {
+              const key = /^([A-Z0-9_]+)=/m.exec(declaration)?.[1]
+              return key !== undefined && !new RegExp(`^${key}=`, "m").test(schema)
+            })
 
-          if (schema.includes("POSTHOG_API_KEY=")) {
-            return `[SKIPPED] ${schemaPath} already declares PostHog variables`
+          if (missing.length === 0) {
+            return `[SKIPPED] ${schemaPath} already declares the PostHog variables`
           }
 
-          await Bun.write(schemaPath, `${schema.trimEnd()}\n${setup.environment}`)
+          await Bun.write(schemaPath, `${schema.trimEnd()}\n\n${missing.join("\n\n")}\n`)
           return `${schemaPath}: added the optional PostHog variables`
         },
         ...setup.edits.map((edit) => () => applyEdit(`${appPath}/${edit.path}`, edit)),
