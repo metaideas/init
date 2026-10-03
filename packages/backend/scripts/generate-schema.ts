@@ -8,7 +8,7 @@ await Bun.$`cd ${schemaDirectory} && bun x auth generate --output schema.generat
 const generatedSchema = await Bun.file(schemaPath).text()
 const portableSchema = generatedSchema.replace(
   /^ \* {3}cd src\/functions\/components\/better-auth\n \* {3}npx auth generate --output .*$/m,
-  " *   bun run --filter @init/backend generate:auth"
+  " *   bun run --filter @v1/backend generate:auth"
 )
 
 await Bun.write(schemaPath, portableSchema)

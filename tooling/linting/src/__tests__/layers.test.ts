@@ -102,6 +102,6 @@ describe("findViolation", () => {
   })
 
   test("ignores package imports", () => {
-    expect(check("/repo/apps/app/src/shared/auth.ts", "@init/auth/client")).toBeUndefined()
+    expect(check("/repo/apps/app/src/shared/auth.ts", "@v1/auth/client")).toBeUndefined()
   })
 })

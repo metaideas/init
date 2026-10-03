@@ -1,7 +1,7 @@
-import { FieldGroup } from "@init/ui/components/field"
-import { useForm } from "@init/ui/components/form"
-import * as z from "@init/utils/schema/mini"
 import { useNavigate } from "@tanstack/react-router"
+import { FieldGroup } from "@v1/ui/components/field"
+import { useForm } from "@v1/ui/components/form"
+import * as z from "@v1/utils/schema/mini"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { checkEmailAvailability } from "#features/auth/handlers.ts"
 import {

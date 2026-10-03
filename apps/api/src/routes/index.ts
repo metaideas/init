@@ -71,7 +71,7 @@ export const router = app
   .get(
     "/",
     Scalar({
-      pageTitle: "init API",
+      pageTitle: "v1 API",
       theme: "alternate",
       url: "/openapi",
     })
@@ -82,7 +82,7 @@ export const router = app
       documentation: {
         info: {
           description: "An example API built with Hono",
-          title: "init API",
+          title: "v1 API",
           version: "1.0.0",
         },
       },

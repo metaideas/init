@@ -1,12 +1,12 @@
 import { describe, expect, mock, test } from "bun:test"
-import { EmailDeliveryError, SendEmailError } from "@init/core/errors"
+import { EmailDeliveryError, SendEmailError } from "@v1/core/errors"
 import { isTimeoutError } from "tryharder/errors"
 import type { EmailMessage, SendContext } from "#transports.ts"
 import { createMailer } from "#mailer.ts"
 import { memoryTransport } from "#transports.ts"
 
-const props = { appName: "init", resetUrl: "https://example.com/reset?token=abc" }
-const from = "init <dev@example.com>"
+const props = { appName: "v1", resetUrl: "https://example.com/reset?token=abc" }
+const from = "v1 <dev@example.com>"
 const to = ["ada@example.com"]
 
 describe("createMailer", () => {
@@ -22,7 +22,7 @@ describe("createMailer", () => {
     const [message] = transport.sent
     expect(message?.from).toBe(from)
     expect(message?.to).toEqual(to)
-    expect(message?.subject).toBe("Reset your init password")
+    expect(message?.subject).toBe("Reset your v1 password")
     expect(message?.html).toContain(props.resetUrl)
     expect(message?.text).toContain(props.resetUrl)
   })

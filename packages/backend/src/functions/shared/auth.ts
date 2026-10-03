@@ -1,5 +1,5 @@
 import type { AuthFunctions, GenericCtx } from "@convex-dev/better-auth"
-import type { AuthOptions } from "@init/auth/server"
+import type { AuthOptions } from "@v1/auth/server"
 import { createClient } from "@convex-dev/better-auth"
 import { convex } from "@convex-dev/better-auth/plugins"
 import {
@@ -7,7 +7,7 @@ import {
   AUTH_APP_NAME,
   AUTH_EMAIL_AND_PASSWORD_OPTIONS,
   AUTH_SESSION_OPTIONS,
-} from "@init/auth/constants"
+} from "@v1/auth/constants"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { components, internal } from "#functions/_generated/api.js"
 import authConfig from "#functions/auth.config.ts"

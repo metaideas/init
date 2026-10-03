@@ -1,11 +1,11 @@
-import { Button } from "@init/ui/components/button"
+import { Button } from "@v1/ui/components/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@init/ui/components/dropdown-menu"
-import { Icon } from "@init/ui/components/icon"
+} from "@v1/ui/components/dropdown-menu"
+import { Icon } from "@v1/ui/components/icon"
 import { m } from "#shared/internationalization/messages.js"
 import { setLocale } from "#shared/internationalization/runtime.js"
 

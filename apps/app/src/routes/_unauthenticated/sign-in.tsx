@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@init/ui/components/card"
-import { Separator } from "@init/ui/components/separator"
 import { createFileRoute, Link } from "@tanstack/react-router"
+import { Card, CardContent, CardHeader, CardTitle } from "@v1/ui/components/card"
+import { Separator } from "@v1/ui/components/separator"
 import SignInWithPasswordForm from "#features/auth/components/sign-in-with-password-form.tsx"
 import {
   SignInWithGitHubButton,

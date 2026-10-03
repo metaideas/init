@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { InvalidWebhookError } from "@init/core/errors"
+import { InvalidWebhookError } from "@v1/core/errors"
 import { createStorage } from "unstorage"
 import { createPayments } from "#client.ts"
 

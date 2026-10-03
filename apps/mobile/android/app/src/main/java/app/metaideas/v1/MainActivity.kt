@@ -1,4 +1,4 @@
-package app.metaideas.init
+package app.metaideas.v1
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

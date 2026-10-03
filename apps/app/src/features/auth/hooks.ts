@@ -1,5 +1,5 @@
-import { toast } from "@init/ui/components/toast"
 import { useNavigate } from "@tanstack/react-router"
+import { toast } from "@v1/ui/components/toast"
 import { useState } from "react"
 import { AUTHENTICATED_PATHNAME, UNAUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import { signIn, signOut } from "#shared/auth.ts"

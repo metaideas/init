@@ -1,4 +1,4 @@
-import { createAuthClient } from "@init/auth/client"
+import { createAuthClient } from "@v1/auth/client"
 import { buildApiUrl } from "#shared/utils.ts"
 
 export const authClient = createAuthClient(buildApiUrl("/auth"))

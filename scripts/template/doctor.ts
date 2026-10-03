@@ -14,7 +14,7 @@ import {
   TEMPLATE_SCOPE,
   TEMPLATE_SECTION_START,
   TEMPLATE_STAMP_FILE,
-  TemplateInitSchema,
+  TemplateCleanupSchema,
   type TemplateStamp,
   type WorkspaceNode,
 } from "./shared"
@@ -241,20 +241,20 @@ const checks: Check[] = [
     name: "Template-only content matches the project state",
     run: async ({ rootDir, stamp }) => {
       const packageJson = await readPackageJson(join(rootDir, "package.json"))
-      const init = TemplateInitSchema.safeParse(packageJson.init)
+      const cleanup = TemplateCleanupSchema.safeParse(packageJson.v1)
       const allMarkedFiles = await findTextReferences(rootDir, TEMPLATE_SECTION_START)
       const markedFiles = allMarkedFiles.filter(
         (path) => !relative(rootDir, path).startsWith("scripts/")
       )
 
       if (!stamp) {
-        if (!init.success) {
+        if (!cleanup.success) {
           return [
-            "package.json needs init.cleanupPaths and init.cleanupSections arrays so setup can remove template content",
+            "package.json needs v1.cleanupPaths and v1.cleanupSections arrays so setup can remove template content",
           ]
         }
 
-        const { cleanupPaths, cleanupSections } = init.data
+        const { cleanupPaths, cleanupSections } = cleanup.data
         const missingPaths = await Promise.all(
           cleanupPaths.map(async (path) =>
             (await Bun.file(join(rootDir, path)).exists()) ? undefined : path
@@ -264,18 +264,16 @@ const checks: Check[] = [
         return [
           ...missingPaths
             .filter((path): path is string => path !== undefined)
-            .map((path) => `init.cleanupPaths lists ${path}, which does not exist`),
+            .map((path) => `v1.cleanupPaths lists ${path}, which does not exist`),
           ...cleanupSections
             .filter((path) => !markedFiles.includes(join(rootDir, path)))
-            .map(
-              (path) => `init.cleanupSections lists ${path}, which has no TEMPLATE:START marker`
-            ),
+            .map((path) => `v1.cleanupSections lists ${path}, which has no TEMPLATE:START marker`),
         ]
       }
 
       return [
         ...(stamp.commit ? [] : [`${TEMPLATE_STAMP_FILE} does not record the template commit`]),
-        ...("init" in packageJson ? ["package.json still has the init field"] : []),
+        ...("v1" in packageJson ? ["package.json still has the v1 field"] : []),
         ...("bun-create" in packageJson ? ["package.json still has the bun-create field"] : []),
         ...markedFiles.map((path) => `${relative(rootDir, path)} still has TEMPLATE:START markers`),
       ]

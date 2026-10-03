@@ -1,4 +1,4 @@
-import { Button } from "@init/ui/components/button"
+import { Button } from "@v1/ui/components/button"
 import {
   Command,
   CommandDialog,
@@ -9,8 +9,8 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@init/ui/components/command"
-import { Icon } from "@init/ui/components/icon"
+} from "@v1/ui/components/command"
+import { Icon } from "@v1/ui/components/icon"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import { useHasBeenInView, useOpenState } from "#features/showcase/hooks.ts"
 

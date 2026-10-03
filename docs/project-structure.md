@@ -1,6 +1,6 @@
 ---
 title: Project Structure
-description: Navigate the application, package, infrastructure, and tooling workspaces in init and their import boundaries.
+description: Navigate the application, package, infrastructure, and tooling workspaces in v1 and their import boundaries.
 ---
 
 The template has the following folders:
@@ -93,7 +93,7 @@ features/<feature>/
 | `handlers.ts`                             | ✓   | ✓   |         |           |        |     |
 
 - A role file that grows becomes a folder of the same name with one file per item, such as `handlers/sign-in.ts`. No other folder names exist inside a feature.
-- `handlers.ts` implements what the app exposes. It defines no contracts of its own. Payloads and errors that cross applications belong in `@init/core` or the package workspace that owns them.
+- `handlers.ts` implements what the app exposes. It defines no contracts of its own. Payloads and errors that cross applications belong in `@v1/core` or the package workspace that owns them.
 - Components reach the server through `data.ts` or `hooks.ts`. TanStack Start server functions are the exception: components and routes call them from `handlers.ts` directly, because a server function is already its own client entry point.
 - `schemas.ts` and `errors.ts` hold only what the app owns. Types derive from schemas with `z.infer`, so features have no `types.ts`.
 - A helper lives in the file that uses it until another feature needs it. Then it moves to `shared/`.

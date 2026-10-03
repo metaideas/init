@@ -1,4 +1,4 @@
-import type { Logger } from "@init/core/services/logging"
+import type { Logger } from "@v1/core/services/logging"
 import type { BetterAuthPlugin, SocialProviders } from "better-auth"
 import { type DB, drizzleAdapter } from "@better-auth/drizzle-adapter"
 import { betterAuth } from "better-auth/minimal"

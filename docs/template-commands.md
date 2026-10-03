@@ -1,9 +1,9 @@
 ---
 title: Template Commands
-description: Configure, verify, extend, and update scaffolded projects from init with local template commands.
+description: Configure, verify, extend, and update scaffolded projects from v1 with local template commands.
 ---
 
-Use these template commands to configure and extend projects created with `bun create metaideas/init <name>`. Each command does one mechanical job. The skills in `.agents/skills/` drive them and finish with `bun template doctor`.
+Use these template commands to configure and extend projects created with `bun create metaideas/v1 <name>`. Each command does one mechanical job. The skills in `.agents/skills/` drive them and finish with `bun template doctor`.
 
 ## Commands
 
@@ -12,7 +12,7 @@ Use these template commands to configure and extend projects created with `bun c
 Configure a newly created project. This command does the following:
 
 - It prompts you to select the application and package workspaces to keep, and keeps the packages they depend on.
-- It sets the project name, which is also the package scope, and rewrites `@init/` references.
+- It sets the project name, which is also the package scope, and rewrites `@v1/` references.
 - It records the source template, commit, and creation time in `.template.json`.
 - It removes content that only template maintainers use, including the marked template sections of `AGENTS.md`.
 
@@ -25,11 +25,11 @@ bun template setup --yes --name <name> --keep-apps app,api --keep-packages auth,
 
 Verify the project. The doctor checks the template invariants, then runs the existing tools:
 
-- No `@init/` references remain after the rename.
+- No `@v1/` references remain after the rename.
 - Every scoped dependency resolves to a workspace, and no package workspace depends on an application workspace.
 - Every `@import` in an environment contract points at an existing fragment, and every `@generateTsTypes` output exists.
 - Every pattern in the `build` task `env` list of `turbo.json` matches a declared key.
-- Template-only content matches the project state: markers and `init` fields are gone from a scaffolded project, and present in the template.
+- Template-only content matches the project state: markers and `v1` fields are gone from a scaffolded project, and present in the template.
 - Every backend client file in an app has its backend workspace and dependency.
 - `bun run check`, `bun run boundaries`, `bun run analyze`, `bun run env:check`, and `bun run build` pass.
 
@@ -58,7 +58,7 @@ bun template remove package payments
 
 ### `bun template diff`
 
-Fetch the upstream template and print the changes since the recorded commit, with `@init/` rewritten to the project scope so hunks apply locally.
+Fetch the upstream template and print the changes since the recorded commit, with `@v1/` rewritten to the project scope so hunks apply locally.
 
 ```bash
 bun template diff --name-only
@@ -77,7 +77,7 @@ bun template diff --update-stamp
 `bun template setup` creates `.template.json`:
 
 ```json
-{ "template": "metaideas/init", "commit": "<sha>", "createdAt": "<ISO date>" }
+{ "template": "metaideas/v1", "commit": "<sha>", "createdAt": "<ISO date>" }
 ```
 
 There is no automated merge. Run `bun template diff`, apply the relevant hunks, including upstream deletions, then record the new baseline with `--update-stamp` and run `bun template doctor`. The `update-from-template` skill walks a coding agent through this.

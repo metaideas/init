@@ -1,6 +1,6 @@
 ---
 name: doctor
-description: Verify a project scaffolded from init and fix what it reports. Use after any template command, workspace change, or backend connection, and when asked whether the project is healthy.
+description: Verify a project scaffolded from v1 and fix what it reports. Use after any template command, workspace change, or backend connection, and when asked whether the project is healthy.
 ---
 
 Run the doctor and fix every failure it reports. The doctor is the definition of done for template work: a run with no failures is the completion criterion.
@@ -16,7 +16,7 @@ Each check prints the file and the reason. Fix the cause, not the check:
 - **Workspace dependency**: a manifest depends on a workspace that is gone. Remove the dependency and the imports that used it, or restore the workspace with `bun template add`.
 - **Environment import or generated types**: an `.env.schema` imports a fragment from a removed package, or codegen has not run. Delete the `@import` line and the keys that came from it, or run `bun run codegen`.
 - **Turbo build env**: a pattern in the `build` task of `turbo.json` matches no declared key. Remove the pattern.
-- **Template content**: cleanup markers, `init` fields, or a missing stamp commit. In a scaffolded project remove the leftovers. In the template itself, restore the marker or path.
+- **Template content**: cleanup markers, `v1` fields, or a missing stamp commit. In a scaffolded project remove the leftovers. In the template itself, restore the marker or path.
 - **Backend connection**: an app has a client file whose backend workspace or dependency is missing. Follow the connect-backend skill or delete the client file.
 - **Tool failures**: read the printed output from `check`, `boundaries`, `analyze`, `env:check`, or `build` and fix the reported files.
 

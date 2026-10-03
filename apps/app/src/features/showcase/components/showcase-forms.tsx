@@ -1,5 +1,5 @@
-import { Calendar } from "@init/ui/components/calendar"
-import { Checkbox } from "@init/ui/components/checkbox"
+import { Calendar } from "@v1/ui/components/calendar"
+import { Checkbox } from "@v1/ui/components/checkbox"
 import {
   Combobox,
   ComboboxChip,
@@ -12,7 +12,7 @@ import {
   ComboboxList,
   ComboboxValue,
   useComboboxAnchor,
-} from "@init/ui/components/combobox"
+} from "@v1/ui/components/combobox"
 import {
   Field,
   FieldContent,
@@ -24,10 +24,10 @@ import {
   FieldSeparator,
   FieldSet,
   FieldTitle,
-} from "@init/ui/components/field"
-import { useForm } from "@init/ui/components/form"
-import { Icon } from "@init/ui/components/icon"
-import { Input } from "@init/ui/components/input"
+} from "@v1/ui/components/field"
+import { useForm } from "@v1/ui/components/form"
+import { Icon } from "@v1/ui/components/icon"
+import { Input } from "@v1/ui/components/input"
 import {
   InputGroup,
   InputGroupAddon,
@@ -35,21 +35,21 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
-} from "@init/ui/components/input-group"
+} from "@v1/ui/components/input-group"
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@init/ui/components/input-otp"
-import { Kbd } from "@init/ui/components/kbd"
-import { Label } from "@init/ui/components/label"
+} from "@v1/ui/components/input-otp"
+import { Kbd } from "@v1/ui/components/kbd"
+import { Label } from "@v1/ui/components/label"
 import {
   NativeSelect,
   NativeSelectOptGroup,
   NativeSelectOption,
-} from "@init/ui/components/native-select"
-import { RadioGroup, RadioGroupItem } from "@init/ui/components/radio-group"
+} from "@v1/ui/components/native-select"
+import { RadioGroup, RadioGroupItem } from "@v1/ui/components/radio-group"
 import {
   Select,
   SelectContent,
@@ -59,12 +59,12 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "@init/ui/components/select"
-import { Slider } from "@init/ui/components/slider"
-import { Spinner } from "@init/ui/components/spinner"
-import { Switch } from "@init/ui/components/switch"
-import { Textarea } from "@init/ui/components/textarea"
-import { toast } from "@init/ui/components/toast"
+} from "@v1/ui/components/select"
+import { Slider } from "@v1/ui/components/slider"
+import { Spinner } from "@v1/ui/components/spinner"
+import { Switch } from "@v1/ui/components/switch"
+import { Textarea } from "@v1/ui/components/textarea"
+import { toast } from "@v1/ui/components/toast"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import {

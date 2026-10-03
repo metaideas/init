@@ -1,5 +1,5 @@
 {
-  "name": "@init/utils",
+  "name": "@v1/utils",
   "private": true,
   "description": "Shared utilities and helpers",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
-    "@init/core": "workspace:*",
+    "@v1/core": "workspace:*",
     "nanoid": "5.1.16",
     "std-env": "4.2.0",
     "ufo": "1.5.4",

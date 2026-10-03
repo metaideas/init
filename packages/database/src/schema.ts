@@ -1,6 +1,6 @@
-import type { ConstrainedString } from "@init/utils/type"
-import { createIdGenerator } from "@init/utils/id"
-import * as z from "@init/utils/schema"
+import type { ConstrainedString } from "@v1/utils/type"
+import { createIdGenerator } from "@v1/utils/id"
+import * as z from "@v1/utils/schema"
 import * as pg from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm/relations"
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { getMessageText } from "@init/ai/helpers/ai-sdk"
-import { type UIMessage, useChat } from "@init/ai/react/ai-sdk"
+import { getMessageText } from "@v1/ai/helpers/ai-sdk"
+import { type UIMessage, useChat } from "@v1/ai/react/ai-sdk"
 import {
   Attachment,
   AttachmentContent,
@@ -9,8 +9,8 @@ import {
   AttachmentMedia,
   AttachmentTitle,
   AttachmentTrigger,
-} from "@init/ui/components/attachment"
-import { Bubble, BubbleContent } from "@init/ui/components/bubble"
+} from "@v1/ui/components/attachment"
+import { Bubble, BubbleContent } from "@v1/ui/components/bubble"
 import {
   Card,
   CardAction,
@@ -19,18 +19,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@init/ui/components/card"
+} from "@v1/ui/components/card"
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@init/ui/components/empty"
-import { Icon } from "@init/ui/components/icon"
-import { InputGroup, InputGroupAddon, InputGroupButton } from "@init/ui/components/input-group"
-import { Marker, MarkerContent } from "@init/ui/components/marker"
-import { Message, MessageContent } from "@init/ui/components/message"
+} from "@v1/ui/components/empty"
+import { Icon } from "@v1/ui/components/icon"
+import { InputGroup, InputGroupAddon, InputGroupButton } from "@v1/ui/components/input-group"
+import { Marker, MarkerContent } from "@v1/ui/components/marker"
+import { Message, MessageContent } from "@v1/ui/components/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -38,8 +38,8 @@ import {
   MessageScrollerItem,
   MessageScrollerProvider,
   MessageScrollerViewport,
-} from "@init/ui/components/message-scroller"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@init/ui/components/tooltip"
+} from "@v1/ui/components/message-scroller"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@v1/ui/components/tooltip"
 import { demoChat, demoChatTransport, initialDemoMessages } from "#features/demo/data.ts"
 
 export default function ChatPlayground() {

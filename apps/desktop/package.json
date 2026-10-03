@@ -22,12 +22,12 @@
     "make": "electron-forge make"
   },
   "dependencies": {
-    "@init/ui": "workspace:*",
     "@tanstack/react-devtools": "0.10.9",
     "@tanstack/react-query": "5.101.4",
     "@tanstack/react-query-devtools": "5.91.2",
     "@tanstack/react-router": "1.170.41",
     "@tanstack/react-router-devtools": "1.167.0",
+    "@v1/ui": "workspace:*",
     "electron-squirrel-startup": "1.0.1",
     "evlog": "2.29.0",
     "faultier": "3.0.1",

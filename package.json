@@ -1,5 +1,5 @@
 {
-  "name": "init",
+  "name": "v1",
   "private": true,
   "workspaces": {
     "packages": [
@@ -17,11 +17,11 @@
     "check": "adamantite check",
     "clean": "turbo clean && git clean -xdf .cache .turbo dist node_modules",
     "codegen": "turbo run codegen --continue --ui=stream --output-logs=errors-only",
-    "db:migrate": "turbo --filter @init/database migrate",
-    "db:push": "turbo --filter @init/database push",
+    "db:migrate": "turbo --filter @v1/database migrate",
+    "db:push": "turbo --filter @v1/database push",
     "dev": "turbo run dev",
-    "dev:apps": "turbo run dev --filter=!@init/*",
-    "dev:packages": "turbo run dev --filter=@init/*",
+    "dev:apps": "turbo run dev --filter=!@v1/*",
+    "dev:packages": "turbo run dev --filter=@v1/*",
     "docker:down": "docker compose -f infra/local/docker-compose.yml down",
     "docker:up": "docker compose -f infra/local/docker-compose.yml up -d --remove-orphans",
     "env:check": "turbo run env:check --continue",
@@ -64,19 +64,19 @@
   "bun-create": {
     "postinstall": "echo 'Next step: run `bun template setup`, or ask your coding agent to use the setup skill.'"
   },
-  "init": {
-    "cleanupPaths": [
-      ".github/workflows/pullfrog.yml"
-    ],
-    "cleanupSections": [
-      "AGENTS.md"
-    ]
-  },
   "trustedDependencies": [
     "@parcel/watcher",
     "@tailwindcss/oxide",
     "docs",
     "electron",
     "extension"
-  ]
+  ],
+  "v1": {
+    "cleanupPaths": [
+      ".github/workflows/pullfrog.yml"
+    ],
+    "cleanupSections": [
+      "AGENTS.md"
+    ]
+  }
 }

@@ -1,6 +1,6 @@
 ---
 title: Package Guidance
-description: Understand the shared package workspaces, hosted backend package, key-value storage, and workflow conventions in init.
+description: Understand the shared package workspaces, hosted backend package, key-value storage, and workflow conventions in v1.
 ---
 
 Shared libraries and hosted backends are in `packages/`. Application workspaces consume them through workspace dependencies. Package names use the configured scope of the project.
@@ -22,7 +22,7 @@ export const auth = createServerAuth({
 })
 ```
 
-Packages do not import each other, apart from `@init/core`, `@init/utils`, and `@init/ui`. When a package needs another capability, it declares the smallest interface it needs, such as `sendPasswordReset` above, and the application connects the two. `bun template doctor` reports a package that depends on another capability package or reads `ENV` in its source.
+Packages do not import each other, apart from `@v1/core`, `@v1/utils`, and `@v1/ui`. When a package needs another capability, it declares the smallest interface it needs, such as `sendPasswordReset` above, and the application connects the two. `bun template doctor` reports a package that depends on another capability package or reads `ENV` in its source.
 
 ## Convex Backend
 
@@ -30,7 +30,7 @@ Packages do not import each other, apart from `@init/core`, `@init/utils`, and `
 
 Use the `connect-backend` skill in `.agents/skills/` to add the client, environment, provider, and optional example connections to `apps/app`, `apps/desktop`, or `apps/mobile`. It does not deploy Convex or create credentials.
 
-Run `bun run --filter @init/backend dev` to connect the package to a Convex deployment.
+Run `bun run --filter @v1/backend dev` to connect the package to a Convex deployment.
 
 ### Structure
 
@@ -45,8 +45,8 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 `packages/email` renders [React Email](https://react.email/) templates and delivers them through a transport. An application workspace creates one mailer in its composition root and passes it where email is sent:
 
 ```ts
-import { createMailer } from "@init/email/mailer"
-import { selectTransport } from "@init/email/transports"
+import { createMailer } from "@v1/email/mailer"
+import { selectTransport } from "@v1/email/transports"
 
 export const mailer = createMailer({
   from: ENV.EMAIL_FROM,
@@ -66,12 +66,12 @@ Each template registers its subject in `src/registry.ts`, so `send` type-checks 
 `packages/database` owns the Drizzle schema, migrations, and helpers. An application workspace creates one client in its composition root and passes its logger to log queries at debug level:
 
 ```ts
-import { createDatabase } from "@init/database/client"
+import { createDatabase } from "@v1/database/client"
 
 export const database = createDatabase({ logger: log, url: ENV.DATABASE_URL })
 ```
 
-`withTransaction(database, operation)` from `@init/database/helpers/transaction` runs an operation in a transaction, and nested calls reuse the active one.
+`withTransaction(database, operation)` from `@v1/database/helpers/transaction` runs an operation in a transaction, and nested calls reuse the active one.
 
 ## Payments
 
@@ -88,7 +88,7 @@ There is no key-value package workspace. An application workspace that needs one
 An application workspace creates one `Workflows` instance per process. Pass a `url`, and workflows open their own small connection pool. Pass the application's logger as `logger` to receive workflow events; without it, DBOS logs to the console:
 
 ```ts
-import { Workflows } from "@init/workflows/client"
+import { Workflows } from "@v1/workflows/client"
 
 export const workflows = new Workflows({
   logger: log,
@@ -122,4 +122,4 @@ Run workflows in a single process per application version. Every process uses th
 
 DBOS tags each run with an application version, which defaults to a hash of the workflow code, and recovers only runs that match the current version. After a deploy that changes workflow code, runs that the previous version left unfinished do not resume on their own. Keep a process on the previous version until they drain, or move them to the new version. See [Upgrading Workflow Code](https://docs.dbos.dev/typescript/tutorials/upgrading-workflows).
 
-`bun run --filter @init/workflows reset` drops the local `dbos` schema, which removes workflow runs, queues, and history. Resetting the database clears only the application tables, so reset workflows with it. Otherwise unfinished runs resume against the new data. Stop the API first. It recreates the schema the next time it launches.
+`bun run --filter @v1/workflows reset` drops the local `dbos` schema, which removes workflow runs, queues, and history. Resetting the database clears only the application tables, so reset workflows with it. Otherwise unfinished runs resume against the new data. Stop the API first. It recreates the schema the next time it launches.

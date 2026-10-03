@@ -1,4 +1,4 @@
-import { isDevelopment } from "@init/utils/env"
+import { isDevelopment } from "@v1/utils/env"
 import { auditRedactPreset, initLogger } from "evlog"
 
 // The preset masks exact field names such as `secret` and `apiKey`. A bare word also masks the

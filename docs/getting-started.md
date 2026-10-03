@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Create an init project, select its workspaces, and start the local development environment.
+description: Create a v1 project, select its workspaces, and start the local development environment.
 sidebar:
   order: 2
 ---
@@ -19,7 +19,7 @@ sidebar:
 ## Create a Project
 
 ```bash
-bun create metaideas/init my-app
+bun create metaideas/v1 my-app
 cd my-app
 ```
 

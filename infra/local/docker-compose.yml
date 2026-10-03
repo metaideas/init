@@ -1,4 +1,4 @@
-name: init
+name: v1
 
 services:
   redis:

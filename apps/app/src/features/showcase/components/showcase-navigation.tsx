@@ -6,9 +6,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@init/ui/components/breadcrumb"
-import { Card, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
-import { Icon } from "@init/ui/components/icon"
+} from "@v1/ui/components/breadcrumb"
+import { Card, CardDescription, CardHeader, CardTitle } from "@v1/ui/components/card"
+import { Icon } from "@v1/ui/components/icon"
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -25,7 +25,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@init/ui/components/menubar"
+} from "@v1/ui/components/menubar"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -34,7 +34,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@init/ui/components/navigation-menu"
+} from "@v1/ui/components/navigation-menu"
 import {
   Pagination,
   PaginationContent,
@@ -43,8 +43,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@init/ui/components/pagination"
-import { Separator } from "@init/ui/components/separator"
+} from "@v1/ui/components/pagination"
+import { Separator } from "@v1/ui/components/separator"
 import {
   Sidebar,
   SidebarContent,
@@ -69,9 +69,9 @@ import {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-} from "@init/ui/components/sidebar"
-import { Skeleton } from "@init/ui/components/skeleton"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@init/ui/components/tabs"
+} from "@v1/ui/components/sidebar"
+import { Skeleton } from "@v1/ui/components/skeleton"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@v1/ui/components/tabs"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import { NAVIGATION_LINKS, SIDEBAR_ITEMS, SIDEBAR_PROJECTS } from "#features/showcase/constants.ts"

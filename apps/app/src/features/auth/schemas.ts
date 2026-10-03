@@ -1,4 +1,4 @@
-import * as z from "@init/utils/schema/mini"
+import * as z from "@v1/utils/schema/mini"
 
 export const EmailSchema = z.email({
   error: (issue) => (issue.input === undefined ? "Email is required" : "Invalid email address"),

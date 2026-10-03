@@ -1,3 +1,4 @@
+import { ClientOnly } from "@tanstack/react-router"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,9 +10,9 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@init/ui/components/alert-dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
-import { Button } from "@init/ui/components/button"
+} from "@v1/ui/components/alert-dialog"
+import { Avatar, AvatarFallback, AvatarImage } from "@v1/ui/components/avatar"
+import { Button } from "@v1/ui/components/button"
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -27,7 +28,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@init/ui/components/context-menu"
+} from "@v1/ui/components/context-menu"
 import {
   Dialog,
   DialogClose,
@@ -37,7 +38,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@init/ui/components/dialog"
+} from "@v1/ui/components/dialog"
 import {
   Drawer,
   DrawerClose,
@@ -47,7 +48,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@init/ui/components/drawer"
+} from "@v1/ui/components/drawer"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -63,12 +64,12 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@init/ui/components/dropdown-menu"
-import { Field, FieldGroup, FieldLabel } from "@init/ui/components/field"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@init/ui/components/hover-card"
-import { Icon } from "@init/ui/components/icon"
-import { Input } from "@init/ui/components/input"
-import { Kbd, KbdGroup } from "@init/ui/components/kbd"
+} from "@v1/ui/components/dropdown-menu"
+import { Field, FieldGroup, FieldLabel } from "@v1/ui/components/field"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@v1/ui/components/hover-card"
+import { Icon } from "@v1/ui/components/icon"
+import { Input } from "@v1/ui/components/input"
+import { Kbd, KbdGroup } from "@v1/ui/components/kbd"
 import {
   Popover,
   PopoverContent,
@@ -76,7 +77,7 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "@init/ui/components/popover"
+} from "@v1/ui/components/popover"
 import {
   Sheet,
   SheetClose,
@@ -86,10 +87,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@init/ui/components/sheet"
-import { toast } from "@init/ui/components/toast"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@init/ui/components/tooltip"
-import { ClientOnly } from "@tanstack/react-router"
+} from "@v1/ui/components/sheet"
+import { toast } from "@v1/ui/components/toast"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@v1/ui/components/tooltip"
 import { lazy, Suspense } from "react"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
@@ -289,16 +289,16 @@ export default function ShowcaseOverlays() {
               className="text-sm font-medium underline underline-offset-4"
               href="#hover-card"
             >
-              @init
+              @v1
             </HoverCardTrigger>
             <HoverCardContent className="w-80">
               <div className="flex gap-4">
                 <Avatar>
-                  <AvatarImage alt="init" src={AVATAR_IMAGE_SRC} />
+                  <AvatarImage alt="v1" src={AVATAR_IMAGE_SRC} />
                   <AvatarFallback>IN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm font-semibold">@init</p>
+                  <p className="text-sm font-semibold">@v1</p>
                   <p className="text-sm">A modern, opinionated monorepo template for TypeScript.</p>
                   <p className="text-xs text-muted-foreground">Joined December 2023</p>
                 </div>

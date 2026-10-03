@@ -8,9 +8,9 @@
   "desktop_local_files_saved_status": "Archivo guardado",
   "desktop_local_files_title": "Editor de archivos locales",
   "extension_demo_description": "Esta ventana usa el catálogo compartido de Paraglide y recuerda tu idioma.",
-  "extension_demo_title": "Extensión de init",
+  "extension_demo_title": "Extensión de v1",
   "mobile_home_description": "Esta pantalla usa el catálogo compartido de Paraglide.",
-  "mobile_home_title": "Te damos la bienvenida a init",
+  "mobile_home_title": "Te damos la bienvenida a v1",
   "shared_locale_english": "Inglés",
   "shared_locale_spanish": "Español",
   "shared_locale_switch": "Cambiar idioma",
@@ -20,6 +20,6 @@
   "web_home_blog_link": "Leer el blog",
   "web_home_description": "Esta página usa el catálogo compartido de Paraglide. Reemplázala con tu propio contenido.",
   "web_home_recent_posts": "Publicaciones recientes",
-  "web_home_title": "Te damos la bienvenida a init",
+  "web_home_title": "Te damos la bienvenida a v1",
   "web_not_found_title": "Página no encontrada"
 }

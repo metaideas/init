@@ -1,6 +1,6 @@
-import { Alert, AlertAction, AlertDescription, AlertTitle } from "@init/ui/components/alert"
-import { Avatar, AvatarFallback, AvatarGroup } from "@init/ui/components/avatar"
-import { Button } from "@init/ui/components/button"
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "@v1/ui/components/alert"
+import { Avatar, AvatarFallback, AvatarGroup } from "@v1/ui/components/avatar"
+import { Button } from "@v1/ui/components/button"
 import {
   Empty,
   EmptyContent,
@@ -8,11 +8,11 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@init/ui/components/empty"
-import { Icon } from "@init/ui/components/icon"
-import { Progress, ProgressLabel, ProgressValue } from "@init/ui/components/progress"
-import { Skeleton } from "@init/ui/components/skeleton"
-import { toast } from "@init/ui/components/toast"
+} from "@v1/ui/components/empty"
+import { Icon } from "@v1/ui/components/icon"
+import { Progress, ProgressLabel, ProgressValue } from "@v1/ui/components/progress"
+import { Skeleton } from "@v1/ui/components/skeleton"
+import { toast } from "@v1/ui/components/toast"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import { PROGRESS_VALUES } from "#features/showcase/constants.ts"

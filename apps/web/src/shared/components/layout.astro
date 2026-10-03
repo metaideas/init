@@ -2,7 +2,7 @@
 import { getLocale } from "#shared/internationalization/runtime.js"
 import { m } from "#shared/internationalization/messages.js"
 import { SITE_NAME, SITE_URL } from "#shared/constants.ts"
-import "@init/ui/globals.css"
+import "@v1/ui/globals.css"
 
 type Props = {
   description?: string
@@ -28,7 +28,7 @@ const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <script is:inline type="module">
-      const storedTheme = localStorage.getItem("init-theme")
+      const storedTheme = localStorage.getItem("v1-theme")
       const prefersDark = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
       const theme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : prefersDark ? "dark" : "light"
       document.documentElement.classList.add(theme)

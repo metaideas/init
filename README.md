@@ -1,12 +1,12 @@
 <div align="center">
-  <h1 align="center">▶️ <code>init</code></h1>
+  <h1 align="center">▶️ <code>v1</code></h1>
 
   <p align="center">
     <em><strong>Start once. Ship everywhere.</strong></em>
   </p>
 
   <p align="center">
-    <code>bun create metaideas/init my-app</code>
+    <code>bun create metaideas/v1 my-app</code>
   </p>
 </div>
 

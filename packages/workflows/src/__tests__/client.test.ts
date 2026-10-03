@@ -1,5 +1,5 @@
 import { describe, expect, mock, test } from "bun:test"
-import { WorkflowsNotLaunchedError } from "@init/core/errors"
+import { WorkflowsNotLaunchedError } from "@v1/core/errors"
 
 const queueRegistration = Promise.withResolvers<undefined>()
 

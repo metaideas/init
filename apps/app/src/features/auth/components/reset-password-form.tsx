@@ -1,7 +1,7 @@
-import { FieldGroup } from "@init/ui/components/field"
-import { useForm } from "@init/ui/components/form"
-import { toast } from "@init/ui/components/toast"
 import { useNavigate } from "@tanstack/react-router"
+import { FieldGroup } from "@v1/ui/components/field"
+import { useForm } from "@v1/ui/components/form"
+import { toast } from "@v1/ui/components/toast"
 import { PasswordSchema, ResetPasswordFormSchema } from "#features/auth/schemas.ts"
 import { authClient } from "#shared/auth.ts"
 

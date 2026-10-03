@@ -1,6 +1,6 @@
 ---
 title: Development
-description: Run, build, test, and maintain an init project with Bun, Turbo, and Adamantite.
+description: Run, build, test, and maintain a v1 project with Bun, Turbo, and Adamantite.
 sidebar:
   order: 3
 ---

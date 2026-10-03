@@ -1,5 +1,5 @@
 {
-  "name": "@init/ui",
+  "name": "@v1/ui",
   "private": true,
   "description": "Reusable UI components and design system using shadcn/ui",
   "license": "MIT",

@@ -17,7 +17,7 @@ import {
   runCommand,
   TEMPLATE_REPO,
   TEMPLATE_SCOPE,
-  TemplateInitSchema,
+  TemplateCleanupSchema,
   type Workspace,
   type WorkspaceKind,
   type WorkspaceNode,
@@ -123,11 +123,11 @@ async function pruneWorkspaces(rootDir: string, workspaces: Workspace[], selecte
   )
 }
 
-type TemplateInit = z.infer<typeof TemplateInitSchema>
+type TemplateCleanup = z.infer<typeof TemplateCleanupSchema>
 
 async function cleanupTemplateFiles(
   rootDir: string,
-  { cleanupPaths, cleanupSections }: TemplateInit
+  { cleanupPaths, cleanupSections }: TemplateCleanup
 ) {
   const packageJsonPath = join(rootDir, "package.json")
   const packageJson = await readPackageJson(packageJsonPath)
@@ -141,7 +141,7 @@ async function cleanupTemplateFiles(
   )
 
   delete packageJson["bun-create"]
-  delete packageJson.init
+  delete packageJson.v1
   await writeJson(packageJsonPath, packageJson)
 }
 
@@ -207,12 +207,12 @@ export default defineCommand({
     const packages = await getWorkspaces(rootDir, "package")
     const rootPackage = await readPackageJson(join(rootDir, "package.json"))
     const defaultName = rootPackage.name ?? "project"
-    const init = TemplateInitSchema.safeParse(
-      rootPackage.init ?? { cleanupPaths: [], cleanupSections: [] }
+    const cleanup = TemplateCleanupSchema.safeParse(
+      rootPackage.v1 ?? { cleanupPaths: [], cleanupSections: [] }
     )
-    if (!init.success) {
+    if (!cleanup.success) {
       consola.error(
-        "The init field in package.json needs cleanupPaths and cleanupSections arrays. Fix it before setup changes the project."
+        "The v1 field in package.json needs cleanupPaths and cleanupSections arrays. Fix it before setup changes the project."
       )
       process.exitCode = 1
       return
@@ -294,7 +294,7 @@ export default defineCommand({
     await pruneWorkspaces(rootDir, packages, selection.keepPackages)
     await renameProject({ projectName, rootDir, scope: projectName, sourceScope })
     await stampProject(rootDir)
-    await cleanupTemplateFiles(rootDir, init.data)
+    await cleanupTemplateFiles(rootDir, cleanup.data)
 
     if (shouldInitializeGit && !(await Bun.file(join(rootDir, ".git")).exists()))
       await runCommand(["git", "init"], rootDir)

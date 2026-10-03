@@ -1,16 +1,12 @@
-import { Badge, badgeVariants } from "@init/ui/components/badge"
-import { Button, buttonVariants } from "@init/ui/components/button"
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-  ButtonGroupText,
-} from "@init/ui/components/button-group"
-import { Icon, SVGIcon } from "@init/ui/components/icon"
-import { Input } from "@init/ui/components/input"
-import { Kbd, KbdGroup } from "@init/ui/components/kbd"
-import { Spinner } from "@init/ui/components/spinner"
-import { Toggle } from "@init/ui/components/toggle"
-import { ToggleGroup, ToggleGroupItem } from "@init/ui/components/toggle-group"
+import { Badge, badgeVariants } from "@v1/ui/components/badge"
+import { Button, buttonVariants } from "@v1/ui/components/button"
+import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@v1/ui/components/button-group"
+import { Icon, SVGIcon } from "@v1/ui/components/icon"
+import { Input } from "@v1/ui/components/input"
+import { Kbd, KbdGroup } from "@v1/ui/components/kbd"
+import { Spinner } from "@v1/ui/components/spinner"
+import { Toggle } from "@v1/ui/components/toggle"
+import { ToggleGroup, ToggleGroupItem } from "@v1/ui/components/toggle-group"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import {
