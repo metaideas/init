@@ -120,8 +120,7 @@ Domain terms:
 ### Commits
 
 - Use a conventional commit message (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `build:`, `ci:`, `revert:`, `release:`, `deps:`, `wip:`, `breaking:`, `deprecate:`).
-- Give pull requests a conventional commit title. Squash merges use it as the commit message, and the `pr-title` workflow checks it. Keep its type list in sync with this list.
-- The `pr-title` workflow checks only pull request titles. Merge and rebase merges can bypass this policy. Full enforcement requires disabling those merge modes and setting the default squash commit title to the pull request title.
+- Give pull requests a conventional commit title. Squash merges use it as the commit message.
 
 ## Workspace notes
 
