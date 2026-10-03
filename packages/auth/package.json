@@ -7,13 +7,10 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./client": "./src/client/index.ts",
-    "./client/plugins": "./src/client/plugins.ts",
+    "./client": "./src/client.ts",
     "./constants": "./src/constants.ts",
     "./expo/*": "./src/expo/*.ts",
-    "./permissions": "./src/permissions.ts",
-    "./server": "./src/server/index.ts",
-    "./server/plugins": "./src/server/plugins.ts",
+    "./server": "./src/server.ts",
     "./start": "./src/start.ts"
   },
   "scripts": {
