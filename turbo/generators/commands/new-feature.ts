@@ -85,8 +85,8 @@ export function registerNewFeatureGenerator(plop: PlopTypes.NodePlopAPI): void {
           { checked: true, name: "utils.ts - Utility functions", value: "utils" },
           {
             checked: true,
-            name: "validation.ts - Validation schemas",
-            value: "validation",
+            name: "schemas.ts - Validation schemas",
+            value: "schemas",
           },
           { checked: true, name: "hooks.ts - Custom hooks", value: "hooks" },
           { checked: true, name: "stores.ts - State management", value: "stores" },

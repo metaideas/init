@@ -64,10 +64,10 @@ Required production credentials are absent from committed development files when
 
 ## Framework boundaries
 
-- TanStack Start and desktop Vite place the Varlock Vite plugin first. Their config files can read the launcher-supplied `PORT` value before plugin execution. Application modules use the typed `ENV` binding.
-- Astro sites place the Varlock integration first.
-- WXT installs the Varlock Vite plugin through the Vite configuration seam.
-- Expo combines the Babel and Metro integrations outside Sentry and Uniwind. The pre-bundle `app.config.js` is the only compatibility location that reads `process.env`. Its commands run through Varlock.
+- Register the Varlock plugin or integration first, before other plugins that read configuration.
+- Application modules read configuration only through the typed `ENV` binding.
+- A framework configuration file that runs before the Varlock plugin can read only launcher-supplied values such as `PORT`.
+- When a framework evaluates a configuration file before bundling and offers no plugin seam, that file is the one place that can read `process.env`. Run its commands through Varlock.
 
 Run `bun run env:scan` to build each client artifact and scan it for sensitive values in the committed development contract. Scans use explicit paths for schemas and development fixtures. Ignored local overrides cannot change CI results. Each workspace verifies its expected artifact directory before a scan. A missing build fails instead of passing without a result.
 

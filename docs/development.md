@@ -7,10 +7,7 @@ sidebar:
 
 ## Tooling Requirements
 
-See [Getting Started](./getting-started.md) for the required versions. Use these versions:
-
-- Bun `1.4.x`
-- Node.js `>=24`
+The root `package.json` is the source of truth for tool versions: `packageManager` pins Bun and `engines` sets the minimum Node.js version.
 
 ## Commands
 
@@ -47,25 +44,19 @@ To run a command for one workspace, use this syntax:
 bun run <command> --filter <workspace>
 ```
 
-Application workspaces separate generation into `codegen:*` scripts. `codegen:env` generates environment types and `codegen:i18n` compiles the Paraglide messages. Mobile compiles the messages with `scripts/codegen.ts` so Metro receives the strategy it needs. The Extension also has `codegen:types`, which runs `wxt prepare`. Docs and Web also have `codegen:types`, which runs `astro sync`. `astro sync` compiles the Paraglide messages again through the Vite plugin in `astro.config.ts`, so these workspaces use `codegen:astro` to run `codegen:i18n` and then `codegen:types` in sequence. Only one process writes the message output at a time, and the output of the Vite plugin is the final result. Keep the `--strategy` value of `codegen:i18n` the same as the `strategy` in `astro.config.ts`. The `codegen` script of a workspace runs its `codegen:*` scripts at the same time with Bun's parallel script runner. Turbo keeps one dependency boundary. You can run a `codegen:*` script on its own during development. Run `bun run codegen` after you clone the repository, create a worktree, or install dependencies.
+Each workspace splits generation into `codegen:*` scripts, one for each generator, and its `codegen` script runs them in parallel. When two generators write the same output, chain them in one `codegen:*` script so that only one process writes at a time. Keep generator options that a framework configuration repeats, such as a Paraglide strategy, identical in both places. You can run one `codegen:*` script on its own during development.
 
 ## Development Servers
 
-Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`, and their framework configuration reads `ENV.PORT`. The Mobile server and the package development servers set theirs with a `${PORT:-<port>}` fallback in the `dev` script:
+Each HTTP-serving workspace runs its framework command directly as its `dev` script on a fixed local port. Ports follow one convention so that they do not collide:
 
-| Workspace        | URL                                      |
-| ---------------- | ---------------------------------------- |
-| API              | `http://localhost:3000`                  |
-| App              | `http://localhost:3001`                  |
-| Mobile server    | `http://localhost:3002`                  |
-| Desktop frontend | `http://localhost:3003`                  |
-| Docs             | `http://localhost:3004`                  |
-| Extension server | `http://localhost:3005`                  |
-| Web              | `http://localhost:3006`                  |
-| Drizzle Studio   | `https://local.drizzle.studio?port=4000` |
-| Email preview    | `http://localhost:4001`                  |
+| Block  | Used by                                         | Declared in                                                                                                                |
+| ------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `3000` | Application workspaces                          | The `PORT` default in the workspace's `.env.schema`, or the `dev` script fallback when the framework starts before Varlock |
+| `4000` | Package development servers, alphabetical order | The `${PORT:-<port>}` fallback in the workspace's `dev` script                                                             |
+| `8000` | Docker Compose services                         | `infra/local/docker-compose.yml`                                                                                           |
 
-Package development servers use the 4000 block in alphabetical order: `database` on `4000` and `email` on `4001`. Drizzle Studio's local server listens on `http://localhost:4000`; open the interface at `https://local.drizzle.studio?port=4000`, since the bare hosted URL connects to Drizzle's default port instead.
+To find a workspace's URL, read its port from the place the table names. When you add a workspace that serves HTTP, give it the next free port in its block. Framework configuration reads the port from the typed `ENV` binding rather than hard-coding it.
 
 ## Managing Dependencies
 

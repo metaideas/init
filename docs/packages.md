@@ -5,7 +5,7 @@ description: Understand the shared package workspaces, hosted backend package, k
 
 Shared libraries and hosted backends are in `packages/`. Application workspaces consume them through workspace dependencies. Package names use the configured scope of the project.
 
-Use `bun template add package <name>` to restore an available package workspace that setup removed. See [Project structure](./architecture/project-structure.md) for the full package catalog.
+Use `bun template add package <name>` to restore an available package workspace that setup removed. See [Project structure](./project-structure.md) for the full package catalog.
 
 ## Convex Backend
 
@@ -27,11 +27,9 @@ Run `bun run --filter @init/backend dev` to connect the package to a Convex depl
 
 `packages/kv` provides key-value storage through [unstorage](https://unstorage.unjs.io/). By default, it uses the Redis driver of unstorage.
 
-`kv` exports a shared unstorage `Storage` instance. `normalizeKey(...parts)` joins key parts with `:`. `namespaceKey(namespace)` returns a key helper with the namespace prefix.
+Build keys with the package's key helpers rather than concatenating strings, and give each feature its own namespace. Values must be JSON-serializable; dates come back as strings.
 
-Values must be JSON-serializable. The storage returns dates as strings.
-
-To use another backend, change the driver passed to `createStorage` in `packages/kv/src/client.ts`.
+To use another backend, change the unstorage driver in the package's client module. Callers do not change.
 
 ## Workflows
 

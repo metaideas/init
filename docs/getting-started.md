@@ -13,8 +13,8 @@ sidebar:
 
 ## Tooling Expectations
 
-- Bun: `1.4.x` (matches `package.json` `packageManager`)
-- Node.js: `>=24` (matches `package.json` `engines`)
+- Bun: the version in the root `package.json` `packageManager` field.
+- Node.js: the range in the root `package.json` `engines` field.
 
 ## Create a Project
 
@@ -79,17 +79,7 @@ bun run docker:up
 bun run dev
 ```
 
-Each workspace serves on a fixed local port. Application workspaces declare the port as the `PORT` default in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts:
-
-- API: `http://localhost:3000`
-- App: `http://localhost:3001`
-- Mobile server: `http://localhost:3002`
-- Desktop frontend: `http://localhost:3003`
-- Docs: `http://localhost:3004`
-- Extension server: `http://localhost:3005`
-- Web: `http://localhost:3006`
-- Drizzle Studio: `https://local.drizzle.studio?port=4000` (local server on `4000`)
-- Email preview: `http://localhost:4001`
+Each workspace serves on a fixed local port. See [Development servers](./development.md#development-servers) for the port convention and where each workspace declares its port.
 
 At the repository root, `bun run dev` runs all workspaces through Turbo. Inside a workspace, the same command starts that workspace alone.
 
@@ -102,17 +92,13 @@ At the repository root, `bun run dev` runs all workspaces through Turbo. Inside 
 
 #### Infrastructure Ports
 
-Docker infrastructure uses fixed host ports. These ports can conflict across projects:
-
-- Redis: `8000`
-- Database: `8001`
-- Minio: `8002` (S3), `8003` (console)
+Docker Compose services use fixed host ports in the `8000` block, declared in `infra/local/docker-compose.yml`. These ports can conflict with other projects on the same machine.
 
 ### Troubleshooting
 
-- For a Bun version mismatch, run `bun --version`. Update to `1.4.x`.
-- For a Node version mismatch, install Node.js `>=24` with the version manager.
+- For a Bun version mismatch, compare `bun --version` with the `packageManager` field in the root `package.json`.
+- For a Node.js version mismatch, install a version in the `engines` range with your version manager.
 - When Docker services do not run, examine `docker ps`. Then run `bun run docker:up`.
 - For missing environment variables, run `bun run env:check`. Then examine the owning `.env.schema` and the ignored `.env.local` overrides.
-- For a port conflict, find the process with `lsof -i :<port>`. Application workspace ports are the `PORT` defaults in their `.env.schema`; the Mobile server and package development servers set theirs in their `dev` scripts.
+- For a port conflict, find the process with `lsof -i :<port>`. See [Development servers](./development.md#development-servers) for where each port is declared.
 - Expo on a physical device requires the development machine's LAN IP instead of `localhost`.

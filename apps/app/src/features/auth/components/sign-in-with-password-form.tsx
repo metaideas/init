@@ -10,7 +10,7 @@ import {
   EmailSchema,
   PasswordSchema,
   SignInWithPasswordFormSchema,
-} from "#features/auth/validation.ts"
+} from "#features/auth/schemas.ts"
 import { signIn } from "#shared/auth.ts"
 
 /**

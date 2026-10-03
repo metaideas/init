@@ -33,8 +33,7 @@ content loading, routes, navigation, search, metadata, localization, styles, and
 assets. Editing a root document and rebuilding publishes the change; there is no sync
 command or duplicate content tree.
 
-The loader in `src/content.config.ts` publishes top-level guides, `docs/architecture/`,
-and `docs/es/`. Any other path under `docs/` stays out of public routes and search.
+The loader in `src/content.config.ts` publishes top-level guides and `docs/es/`. Any other path under `docs/` stays out of public routes and search.
 
 ## Customize the site
 

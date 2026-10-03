@@ -1,7 +1,7 @@
 import type { AnyFieldLikeMetaBase } from "@tanstack/react-form-start"
 import * as z from "@init/utils/schema/mini"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
-import { SignInWithPasswordFormSchema } from "#features/auth/validation.ts"
+import { SignInWithPasswordFormSchema } from "#features/auth/schemas.ts"
 import { authClient } from "#shared/auth.ts"
 
 // Request headers the auth server uses for its origin check, cookies, and session metadata.
