@@ -61,7 +61,7 @@ Application workspaces usually use three folders:
 
 These folders have a one-way import flow. The `features` folder can import from the `shared` folder. The `shared` folder cannot import from the `features` folder. The router folder can import from the `features` or `shared` folder. Neither folder can import from the router folder. This flow organizes the code and makes it easier to understand.
 
-The `layout/layers` lint rule in `tooling/linting/src/rules` enforces these flows for both `#` and relative imports, and covers a new feature folder without a configuration change. A route can import style and image assets, but not another route. The rule's options in `oxlint.config.ts` name each application workspace's route folder and entrypoint tiers.
+The `v1/layers` lint rule in `tooling/linting/src/rules` enforces these flows for both `#` and relative imports, and covers a new feature folder without a configuration change. A route can import style and image assets, but not another route. The `v1/layer-folders` rule keeps every source folder in a layer: a file at the root of `src` is an entrypoint, and every other file lives in `shared/`, `features/`, or a folder that the rules' options declare. The options in `oxlint.config.ts` name each application workspace's route folder, entrypoint tiers, and other composition folders, such as the API's `routes/`, whose routes compose each other.
 
 When an application workspace has more than one entrypoint tier, such as a desktop main process and a renderer, the tiers never import each other. They communicate through a typed contract in `shared`.
 
@@ -99,7 +99,7 @@ features/<feature>/
 - A helper lives in the file that uses it until another feature needs it. Then it moves to `shared/`.
 - Desktop features run in the renderer. Main-process code stays in `shell/`.
 
-The `layout/feature-files` lint rule in `tooling/linting/src/rules` enforces these names. Run `bun run generate new-feature` to scaffold a feature with the roles its application workspace supports.
+The `v1/feature-files` lint rule in `tooling/linting/src/rules` enforces these names. Run `bun run generate new-feature` to scaffold a feature with the roles its application workspace supports.
 
 Each application workspace below follows the layout above. The trees show the folders that differ between frameworks; look inside a workspace for its current files.
 

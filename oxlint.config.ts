@@ -7,9 +7,11 @@ import strict from "adamantite/lint/strict"
 import { defineConfig } from "oxlint"
 
 const APP_BOUNDARIES = {
+  api: { folders: ["routes"] },
   app: { routes: "routes" },
   desktop: { routes: "renderer/routes", tiers: ["renderer", "shell"] },
   docs: { routes: "pages" },
+  extension: { folders: ["entrypoints"] },
   mobile: { routes: "app" },
   web: { routes: "pages" },
 }
@@ -23,8 +25,11 @@ export default defineConfig({
     node,
     custom({
       dir: "./tooling/linting/src/rules",
-      name: "layout",
-      rules: { layers: ["error", APP_BOUNDARIES] },
+      name: "v1",
+      rules: {
+        "layer-folders": ["error", APP_BOUNDARIES],
+        layers: ["error", APP_BOUNDARIES],
+      },
     }),
   ],
   ignorePatterns: [
