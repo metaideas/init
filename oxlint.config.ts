@@ -1,4 +1,5 @@
 import core from "adamantite/lint"
+import custom from "adamantite/lint/custom"
 import node from "adamantite/lint/node"
 import react from "adamantite/lint/react"
 import reactStrict from "adamantite/lint/react-strict"
@@ -14,7 +15,18 @@ const APP_BOUNDARIES = {
 }
 
 export default defineConfig({
-  extends: [core, strict, react, reactStrict, node],
+  extends: [
+    core,
+    strict,
+    react,
+    reactStrict,
+    node,
+    custom({
+      dir: "./tooling/linting/src/rules",
+      name: "layout",
+      rules: { layers: ["error", APP_BOUNDARIES] },
+    }),
+  ],
   ignorePatterns: [
     "**/*.hbs",
     "**/src/**/_generated",
@@ -22,7 +34,6 @@ export default defineConfig({
     "**/*.gen.ts",
     "**/*.generated.ts",
   ],
-  jsPlugins: ["./tooling/linting/src/index.ts"],
   options: {
     respectEslintDisableDirectives: true,
     typeAware: true,
@@ -57,8 +68,6 @@ export default defineConfig({
       "error",
       { allow: ["**/use[A-Z]*.{ts,tsx}", "**/use-*.{ts,tsx}", "**/hooks/**", "**/hooks.{ts,tsx}"] },
     ],
-    "layout/feature-files": "error",
-    "layout/layers": ["error", APP_BOUNDARIES],
     "react/jsx-no-constructed-context-values": "off",
     "typescript/consistent-type-definitions": ["error", "type"],
   },

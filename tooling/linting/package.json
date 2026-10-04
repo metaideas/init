@@ -6,15 +6,12 @@
   "imports": {
     "#*": "./src/*"
   },
-  "exports": {
-    ".": "./src/index.ts"
-  },
   "scripts": {
     "bump:deps": "bun update --interactive",
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
-    "@oxlint/plugins": "1.83.0"
+    "adamantite": "0.43.0"
   },
   "devDependencies": {
     "@tooling/tsconfig": "workspace:*",

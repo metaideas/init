@@ -27,7 +27,6 @@ export default {
   },
   workspaces: {
     ".": {
-      entry: "turbo/generators/config.ts",
       project: "turbo/generators/**/*.ts",
     },
     "apps/*": {
@@ -74,6 +73,9 @@ export default {
     },
     "packages/ui": {
       project: "src/**/*.{css,js,jsx,ts,tsx}",
+    },
+    "tooling/linting": {
+      entry: "src/rules/*.ts",
     },
   },
 } satisfies KnipConfig

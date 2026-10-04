@@ -1,30 +1,7 @@
-import { definePlugin, defineRule, type ESTree } from "@oxlint/plugins"
-import { FEATURE_ROLE_FILES, isAllowedFeatureFile } from "#feature-files.ts"
+import { defineRule, type ESTree } from "adamantite/rules"
 import { type Boundaries, findSourceRoot, findViolation, locate, resolveImport } from "#layers.ts"
 
-const featureFiles = defineRule({
-  create(context) {
-    return {
-      Program(node) {
-        if (!isAllowedFeatureFile(context.filename)) {
-          context.report({ data: { files: FEATURE_ROLE_FILES }, messageId: "unknownRole", node })
-        }
-      },
-    }
-  },
-  meta: {
-    docs: {
-      description: "Keep feature folders to the shared role names in docs/project-structure.md.",
-    },
-    messages: {
-      unknownRole:
-        "Feature folders hold only assets/, components/, and {{files}}. A role file that grows becomes a folder of the same name. See docs/project-structure.md.",
-    },
-    type: "problem",
-  },
-})
-
-const layers = defineRule({
+export default defineRule({
   create(context) {
     const root = findSourceRoot(context.filename)
 
@@ -95,8 +72,3 @@ const layers = defineRule({
 function isBoundaryMap(value: unknown): value is Readonly<Record<string, Boundaries>> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
-
-export default definePlugin({
-  meta: { name: "layout" },
-  rules: { "feature-files": featureFiles, layers },
-})
