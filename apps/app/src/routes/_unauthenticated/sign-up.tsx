@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@init/ui/components/card"
 import { createFileRoute, Link } from "@tanstack/react-router"
+import { Card, CardContent, CardHeader, CardTitle } from "@v1/ui/components/card"
 import SignUpForm from "#features/auth/components/sign-up-form.tsx"
 
 export const Route = createFileRoute("/_unauthenticated/sign-up")({

@@ -1,5 +1,5 @@
 {
-  "name": "@init/core",
+  "name": "@v1/core",
   "private": true,
   "description": "Core application and business logic",
   "license": "MIT",

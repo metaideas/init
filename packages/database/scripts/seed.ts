@@ -1,7 +1,7 @@
 // oxlint-disable no-console - We use console.log for logging in scripts
 
-import { checkIsLocalDatabase, createDatabase } from "@init/database/client"
-import * as schema from "@init/database/schema"
+import { checkIsLocalDatabase, createDatabase } from "@v1/database/client"
+import * as schema from "@v1/database/schema"
 import { is } from "drizzle-orm"
 import { PgTable } from "drizzle-orm/pg-core"
 import { reset, seed } from "drizzle-seed"

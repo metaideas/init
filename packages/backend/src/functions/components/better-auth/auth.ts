@@ -1,5 +1,5 @@
 import type { GenericQueryCtx } from "convex/server"
-import { createAuth } from "@init/auth/server"
+import { createAuth } from "@v1/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { createAuthOptions } from "#functions/shared/auth.ts"
 

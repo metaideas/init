@@ -1,5 +1,5 @@
 {
-  "name": "@init/ai",
+  "name": "@v1/ai",
   "private": true,
   "description": "AI integrations and model provider registry",
   "license": "MIT",

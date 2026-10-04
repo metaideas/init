@@ -1,5 +1,5 @@
-const APP_ID = "init"
-const APP_NAME = "init"
+const APP_ID = "v1"
+const APP_NAME = "v1"
 const APP_OWNER = "metaideas"
 const APP_BUNDLE_IDENTIFIER = `app.${APP_OWNER}.${APP_ID}`
 const VERSION = "1.0.0"

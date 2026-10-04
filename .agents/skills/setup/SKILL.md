@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Configure a project freshly created from the init template. Use when the repository still has the template name, an init field in package.json, or the user asks to set up, configure, or trim the template.
+description: Configure a project freshly created from the v1 template. Use when the repository still has the template name, a v1 field in package.json, or the user asks to set up, configure, or trim the template.
 ---
 
 Turn the template into the user's project. `bun template setup` does the mechanical part; you choose what it keeps.

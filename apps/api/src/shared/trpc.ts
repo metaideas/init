@@ -1,7 +1,7 @@
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import type { Context } from "hono"
-import * as z from "@init/utils/schema"
 import { initTRPC, TRPCError } from "@trpc/server"
+import * as z from "@v1/utils/schema"
 import superjson from "superjson"
 import type { AppContext } from "#shared/types.ts"
 

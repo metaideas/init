@@ -1,5 +1,5 @@
-import { ThemeToggle } from "@init/ui/components/theme"
 import { createFileRoute, Link } from "@tanstack/react-router"
+import { ThemeToggle } from "@v1/ui/components/theme"
 import LocaleToggle from "#shared/components/locale-toggle.tsx"
 import { m } from "#shared/internationalization/messages.js"
 

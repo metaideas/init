@@ -4,7 +4,7 @@
     "components": "#shared/components",
     "hooks": "#shared/hooks",
     "lib": "#shared/utils",
-    "ui": "@init/ui/components",
+    "ui": "@v1/ui/components",
     "utils": "#shared/utils"
   },
   "rsc": true,

@@ -1,4 +1,4 @@
-import { createChat } from "@init/ai/helpers/ai-sdk"
+import { createChat } from "@v1/ai/helpers/ai-sdk"
 
 const demoChat = createChat()
   .user("What makes this template useful for a new product?")
@@ -27,7 +27,7 @@ const demoChat = createChat()
   .user("How would I replace this demo with a real model?")
   .sleep(500)
   .assistant(
-    "Keep the useChat interface and replace this scripted transport with an HTTP chat transport backed by a server route. The provider registry already lives in @init/ai/registry, so the server can choose a model without leaking provider credentials or provider-specific code into the browser."
+    "Keep the useChat interface and replace this scripted transport with an HTTP chat transport backed by a server route. The provider registry already lives in @v1/ai/registry, so the server can choose a model without leaking provider credentials or provider-specific code into the browser."
   )
 
 const initialDemoMessages = demoChat.get(0)

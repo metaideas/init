@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { EmailDeliveryError } from "@init/core/errors"
+import { EmailDeliveryError } from "@v1/core/errors"
 import { resendTransport, smtpTransport } from "#transports.ts"
 
 const message = {
-  from: "init <dev@example.com>",
+  from: "v1 <dev@example.com>",
   html: "<p>Hello</p>",
   subject: "Hello",
   text: "Hello",

@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-init uses Varlock as its system for environment contracts and loading. An application workspace owns its complete contract in `.env.schema`. A package workspace owns only fragments that its consumers can select under `env/`.
+v1 uses Varlock as its system for environment contracts and loading. An application workspace owns its complete contract in `.env.schema`. A package workspace owns only fragments that its consumers can select under `env/`.
 
 ## Ownership and files
 

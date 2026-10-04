@@ -1,4 +1,4 @@
-import * as z from "@init/utils/schema"
+import * as z from "@v1/utils/schema"
 import { describeRoute, resolver, validator } from "hono-openapi"
 import demoRoutes from "#routes/v1/demo.ts"
 import { m } from "#shared/internationalization/messages.js"

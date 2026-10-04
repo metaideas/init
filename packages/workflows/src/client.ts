@@ -1,4 +1,4 @@
-import type { Logger } from "@init/core/services/logging"
+import type { Logger } from "@v1/core/services/logging"
 import {
   type ContextualMetadata,
   DBOS,
@@ -6,7 +6,7 @@ import {
   type DLogger,
   type StackTrace,
 } from "@dbos-inc/dbos-sdk"
-import { WorkflowsFault } from "@init/core/errors"
+import { WorkflowsFault } from "@v1/core/errors"
 
 export class Workflows<Queue extends string = never> {
   static #isCreated = false
@@ -27,7 +27,7 @@ export class Workflows<Queue extends string = never> {
 
     this.#dbos.setConfig({
       ...(options.logger ? { logger: toWorkflowLogger(options.logger) } : {}),
-      name: options.name ?? "init",
+      name: options.name ?? "v1",
       ...("pool" in options
         ? { systemDatabasePool: options.pool }
         : { systemDatabasePoolSize: options.poolSize, systemDatabaseUrl: options.url }),

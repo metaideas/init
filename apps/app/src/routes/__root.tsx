@@ -1,10 +1,10 @@
 import type { ReactNode } from "react"
-import globals from "@init/ui/globals.css?url"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { FormDevtoolsPanel } from "@tanstack/react-form-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import globals from "@v1/ui/globals.css?url"
 import type { RouterContext } from "#router.tsx"
 import { ThemeScript } from "#features/theme/components/theme-script.tsx"
 import { getTheme, setTheme } from "#features/theme/handlers.ts"
@@ -22,7 +22,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     meta: [
       { charSet: "utf8" },
       { content: "width=device-width, initial-scale=1", name: "viewport" },
-      { title: "init" },
+      { title: "v1" },
     ],
   }),
 })

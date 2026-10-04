@@ -1,5 +1,5 @@
 import type { ComponentType } from "react"
-import { ThemeToggle } from "@init/ui/components/theme"
+import { ThemeToggle } from "@v1/ui/components/theme"
 import ShowcaseActions from "#features/showcase/components/showcase-actions.tsx"
 import ShowcaseConversation from "#features/showcase/components/showcase-conversation.tsx"
 import ShowcaseData from "#features/showcase/components/showcase-data.tsx"
@@ -19,7 +19,7 @@ export default function Showcase() {
           <a className="flex items-baseline gap-2" href="#top">
             <span className="text-base font-semibold tracking-tight">Showcase</span>
             <span className="hidden text-sm text-muted-foreground sm:inline">
-              Every @init/ui component in every state
+              Every @v1/ui component in every state
             </span>
           </a>
           <ThemeToggle />

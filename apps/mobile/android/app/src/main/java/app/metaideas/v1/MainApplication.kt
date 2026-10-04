@@ -1,4 +1,4 @@
-package app.metaideas.init
+package app.metaideas.v1
 
 import android.app.Application
 import android.content.res.Configuration

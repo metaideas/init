@@ -1,5 +1,5 @@
 import type { GenericCtx } from "@convex-dev/better-auth"
-import { createAuth } from "@init/auth/server"
+import { createAuth } from "@v1/auth/server"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import { env } from "#functions/_generated/server.js"
 import { authComponent, createAuthOptions } from "#functions/shared/auth.ts"

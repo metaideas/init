@@ -1,9 +1,9 @@
-import { Button } from "@init/ui/components/button"
-import { FieldGroup } from "@init/ui/components/field"
-import { useForm } from "@init/ui/components/form"
-import { toast } from "@init/ui/components/toast"
 import { mergeForm, useTransform } from "@tanstack/react-form-start"
 import { Link, useNavigate } from "@tanstack/react-router"
+import { Button } from "@v1/ui/components/button"
+import { FieldGroup } from "@v1/ui/components/field"
+import { useForm } from "@v1/ui/components/form"
+import { toast } from "@v1/ui/components/toast"
 import type { SignInFormState } from "#features/auth/handlers.ts"
 import { AUTHENTICATED_PATHNAME } from "#features/auth/constants.ts"
 import {

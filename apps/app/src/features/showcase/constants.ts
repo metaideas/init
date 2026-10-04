@@ -1,4 +1,4 @@
-import type { ChartConfig } from "@init/ui/components/chart"
+import type { ChartConfig } from "@v1/ui/components/chart"
 
 export const SHOWCASE_GROUPS = [
   {

@@ -1,5 +1,5 @@
-import { hasWindow } from "@init/utils/env"
-import { createUrlBuilder } from "@init/utils/url"
+import { hasWindow } from "@v1/utils/env"
+import { createUrlBuilder } from "@v1/utils/url"
 import { ENV } from "#shared/env.generated.ts"
 
 const baseUrl = hasWindow ? globalThis.location.origin : ENV.PUBLIC_BASE_URL

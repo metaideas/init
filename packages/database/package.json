@@ -1,5 +1,5 @@
 {
-  "name": "@init/database",
+  "name": "@v1/database",
   "private": true,
   "description": "Database client and ORM using Drizzle",
   "license": "MIT",
@@ -25,8 +25,8 @@
     "seed": "varlock run -- bun --bun run ./scripts/seed.ts"
   },
   "dependencies": {
-    "@init/core": "workspace:*",
-    "@init/utils": "workspace:*",
+    "@v1/core": "workspace:*",
+    "@v1/utils": "workspace:*",
     "drizzle-orm": "0.45.2",
     "drizzle-zod": "0.8.3",
     "varlock": "1.16.0"

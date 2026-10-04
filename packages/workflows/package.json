@@ -1,5 +1,5 @@
 {
-  "name": "@init/workflows",
+  "name": "@v1/workflows",
   "private": true,
   "description": "Durable background workflows using DBOS",
   "license": "MIT",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@dbos-inc/dbos-sdk": "5.2.11",
-    "@init/core": "workspace:*",
+    "@v1/core": "workspace:*",
     "varlock": "1.16.0"
   },
   "devDependencies": {

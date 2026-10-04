@@ -1,8 +1,8 @@
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path"
 import * as z from "zod"
 
-export const TEMPLATE_SCOPE = "init"
-export const TEMPLATE_REPO = "metaideas/init"
+export const TEMPLATE_SCOPE = "v1"
+export const TEMPLATE_REPO = "metaideas/v1"
 export const TEMPLATE_STAMP_FILE = ".template.json"
 
 const ignoredDirectories = new Set([".cache", ".git", ".turbo", "build", "dist", "node_modules"])
@@ -29,7 +29,7 @@ const PackageJsonSchema = z.looseObject({
   peerDependencies: DependenciesSchema,
 })
 
-export const TemplateInitSchema = z.object({
+export const TemplateCleanupSchema = z.object({
   cleanupPaths: z.array(z.string()),
   cleanupSections: z.array(z.string()),
 })

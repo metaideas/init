@@ -1,5 +1,5 @@
-import { THEME_STORAGE_KEY } from "@init/ui/constants"
 import { getCookie, setCookie } from "@tanstack/react-start/server"
+import { THEME_STORAGE_KEY } from "@v1/ui/constants"
 import { ThemeSchema } from "#features/theme/schemas.ts"
 import { publicFunction } from "#shared/server/functions.ts"
 

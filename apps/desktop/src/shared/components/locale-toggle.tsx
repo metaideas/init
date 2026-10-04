@@ -1,4 +1,4 @@
-import { Button } from "@init/ui/components/button"
+import { Button } from "@v1/ui/components/button"
 import { m } from "#shared/internationalization/messages.js"
 import {
   getLocale,

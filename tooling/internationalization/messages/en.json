@@ -8,9 +8,9 @@
   "desktop_local_files_saved_status": "File saved",
   "desktop_local_files_title": "Local file editor",
   "extension_demo_description": "This popup uses the shared Paraglide catalog and remembers your language.",
-  "extension_demo_title": "init extension",
+  "extension_demo_title": "v1 extension",
   "mobile_home_description": "This screen uses the shared Paraglide catalog.",
-  "mobile_home_title": "Welcome to init",
+  "mobile_home_title": "Welcome to v1",
   "shared_locale_english": "English",
   "shared_locale_spanish": "Spanish",
   "shared_locale_switch": "Switch locale",
@@ -20,6 +20,6 @@
   "web_home_blog_link": "Read the blog",
   "web_home_description": "This page uses the shared Paraglide catalog. Replace it with your own content.",
   "web_home_recent_posts": "Recent posts",
-  "web_home_title": "Welcome to init",
+  "web_home_title": "Welcome to v1",
   "web_not_found_title": "Not Found"
 }

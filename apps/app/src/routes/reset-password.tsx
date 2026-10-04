@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
-import * as z from "@init/utils/schema/mini"
 import { createFileRoute, Link } from "@tanstack/react-router"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@v1/ui/components/card"
+import * as z from "@v1/utils/schema/mini"
 import ResetPasswordForm from "#features/auth/components/reset-password-form.tsx"
 
 const SearchSchema = z.object({

@@ -1,4 +1,4 @@
-import * as z from "@init/utils/schema/mini"
+import * as z from "@v1/utils/schema/mini"
 
 export const ShowcaseFormSchema = z.object({
   bio: z.string().check(z.maxLength(160, { error: "Bio must be 160 characters or fewer" })),

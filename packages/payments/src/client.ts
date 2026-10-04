@@ -1,6 +1,6 @@
 import type { Storage } from "unstorage"
-import { InvalidWebhookError, PaymentsFault } from "@init/core/errors"
-import * as z from "@init/utils/schema"
+import { InvalidWebhookError, PaymentsFault } from "@v1/core/errors"
+import * as z from "@v1/utils/schema"
 import Stripe from "stripe"
 import * as try$ from "tryharder"
 import { prefixStorage } from "unstorage"

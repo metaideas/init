@@ -1,5 +1,5 @@
 {
-  "name": "@init/backend",
+  "name": "@v1/backend",
   "private": true,
   "description": "Convex backend with Better Auth integration",
   "license": "MIT",
@@ -24,9 +24,9 @@
   "dependencies": {
     "@convex-dev/better-auth": "0.12.5",
     "@convex-dev/react-query": "0.1.0",
-    "@init/auth": "workspace:*",
-    "@init/core": "workspace:*",
     "@tanstack/react-query": "5.101.4",
+    "@v1/auth": "workspace:*",
+    "@v1/core": "workspace:*",
     "convex": "1.42.3",
     "fluent-convex": "0.13.0"
   },

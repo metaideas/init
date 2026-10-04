@@ -1,5 +1,5 @@
-import type { Database } from "@init/database/client"
-import type { DeepMerge } from "@init/utils/type"
+import type { Database } from "@v1/database/client"
+import type { DeepMerge } from "@v1/utils/type"
 import type { EvlogVariables } from "evlog/hono"
 import type { Files } from "files-sdk"
 import type { Storage } from "unstorage"

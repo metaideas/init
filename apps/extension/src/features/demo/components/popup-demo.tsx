@@ -1,5 +1,5 @@
-import { Button } from "@init/ui/components/button"
-import { Typography } from "@init/ui/components/typography"
+import { Button } from "@v1/ui/components/button"
+import { Typography } from "@v1/ui/components/typography"
 import { Link } from "wouter"
 import { useLocaleSelection } from "#features/demo/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"

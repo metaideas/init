@@ -1,6 +1,6 @@
 ---
 name: update-from-template
-description: Pull improvements from the upstream init template into a scaffolded project. Use when the user asks to update, sync, or upgrade the template, or to see what changed upstream.
+description: Pull improvements from the upstream v1 template into a scaffolded project. Use when the user asks to update, sync, or upgrade the template, or to see what changed upstream.
 ---
 
 `.template.json` records the template commit this project was created from. `bun template diff` fetches upstream and prints what changed since then, with the template scope already rewritten to this project's scope so hunks apply locally.

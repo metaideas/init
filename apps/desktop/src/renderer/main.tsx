@@ -8,7 +8,7 @@ import Providers from "#shared/components/providers.tsx"
 import { log } from "#shared/logger.ts"
 import { queryClient } from "#shared/query-client.ts"
 
-import "@init/ui/globals.css"
+import "@v1/ui/globals.css"
 
 export type RouterContext = {
   queryClient: QueryClient

@@ -1,5 +1,5 @@
 import type { ErrorResponse } from "resend"
-import { EmailDeliveryError, EmailFault } from "@init/core/errors"
+import { EmailDeliveryError, EmailFault } from "@v1/core/errors"
 import { createTransport } from "nodemailer"
 import { Resend } from "resend"
 import * as try$ from "tryharder"

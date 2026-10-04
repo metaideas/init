@@ -1,14 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@init/ui/components/avatar"
+import { createFileRoute } from "@tanstack/react-router"
+import { Avatar, AvatarFallback, AvatarImage } from "@v1/ui/components/avatar"
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@init/ui/components/empty"
-import { Icon } from "@init/ui/components/icon"
-import { ThemeToggle } from "@init/ui/components/theme"
-import { createFileRoute } from "@tanstack/react-router"
+} from "@v1/ui/components/empty"
+import { Icon } from "@v1/ui/components/icon"
+import { ThemeToggle } from "@v1/ui/components/theme"
 import SignOutButton from "#features/auth/components/sign-out-button.tsx"
 import { LocaleToggle } from "#shared/components/locale-toggle.tsx"
 

@@ -1,8 +1,8 @@
-import type { Theme } from "@init/ui/constants"
+import type { Theme } from "@v1/ui/constants"
 import type { ReactNode } from "react"
-import { ThemeProvider } from "@init/ui/components/theme"
-import { Toaster } from "@init/ui/components/toast"
-import { TooltipProvider } from "@init/ui/components/tooltip"
+import { ThemeProvider } from "@v1/ui/components/theme"
+import { Toaster } from "@v1/ui/components/toast"
+import { TooltipProvider } from "@v1/ui/components/tooltip"
 
 export default function Providers({
   children,

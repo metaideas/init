@@ -1,6 +1,6 @@
-import type { Logger } from "@init/core/services/logging"
-import { EmailDeliveryError, EmailFault, SendEmailError } from "@init/core/errors"
+import type { Logger } from "@v1/core/services/logging"
 import { render } from "@react-email/render"
+import { EmailDeliveryError, EmailFault, SendEmailError } from "@v1/core/errors"
 import * as try$ from "tryharder"
 import { isTimeoutError } from "tryharder/errors"
 import type { EmailTransport } from "#transports.ts"

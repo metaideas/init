@@ -9,7 +9,7 @@ import {
 } from "#shared/internationalization/runtime.js"
 import { log } from "#shared/logger.ts"
 
-const LOCALE_STORAGE_KEY = "init-locale"
+const LOCALE_STORAGE_KEY = "v1-locale"
 
 export function useHideSplashScreen(loaded: boolean) {
   useEffect(() => {

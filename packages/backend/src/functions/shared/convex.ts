@@ -1,4 +1,4 @@
-import { UnauthenticatedError } from "@init/core/errors"
+import { UnauthenticatedError } from "@v1/core/errors"
 import { createBuilder } from "fluent-convex"
 import type { DataModel } from "#functions/_generated/dataModel.js"
 import type { ActionCtx, MutationCtx, QueryCtx } from "#functions/_generated/server.js"

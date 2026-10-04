@@ -3,8 +3,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@init/ui/components/accordion"
-import { AspectRatio } from "@init/ui/components/aspect-ratio"
+} from "@v1/ui/components/accordion"
+import { AspectRatio } from "@v1/ui/components/aspect-ratio"
 import {
   Avatar,
   AvatarBadge,
@@ -12,9 +12,9 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-} from "@init/ui/components/avatar"
-import { Badge } from "@init/ui/components/badge"
-import { Button } from "@init/ui/components/button"
+} from "@v1/ui/components/avatar"
+import { Badge } from "@v1/ui/components/badge"
+import { Button } from "@v1/ui/components/button"
 import {
   Card,
   CardAction,
@@ -23,21 +23,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@init/ui/components/card"
+} from "@v1/ui/components/card"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@init/ui/components/carousel"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@init/ui/components/collapsible"
-import { Icon } from "@init/ui/components/icon"
-import { Input } from "@init/ui/components/input"
+} from "@v1/ui/components/carousel"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@v1/ui/components/collapsible"
+import { Icon } from "@v1/ui/components/icon"
+import { Input } from "@v1/ui/components/input"
 import {
   Item,
   ItemActions,
@@ -49,13 +45,13 @@ import {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
-} from "@init/ui/components/item"
-import { Label } from "@init/ui/components/label"
-import { Marker, MarkerContent, MarkerIcon } from "@init/ui/components/marker"
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@init/ui/components/resizable"
-import { ScrollArea, ScrollBar } from "@init/ui/components/scroll-area"
-import { Separator } from "@init/ui/components/separator"
-import { Typography } from "@init/ui/components/typography"
+} from "@v1/ui/components/item"
+import { Label } from "@v1/ui/components/label"
+import { Marker, MarkerContent, MarkerIcon } from "@v1/ui/components/marker"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@v1/ui/components/resizable"
+import { ScrollArea, ScrollBar } from "@v1/ui/components/scroll-area"
+import { Separator } from "@v1/ui/components/separator"
+import { Typography } from "@v1/ui/components/typography"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import {
@@ -112,7 +108,7 @@ export default function ShowcaseLayout() {
       <ShowcaseSection id="collapsible">
         <Collapsible className="flex w-full max-w-sm flex-col gap-2">
           <div className="flex items-center justify-between gap-4">
-            <span className="text-sm font-semibold">@init starred 3 repositories</span>
+            <span className="text-sm font-semibold">@v1 starred 3 repositories</span>
             <CollapsibleTrigger render={<Button size="icon-sm" variant="ghost" />}>
               <Icon.ChevronDown />
               <span className="sr-only">Toggle repositories</span>

@@ -1,6 +1,6 @@
-import { Button } from "@init/ui/components/button"
-import { Icon } from "@init/ui/components/icon"
 import { Link, useCanGoBack, useRouter } from "@tanstack/react-router"
+import { Button } from "@v1/ui/components/button"
+import { Icon } from "@v1/ui/components/icon"
 
 export default function NotFound() {
   const router = useRouter()

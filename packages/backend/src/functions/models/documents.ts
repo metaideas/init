@@ -1,4 +1,4 @@
-import { UnauthenticatedError } from "@init/core/errors"
+import { UnauthenticatedError } from "@v1/core/errors"
 import { v } from "convex/values"
 import { protectedQuery, publicQuery } from "#functions/shared/convex.ts"
 

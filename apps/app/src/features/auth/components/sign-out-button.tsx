@@ -1,5 +1,5 @@
-import { Button } from "@init/ui/components/button"
-import { Icon } from "@init/ui/components/icon"
+import { Button } from "@v1/ui/components/button"
+import { Icon } from "@v1/ui/components/icon"
 import { useSignOut } from "#features/auth/hooks.ts"
 
 export default function SignOutButton() {

@@ -1,6 +1,6 @@
-import { Button } from "@init/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@init/ui/components/card"
-import { Textarea } from "@init/ui/components/textarea"
+import { Button } from "@v1/ui/components/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@v1/ui/components/card"
+import { Textarea } from "@v1/ui/components/textarea"
 import { useTextFileEditor } from "#features/local-files/hooks.ts"
 import { m } from "#shared/internationalization/messages.js"
 

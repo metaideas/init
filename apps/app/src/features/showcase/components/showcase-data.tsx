@@ -1,13 +1,13 @@
-import { Badge } from "@init/ui/components/badge"
+import { Badge } from "@v1/ui/components/badge"
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@init/ui/components/chart"
-import { Checkbox } from "@init/ui/components/checkbox"
-import { DataTable, type DataTableProps } from "@init/ui/components/data-table"
+} from "@v1/ui/components/chart"
+import { Checkbox } from "@v1/ui/components/checkbox"
+import { DataTable, type DataTableProps } from "@v1/ui/components/data-table"
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@init/ui/components/table"
+} from "@v1/ui/components/table"
 import {
   Area,
   AreaChart,

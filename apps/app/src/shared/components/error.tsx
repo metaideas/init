@@ -1,12 +1,12 @@
 import type { ErrorComponentProps } from "@tanstack/react-router"
-import { Button } from "@init/ui/components/button"
+import { Button } from "@v1/ui/components/button"
 import {
   Empty,
   EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@init/ui/components/empty"
+} from "@v1/ui/components/empty"
 import { useLogRenderError } from "#shared/hooks.ts"
 
 export default function ErrorFallback({ error, reset }: ErrorComponentProps) {

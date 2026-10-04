@@ -1,5 +1,5 @@
 {
-  "name": "@init/payments",
+  "name": "@v1/payments",
   "private": true,
   "description": "Payment processing utilities using Stripe",
   "license": "MIT",
@@ -16,10 +16,10 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules"
   },
   "dependencies": {
-    "@init/core": "workspace:*",
-    "@init/utils": "workspace:*",
     "@stripe/react-stripe-js": "5.4.1",
     "@stripe/stripe-js": "8.6.1",
+    "@v1/core": "workspace:*",
+    "@v1/utils": "workspace:*",
     "stripe": "20.1.2",
     "tryharder": "0.4.0",
     "unstorage": "1.17.5"

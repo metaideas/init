@@ -1,6 +1,6 @@
 ---
 name: add-workspace
-description: Restore an application or package workspace from the init template into a scaffolded project. Use when the user wants a workspace that setup removed, such as adding mobile, api, payments, or email later.
+description: Restore an application or package workspace from the v1 template into a scaffolded project. Use when the user wants a workspace that setup removed, such as adding mobile, api, payments, or email later.
 ---
 
 `bun template add` copies the workspace from the template at the commit recorded in `.template.json`, renames its scope, and pulls in template packages it depends on. You wire it into the project.

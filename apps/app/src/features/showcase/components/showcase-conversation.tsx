@@ -8,10 +8,10 @@ import {
   AttachmentMedia,
   AttachmentTitle,
   AttachmentTrigger,
-} from "@init/ui/components/attachment"
-import { Avatar, AvatarFallback } from "@init/ui/components/avatar"
-import { Bubble, BubbleContent, BubbleGroup, BubbleReactions } from "@init/ui/components/bubble"
-import { Icon } from "@init/ui/components/icon"
+} from "@v1/ui/components/attachment"
+import { Avatar, AvatarFallback } from "@v1/ui/components/avatar"
+import { Bubble, BubbleContent, BubbleGroup, BubbleReactions } from "@v1/ui/components/bubble"
+import { Icon } from "@v1/ui/components/icon"
 import {
   Message,
   MessageAvatar,
@@ -19,7 +19,7 @@ import {
   MessageFooter,
   MessageGroup,
   MessageHeader,
-} from "@init/ui/components/message"
+} from "@v1/ui/components/message"
 import {
   MessageScroller,
   MessageScrollerButton,
@@ -27,7 +27,7 @@ import {
   MessageScrollerItem,
   MessageScrollerProvider,
   MessageScrollerViewport,
-} from "@init/ui/components/message-scroller"
+} from "@v1/ui/components/message-scroller"
 import {
   Questionnaire,
   QuestionnaireActions,
@@ -44,9 +44,9 @@ import {
   QuestionnaireSkip,
   QuestionnaireSubmit,
   QuestionnaireTitle,
-} from "@init/ui/components/questionnaire"
-import { Spinner } from "@init/ui/components/spinner"
-import { toast } from "@init/ui/components/toast"
+} from "@v1/ui/components/questionnaire"
+import { Spinner } from "@v1/ui/components/spinner"
+import { toast } from "@v1/ui/components/toast"
 import ShowcaseDemo from "#features/showcase/components/showcase-demo.tsx"
 import ShowcaseSection from "#features/showcase/components/showcase-section.tsx"
 import {
