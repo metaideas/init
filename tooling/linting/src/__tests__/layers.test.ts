@@ -1,5 +1,12 @@
 import { describe, expect, test } from "bun:test"
-import { type Boundaries, findSourceRoot, findViolation, locate, resolveImport } from "#layers.ts"
+import {
+  type Boundaries,
+  findSourceRoot,
+  findStrayFolder,
+  findViolation,
+  locate,
+  resolveImport,
+} from "#layers.ts"
 
 const app: Boundaries = { routes: "routes" }
 const desktop: Boundaries = { routes: "renderer/routes", tiers: ["renderer", "shell"] }
@@ -103,5 +110,28 @@ describe("findViolation", () => {
 
   test("ignores package imports", () => {
     expect(check("/repo/apps/app/src/shared/auth.ts", "@v1/auth/client")).toBeUndefined()
+  })
+})
+
+describe("findStrayFolder", () => {
+  const root = { app: "app", path: "/repo/apps/app/src" }
+
+  test("allows entrypoints at the source root", () => {
+    expect(findStrayFolder(root, app, "/repo/apps/app/src/router.tsx")).toBeUndefined()
+  })
+
+  test("allows shared, features, routes, tiers, and declared folders", () => {
+    expect(findStrayFolder(root, app, "/repo/apps/app/src/shared/auth.ts")).toBeUndefined()
+    expect(findStrayFolder(root, app, "/repo/apps/app/src/features/auth/hooks.ts")).toBeUndefined()
+    expect(findStrayFolder(root, app, "/repo/apps/app/src/routes/index.tsx")).toBeUndefined()
+    expect(findStrayFolder(root, desktop, "/repo/apps/app/src/shell/main.ts")).toBeUndefined()
+    expect(
+      findStrayFolder(root, { folders: ["entrypoints"] }, "/repo/apps/app/src/entrypoints/popup.ts")
+    ).toBeUndefined()
+  })
+
+  test("reports a folder outside the layers", () => {
+    expect(findStrayFolder(root, app, "/repo/apps/app/src/utils/format.ts")).toBe("utils")
+    expect(findStrayFolder(root, {}, "/repo/apps/app/src/routes/index.tsx")).toBe("routes")
   })
 })

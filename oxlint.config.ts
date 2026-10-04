@@ -1,4 +1,5 @@
 import core from "adamantite/lint"
+import custom from "adamantite/lint/custom"
 import node from "adamantite/lint/node"
 import react from "adamantite/lint/react"
 import reactStrict from "adamantite/lint/react-strict"
@@ -6,15 +7,31 @@ import strict from "adamantite/lint/strict"
 import { defineConfig } from "oxlint"
 
 const APP_BOUNDARIES = {
+  api: { folders: ["routes"] },
   app: { routes: "routes" },
   desktop: { routes: "renderer/routes", tiers: ["renderer", "shell"] },
   docs: { routes: "pages" },
+  extension: { folders: ["entrypoints"] },
   mobile: { routes: "app" },
   web: { routes: "pages" },
 }
 
 export default defineConfig({
-  extends: [core, strict, react, reactStrict, node],
+  extends: [
+    core,
+    strict,
+    react,
+    reactStrict,
+    node,
+    custom({
+      dir: "./tooling/linting/src/rules",
+      name: "v1",
+      rules: {
+        "layer-folders": ["error", APP_BOUNDARIES],
+        layers: ["error", APP_BOUNDARIES],
+      },
+    }),
+  ],
   ignorePatterns: [
     "**/*.hbs",
     "**/src/**/_generated",
@@ -22,7 +39,6 @@ export default defineConfig({
     "**/*.gen.ts",
     "**/*.generated.ts",
   ],
-  jsPlugins: ["./tooling/linting/src/index.ts"],
   options: {
     respectEslintDisableDirectives: true,
     typeAware: true,
@@ -57,8 +73,6 @@ export default defineConfig({
       "error",
       { allow: ["**/use[A-Z]*.{ts,tsx}", "**/use-*.{ts,tsx}", "**/hooks/**", "**/hooks.{ts,tsx}"] },
     ],
-    "layout/feature-files": "error",
-    "layout/layers": ["error", APP_BOUNDARIES],
     "react/jsx-no-constructed-context-values": "off",
     "typescript/consistent-type-definitions": ["error", "type"],
   },
